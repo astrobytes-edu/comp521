@@ -173,22 +173,40 @@ Phase transitions are tied to project blocks, not to calendar convenience:
 
 | Phase | Projects | Weeks | Dates (Fall 2026) |
 |:--|:--|:--|:--|
-| **Phase 1** — Skill Formation | Projects 1–2 | 1–4 | Aug 25 – Sep 17 |
-| **Phase 2** — Assisted Fluency | Projects 3–4 | 5–8 | Sep 22 – Oct 15 |
-| **Phase 3** — Professional Practice | Projects 5–6 + Final | 9–16 | Oct 20 – Dec 10 |
+| **Phase 1** — Skill Formation | Projects 1–3 | 1–6 | Aug 25 – Oct 5 |
+| **Phase 2** — Assisted Fluency | Projects 4–6 | 7–12 | Oct 6 – Nov 16 |
+| **Phase 3** — Supervised Tool Use | Final Project | 13–16 | Nov 17 – Dec 10 |
 
-:::{important} COMP 521 is where the habits form
-This is an introductory course, and that makes Phase 1 matter *more*, not less.
-The algorithms you implement in the first four weeks — loops, accumulation,
-a trapezoid rule — are ones an AI can produce instantly and perfectly. That is
-exactly why you have to write them yourself. If you outsource the easy
-algorithms, you will have no basis for judging the hard ones in Week 12, or in
-COMP 536, or at work.
+:::{danger} What the phases do *not* change
+**You write your own core solution code in every phase of this course. That
+never loosens.**
+
+The phases govern what happens *around* your code — documentation, plot
+formatting, git workflow, test scaffolding. They never authorize AI to write the
+algorithmic logic that produces your results. There is no point in the semester
+at which it becomes acceptable to have AI implement your integrator, your root
+finder, your ODE solver, or your classifier.
+
+If you reach the final project expecting the restrictions to lift, re-read this
+box.
 :::
 
-### Phase 1 — Skill Formation (Early Semester)
+:::{important} COMP 521 is where the habits form
+This is an introductory course, and that makes Phase 1 matter *more*, not less —
+which is why it covers the first three projects, nearly half the semester.
+
+The algorithms you implement early — loops, accumulation, a trapezoid rule — are
+exactly the ones an AI can produce instantly and perfectly. That is precisely
+why you have to write them yourself. If you outsource the easy algorithms, you
+will have no basis for judging the hard ones in November, or in COMP 536, or at
+work. You cannot supervise a tool whose job you have never done.
+:::
+
+### Phase 1 — Skill Formation (Projects 1–3 · Weeks 1–6)
 
 **What this phase is about:** building basic coding skills, computational intuition, and comfort with documentation, errors, and debugging.
+
+This is nearly half the semester, and that is deliberate.
 
 This is the phase where automation is most harmful to learning.
 
@@ -206,7 +224,7 @@ This is the phase where automation is most harmful to learning.
 - writing docstrings/comments,
 - automating git workflows.
 
-### Phase 2 — Assisted Fluency (Mid‑Semester)
+### Phase 2 — Assisted Fluency (Projects 4–6 · Weeks 7–12)
 
 **What this phase is about:** becoming more efficient *after* you’ve built foundations.
 
@@ -227,9 +245,11 @@ By this point, you should have written many docstrings, made plots from scratch,
 
 AI can help with presentation and efficiency—but **structure and logic must remain yours**.
 
-### Phase 3 — Professional Practice (Projects 5–6 and Final Project)
+### Phase 3 — Supervised Tool Use (Final Project · Weeks 13–16)
 
-**What this phase is about:** using tools the way a competent researcher would—with strong supervision and verification.
+**What this phase is about:** using tools the way a competent researcher does—under your own supervision, with verification you can defend.
+
+This phase applies **only to the final project**, and only because by this point you have implemented six projects' worth of algorithms yourself. The final project largely extends code *you already wrote*.
 
 AI may be used for productivity, including:
 

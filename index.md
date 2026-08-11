@@ -31,16 +31,16 @@ mixes instruction with hands-on work — bring your laptop.
 
 | Weeks | Project | Focus | Due |
 |:--|:--|:--|:--|
-| 1–2 | Project 1 | Scientific programming & exploratory data analysis | Sep 8 |
-| 3–4 | Project 2 | Numerical integration | Sep 22 |
-| 5–6 | Project 3 | Root finding & data acquisition | Oct 6 |
-| 7–8 | Project 4 | Linear algebra & statistical methods | Oct 20 |
-| 9–10 | Project 5 | ODEs & time series analysis | Nov 3 |
-| 11–12 | Project 6 | Machine learning foundations | Nov 17 |
+| 1–2 | Project 1 | Scientific programming & exploratory data analysis | Fri Sep 4 |
+| 3–4 | Project 2 | Numerical integration | Mon Sep 21 |
+| 5–6 | Project 3 | Root finding & data acquisition | Mon Oct 5 |
+| 7–8 | Project 4 | Linear algebra & statistical methods | Mon Oct 19 |
+| 9–10 | Project 5 | ODEs & time series analysis | Mon Nov 2 |
+| 11–12 | Project 6 | Machine learning foundations | Mon Nov 16 |
 | 13–16 | Final | Complete data science pipeline | Finals slot |
 
 A **Project 0 bootcamp** (environment setup, Git, NumPy, Matplotlib) is due
-Tue **Sep 1**.
+Mon **Aug 31**. Projects are due **Mondays at 11:59 pm PT**.
 
 Projects are done in **rotating pairs** — you will work with everyone in the
 class over the semester — but each of you writes, submits, and must be able to

@@ -16,15 +16,22 @@ Project due dates are fixed — plan around them. Topics and readings are listed
 time and the balance shifts depending on where we actually are. If we need an
 extra session on a hard idea, we take it.
 
-Complete a week's readings by the start of that week. Readings marked
-*(to be posted)* are being written and will appear before their week.
+Projects are assigned **Tuesdays** and due **Mondays at 11:59 pm PT**, so you
+arrive at Tuesday class having submitted rather than finishing in the room.
+
+Complete a week's readings by the start of that week. When a new project block
+begins, its readings are for **Thursday** — you will have been finishing the
+previous project Monday night. Readings marked *(to be posted)* are being
+written and will appear before their week.
 :::
 
 :::{note} At a glance
 | | |
 |---|---|
 | First class | Tue **Aug 25** |
+| Office hours | Thu **4:00–5:00 pm** (and by appointment) |
 | Add/drop deadline | Fri **Sep 4** |
+| Labor Day — campus closed | Mon **Sep 7** |
 | Late withdrawal deadline | Sun **Nov 1** |
 | No class — Thanksgiving | Thu **Nov 26** |
 | Final presentations | Tue **Dec 8**, Thu **Dec 10** |
@@ -34,7 +41,7 @@ Complete a week's readings by the start of that week. Readings marked
 
 ## Block 1 · Project 1 — Scientific Programming & EDA
 
-*Assigned Tue Aug 25 · Due Tue Sep 8*
+*Assigned Tue Aug 25 · Due Fri Sep 4*
 
 ### Week 1 — Aug 25, 27 · Foundations and setup
 
@@ -49,7 +56,7 @@ Complete a week's readings by the start of that week. Readings marked
 **Topics** — environment setup, Git/GitHub workflow, Python syntax, floating
 point, control flow, the five algorithmic patterns
 
-**Due** — **Project 0** (bootcamp), Tue **Sep 1**
+**Due** — **Project 0** (bootcamp), Mon **Aug 31**
 
 ### Week 2 — Sep 1, 3 · Data structures, OOP, and arrays
 
@@ -62,11 +69,16 @@ point, control flow, the five algorithmic patterns
 **Topics** — classes for scientific data, arrays vs. lists, vectorization;
 building a `ScientificData` class; exploratory analysis of the Gaia DR3 sample
 
-**Due** — **Project 1** + **Growth Memo 1** (baseline), Tue **Sep 8**
+**Due** — **Project 1** + **Growth Memo 1** (baseline), Fri **Sep 4**
+
+:::{note} Why Project 1 is due Friday
+Every other project is due Monday. Project 1 is the exception because Mon Sep 7
+is **Labor Day** — the campus is closed and some of you will be travelling.
+:::
 
 ## Block 2 · Project 2 — Numerical Integration
 
-*Assigned Tue Sep 8 · Due Tue Sep 22*
+*Assigned Tue Sep 8 · Due Mon Sep 21*
 
 ### Week 3 — Sep 8, 10 · Discrete computing and visualization
 
@@ -90,11 +102,11 @@ the source of every method in this course
 estimation and convergence order; verifying you achieve the expected order
 
 **Due** — **Project 2** (integration library + exoplanet transit model) +
-Research Memo, Tue **Sep 22**
+Research Memo, Mon **Sep 21**
 
 ## Block 3 · Project 3 — Root Finding & Data Acquisition
 
-*Assigned Tue Sep 22 · Due Tue Oct 6*
+*Assigned Tue Sep 22 · Due Mon Oct 5*
 
 ### Week 5 — Sep 22, 24 · Root finding
 
@@ -113,11 +125,11 @@ and bracketing; habitable-zone calculation
 identification; downloading and cleaning real Kepler light curves
 
 **Due** — **Project 3** (root-finding library + Kepler data pipeline) +
-Research Memo, Tue **Oct 6**
+Research Memo, Mon **Oct 5**
 
 ## Block 4 · Project 4 — Linear Algebra & Statistical Methods
 
-*Assigned Tue Oct 6 · Due Tue Oct 20*
+*Assigned Tue Oct 6 · Due Mon Oct 19*
 
 ### Week 7 — Oct 6, 8 · Linear systems
 
@@ -140,17 +152,17 @@ and the normal equations
 transit model to real Kepler data
 
 **Due** — **Project 4** + Research Memo + **Growth Memo 2** (mid-semester),
-Tue **Oct 20**
+Mon **Oct 19**
 
 :::{tip} Check your standing before Nov 1
-Growth Memo 2 is due Oct 20 and returned the following week — before the
+Growth Memo 2 is due Oct 19 and returned the following week — before the
 **Nov 1 late withdrawal deadline**. If you are struggling, that feedback is
 meant to reach you while you still have options. Come talk to me.
 :::
 
 ## Block 5 · Project 5 — ODEs & Time Series
 
-*Assigned Tue Oct 20 · Due Tue Nov 3*
+*Assigned Tue Oct 20 · Due Mon Nov 2*
 
 ### Week 9 — Oct 20, 22 · ODE solvers
 
@@ -172,11 +184,11 @@ conservation and why symplectic methods matter
 **Topics** — autocorrelation, periodograms, detrending, period recovery
 
 **Due** — **Project 5** (ODE solver library + time series analysis) +
-Research Memo, Tue **Nov 3**
+Research Memo, Mon **Nov 2**
 
 ## Block 6 · Project 6 — Machine Learning Foundations
 
-*Assigned Tue Nov 3 · Due Tue Nov 17*
+*Assigned Tue Nov 3 · Due Mon Nov 16*
 
 ### Week 11 — Nov 3, 5 · Supervised learning
 
@@ -195,7 +207,7 @@ classifying stellar types
 matrices, feature importance; clustering the Gaia sample from Project 1 and
 comparing against scikit-learn
 
-**Due** — **Project 6** + Research Memo, Tue **Nov 17**
+**Due** — **Project 6** + Research Memo, Mon **Nov 16**
 
 ## Block 7 · Final Project
 

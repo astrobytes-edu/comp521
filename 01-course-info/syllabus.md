@@ -12,7 +12,7 @@ author: "Dr. Anna Rosen"
 | **Instructor** | Dr. Anna Rosen |
 | **Email** | <alrosen@sdsu.edu> |
 | **Office** | Physics 239 |
-| **Office Hours** | *(TBD — to be announced in Week 1)* |
+| **Office Hours** | Thursdays 4:00–5:00 pm (and by appointment) |
 | **Class meetings** | Tue/Thu 5:30–6:45 pm |
 | **Location** | LSN 134 |
 | **Course website** | <https://astrobytes-edu.github.io/comp521> |
@@ -21,8 +21,8 @@ author: "Dr. Anna Rosen"
 :::{note} Start Here
 - **Where to find things:** Canvas + the course website (links above).
 - **Class format:** every session mixes instruction and hands-on work. **Bring your laptop to every class.**
-- **Weekly cadence:** projects are posted **Tuesdays**. Read the requirements before the next session so working time is productive.
-- **Deadlines:** projects are due **Tuesdays at 11:59 pm PT**. See [Important Dates](#sec-important-dates).
+- **Weekly cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned.
+- **Deadlines:** projects are due **Mondays at 11:59 pm PT**. See [Important Dates](#sec-important-dates).
 - **Reflections:** three across the semester — Growth Memos with Projects 1 and 4, and the Growth Synthesis with the final project.
 - **Getting help:** see [Getting Help](#sec-getting-help). Before emailing, check this syllabus and recent Canvas announcements.
 :::
@@ -126,18 +126,22 @@ with the final project. See [Reflections](#sec-reflections).
 (sec-important-dates)=
 ### Important Dates
 
-Projects are assigned on **Tuesdays** and due **Tuesdays at 11:59 pm PT**.
+Projects are assigned on **Tuesdays** and due **Mondays at 11:59 pm PT**. A Monday
+deadline means you arrive at Tuesday class having submitted, rather than
+finishing in the room.
 
 | Project | Assigned | Due |
 |---|---|---|
-| Project 0 (Bootcamp) | Tue **Aug 25** | Tue **Sep 1** |
-| Project 1 — Scientific Programming & EDA | Tue **Aug 25** | Tue **Sep 8** |
-| Project 2 — Numerical Integration | Tue **Sep 8** | Tue **Sep 22** |
-| Project 3 — Root Finding & Data Acquisition | Tue **Sep 22** | Tue **Oct 6** |
-| Project 4 — Linear Algebra & Statistics | Tue **Oct 6** | Tue **Oct 20** |
-| Project 5 — ODEs & Time Series | Tue **Oct 20** | Tue **Nov 3** |
-| Project 6 — Machine Learning Foundations | Tue **Nov 3** | Tue **Nov 17** |
+| Project 0 (Bootcamp) | Tue **Aug 25** | Mon **Aug 31** |
+| Project 1 — Scientific Programming & EDA | Tue **Aug 25** | Fri **Sep 4** † |
+| Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |
+| Project 3 — Root Finding & Data Acquisition | Tue **Sep 22** | Mon **Oct 5** |
+| Project 4 — Linear Algebra & Statistics | Tue **Oct 6** | Mon **Oct 19** |
+| Project 5 — ODEs & Time Series | Tue **Oct 20** | Mon **Nov 2** |
+| Project 6 — Machine Learning Foundations | Tue **Nov 3** | Mon **Nov 16** |
 | Final Project | Tue **Nov 17** | *Final exam slot (TBA)* |
+
+† **Project 1 is due Friday**, not Monday — Mon Sep 7 is Labor Day.
 
 **Final project presentations:** Tue **Dec 8** and Thu **Dec 10** (in class).
 The written report and Growth Synthesis are due in our assigned final exam slot
@@ -149,6 +153,7 @@ during **Dec 12–18**. *(Exact slot TBA.)*
 |---|---|
 | Tue **Aug 25** | First class meeting |
 | Fri **Sep 4** | Last day to add/drop without penalty |
+| Mon **Sep 7** | **Labor Day** — campus closed |
 | Sun **Nov 1** | Late withdrawal deadline |
 | Thu **Nov 26** | **No class** — Thanksgiving |
 | Thu **Dec 10** | Last class meeting |
@@ -358,8 +363,8 @@ chore:
 
 | # | Due with | Date | Purpose |
 |---|---|---|---|
-| 1 | Project 1 | Tue **Sep 8** | **Baseline** — how you approach problems now |
-| 2 | Project 4 | Tue **Oct 20** | **Course correction** — what has changed, what has not |
+| 1 | Project 1 | Fri **Sep 4** | **Baseline** — how you approach problems now |
+| 2 | Project 4 | Mon **Oct 19** | **Course correction** — what has changed, what has not |
 | 3 | Final Project | *Finals slot* | **Synthesis** — the whole arc |
 
 :::{tip} Why the first one matters

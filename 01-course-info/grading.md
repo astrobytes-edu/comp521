@@ -60,8 +60,8 @@ Three across the semester, 5% each. See
 
 | # | Due with | Date |
 |---|---|---|
-| Growth Memo 1 | Project 1 | Tue **Sep 8** |
-| Growth Memo 2 | Project 4 | Tue **Oct 20** |
+| Growth Memo 1 | Project 1 | Fri **Sep 4** |
+| Growth Memo 2 | Project 4 | Mon **Oct 19** |
 | Growth Synthesis | Final Project | *Finals slot* |
 
 Graded on engagement, not polish:
@@ -96,7 +96,8 @@ tally.
 ## Submission
 
 Submission is via **GitHub Classroom**; your last commit before the deadline
-counts. Projects are due **Tuesdays at 11:59 PM PT**.
+counts. Projects are due **Mondays at 11:59 PM PT** (Project 1 excepted — see
+the [Schedule](schedule.md)).
 
 GitHub Classroom collects automatically at the deadline. This means there is no
 ambiguity about what was submitted and when — and also that "I forgot to push"
