@@ -1,11 +1,33 @@
 ---
-title: "Syllabus"
-subtitle: "COMP 521 | Fall 2026"
+title: "COMP 521 Syllabus"
+subtitle: "Introduction to Scientific Computing and Data Science | Fall 2026"
+author: "Dr. Anna Rosen"
 ---
 
-# Syllabus
+(sec-course-info)=
+## Course Information
 
-## Course description
+|  |  |
+|---|---|
+| **Instructor** | Dr. Anna Rosen |
+| **Email** | <alrosen@sdsu.edu> |
+| **Office** | Physics 239 |
+| **Office Hours** | *(TBD — to be announced in Week 1)* |
+| **Class meetings** | Tue/Thu 5:30–6:45 pm |
+| **Location** | LSN 134 |
+| **Course website** | <https://astrobytes-edu.github.io/comp521> |
+| **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[GitHub Classroom](https://classroom.github.com) *(project submissions)* |
+
+:::{note} Start Here
+- **Where to find things:** Canvas + the course website (links above).
+- **Class format:** every session mixes instruction and hands-on work. **Bring your laptop to every class.**
+- **Weekly cadence:** projects are posted **Tuesdays**. Read the requirements before the next session so working time is productive.
+- **Deadlines:** projects are due **Tuesdays at 11:59 pm PT**. See [Important Dates](#sec-important-dates).
+- **Reflections:** three across the semester — Growth Memos with Projects 1 and 4, and the Growth Synthesis with the final project.
+- **Getting help:** see [Getting Help](#sec-getting-help). Before emailing, check this syllabus and recent Canvas announcements.
+:::
+
+### Course Description
 
 Introduction to computational methods for scientific problem-solving and data
 analysis using Python. Students implement fundamental algorithms from first
@@ -20,15 +42,7 @@ optimization.
 **Prerequisites:** MATH 252; MATH 254 or 342A; or equivalent with instructor
 permission, or graduate standing.
 
-## Instructor
-
-**Anna Rosen** · alrosen@sdsu.edu
-
-Office hours: *(to be set)*. Office hours are the primary channel for
-individual help — I do not take appointment meetings outside them.
-
-## Course philosophy
-
+:::{note} Core Course Throughline
 > Build algorithms from scratch, then leverage libraries for real data.
 
 There are two ways to learn scientific computing. One is to learn which library
@@ -36,64 +50,470 @@ function to call. The other is to understand what that function does, so you can
 recognize when it is lying to you. This course takes the second path, then hands
 you the libraries once you have earned them.
 
-Every algorithm you implement will be compared against its professional
-counterpart. You will usually find your version is slower. You will sometimes
-find it is more correct for your problem — and you will know why.
+The goal is not "making code run." The goal is durable skill: designing
+algorithms, debugging methodically, checking limits and invariants, and making
+claims only when you have evidence.
+:::
 
-## Learning outcomes
+### Class Format
 
-By the end of this course you will be able to:
+This course does not separate lecture days from lab days. Each 75-minute session
+combines short instruction with hands-on work, and the balance shifts depending
+on where we are in a project — heavier on instruction when a new method is
+introduced, heavier on working time as a deadline approaches.
 
-1. **Implement** core numerical algorithms — integration, root finding, ODE
-   solving, linear solvers, basic ML — from mathematical first principles.
-2. **Analyze** the error, stability, and convergence behavior of a numerical
-   method, and predict where it will fail.
-3. **Acquire and clean** real scientific datasets, handling missing values,
-   quality flags, and outliers defensibly.
-4. **Apply** statistical methods to assess model fits and quantify uncertainty.
-5. **Communicate** computational results through publication-quality
-   visualizations and technical writing.
-6. **Practice** reproducible research: version control, testing, documentation,
-   and environment management.
+**This means class attendance matters more than in a lecture course.** Much of
+the instruction happens in response to what you are actually stuck on, and that
+does not get posted anywhere afterward.
 
-## Assessment
+(sec-outcomes)=
+## Student Learning Outcomes
+
+By the end of this course, students will be able to:
+
+1. **Implement core numerical algorithms in Python from first principles** —
+   including numerical integration, root finding, ODE solvers, linear solvers,
+   and basic machine learning — using modular design, clear function interfaces,
+   and object-oriented programming where appropriate.
+
+2. **Analyze the error, stability, and convergence behavior** of a numerical
+   method, predict where it will fail, and verify that an implementation
+   achieves its theoretically expected order of accuracy.
+
+3. **Acquire, clean, and validate real scientific datasets**, handling missing
+   values, quality flags, and outliers with defensible, documented choices.
+
+4. **Apply statistical methods** to assess model fits, test hypotheses, and
+   quantify uncertainty in derived results.
+
+5. **Visualize data and results** using the scientific Python ecosystem
+   (`NumPy`, `SciPy`, `pandas`, `matplotlib`), producing figures that make
+   assumptions, units, and failure modes visible.
+
+6. **Compare your own implementations against professional libraries**, and make
+   defensible tradeoffs between correctness, stability, performance, and clarity.
+
+7. **Practice reproducible research** — version control with `git`, testing,
+   documentation, and environment management — so that your results can be
+   regenerated by someone else.
+
+8. **Communicate computational work professionally** through code
+   documentation, READMEs, and concise research-style writing, clearly
+   explaining design decisions, verification evidence, and limitations.
+
+9. **Use AI tools responsibly and transparently** (per course policy): as a
+   tutor and verification assistant, not a solution engine; documenting
+   meaningful use and independently verifying outputs so that submissions
+   reflect your own understanding.
+
+**Where these outcomes are assessed:** Projects 1–6, the Final Project, and the
+accompanying Growth Memos and Growth Synthesis.
+
+(sec-grading)=
+## Grading & Assessments
 
 | Component | Weight |
-|:--|--:|
-| Biweekly projects (6) | 50% |
-| Final project | 25% |
-| Growth memos | 10% |
-| Participation | 10% |
-| Technical Growth Synthesis | 5% |
+|---|-:|
+| Projects (6 total; ~8.3% each) | 50% |
+| Final Project | 25% |
+| Reflections (3 total; 5% each) | 15% |
+| Scholarly Engagement | 10% |
 
-See [Grading](grading.md) for rubrics and submission mechanics, and the
-[AI Policy](ai-policy.md) for what tools you may use when.
+The three reflections are spaced across the semester: a **Growth Memo** with
+Project 1, a second **Growth Memo** with Project 4, and the **Growth Synthesis**
+with the final project. See [Reflections](#sec-reflections).
 
-## Structure of a project block
+(sec-important-dates)=
+### Important Dates
 
-Each project spans two weeks:
+Projects are assigned on **Tuesdays** and due **Tuesdays at 11:59 pm PT**.
 
-- **Week A** — theory, implementation, basic validation against known results
+| Project | Assigned | Due |
+|---|---|---|
+| Project 0 (Bootcamp) | Tue **Aug 25** | Tue **Sep 1** |
+| Project 1 — Scientific Programming & EDA | Tue **Aug 25** | Tue **Sep 8** |
+| Project 2 — Numerical Integration | Tue **Sep 8** | Tue **Sep 22** |
+| Project 3 — Root Finding & Data Acquisition | Tue **Sep 22** | Tue **Oct 6** |
+| Project 4 — Linear Algebra & Statistics | Tue **Oct 6** | Tue **Oct 20** |
+| Project 5 — ODEs & Time Series | Tue **Oct 20** | Tue **Nov 3** |
+| Project 6 — Machine Learning Foundations | Tue **Nov 3** | Tue **Nov 17** |
+| Final Project | Tue **Nov 17** | *Final exam slot (TBA)* |
+
+**Final project presentations:** Tue **Dec 8** and Thu **Dec 10** (in class).
+The written report and Growth Synthesis are due in our assigned final exam slot
+during **Dec 12–18**. *(Exact slot TBA.)*
+
+**University dates that affect you:**
+
+| Date | |
+|---|---|
+| Tue **Aug 25** | First class meeting |
+| Fri **Sep 4** | Last day to add/drop without penalty |
+| Sun **Nov 1** | Late withdrawal deadline |
+| Thu **Nov 26** | **No class** — Thanksgiving |
+| Thu **Dec 10** | Last class meeting |
+
+Week-by-week topics and readings are on the [Course Schedule](schedule.md).
+Topics are listed by week rather than by day, so that class time can follow
+where the class actually is.
+
+(sec-grade-scale)=
+### Grading Scale
+
+The instructor may, at their discretion, curve project grades and final course
+grades. These percentages represent guaranteed thresholds — earning the stated
+percentage guarantees at least that grade. The instructor reserves the right to
+adjust borderline grades upward based on effort, improvement, and engagement.
+[Click here for SDSU's explanation of grades.](https://registrar.sdsu.edu/faculty_staff/courses_grades/explanation-grades)
+
+| Letter grade | Percent range | Explanation |
+|:--|:---|:----|
+| A | 93–100% | Outstanding |
+| A- | 90–92% |  |
+| B+ | 87–89% |  |
+| B | 83–86% | Praiseworthy |
+| B- | 80–82% |  |
+| C+ | 77–79% |  |
+| C | 73–76% | Average |
+| C- | 70–72% |  |
+| D+ | 67–69% |  |
+| D | 63–66% | Minimally Passing |
+| D- | 60–62% |  |
+| F | Below 60% | Failure |
+
+(sec-late)=
+### Late Work & Extensions
+
+- **One free extension per semester:** request at least **24 hours** before the
+  deadline to receive a **2-day grace period** with no penalty.
+- **GitHub Classroom deadlines are enforced:** the project repo **closes at the
+  deadline**. If you use your one free extension, I will **extend/reopen** the
+  GitHub Classroom deadline **one time**.
+- **No late submissions beyond the free extension:** if you miss the deadline
+  without having arranged your free extension in advance, the submission is
+  **not accepted** (unless there is a documented emergency).
+
+(sec-regrades)=
+### Regrade Requests
+
+- Submit a request within **7 calendar days** of the grade release.
+- Provide a $\leq$200-word written justification that references the **rubric**
+  and the **assignment expectations**.
+- I will re-evaluate the **entire submission**; the score may go **up, down, or
+  remain unchanged**.
+
+(sec-components)=
+## Course Components
+
+Per SDSU policy, students are expected to spend at least 6 hours per week (a
+minimum of 2 hours per course credit hour/unit) on coursework outside of class,
+including reading, project work, and preparation for class.
+[Click here for SDSU's explanation of *Credit Hour or Unit*.](https://catalog.sdsu.edu/content.php?catoid=10&navoid=924#credit-hour-or-unit)
+
+(sec-projects)=
+### Projects Overview
+
+Projects are the core of COMP 521. The goal is not "getting code to run once" —
+it is learning how to design, debug, verify, and explain computation you
+actually understand. In an era where AI can generate plausible-looking code
+quickly, the bar has shifted: what matters is judgment — correctness,
+verification, and scientific reasoning — not typing speed.
+
+**Structure:** six two-week projects, then a four-week final project.
+
+Each project runs in two halves:
+
+- **Week A** — theory, implementation, validation against known results
 - **Week B** — application to real data, comparison with library implementations
 
-Labs are working sessions for the current project. There are no separate lab
-assignments. Peer programming is expected: you will debug with each other.
+(sec-thread)=
+#### The thread running through the projects
 
-## Submission
+Rather than six disconnected assignments, the projects build one continuous
+scientific investigation — detecting and characterizing exoplanets in real
+Kepler data:
 
-All work is submitted through **GitHub Classroom**. Your last commit before the
-deadline is your submission. There are no Canvas uploads and no emailed
-submissions.
+| Project | Contribution to the investigation |
+|---|---|
+| 2 | Build the transit model equations |
+| 3 | Download and clean real Kepler light curves |
+| 4 | Fit the transit model to real data |
+| 5 | Recover orbital periods from time series |
+| 6 | Classify planet candidates |
+| Final | Assemble the complete discovery pipeline |
 
-## Academic integrity
+(sec-submissions)=
+#### What a project submission includes
 
-Collaboration on understanding is encouraged; collaboration on submitted code is
-not, unless a project explicitly says otherwise. You must be able to explain
-every line you submit. If you cannot, it is not yours — regardless of where it
-came from.
+- a code repository with a runnable workflow (README + reproduction instructions),
+- verification evidence (tests, sanity checks, convergence diagnostics),
+- a short **research memo** describing methods, results, and figures,
+- a **Growth Memo**, for Projects 1 and 4 only (see [Reflections](#sec-reflections)).
 
-## Accommodations
+**Research memo format:** submit as a **PDF** in your project repo.
+**Single-spaced**, **2–3 pages of text** (not counting figures or references).
+Include at minimum: methods, results, and discussion.
 
-Students with disabilities should contact SDSU Student Ability Success Center
-(SASC) to arrange accommodations. Bring me your letter as early as possible and
-I will make the arrangements.
+(sec-pairs)=
+### Project Pairs & Collaboration
+
+Projects are done in **pairs**, and **pairs rotate each project** so that over
+the semester you work with everyone in the class. Pair work is how computational
+science actually happens, and rotating partners means you see more than one way
+of approaching a problem.
+
+:::{important} You are responsible for your own code
+Working in a pair does **not** mean submitting shared work. **Each student
+writes, submits, and must be able to explain their own implementation.**
+
+- **Encouraged:** designing algorithms together, whiteboarding equations,
+  debugging side by side, comparing strategies, sharing **tests you wrote**.
+- **Not allowed:** sharing or copying solution code — even from your partner,
+  even when you worked out the approach together.
+- **Required:** credit your partner and describe what you worked on together in
+  your project `README.md`.
+:::
+
+**On the natural convergence of paired work.** If you and your partner spend
+forty minutes at a whiteboard designing an algorithm, your implementations will
+end up structurally similar — same decomposition, similar names, comparable
+logic. That is what collaboration produces, and it is not a violation. The line
+that matters is whether **you** typed it and whether **you** can explain it. I
+will ask.
+
+If a pairing is not working, tell me and I will re-pair you. Do not suffer
+through it silently.
+
+(sec-engagement)=
+### Scholarly Engagement (10%)
+
+This is a small class, and it runs closer to a research group meeting than a
+lecture course. Scholarly engagement means showing up prepared and making your
+thinking *visible*: asking questions, contributing to discussion, debugging
+systematically, verifying results, and being able to explain your code.
+
+In a class this size, everyone's participation is load-bearing — if two people
+disengage, the discussion stops working for everyone.
+
+| Score | Observable behaviors |
+|-|---|
+| 5/5 | Prepared and on time; contributes regularly; asks targeted questions; collaborates productively with rotating partners; can explain their code decisions; shows debugging and verification habits (small tests, sanity checks). |
+| 4/5 | Prepared with steady effort; participates regularly; collaborates respectfully; asks questions when stuck; minor issues (occasional lateness, quieter weeks, thinner verification). |
+| 3/5 | Inconsistent prep or participation; engages mainly when prompted; uneven follow-through during working time. |
+| 2/5 | Frequently unprepared, disengaged, or off-task; minimal participation; habits impede their own and their partner's learning. |
+| 1/5 | Rare meaningful engagement when present. |
+| 0/5 | Habitually absent or habitually disengaged. |
+
+**Note:** This rubric is a guideline. Your score reflects overall scholarly
+contribution, not a single "style" of being present — thinking out loud and
+thinking quietly both count, as long as your reasoning becomes visible somewhere.
+
+**Classroom norms.** We are all members of a professional academic community.
+Treat classmates and the instructor with respect. Spirited, courteous debate
+about ideas is welcome; disrespectful behavior is not. Because active reasoning
+is the point of being in the room, off-task device use during class is
+distracting and will negatively affect your engagement score.
+
+I will not take formal attendance, but in a class of this size I will
+absolutely notice. Because instruction is interleaved with working time,
+missing class means missing material that is not posted anywhere. Please arrive
+on time.
+
+(sec-final-project)=
+### Final Project (25%)
+
+The final project synthesizes the course into a complete data science pipeline.
+You will choose one of:
+
+1. **Exoplanet discovery pipeline** — apply your full toolkit to unseen Kepler
+   data, with statistical validation of candidates.
+2. **Custom scientific data analysis** — a dataset from your own field, using
+   numerical methods plus machine learning.
+3. **Algorithm comparison study** — your implementations versus libraries, with
+   computational complexity analysis.
+
+All options require: data acquisition and cleaning, exploratory analysis with
+visualizations, statistical testing, at least two numerical methods you
+implemented, a machine learning application, and comparison against library
+implementations.
+
+**Deliverables:** a reproducible end-to-end repository, a formal **research
+report** (5–7 pages: background and motivation, methods, results, conclusions),
+an **in-class presentation** (Dec 8 or Dec 10), and the **Growth Synthesis**.
+
+Final projects are graded on correctness, evaluation methodology,
+reproducibility, and scientific communication. You should expect to defend your
+design and verification choices.
+
+(sec-reflections)=
+### Reflections (15% total; 3 × 5%)
+
+Reflections build **metacognition** — thinking about how you learn so you can
+improve your workflow, debugging habits, and verification discipline over time.
+Write these in an **informal, memo-like voice** (not an essay). Honesty and
+specific evidence matter more than polished prose.
+
+There are three, deliberately spaced so they form a trajectory rather than a
+chore:
+
+| # | Due with | Date | Purpose |
+|---|---|---|---|
+| 1 | Project 1 | Tue **Sep 8** | **Baseline** — how you approach problems now |
+| 2 | Project 4 | Tue **Oct 20** | **Course correction** — what has changed, what has not |
+| 3 | Final Project | *Finals slot* | **Synthesis** — the whole arc |
+
+:::{tip} Why the first one matters
+It is tempting to treat the Week 2 memo as a formality. It is the opposite: it
+is the only record of how you actually thought before this course changed how
+you think. In December you will be asked what changed — and a specific, honest
+baseline is what makes that question answerable instead of guesswork.
+:::
+
+(sec-growth-memos)=
+#### Growth Memos (Reflections 1 and 2)
+
+Each should include:
+
+- evidence of how your work evolved (what you tried, what failed, what changed),
+- 2–3 recurring patterns and their likely causes,
+- 2–3 concrete next-step habits ("When I…, I will…"),
+- a verification plan (how you will know your results are correct),
+- a brief AI and collaboration reflection and disclosure (even if "none").
+
+Graded on engagement, not polish:
+
+| Mark | Meaning | Credit |
+|:--|:--|--:|
+| ✓+ | Exceptional reflection — specific, honest, identifies real conceptual shifts | 100% |
+| ✓ | Adequate reflection | 85% |
+| ✓− | Minimal effort | 50% |
+
+Be specific. "I did not understand why Newton's method diverged until I plotted
+the iterates" is worth more than a page of general statements about learning a lot.
+
+(sec-growth-synthesis)=
+#### Growth Synthesis (Reflection 3)
+
+Submitted with your final project, synthesizing your learning across the
+semester: how your habits changed, how your verification strategies matured, and
+what you can do now that you could not do in August.
+
+**Write it against your own earlier memos.** Re-read what you wrote in September
+and October, quote yourself, and say where you were right, where you were wrong,
+and what you did not yet know to worry about. Guidance posted in Week 13.
+
+(sec-ai-policy)=
+## Academic Integrity & Generative AI Policy
+
+All submitted work in this course must reflect **your own understanding**.
+Collaboration is strongly encouraged for discussing concepts and strategies.
+However, what you submit must be written independently and must represent your
+own reasoning. Copying solutions (from classmates, the internet, generative AI,
+or solution manuals) is not permitted. Violations of academic integrity will be
+handled according to university procedures and may be reported to the
+[Center for Student Rights and Responsibilities](https://sacd.sdsu.edu/student-rights/academic-dishonesty/cheating-and-plagiarism).
+
+For full details — including the staged three-phase rules and documentation
+requirements — read the [AI Use & Growth Mindset Policy](ai-policy.md).
+
+:::{important} Generative AI rules (enforced)
+- **AI is optional.** You can earn full credit without using AI.
+- **Understanding is required.** If you can't explain it, don't submit it.
+- **No AI refactoring / restructuring** of your solution unless explicitly assigned.
+- **No AI-written core solution code** (the algorithmic logic that produces the result).
+- **Struggle first, then ask.** Do ~20–30 minutes of productive effort (try, check docs, minimal repro, hypothesis) before using AI for coding help.
+- **Disclose meaningful AI use** whenever a submission asks for AI/collaboration disclosure.
+:::
+
+Generative AI can produce fluent explanations and plausible-looking solutions
+that are subtly wrong. In a quantitative, model-based course, "sounds right" is
+not a standard of truth. If you do not have the quantitative discipline to
+verify an AI output, you risk learning the wrong thing confidently.
+
+(sec-materials)=
+## Course Materials (Sharing Policy)
+
+Lecture notes, slides, projects, and course handouts are the intellectual
+property of the instructor. You may use course materials for your own
+educational purposes in this course, but you may not reproduce, distribute,
+share, or post them on any public platform (e.g., Chegg, Course Hero, Discord
+servers, public GitHub repos) without written permission.
+
+Unauthorized recording or redistribution of class sessions or office hours is
+prohibited.
+
+(sec-communication)=
+## Communication & Getting Help
+
+All course-related communication should be sent through Canvas messaging when
+possible. Include "COMP 521" in the subject line. I aim to respond within 24–48
+hours on weekdays. **Before emailing, check this syllabus and recent Canvas
+announcements.**
+
+If you encounter difficulties with the assignments or find yourself falling
+behind, seek help immediately by:
+
+- posting your questions on the course Canvas discussion page,
+- speaking with me during class or office hours (preferred),
+- collaborating with classmates (while ensuring your submission reflects your
+  own understanding).
+
+(sec-getting-help)=
+### Getting Help (Office Hours)
+
+Office hours are for learning — bring what you have tried (notes, attempts,
+questions) and we will work from there. I will often guide you by asking
+questions so you build your own problem-solving skills. You are welcome to come
+even if you are not sure what to ask, or have non-course-related questions.
+
+(sec-growth-mindset)=
+## Fostering a Growth Mindset
+
+A **growth mindset** is the belief that intelligence, abilities, and talents are
+malleable and can be developed through effort and persistence, not fixed traits
+you are born with. This mindset is key to succeeding in this course. In COMP 521
+you will encounter challenging concepts that may initially seem overwhelming.
+**This is normal and expected: it means you are learning.**
+
+*Trust the process, embrace the challenge, and discover that you are capable of
+doing hard things.*
+
+(sec-inclusion)=
+## Diversity and Inclusivity Statement
+
+I consider this classroom to be a place where you will be treated with respect,
+and I welcome individuals of all ages, backgrounds, beliefs, ethnicities,
+genders, gender identities, gender expressions, national origins, religious
+affiliations, sexual orientations, ability, and other visible and non-visible
+differences. All members of this class are expected to contribute to a
+respectful, welcoming and inclusive environment for every other member of the
+class.
+
+(sec-student-info)=
+## Essential Student Information
+
+For essential information about student academic success, please see the
+[SDSU Student Academic Success Handbook](https://docs.google.com/document/d/1rXNpNGs1K7nIxcS73o6R-fxZqPIWQwS9gHD7XpIqjhM/edit?tab=t.0#heading=h.apbuhr7p11ak).
+
+SDSU provides disability-related accommodations via Student Disability Services:
+<https://sds.sdsu.edu> (email: <sds@sdsu.edu>). Please allow 10–14 business days
+for processing.
+
+Class rosters are provided to the instructor with the student's legal name.
+Please let me know if you prefer an alternate name and/or gender pronoun.
+
+If you need to be absent from class for a religious observance, please notify me
+in writing during the first two weeks of the semester so that we can make any
+necessary arrangements.
+
+(sec-land)=
+## Land Acknowledgement
+
+San Diego State University sits on Kumeyaay land. The Kumeyaay people have lived
+in this region for over 10,000 years and continue to live here today.
+
+(sec-responsibility)=
+## Your Responsibility
+
+This syllabus constitutes our course contract. You are responsible for reading
+and understanding all policies stated here.

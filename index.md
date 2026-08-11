@@ -25,21 +25,26 @@ permission, or graduate standing.
 
 ## How this course is structured
 
-The semester runs 15 weeks: six two-week projects followed by a three-week
-final project.
+The semester runs 16 weeks: six two-week projects followed by a four-week final
+project. Class meets **Tue/Thu 5:30–6:45 pm in LSN 134**, and every session
+mixes instruction with hands-on work — bring your laptop.
 
-| Weeks | Project | Focus |
-|:--|:--|:--|
-| 1–2 | Project 1 | Scientific programming & exploratory data analysis |
-| 3–4 | Project 2 | Numerical integration |
-| 5–6 | Project 3 | Root finding & data acquisition |
-| 7–8 | Project 4 | Linear algebra & statistical methods |
-| 9–10 | Project 5 | ODEs & time series analysis |
-| 11–12 | Project 6 | Machine learning foundations |
-| 13–15 | Final | Complete data science pipeline |
+| Weeks | Project | Focus | Due |
+|:--|:--|:--|:--|
+| 1–2 | Project 1 | Scientific programming & exploratory data analysis | Sep 8 |
+| 3–4 | Project 2 | Numerical integration | Sep 22 |
+| 5–6 | Project 3 | Root finding & data acquisition | Oct 6 |
+| 7–8 | Project 4 | Linear algebra & statistical methods | Oct 20 |
+| 9–10 | Project 5 | ODEs & time series analysis | Nov 3 |
+| 11–12 | Project 6 | Machine learning foundations | Nov 17 |
+| 13–16 | Final | Complete data science pipeline | Finals slot |
 
-A **Project 0 bootcamp** (environment setup, Git, NumPy, Matplotlib) is due at
-the end of Week 1.
+A **Project 0 bootcamp** (environment setup, Git, NumPy, Matplotlib) is due
+Tue **Sep 1**.
+
+Projects are done in **rotating pairs** — you will work with everyone in the
+class over the semester — but each of you writes, submits, and must be able to
+explain your own code.
 
 ## The thread running through everything
 

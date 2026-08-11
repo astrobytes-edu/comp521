@@ -1,19 +1,21 @@
 ---
-title: "Grading"
+title: "Grading & Rubrics"
 subtitle: "COMP 521 | Fall 2026"
 ---
 
-# Grading
+# Grading & Rubrics
+
+This page gives the detailed rubrics. For weights, deadlines, late work, and
+regrade policy, the [Syllabus](syllabus.md) is authoritative.
 
 | Component | Weight |
 |:--|--:|
-| Biweekly projects (6 × ~8.3%) | 50% |
+| Projects (6 × ~8.3%) | 50% |
 | Final project | 25% |
-| Growth memos | 10% |
-| Participation | 10% |
-| Technical Growth Synthesis | 5% |
+| Reflections (3 × 5%) | 15% |
+| Scholarly engagement | 10% |
 
-## Projects (50%)
+## Project rubric (50%)
 
 Each project is scored out of 100:
 
@@ -31,17 +33,38 @@ is no partial credit for "almost passing," because in computational science
 there is no partial credit for an almost-correct integrator.
 :::
 
-### Validation, not just tests
+### Validation is not the same as testing
 
 Passing tests means your code does what was asked. **Validation** means showing
 your result is *right*: convergence at the theoretically expected order, energy
-conserved to the expected tolerance, agreement with a published value. Projects
-ask for validation explicitly, and it is where most of the correctness points
-actually live.
+conserved to the expected tolerance, agreement with a published value, sensible
+behavior in a limiting case.
 
-## Growth memos (10%)
+Projects ask for validation explicitly, and it is where most of the correctness
+points actually live. A student who passes every test but cannot demonstrate
+second-order convergence has not finished the assignment.
 
-A short reflection with each project. Graded on engagement, not polish:
+## Research memos
+
+Submitted with each project, scored within the project's 20-point memo
+allocation.
+
+- Submit as a **PDF** in your project repo
+- **Single-spaced**, **2–3 pages of text** (not counting figures or references)
+- Include at minimum: **methods**, **results**, and **discussion**
+
+## Reflections (15%)
+
+Three across the semester, 5% each. See
+[Reflections](syllabus.md#sec-reflections) for what each should contain.
+
+| # | Due with | Date |
+|---|---|---|
+| Growth Memo 1 | Project 1 | Tue **Sep 8** |
+| Growth Memo 2 | Project 4 | Tue **Oct 20** |
+| Growth Synthesis | Final Project | *Finals slot* |
+
+Graded on engagement, not polish:
 
 | Mark | Meaning | Credit |
 |:--|:--|--:|
@@ -49,30 +72,31 @@ A short reflection with each project. Graded on engagement, not polish:
 | ✓ | Adequate reflection | 85% |
 | ✓− | Minimal effort | 50% |
 
-These are quick to write and quick to grade. Be specific: "I did not understand
-why Newton's method diverged until I plotted the iterates" is worth more than a
-page of general statements about learning a lot.
+Be specific. *"I did not understand why Newton's method diverged until I plotted
+the iterates"* is worth more than a page of general statements about learning a lot.
 
-## Research memos
+## Final project (25%)
 
-Submitted with each project, scored within the project's 20-point memo
-allocation. Two to three pages. **Peer review happens first**, during lab — you
-will read a classmate's memo and give feedback before submission.
+| Component | Points | What earns full credit |
+|:--|--:|:--|
+| Correctness & methodology | 35 | Methods appropriate and correctly implemented; results validated |
+| Reproducibility | 20 | Repository runs end to end from a clean checkout; documented |
+| Research report | 30 | 5–7 pages; background, methods, results, conclusions |
+| Presentation | 15 | Clear, well-paced, handles questions on design choices |
 
-## Participation (10%)
+You should expect to defend your design and verification choices.
 
-A weekly check during lab: present, and working. That is the whole rubric. I do
-not grade the "quality" of participation.
+## Scholarly engagement (10%)
 
-## Technical Growth Synthesis (5%)
+Scored on the rubric in the
+[Syllabus](syllabus.md#sec-engagement). In a class this size, engagement is
+assessed continuously through observable behavior rather than by attendance
+tally.
 
-A portfolio reflection submitted at the end of Week 15, tracing your development
-across the semester. Guidance posted in Week 13.
-
-## Submission and late work
+## Submission
 
 Submission is via **GitHub Classroom**; your last commit before the deadline
-counts. Projects are due the **second Monday of their block at 11:59 PM PT**.
+counts. Projects are due **Tuesdays at 11:59 PM PT**.
 
 GitHub Classroom collects automatically at the deadline. This means there is no
 ambiguity about what was submitted and when — and also that "I forgot to push"
