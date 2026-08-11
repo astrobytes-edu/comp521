@@ -53,6 +53,9 @@ allocation.
 - **Single-spaced**, **2–3 pages of text** (not counting figures or references)
 - Include at minimum: **methods**, **results**, and **discussion**
 
+**Project 1** substitutes a shorter **EDA report (1–2 pages)**, scored in the
+same 20-point slot.
+
 ## Reflections (15%)
 
 Three across the semester, 5% each. See
@@ -62,7 +65,7 @@ Three across the semester, 5% each. See
 |---|---|---|
 | Growth Memo 1 | Project 1 | Fri **Sep 4** |
 | Growth Memo 2 | Project 4 | Mon **Oct 19** |
-| Growth Synthesis | Final Project | *Finals slot* |
+| Growth Synthesis | Final Project | Mon **Dec 14** |
 
 Graded on engagement, not polish:
 
@@ -83,6 +86,9 @@ the iterates"* is worth more than a page of general statements about learning a 
 | Reproducibility | 20 | Repository runs end to end from a clean checkout; documented |
 | Research report | 30 | 5–7 pages; background, methods, results, conclusions |
 | Presentation | 15 | Clear, well-paced, handles questions on design choices |
+
+**Due:** presentation Thu **Dec 10** in class; **Growth Synthesis** Mon
+**Dec 14**; final report and repository Thu **Dec 17**, end of day.
 
 You should expect to defend your design and verification choices.
 

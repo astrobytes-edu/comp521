@@ -170,13 +170,22 @@ finishing in the room.
 | Project 4 — Linear Algebra & Statistics | Tue **Oct 6** | Mon **Oct 19** |
 | Project 5 — ODEs & Time Series | Tue **Oct 20** | Mon **Nov 2** |
 | Project 6 — Machine Learning Foundations | Tue **Nov 3** | Mon **Nov 16** |
-| Final Project | Tue **Nov 17** | *Final exam slot (TBA)* |
+| Final Project | Tue **Nov 17** | Thu **Dec 17**, end of day |
 
 † **Project 1 is due Friday**, not Monday — Mon Sep 7 is Labor Day.
 
-**Final project presentations:** Tue **Dec 8** and Thu **Dec 10** (in class).
-The written report and Growth Synthesis are due in our assigned final exam slot
-during **Dec 12–18**. *(Exact slot TBA.)*
+**End-of-semester sequence:**
+
+| | Date | |
+|---|---|---|
+| Final presentations | Thu **Dec 10** | in class |
+| **Growth Synthesis** | Mon **Dec 14** | 11:59 pm PT |
+| **Final report + repository** | Thu **Dec 17** | end of day — our final exam date |
+
+The Growth Synthesis is due **before** the report on purpose. If both were due
+the same day, the reflection would get written in the last hour and be worth
+nothing to you. Submitting it after your presentation and before your final push
+means writing it while the semester is genuinely in view.
 
 **University dates that affect you:**
 
@@ -187,7 +196,8 @@ during **Dec 12–18**. *(Exact slot TBA.)*
 | Mon **Sep 7** | **Labor Day** — campus closed |
 | Sun **Nov 1** | Late withdrawal deadline |
 | Thu **Nov 26** | **No class** — Thanksgiving |
-| Thu **Dec 10** | Last class meeting |
+| Thu **Dec 10** | Last class meeting — final presentations |
+| Thu **Dec 17** | Final exam date — final report due, end of day |
 
 Week-by-week topics and readings are on the [Course Schedule](schedule.md).
 Topics are listed by week rather than by day, so that class time can follow
@@ -304,13 +314,25 @@ Kepler data:
 **Single-spaced**, **2–3 pages of text** (not counting figures or references).
 Include at minimum: methods, results, and discussion.
 
+**Project 1 is the exception:** instead of a full research memo, submit a short
+**exploratory data analysis report (1–2 pages)** on the Gaia sample — what is in
+the data, what you had to clean, and what structure you found. It is scored in
+the same 20-point slot. The point is to start the writing habit in Week 2, while
+the stakes are low and the analysis is genuinely exploratory.
+
 (sec-pairs)=
 ### Project Pairs & Collaboration
 
-Projects are done in **pairs**, and **pairs rotate each project** so that over
-the semester you work with everyone in the class. Pair work is how computational
-science actually happens, and rotating partners means you see more than one way
-of approaching a problem.
+**Projects 1–6 are done in pairs**, and **pairs rotate each project** so that
+over the semester you work with everyone in the class. Pair work is how
+computational science actually happens, and rotating partners means you see more
+than one way of approaching a problem.
+
+**The final project is solo.** It is the capstone, it is where you demonstrate
+individual command of the whole toolkit, and the three options push people
+toward different datasets and questions anyway. You may still talk through
+design and debug with classmates — the collaboration rules below continue to
+apply — but the work and the submission are yours alone.
 
 :::{important} You are responsible for your own code
 Working in a pair does **not** mean submitting shared work. **Each student
@@ -387,9 +409,19 @@ visualizations, statistical testing, at least two numerical methods you
 implemented, a machine learning application, and comparison against library
 implementations.
 
-**Deliverables:** a reproducible end-to-end repository, a formal **research
-report** (5–7 pages: background and motivation, methods, results, conclusions),
-an **in-class presentation** (Dec 8 or Dec 10), and the **Growth Synthesis**.
+**This project is solo.** See [Project Pairs & Collaboration](#sec-pairs).
+
+**Deliverables and dates:**
+
+| Deliverable | Due |
+|---|---|
+| In-class presentation | Thu **Dec 10** |
+| Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
+| Research report (5–7 pages) + repository | Thu **Dec 17**, end of day |
+
+The report covers background and motivation, methods, results, and conclusions.
+Presentations are roughly **10 minutes including questions** — enough to explain
+what you built, show that it works, and say where it breaks.
 
 Final projects are graded on correctness, evaluation methodology,
 reproducibility, and scientific communication. You should expect to defend your
@@ -410,7 +442,7 @@ chore:
 |---|---|---|---|
 | 1 | Project 1 | Fri **Sep 4** | **Baseline** — how you approach problems now |
 | 2 | Project 4 | Mon **Oct 19** | **Course correction** — what has changed, what has not |
-| 3 | Final Project | *Finals slot* | **Synthesis** — the whole arc |
+| 3 | Final Project | Mon **Dec 14** | **Synthesis** — the whole arc |
 
 :::{tip} Why the first one matters
 It is tempting to treat the Week 2 memo as a formality. It is the opposite: it

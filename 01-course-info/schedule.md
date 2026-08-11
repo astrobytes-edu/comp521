@@ -5,7 +5,8 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Course Schedule
 
-Sixteen weeks: six two-week projects, then a four-week final project.
+Sixteen weeks: six two-week projects (in rotating pairs), then a four-week
+solo final project.
 Class meets **Tue/Thu 5:30–6:45 pm in LSN 134**.
 
 :::{important} How to read this page
@@ -34,9 +35,10 @@ written and will appear before their week.
 | Labor Day — campus closed | Mon **Sep 7** |
 | Late withdrawal deadline | Sun **Nov 1** |
 | No class — Thanksgiving | Thu **Nov 26** |
-| Final presentations | Tue **Dec 8**, Thu **Dec 10** |
+| Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
-| Final report + Synthesis due | Final exam slot, **Dec 12–18** *(TBA)* |
+| Growth Synthesis due | Mon **Dec 14** |
+| Final report due | Thu **Dec 17**, end of day |
 :::
 
 ## Block 1 · Project 1 — Scientific Programming & EDA
@@ -69,7 +71,8 @@ point, control flow, the five algorithmic patterns
 **Topics** — classes for scientific data, arrays vs. lists, vectorization;
 building a `ScientificData` class; exploratory analysis of the Gaia DR3 sample
 
-**Due** — **Project 1** + **Growth Memo 1** (baseline), Fri **Sep 4**
+**Due** — **Project 1** + short **EDA report** (1–2 pages) + **Growth Memo 1**
+(baseline), Fri **Sep 4**
 
 :::{note} Why Project 1 is due Friday
 Every other project is due Monday. Project 1 is the exception because Mon Sep 7
@@ -211,7 +214,7 @@ comparing against scikit-learn
 
 ## Block 7 · Final Project
 
-*Assigned Tue Nov 17 · Presentations Dec 8 & 10 · Report due in the finals slot*
+*Assigned Tue Nov 17 · Solo · Presentations Thu Dec 10 · Report due Thu Dec 17*
 
 ### Week 13 — Nov 17, 19 · Inference and project scoping
 
@@ -236,12 +239,20 @@ Working sessions with individual check-ins.
 
 Working sessions with individual check-ins. Bring results to show, not just code.
 
-### Week 16 — Dec 8, 10 · Presentations
+### Week 16 — Dec 8, 10 · Dress rehearsal and presentations
 
-**Due** — in-class presentation (Tue **Dec 8** or Thu **Dec 10**)
+**Tue Dec 8** — final working session. Bring your talk and run it past me and
+your classmates. This is the last chance to catch a figure nobody can read from
+the back of the room.
 
-**Due** — final report + **Growth Synthesis**, in our assigned final exam slot,
-**Dec 12–18** *(exact slot TBA)*
+**Thu Dec 10** — **final presentations**, ~10 minutes each including questions.
+
+**Then:**
+
+| Deliverable | Due |
+|---|---|
+| Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
+| Final report + repository | Thu **Dec 17**, end of day |
 
 :::{note} Final project options
 1. **Exoplanet discovery pipeline** — apply your full toolkit to unseen Kepler data

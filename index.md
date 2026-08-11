@@ -37,7 +37,7 @@ mixes instruction with hands-on work — bring your laptop.
 | 7–8 | Project 4 | Linear algebra & statistical methods | Mon Oct 19 |
 | 9–10 | Project 5 | ODEs & time series analysis | Mon Nov 2 |
 | 11–12 | Project 6 | Machine learning foundations | Mon Nov 16 |
-| 13–16 | Final | Complete data science pipeline | Finals slot |
+| 13–16 | Final | Complete data science pipeline | Thu Dec 17 |
 
 A **Project 0 bootcamp** (environment setup, Git, NumPy, Matplotlib) is due
 Mon **Aug 31**. Projects are due **Mondays at 11:59 pm PT**.
