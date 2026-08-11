@@ -140,7 +140,10 @@ These uses undermine learning and/or fairness:
 - AI-written first-draft solutions for **core solution code**,
 - AI choosing the algorithm/design and you implementing it without independent understanding,
 - **any AI refactoring/restructuring** that changes the shape of your solution (even if the output “looks nicer”),
-- using AI on **closed assessments** (quizzes/exams) unless explicitly permitted.
+- using AI during a **live explainability check** — when I ask you to walk
+  through your code, modify it on the spot, or defend a design choice (including
+  final-project presentation questions). These are oral, and they are the point
+  at which "can you explain it" stops being rhetorical.
 
 ### Examples: good vs. bad AI requests
 
@@ -324,8 +327,8 @@ If you’re uncertain about what’s allowed, or you’re stuck in a way that is
 
 ```{mermaid}
 flowchart TD
-  Start[I need help] --> Q0{Closed assessment?}
-  Q0 -->|Yes| Stop1[No AI unless explicitly permitted]
+  Start[I need help] --> Q0{Live explainability check\nor presentation Q&A?}
+  Q0 -->|Yes| Stop1[No AI. Answer from your own understanding]
   Q0 -->|No| Q1{Conceptual question?}
   Q1 -->|Yes| Green1[Use AI as a Socratic tutor\nAsk focused questions]
   Q1 -->|No| Q2{Coding/debugging?}

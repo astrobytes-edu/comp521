@@ -12,7 +12,7 @@ author: "Dr. Anna Rosen"
 | **Instructor** | Dr. Anna Rosen |
 | **Email** | <alrosen@sdsu.edu> |
 | **Office** | Physics 239 |
-| **Office Hours** | Thursdays 4:00–5:00 pm (and by appointment) |
+| **Office Hours** | Thursdays 4:00–5:00 pm, Physics 239 (and by appointment) |
 | **Class meetings** | Tue/Thu 5:30–6:45 pm |
 | **Location** | LSN 134 |
 | **Course website** | <https://astrobytes-edu.github.io/comp521> |
@@ -41,6 +41,37 @@ optimization.
 **Units:** 3
 **Prerequisites:** MATH 252; MATH 254 or 342A; or equivalent with instructor
 permission, or graduate standing.
+
+:::{note} Do I need to already know Python?
+**No.** The course begins with Python from the ground up — environment setup,
+syntax, control flow, data structures, and object-oriented programming — before
+any numerical methods appear. If you have programmed before, the first two weeks
+will be review and you should use them to get ahead.
+
+What you *do* need is the mathematics: calculus through MATH 252 and linear
+algebra. The algorithms in this course are applied calculus and linear algebra,
+and if those are shaky, the programming will not be your problem.
+:::
+
+### Course Materials & Technology
+
+**There is no textbook to buy.** All readings are on the
+[course website](https://astrobytes-edu.github.io/comp521) and are free.
+
+**You need a laptop you can bring to every class.** Class sessions interleave
+instruction with hands-on work, so a laptop is not optional equipment here. Any
+machine running macOS, Windows, or Linux that can install Python will do — this
+course is not computationally demanding, and nothing we do requires a GPU or a
+large amount of memory.
+
+Software (Python, `git`, and the scientific stack) is free, open-source, and
+installed in Week 1 — see [Getting Started](../02-getting-started/index.md).
+
+:::{important} If you do not have a suitable laptop
+Tell me in the first week. SDSU has device-lending resources, and this is a
+solvable problem — but only if I know about it. Do not quietly fall behind
+because of hardware.
+:::
 
 :::{note} Core Course Throughline
 > Build algorithms from scratch, then leverage libraries for real data.
@@ -224,12 +255,25 @@ actually understand. In an era where AI can generate plausible-looking code
 quickly, the bar has shifted: what matters is judgment — correctness,
 verification, and scientific reasoning — not typing speed.
 
-**Structure:** six two-week projects, then a four-week final project.
+**Structure:** a one-week bootcamp (Project 0), six two-week projects, then a
+four-week final project.
 
-Each project runs in two halves:
+Each two-week project runs in two halves:
 
 - **Week A** — theory, implementation, validation against known results
 - **Week B** — application to real data, comparison with library implementations
+
+(sec-project-zero)=
+#### Project 0 — Bootcamp (ungraded, required)
+
+Due **Mon Aug 31**. Project 0 exists to get every machine working and every
+student onto GitHub before real work starts: environment setup, `git` and
+GitHub Classroom workflow, a first NumPy array, a first Matplotlib figure.
+
+It is **graded on completion only** and does not count toward your project
+average — but it is required, and Project 1 assumes it is done. Environment
+problems are the single most common reason students fall behind in week 2, and
+this is how we prevent that.
 
 (sec-thread)=
 #### The thread running through the projects
