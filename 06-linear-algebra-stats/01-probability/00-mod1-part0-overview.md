@@ -57,9 +57,9 @@ The boundaries between astrophysics and machine learning are dissolving. Modern 
 
 ### 🎯 Choose Your Learning Path
 
-:::: {.columns}
+::::{grid} 1 1 2 3
 
-::: {.column}
+:::{grid-item}
 ### 🏃 **Fast Track** {.unnumbered}
 Essential concepts only
 
@@ -69,7 +69,7 @@ Essential concepts only
 - [Random Sampling](04-mod1-part4-sampling.qmd#random-sampling)
 :::
 
-::: {.column}
+:::{grid-item}
 ### 🚶 **Standard Path** {.unnumbered}
 Full conceptual understanding
 
@@ -82,7 +82,7 @@ Everything in Fast Track, plus:
 - All "What We Just Learned" boxes
 :::
 
-::: {.column}
+:::{grid-item}
 ### 🧗 **Complete Path** {.unnumbered}
 Deep dive with all details
 

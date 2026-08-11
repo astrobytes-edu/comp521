@@ -30,7 +30,8 @@ By the end of this section, you will be able to:
 
 ---
 
-## Why This Matters for Astronomy {#scale-appropriately}
+(scale-appropriately)=
+## Why This Matters for Astronomy
 
 Why this matters: astronomy forces us to compute across enormous ranges of scale, and floating-point arithmetic does not adapt its precision automatically to the physics we care about.
 
@@ -72,7 +73,8 @@ The takeaway is that scale is part of the numerical problem. The same subtractio
 
 ---
 
-## Finding Machine Epsilon {#machine-epsilon}
+(machine-epsilon)=
+## Finding Machine Epsilon
 
 Why this matters: machine epsilon is the local scale at which a floating-point number near $1$ stops changing when you perturb it.
 
@@ -210,11 +212,13 @@ Machine epsilon is a local spacing scale, not a universal error budget.
 
 ---
 
-## The Three Types of Error {#three-types}
+(three-types)=
+## The Three Types of Error
 
 Why this matters: students often treat all numerical error as one fuzzy category, but different errors come from different causes and require different fixes.
 
-### Representation Error: Round-off Error {#round-off-error}
+(round-off-error)=
+### Representation Error: Round-off Error
 
 Why this matters: if the computer cannot represent a number exactly, error is present before your algorithm even begins.
 
@@ -277,7 +281,8 @@ The takeaway is that different error sources call for different fixes. Better al
 
 ---
 
-## Catastrophic Cancellation {#catastrophic-cancellation}
+(catastrophic-cancellation)=
+## Catastrophic Cancellation
 
 Why this matters: catastrophic cancellation is the signature failure mode of subtracting nearly equal numbers in floating-point arithmetic.
 
@@ -376,7 +381,8 @@ print(f"Stable abs error: {good_error:.3E}")
 
 Interpretation: the stable formula is not "more correct" algebraically. It is more trustworthy numerically because it spends fewer significant digits before you reach the small signal you care about.
 
-### Stable Reformulation {#reformulation}
+(reformulation)=
+### Stable Reformulation
 
 Why this matters: when a numerical expression is fragile, the first fix is often algebraic rather than algorithmic.
 
@@ -399,7 +405,8 @@ Algebraic equivalence does not imply numerical equivalence. Catastrophic cancell
 
 ---
 
-## Measuring Errors: Absolute vs. Relative {#measuring-errors}
+(measuring-errors)=
+## Measuring Errors: Absolute vs. Relative
 
 Why this matters: the same numerical difference can be negligible in one context and catastrophic in another.
 
@@ -621,7 +628,8 @@ Relative error is powerful away from zero and often misleading near zero.
 
 ---
 
-## Tracking Accumulated Error {#propagation-error}
+(propagation-error)=
+## Tracking Accumulated Error
 
 Why this matters: long-running simulations care not just about per-step error, but about what happens to those errors after thousands, millions, or billions of updates.
 

@@ -10,7 +10,6 @@ exports:
 ### 📚 Choose Your Learning Path
 
 ::::{grid} 1 1 3 3
-:gutter: 3
 
 :::{grid-item-card} 🏃 **Fast Track**
 Starting Project 4? Read sections marked 🔴
@@ -151,7 +150,8 @@ Can skip initially, but must understand before Project 4.
 **Positive definite matrices** are where linear algebra meets statistics and optimization. We'll see why these special matrices guarantee that energies are positive, distances make sense, and probability distributions are valid. This section bridges deterministic physics with statistical methods, preparing you for MCMC and Gaussian Processes.
 :::
 
-### 1.1 Quadratic Forms and Energy {#part-5-positive-definite}
+(part-5-positive-definite)=
+### 1.1 Quadratic Forms and Energy
 
 ```{margin}
 **quadratic form**
@@ -173,7 +173,8 @@ These appear as energy expressions throughout physics:
 $$T = \frac{1}{2}\vec{\omega}^T I \vec{\omega}$$
 where $\vec{\omega}$ is angular velocity and $I$ is the moment of inertia tensor. This quadratic form is always positive (energy can't be negative), making $I$ positive definite. The eigenvectors of $I$ are the principal axes - spin around these and the object doesn't wobble!
 
-### 1.2 Positive Definiteness: Ensuring Physical Reality {#positive-definiteness}
+(positive-definiteness)=
+### 1.2 Positive Definiteness: Ensuring Physical Reality
 
 ```{margin}
 **positive definite**
@@ -299,7 +300,8 @@ A positive definite matrix creates a bowl-shaped quadratic form. Imagine the fun
 This is why positive definite matrices guarantee unique solutions in optimization—there's only one bottom of the bowl!
 :::
 
-### 1.3 Covariance Matrices: The Bridge to Statistics {#covariance-matrices}
+(covariance-matrices)=
+### 1.3 Covariance Matrices: The Bridge to Statistics
 
 **Priority: 🟡 Important** - Foundation for Projects 4-5
 
@@ -417,7 +419,8 @@ In Project 4 (MCMC), you'll sample from multivariate Gaussians with covariance $
 In Project 5 (GPs), the kernel matrix IS a covariance matrix – it encodes how correlated function values are at different points.
 :::
 
-### 1.4 The Multivariate Gaussian Distribution {#multivariate-gaussian}
+(multivariate-gaussian)=
+### 1.4 The Multivariate Gaussian Distribution
 
 **Priority: 🟡 Important** - Core of Projects 4-5
 
@@ -619,7 +622,8 @@ The **multivariate Gaussian** shows how mean vectors and **covariance matrices**
 These advanced topics appear in later projects or when optimizing code. Read as needed rather than all at once. Revisit these sections after completing related projects — they'll make more sense with practical experience.
 :::
 
-### 2.1 Singular Value Decomposition - The Swiss Army Knife {#svd-swiss-army}
+(svd-swiss-army)=
+### 2.1 Singular Value Decomposition - The Swiss Army Knife
 
 ```{margin}
 **SVD**
@@ -806,7 +810,8 @@ When you add a new observation to a Gaussian Process:
 - New point variance = block $D$
 - Prediction uses the Schur complement to efficiently update without re-inverting everything!
 
-### 2.3 The Jacobian Matrix: Local Linear Approximation {#jacobian-matrix}
+(jacobian-matrix)=
+### 2.3 The Jacobian Matrix: Local Linear Approximation
 
 ```{margin}
 **Jacobian**
@@ -845,7 +850,8 @@ Example: For a star orbiting at Lagrange point L4:
 - Large imaginary parts → oscillates if perturbed
 - This is why Trojan asteroids librate around L4/L5!
 
-### 2.4 Matrix Exponentials: Solving Linear Evolution {#matrix-exponentials}
+(matrix-exponentials)=
+### 2.4 Matrix Exponentials: Solving Linear Evolution
 
 ```{margin}
 **matrix exponential**
@@ -1134,7 +1140,8 @@ Read this section early and refer back when debugging.
 Pure mathematics assumes infinite precision, but computers work with finite bits. This section reveals the harsh realities of floating-point arithmetic and teaches you to recognize and fix numerical disasters before they ruin your simulations. These aren't edge cases—you WILL encounter these issues in your projects.
 :::
 
-### 7.1 Condition Numbers Revisited: Statistical Context {#condition-numbers}
+(condition-numbers)=
+### 7.1 Condition Numbers Revisited: Statistical Context
 
 Building on Module 0a's introduction to condition numbers, let's explore their specific implications for statistical computations:
 
@@ -1455,7 +1462,8 @@ Linear algebra provides the mathematical continuity across your entire journey. 
 
 This isn't coincidence—it's the deep unity of mathematics. The same linear algebra that predicts planetary orbits also powers Google's search algorithm and ChatGPT's language understanding.
 
-### 8.2 Matrix Calculus for Neural Networks {#matrix-calculus-nn}
+(matrix-calculus-nn)=
+### 8.2 Matrix Calculus for Neural Networks
 
 **Priority: 🟡 Important for Final Project**
 

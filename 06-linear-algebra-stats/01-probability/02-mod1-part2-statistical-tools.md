@@ -30,7 +30,8 @@ By the end of Part 2, you will be able to:
 - Section 2.7: prior sensitivity and posterior updates
 :::
 
-## 2.1 Correlation and Independence: When Variables Connect {#correlation}
+(correlation)=
+## 2.1 Correlation and Independence: When Variables Connect
 
 :::{margin}
 **Independence**: Two events are independent if $P(A \text{ and } B) = P(A) \times P(B)$. Knowledge of one does not affect the probability of the other. For continuous variables: the joint PDF factors into the product of marginal PDFs.
@@ -201,7 +202,8 @@ Correlation is memory — it tells us which stars share a common history.
 
 **The key insight**: Independence makes problems tractable (can multiply probabilities). Correlation makes problems realistic (real systems have relationships). Understanding when to assume independence and when to model correlation is crucial for both physics and ML.
 
-## 2.2 Marginalization: The Art of Ignoring {#marginalization}
+(marginalization)=
+## 2.2 Marginalization: The Art of Ignoring
 
 **Priority: 🔴 Essential**
 
@@ -355,7 +357,8 @@ This is how we go from $10^{57}$ particle coordinates to 4 stellar structure equ
 - Observations rarely give the full state; inference depends on careful marginalization.
 
 
-## 2.3 Ergodicity: When Time Equals Ensemble {#ergodicity}
+(ergodicity)=
+## 2.3 Ergodicity: When Time Equals Ensemble
 
 **Priority: 🔴 Essential**
 
@@ -705,7 +708,8 @@ At stellar scales, fluctuations are smaller than quantum uncertainty!
 
 This $\sqrt{N}$ scaling has profound implications for how errors propagate through calculations, which we'll explore next.
 
-## 2.5 Error Propagation: The Universal $\sqrt{N}$ Scaling {#error-propagation}
+(error-propagation)=
+## 2.5 Error Propagation: The Universal $\sqrt{N}$ Scaling
 
 **Priority: 🟡 Standard Path**
 

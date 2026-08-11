@@ -44,9 +44,9 @@ Modern astrophysics runs on temporal evolution:
 
 ### 🎯 Choose Your Learning Path
 
-:::: {.columns}
+::::{grid} 1 1 2 3
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🏃 Fast Track {.unnumbered}
 Essential concepts only
 
@@ -56,7 +56,7 @@ Essential concepts only
 - [Stability regions](04-module3-part4-stability.qmd#stability-regions)
 :::
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🚶 Standard Path {.unnumbered}
 Full conceptual understanding
 
@@ -69,7 +69,7 @@ Everything in Fast Track, plus:
 - All "Check Your Understanding" boxes
 :::
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🧗 Complete Path {.unnumbered}
 Deep dive with all details
 

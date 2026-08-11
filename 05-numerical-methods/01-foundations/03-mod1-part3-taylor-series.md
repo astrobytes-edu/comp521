@@ -537,7 +537,8 @@ For neural networks or large inverse problems, finite differences for millions o
 
 The takeaway is that scaling with parameter count is a scientific design constraint, not just an implementation nuisance.
 
-## Automatic Differentiation {#automatic-differentiation}
+(automatic-differentiation)=
+## Automatic Differentiation
 
 Why this matters: automatic differentiation is one of the core modern tools for optimization, inverse problems, and machine learning.
 

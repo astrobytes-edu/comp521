@@ -150,7 +150,8 @@ Pressure is mass density times velocity variance!
 - Pressure = density $\times$ variance
 - Not analogies – mathematical identities!
 
-## 3.4 Moments in Machine Learning {#moments-ml}
+(moments-ml)=
+## 3.4 Moments in Machine Learning
 
 **Priority: 🔴 Essential**
 

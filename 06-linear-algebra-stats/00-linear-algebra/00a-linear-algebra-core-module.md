@@ -10,7 +10,6 @@ exports:
 ### 📚 Choose Your Learning Path
 
 ::::{grid} 1 1 3 3
-:gutter: 3
 
 :::{grid-item-card} 🏃 **Fast Track**
 Just starting the course? Read only sections marked with 🔴
@@ -370,7 +369,8 @@ Phase space transforms complexity into geometry. Instead of tracking millions of
 We begin with scalars – quantities with only magnitude – then advance to vectors that encode both magnitude and direction. We'll explore vectors' three complementary interpretations (physical, geometric, algebraic) and the operations that let us combine and manipulate them. By the end of this section, you'll see vectors not as lists of numbers but as the natural way to encode any quantity requiring directional information.
 :::
 
-### 2.1 From Scalars to Vectors: Building Deep Understanding {#part-2-vectors}
+(part-2-vectors)=
+### 2.1 From Scalars to Vectors: Building Deep Understanding
 
 ```{margin}
 **scalar**
@@ -1223,7 +1223,8 @@ Before this section, ensure you can:
 Review Section 3 if needed.
 :::
 
-### 4.1 The Eigenvalue Equation: Directions That Don't Rotate {#part-4-eigenvalues}
+(part-4-eigenvalues)=
+### 4.1 The Eigenvalue Equation: Directions That Don't Rotate
 
 ```{margin}
 **eigenvector**
@@ -1676,7 +1677,8 @@ These aren't edge cases you might encounter — these are daily realities in com
 
 ---
 
-## Essential SciPy Linear Algebra Reference {#essential-scipy-reference}
+(essential-scipy-reference)=
+## Essential SciPy Linear Algebra Reference
 
 **Priority: 🔴 Essential** - Keep this open while coding
 

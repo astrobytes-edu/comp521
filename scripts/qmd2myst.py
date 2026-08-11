@@ -44,6 +44,12 @@ DIV_MAP = {
 FLAG_CLASSES = {"columns", "column", "grid", "panel-tabset", "card", "card-header",
                 "card-body", "g-col-12", "g-col-md-4"}
 
+# Pandoc/Quarto heading anchors: `## Some Heading {#some-id}`.
+# MyST does not read these; it needs a `(some-id)=` target line *before* the
+# heading. Without the rewrite, every in-page link to that anchor silently
+# dead-ends.
+HEADING_ID_RE = re.compile(r"^(#{1,6}\s+.*?)\s*\{#([A-Za-z0-9_-]+)\}\s*$")
+
 CALLOUT_RE = re.compile(r"^(:{3,})\s*\{\.callout-([a-z]+)([^}]*)\}\s*$")
 DIV_RE = re.compile(r"^(:{3,})\s*\{\.([a-zA-Z0-9_-]+)([^}]*)\}\s*$")
 TITLE_ATTR_RE = re.compile(r'title\s*=\s*"([^"]*)"')
@@ -60,6 +66,8 @@ class Report:
     static_cells: int = 0
     hidden_input: int = 0
     margins: int = 0
+    anchors: int = 0
+    grids: int = 0
     flagged: list[str] = field(default_factory=list)
 
 
@@ -208,6 +216,16 @@ def convert(text: str, rpt: Report, relpath: str) -> str:
             pending_hoist = False
             continue
 
+        # --- heading anchors: `## X {#id}` -> `(id)=` + `## X` --------------
+        him = HEADING_ID_RE.match(line)
+        if him:
+            out.append(f"({him.group(2)})=")
+            out.append(him.group(1))
+            rpt.anchors += 1
+            i += 1
+            pending_hoist = False
+            continue
+
         # --- plain fenced code: strip vestigial Quarto `#|` options --------
         # Quarto ignores cell options inside a non-executable fence, so these
         # are already inert; carrying them into MyST would render them as
@@ -263,6 +281,21 @@ def convert(text: str, rpt: Report, relpath: str) -> str:
                 rpt.margins += 1
                 i += 1
                 continue
+            # Quarto's columns/column layout -> MyST grid/grid-item. Source
+            # fence lengths already nest correctly (:::: outer, ::: inner), so
+            # they carry over unchanged. `width="33%"` is dropped: MyST sizes
+            # grid items by the parent's column spec, not per-item widths.
+            if cls == "columns":
+                out.append(f"{fence}{{grid}} 1 1 2 3")
+                rpt.grids += 1
+                i += 1
+                continue
+            if cls == "column":
+                out.append(f"{fence}{{grid-item}}")
+                rpt.grids += 1
+                i += 1
+                continue
+
             if cls in FLAG_CLASSES:
                 rpt.flagged.append(f"{relpath}:{i+1}: layout div .{cls} left as-is -> manual")
                 out.append(line)
@@ -307,6 +340,8 @@ def main() -> int:
         f"static cells      : {rpt.static_cells}",
         f"hidden-input cells: {rpt.hidden_input}",
         f"margin divs       : {rpt.margins}",
+        f"heading anchors   : {rpt.anchors}",
+        f"grid conversions  : {rpt.grids}",
         f"flagged for review: {len(rpt.flagged)}",
     ]
     print("\n".join(summary))

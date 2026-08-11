@@ -29,7 +29,8 @@ By the end of Part 1, you will be able to:
 - "Try This" computational boxes in Sections 1.3 and 1.4
 :::
 
-## 1.1 Temperature is a Lie (For Single Particles) {#temperature-lie}
+(temperature-lie)=
+## 1.1 Temperature is a Lie (For Single Particles)
 
 :::{margin}
 **Parameter**  
@@ -188,7 +189,8 @@ Temperature democratically distributes energy — every quadratic degree of free
 **Temperature is a statistical parameter, not a particle property.** It characterizes the width (variance) of the velocity distribution. This teaches us that macroscopic properties emerge from distributions, not individuals — a principle that applies from thermodynamics to machine learning.
 :::
 
-## 1.2 Pressure Emerges from Chaos {#pressure-emerges}
+(pressure-emerges)=
+## 1.2 Pressure Emerges from Chaos
 
 :::{margin}
 **Ensemble average**  
@@ -260,7 +262,8 @@ This principle — individual randomness + large numbers = predictable averages 
 **Pressure emerges from ensemble averaging of chaotic molecular collisions.** Individual randomness creates collective predictability through the magic of large numbers. This isn't approximation — at $N \sim 10^{23}$, the "average" is more stable than any measurement could ever detect.
 :::
 
-## 1.3 The Central Limit Theorem: Why Everything is Gaussian {#central-limit}
+(central-limit)=
+## 1.3 The Central Limit Theorem: Why Everything is Gaussian
 
 **Priority: 🔴 Essential**
 
@@ -455,7 +458,8 @@ Before proceeding, ensure you understand:
 If any of these feel unclear, revisit the relevant section before continuing.
 :::
 
-## 1.4 The Maximum Entropy Principle {#maximum-entropy}
+(maximum-entropy)=
+## 1.4 The Maximum Entropy Principle
 
 **Priority: 🔴 Essential**
 

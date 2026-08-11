@@ -44,9 +44,9 @@ Modern astronomy runs on finding equilibria and computing integrals:
 
 ### 🎯 Choose Your Learning Path
 
-:::: {.columns}
+::::{grid} 1 1 2 3
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🏃 Fast Track {.unnumbered}
 Essential concepts only
 
@@ -56,7 +56,7 @@ Essential concepts only
 - [Monte Carlo essentials](02-mod2-part2-quadrature.qmd#method-5-monte-carlo)
 :::
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🚶 Standard Path {.unnumbered}
 Full conceptual understanding
 
@@ -69,7 +69,7 @@ Everything in Fast Track, plus:
 - All "Check Your Understanding" boxes
 :::
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🧗 Complete Path {.unnumbered}
 Deep dive with all details
 

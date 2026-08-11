@@ -20,7 +20,8 @@ By the end of this section, you will be able to:
 
 ---
 
-## Introduction: Why Numerical Derivatives Matter {#introduction-why-numerical-derivatives-matter}
+(introduction-why-numerical-derivatives-matter)=
+## Introduction: Why Numerical Derivatives Matter
 
 Why this matters: numerical derivatives are not a side topic in computational astrophysics. They sit inside orbit integration, stellar structure, radiative transfer, optimization, and data analysis.
 
@@ -66,7 +67,8 @@ Whenever a physical example appears, ask two questions immediately: what does th
 
 ---
 
-## The Core Problem {#the-core-problem}
+(the-core-problem)=
+## The Core Problem
 
 Why this matters: if you do not understand the core derivative paradox, every later conversation about truncation error, round-off error, and algorithm design will feel like disconnected rules.
 
@@ -153,7 +155,8 @@ If your derivative estimate suddenly becomes $0$, `nan`, or wildly noisy when yo
 
 ---
 
-## Intuition: Why Taylor Series? {#finite-difference-landscape}
+(finite-difference-landscape)=
+## Intuition: Why Taylor Series?
 
 Why this matters: Taylor series gives us a controlled way to connect a continuous function to nearby discrete samples. It is the mathematical bridge between calculus and computation.
 
@@ -188,7 +191,8 @@ That mindset scales from first derivatives to custom stencils for PDEs.
 
 ---
 
-## Forward Difference {#forward-difference}
+(forward-difference)=
+## Forward Difference
 
 Why this matters: forward difference is the simplest derivative approximation, and it appears naturally whenever we only know values at the current point and points ahead.
 
@@ -244,7 +248,8 @@ Forward difference is simple, but its one-sided bias leaves a first-order error.
 
 ---
 
-## Backward Difference {#backward-difference}
+(backward-difference)=
+## Backward Difference
 
 Why this matters: backward difference becomes the natural choice near right-hand boundaries, or whenever "past" values are available but "future" values are not.
 
@@ -296,7 +301,8 @@ Backward difference has the same order as forward difference; only the direction
 
 ---
 
-## Central Difference {#central-difference}
+(central-difference)=
+## Central Difference
 
 Why this matters: central difference is the default first derivative in many scientific codes because symmetry cancels the largest truncation term.
 
@@ -410,7 +416,8 @@ If the function is noisy, non-smooth, or expensive to evaluate, higher order is 
 
 ---
 
-## The Fundamental Trade-off / Optimal $h$ {#optimal-h}
+(optimal-h)=
+## The Fundamental Trade-off / Optimal $h$
 
 Why this matters: the best step size is not "the smallest one you can think of." It is the one that balances two different error mechanisms.
 
@@ -675,7 +682,8 @@ Interpretation: the right side of the plot is the truncation regime, where metho
 
 ---
 
-## Practical Algorithm for Choosing $h$ {#practical-algorithm}
+(practical-algorithm)=
+## Practical Algorithm for Choosing $h$
 
 Why this matters: in real code, you rarely know $f''(x)$ or $f'''(x)$ ahead of time, so you need a practical scale-aware heuristic instead of the exact symbolic optimum.
 

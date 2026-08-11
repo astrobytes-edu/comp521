@@ -364,7 +364,8 @@ The Patriot radar system looked in the wrong section of sky and never detected t
 [Source: [GAO Report IMTEC-92-26](https://www.gao.gov/products/imtec-92-26)]
 :::
 
-### Safe Floating-Point Comparisons {#sec-isclose}
+(sec-isclose)=
+### Safe Floating-Point Comparisons
 
 Never use `==` with floating-point numbers! Here's how to compare them safely:
 
@@ -500,7 +501,8 @@ if verify_distance(d_pc, known_distance):
 
 ---
 
-## 2.3 Numerical Hazards in Scientific Computing {#sec-hazards}
+(sec-hazards)=
+## 2.3 Numerical Hazards in Scientific Computing
 
 You've mastered how Python stores numbers — now let's see these concepts in action with real scientific calculations! This is where things get exciting: you're about to learn the techniques that enable precision in spacecraft navigation, sensitive instruments, and scientific simulations.
 

@@ -62,9 +62,9 @@ By completing this module, you will be able to:
 
 ### 🎯 Choose Your Learning Path
 
-:::: {.columns}
+::::{grid} 1 1 2 3
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🏃 Fast Track {.unnumbered}
 Essential concepts only
 
@@ -74,7 +74,7 @@ Essential concepts only
 - [Error types](02-mod1-part2-numerical-errors.qmd#three-types)
 :::
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🚶 Standard Path {.unnumbered}
 Full conceptual understanding
 
@@ -86,7 +86,7 @@ Everything in Fast Track, plus:
 - [Taylor series applications](03-mod1-part3-taylor-series.qmd)
 :::
 
-::: {.column width="33%"}
+:::{grid-item}
 ### 🧗 Complete Path {.unnumbered}
 Deep dive with all details
 
