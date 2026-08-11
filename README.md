@@ -55,6 +55,22 @@ an upstream fix in `comp536-sp26`:
 python3 scripts/qmd2myst.py ../comp536-sp26/03-scientific-computing-with-python/01-python-fundamentals 03-python
 ```
 
+### Local overrides — re-syncing will clobber these
+
+Some converted files carry hand edits that do **not** exist upstream. Re-running
+the converter over their directories will overwrite them. Re-apply after any
+re-sync:
+
+| File | Local edit |
+|:--|:--|
+| `02-getting-started/index.md` | GitHub Classroom retirement banner; generic Classroom references repointed to Classroom50 |
+| `02-getting-started/03-git-intro.md` | Retirement banner above the assignment-workflow section; help link repointed to the Classroom50 wiki; generic "submit via GitHub Classroom" references repointed to Classroom50 |
+
+GitHub retired Classroom on **28 August 2026**, so the migrated Classroom
+instructions are factually wrong rather than merely stale. They are flagged
+in place rather than deleted, because the surrounding `git` material is still
+correct and worth keeping.
+
 ## Still to be written
 
 These readings do not exist in any source repo and must be authored:

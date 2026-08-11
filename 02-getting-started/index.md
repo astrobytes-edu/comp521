@@ -5,6 +5,18 @@ author: "Anna Rosen"
 ---
 
 
+:::{warning} This section is being revised
+GitHub Classroom was retired by GitHub on **28 August 2026**. This course uses
+[Classroom50](https://github.com/foundation50/classroom50/wiki) instead, and the
+assignment workflow described below will be updated before you need it. The
+`git` and GitHub concepts here — commits, branches, remotes, push/pull — are
+unchanged and still exactly what you need to learn.
+
+Follow the workflow demonstrated in class over the steps written here.
+:::
+
+
+
 **Your Foundation for Computational Science**
 
 Before we model complex systems, we need to set up our computational laboratory. This module establishes the professional development environment and essential skills you'll use throughout COMP 536 and your research career.
@@ -50,7 +62,7 @@ Install Python with Miniforge, configure VS Code, and create your isolated cours
 **Git & GitHub**
 :::
 ::: {.card-body}
-Version control fundamentals, GitHub Classroom workflow, and collaboration best practices
+Version control fundamentals, the Classroom50 submission workflow, and collaboration best practices
 
 [Start Guide $\to$](03-git-intro.qmd){.btn .btn-primary .btn-sm}
 :::
@@ -96,7 +108,7 @@ After completing this module in order, you will:
 - **Navigate** the terminal with confidence using pwd, ls, cd, and Tab completion.
 - **Have** a fully configured Python environment isolated from system Python.
 - **Understand** conda environments and why they prevent dependency conflicts.
-- **Use** Git for every assignment submission via GitHub Classroom.
+- **Use** Git for every assignment submission via Classroom50.
 - **Debug** common issues independently using error messages.
 - **Appreciate** why every computational scientist relies on these tools daily.
 :::
@@ -156,11 +168,11 @@ Complete these milestones in order:
 - [ ] GitHub account with Student Developer Pack
 - [ ] Personal Access Token configured
 - [ ] Can clone, commit, and push
-- [ ] Understand GitHub Classroom workflow
+- [ ] Understand the Classroom50 workflow
 
 **Ready for Project 1**
 
-- [ ] Clone assignment from GitHub Classroom
+- [ ] Clone assignment from Classroom50
 - [ ] Make commits with meaningful messages
 - [ ] Push changes to submit work
 :::
@@ -232,7 +244,7 @@ After completing this module, you'll begin the [*Python Fundamentals*](../03-sci
 
 - Write your first object-oriented simulation
 - Use the terminal skills daily for running scripts
-- Submit all work via Git and GitHub Classroom
+- Submit all work via Git and Classroom50
 - Build on this foundation for the rest of your career
 
 ---

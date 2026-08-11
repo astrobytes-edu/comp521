@@ -95,10 +95,13 @@ tally.
 
 ## Submission
 
-Submission is via **GitHub Classroom**; your last commit before the deadline
-counts. Projects are due **Mondays at 11:59 PM PT** (Project 1 excepted — see
-the [Schedule](schedule.md)).
+Submission is via GitHub, using
+[Classroom50](https://github.com/foundation50/classroom50/wiki). Projects are due
+**Mondays at 11:59 PM PT** (Project 1 excepted — see the
+[Schedule](schedule.md)).
 
-GitHub Classroom collects automatically at the deadline. This means there is no
-ambiguity about what was submitted and when — and also that "I forgot to push"
-is not recoverable. Push early and often.
+**Your last commit before the deadline is your submission.** Commit timestamps
+are unambiguous, which cuts both ways: there is never a dispute about what you
+turned in and when, and "I finished it but forgot to push" is not recoverable.
+Push early and often — a pushed work-in-progress always beats a perfect
+uncommitted local copy.

@@ -16,7 +16,7 @@ author: "Dr. Anna Rosen"
 | **Class meetings** | Tue/Thu 5:30–6:45 pm |
 | **Location** | LSN 134 |
 | **Course website** | <https://astrobytes-edu.github.io/comp521> |
-| **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[GitHub Classroom](https://classroom.github.com) *(project submissions)* |
+| **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[Classroom50](https://github.com/foundation50/classroom50/wiki) *(project submissions)* |
 
 :::{note} Start Here
 - **Where to find things:** Canvas + the course website (links above).
@@ -222,9 +222,10 @@ adjust borderline grades upward based on effort, improvement, and engagement.
 
 - **One free extension per semester:** request at least **24 hours** before the
   deadline to receive a **2-day grace period** with no penalty.
-- **GitHub Classroom deadlines are enforced:** the project repo **closes at the
-  deadline**. If you use your one free extension, I will **extend/reopen** the
-  GitHub Classroom deadline **one time**.
+- **Your last commit before the deadline is your submission.** Commit
+  timestamps are the record — not when you meant to push, and not what is
+  sitting unpushed on your laptop. Push early and often.
+- If you use your free extension, I will extend your deadline **one time**.
 - **No late submissions beyond the free extension:** if you miss the deadline
   without having arranged your free extension in advance, the submission is
   **not accepted** (unless there is a documented emergency).
@@ -268,7 +269,7 @@ Each two-week project runs in two halves:
 
 Due **Mon Aug 31**. Project 0 exists to get every machine working and every
 student onto GitHub before real work starts: environment setup, `git` and
-GitHub Classroom workflow, a first NumPy array, a first Matplotlib figure.
+the submission workflow, a first NumPy array, a first Matplotlib figure.
 
 It is **graded on completion only** and does not count toward your project
 average — but it is required, and Project 1 assumes it is done. Environment
@@ -514,6 +515,31 @@ Office hours are for learning — bring what you have tried (notes, attempts,
 questions) and we will work from there. I will often guide you by asking
 questions so you build your own problem-solving skills. You are welcome to come
 even if you are not sure what to ask, or have non-course-related questions.
+
+(sec-study-tools)=
+### Study Tools (Build Your Own)
+
+I am **not** providing a course AI notebook. Instead, I will show you how to
+build your own — because assembling one is itself a study technique, and because
+a tool you built from materials you selected is one whose limits you understand.
+
+**NotebookLM** (or a similar grounded tool) lets you upload the course readings
+and ask questions answered *from those sources* rather than from the open
+internet. That grounding matters: a general chatbot will confidently invent a
+convergence rate, whereas a notebook restricted to your readings will tell you
+what the readings actually say. I will demo the setup in class.
+
+:::{note} This does not conflict with the materials policy
+Building a **private** notebook from course readings for your own studying is
+exactly the personal educational use the [Course Materials](#sec-materials)
+policy permits. What that policy prohibits is publishing or redistributing the
+materials — so keep your notebook private and do not share it outside the class.
+:::
+
+Study tools remain subject to the
+[AI Use & Growth Mindset Policy](ai-policy.md): a notebook is an AI tool, and
+using it to generate solution code is prohibited in every phase, the same as any
+other.
 
 (sec-growth-mindset)=
 ## Fostering a Growth Mindset

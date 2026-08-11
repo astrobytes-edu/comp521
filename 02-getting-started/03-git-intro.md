@@ -20,7 +20,7 @@ Git prevents these disasters. It's your safety net, collaboration tool, and scie
 After this guide, you'll be able to:
 
 - Never lose code again (even if your laptop explodes)
-- Submit assignments via GitHub Classroom
+- Submit assignments via Classroom50
 - Collaborate without fear of overwriting others' work
 - Track exactly what changed and when
 - Recover from mistakes quickly
@@ -209,6 +209,16 @@ Git isn't just "submission plumbing" — it's part of your modeling workflow. In
 - **Use `git status` constantly.** If you're unsure what's happening, run `git status` before doing anything else.
 
 **Rule of thumb:** if it would hurt to lose the last 30 minutes of work, you should probably commit + push.
+
+:::{warning} This section is being revised
+GitHub Classroom was retired by GitHub on **28 August 2026**. This course uses
+[Classroom50](https://github.com/foundation50/classroom50/wiki) instead, and the
+assignment workflow described below will be updated before you need it. The
+`git` and GitHub concepts here — commits, branches, remotes, push/pull — are
+unchanged and still exactly what you need to learn.
+
+Follow the workflow demonstrated in class over the steps written here.
+:::
 
 ## GitHub Classroom: Assignment Workflow
 
@@ -540,7 +550,7 @@ git push
 
 You're ready for this course when you can:
 
-- [ ] Clone a repository from GitHub Classroom
+- [ ] Clone a repository from Classroom50
 - [ ] Make changes and commit them with clear messages
 - [ ] Push changes to GitHub
 - [ ] Check status and diff before committing
@@ -629,14 +639,14 @@ git config --global alias.br branch
 - **GitHub's Tutorial**: <https://try.github.io>
 - **Visual Git Guide**: <https://marklodato.github.io/visual-git-guide/>
 - **Oh Shit, Git!?!**: <https://ohshitgit.com> (recovery from mistakes)
-- **GitHub Classroom Guide**: <https://classroom.github.com/help>
+- **Classroom50 Wiki**: <https://github.com/foundation50/classroom50/wiki>
 
 ## Next Steps
 
 1. Git is configured
 2. GitHub account ready
 3. Can clone, commit, and push
-4. $\to$ Accept your first assignment on GitHub Classroom!
+4. $\to$ Accept your first assignment on Classroom50!
 
 ---
 
