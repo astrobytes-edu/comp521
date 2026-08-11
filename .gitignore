@@ -1,0 +1,22 @@
+# MyST build output
+_build/
+.myst/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.jupyter_cache/
+
+# Tooling caches
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# OS
+.DS_Store
+
+# Data caches (large downloads; students fetch their own)
+data/cache/
+*.fits

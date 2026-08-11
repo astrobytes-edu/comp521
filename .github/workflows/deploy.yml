@@ -1,0 +1,64 @@
+name: Deploy course site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow one concurrent deployment; a newer push supersedes an in-flight one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  # MyST needs this to emit correct asset paths under a project subpath.
+  BASE_URL: /comp521
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install MyST
+        run: npm install -g mystmd
+
+      # The readings contain ~203 executable cells; the site is only correct
+      # if they actually run, so the Python env is a build dependency.
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python environment
+        run: uv sync --no-dev
+
+      - name: Build site
+        run: |
+          source .venv/bin/activate
+          myst build --html --execute
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_build/html
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

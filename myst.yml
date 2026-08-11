@@ -1,0 +1,117 @@
+version: 1
+
+project:
+  id: comp521-fa26
+  title: "COMP 521: Introduction to Scientific Computing and Data Science"
+  short_title: COMP 521
+  description: >-
+    Computational methods for scientific problem-solving and data analysis in
+    Python. Implement numerical integrators, root-finders, optimizers, and
+    samplers from first principles, then apply them to real astronomical data.
+  authors:
+    - name: Anna Rosen
+      email: alrosen@sdsu.edu
+      affiliations:
+        - San Diego State University
+  github: https://github.com/astrobytes-edu/comp521
+  license:
+    content: CC-BY-4.0
+    code: MIT
+
+  # 203 executable cells across the Python readings need a live kernel.
+  jupyter: true
+
+  numbering:
+    heading_2: false
+    figure: true
+    equation: true
+
+  toc:
+    - file: index.md
+
+    - title: Course Information
+      children:
+        - file: 01-course-info/syllabus.md
+        - file: 01-course-info/schedule.md
+        - file: 01-course-info/ai-policy.md
+        - file: 01-course-info/grading.md
+
+    - title: Getting Started
+      children:
+        - file: 02-getting-started/index.md
+        - file: 02-getting-started/01-cli-intro.md
+        - file: 02-getting-started/02-software-setup.md
+        - file: 02-getting-started/03-git-intro.md
+        - file: 02-getting-started/04-software-engineering-guide.md
+        - file: 02-getting-started/05-scientific-software-workflow-cheatsheet.md
+
+    - title: Python Fundamentals
+      children:
+        - file: 03-python/index.md
+        - file: 03-python/01-python-environment.md
+        - file: 03-python/02-python-calculator.md
+        - file: 03-python/03-python-control-flow.md
+        - file: 03-python/04-python-data-structures.md
+        - file: 03-python/05-python-functions-modules.md
+        - file: 03-python/06-oop-fundamentals.md
+        - file: 03-python/synthesis.md
+
+    - title: Scientific Computing Core
+      children:
+        - file: 04-scientific-computing/index.md
+        - file: 04-scientific-computing/07-numpy-fundamentals.md
+        - file: 04-scientific-computing/08-matplotlib-fundamentals.md
+        - file: 04-scientific-computing/09-robust-computing.md
+        - file: 04-scientific-computing/10-advanced-oop.md
+        - file: 04-scientific-computing/11-pandas-fundamentals.md
+
+    - title: Numerical Methods
+      children:
+        - title: Foundations of Discrete Computing
+          children:
+            - file: 05-numerical-methods/01-foundations/00-mod1-overview.md
+            - file: 05-numerical-methods/01-foundations/01-mod1-part1-finite-differences.md
+            - file: 05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md
+            - file: 05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md
+            - file: 05-numerical-methods/01-foundations/04-mod1-synthesis.md
+        - title: Root Finding and Quadrature
+          children:
+            - file: 05-numerical-methods/02-roots-quadrature/00-mod2-overview.md
+            - file: 05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md
+            - file: 05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md
+            - file: 05-numerical-methods/02-roots-quadrature/03-mod2-synthesis.md
+        - title: ODE Methods and Conservation
+          children:
+            - file: 05-numerical-methods/03-odes/00-mod3-overview.md
+            - file: 05-numerical-methods/03-odes/01-module3-part1-euler.md
+            - file: 05-numerical-methods/03-odes/02-module3-part2-runge-kutta.md
+            - file: 05-numerical-methods/03-odes/03-module3-part3-symplectic.md
+            - file: 05-numerical-methods/03-odes/04-module3-part4-stability.md
+            - file: 05-numerical-methods/03-odes/05-mod3-synthesis.md
+
+    - title: Linear Algebra and Statistics
+      children:
+        - title: Linear Algebra
+          children:
+            - file: 06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md
+            - file: 06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md
+            - file: 06-linear-algebra-stats/00-linear-algebra/00c-linear-algebra-formula-sheet.md
+        - title: Probability and Sampling
+          children:
+            - file: 06-linear-algebra-stats/01-probability/00-mod1-part0-overview.md
+            - file: 06-linear-algebra-stats/01-probability/01-mod1-part1-foundations.md
+            - file: 06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md
+            - file: 06-linear-algebra-stats/01-probability/03-mod1-part3-moments.md
+            - file: 06-linear-algebra-stats/01-probability/04-mod1-part4-sampling.md
+            - file: 06-linear-algebra-stats/01-probability/05-mod1-part5-synthesis.md
+        - title: Statistical Inference
+          children:
+            - file: 06-linear-algebra-stats/02-inference/00-mod5-overview.md
+            - file: 06-linear-algebra-stats/02-inference/01-mod5-part1-measurement.md
+            - file: 06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md
+
+site:
+  template: book-theme
+  options:
+    favicon: assets/comp521-favicon.png
+    logo_text: COMP 521
