@@ -11,8 +11,9 @@ regrade policy, the [Syllabus](syllabus.md) is authoritative.
 | Component | Weight |
 |:--|--:|
 | Projects (6 × ~8.3%) | 50% |
-| Final project | 25% |
-| Reflections (3 × 5%) | 15% |
+| Final project | 20% |
+| SE presentations (2 × 5%) | 10% |
+| Reflections (3) | 10% |
 | Scholarly engagement | 10% |
 
 ## Project rubric (50%)
@@ -56,9 +57,9 @@ allocation.
 **Project 1** substitutes a shorter **EDA report (1–2 pages)**, scored in the
 same 20-point slot.
 
-## Reflections (15%)
+## Reflections (10%)
 
-Three across the semester, 5% each. See
+Three across the semester. See
 [Reflections](syllabus.md#sec-reflections) for what each should contain.
 
 | # | Due with | Date |
@@ -78,7 +79,7 @@ Graded on engagement, not polish:
 Be specific. *"I did not understand why Newton's method diverged until I plotted
 the iterates"* is worth more than a page of general statements about learning a lot.
 
-## Final project (25%)
+## Final project (20%)
 
 | Component | Points | What earns full credit |
 |:--|--:|:--|
@@ -91,6 +92,20 @@ the iterates"* is worth more than a page of general statements about learning a 
 **Dec 14**; final report and repository Thu **Dec 17**, end of day.
 
 You should expect to defend your design and verification choices.
+
+## SE presentations (10%)
+
+Two presentations, 5% each, scored out of 100:
+
+| Component | Points | What earns full credit |
+|:--|--:|:--|
+| Technical accuracy and depth | 30 | Correct, and deeper than the tool's front page |
+| Live demo | 30 | The tool actually runs; rehearsed; the example makes the point |
+| Clarity, pacing, and questions | 20 | Lands near 12 minutes; pitched at classmates; honest under questioning |
+| Handout | 20 | One page, usable afterward, with a worked example and "when not to use this" |
+
+Full assignment and topic list:
+[Software Engineering Presentation](../assignments/se-presentation.md).
 
 ## Scholarly engagement (10%)
 

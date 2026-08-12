@@ -131,8 +131,9 @@ By the end of this course, students will be able to:
    meaningful use and independently verifying outputs so that submissions
    reflect your own understanding.
 
-**Where these outcomes are assessed:** Projects 1–6, the Final Project, and the
-accompanying Growth Memos and Growth Synthesis.
+**Where these outcomes are assessed:** Projects 1–6, the Final Project, the
+Software Engineering Presentations, and the accompanying Growth Memos and
+Growth Synthesis.
 
 (sec-grading)=
 ## Grading & Assessments
@@ -140,8 +141,9 @@ accompanying Growth Memos and Growth Synthesis.
 | Component | Weight |
 |---|-:|
 | Projects (6 total; ~8.3% each) | 50% |
-| Final Project | 25% |
-| Reflections (3 total; 5% each) | 15% |
+| Final Project | 20% |
+| SE Presentations (2 total; 5% each) | 10% |
+| Reflections (3 total) | 10% |
 | Scholarly Engagement | 10% |
 
 The three reflections are spaced across the semester: a **Growth Memo** with
@@ -350,6 +352,20 @@ will ask.
 If a pairing is not working, tell me and I will re-pair you. Do not suffer
 through it silently.
 
+(sec-se-presentations)=
+### Software Engineering Presentations (10% total; 2 × 5%)
+
+Twice during the semester you teach the class a software engineering tool or
+practice — a 12-minute talk with 3 minutes of questions, built around a live
+demonstration, plus a one-page handout.
+
+The goal is that your classmates can use the tool afterward. Topics range across
+testing, code quality, debugging, performance, and reproducibility; you present
+two different ones, in two rounds.
+
+Full details, the topic list, and the rubric are on the
+[Software Engineering Presentation](../assignments/se-presentation.md) page.
+
 (sec-engagement)=
 ### Scholarly Engagement (10%)
 
@@ -386,7 +402,7 @@ missing class means missing material that is not posted anywhere. Please arrive
 on time.
 
 (sec-final-project)=
-### Final Project (25%)
+### Final Project (20%)
 
 The final project synthesizes the course into a complete data science pipeline.
 You will choose one of:
@@ -422,7 +438,7 @@ reproducibility, and scientific communication. You should expect to defend your
 design and verification choices.
 
 (sec-reflections)=
-### Reflections (15% total; 3 × 5%)
+### Reflections (10% total; 3 reflections)
 
 Reflections build **metacognition** — thinking about how you learn so you can
 improve your workflow, debugging habits, and verification discipline over time.

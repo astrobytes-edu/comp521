@@ -5,10 +5,13 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Software Engineering Presentation
 
-Once during the semester you will **teach the class** one software engineering
-tool or practice — a **12-minute talk** followed by **3 minutes of questions**,
-built around a **live demonstration**, plus a **one-page handout** for your
-classmates.
+**Twice** during the semester you will **teach the class** a software
+engineering tool or practice — a **12-minute talk** followed by **3 minutes of
+questions**, built around a **live demonstration**, plus a **one-page handout**
+for your classmates.
+
+You present two different topics, once in each round. Each is worth 5% of your
+course grade.
 
 :::{important} The goal is that your classmates can use it afterward
 That is the whole assignment. Not "cover" a tool, not summarize its
@@ -52,9 +55,13 @@ tend to find the holes in your own understanding about an hour into preparing,
 which is exactly the point.
 
 **And it gets the class a whole toolchain instead of one tool.** Nobody picks
-up a professional toolchain in a semester alone. Each of you learning one tool
-well and teaching it means everyone leaves with a working map of the whole
+up a professional toolchain in a semester alone. Each of you learning two tools
+well and teaching them means everyone leaves with a working map of the whole
 thing — and knows who to ask about each piece.
+
+The second round is also where the skill actually develops. You will have given
+one talk, watched everyone else give theirs, and had feedback on yours. Almost
+nobody's first talk is their good one.
 
 ## What you produce
 
@@ -244,8 +251,9 @@ one changes about how the project can be used and credited.
 
 ## Choosing your topic
 
-Topics are claimed in class, first come first served, one topic per person — so
-have a second choice ready. The date will be announced early in the semester.
+Topics are claimed in class, first come first served, one topic per person per
+round — so have a backup ready. Claiming dates are announced early in the
+semester.
 
 I assign the presentation dates rather than letting you choose them, for two
 reasons: some topics depend on others (CI needs testing to exist first), and
@@ -253,11 +261,24 @@ some are far more useful early than late. A testing talk in September helps
 everyone for the rest of the semester; the same talk in November is a
 curiosity.
 
+## The two rounds
+
+**Round 1** is the full treatment described above: 12 minutes, 3 for questions,
+live demo, one-page handout.
+
+**Round 2 is deliberately left open.** After watching a full round I will decide
+whether the second is another 15-minute treatment or a shorter lightning talk,
+depending on how round one goes and how much class time we have left. You will
+know well before you have to prepare anything.
+
+You may not present the same topic twice, and you should not pick two topics
+from the same group below — the point is breadth.
+
 ## Schedule
 
-Presentations happen at the **start of class**. Dates will be announced once
-topics are chosen — I assign them so that dependencies work out and the most
-broadly useful tools come early.
+Presentations happen at the **start of class**. Dates are announced once topics
+are chosen — I assign them so that dependencies work out and the most broadly
+useful tools come early.
 
 Your handout is due to me by the start of your presentation.
 
@@ -286,6 +307,20 @@ down, what it costs, and when you would skip it. Those questions are the point.
 **Aim for one thing they can do tomorrow.** If your classmates leave with a
 single command they will actually run this week, that is a better outcome than a
 complete survey nobody acts on.
+
+## How this is graded
+
+Each presentation is scored out of 100 and is worth 5% of your course grade.
+
+| Component | Points | What earns full credit |
+|:--|--:|:--|
+| Technical accuracy and depth | 30 | Correct, and deeper than the tool's front page. You can answer why it works, not just what to type. |
+| Live demo | 30 | The tool actually runs. The example makes the point. It is rehearsed enough that we watch the tool, not you debugging your terminal. |
+| Clarity, pacing, and questions | 20 | Lands near 12 minutes. Pitched at your classmates. Handles questions honestly — "I do not know" is a fine answer, bluffing is not. |
+| Handout | 20 | One page, genuinely usable afterward. Includes a worked example and a clear "when not to use this." |
+
+The thing I am actually looking for is whether the class can use the tool
+afterward. Everything in the table above is a means to that.
 
 ## Using AI on this assignment
 
