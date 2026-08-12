@@ -6,9 +6,11 @@ subtitle: "COMP 521 | Fall 2026"
 # Software Engineering Presentation
 
 **Twice** during the semester you will **teach the class** a software
-engineering tool or practice — a **12-minute talk** followed by **3 minutes of
-questions**, built around a **live demonstration**, delivered from a **GitHub
-repository** your classmates can clone and run.
+engineering tool or practice — not by talking at us, but by **walking us through
+it while we follow along on our own machines**.
+
+You publish a **GitHub repository**; everyone clones it before class; you lead
+the room through the demo in **12 minutes**, with **3 minutes for questions**.
 
 You present two different topics, once in each round. Each is worth 5% of your
 course grade.
@@ -17,10 +19,10 @@ course grade.
 That is the whole assignment. Not "cover" a tool, not summarize its
 documentation — leave five other people able to go do the thing.
 
-The practical test: **does someone in the room use your tool that week?** If
-your talk sends one classmate off to add tests to their project on Thursday
-night, it worked. If everyone nods politely and nothing changes, it did not,
-however polished the slides were.
+This is why it is hands-on rather than a talk. Watching someone use a tool and
+using it yourself are different experiences, and only one of them tends to
+survive the week. By the end of your fifteen minutes, everyone in the room
+should have run the thing at least once on their own laptop.
 
 Everything below follows from that.
 :::
@@ -65,15 +67,20 @@ nobody's first talk is their good one.
 
 ## What you produce
 
-**1. A 12-minute talk, plus 3 minutes of questions (15 minutes total).**
-Assume your audience is your classmates: they write Python, they use git, they
-have never used your tool. Twelve minutes is short — plan the talk to land at
-twelve so the questions are not squeezed.
+**1. A 12-minute guided walkthrough, plus 3 minutes of questions.**
+Your classmates will have your repository open in front of them. Lead them
+through it: tell them what to run, wait for them to run it, and talk about what
+they are seeing.
 
-**2. A live demo.**
-The tool actually running, in front of us. People learn a tool by watching it
-work and then copying what they saw; a screenshot of a terminal is not the same
-thing as a terminal.
+Assume they write Python and use git and have never seen your tool. Twelve
+minutes is short, and following along is slower than watching — so aim to get
+everyone through **one complete useful thing**, not a tour of everything the
+tool does. Your repo is what lets them go further afterward.
+
+**2. A live demo everyone runs, not just you.**
+The tool actually running — on six laptops, not one. That is a higher bar than
+demoing solo, and it is the reason the repository has to genuinely work rather
+than merely exist.
 
 **Use a Jupyter notebook where the topic suits it** — testing, profiling,
 benchmarking, type checking, seeds and reproducibility all demo well in a
@@ -88,8 +95,13 @@ this course, write a small example from scratch, or use something you brought
 from elsewhere. A previous project is often easiest, because you already know
 where its problems are — but that is a convenience, not a requirement.
 
-**3. A GitHub repository containing everything needed to reproduce your demo.**
-This replaces slides and a handout — it *is* the artifact your classmates keep.
+**3. A GitHub repository containing everything needed to follow along.**
+This replaces slides and a handout — it *is* the artifact your classmates keep,
+and during class it is what they are working from.
+
+**Post the repository link at least 48 hours before your slot** so everyone can
+clone it and get set up in advance. A repo that appears five minutes before
+class has failed at its main job.
 
 Its `README.md` must contain:
 
@@ -97,15 +109,28 @@ Its `README.md` must contain:
 - **when *not* to use this** — the situation where the tool is the wrong answer,
   or where its cost exceeds its benefit
 
-Beyond that, include whatever someone needs to actually run what you showed:
-the notebook, the environment file, the sample data, the broken commit. Someone
-who clones your repo a month from now should be able to reproduce your demo
-without asking you anything.
+- **setup instructions** that work — what to install, how to check it worked
+
+Beyond that, include whatever someone needs to actually run what you showed: the
+notebook, the environment file, the sample data, the broken commit. Someone who
+clones your repo a month from now should be able to reproduce your demo without
+asking you anything.
 
 :::{note} No slides
-You do not need slides, and I would rather you did not make any. Present from
-the notebook or from the terminal. If something needs explaining, put it in a
-markdown cell or in the README where it stays useful afterward.
+You do not need slides, and I would rather you did not make any. Work from the
+notebook or the terminal, alongside everyone else. If something needs
+explaining, put it in a markdown cell or in the README, where it stays useful
+after you sit down.
+:::
+
+:::{warning} Your classmates' job
+When someone else is presenting, **clone their repository and set it up before
+class**. Turning up unprepared wastes the presenter's fifteen minutes and
+everyone else's, and it counts against your
+[Scholarly Engagement](../01-course-info/syllabus.md#sec-engagement).
+
+If you cannot get their setup working, tell the presenter *before* class — that
+is useful information for them, and it is fixable in advance rather than live.
 :::
 
 :::{tip} Why "when not to use this" is required
@@ -298,7 +323,8 @@ Presentations happen at the **start of class**. Dates are announced once topics
 are chosen — I assign them so that dependencies work out and the most broadly
 useful tools come early.
 
-Your repository link is due to me by the start of your presentation.
+Your repository link is due **48 hours before** your slot, so your classmates
+can clone and set up in advance.
 
 ## What makes these good
 
@@ -315,9 +341,17 @@ are already real.
 to is the most common way these talks fail. Pick the two things that would
 change how your classmates work tomorrow, and go deep on those.
 
-**Rehearse the demo.** Live demos fail. Run it start to finish at least once
-beforehand, and have the commands somewhere you can paste from — nobody wants to
-watch you fight a typo for ninety seconds.
+**Test it on a clean clone.** Not your working copy — clone your own repo into
+a fresh directory, follow your own setup instructions exactly, and see whether
+it works. This is where most of these will break, and it is entirely
+preventable.
+
+**Keep dependencies minimal.** Every extra install is another way one person's
+laptop stalls the whole room. If the demo works with the packages everyone
+already has for this course, keep it that way.
+
+**Have a fallback.** If someone's setup will not cooperate, be ready to keep
+going and sort them out afterward rather than stopping the session.
 
 **Expect questions about the boundaries.** I will ask where the tool breaks
 down, what it costs, and when you would skip it. Those questions are the point.
@@ -333,9 +367,9 @@ Each presentation is scored out of 100 and is worth 5% of your course grade.
 | Component | Points | What earns full credit |
 |:--|--:|:--|
 | Technical accuracy and depth | 30 | Correct, and deeper than the tool's front page. You can answer why it works, not just what to type. |
-| Live demo | 30 | The tool actually runs. The example makes the point. It is rehearsed enough that we watch the tool, not you debugging your terminal. |
+| Leading the walkthrough | 30 | You get the room running the tool, not just watching. You pace for people following along, notice when someone is stuck, and pick one useful thing rather than rushing through five. |
 | Clarity, pacing, and questions | 20 | Lands near 12 minutes. Pitched at your classmates. Handles questions honestly — "I do not know" is a fine answer, bluffing is not. |
-| Repository | 20 | Clones and runs. README has a worked example and a clear "when not to use this." Someone could reproduce your demo without you. |
+| Repository | 20 | Posted 48 hours ahead. Clones and runs **on someone else's machine**. README has setup instructions, a worked example, and a clear "when not to use this." |
 
 The thing I am actually looking for is whether the class can use the tool
 afterward. Everything in the table above is a means to that.

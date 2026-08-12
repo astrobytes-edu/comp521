@@ -364,9 +364,13 @@ through it silently.
 ### Software Engineering Presentations (10% total; 2 × 5%)
 
 Twice during the semester you teach the class a software engineering tool or
-practice — a 12-minute talk with 3 minutes of questions, built around a live
-demonstration, delivered from a GitHub repository your classmates can clone
-and run. No slides.
+practice — not by talking at us, but by walking the room through it while
+everyone follows along on their own laptop. You publish a GitHub repository,
+everyone clones it beforehand, and you lead a 12-minute hands-on walkthrough
+with 3 minutes of questions. No slides.
+
+When someone else is presenting, cloning and setting up their repository before
+class is part of your Scholarly Engagement.
 
 The goal is that your classmates can use the tool afterward. Topics range across
 testing, code quality, debugging, performance, and reproducibility; you present
@@ -388,7 +392,7 @@ disengage, the discussion stops working for everyone.
 
 | Score | Observable behaviors |
 |-|---|
-| 5/5 | Prepared and on time; contributes regularly; asks targeted questions; collaborates productively with rotating partners; can explain their code decisions; shows debugging and verification habits (small tests, sanity checks). |
+| 5/5 | Prepared and on time; contributes regularly; asks targeted questions; collaborates productively with rotating partners; can explain their code decisions; shows debugging and verification habits (small tests, sanity checks); arrives at classmates' presentations already set up. |
 | 4/5 | Prepared with steady effort; participates regularly; collaborates respectfully; asks questions when stuck; minor issues (occasional lateness, quieter weeks, thinner verification). |
 | 3/5 | Inconsistent prep or participation; engages mainly when prompted; uneven follow-through during working time. |
 | 2/5 | Frequently unprepared, disengaged, or off-task; minimal participation; habits impede their own and their partner's learning. |

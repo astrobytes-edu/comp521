@@ -100,9 +100,9 @@ Two presentations, 5% each, scored out of 100:
 | Component | Points | What earns full credit |
 |:--|--:|:--|
 | Technical accuracy and depth | 30 | Correct, and deeper than the tool's front page |
-| Live demo | 30 | The tool actually runs; rehearsed; the example makes the point |
+| Leading the walkthrough | 30 | Gets the room running the tool, not just watching; paced for people following along |
 | Clarity, pacing, and questions | 20 | Lands near 12 minutes; pitched at classmates; honest under questioning |
-| Repository | 20 | Clones and runs; README has a worked example and "when not to use this" |
+| Repository | 20 | Posted 48 hours ahead; clones and runs on someone else's machine; README has setup, a worked example, and "when not to use this" |
 
 Full assignment and topic list:
 [Software Engineering Presentation](../assignments/se-presentation.md).
