@@ -362,17 +362,18 @@ complete survey nobody acts on.
 
 ## How this is graded
 
-Each presentation is scored out of 100 and is worth 5% of your course grade.
+One letter for the presentation as a whole — the walkthrough, the repository,
+and how you handle questions, judged together. There is no point breakdown.
 
-| Component | Points | What earns full credit |
-|:--|--:|:--|
-| Technical accuracy and depth | 30 | Correct, and deeper than the tool's front page. You can answer why it works, not just what to type. |
-| Leading the walkthrough | 30 | You get the room running the tool, not just watching. You pace for people following along, notice when someone is stuck, and pick one useful thing rather than rushing through five. |
-| Clarity, pacing, and questions | 20 | Lands near 12 minutes. Pitched at your classmates. Handles questions honestly — "I do not know" is a fine answer, bluffing is not. |
-| Repository | 20 | Posted 48 hours ahead. Clones and runs **on someone else's machine**. README has setup instructions, a worked example, and a clear "when not to use this." |
+| | |
+|:--|:--|
+| **A** | The room ran the tool and left able to use it. Your repository worked on other people's machines. You knew where the tool breaks down and said so. |
+| **B** | A solid walkthrough, but some people got stuck and stayed stuck, or the setup needed hand-holding, or you could not say much about the tool's limits. |
+| **C** | Mostly a demo you performed rather than one we did, or a repository that did not really work outside your own laptop. |
+| **D / F** | Unprepared, or not delivered. |
 
 The thing I am actually looking for is whether the class can use the tool
-afterward. Everything in the table above is a means to that.
+afterward. Everything else is a means to that.
 
 ## Using AI on this assignment
 

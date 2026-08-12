@@ -1,118 +1,123 @@
 ---
-title: "Grading & Rubrics"
+title: "Grading"
 subtitle: "COMP 521 | Fall 2026"
 ---
 
-# Grading & Rubrics
+# Grading
 
-This page gives the detailed rubrics. For weights, deadlines, late work, and
-regrade policy, the [Syllabus](syllabus.md) is authoritative.
+## How grading works in this course
+
+**Everything is graded with letters, and each assignment gets one letter.**
+
+There are no point breakdowns, no percentage subscores, and no itemized
+rubrics. When I grade your project I read the whole thing — code, validation,
+figures, memo — and judge it as a piece of work, the way a referee assesses a
+paper.
+
+:::{note} Why it works this way
+An itemized rubric tells you exactly what to optimize, and people optimize what
+they are shown. That produces submissions assembled to satisfy a checklist
+rather than to be correct, which is the opposite of what this course is for.
+
+What you get instead is a clear description of what each grade *means* — below —
+plus a written comment on every submission explaining the grade you got. If you
+want to know how to do better, that comment is the answer, and it will tell you
+more than a number would.
+:::
+
+## The scale
+
+| A+ | A | A− | B+ | B | B− | C+ | C | C− | D+ | D | D− | F |
+|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| 4.3 | 4.0 | 3.7 | 3.3 | 3.0 | 2.7 | 2.3 | 2.0 | 1.7 | 1.3 | 1.0 | 0.7 | 0 |
+
+Your grade in each component is the average of the letters you earned in it, and
+your course grade is the weighted average of those. Letters average the way you
+would expect: an A+ and an A− come out to an A.
+
+**A+ is not "did extra."** It is for work showing judgment beyond what was asked
+— a validation you thought of yourself, a failure mode you found and explained,
+a simpler approach than the one specified. Volume does not earn it.
+
+## Weights
 
 | Component | Weight |
 |:--|--:|
-| Projects (6 × ~8.3%) | 50% |
+| Projects (6) | 50% |
 | Final project | 20% |
-| SE presentations (2 × 5%) | 10% |
+| SE presentations (2) | 10% |
 | Growth Reflections (3) | 10% |
 | Scholarly engagement | 10% |
 
-## Project rubric (50%)
+## What the grades mean
 
-Each project is scored out of 100:
+### Projects and the final project
 
-| Component | Points | What earns full credit |
-|:--|--:|:--|
-| Correctness | 40 | Passes the provided test suite; results validated against analytic or published values |
-| Code quality & design | 25 | Modular, documented, readable; sensible interfaces |
-| Visualization | 15 | Correct, labeled, publication-quality figures |
-| Research memo | 20 | Correct methods (40%), clear communication (30%), valid results (30%) |
+Judged as a whole: does the code do the right thing, do you know that it does,
+and could someone else follow it?
 
-:::{important} Tests run before you submit
-Every project ships with a test suite. You can run it as often as you like. A
-submission that fails the provided tests has not met the correctness bar — there
-is no partial credit for "almost passing," because in computational science
-there is no partial credit for an almost-correct integrator.
+| | |
+|:--|:--|
+| **A** | It works, you showed that it works, and someone else could pick it up and run it. The validation is real — convergence at the expected order, a limiting case checked, a comparison against something that could have disagreed. The memo says what you did and what it means. |
+| **B** | It works and you checked it, but the evidence is thinner than the claim, or the code takes effort to follow, or the writing leaves me guessing about a choice you made. |
+| **C** | It runs, but there is little evidence it is right — tests that would pass for a broken implementation, or results reported without any check that could have caught an error. Or pieces are missing. |
+| **D** | Substantially incomplete, not working, or missing what was asked for. |
+| **F** | Not submitted, or not your own work. |
+
+:::{important} Validation is where the grade is decided
+Code that runs is the starting point, not the finish line. The difference
+between a B and an A in this course is almost always whether you can show your
+result is *right* — not whether you produced one.
 :::
 
-### Validation is not the same as testing
+Each project includes a **research memo** (2–3 pages: methods, results,
+discussion; Project 1 substitutes a 1–2 page EDA report). It is not graded
+separately — it is part of the work I am reading.
 
-Passing tests means your code does what was asked. **Validation** means showing
-your result is *right*: convergence at the theoretically expected order, energy
-conserved to the expected tolerance, agreement with a published value, sensible
-behavior in a limiting case.
+### SE presentations
 
-Projects ask for validation explicitly, and it is where most of the correctness
-points actually live. A student who passes every test but cannot demonstrate
-second-order convergence has not finished the assignment.
+Judged on whether the class can use the tool afterward.
 
-## Research memos
-
-Submitted with each project, scored within the project's 20-point memo
-allocation.
-
-- Submit as a **PDF** in your project repo
-- **Single-spaced**, **2–3 pages of text** (not counting figures or references)
-- Include at minimum: **methods**, **results**, and **discussion**
-
-**Project 1** substitutes a shorter **EDA report (1–2 pages)**, scored in the
-same 20-point slot.
-
-## Growth Reflections (10%)
-
-Three across the semester. See
-[Growth Reflections](syllabus.md#sec-reflections) for what each should contain.
-
-| | Due | Purpose |
-|---|---|---|
-| Growth Memo 1 | Mon **Aug 31** | Baseline, before the course changes how you work |
-| Growth Memo 2 | Mon **Oct 19** | Mid-semester course correction |
-| Growth Synthesis | Mon **Dec 14** | The whole arc |
-
-Graded on engagement, not polish:
-
-| Mark | Meaning | Credit |
-|:--|:--|--:|
-| ✓+ | Exceptional reflection — specific, honest, identifies real conceptual shifts | 100% |
-| ✓ | Adequate reflection | 85% |
-| ✓− | Minimal effort | 50% |
-
-Be specific. *"I did not understand why Newton's method diverged until I plotted
-the iterates"* is worth more than a page of general statements about learning a lot.
-
-## Final project (20%)
-
-| Component | Points | What earns full credit |
-|:--|--:|:--|
-| Correctness & methodology | 35 | Methods appropriate and correctly implemented; results validated |
-| Reproducibility | 20 | Repository runs end to end from a clean checkout; documented |
-| Research report | 30 | 5–7 pages; background, methods, results, conclusions |
-| Presentation | 15 | Clear, well-paced, handles questions on design choices |
-
-**Due:** presentation Thu **Dec 10** in class; **Growth Synthesis** Mon
-**Dec 14**; final report and repository Thu **Dec 17**, end of day.
-
-You should expect to defend your design and verification choices.
-
-## SE presentations (10%)
-
-Two presentations, 5% each, scored out of 100:
-
-| Component | Points | What earns full credit |
-|:--|--:|:--|
-| Technical accuracy and depth | 30 | Correct, and deeper than the tool's front page |
-| Leading the walkthrough | 30 | Gets the room running the tool, not just watching; paced for people following along |
-| Clarity, pacing, and questions | 20 | Lands near 12 minutes; pitched at classmates; honest under questioning |
-| Repository | 20 | Posted 48 hours ahead; clones and runs on someone else's machine; README has setup, a worked example, and "when not to use this" |
+| | |
+|:--|:--|
+| **A** | The room ran the tool and left able to use it. Your repository worked on other people's machines. You knew where the tool breaks down and said so. |
+| **B** | A solid walkthrough, but some people got stuck and stayed stuck, or the setup needed hand-holding, or you could not say much about the tool's limits. |
+| **C** | Mostly a demo you performed rather than one we did, or a repository that did not really work outside your own laptop. |
+| **D / F** | Unprepared, or not delivered. |
 
 Full assignment and topic list:
 [Software Engineering Presentation](../assignments/se-presentation.md).
 
-## Scholarly engagement (10%)
+### Growth Reflections
 
-Scored on the rubric in the
-[Syllabus](syllabus.md#sec-engagement). In a class this size, engagement is
-assessed continuously through observable behavior rather than by attendance
-tally.
+Judged on honesty and specificity, not polish or length.
+
+| | |
+|:--|:--|
+| **A** | Specific and honest. Names things you actually got wrong and what you did about them. Someone reading it would learn something real about how you work. |
+| **B** | Genuine but general — true statements that could have been written by anyone in the class. |
+| **C** | Phoned in. |
+| **F** | Not submitted. |
+
+*"I did not understand why Newton's method diverged until I plotted the
+iterates"* is worth more than a page of general statements about learning a lot.
+
+| | Due |
+|---|---|
+| Growth Memo 1 — baseline | Mon **Aug 31** |
+| Growth Memo 2 — mid-semester | Mon **Oct 19** |
+| Growth Synthesis | Mon **Dec 14** |
+
+### Scholarly engagement
+
+One grade, at the end of the semester, for the term as a whole.
+
+| | |
+|:--|:--|
+| **A** | Prepared and present. Contributes and asks real questions. Arrives at classmates' presentations already set up. Comes to check-ins with work to show. |
+| **B** | Steady and cooperative, with some quiet stretches or occasional unpreparedness. |
+| **C** | Frequently unprepared or disengaged; participates mainly when prompted. |
+| **D / F** | Habitually absent or habitually disengaged. |
 
 ## Submission
 

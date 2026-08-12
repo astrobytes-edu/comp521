@@ -203,26 +203,23 @@ where the class actually is.
 (sec-grade-scale)=
 ### Grading Scale
 
-The instructor may, at their discretion, curve project grades and final course
-grades. These percentages represent guaranteed thresholds — earning the stated
-percentage guarantees at least that grade. The instructor reserves the right to
-adjust borderline grades upward based on effort, improvement, and engagement.
-[Click here for SDSU's explanation of grades.](https://registrar.sdsu.edu/faculty_staff/courses_grades/explanation-grades)
+Work in this course is graded with **letters, not points**. Each assignment
+receives a single letter for the work as a whole — there are no itemized
+rubrics and no point breakdowns. See [Grading](grading.md) for what each letter
+means for each kind of work.
 
-| Letter grade | Percent range | Explanation |
-|:--|:---|:----|
-| A | 93–100% | Outstanding |
-| A- | 90–92% |  |
-| B+ | 87–89% |  |
-| B | 83–86% | Praiseworthy |
-| B- | 80–82% |  |
-| C+ | 77–79% |  |
-| C | 73–76% | Average |
-| C- | 70–72% |  |
-| D+ | 67–69% |  |
-| D | 63–66% | Minimally Passing |
-| D- | 60–62% |  |
-| F | Below 60% | Failure |
+| A+ | A | A− | B+ | B | B− | C+ | C | C− | D+ | D | D− | F |
+|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| 4.3 | 4.0 | 3.7 | 3.3 | 3.0 | 2.7 | 2.3 | 2.0 | 1.7 | 1.3 | 1.0 | 0.7 | 0 |
+
+Your grade in each component is the average of the letters earned in it; your
+course grade is the weighted average of those, using the weights above. Letters
+average as you would expect — an A+ and an A− come out to an A.
+
+The instructor may curve final course grades at their discretion, and reserves
+the right to adjust borderline grades upward based on effort, improvement, and
+engagement.
+[Click here for SDSU's explanation of grades.](https://registrar.sdsu.edu/faculty_staff/courses_grades/explanation-grades)
 
 (sec-late)=
 ### Late Work & Extensions
@@ -241,8 +238,10 @@ adjust borderline grades upward based on effort, improvement, and engagement.
 ### Regrade Requests
 
 - Submit a request within **7 calendar days** of the grade release.
-- Provide a $\leq$200-word written justification that references the **rubric**
-  and the **assignment expectations**.
+- Provide a $\leq$200-word written justification that argues against the
+  **grade description** in [Grading](grading.md) and the assignment
+  expectations — that is, make the case that the work meets a higher
+  description than the one I applied.
 - I will re-evaluate the **entire submission**; the score may go **up, down, or
   remain unchanged**.
 
@@ -385,34 +384,27 @@ Full details, the topic list, and the rubric are on the
 This is a small class, and it runs closer to a research group meeting than a
 lecture course. Scholarly engagement means showing up prepared and making your
 thinking *visible*: asking questions, contributing to discussion, debugging
-systematically, verifying results, and being able to explain your code.
+systematically, verifying results, and being able to explain your code. It also
+means arriving at a classmate's presentation with their repository already
+cloned and working, and coming to check-ins with something to show.
 
-In a class this size, everyone's participation is load-bearing — if two people
+In a class this size everyone's participation is load-bearing — if two people
 disengage, the discussion stops working for everyone.
 
-| Score | Observable behaviors |
-|-|---|
-| 5/5 | Prepared and on time; contributes regularly; asks targeted questions; collaborates productively with rotating partners; can explain their code decisions; shows debugging and verification habits (small tests, sanity checks); arrives at classmates' presentations already set up. |
-| 4/5 | Prepared with steady effort; participates regularly; collaborates respectfully; asks questions when stuck; minor issues (occasional lateness, quieter weeks, thinner verification). |
-| 3/5 | Inconsistent prep or participation; engages mainly when prompted; uneven follow-through during working time. |
-| 2/5 | Frequently unprepared, disengaged, or off-task; minimal participation; habits impede their own and their partner's learning. |
-| 1/5 | Rare meaningful engagement when present. |
-| 0/5 | Habitually absent or habitually disengaged. |
-
-**Note:** This rubric is a guideline. Your score reflects overall scholarly
-contribution, not a single "style" of being present — thinking out loud and
-thinking quietly both count, as long as your reasoning becomes visible somewhere.
+You receive **one engagement grade at the end of the semester** for the term as
+a whole. See [Grading](grading.md) for what each letter means. Thinking out loud
+and thinking quietly both count, as long as your reasoning becomes visible
+somewhere.
 
 **Classroom norms.** We are all members of a professional academic community.
 Treat classmates and the instructor with respect. Spirited, courteous debate
 about ideas is welcome; disrespectful behavior is not. Because active reasoning
 is the point of being in the room, off-task device use during class is
-distracting and will negatively affect your engagement score.
+distracting and will negatively affect your engagement grade.
 
-I will not take formal attendance, but in a class of this size I will
-absolutely notice. Because instruction is interleaved with working time,
-missing class means missing material that is not posted anywhere. Please arrive
-on time.
+I will not take formal attendance, but in a class of this size I will absolutely
+notice. Because instruction is interleaved with working time, missing class
+means missing material that is not posted anywhere. Please arrive on time.
 
 (sec-final-project)=
 ### Final Project (20%)
@@ -446,9 +438,9 @@ The report covers background and motivation, methods, results, and conclusions.
 Presentations are roughly **10 minutes including questions** — enough to explain
 what you built, show that it works, and say where it breaks.
 
-Final projects are graded on correctness, evaluation methodology,
-reproducibility, and scientific communication. You should expect to defend your
-design and verification choices.
+The final project is graded on the same description as the other projects (see
+[Grading](grading.md)), applied to a larger piece of work. You should expect to
+defend your design and verification choices.
 
 (sec-reflections)=
 ### Growth Reflections (10% total)
@@ -467,15 +459,8 @@ chore:
 | **Growth Memo 2** | Mon **Oct 19** | **Course correction** — what has changed, what has not |
 | **Growth Synthesis** | Mon **Dec 14** | **Synthesis** — the whole arc |
 
-All three are graded on engagement, not polish:
-
-| Mark | Meaning | Credit |
-|:--|:--|--:|
-| ✓+ | Exceptional reflection — specific, honest, identifies real conceptual shifts | 100% |
-| ✓ | Adequate reflection | 85% |
-| ✓− | Minimal effort | 50% |
-
-Be specific throughout. "I did not understand why Newton's method diverged until
+All three are graded on honesty and specificity rather than polish or length —
+see [Grading](grading.md). Be specific throughout. "I did not understand why Newton's method diverged until
 I plotted the iterates" is worth more than a page of general statements about
 learning a lot.
 
