@@ -29,3 +29,6 @@ planning/_build/
 # Grading harness working dir (belt-and-braces; it lives outside the repo)
 comp521-grading/
 planning/grading-harness/roster.txt
+
+# Source papers: kept locally for prep, not redistributed via the repo
+planning/papers/*.pdf
