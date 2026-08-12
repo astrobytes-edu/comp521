@@ -30,13 +30,26 @@ model the rest of this course spends thirteen weeks making real.
 | Part | You build | It is right when |
 |:--|:--|:--|
 | **1** | `luminosity(radius, teff, solar=False)` | it reproduces the Sun |
-| **2** | Theoretical HR diagram | the Sun sits **on** the $R=1\,R_\odot$ line |
+| **2** | Theoretical HR diagram, 15 real stars on it | the Sun sits **on** the $R=1\,R_\odot$ line |
 | **3** | `flux(p, z)` — the transit, four cases | branches agree at the boundaries |
 | **4** | `transit_curve(...)` — loop **and** vectorized | both agree; depth $= p^2$ |
-| **5** | `Discussion` section, ~400 words | — |
 
 **Deliverable:** one repository containing `analysis.ipynb` (that filename),
 both figures saved as files, and `README.md`.
+
+:::{important} Every part ends with questions you must answer in writing
+Each part ends with an **Interpret your result** box. Answer those questions in a
+markdown cell **immediately after that part's code**, in prose, a few sentences
+each.
+
+There is no separate report at the end. The interpretation belongs next to the
+thing it interprets, because that is where you actually have to look at your own
+output and decide what it means — which is the part of computing that does not
+get easier with practice unless you practise it.
+
+**A notebook of correct code with no interpretation is not a complete
+submission.**
+:::
 
 :::{important} Work in a notebook — this is the only project where that is enough
 No modules, no classes. Write functions, in order, with the story in between.
@@ -160,6 +173,14 @@ That is the Sun. Then loop over bad inputs — `(-1, 5772)`, `(1, 0)`,
 `(1, "hot")` — catch each `ValueError` and print the message.
 :::
 
+:::{attention} Interpret your result — Part 1
+1. Your Sun check does not return exactly `1.000000`. **What is the last digit
+   you actually believe, and what sets that limit?**
+2. Doubling a star's temperature does what to its luminosity? Doubling its
+   radius? **Which is the more efficient way to make a star bright**, and does
+   that match the range of $R$ and $T_{\rm eff}$ you see in the table in Part 2?
+:::
+
 :::{admonition} Why validation, in week two
 :class: note dropdown
 You use this function again in Project 3, for a star you did not choose. By then
@@ -183,25 +204,81 @@ Requirements:
 - **Both axes logarithmic**, in solar units
 - **Temperature increasing to the left** — the astronomical convention, not optional
 - Every line labelled, axes labelled with units, readable legend
-- **Four real stars annotated** — Sun, Sirius A, Betelgeuse, Proxima Centauri.
-  Look up $R$ and $T_{\rm eff}$ and **cite your source**
+- **All fifteen stars below plotted as points**, each labelled
 - Use [broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html),
   not nested loops — radii down one axis, temperatures across the other, one call
 
+### The stars
+
+Compute each luminosity **with your own function** — do not use the last column
+except to check yourself.
+
+| Star | Type | $R\ [R_\odot]$ | $T_{\rm eff}$ [K] | $L\ [L_\odot]$ (check) |
+|:--|:--|--:|--:|--:|
+| Sirius B | white dwarf | 0.0084 | 25000 | 0.025 |
+| Proxima Centauri | M5.5 V | 0.1542 | 3042 | 0.0016 |
+| Barnard's Star | M4 V | 0.187 | 3223 | 0.0035 |
+| α Centauri B | K1 V | 0.8632 | 5231 | 0.50 |
+| **Sun** | G2 V | 1.0 | 5772 | 1.00 |
+| α Centauri A | G2 V | 1.2234 | 5795 | 1.52 |
+| Sirius A | A1 V | 1.711 | 9940 | 25.4 |
+| Fomalhaut | A3 V | 1.842 | 8590 | 16.6 |
+| Procyon A | F5 IV–V | 2.048 | 6530 | 6.9 |
+| Vega | A0 V | 2.362 | 9602 | 40.1 |
+| Spica A | B1 III–IV | 7.47 | 25300 | 20500 |
+| Arcturus | K1.5 III | 25.4 | 4286 | 170 |
+| Aldebaran | K5 III | 44.13 | 3910 | 439 |
+| Rigel | B8 Ia | 78.9 | 12100 | 120000 |
+| Betelgeuse | M1–2 Ia–Iab | 764 | 3590 | 90000 |
+
+:::{admonition} Where these came from, and why they disagree with other sources
+:class: note dropdown
+Interferometric and spectroscopic measurements, mostly: Sirius B — Barstow et
+al. (2005); Proxima and Barnard's — Boyajian et al. (2012); α Cen A and B —
+Kervella et al. (2017); Sirius A — Liebert et al. (2005); Procyon A —
+Aufdenberg et al. (2005); Vega — Aufdenberg et al. (2006); Fomalhaut — Mamajek
+(2012); Spica — Tkachenko et al. (2016); Arcturus — Ramírez & Allende Prieto
+(2011); Aldebaran — Richichi & Roccatagliata (2005); Rigel — Moravveji et al.
+(2012); Betelgeuse — Dolan et al. (2016); Sun — IAU 2015 nominal values.
+
+If you look these up elsewhere you will find different numbers, sometimes very
+different — Betelgeuse's radius varies by more than 20% across the literature,
+because a supergiant does not have a sharp edge. That is not sloppiness. It is
+what measuring a real star is like, and it is worth knowing before Project 5,
+where you measure one yourself.
+:::
+
 :::{tip} Self-check
-The Sun must land at $(5772\ \mathrm{K},\ 1\,L_\odot)$ and sit **exactly on** your
-$R = 1\,R_\odot$ line. Beside it means your grid and your annotation disagree
-about units.
+The Sun must land at $(5772\ \mathrm{K},\ 1\,L_\odot)$ and sit **exactly on**
+your $R = 1\,R_\odot$ line. Beside it means your grid and your annotation
+disagree about units.
+
+Your computed $L$ should match the check column to within about 15%. Larger
+than that is a bug; smaller differences are measurement uncertainty.
+:::
+
+:::{attention} Interpret your result — Part 2
+1. **Describe the figure.** Where do the stars fall relative to your
+   constant-radius lines? Are they scattered over the plane or concentrated?
+2. **Your lines cover the whole plane. The stars do not.** What does that tell
+   you about real stars that the Stefan–Boltzmann law does not?
+3. **Sirius A and Sirius B are a binary pair** — same age, same distance,
+   sitting at opposite corners of your figure. Roughly how many times fainter is
+   B than A, and what is physically different about them? (You are not expected
+   to know white dwarf physics; describe what the figure tells you.)
+4. **Why is the temperature axis reversed?** Guess, then look it up, and say
+   which you did.
 :::
 
 :::{admonition} Keep this figure — Project 6 draws the same axes
 :class: note dropdown
-What you are plotting is *what the equation permits*. In Project 6 you plot the
-same axes from real Gaia measurements of thousands of stars: lumpy, with a main
-sequence and a giant branch, none of which is anywhere in the Stefan–Boltzmann
-law.
+What you are plotting is *what the equation permits*: smooth lines of constant
+radius. In Project 6 you plot the same axes from real Gaia measurements of
+thousands of stars — lumpy, with a main sequence and a giant branch, none of
+which is anywhere in the Stefan–Boltzmann law.
 
-*Here is what the physics allows; here is what nature actually did.*
+Your fifteen stars are a preview. With thousands, the structure becomes
+unmissable.
 :::
 
 ---
@@ -237,6 +314,16 @@ Test 3 finds real bugs. A backwards comparison or a sign error in $\kappa_0$
 passes 1 and 2 and produces a light curve with a visible step in it.
 :::
 
+:::{attention} Interpret your result — Part 3
+1. **Why is test 3 a better test than tests 1 and 2?** Name a specific bug it
+   catches that the others miss.
+2. Test 3 agrees to about $10^{-11}$, not to zero and not to $10^{-16}$.
+   **Where does that number come from?** (Look at the offset you used.)
+3. **Nothing in this function has units** — $p$, $z$, and the flux are all
+   ratios. What does that mean for what a transit can and cannot measure about a
+   planet?
+:::
+
 :::{admonition} Why the order of your `if` statements is load-bearing
 :class: warning dropdown
 At $z = 1-p$ exactly, $\kappa_0$'s argument works out to $-1$ — right at the edge
@@ -257,8 +344,8 @@ Four pages; §2 and Eq. 1 are what you are implementing.
 Almost nothing you compute in your career will come from a textbook. It comes
 from a paper written for people who already know the field, with what you need
 buried in a sentence. Getting one equation out of one paper and into working
-code is the most transferable skill in this course. **Cite it in your
-Discussion.**
+code is the most transferable skill in this course. **Cite it in your Part 3
+answers.**
 :::
 
 ---
@@ -327,39 +414,53 @@ equally bright everywhere, so the planet blocks precisely its area fraction.
 disagreement of about $10^{-17}$, because your function stores $1-p^2$ and you
 recover the depth as $1-(1-p^2)$ — two roundings that do not cancel.
 
-Worth one line in your Discussion: *the algebra is exact, the arithmetic is not,
-and knowing which claim you are making is the skill.*
+*The algebra is exact, the arithmetic is not, and knowing which claim you are
+making is the skill.*
+:::
+
+:::{attention} Interpret your result — Part 4
+1. **Why did your loop work and your vectorized version return `nan`?** One
+   sentence about what `if` does that an array expression does not. Then: how do
+   you know your fix is right rather than merely quiet?
+2. **Describe your light-curve figure.** How does depth change with $p$, and how
+   does duration change with $p$? Are they the same relationship?
+3. **An Earth around a Sun-like star gives $p \approx 0.009$.** Compute that
+   depth. What does it demand of a telescope, and why is this measurement made
+   from space?
+4. **Your curves have flat bottoms and sharp corners.** Real transits do not.
+   Which assumption in this model is responsible? (Project 2 removes it.)
 :::
 
 ---
 
-## Part 5 — Discussion
+## One last question
 
-Last section of your notebook, titled `Discussion`. **Prose only, no code
-cells**, about 400 words. Not a narration of what you did — the cells above show
-that. What your results *mean*:
+Add a short markdown cell at the very end, under the heading `Looking back`:
 
-- **How does transit depth scale with planet size, and what does that demand of
-  a telescope?** An Earth around a Sun-like star gives $p \approx 0.009$.
-- **Why did your loop work and your vectorized version return `nan`?** How do you
-  know your fix is right rather than merely quiet?
-- **Your HR diagram shows lines of constant radius. Real stars cluster on a main
-  sequence instead.** What does that tell you that Stefan–Boltzmann alone does not?
+**Which single number in this notebook do you trust least, and why?**
 
-:::{note} The third question is deliberate
-Nothing you computed can answer it. Say what you can support and be honest about
-the rest. That is a skill, not a failure.
+Two or three sentences. Any honest answer earns full credit; there is no answer
+I am fishing for. Some of you will name the Betelgeuse radius, some the $10^{-17}$
+in the depth check, some your own `arccos` fix.
+
+:::{note} Why this question exists
+Nothing you computed can settle it. Knowing where your own result is weakest is
+a different skill from getting it right, and it is the one that separates people
+who can be trusted with a result from people who merely produced one.
+
+You will be asked this at the end of every project.
 :::
 
 ---
 
 ## What you turn in
 
-- `analysis.ipynb` — **use that filename** — ending with your `Discussion`
+- `analysis.ipynb` — **use that filename** — with your four
+  *Interpret your result* answers in place and `Looking back` at the end
 - Both figures, saved as files as well as displayed
 - `README.md` — what is here and how to run it
 
-Pairs are fine. **You each write your own code and your own Discussion, and you
+Pairs are fine. **You each write your own code and your own answers, and you
 each have to explain every line of what you submit.**
 
 :::{admonition} What a strong submission looks like
@@ -369,7 +470,8 @@ Not a checklist — I grade the project as a whole.
 A strong Project 1 is one a stranger could still read: functions do one thing,
 names say what they mean, and the self-checks are present and passing rather
 than described. The figures are readable without being explained aloud. The
-Discussion says something the code does not, and where it is uncertain, says so.
+written answers say something the code does not, and where they are uncertain,
+they say so.
 
 The most common way to lose ground is a notebook that runs but that you cannot
 defend line by line — which usually means it was assembled rather than written.
