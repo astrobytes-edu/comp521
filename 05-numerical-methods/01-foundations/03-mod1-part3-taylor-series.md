@@ -1,12 +1,24 @@
 ---
 title: "Part 3: Taylor Series Applications & Modern Methods"
-subtitle: "Module 1: Foundations of Discrete Computing | COMP 536"
+subtitle: "Module 1: Foundations of Discrete Computing | COMP 521"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
 ---
 
+<!-- prep-banner:start -->
+:::{warning} This reading is being revised for COMP 521
+This chapter was adapted from COMP 536 and is still under review. You may find
+references to the wrong course number, setup instructions that do not match
+ours, or examples that assume material we have not covered yet.
+
+The Python and the science are sound — it is the packaging that is catching up.
+Where this page disagrees with the syllabus, the syllabus is right. If something
+here does not work, tell me: that is genuinely useful and I would rather hear it
+from you than not.
+:::
+<!-- prep-banner:end -->
 
 Part 1 showed how finite differences arise from Taylor series. Part 2 showed why floating-point arithmetic limits accuracy. Part 3 puts those ideas together: verify the theory numerically, build custom formulas on purpose, and decide when finite differences are the wrong tool.
 

@@ -29,6 +29,19 @@ what is written here is what the course does.
 :::
 {END}"""
 
+READING_BANNER = f"""{START}
+:::{{warning}} This reading is being revised for COMP 521
+This chapter was adapted from COMP 536 and is still under review. You may find
+references to the wrong course number, setup instructions that do not match
+ours, or examples that assume material we have not covered yet.
+
+The Python and the science are sound — it is the packaging that is catching up.
+Where this page disagrees with the syllabus, the syllabus is right. If something
+here does not work, tell me: that is genuinely useful and I would rather hear it
+from you than not.
+:::
+{END}"""
+
 # Pages authored for this course (as opposed to readings migrated from comp536).
 DEFAULT_PAGES = [
     "index.md",
@@ -56,7 +69,10 @@ def add(path: Path) -> str:
     if START in text:
         return "already present"
     fm, body = split_frontmatter(text)
-    path.write_text(f"{fm}\n{BANNER}\n\n{body.lstrip(chr(10))}")
+    # Authored pages promise a finalisation date; migrated readings cannot,
+    # since they are revised progressively as the semester needs them.
+    banner = BANNER if str(path) in DEFAULT_PAGES else READING_BANNER
+    path.write_text(f"{fm}\n{banner}\n\n{body.lstrip(chr(10))}")
     return "added"
 
 
@@ -76,7 +92,16 @@ def main() -> int:
         print(__doc__)
         return 1
     action = sys.argv[1]
-    targets = [Path(p) for p in (sys.argv[2:] or DEFAULT_PAGES)]
+    if sys.argv[2:]:
+        targets = [Path(p) for p in sys.argv[2:]]
+    else:
+        targets = [Path(p) for p in DEFAULT_PAGES]
+    if targets and str(targets[0]) == "readings":
+        targets = sorted(
+            p for d in ("02-getting-started", "03-python", "04-scientific-computing",
+                        "05-numerical-methods", "06-linear-algebra-stats")
+            for p in Path(d).rglob("*.md") if "figures" not in p.parts
+        )
 
     for path in targets:
         if not path.exists():

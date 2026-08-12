@@ -1,9 +1,21 @@
 ---
 title: "Part 2: Building Better Methods - Runge-Kutta"
-subtitle: "Module 3: ODE Methods & Conservation | COMP 536"
+subtitle: "Module 3: ODE Methods & Conservation | COMP 521"
 author: "Anna Rosen"
 ---
 
+<!-- prep-banner:start -->
+:::{warning} This reading is being revised for COMP 521
+This chapter was adapted from COMP 536 and is still under review. You may find
+references to the wrong course number, setup instructions that do not match
+ours, or examples that assume material we have not covered yet.
+
+The Python and the science are sound — it is the packaging that is catching up.
+Where this page disagrees with the syllabus, the syllabus is right. If something
+here does not work, tell me: that is genuinely useful and I would rather hear it
+from you than not.
+:::
+<!-- prep-banner:end -->
 
 ## Learning Objectives
 
