@@ -83,7 +83,7 @@ point, control flow, the five algorithmic patterns
 **Topics** — arrays vs. lists, vectorization, plotting; log and inverted axes;
 classes and modules (needed from Project 2 onward)
 
-**Due** — **Project 1** + short **research memo** (1–2 pages), Tue **Sep 8**
+**Due** — **Project 1** + **analysis notebook** + Discussion, Tue **Sep 8**
 
 :::{note} Why Project 1 is due Tuesday
 Every other project is due Monday. Project 1 is the exception because Mon Sep 7
@@ -117,7 +117,7 @@ the source of every method in this course
 estimation and convergence order; verifying you achieve the expected order
 
 **Due** — **Project 2** (integration library + exoplanet transit model) +
-Research Memo, Mon **Sep 21**
+notebook Discussion, Mon **Sep 21**
 
 ## Block 3 · Project 3 — Root Finding & Data Acquisition
 
@@ -142,7 +142,7 @@ and bracketing; habitable-zone calculation
 identification; downloading and cleaning real Kepler light curves
 
 **Due** — **Project 3** (root-finding library + Kepler data pipeline) +
-Research Memo, Mon **Oct 5**
+notebook Discussion, Mon **Oct 5**
 
 ## Block 4 · Project 4 — Linear Algebra & Statistical Methods
 
@@ -168,8 +168,8 @@ and the normal equations
 **Topics** — hypothesis testing, chi-squared, goodness of fit; fitting the
 transit model to real Kepler data
 
-**Due** — **Project 4** + Research Memo + **Growth Memo 2** (mid-semester),
-Mon **Oct 19**
+**Due** — **Project 4** + notebook Discussion + **Growth Memo 2**
+(mid-semester), Mon **Oct 19**
 
 :::{tip} Check your standing before Nov 1
 Growth Memo 2 is due Oct 19 and returned the following week — before the
@@ -201,7 +201,7 @@ conservation and why symplectic methods matter
 **Topics** — autocorrelation, periodograms, detrending, period recovery
 
 **Due** — **Project 5** (ODE solver library + time series analysis) +
-Research Memo, Mon **Nov 2**
+notebook Discussion, Mon **Nov 2**
 
 ## Block 6 · Project 6 — Machine Learning Foundations
 
@@ -224,7 +224,7 @@ classifying stellar types
 matrices, feature importance; clustering the Gaia sample from Project 1 and
 comparing against scikit-learn
 
-**Due** — **Project 6** + Research Memo, Mon **Nov 16**
+**Due** — **Project 6**, Mon **Nov 16**
 
 ## Block 7 · Final Project
 

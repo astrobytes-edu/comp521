@@ -179,9 +179,10 @@ between a B and an A in this course is almost always whether you can show your
 result is *right* — not whether you produced one.
 :::
 
-Each project includes a **research memo** (2–3 pages: methods, results,
-discussion; Project 1's is shorter, 1–2 pages). It is not graded
-separately — it is part of the work I am reading.
+Each project's **analysis notebook** ends with a written **Discussion** section
+(prose only, ~500–800 words) where you say what your results mean. It is not
+graded separately — it is part of the work I am reading, and it is usually the
+first thing I read.
 
 ### SE presentations
 

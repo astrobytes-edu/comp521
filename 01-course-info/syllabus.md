@@ -356,16 +356,39 @@ Kepler data:
 
 - a code repository with a runnable workflow (README + reproduction instructions),
 - verification evidence (tests, sanity checks, convergence diagnostics),
-- a short **research memo** describing methods, results, and figures,
+- an **analysis notebook** that runs top to bottom and ends with a written
+  **Discussion**,
 - a **Growth Memo** with Project 4 only (see [Growth Reflections](#sec-reflections)).
 
-**Research memo format:** submit as a **PDF** in your project repo.
-**Single-spaced**, **2–3 pages of text** (not counting figures or references).
-Include at minimum: methods, results, and discussion.
+**The notebook is the report.** There is no separate document to write. Your
+Jupyter notebook is the thing I read: it contains your analysis, your figures,
+and your argument, in the order a reader needs them. From Project 2 onward your
+code lives in `.py` modules and the notebook imports them, so the notebook is
+narrative and results rather than a wall of implementation.
 
-**Project 1 is the exception:** a shorter **research memo (1–2 pages)** rather
-than the full 2–3. The aim is to start the writing habit in Week 2, while the
-stakes are low.
+**Every notebook must end with a section titled `Discussion`.** Prose only — no
+code cells in it. This is where you answer the project's questions and say what
+your results mean. Roughly 500–800 words; Project 1's is shorter.
+
+:::{important} Run it top to bottom before you submit
+**Kernel → Restart Kernel and Run All Cells**, every time, before your final
+commit. A notebook whose stored output was produced by code you have since
+changed is worse than one that fails outright, because it looks fine.
+
+I re-execute submitted notebooks. If yours does not run from a clean kernel, it
+does not count as running.
+:::
+
+:::{note} Why a notebook and not a PDF report
+Because your claims and the evidence for them belong on the same page. A report
+can describe results the code does not produce; a notebook that re-executes
+cannot. It also means one artifact instead of two, and no exporting.
+
+The exception is the **final project**, which requires a standalone written
+report. Writing for a reader who will not run your code is a genuinely different
+skill, and by December you will have had a semester of practice at the
+argument-making part.
+:::
 
 (sec-pairs)=
 ### Project Pairs & Collaboration
