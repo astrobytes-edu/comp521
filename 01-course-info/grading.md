@@ -1,6 +1,9 @@
 ---
 title: "Grading"
 subtitle: "COMP 521 | Fall 2026"
+kernelspec:
+  name: python3
+  display_name: Python 3
 ---
 
 # Grading
@@ -61,6 +64,69 @@ Your weighted average is rounded to the nearest letter:
 | 2.85 – 3.14 | **B** | | 0.85 – 1.14 | **D** |
 | 2.50 – 2.84 | **B−** | | 0.35 – 0.84 | **D−** |
 | 2.15 – 2.49 | **C+** | | < 0.35 | **F** |
+
+### Work it out yourself
+
+Nothing here is hidden — you can compute your own grade at any point. The code
+below is live: it runs when this page is built, and the output is what it
+actually produced.
+
+```{code-cell} python
+GRADE_POINTS = {
+    "A+": 4.3, "A": 4.0, "A-": 3.7,
+    "B+": 3.3, "B": 3.0, "B-": 2.7,
+    "C+": 2.3, "C": 2.0, "C-": 1.7,
+    "D+": 1.3, "D": 1.0, "D-": 0.7,
+    "F": 0.0,
+}
+
+WEIGHTS = {
+    "projects": 0.50,
+    "final": 0.20,
+    "presentations": 0.10,
+    "reflections": 0.10,
+    "engagement": 0.10,
+}
+
+# Highest cutoff first, so the first match wins.
+CUTOFFS = [
+    (3.85, "A"),  (3.50, "A-"), (3.15, "B+"), (2.85, "B"),
+    (2.50, "B-"), (2.15, "C+"), (1.85, "C"),  (1.50, "C-"),
+    (1.15, "D+"), (0.85, "D"),  (0.35, "D-"), (0.00, "F"),
+]
+
+
+def average(letters):
+    """Mean grade point of a list of letter grades."""
+    return sum(GRADE_POINTS[letter] for letter in letters) / len(letters)
+
+
+def course_grade(components):
+    """Weighted average across components, and the letter it earns."""
+    total = sum(WEIGHTS[name] * average(letters)
+                for name, letters in components.items())
+    letter = next(grade for cutoff, grade in CUTOFFS if total >= cutoff)
+    return total, letter
+
+
+me = {
+    "projects":      ["B+", "A-", "A", "A", "A+", "A-"],
+    "final":         ["A-"],
+    "presentations": ["B+", "A"],
+    "reflections":   ["A", "B", "A"],
+    "engagement":    ["A"],
+}
+
+for name, letters in me.items():
+    print(f"{name:>14}: {average(letters):.2f}   {letters}")
+
+total, letter = course_grade(me)
+print(f"\n{'weighted':>14}: {total:.2f}   ->  {letter}")
+```
+
+Notice what an A+ does here and what it does not. It pulls the projects average
+up, which can rescue a weaker component — but the course grade still tops out at
+A no matter how many you collect.
 
 ## Weights
 
