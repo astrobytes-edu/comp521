@@ -179,7 +179,7 @@ finishing in the room.
 |---|---|---|
 | Project 0 (Bootcamp) | Tue **Aug 25** | Thu **Aug 27** |
 | Growth Memo 1 (baseline) | Tue **Aug 25** | Mon **Aug 31** |
-| Project 1 — Scientific Programming & EDA | Tue **Aug 25** | Fri **Sep 4** † |
+| Project 1 — Scientific Programming & EDA | Tue **Aug 25** | Tue **Sep 8** † |
 | Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |
 | Project 3 — Root Finding & Data Acquisition | Tue **Sep 22** | Mon **Oct 5** |
 | Project 4 — Linear Algebra & Statistics | Tue **Oct 6** | Mon **Oct 19** |
@@ -187,7 +187,10 @@ finishing in the room.
 | Project 6 — Machine Learning Foundations | Tue **Nov 3** | Mon **Nov 16** |
 | Final Project | Tue **Nov 17** | Thu **Dec 17**, end of day |
 
-† **Project 1 is due Friday**, not Monday — Mon Sep 7 is Labor Day.
+† **Project 1 is due Tuesday**, not Monday — Mon Sep 7 is Labor Day. It is the
+only project not due on a Monday, and the extra days are deliberate: it is the
+first project and the one where students are least likely to know when they are
+stuck.
 
 **End-of-semester sequence:**
 

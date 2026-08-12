@@ -54,7 +54,7 @@ written and will appear before their week.
 
 ## Block 1 · Project 1 — Scientific Programming & EDA
 
-*Assigned Tue Aug 25 · Due Fri Sep 4*
+*Assigned Tue Aug 25 · Due Tue Sep 8*
 
 ### Week 1 — Aug 25, 27 · Foundations and setup
 
@@ -83,11 +83,14 @@ point, control flow, the five algorithmic patterns
 **Topics** — arrays vs. lists, vectorization, plotting; log and inverted axes;
 classes and modules (needed from Project 2 onward)
 
-**Due** — **Project 1** + short **EDA report** (1–2 pages), Fri **Sep 4**
+**Due** — **Project 1** + short **EDA report** (1–2 pages), Tue **Sep 8**
 
-:::{note} Why Project 1 is due Friday
+:::{note} Why Project 1 is due Tuesday
 Every other project is due Monday. Project 1 is the exception because Mon Sep 7
-is **Labor Day** — the campus is closed and some of you will be travelling.
+is **Labor Day** — campus is closed and some of you will be travelling.
+
+You get the long weekend, and the deadline is **11:59 pm Tuesday**, so you have
+the whole day after class as well. From Project 2 on, deadlines are Mondays.
 :::
 
 ## Block 2 · Project 2 — Numerical Integration
