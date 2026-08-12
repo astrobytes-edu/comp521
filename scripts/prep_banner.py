@@ -84,7 +84,7 @@ def add(path: Path) -> str:
     # authored course-info pages settle on a fixed date, projects settle when
     # assigned, and migrated readings settle a week before they are needed.
     name = str(path)
-    if re.search(r"assignments/project-\d+\.md$", name):
+    if re.search(r"project-\d+\.md$", name):
         banner = PROJECT_BANNER
     elif name in DEFAULT_PAGES:
         banner = BANNER
