@@ -38,6 +38,7 @@ project:
 
     - title: Assignments
       children:
+        - file: assignments/project-1.md
         - file: assignments/se-presentation.md
 
     - title: Getting Started
