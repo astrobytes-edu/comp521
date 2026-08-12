@@ -33,11 +33,34 @@ more than a number would.
 
 Your grade in each component is the average of the letters you earned in it, and
 your course grade is the weighted average of those. Letters average the way you
-would expect: an A+ and an A− come out to an A.
+would expect: an A+ and an A− come out to an A. Grades are recorded as these
+numbers in Canvas, so you can see where you stand at any point.
 
 **A+ is not "did extra."** It is for work showing judgment beyond what was asked
 — a validation you thought of yourself, a failure mode you found and explained,
 a simpler approach than the one specified. Volume does not earn it.
+
+:::{note} A+ on an assignment, but not as a course grade
+SDSU does not award A+ as a final grade, so **the highest course grade is an
+A** — a semester of straight A+ work earns an A.
+
+An A+ is still worth having. Because it counts as 4.3, it lifts your average and
+can offset a weaker piece of work elsewhere. That is the point of it: not a
+higher ceiling, but room to recover from one bad week.
+:::
+
+### Turning your average into a course grade
+
+Your weighted average is rounded to the nearest letter:
+
+| Average | Grade | | Average | Grade |
+|:--|:--|--|:--|:--|
+| ≥ 3.85 | **A** | | 1.85 – 2.14 | **C** |
+| 3.50 – 3.84 | **A−** | | 1.50 – 1.84 | **C−** |
+| 3.15 – 3.49 | **B+** | | 1.15 – 1.49 | **D+** |
+| 2.85 – 3.14 | **B** | | 0.85 – 1.14 | **D** |
+| 2.50 – 2.84 | **B−** | | 0.35 – 0.84 | **D−** |
+| 2.15 – 2.49 | **C+** | | < 0.35 | **F** |
 
 ## Weights
 

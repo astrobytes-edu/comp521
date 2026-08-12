@@ -214,7 +214,15 @@ means for each kind of work.
 
 Your grade in each component is the average of the letters earned in it; your
 course grade is the weighted average of those, using the weights above. Letters
-average as you would expect — an A+ and an A− come out to an A.
+average as you would expect — an A+ and an A− come out to an A. Grades are
+recorded as these numbers in Canvas.
+
+**SDSU does not award A+ as a final grade**, so the highest course grade is an
+**A**. An A+ on an assignment still counts as 4.3, which lifts your average and
+can offset a weaker piece of work elsewhere.
+
+See [Grading](grading.md) for the table converting your weighted average into a
+final letter.
 
 The instructor may curve final course grades at their discretion, and reserves
 the right to adjust borderline grades upward based on effort, improvement, and
