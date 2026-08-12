@@ -60,9 +60,15 @@ syntax, control flow, data structures, and object-oriented programming — befor
 any numerical methods appear. If you have programmed before, the first two weeks
 will be review and you should use them to get ahead.
 
-What you *do* need is the mathematics: calculus through MATH 252 and linear
-algebra. The algorithms in this course are applied calculus and linear algebra,
-and if those are shaky, the programming will not be your problem.
+What you *do* need is the mathematics. **MATH 252 is multivariable calculus**,
+and this course leans on it directly: Taylor expansion is where every numerical
+method in the course comes from, derivatives and gradients drive root finding and
+optimization, and integrals are what quadrature approximates. Linear algebra
+(MATH 254 or 342A) carries the second half — solving systems, least squares, and
+everything built on them.
+
+The algorithms here are applied calculus and linear algebra. If those are shaky,
+the programming will not be your problem.
 :::
 
 ### Course Materials & Technology
@@ -244,15 +250,15 @@ engagement.
 (sec-late)=
 ### Late Work & Extensions
 
-- **One free extension per semester:** request at least **24 hours** before the
-  deadline to receive a **2-day grace period** with no penalty.
-- **Your last commit before the deadline is your submission.** Commit
-  timestamps are the record — not when you meant to push, and not what is
-  sitting unpushed on your laptop. Push early and often.
-- If you use your free extension, I will extend your deadline **one time**.
-- **No late submissions beyond the free extension:** if you miss the deadline
-  without having arranged your free extension in advance, the submission is
-  **not accepted** (unless there is a documented emergency).
+- **One free extension per semester.** Request it at least **24 hours** before
+  the deadline and you get a **2-day grace period** with no penalty, no reason
+  required. You do not have to justify it — that is the point of having one.
+- **No late submissions beyond that.** If you miss a deadline without having
+  arranged your extension in advance, the submission is **not accepted** unless
+  there is a documented emergency.
+- **Your last commit before the deadline is your submission.** Commit timestamps
+  are the record — not when you meant to push, and not what is sitting unpushed
+  on your laptop. Push early and often.
 
 (sec-regrades)=
 ### Regrade Requests
@@ -262,7 +268,7 @@ engagement.
   **grade description** in [Grading](grading.md) and the assignment
   expectations — that is, make the case that the work meets a higher
   description than the one I applied.
-- I will re-evaluate the **entire submission**; the score may go **up, down, or
+- I will re-evaluate the **entire submission**; the grade may go **up, down, or
   remain unchanged**.
 
 (sec-components)=
@@ -350,9 +356,9 @@ Include at minimum: methods, results, and discussion.
 
 **Project 1 is the exception:** instead of a full research memo, submit a short
 **exploratory data analysis report (1–2 pages)** on the Gaia sample — what is in
-the data, what you had to clean, and what structure you found. It is scored in
-the same 20-point slot. The point is to start the writing habit in Week 2, while
-the stakes are low and the analysis is genuinely exploratory.
+the data, what you had to clean, and what structure you found. It counts as
+Project 1's memo. The aim is to start the writing habit in Week 2, while the
+stakes are low and the analysis is genuinely exploratory.
 
 (sec-pairs)=
 ### Project Pairs & Collaboration
@@ -406,7 +412,7 @@ The goal is that your classmates can use the tool afterward. Topics range across
 testing, code quality, debugging, performance, and reproducibility; you present
 two different ones, in two rounds.
 
-Full details, the topic list, and the rubric are on the
+Full details, the topic list, and what each grade means are on the
 [Software Engineering Presentation](../assignments/se-presentation.md) page.
 
 (sec-engagement)=
