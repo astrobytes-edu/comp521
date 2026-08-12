@@ -25,3 +25,7 @@ data/cache/
 
 # Internal planning site build
 planning/_build/
+
+# Grading harness working dir (belt-and-braces; it lives outside the repo)
+comp521-grading/
+planning/grading-harness/roster.txt
