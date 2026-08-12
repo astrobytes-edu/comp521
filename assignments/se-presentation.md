@@ -22,24 +22,39 @@ however polished the slides were.
 Everything below follows from that.
 :::
 
+## Why this matters
+
+These are **software engineering** practices. They are routine in professional
+software development and much less established in research computing — which is
+a large part of why so much scientific code is hard to reproduce, hard to
+extend, and hard to trust six months later. Most science and computing courses
+never teach the tooling at all. People tend to pick it up years afterward, by
+accident, from whoever they happen to sit next to.
+
+That gap is getting more expensive, quickly. When plausible-looking code can be
+generated in seconds, producing code stops being the bottleneck and
+*establishing that code is correct* becomes the scarce skill. Tests, type
+checks, automated runs, and review are the mechanisms for verifying work you did
+not write line by line yourself — which is an increasingly large fraction of all
+work. The faster code arrives, the more the infrastructure around it decides
+whether you can believe any of it.
+
+This course asks you to build things from scratch and know they are right. These
+tools are how you keep knowing that when the code grows past what you can hold
+in your head — or when you did not write all of it yourself.
+
 ## Why you are the one teaching it
 
-**Because teaching is how you learn a tool properly.** You can read the `pytest`
+**Teaching a tool is how you learn it properly.** You can read the `pytest`
 documentation and come away feeling like you understand it. Standing in front of
 five people who are going to ask you questions is a different bar entirely — you
 tend to find the holes in your own understanding about an hour into preparing,
 which is exactly the point.
 
-**And because it gets all of you eight tools instead of one.** Nobody picks up a
+**And it gets all of you eight tools instead of one.** Nobody picks up a
 professional toolchain in a semester alone. Six people each learning one tool
 well and teaching it means everyone leaves with a working map of the whole
 thing — and knows who to ask about each piece.
-
-This course is about building things from scratch and knowing they are right.
-The practices you will be teaching each other — tests that catch regressions,
-environments that rebuild identically, checks that run automatically — are how
-working scientists go on knowing their code is right once it gets big enough
-that they can no longer hold all of it in their head.
 
 ## What you produce
 
