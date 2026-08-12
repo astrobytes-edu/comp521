@@ -22,3 +22,6 @@ data/cache/
 *.fits
 
 .adr/
+
+# Internal planning site build
+planning/_build/
