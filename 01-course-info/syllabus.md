@@ -67,12 +67,6 @@ large amount of memory.
 Software (Python, `git`, and the scientific stack) is free, open-source, and
 installed in Week 1 — see [Getting Started](../02-getting-started/index.md).
 
-:::{important} If you do not have a suitable laptop
-Tell me in the first week. SDSU has device-lending resources, and this is a
-solvable problem — but only if I know about it. Do not quietly fall behind
-because of hardware.
-:::
-
 :::{note} Core Course Throughline
 > Build algorithms from scratch, then leverage libraries for real data.
 

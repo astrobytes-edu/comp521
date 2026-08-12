@@ -36,6 +36,10 @@ project:
         - file: 01-course-info/ai-policy.md
         - file: 01-course-info/grading.md
 
+    - title: Assignments
+      children:
+        - file: assignments/se-presentation.md
+
     - title: Getting Started
       children:
         - file: 02-getting-started/index.md
