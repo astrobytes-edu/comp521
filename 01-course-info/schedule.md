@@ -78,9 +78,10 @@ point, control flow, the five algorithmic patterns
 - [Functions and modules](../03-python/05-python-functions-modules.md)
 - [OOP fundamentals](../03-python/06-oop-fundamentals.md)
 - [NumPy fundamentals](../04-scientific-computing/07-numpy-fundamentals.md)
+- [Matplotlib fundamentals](../04-scientific-computing/08-matplotlib-fundamentals.md)
 
-**Topics** — classes for scientific data, arrays vs. lists, vectorization;
-building a `ScientificData` class; exploratory analysis of the Gaia DR3 sample
+**Topics** — arrays vs. lists, vectorization, plotting; log and inverted axes;
+classes and modules (needed from Project 2 onward)
 
 **Due** — **Project 1** + short **EDA report** (1–2 pages), Fri **Sep 4**
 
@@ -96,8 +97,6 @@ is **Labor Day** — the campus is closed and some of you will be travelling.
 ### Week 3 — Sep 8, 10 · Discrete computing and visualization
 
 **Readings**
-- [Matplotlib fundamentals](../04-scientific-computing/08-matplotlib-fundamentals.md)
-- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md)
 - [Finite differences](../05-numerical-methods/01-foundations/01-mod1-part1-finite-differences.md)
 - [Numerical errors](../05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md)
 - [Taylor series](../05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md)
@@ -132,7 +131,9 @@ and bracketing; habitable-zone calculation
 
 ### Week 6 — Sep 29, Oct 1 · Real data acquisition
 
-**Readings** — *Data acquisition and cleaning* (to be posted)
+**Readings**
+- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md)
+- *Data acquisition and cleaning* (to be posted)
 
 **Topics** — APIs, Lightkurve, quality flags, missing data, outlier
 identification; downloading and cleaning real Kepler light curves
