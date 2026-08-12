@@ -13,7 +13,7 @@ regrade policy, the [Syllabus](syllabus.md) is authoritative.
 | Projects (6 × ~8.3%) | 50% |
 | Final project | 20% |
 | SE presentations (2 × 5%) | 10% |
-| Reflections (3) | 10% |
+| Growth Reflections (3) | 10% |
 | Scholarly engagement | 10% |
 
 ## Project rubric (50%)
@@ -57,16 +57,16 @@ allocation.
 **Project 1** substitutes a shorter **EDA report (1–2 pages)**, scored in the
 same 20-point slot.
 
-## Reflections (10%)
+## Growth Reflections (10%)
 
 Three across the semester. See
-[Reflections](syllabus.md#sec-reflections) for what each should contain.
+[Growth Reflections](syllabus.md#sec-reflections) for what each should contain.
 
-| # | Due with | Date |
+| | Due | Purpose |
 |---|---|---|
-| Growth Memo 1 | Project 1 | Fri **Sep 4** |
-| Growth Memo 2 | Project 4 | Mon **Oct 19** |
-| Growth Synthesis | Final Project | Mon **Dec 14** |
+| Growth Memo 1 | Mon **Aug 31** | Baseline, before the course changes how you work |
+| Growth Memo 2 | Mon **Oct 19** | Mid-semester course correction |
+| Growth Synthesis | Mon **Dec 14** | The whole arc |
 
 Graded on engagement, not polish:
 

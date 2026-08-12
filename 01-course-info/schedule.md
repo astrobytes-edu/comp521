@@ -37,7 +37,7 @@ written and will appear before their week.
 | No class — Thanksgiving | Thu **Nov 26** |
 | Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
-| Growth Synthesis due | Mon **Dec 14** |
+| Growth Synthesis due | Mon **Dec 14** (start of finals week) |
 | Final report due | Thu **Dec 17**, end of day |
 :::
 
@@ -58,7 +58,7 @@ written and will appear before their week.
 **Topics** — environment setup, Git/GitHub workflow, Python syntax, floating
 point, control flow, the five algorithmic patterns
 
-**Due** — **Project 0** (bootcamp), Mon **Aug 31**
+**Due** — **Project 0** (bootcamp) + **Growth Memo 1** (baseline), Mon **Aug 31**
 
 ### Week 2 — Sep 1, 3 · Data structures, OOP, and arrays
 
@@ -71,8 +71,7 @@ point, control flow, the five algorithmic patterns
 **Topics** — classes for scientific data, arrays vs. lists, vectorization;
 building a `ScientificData` class; exploratory analysis of the Gaia DR3 sample
 
-**Due** — **Project 1** + short **EDA report** (1–2 pages) + **Growth Memo 1**
-(baseline), Fri **Sep 4**
+**Due** — **Project 1** + short **EDA report** (1–2 pages), Fri **Sep 4**
 
 :::{note} Why Project 1 is due Friday
 Every other project is due Monday. Project 1 is the exception because Mon Sep 7

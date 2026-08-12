@@ -23,7 +23,7 @@ author: "Dr. Anna Rosen"
 - **Class format:** every session mixes instruction and hands-on work. **Bring your laptop to every class.**
 - **Weekly cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned.
 - **Deadlines:** projects are due **Mondays at 11:59 pm PT**. See [Important Dates](#sec-important-dates).
-- **Reflections:** three across the semester — Growth Memos with Projects 1 and 4, and the Growth Synthesis with the final project.
+- **Growth Reflections:** three across the semester — a baseline memo in Week 1, a mid-semester memo, and the Growth Synthesis at the start of finals week.
 - **Getting help:** see [Getting Help](#sec-getting-help). Before emailing, check this syllabus and recent Canvas announcements.
 :::
 
@@ -132,8 +132,7 @@ By the end of this course, students will be able to:
    reflect your own understanding.
 
 **Where these outcomes are assessed:** Projects 1–6, the Final Project, the
-Software Engineering Presentations, and the accompanying Growth Memos and
-Growth Synthesis.
+Software Engineering Presentations, and the Growth Reflections.
 
 (sec-grading)=
 ## Grading & Assessments
@@ -143,12 +142,13 @@ Growth Synthesis.
 | Projects (6 total; ~8.3% each) | 50% |
 | Final Project | 20% |
 | SE Presentations (2 total; 5% each) | 10% |
-| Reflections (3 total) | 10% |
+| Growth Reflections (3 total) | 10% |
 | Scholarly Engagement | 10% |
 
-The three reflections are spaced across the semester: a **Growth Memo** with
-Project 1, a second **Growth Memo** with Project 4, and the **Growth Synthesis**
-with the final project. See [Reflections](#sec-reflections).
+The three Growth Reflections are spaced across the semester: a **baseline**
+Growth Memo in Week 1, a **mid-semester** Growth Memo, and the **Growth
+Synthesis** at the start of finals week. See
+[Growth Reflections](#sec-reflections).
 
 (sec-important-dates)=
 ### Important Dates
@@ -160,6 +160,7 @@ finishing in the room.
 | Project | Assigned | Due |
 |---|---|---|
 | Project 0 (Bootcamp) | Tue **Aug 25** | Mon **Aug 31** |
+| Growth Memo 1 (baseline) | Tue **Aug 25** | Mon **Aug 31** |
 | Project 1 — Scientific Programming & EDA | Tue **Aug 25** | Fri **Sep 4** † |
 | Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |
 | Project 3 — Root Finding & Data Acquisition | Tue **Sep 22** | Mon **Oct 5** |
@@ -304,7 +305,7 @@ Kepler data:
 - a code repository with a runnable workflow (README + reproduction instructions),
 - verification evidence (tests, sanity checks, convergence diagnostics),
 - a short **research memo** describing methods, results, and figures,
-- a **Growth Memo**, for Projects 1 and 4 only (see [Reflections](#sec-reflections)).
+- a **Growth Memo** with Project 4 only (see [Growth Reflections](#sec-reflections)).
 
 **Research memo format:** submit as a **PDF** in your project repo.
 **Single-spaced**, **2–3 pages of text** (not counting figures or references).
@@ -438,41 +439,23 @@ reproducibility, and scientific communication. You should expect to defend your
 design and verification choices.
 
 (sec-reflections)=
-### Reflections (10% total; 3 reflections)
+### Growth Reflections (10% total)
 
-Reflections build **metacognition** — thinking about how you learn so you can
-improve your workflow, debugging habits, and verification discipline over time.
-Write these in an **informal, memo-like voice** (not an essay). Honesty and
+Growth Reflections build **metacognition** — thinking about how you learn so you
+can improve your workflow, debugging habits, and verification discipline over
+time. Write them in an **informal, memo-like voice** (not an essay). Honesty and
 specific evidence matter more than polished prose.
 
 There are three, deliberately spaced so they form a trajectory rather than a
 chore:
 
-| # | Due with | Date | Purpose |
-|---|---|---|---|
-| 1 | Project 1 | Fri **Sep 4** | **Baseline** — how you approach problems now |
-| 2 | Project 4 | Mon **Oct 19** | **Course correction** — what has changed, what has not |
-| 3 | Final Project | Mon **Dec 14** | **Synthesis** — the whole arc |
+| | Due | Purpose |
+|---|---|---|
+| **Growth Memo 1** | Mon **Aug 31** | **Baseline** — how you work *before* this course changes it |
+| **Growth Memo 2** | Mon **Oct 19** | **Course correction** — what has changed, what has not |
+| **Growth Synthesis** | Mon **Dec 14** | **Synthesis** — the whole arc |
 
-:::{tip} Why the first one matters
-It is tempting to treat the Week 2 memo as a formality. It is the opposite: it
-is the only record of how you actually thought before this course changed how
-you think. In December you will be asked what changed — and a specific, honest
-baseline is what makes that question answerable instead of guesswork.
-:::
-
-(sec-growth-memos)=
-#### Growth Memos (Reflections 1 and 2)
-
-Each should include:
-
-- evidence of how your work evolved (what you tried, what failed, what changed),
-- 2–3 recurring patterns and their likely causes,
-- 2–3 concrete next-step habits ("When I…, I will…"),
-- a verification plan (how you will know your results are correct),
-- a brief AI and collaboration reflection and disclosure (even if "none").
-
-Graded on engagement, not polish:
+All three are graded on engagement, not polish:
 
 | Mark | Meaning | Credit |
 |:--|:--|--:|
@@ -480,19 +463,61 @@ Graded on engagement, not polish:
 | ✓ | Adequate reflection | 85% |
 | ✓− | Minimal effort | 50% |
 
-Be specific. "I did not understand why Newton's method diverged until I plotted
-the iterates" is worth more than a page of general statements about learning a lot.
+Be specific throughout. "I did not understand why Newton's method diverged until
+I plotted the iterates" is worth more than a page of general statements about
+learning a lot.
+
+(sec-growth-memo-1)=
+#### Growth Memo 1 — Baseline (due Mon Aug 31)
+
+This one is different from the others: it is written in the first week, before
+you have done any real work in this course. That is the point. It is a record of
+how you thought *before*, and it only exists because nobody can reconstruct that
+honestly in December.
+
+Write about half a page on:
+
+- **How you currently work.** When you sit down to write code, what do you
+  actually do first? Be honest rather than aspirational.
+- **How you currently know your code is right.** What convinces you? Running it
+  once? Eyeballing a plot? Something else?
+- **What you expect to be hard** about this course, and why.
+- **What you want to be able to do** by December that you cannot do now.
+
+:::{tip} Do not skip this one
+It is tempting to treat a week-1 memo as a formality. It is the opposite: it is
+the only record of how you actually thought before this course changed how you
+think. In December you will be asked what changed — and a specific, honest
+baseline is what makes that question answerable instead of guesswork.
+:::
+
+(sec-growth-memo-2)=
+#### Growth Memo 2 — Mid-semester (due Mon Oct 19)
+
+By now you have finished four projects. This one looks backward at real work.
+Include:
+
+- evidence of how your work evolved (what you tried, what failed, what changed),
+- 2–3 recurring patterns and their likely causes,
+- 2–3 concrete next-step habits ("When I…, I will…"),
+- a verification plan (how you will know your results are correct),
+- a brief AI and collaboration reflection and disclosure (even if "none"),
+- **a look back at Growth Memo 1** — where were you right about yourself, and
+  where were you wrong?
+
+Returned before the **Nov 1 late withdrawal deadline**, so that if something is
+going badly you find out while you still have options.
 
 (sec-growth-synthesis)=
-#### Growth Synthesis (Reflection 3)
+#### Growth Synthesis (due Mon Dec 14)
 
-Submitted with your final project, synthesizing your learning across the
+Submitted at the start of finals week, synthesizing your learning across the
 semester: how your habits changed, how your verification strategies matured, and
 what you can do now that you could not do in August.
 
-**Write it against your own earlier memos.** Re-read what you wrote in September
-and October, quote yourself, and say where you were right, where you were wrong,
-and what you did not yet know to worry about. Guidance posted in Week 13.
+**Write it against your own earlier memos.** Re-read what you wrote in August and
+October, quote yourself, and say where you were right, where you were wrong, and
+what you did not yet know to worry about. Guidance posted in Week 13.
 
 (sec-ai-policy)=
 ## Academic Integrity & Generative AI Policy
