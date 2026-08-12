@@ -102,7 +102,7 @@ Two presentations, 5% each, scored out of 100:
 | Technical accuracy and depth | 30 | Correct, and deeper than the tool's front page |
 | Live demo | 30 | The tool actually runs; rehearsed; the example makes the point |
 | Clarity, pacing, and questions | 20 | Lands near 12 minutes; pitched at classmates; honest under questioning |
-| Handout | 20 | One page, usable afterward, with a worked example and "when not to use this" |
+| Repository | 20 | Clones and runs; README has a worked example and "when not to use this" |
 
 Full assignment and topic list:
 [Software Engineering Presentation](../assignments/se-presentation.md).

@@ -7,8 +7,8 @@ subtitle: "COMP 521 | Fall 2026"
 
 **Twice** during the semester you will **teach the class** a software
 engineering tool or practice — a **12-minute talk** followed by **3 minutes of
-questions**, built around a **live demonstration**, plus a **one-page handout**
-for your classmates.
+questions**, built around a **live demonstration**, delivered from a **GitHub
+repository** your classmates can clone and run.
 
 You present two different topics, once in each round. Each is worth 5% of your
 course grade.
@@ -71,24 +71,42 @@ have never used your tool. Twelve minutes is short — plan the talk to land at
 twelve so the questions are not squeezed.
 
 **2. A live demo.**
-Not slides showing code — the tool actually running, in front of us. People
-learn a tool by watching it work and then copying what they saw; a screenshot
-of a terminal is not the same thing as a terminal.
+The tool actually running, in front of us. People learn a tool by watching it
+work and then copying what they saw; a screenshot of a terminal is not the same
+thing as a terminal.
+
+**Use a Jupyter notebook where the topic suits it** — testing, profiling,
+benchmarking, type checking, seeds and reproducibility all demo well in a
+notebook, and the notebook doubles as your written explanation.
+
+**Some topics do not live in a notebook**, and that is fine. `git bisect`,
+pre-commit hooks, CI, code review, and licensing happen in a terminal or on
+GitHub — demo them there. The repository is still the deliverable either way.
 
 **Demo on whatever makes the point best.** Use one of your own projects from
 this course, write a small example from scratch, or use something you brought
 from elsewhere. A previous project is often easiest, because you already know
 where its problems are — but that is a convenience, not a requirement.
 
-**3. A one-page handout.**
-One page. It must contain:
+**3. A GitHub repository containing everything needed to reproduce your demo.**
+This replaces slides and a handout — it *is* the artifact your classmates keep.
+
+Its `README.md` must contain:
 
 - a **worked example** — the actual commands and output
 - **when *not* to use this** — the situation where the tool is the wrong answer,
   or where its cost exceeds its benefit
 
-Everything else on the page is up to you. Most people will want the three or
-four commands that matter and a link to the real documentation.
+Beyond that, include whatever someone needs to actually run what you showed:
+the notebook, the environment file, the sample data, the broken commit. Someone
+who clones your repo a month from now should be able to reproduce your demo
+without asking you anything.
+
+:::{note} No slides
+You do not need slides, and I would rather you did not make any. Present from
+the notebook or from the terminal. If something needs explaining, put it in a
+markdown cell or in the README where it stays useful afterward.
+:::
 
 :::{tip} Why "when not to use this" is required
 It is the fastest way to tell the difference between someone who used a tool and
@@ -264,7 +282,7 @@ curiosity.
 ## The two rounds
 
 **Round 1** is the full treatment described above: 12 minutes, 3 for questions,
-live demo, one-page handout.
+live demo, repository.
 
 **Round 2 is deliberately left open.** After watching a full round I will decide
 whether the second is another 15-minute treatment or a shorter lightning talk,
@@ -280,7 +298,7 @@ Presentations happen at the **start of class**. Dates are announced once topics
 are chosen — I assign them so that dependencies work out and the most broadly
 useful tools come early.
 
-Your handout is due to me by the start of your presentation.
+Your repository link is due to me by the start of your presentation.
 
 ## What makes these good
 
@@ -317,7 +335,7 @@ Each presentation is scored out of 100 and is worth 5% of your course grade.
 | Technical accuracy and depth | 30 | Correct, and deeper than the tool's front page. You can answer why it works, not just what to type. |
 | Live demo | 30 | The tool actually runs. The example makes the point. It is rehearsed enough that we watch the tool, not you debugging your terminal. |
 | Clarity, pacing, and questions | 20 | Lands near 12 minutes. Pitched at your classmates. Handles questions honestly — "I do not know" is a fine answer, bluffing is not. |
-| Handout | 20 | One page, genuinely usable afterward. Includes a worked example and a clear "when not to use this." |
+| Repository | 20 | Clones and runs. README has a worked example and a clear "when not to use this." Someone could reproduce your demo without you. |
 
 The thing I am actually looking for is whether the class can use the tool
 afterward. Everything in the table above is a means to that.
@@ -327,8 +345,8 @@ afterward. Everything in the table above is a means to that.
 The [AI Use & Growth Mindset Policy](../01-course-info/ai-policy.md) applies as
 it does everywhere else in this course, with two clarifications:
 
-- **Slides and handout wording** are presentation work, and fall under the same
-  rules as documentation and formatting in your current phase.
+- **Your README and notebook prose** are presentation work, and fall under the
+  same rules as documentation and formatting in your current phase.
 - **If your demo uses your own project code, core-solution rules apply to it in
   full.** You may not have AI write the tests, the workflow file, or the
   annotations you are presenting — those *are* the assignment.

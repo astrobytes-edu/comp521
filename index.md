@@ -39,8 +39,9 @@ mixes instruction with hands-on work — bring your laptop.
 | 11–12 | Project 6 | Machine learning foundations | Mon Nov 16 |
 | 13–16 | Final | Complete data science pipeline | Thu Dec 17 |
 
-A **Project 0 bootcamp** (environment setup, Git, NumPy, Matplotlib) is due
-Mon **Aug 31**. Projects are due **Mondays at 11:59 pm PT**.
+A **Project 0 setup bootcamp** (Python environment, command line, Git and
+GitHub, Classroom50) is due Mon **Aug 31**. Projects are due **Mondays at
+11:59 pm PT**.
 
 Projects are done in **rotating pairs** — you will work with everyone in the
 class over the semester — but each of you writes, submits, and must be able to

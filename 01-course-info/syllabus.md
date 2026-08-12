@@ -272,16 +272,23 @@ Each two-week project runs in two halves:
 - **Week B** — application to real data, comparison with library implementations
 
 (sec-project-zero)=
-#### Project 0 — Bootcamp (ungraded, required)
+#### Project 0 — Setup Bootcamp (ungraded, required)
 
-Due **Mon Aug 31**. Project 0 exists to get every machine working and every
-student onto GitHub before real work starts: environment setup, `git` and
-the submission workflow, a first NumPy array, a first Matplotlib figure.
+Due **Mon Aug 31**. Project 0 is not about Python — it is about making sure the
+machinery works before any real work depends on it. You will:
+
+- install and verify your Python environment,
+- get comfortable enough at the command line to navigate and run things,
+- set up `git` and GitHub,
+- join the course on **Classroom50** and push a first commit through it,
+- confirm your submission actually arrived.
+
+Work through [Getting Started](../02-getting-started/index.md) alongside it.
 
 It is **graded on completion only** and does not count toward your project
-average — but it is required, and Project 1 assumes it is done. Environment
-problems are the single most common reason students fall behind in week 2, and
-this is how we prevent that.
+average — but it is required, and Project 1 assumes it is done. Environment and
+submission problems are the single most common reason students fall behind in
+the first weeks, and this is how we prevent that.
 
 (sec-thread)=
 #### The thread running through the projects
@@ -358,7 +365,8 @@ through it silently.
 
 Twice during the semester you teach the class a software engineering tool or
 practice — a 12-minute talk with 3 minutes of questions, built around a live
-demonstration, plus a one-page handout.
+demonstration, delivered from a GitHub repository your classmates can clone
+and run. No slides.
 
 The goal is that your classmates can use the tool afterward. Topics range across
 testing, code quality, debugging, performance, and reproducibility; you present
