@@ -46,7 +46,7 @@ written and will appear before their week.
 | Labor Day — campus closed | Mon **Sep 7** |
 | Late withdrawal deadline | Sun **Nov 1** |
 | No class — Thanksgiving | Thu **Nov 26** |
-| Final presentations | Tue **Dec 8**, Thu **Dec 10** |
+| Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
 | Growth Synthesis due | Mon **Dec 14** (start of finals week) |
 | Final report due | Thu **Dec 17**, end of day |
@@ -245,22 +245,18 @@ the following week has no cushion built in.
 
 Working sessions with individual check-ins.
 
-### Week 15 — Dec 1, 3 · Implementation and dress rehearsal
+### Week 15 — Dec 1, 3 · Implementation
 
-**Tue Dec 1** — working session with individual check-ins. Bring results to
-show, not just code.
+Working sessions with individual check-ins. Bring results to show, not just
+code.
 
-**Thu Dec 3** — dress rehearsal. Run your talk past me and your classmates. This
+### Week 16 — Dec 8, 10 · Dress rehearsal and presentations
+
+**Tue Dec 8** — dress rehearsal. Run your talk past me and your classmates; this
 is the last chance to catch a figure nobody can read from the back of the room.
 
-### Week 16 — Dec 8, 10 · Final presentations
-
-**12 minutes each plus 3 for questions**, half the class each day. I will assign
-slots.
-
-**Tue Dec 8** — final presentations, group 1.
-
-**Thu Dec 10** — final presentations, group 2. Last class meeting.
+**Thu Dec 10** — **final presentations**, 10 minutes each (about 8 to present,
+2 for questions). Last class meeting.
 
 **Then:**
 

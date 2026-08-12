@@ -193,7 +193,7 @@ finishing in the room.
 
 | | Date | |
 |---|---|---|
-| Final presentations | Tue **Dec 8** and Thu **Dec 10** | in class |
+| Final presentations | Thu **Dec 10** | in class |
 | **Growth Synthesis** | Mon **Dec 14** | 11:59 pm PT |
 | **Final report + repository** | Thu **Dec 17** | end of day — our final exam date |
 
@@ -211,8 +211,7 @@ means writing it while the semester is genuinely in view.
 | Mon **Sep 7** | **Labor Day** — campus closed |
 | Sun **Nov 1** | Late withdrawal deadline |
 | Thu **Nov 26** | **No class** — Thanksgiving |
-| Tue **Dec 8**, Thu **Dec 10** | Final presentations |
-| Thu **Dec 10** | Last class meeting |
+| Thu **Dec 10** | Last class meeting — final presentations |
 | Thu **Dec 17** | Final exam date — final report due, end of day |
 
 Week-by-week topics and readings are on the [Course Schedule](schedule.md).
@@ -474,16 +473,15 @@ implementations.
 
 | Deliverable | Due |
 |---|---|
-| In-class presentation | Tue **Dec 8** or Thu **Dec 10** |
+| In-class presentation | Thu **Dec 10** |
 | Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
 | Research report (5–7 pages) + repository | Thu **Dec 17**, end of day |
 
 The report covers background and motivation, methods, results, and conclusions.
 
-Presentations are **12 minutes plus 3 for questions**, the same format as the SE
-presentations — long enough to explain what you built, show that it works, and
-say where it breaks. Half the class presents on Dec 8 and half on Dec 10; I will
-assign slots.
+Presentations are **10 minutes** — roughly 8 to present and 2 for questions.
+Short, so plan it: enough to say what you built, show that it works, and say
+where it breaks. Everyone presents on Dec 10.
 
 The final project is graded on the same description as the other projects (see
 [Grading](grading.md)), applied to a larger piece of work. You should expect to
