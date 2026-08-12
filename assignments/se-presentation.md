@@ -5,18 +5,21 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Software Engineering Presentation
 
-Once during the semester you will teach the class one software engineering tool
-or practice — a **12-minute talk** followed by **3 minutes of questions**, built
-around a **live demonstration**, plus a **one-page handout** for your
+Once during the semester you will **teach the class** one software engineering
+tool or practice — a **12-minute talk** followed by **3 minutes of questions**,
+built around a **live demonstration**, plus a **one-page handout** for your
 classmates.
 
-:::{important} The demo is the assignment
-This is not a research talk about a tool. It is a demonstration of the tool
-actually running, solving a problem you can explain.
+:::{important} The goal is that your classmates can use it afterward
+That is the whole assignment. Not "cover" a tool, not summarize its
+documentation — leave five other people able to go do the thing.
 
-The difference matters. Anyone can summarize the `pytest` documentation in
-twelve minutes. Showing us a test catching a real bug — and explaining why it
-caught it — requires you to have used the thing.
+The practical test: **does someone in the room use your tool that week?** If
+your talk sends one classmate off to add tests to their project on Thursday
+night, it worked. If everyone nods politely and nothing changes, it did not,
+however polished the slides were.
+
+Everything below follows from that.
 :::
 
 ## Why this exists
@@ -43,7 +46,14 @@ have never used your tool. Twelve minutes is short — plan the talk to land at
 twelve so the questions are not squeezed.
 
 **2. A live demo.**
-Not slides showing code — the tool actually running, in front of us.
+Not slides showing code — the tool actually running, in front of us. People
+learn a tool by watching it work and then copying what they saw; a screenshot
+of a terminal is not the same thing as a terminal.
+
+**Demo on whatever makes the point best.** Use one of your own projects from
+this course, write a small example from scratch, or use something you brought
+from elsewhere. A previous project is often easiest, because you already know
+where its problems are — but that is a convenience, not a requirement.
 
 **3. A one-page handout.**
 One page. It must contain:
@@ -64,7 +74,7 @@ If you cannot name that regime, you have not used it enough to teach it.
 ## Topics
 
 Each topic below is paired with what a strong demo would show. These are
-suggestions, not requirements — if you have a better demo idea for your project,
+suggestions, not requirements — if you have a better idea for making the point,
 propose it.
 
 ### Testing with `pytest`
@@ -168,6 +178,8 @@ that.
 
 **Use a real problem.** "Here is a bug I actually had" beats "here is a bug one
 might have" every time, and it is easier to talk about because you remember it.
+This is the main reason people reach for a previous project — the problems in it
+are already real.
 
 **Twelve minutes is short.** You cannot cover everything a tool does, and trying
 to is the most common way these talks fail. Pick the two things that would
@@ -179,6 +191,10 @@ watch you fight a typo for ninety seconds.
 
 **Expect questions about the boundaries.** I will ask where the tool breaks
 down, what it costs, and when you would skip it. Those questions are the point.
+
+**Aim for one thing they can do tomorrow.** If your classmates leave with a
+single command they will actually run this week, that is a better outcome than a
+complete survey nobody acts on.
 
 ## Using AI on this assignment
 
