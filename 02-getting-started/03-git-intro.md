@@ -75,9 +75,8 @@ graph LR
 
 ### Step 1: Install Git
 
-::: {.panel-tabset}
-
-### macOS
+:::::{tab-set}
+::::{tab-item} macOS
 
 Git comes pre-installed. Verify with:
 
@@ -87,7 +86,8 @@ git --version
 
 If not installed, it will prompt you to install Xcode Command Line Tools.
 
-### Linux
+::::
+::::{tab-item} Linux
 
 ```bash
 # Ubuntu/Debian
@@ -98,7 +98,8 @@ sudo apt-get install git
 sudo dnf install git
 ```
 
-### Windows
+::::
+::::{tab-item} Windows
 
 Download from <https://git-scm.com/downloads>
 
@@ -111,7 +112,8 @@ Download from <https://git-scm.com/downloads>
 
 After installation, use **Git Bash** for all Git commands (not Command Prompt).
 
-:::
+::::
+:::::
 
 ### Step 2: Configure Your Identity
 

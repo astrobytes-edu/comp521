@@ -122,9 +122,8 @@ You may see modern Python workflows using **`uv`** (a very fast package + enviro
 **When `uv` is a good choice:** once you're comfortable with environments, and you're working on a Python-only project where speed and lockfiles matter. We may revisit `uv` later in the semester as an "industry-style" alternative.
 :::
 
-::: {.panel-tabset}
-
-### macOS/Linux
+:::::{tab-set}
+::::{tab-item} macOS/Linux
 
 **1. Download Miniforge:**
 
@@ -183,7 +182,8 @@ conda --version
 
 **Success**: Shows version number like `conda 24.7.1`
 
-### Windows
+::::
+::::{tab-item} Windows
 
 :::{warning} Windows Users: Important Notes
 
@@ -234,7 +234,8 @@ conda --version
 
 **Success**: Shows version number like `conda 24.7.1`
 
-:::
+::::
+:::::
 
 :::{warning} Didn't Work?
 
