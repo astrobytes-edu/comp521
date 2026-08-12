@@ -246,4 +246,4 @@ Your task:
 ---
 
 **Navigation**
-[← Part 4: Random Sampling](04-mod1-part4-sampling.qmd) | [Module 1: Statistical Foundations Home](00-mod1-part0-overview.qmd) | Module 2: Coming soon
+[← Part 4: Random Sampling](04-mod1-part4-sampling.md) | [Module 1: Statistical Foundations Home](00-mod1-part0-overview.md) | Module 2: Coming soon

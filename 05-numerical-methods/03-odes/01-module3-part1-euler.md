@@ -28,6 +28,7 @@ By the end of this section, you will be able to:
 
 ---
 
+(from-continuous-discrete)=
 ## From Continuous to Discrete
 
 The fundamental ODE initial value problem asks us to find a function $x(t)$ given its rate of change:
@@ -52,6 +53,7 @@ Numerical methods break this circular dependency by making assumptions about how
 
 Each assumption leads to a different family of methods with different error behaviors, stability properties, and conservation characteristics.
 
+(dimensional-analysis)=
 ## The Dimensional Analysis of Timesteps
 
 Before diving into specific methods, let's understand what constrains our choice of timestep $h$ from pure dimensional analysis.
@@ -120,6 +122,8 @@ $$E_\text{global} = \sum_{i=0}^{N-1} \tau_i \approx N \cdot \frac{h^2}{2}x''(\xi
 
 Euler is globally first-order: halving the timestep only halves the total error.
 
+(energy-drift)=
+(energy-drift-catastrophe)=
 ## The Energy Drift Catastrophe
 
 Let's see Euler fail catastrophically on the harmonic oscillator:

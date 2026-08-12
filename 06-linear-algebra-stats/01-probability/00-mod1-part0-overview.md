@@ -55,13 +55,13 @@ The boundaries between astrophysics and machine learning are dissolving. Modern 
 :::{tip} Core Path in 45 Minutes
 
 **Must-read blocks**:
-1. [Part 1: Sections 1.1 and 1.3](01-mod1-part1-foundations.qmd#temperature-lie)
-2. [Part 2: Sections 2.1 and 2.4](02-mod1-part2-statistical-tools.qmd#correlation)
-3. [Part 4: Sections 4.1 and 4.2](04-mod1-part4-sampling.qmd#random-sampling)
+1. [Part 1: Sections 1.1 and 1.3](01-mod1-part1-foundations.md#temperature-lie)
+2. [Part 2: Sections 2.1 and 2.4](02-mod1-part2-statistical-tools.md#correlation)
+3. [Part 4: Sections 4.1 and 4.2](04-mod1-part4-sampling.md#random-sampling)
 
 **Optional deep dives**:
-- [Part 2: Ergodicity and Bayesian sections](02-mod1-part2-statistical-tools.qmd#ergodicity)
-- [Part 4: Plummer sphere implementation details](04-mod1-part4-sampling.qmd#plummer-sphere)
+- [Part 2: Ergodicity and Bayesian sections](02-mod1-part2-statistical-tools.md#ergodicity)
+- [Part 4: Plummer sphere implementation details](04-mod1-part4-sampling.md#plummer-sphere)
 :::
 
 ## Quick Navigation Guide
@@ -74,10 +74,10 @@ The boundaries between astrophysics and machine learning are dissolving. Modern 
 ### 🏃 **Fast Track** {.unnumbered}
 Essential concepts only
 
-- [Temperature as a Parameter](01-mod1-part1-foundations.qmd#temperature-lie)
-- [Pressure from Statistics](01-mod1-part1-foundations.qmd#pressure-emerges)  
-- [Maximum Entropy Basics](01-mod1-part1-foundations.qmd#maximum-entropy)
-- [Random Sampling](04-mod1-part4-sampling.qmd#random-sampling)
+- [Temperature as a Parameter](01-mod1-part1-foundations.md#temperature-lie)
+- [Pressure from Statistics](01-mod1-part1-foundations.md#pressure-emerges)  
+- [Maximum Entropy Basics](01-mod1-part1-foundations.md#maximum-entropy)
+- [Random Sampling](04-mod1-part4-sampling.md#random-sampling)
 :::
 
 :::{grid-item}
@@ -86,10 +86,10 @@ Full conceptual understanding
 
 Everything in Fast Track, plus:
 
-- [Central Limit Theorem](01-mod1-part1-foundations.qmd#central-limit)
-- [Correlation and Independence](02-mod1-part2-statistical-tools.qmd#correlation)
-- [Marginalization](02-mod1-part2-statistical-tools.qmd#marginalization)
-- [Moments](03-mod1-part3-moments.qmd#moments)
+- [Central Limit Theorem](01-mod1-part1-foundations.md#central-limit)
+- [Correlation and Independence](02-mod1-part2-statistical-tools.md#correlation)
+- [Marginalization](02-mod1-part2-statistical-tools.md#marginalization)
+- [Moments](03-mod1-part3-moments.md#moments)
 - All "What We Just Learned" boxes
 :::
 
@@ -100,8 +100,8 @@ Deep dive with all details
 Complete module including:
 
 - All mathematical derivations
-- [Ergodicity](02-mod1-part2-statistical-tools.qmd#ergodicity)
-- [Error Propagation](02-mod1-part2-statistical-tools.qmd#error-propagation)
+- [Ergodicity](02-mod1-part2-statistical-tools.md#ergodicity)
+- [Error Propagation](02-mod1-part2-statistical-tools.md#error-propagation)
 - Thought experiments
 - Mathematical Deep Dives
 :::
@@ -129,46 +129,46 @@ Answer these quickly with **Yes = 1** and **No = 0**.
 
 **For Project 1 (Stellar Populations)**:
 
-- [Temperature as Parameter](01-mod1-part1-foundations.qmd#temperature-lie) - Understanding distribution parameters
-- [Moments](03-mod1-part3-moments.qmd#moments) - Population statistics  
-- [Random Sampling](04-mod1-part4-sampling.qmd#random-sampling) - Generating stellar populations
+- [Temperature as Parameter](01-mod1-part1-foundations.md#temperature-lie) - Understanding distribution parameters
+- [Moments](03-mod1-part3-moments.md#moments) - Population statistics  
+- [Random Sampling](04-mod1-part4-sampling.md#random-sampling) - Generating stellar populations
 
 **For Project 2 (N-body Dynamics)**:
 
-- [Random Sampling](04-mod1-part4-sampling.qmd#random-sampling) - Complete initial conditions
-- [Power Law Distributions](04-mod1-part4-sampling.qmd#power-laws) - Kroupa IMF
-- [Plummer Sphere](04-mod1-part4-sampling.qmd#plummer-sphere) - Spatial distributions
-- [Central Limit Theorem](01-mod1-part1-foundations.qmd#central-limit) - Why cluster properties are stable
-- [Error Propagation](02-mod1-part2-statistical-tools.qmd#error-propagation) - Understanding numerical errors
+- [Random Sampling](04-mod1-part4-sampling.md#random-sampling) - Complete initial conditions
+- [Power Law Distributions](04-mod1-part4-sampling.md#power-laws) - Kroupa IMF
+- [Plummer Sphere](04-mod1-part4-sampling.md#plummer-sphere) - Spatial distributions
+- [Central Limit Theorem](01-mod1-part1-foundations.md#central-limit) - Why cluster properties are stable
+- [Error Propagation](02-mod1-part2-statistical-tools.md#error-propagation) - Understanding numerical errors
 
 **For Project 3 (Monte Carlo Radiative Transfer)**:
 
-- [Maximum Entropy](01-mod1-part1-foundations.qmd#maximum-entropy) - Why exponentials appear in opacities
-- [Marginalization](02-mod1-part2-statistical-tools.qmd#marginalization) - Integrating over photon angles
-- [Error Propagation](02-mod1-part2-statistical-tools.qmd#error-propagation) - Monte Carlo convergence rates
-- [Inverse Transform](04-mod1-part4-sampling.qmd#inverse-transform) - Sampling path lengths
+- [Maximum Entropy](01-mod1-part1-foundations.md#maximum-entropy) - Why exponentials appear in opacities
+- [Marginalization](02-mod1-part2-statistical-tools.md#marginalization) - Integrating over photon angles
+- [Error Propagation](02-mod1-part2-statistical-tools.md#error-propagation) - Monte Carlo convergence rates
+- [Inverse Transform](04-mod1-part4-sampling.md#inverse-transform) - Sampling path lengths
 
 **For Project 4 (MCMC)**:
 
-- [Ergodicity](02-mod1-part2-statistical-tools.qmd#ergodicity) - Why MCMC works fundamentally
-- [Correlation](02-mod1-part2-statistical-tools.qmd#correlation) - Understanding autocorrelation times
-- [Central Limit Theorem](01-mod1-part1-foundations.qmd#central-limit) - Chain convergence diagnostics
-- [Moments](03-mod1-part3-moments.qmd#moments) - Posterior statistics
-- [Bayesian Thinking](02-mod1-part2-statistical-tools.qmd#bayesian-inference) - The theoretical foundation
+- [Ergodicity](02-mod1-part2-statistical-tools.md#ergodicity) - Why MCMC works fundamentally
+- [Correlation](02-mod1-part2-statistical-tools.md#correlation) - Understanding autocorrelation times
+- [Central Limit Theorem](01-mod1-part1-foundations.md#central-limit) - Chain convergence diagnostics
+- [Moments](03-mod1-part3-moments.md#moments) - Posterior statistics
+- [Bayesian Thinking](02-mod1-part2-statistical-tools.md#bayesian-inference) - The theoretical foundation
 
 **For Project 5 (Gaussian Processes)**:
 
-- [Correlation and Covariance](02-mod1-part2-statistical-tools.qmd#correlation) - Kernel functions are covariance
-- [Maximum Entropy](01-mod1-part1-foundations.qmd#maximum-entropy) - GP as max entropy given covariance
-- [Marginalization](02-mod1-part2-statistical-tools.qmd#marginalization) - Making predictions from joint distributions
-- [Moments](03-mod1-part3-moments.qmd#moments) - Understanding GP mean and variance functions
+- [Correlation and Covariance](02-mod1-part2-statistical-tools.md#correlation) - Kernel functions are covariance
+- [Maximum Entropy](01-mod1-part1-foundations.md#maximum-entropy) - GP as max entropy given covariance
+- [Marginalization](02-mod1-part2-statistical-tools.md#marginalization) - Making predictions from joint distributions
+- [Moments](03-mod1-part3-moments.md#moments) - Understanding GP mean and variance functions
 
 **For Final Project (Neural Networks)**:
 
-- [Temperature Parameter](01-mod1-part1-foundations.qmd#temperature-lie) - Softmax temperature
-- [Maximum Entropy](01-mod1-part1-foundations.qmd#maximum-entropy) - Cross-entropy loss
-- [Moments in ML](03-mod1-part3-moments.qmd#moments-ml) - Batch normalization
-- [Central Limit Theorem](01-mod1-part1-foundations.qmd#central-limit) - Why batch training works
+- [Temperature Parameter](01-mod1-part1-foundations.md#temperature-lie) - Softmax temperature
+- [Maximum Entropy](01-mod1-part1-foundations.md#maximum-entropy) - Cross-entropy loss
+- [Moments in ML](03-mod1-part3-moments.md#moments-ml) - Batch normalization
+- [Central Limit Theorem](01-mod1-part1-foundations.md#central-limit) - Why batch training works
 :::
 
 :::{note} 💭 Why This Module Exists: A Personal Note from Your Instructor
@@ -320,27 +320,27 @@ Before diving in, let's establish the connection between physics language and st
 
 | Physics Term | Statistical Equivalent | What It Means | First Appears |
 |-------------|------------------------|---------------|---------------|
-| **Temperature** $(T)$ | Distribution parameter | Controls the width/spread of velocity distribution | [Part 1, Section 1.1](01-mod1-part1-foundations.qmd#temperature-lie) |
-| **Pressure** $(P)$ | Ensemble average of momentum transfer | Mean value over all possible microstates | [Part 1, Section 1.2](01-mod1-part1-foundations.qmd#pressure-emerges) |
-| **Thermal equilibrium** | Stationary distribution | Distribution that doesn't change with time | [Part 2, Section 2.3](02-mod1-part2-statistical-tools.qmd#ergodicity) |
-| **Partition function** $(Z)$ | Normalization constant | Ensures probabilities sum to 1 | [Part 1, Section 1.4](01-mod1-part1-foundations.qmd#maximum-entropy) |
-| **Ensemble** | Sample space | Set of all possible microscopic states | [Part 1, Section 1.2](01-mod1-part1-foundations.qmd#pressure-emerges) |
-| **Correlation** | Statistical dependence | How variables relate to each other | [Part 2, Section 2.1](02-mod1-part2-statistical-tools.qmd#correlation) |
-| **Ergodicity** | Time average = ensemble average | Long-time behavior equals average over all states | [Part 2, Section 2.3](02-mod1-part2-statistical-tools.qmd#ergodicity) |
+| **Temperature** $(T)$ | Distribution parameter | Controls the width/spread of velocity distribution | [Part 1, Section 1.1](01-mod1-part1-foundations.md#temperature-lie) |
+| **Pressure** $(P)$ | Ensemble average of momentum transfer | Mean value over all possible microstates | [Part 1, Section 1.2](01-mod1-part1-foundations.md#pressure-emerges) |
+| **Thermal equilibrium** | Stationary distribution | Distribution that doesn't change with time | [Part 2, Section 2.3](02-mod1-part2-statistical-tools.md#ergodicity) |
+| **Partition function** $(Z)$ | Normalization constant | Ensures probabilities sum to 1 | [Part 1, Section 1.4](01-mod1-part1-foundations.md#maximum-entropy) |
+| **Ensemble** | Sample space | Set of all possible microscopic states | [Part 1, Section 1.2](01-mod1-part1-foundations.md#pressure-emerges) |
+| **Correlation** | Statistical dependence | How variables relate to each other | [Part 2, Section 2.1](02-mod1-part2-statistical-tools.md#correlation) |
+| **Ergodicity** | Time average = ensemble average | Long-time behavior equals average over all states | [Part 2, Section 2.3](02-mod1-part2-statistical-tools.md#ergodicity) |
 
 **Key insight**: Every physics concept teaches a fundamental statistical principle. When we say "temperature doesn't exist for one particle," we're really saying "you can't characterize a distribution with a single sample."
 :::
 
 ## Module Contents
 
-### [Part 1: The Foundation - Statistical Mechanics from First Principles](01-mod1-part1-foundations.qmd)
+### [Part 1: The Foundation - Statistical Mechanics from First Principles](01-mod1-part1-foundations.md)
 
 - Temperature is a Lie (For Single Particles)
 - Pressure Emerges from Chaos
 - The Central Limit Theorem: Why Everything is Gaussian
 - The Maximum Entropy Principle
 
-### [Part 2: Statistical Tools and Concepts](02-mod1-part2-statistical-tools.qmd)
+### [Part 2: Statistical Tools and Concepts](02-mod1-part2-statistical-tools.md)
 
 - Correlation and Independence
 - Marginalization: The Art of Ignoring
@@ -350,14 +350,14 @@ Before diving in, let's establish the connection between physics language and st
 - Variance and Standard Deviation
 - Bayesian Thinking: Learning from Data
 
-### [Part 3: Moments - The Statistical Bridge to Physics](03-mod1-part3-moments.qmd)
+### [Part 3: Moments - The Statistical Bridge to Physics](03-mod1-part3-moments.md)
 
 - What Are Moments?
 - Why Moments Matter Statistically
 - Example: Moments of Maxwell-Boltzmann
 - Moments in Machine Learning
 
-### [Part 4: Random Sampling - From Theory to Computation](04-mod1-part4-sampling.qmd)
+### [Part 4: Random Sampling - From Theory to Computation](04-mod1-part4-sampling.md)
 
 - Why Random Sampling Matters
 - The CDF and Inverse Transform Method
@@ -365,7 +365,7 @@ Before diving in, let's establish the connection between physics language and st
 - Rejection Sampling
 - Spatial Distributions: The Plummer Sphere
 
-### [Part 5: Module Summary and Synthesis](05-mod1-part5-synthesis.qmd)
+### [Part 5: Module Summary and Synthesis](05-mod1-part5-synthesis.md)
 
 - Key Takeaways
 - Quick Reference Tables

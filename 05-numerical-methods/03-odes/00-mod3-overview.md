@@ -61,10 +61,10 @@ Modern astrophysics runs on temporal evolution:
 ### 🏃 Fast Track {.unnumbered}
 Essential concepts only
 
-- [Euler's failure](01-module3-part1-euler.qmd#eulers-method)
-- [RK4 basics](02-module3-part2-runge-kutta.qmd#rk4-classical)
-- [Leapfrog method](03-module3-part3-symplectic.qmd#leapfrog-verlet)
-- [Stability regions](04-module3-part4-stability.qmd#stability-regions)
+- [Euler's failure](01-module3-part1-euler.md#eulers-method)
+- [RK4 basics](02-module3-part2-runge-kutta.md#rk4-classical)
+- [Leapfrog method](03-module3-part3-symplectic.md#leapfrog-verlet)
+- [Stability regions](04-module3-part4-stability.md#stability-regions)
 :::
 
 :::{grid-item}
@@ -73,10 +73,10 @@ Full conceptual understanding
 
 Everything in Fast Track, plus:
 
-- [Energy drift analysis](01-module3-part1-euler.qmd#energy-drift)
-- [RK derivations](02-module3-part2-runge-kutta.qmd#mathematical-formulation)
-- [Symplectic proof](03-module3-part3-symplectic.qmd#proof-symplecticity)
-- [Stiff equations](04-module3-part4-stability.qmd#stiff-equations)
+- [Energy drift analysis](01-module3-part1-euler.md#energy-drift)
+- [RK derivations](02-module3-part2-runge-kutta.md#mathematical-formulation)
+- [Symplectic proof](03-module3-part3-symplectic.md#proof-symplecticity)
+- [Stiff equations](04-module3-part4-stability.md#stiff-equations)
 - All "Check Your Understanding" boxes
 :::
 
@@ -87,9 +87,9 @@ Deep dive with all details
 Complete module including:
 
 - All mathematical derivations
-- [Modified Hamiltonian](03-module3-part3-symplectic.qmd#modified-hamiltonian)
-- [Adaptive timesteps](02-module3-part2-runge-kutta.qmd#adaptive-timestep)
-- [Implicit methods](04-module3-part4-stability.qmd#implicit-methods)
+- [Modified Hamiltonian](03-module3-part3-symplectic.md#modified-hamiltonian)
+- [Adaptive timesteps](02-module3-part2-runge-kutta.md#adaptive-timestep)
+- [Implicit methods](04-module3-part4-stability.md#implicit-methods)
 - Higher-order symplectic
 - All worked examples
 :::
@@ -102,32 +102,32 @@ Complete module including:
 :class: dropdown
 
 **For Project 2 (N-body Dynamics)**:
-- [Leapfrog implementation](03-module3-part3-symplectic.qmd#the-algorithm) - Your main integrator
-- [Energy monitoring](01-module3-part1-euler.qmd#energy-drift-catastrophe) - Conservation checks
-- [Timestep selection](01-module3-part1-euler.qmd#dimensional-analysis) - Setting h appropriately
-- [Close encounters](03-module3-part3-symplectic.qmd#implementation-tips) - Handling singularities
-- [Phase space structure](03-module3-part3-symplectic.qmd#phase-space-perspective) - Understanding orbits
+- [Leapfrog implementation](03-module3-part3-symplectic.md#the-algorithm) - Your main integrator
+- [Energy monitoring](01-module3-part1-euler.md#energy-drift-catastrophe) - Conservation checks
+- [Timestep selection](01-module3-part1-euler.md#dimensional-analysis) - Setting h appropriately
+- [Close encounters](03-module3-part3-symplectic.md#implementation-tips) - Handling singularities
+- [Phase space structure](03-module3-part3-symplectic.md#phase-space-perspective) - Understanding orbits
 
 **For Project 3 (Monte Carlo Radiative Transfer)**:
-- [Ray integration](02-module3-part2-runge-kutta.qmd#rk4-classical) - Path through varying media
-- [Adaptive methods](02-module3-part2-runge-kutta.qmd#adaptive-timestep) - Efficiency in varying opacity
-- [Stability for stiff cooling](04-module3-part4-stability.qmd#stiff-equations) - Radiative processes
+- [Ray integration](02-module3-part2-runge-kutta.md#rk4-classical) - Path through varying media
+- [Adaptive methods](02-module3-part2-runge-kutta.md#adaptive-timestep) - Efficiency in varying opacity
+- [Stability for stiff cooling](04-module3-part4-stability.md#stiff-equations) - Radiative processes
 
 **For Project 4 (MCMC)**:
-- [Hamiltonian Monte Carlo](03-module3-part3-symplectic.qmd#hamiltonian-mechanics) - Symplectic integration
-- [Detailed balance](03-module3-part3-symplectic.qmd#time-reversibility) - Preserving equilibrium
-- [Trajectory length](04-module3-part4-stability.qmd#stability-regions) - Choosing integration time
+- [Hamiltonian Monte Carlo](03-module3-part3-symplectic.md#hamiltonian-mechanics) - Symplectic integration
+- [Detailed balance](03-module3-part3-symplectic.md#time-reversibility) - Preserving equilibrium
+- [Trajectory length](04-module3-part4-stability.md#stability-regions) - Choosing integration time
 
 **For Project 5 (Gaussian Processes)**:
-- [SDE integration](04-module3-part4-stability.qmd#implicit-methods) - Stochastic differential equations
-- [Kernel evolution](02-module3-part2-runge-kutta.qmd#general-framework) - Time-dependent covariance
-- [Stability analysis](04-module3-part4-stability.qmd#linear-stability) - Numerical convergence
+- [SDE integration](04-module3-part4-stability.md#implicit-methods) - Stochastic differential equations
+- [Kernel evolution](02-module3-part2-runge-kutta.md#general-framework) - Time-dependent covariance
+- [Stability analysis](04-module3-part4-stability.md#linear-stability) - Numerical convergence
 
 **For Final Project (Neural Networks)**:
-- [Gradient descent as ODE](01-module3-part1-euler.qmd#from-continuous-discrete) - Training dynamics
-- [Learning rate as timestep](02-module3-part2-runge-kutta.qmd#adaptive-timestep) - Adaptive optimization
-- [Momentum methods](03-module3-part3-symplectic.qmd#hamiltonian-mechanics) - Accelerated convergence
-- [Stability of SGD](04-module3-part4-stability.qmd#stability-functions) - When training diverges
+- [Gradient descent as ODE](01-module3-part1-euler.md#from-continuous-discrete) - Training dynamics
+- [Learning rate as timestep](02-module3-part2-runge-kutta.md#adaptive-timestep) - Adaptive optimization
+- [Momentum methods](03-module3-part3-symplectic.md#hamiltonian-mechanics) - Accelerated convergence
+- [Stability of SGD](04-module3-part4-stability.md#stability-functions) - When training diverges
 :::
 
 :::{note} 💭 Why This Module Exists: A Personal Note from Your Instructor
@@ -197,19 +197,19 @@ Before diving in, let's establish the mathematical language for temporal evoluti
 
 ## Module Contents
 
-### [Part 1: The Failure of Naive Integration](01-module3-part1-euler.qmd)
+### [Part 1: The Failure of Naive Integration](01-module3-part1-euler.md)
 
 Witness Euler's method catastrophically violate energy conservation. Understand why local accuracy doesn't guarantee global stability. See how systematic geometric errors compound until physics is destroyed. Learn to recognize failure modes before they corrupt your simulations.
 
-### [Part 2: Building Better Methods - Runge-Kutta](02-module3-part2-runge-kutta.qmd)
+### [Part 2: Building Better Methods - Runge-Kutta](02-module3-part2-runge-kutta.md)
 
 Construct the Runge-Kutta family from Taylor series. Connect RK weights to quadrature rules from Module 2. Implement adaptive timestep control. Discover why even fourth-order accuracy can't preserve energy over cosmic timescales.
 
-### [Part 3: Symplectic Integration - Geometry Over Accuracy](03-module3-part3-symplectic.qmd)
+### [Part 3: Symplectic Integration - Geometry Over Accuracy](03-module3-part3-symplectic.md)
 
 Learn why preserving phase space structure matters more than minimizing error. Prove leapfrog's symplecticity. Understand modified Hamiltonians and bounded energy error. Master the art of choosing between accuracy and conservation.
 
-### [Part 4: Stability Analysis](04-module3-part4-stability.qmd)
+### [Part 4: Stability Analysis](04-module3-part4-stability.md)
 
 Analyze when and why numerical methods explode. Diagnose stiff equations that force tiny timesteps. Understand stability regions in the complex plane. Learn when implicit methods become essential despite their computational cost.
 

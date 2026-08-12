@@ -88,12 +88,12 @@ What matters is that you know **where to look when something goes wrong**:
 
 | Symptom | Return to... |
 |---------|--------------|
-| "Works on my machine but not the cluster" | [Chapter 1: Environments](./01-python-environment.qmd) |
-| "Convergence tests keep failing" | [Chapter 2: Numerical Reality](./02-python-calculator.qmd) |
-| "Loop runs forever / skips cases" | [Chapter 3: Control Flow](./03-python-control-flow.qmd) |
-| "This used to be fast, now it's unbearably slow" | [Chapter 4: Data Structures](./04-python-data-structures.qmd) |
-| "I can't remember what this function does" | [Chapter 5: Functions & Modules](./05-python-functions-modules.qmd) |
-| "I'm passing too many arguments everywhere" | [Chapter 6: Objects](./06-oop-fundamentals.qmd) |
+| "Works on my machine but not the cluster" | [Chapter 1: Environments](01-python-environment.md) |
+| "Convergence tests keep failing" | [Chapter 2: Numerical Reality](02-python-calculator.md) |
+| "Loop runs forever / skips cases" | [Chapter 3: Control Flow](03-python-control-flow.md) |
+| "This used to be fast, now it's unbearably slow" | [Chapter 4: Data Structures](04-python-data-structures.md) |
+| "I can't remember what this function does" | [Chapter 5: Functions & Modules](05-python-functions-modules.md) |
+| "I'm passing too many arguments everywhere" | [Chapter 6: Objects](06-oop-fundamentals.md) |
 
 Treat these chapters like a diagnostic manual. Come back when your code misbehaves. The answers are probably here.
 

@@ -319,7 +319,7 @@ This perspective reveals hidden simplicities:
 
 - **Near equilibrium, motion decomposes into independent oscillation modes (eigenvectors)** - Like a drum that vibrates in distinct patterns (fundamental, overtones), the cluster has natural oscillation modes. Small disturbances trigger these modes independently, each oscillating at its own characteristic frequency - these are the **eigenvectors** and **eigenvalues** of the system.
 
-- **Statistical properties emerge from the geometry of this high-dimensional space** - Velocity dispersion, dynamical stability, and evolution rates aren't separate properties but geometric features of how the system explores phase space. The volume it occupies relates to entropy, the shape of its trajectory relates to energy distribution, and the curvature of energy surfaces determines bound vs. unbound orbits. (See [Module 1a, Section 4](./01a-stat-mech-module.md) for the deep connection between stellar dynamics and statistical mechanics.)
+- **Statistical properties emerge from the geometry of this high-dimensional space** - Velocity dispersion, dynamical stability, and evolution rates aren't separate properties but geometric features of how the system explores phase space. The volume it occupies relates to entropy, the shape of its trajectory relates to energy distribution, and the curvature of energy surfaces determines bound vs. unbound orbits. (The connection between stellar dynamics and statistical mechanics runs deep — see the statistical thinking readings.)
 
 :::{admonition} 🚀 Real-World Application
 :class: tip
@@ -1682,7 +1682,7 @@ Remember:
 - Never compute explicit inverses
 - Add regularization when matrices are near-singular
 - Test your code with pathological cases
-- When in doubt, use SVD (see [Module 0b](./00b-linear-algebra-module.md)) — it's the most stable decomposition
+- When in doubt, use SVD (see [Module 0b](./00b-linear-algebra-stats-module.md)) — it's the most stable decomposition
 
 These aren't edge cases you might encounter — these are daily realities in computational astrophysics. Master them now, and save yourself countless debugging hours later!
 :::

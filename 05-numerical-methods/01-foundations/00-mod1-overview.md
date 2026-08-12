@@ -79,10 +79,10 @@ By completing this module, you will be able to:
 ### 🏃 Fast Track {.unnumbered}
 Essential concepts only
 
-- [The core paradox](01-mod1-part1-finite-differences.qmd#the-core-problem)
-- [Optimal h derivation](01-mod1-part1-finite-differences.qmd#optimal-h)
-- [Machine epsilon](02-mod1-part2-numerical-errors.qmd#machine-epsilon)
-- [Error types](02-mod1-part2-numerical-errors.qmd#three-types)
+- [The core paradox](01-mod1-part1-finite-differences.md#the-core-problem)
+- [Optimal h derivation](01-mod1-part1-finite-differences.md#optimal-h)
+- [Machine epsilon](02-mod1-part2-numerical-errors.md#machine-epsilon)
+- [Error types](02-mod1-part2-numerical-errors.md#three-types)
 :::
 
 :::{grid-item}
@@ -91,10 +91,10 @@ Full conceptual understanding
 
 Everything in Fast Track, plus:
 
-- [All finite difference methods](01-mod1-part1-finite-differences.qmd#finite-difference-landscape)
-- [Catastrophic cancellation](02-mod1-part2-numerical-errors.qmd#catastrophic-cancellation)
-- [Error measurement](02-mod1-part2-numerical-errors.qmd#measuring-errors)
-- [Taylor series applications](03-mod1-part3-taylor-series.qmd)
+- [All finite difference methods](01-mod1-part1-finite-differences.md#finite-difference-landscape)
+- [Catastrophic cancellation](02-mod1-part2-numerical-errors.md#catastrophic-cancellation)
+- [Error measurement](02-mod1-part2-numerical-errors.md#measuring-errors)
+- [Taylor series applications](03-mod1-part3-taylor-series.md)
 :::
 
 :::{grid-item}
@@ -118,25 +118,25 @@ Complete module including:
 :class: dropdown
 
 **For Project 2 (N-body Dynamics)**:
-- [Computing derivatives for forces](01-mod1-part1-finite-differences.qmd#the-core-problem)
-- [Choosing timesteps](01-mod1-part1-finite-differences.qmd#optimal-h)
-- [Error accumulation](02-mod1-part2-numerical-errors.qmd#propagation-error)
-- [Unit scaling](02-mod1-part2-numerical-errors.qmd#scale-appropriately)
+- [Computing derivatives for forces](01-mod1-part1-finite-differences.md#the-core-problem)
+- [Choosing timesteps](01-mod1-part1-finite-differences.md#optimal-h)
+- [Error accumulation](02-mod1-part2-numerical-errors.md#propagation-error)
+- [Unit scaling](02-mod1-part2-numerical-errors.md#scale-appropriately)
 
 **For Project 3 (Monte Carlo Radiative Transfer)**:
-- [Round-off in photon tracking](02-mod1-part2-numerical-errors.qmd#round-off-error)
-- [Catastrophic cancellation in optical depth](02-mod1-part2-numerical-errors.qmd#catastrophic-cancellation)
-- [Error propagation in random walks](02-mod1-part2-numerical-errors.qmd#propagation-error)
+- [Round-off in photon tracking](02-mod1-part2-numerical-errors.md#round-off-error)
+- [Catastrophic cancellation in optical depth](02-mod1-part2-numerical-errors.md#catastrophic-cancellation)
+- [Error propagation in random walks](02-mod1-part2-numerical-errors.md#propagation-error)
 
 **For Project 4 (MCMC)**:
-- [Computing likelihood gradients](01-mod1-part1-finite-differences.qmd#central-difference)
-- [Numerical stability](02-mod1-part2-numerical-errors.qmd#reformulation)
-- [Step size selection](01-mod1-part1-finite-differences.qmd#practical-algorithm)
+- [Computing likelihood gradients](01-mod1-part1-finite-differences.md#central-difference)
+- [Numerical stability](02-mod1-part2-numerical-errors.md#reformulation)
+- [Step size selection](01-mod1-part1-finite-differences.md#practical-algorithm)
 
 **For Final Project (Neural Networks)**:
-- [Automatic differentiation intro](03-mod1-part3-taylor-series.qmd#automatic-differentiation)
-- [Gradient computation](01-mod1-part1-finite-differences.qmd#finite-difference-landscape)
-- [Learning rate as h](01-mod1-part1-finite-differences.qmd#optimal-h)
+- [Automatic differentiation intro](03-mod1-part3-taylor-series.md#automatic-differentiation)
+- [Gradient computation](01-mod1-part1-finite-differences.md#finite-difference-landscape)
+- [Learning rate as h](01-mod1-part1-finite-differences.md#optimal-h)
 :::
 
 :::{note} 💭 Why This Module Exists: A Personal Note from Your Instructor
@@ -164,11 +164,11 @@ Before diving in, let's establish our mathematical language:
 
 | Symbol | Meaning | First Appears |
 |--------|---------|---------------|
-| $h$ | Step size for finite differences | [Part 1](01-mod1-part1-finite-differences.qmd#the-core-problem) |
-| $\epsilon$ | Machine epsilon ($\approx 2.2 \times 10^{-16}$ for float64) | [Part 2](02-mod1-part2-numerical-errors.qmd#machine-epsilon) |
-| $O(h^p)$ | Error scaling with order $p$ | [Part 1](01-mod1-part1-finite-differences.qmd#forward-difference) |
-| $f^{(n)}$ | $n$-th derivative of $f$ | [Part 3](03-mod1-part3-taylor-series.qmd) |
-| $E_{\text{abs}}$, $E_{\text{rel}}$ | Absolute and relative errors | [Part 2](02-mod1-part2-numerical-errors.qmd#measuring-errors) |
+| $h$ | Step size for finite differences | [Part 1](01-mod1-part1-finite-differences.md#the-core-problem) |
+| $\epsilon$ | Machine epsilon ($\approx 2.2 \times 10^{-16}$ for float64) | [Part 2](02-mod1-part2-numerical-errors.md#machine-epsilon) |
+| $O(h^p)$ | Error scaling with order $p$ | [Part 1](01-mod1-part1-finite-differences.md#forward-difference) |
+| $f^{(n)}$ | $n$-th derivative of $f$ | [Part 3](03-mod1-part3-taylor-series.md) |
+| $E_{\text{abs}}$, $E_{\text{rel}}$ | Absolute and relative errors | [Part 2](02-mod1-part2-numerical-errors.md#measuring-errors) |
 
 ### Key Concepts Preview
 
@@ -186,25 +186,25 @@ $$f(x+h) = f(x) + hf'(x) + \frac{h^2}{2}f''(x) + O(h^3)$$
 
 ## Module Contents
 
-### [Part 1: The Fundamental Paradox - Calculus on Computers](01-mod1-part1-finite-differences.qmd)
+### [Part 1: The Fundamental Paradox - Calculus on Computers](01-mod1-part1-finite-differences.md)
 - Why computers cannot take true limits
 - Forward, backward, and central differences from first principles
 - The optimal step size derivation
 - Practical algorithms for choosing $h$
 
-### [Part 2: Numbers Aren't Real - Computer Arithmetic & Cosmic Consequences](02-mod1-part2-numerical-errors.qmd)
+### [Part 2: Numbers Aren't Real - Computer Arithmetic & Cosmic Consequences](02-mod1-part2-numerical-errors.md)
 - Finding and understanding machine epsilon
 - Three types of numerical error
 - Catastrophic cancellation and how to avoid it
 - Error propagation in long calculations
 
-### [Part 3: Taylor Series - The Bridge from Continuous to Discrete](03-mod1-part3-taylor-series.qmd)
+### [Part 3: Taylor Series - The Bridge from Continuous to Discrete](03-mod1-part3-taylor-series.md)
 - Verifying error predictions empirically
 - Designing custom finite difference formulas
 - When NOT to use numerical derivatives
 - Introduction to automatic differentiation
 
-### [Part 4: Module Synthesis](04-mod1-synthesis.qmd)
+### [Part 4: Module Synthesis](04-mod1-synthesis.md)
 - Consolidating concepts
 - Quick reference tables
 - Connections across projects

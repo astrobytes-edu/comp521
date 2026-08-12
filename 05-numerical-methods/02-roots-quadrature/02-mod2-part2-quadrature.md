@@ -144,6 +144,7 @@ def rectangle_rule(f, a, b, n):
 
 ---
 
+(method-2-trapezoidal)=
 ## Method 2: Trapezoidal Rule - The Workhorse
 
 **Why we care**: The workhorse of experimental data integration — robust and simple.
@@ -162,6 +163,7 @@ Summing over all intervals:
 
 $$I \approx \sum_{i=0}^{n-1} \frac{h}{2}[f(x_i) + f(x_{i+1})] = h\left[\frac{f(a)}{2} + \sum_{i=1}^{n-1} f(x_i) + \frac{f(b)}{2}\right]$$
 
+(error-analysis)=
 ### Error Analysis
 
 Using Taylor expansion around the midpoint $x_i + h/2$:
@@ -197,6 +199,7 @@ This is a **second-order method**!
 
 ---
 
+(method-3-simpson)=
 ## Method 3: Simpson's Rule - Parabolic Perfection
 
 **Why we care**: When your function is smooth and you want high accuracy with moderate computational cost.
@@ -278,6 +281,7 @@ This cancellation is automatic — we get fourth-order accuracy "for free" by us
 
 ---
 
+(method-4-gaussian)=
 ## Method 4: Gaussian Quadrature - Optimal Point Placement
 
 **Why we care**: Sometimes being clever about WHERE you sample beats taking MORE samples.
@@ -325,10 +329,12 @@ integral = sum(w * f(x) for x, w in zip(x_gauss, w_gauss))
 
 ---
 
+(method-5-monte-carlo)=
 ## Method 5: Monte Carlo Integration - When Dimensions Explode
 
 **Why we care**: The only practical method for high-dimensional integrals that appear in statistical mechanics, quantum mechanics, and Bayesian inference.
 
+(understanding-dimensions)=
 ### Understanding Dimensions in Integration
 
 :::{margin}
@@ -429,6 +435,7 @@ Monte Carlo Radiative Transfer uses this principle:
 
 ---
 
+(adaptive-methods)=
 ## Adaptive Methods and Richardson Extrapolation
 
 ### Adaptive Quadrature
@@ -451,6 +458,7 @@ def adaptive_simpson(f, a, b, tol):
         return left + right
 ```
 
+(richardson-extrapolation)=
 ### Richardson Extrapolation
 
 :::{margin}

@@ -43,6 +43,7 @@ Instead of minimizing local truncation error, **symplectic integrators** preserv
 
 The profound trade-off: symplectic methods may be less accurate locally but maintain qualitative correctness globally.
 
+(hamiltonian-mechanics)=
 ## Hamiltonian Mechanics Refresher
 
 :::{margin}
@@ -67,6 +68,7 @@ These equations have remarkable properties:
 - **Phase space volume preservation**: Liouville's theorem
 - **Symplectic structure**: The flow preserves a geometric structure
 
+(phase-space-perspective)=
 ## The Phase Space Perspective
 
 :::{margin}
@@ -89,10 +91,12 @@ $$\frac{d(dV)}{dt} = 0$$
 
 This is equivalent to saying the flow is incompressible. Standard numerical methods violate this theorem! They artificially compress or expand phase space, leading to systematic errors.
 
+(leapfrog-verlet)=
 ## The Leapfrog/Verlet Method
 
 The leapfrog method (also called Verlet or Störmer-Verlet) staggers position and velocity updates to preserve symplectic structure.
 
+(the-algorithm)=
 ### The Algorithm
 
 For a Hamiltonian $H(q,p) = T(p) + V(q)$ where $T(p) = p^2/(2m)$:
@@ -122,6 +126,7 @@ Momentum:       p₁/₂          p₃/₂
 
 This staggering is key to symplecticity!
 
+(implementation-tips)=
 ### Implementation Tips for Your N-body Project
 
 :::{tip} N-body Implementation Advice
@@ -134,6 +139,7 @@ For your Project 2 N-body simulation:
 5. **Start simple**: Test with 2-body system before scaling up
 :::
 
+(proof-symplecticity)=
 ## Proof of Symplecticity
 
 :::{margin}
@@ -178,6 +184,7 @@ $$\det(J) = 1$$
 
 Phase space volume is exactly preserved, satisfying Liouville's theorem.
 
+(modified-hamiltonian)=
 ## The Modified Hamiltonian
 
 :::{margin}

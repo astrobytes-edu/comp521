@@ -43,7 +43,7 @@ Before starting this chapter, verify you have completed these items:
 - [ ] You have a text editor (e.g., Vim) or IDE (e.g., VS Code) installed.
 - [ ] You have `git` installed and can you use basic `git` commands (e.g.,`clone`, `add`, `commit`, `pull`).
 
-If you checked 'no' to any item, see the [Getting Started](../../02-getting-started/index.qmd) module.
+If you checked 'no' to any item, see the [Getting Started](../02-getting-started/index.md) module.
 :::
 
 ## Chapter Overview

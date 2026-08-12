@@ -585,7 +585,7 @@ Your progress is saved! When you return:
 :::
 
 1. Environment is ready
-2. $\to$ Continue to [Git and GitHub Guide](03-git-intro.qmd)
+2. $\to$ Continue to [Git and GitHub Guide](03-git-intro.md)
 3. $\to$ Start working on Project 1
 
 :::{tip} Pro Tips

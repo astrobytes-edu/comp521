@@ -61,10 +61,10 @@ Modern astronomy runs on finding equilibria and computing integrals:
 ### 🏃 Fast Track {.unnumbered}
 Essential concepts only
 
-- [Bisection basics](01-mod2-part1-root-finding.qmd#method-1-bisection)
-- [Newton's method](01-mod2-part1-root-finding.qmd#method-2-newton-raphson)
-- [Trapezoidal rule](02-mod2-part2-quadrature.qmd#method-2-trapezoidal)
-- [Monte Carlo essentials](02-mod2-part2-quadrature.qmd#method-5-monte-carlo)
+- [Bisection basics](01-mod2-part1-root-finding.md#method-1-bisection)
+- [Newton's method](01-mod2-part1-root-finding.md#method-2-newton-raphson)
+- [Trapezoidal rule](02-mod2-part2-quadrature.md#method-2-trapezoidal)
+- [Monte Carlo essentials](02-mod2-part2-quadrature.md#method-5-monte-carlo)
 :::
 
 :::{grid-item}
@@ -73,10 +73,10 @@ Full conceptual understanding
 
 Everything in Fast Track, plus:
 
-- [Convergence analysis](01-mod2-part1-root-finding.qmd#convergence-analysis)
-- [Simpson's rule](02-mod2-part2-quadrature.qmd#method-3-simpson)
-- [Error analysis](02-mod2-part2-quadrature.qmd#error-analysis)
-- [Method selection](03-mod2-synthesis.qmd#method-selection)
+- [Convergence analysis](01-mod2-part1-root-finding.md#convergence-analysis)
+- [Simpson's rule](02-mod2-part2-quadrature.md#method-3-simpson)
+- [Error analysis](02-mod2-part2-quadrature.md#error-analysis)
+- [Method selection](03-mod2-synthesis.md#method-selection)
 - All "Check Your Understanding" boxes
 :::
 
@@ -87,9 +87,9 @@ Deep dive with all details
 Complete module including:
 
 - All mathematical derivations
-- [Secant method](01-mod2-part1-root-finding.qmd#method-3-secant)
-- [Gaussian quadrature](02-mod2-part2-quadrature.qmd#method-4-gaussian)
-- [Richardson extrapolation](02-mod2-part2-quadrature.qmd#richardson-extrapolation)
+- [Secant method](01-mod2-part1-root-finding.md#method-3-secant)
+- [Gaussian quadrature](02-mod2-part2-quadrature.md#method-4-gaussian)
+- [Richardson extrapolation](02-mod2-part2-quadrature.md#richardson-extrapolation)
 - Hybrid methods
 - All worked examples
 :::
@@ -102,34 +102,34 @@ Complete module including:
 :class: dropdown
 
 **For Project 2 (N-body Dynamics)**:
-- [Kepler's equation](01-mod2-part1-root-finding.qmd#worked-example-keplers-equation) - Finding orbital positions
-- [Finding perihelion/aphelion](01-mod2-part1-root-finding.qmd#physical-example) - Root finding on radial velocity
-- [Orbital period integration](02-mod2-part2-quadrature.qmd#method-2-trapezoidal) - Computing orbital periods
-- [Energy conservation checks](02-mod2-part2-quadrature.qmd#error-analysis) - Verifying numerical accuracy
+- [Kepler's equation](01-mod2-part1-root-finding.md#worked-example-keplers-equation) - Finding orbital positions
+- [Finding perihelion/aphelion](01-mod2-part1-root-finding.md#physical-example) - Root finding on radial velocity
+- [Orbital period integration](02-mod2-part2-quadrature.md#method-2-trapezoidal) - Computing orbital periods
+- [Energy conservation checks](02-mod2-part2-quadrature.md#error-analysis) - Verifying numerical accuracy
 
 **For Project 3 (Monte Carlo Radiative Transfer)**:
-- [Monte Carlo fundamentals](02-mod2-part2-quadrature.qmd#method-5-monte-carlo) - High-dimensional integration
-- [Understanding dimensions](02-mod2-part2-quadrature.qmd#understanding-dimensions) - What "dimension" means
-- [Error scaling](02-mod2-part2-quadrature.qmd#error-analysis) - Why $N^{-1/2}$ convergence
-- [Optical depth boundaries](01-mod2-part1-root-finding.qmd#the-fundamental-problem) - Finding where τ = 1
+- [Monte Carlo fundamentals](02-mod2-part2-quadrature.md#method-5-monte-carlo) - High-dimensional integration
+- [Understanding dimensions](02-mod2-part2-quadrature.md#understanding-dimensions) - What "dimension" means
+- [Error scaling](02-mod2-part2-quadrature.md#error-analysis) - Why $N^{-1/2}$ convergence
+- [Optical depth boundaries](01-mod2-part1-root-finding.md#the-fundamental-problem) - Finding where τ = 1
 
 **For Project 4 (MCMC)**:
-- [Finding posterior modes](01-mod2-part1-root-finding.qmd#method-2-newton-raphson) - Maximum likelihood via Newton
-- [Integration of posteriors](02-mod2-part2-quadrature.qmd#method-5-monte-carlo) - Normalizing distributions
-- [Credible intervals](01-mod2-part1-root-finding.qmd#method-1-bisection) - Finding probability boundaries
-- [Proposal tuning](01-mod2-part1-root-finding.qmd#convergence-analysis) - Optimizing acceptance rates
+- [Finding posterior modes](01-mod2-part1-root-finding.md#method-2-newton-raphson) - Maximum likelihood via Newton
+- [Integration of posteriors](02-mod2-part2-quadrature.md#method-5-monte-carlo) - Normalizing distributions
+- [Credible intervals](01-mod2-part1-root-finding.md#method-1-bisection) - Finding probability boundaries
+- [Proposal tuning](01-mod2-part1-root-finding.md#convergence-analysis) - Optimizing acceptance rates
 
 **For Project 5 (Gaussian Processes)**:
-- [Kernel integration](02-mod2-part2-quadrature.qmd#method-3-simpson) - Computing covariances
-- [Hyperparameter optimization](01-mod2-part1-root-finding.qmd#method-2-newton-raphson) - Finding maxima
-- [Gaussian quadrature](02-mod2-part2-quadrature.qmd#method-4-gaussian) - Optimal sampling
-- [Condition numbers](01-mod2-part1-root-finding.qmd#when-newton-fails) - Matrix stability
+- [Kernel integration](02-mod2-part2-quadrature.md#method-3-simpson) - Computing covariances
+- [Hyperparameter optimization](01-mod2-part1-root-finding.md#method-2-newton-raphson) - Finding maxima
+- [Gaussian quadrature](02-mod2-part2-quadrature.md#method-4-gaussian) - Optimal sampling
+- [Condition numbers](01-mod2-part1-root-finding.md#when-newton-fails) - Matrix stability
 
 **For Final Project (Neural Networks)**:
-- [Gradient descent](01-mod2-part1-root-finding.qmd#method-2-newton-raphson) - Root finding on $\nabla$L
-- [Loss integration](02-mod2-part2-quadrature.qmd#adaptive-methods) - Batch averaging
-- [Learning rate selection](01-mod2-part1-root-finding.qmd#convergence-analysis) - Convergence conditions
-- [Backpropagation](01-mod2-part1-root-finding.qmd#the-geometric-insight) - Chain rule as Newton iteration
+- [Gradient descent](01-mod2-part1-root-finding.md#method-2-newton-raphson) - Root finding on $\nabla$L
+- [Loss integration](02-mod2-part2-quadrature.md#adaptive-methods) - Batch averaging
+- [Learning rate selection](01-mod2-part1-root-finding.md#convergence-analysis) - Convergence conditions
+- [Backpropagation](01-mod2-part1-root-finding.md#the-geometric-insight) - Chain rule as Newton iteration
 :::
 
 :::{note} 💭 Why This Module Exists: A Personal Note from Your Instructor
@@ -198,15 +198,15 @@ Before diving in, let's establish the mathematical language for static problems:
 
 ## Module Contents
 
-### [Part 1: Root Finding - Where Physics Reaches Equilibrium](01-mod2-part1-root-finding.qmd)
+### [Part 1: Root Finding - Where Physics Reaches Equilibrium](01-mod2-part1-root-finding.md)
 
 Learn three fundamental approaches to finding zeros: bracketing (bisection), tangent following (Newton), and interpolation (secant). Discover why different methods excel in different situations and how to combine them for robustness. Apply these to Kepler's equation, Lagrange points, and stellar structure.
 
-### [Part 2: Quadrature - From Photon Counts to Dark Matter Halos](02-mod2-part2-quadrature.qmd)
+### [Part 2: Quadrature - From Photon Counts to Dark Matter Halos](02-mod2-part2-quadrature.md)
 
 Master the art of numerical integration from simple rectangles to sophisticated Simpson's rule. Understand when Monte Carlo dominates (high dimensions!) and why. Learn to choose methods based on smoothness, dimension, and computational budget.
 
-### [Part 3: Synthesis - The Deep Connections](03-mod2-synthesis.qmd)
+### [Part 3: Synthesis - The Deep Connections](03-mod2-synthesis.md)
 
 Discover how root finding and integration are mathematical inverses. See the universal patterns in convergence, understand condition numbers across all methods, and develop intuition for method selection. Build your personal computational toolkit.
 

@@ -39,52 +39,30 @@ The difference between a computational scientist and someone who codes isn't kno
 
 ## Module Overview
 
-::: {.grid}
+::::{grid} 1 1 3 3
 
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-::: {.card-header}
-**Command Line Interface**
-:::
-::: {.card-body}
+:::{card} Command Line Interface
+:link: 01-cli-intro.md
+
 Master the terminal with essential commands for file management, navigation, and automation
-
-[Start Guide $\to$](01-cli-intro.qmd){.btn .btn-primary .btn-sm}
-:::
-:::
 :::
 
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-::: {.card-header}
-**Software Setup**
-:::
-::: {.card-body}
+:::{card} Software Setup
+:link: 02-software-setup.md
+
 Install Python with Miniforge, configure VS Code, and create your isolated course environment
-
-[Start Guide $\to$](02-software-setup.qmd){.btn .btn-primary .btn-sm}
-:::
-:::
 :::
 
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-::: {.card-header}
-**Git & GitHub**
-:::
-::: {.card-body}
+:::{card} Git & GitHub
+:link: 03-git-intro.md
+
 Version control fundamentals, the Classroom50 submission workflow, and collaboration best practices
-
-[Start Guide $\to$](03-git-intro.qmd){.btn .btn-primary .btn-sm}
-:::
-:::
 :::
 
-:::
-
+::::
 :::{note} Daily Workflow Companion
 
-Before you code, open the [**Scientific Software Workflow Cheatsheet**](05-scientific-software-workflow-cheatsheet.qmd). It compresses the reproducibility contract, evidence model, and debugging ladder into one page you can keep beside your editor.
+Before you code, open the [**Scientific Software Workflow Cheatsheet**](05-scientific-software-workflow-cheatsheet.md). It compresses the reproducibility contract, evidence model, and debugging ladder into one page you can keep beside your editor.
 :::
 
 ## Why This Order Matters
@@ -106,9 +84,9 @@ graph LR
 
 **Complete these guides in order**. Each builds on the previous:
 
-1. [**CLI first**](01-cli-intro.qmd): Learn to navigate before installing anything.
-2. [**Setup second**](02-software-setup.qmd): Use your CLI skills to install tools.
-3. [**Git last**](03-git-intro.qmd): Apply everything to manage your code.
+1. [**CLI first**](01-cli-intro.md): Learn to navigate before installing anything.
+2. [**Setup second**](02-software-setup.md): Use your CLI skills to install tools.
+3. [**Git last**](03-git-intro.md): Apply everything to manage your code.
 
 ## Learning Path
 
@@ -238,7 +216,7 @@ $\to$ Great office hours questions!
 
 :::{important} Success Indicators
 
-You're ready for [*Python Fundamentals*](../03-scientific-computing-with-python/01-python-fundamentals/index.qmd) when you can:
+You're ready for [*Python Fundamentals*](../03-python/index.md) when you can:
 
 1. **Open terminal** and navigate to any folder using cd and ls
 2. **Activate your environment** with `conda activate comp521`
@@ -251,7 +229,7 @@ If you can do these five things, you have the foundation for everything in this 
 
 ## What's Next?
 
-After completing this module, you'll begin the [*Python Fundamentals*](../03-scientific-computing-with-python/01-python-fundamentals/index.qmd) module where you'll:
+After completing this module, you'll begin the [*Python Fundamentals*](../03-python/index.md) module where you'll:
 
 - Write your first object-oriented simulation
 - Use the terminal skills daily for running scripts
@@ -275,4 +253,4 @@ After completing this module, you'll begin the [*Python Fundamentals*](../03-sci
 **Remember**: These tools aren't just course requirements—they're essential skills for any scientific research career. The more you invest in mastering them now, the more prepared you'll be for real research challenges ahead.
 :::
 
-Ready to begin? Start with [Chapter 1: Command Line Interface](01-cli-intro.qmd) $\to$
+Ready to begin? Start with [Chapter 1: Command Line Interface](01-cli-intro.md) $\to$

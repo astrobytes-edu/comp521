@@ -39,6 +39,7 @@ By the end of Part 3, you will be able to:
 - Compare higher-order moments for non-Gaussian distributions before Project 4 diagnostics.
 :::
 
+(moments)=
 ## 3.1 What Are Moments? The Information Extractors
 
 **Priority: 🔴 Essential**

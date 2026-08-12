@@ -50,6 +50,7 @@ Instead of blindly following the tangent from the starting point, we:
 
 This is analogous to the midpoint rule for integration, which we know from Module 2 is second-order accurate!
 
+(mathematical-formulation)=
 ### Complete Mathematical Formulation
 
 :::{margin}
@@ -98,6 +99,7 @@ def rk2_step(x, t, h, f):
     return x + h * k2
 ```
 
+(rk4-classical)=
 ## RK4 - The Classical Workhorse
 
 :::{margin}
@@ -171,6 +173,7 @@ For RK4:
     | 1/6 2/6 2/6 1/6
 ```
 
+(adaptive-timestep)=
 ## Adaptive Timestep Control
 
 Real problems have varying timescales. When a planet is far from the sun, we can take large steps. During close encounters, we need tiny steps. Adaptive methods adjust $h$ dynamically.

@@ -27,23 +27,23 @@ Treat these chapters as practical, reusable resources: read the concept sections
 
 ## Module Overview
 
-### [🧮 Chapter 7: NumPy - The Foundation of Scientific Computing in Python](./07-numpy-fundamentals.qmd)
+### [🧮 Chapter 7: NumPy - The Foundation of Scientific Computing in Python](07-numpy-fundamentals.md)
 
 NumPy arrays, vectorization, broadcasting, indexing, and memory/layout considerations — the foundation for efficient astronomical computation.
 
-### [🖼️ Chapter 8: Matplotlib - Visualizing Your Universe](./08-matplotlib-fundamentals.qmd)
+### [🖼️ Chapter 8: Matplotlib - Visualizing Your Universe](08-matplotlib-fundamentals.md)
 
 Create publication-quality figures from NumPy arrays: line plots, images, colormaps, multi-panel layouts, and WCS-aware displays for astronomical data.
 
-### [🔧 Chapter 9: Robust Numerical Computing & Best Practices](./09-robust-computing.qmd)
+### [🔧 Chapter 9: Robust Numerical Computing & Best Practices](09-robust-computing.md)
 
 Numerical stability, defensive algorithms, error propagation, and techniques for writing reliable scientific code that produces trustworthy results.
 
-### [🚀 Chapter 10: Advanced Patterns & Performance](./10-advanced-oop.qmd)
+### [🚀 Chapter 10: Advanced Patterns & Performance](10-advanced-oop.md)
 
 Advanced object-oriented patterns, performance profiling, C/Fortran integration paths, and packaging/testing strategies for production-grade scientific software.
 
-### [📊 Chapter 11: Pandas Fundamentals](./11-pandas-fundamentals.qmd)
+### [📊 Chapter 11: Pandas Fundamentals](11-pandas-fundamentals.md)
 
 Data manipulation and analysis with Pandas: DataFrames, series operations, grouping, merging, and time series analysis for scientific datasets.
 
@@ -56,11 +56,11 @@ Data manipulation and analysis with Pandas: DataFrames, series operations, group
 
 ## Quick Navigation Guide
 
-- Fix performance bottlenecks $\to$ [Ch 7: NumPy](./07-numpy-fundamentals.qmd)
-- Improve plots and figures $\to$ [Ch 8: Matplotlib](./08-matplotlib-fundamentals.qmd)
-- Ensure numerical stability $\to$ [Ch 9: Robust Computing](./09-robust-computing.qmd)
-- Productionize code $\to$ [Ch 10: Advanced Patterns](./10-advanced-oop.qmd)
-- Data analysis workflows $\to$ [Ch 11: Pandas](./11-pandas-fundamentals.qmd)
+- Fix performance bottlenecks $\to$ [Ch 7: NumPy](07-numpy-fundamentals.md)
+- Improve plots and figures $\to$ [Ch 8: Matplotlib](08-matplotlib-fundamentals.md)
+- Ensure numerical stability $\to$ [Ch 9: Robust Computing](09-robust-computing.md)
+- Productionize code $\to$ [Ch 10: Advanced Patterns](10-advanced-oop.md)
+- Data analysis workflows $\to$ [Ch 11: Pandas](11-pandas-fundamentals.md)
 
 ## Core Competencies
 
@@ -75,4 +75,4 @@ Data manipulation and analysis with Pandas: DataFrames, series operations, group
 
 ---
 
-**Next:** Start with [Chapter 7: NumPy](./07-numpy-fundamentals.qmd)
+**Next:** Start with [Chapter 7: NumPy](07-numpy-fundamentals.md)

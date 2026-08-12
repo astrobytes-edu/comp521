@@ -30,7 +30,7 @@ This guide covers what CS students learn over 4 years, compressed into what you 
 This is a course-wide reference, not a one-off assignment handout. We’ll use **Project 1** as a running example because it’s the first time you’ll be required to meet the full reproducibility contract (CI, `run.py`, deterministic runs, and non-interactive figure generation). Keep this open and return to it throughout the semester — these habits apply to every project and to real research code.
 
 :::{tip} Need the one-page version?
-Use the [Scientific Software Workflow Cheatsheet](05-scientific-software-workflow-cheatsheet.qmd) before each coding session, and come back to this full chapter when you need deeper examples.
+Use the [Scientific Software Workflow Cheatsheet](05-scientific-software-workflow-cheatsheet.md) before each coding session, and come back to this full chapter when you need deeper examples.
 :::
 :::
 

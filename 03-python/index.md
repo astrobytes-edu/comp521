@@ -26,7 +26,7 @@ These chapters are written to be **used**, not memorized. You'll come back to th
 
 :::{important} 🚫 Course Policy: No Jupyter Notebooks
 
-All code in this course runs as **scripts** (`.py` files) executed in **IPython** or the terminal. Notebooks hide state, break reproducibility, and teach bad habits. See [Chapter 1](./01-python-environment.qmd) for the full rationale and workflow.
+All code in this course runs as **scripts** (`.py` files) executed in **IPython** or the terminal. Notebooks hide state, break reproducibility, and teach bad habits. See [Chapter 1](01-python-environment.md) for the full rationale and workflow.
 
 **Your workflow:** Write `.py` files $\to$ Run in IPython (`%run script.py`) $\to$ Iterate $\to$ Commit to Git.
 :::
@@ -41,21 +41,21 @@ Computational science fails far more often from *structure* problems than from s
 
 ### From "It Runs" to "I Trust It"
 
-[Chapter 1](./01-python-environment.qmd) starts with environments and workflows because nothing else matters if you don't know **what code you're actually running**. If two students get different answers from the same script, or your code breaks when you move from your laptop to the cluster, that's not a programming problem — it's a reproducibility failure. By the end of Chapter 1, you should understand where Python is coming from, how packages are resolved, and why isolation (conda environments) is non-negotiable for real science.
+[Chapter 1](01-python-environment.md) starts with environments and workflows because nothing else matters if you don't know **what code you're actually running**. If two students get different answers from the same script, or your code breaks when you move from your laptop to the cluster, that's not a programming problem — it's a reproducibility failure. By the end of Chapter 1, you should understand where Python is coming from, how packages are resolved, and why isolation (conda environments) is non-negotiable for real science.
 
-Once you know *where* your code lives, [Chapter 2](./02-python-calculator.qmd) forces you to confront a harder truth: computers don't do math the way humans do. Floating-point arithmetic is approximate, precision is finite, and naive numerical expressions can fail catastrophically without throwing errors. This chapter exists because many scientific disasters were caused by code that looked correct and ran without complaint. If you take nothing else from it, remember this: **numerical correctness is an active responsibility, not a default behavior**.
+Once you know *where* your code lives, [Chapter 2](02-python-calculator.md) forces you to confront a harder truth: computers don't do math the way humans do. Floating-point arithmetic is approximate, precision is finite, and naive numerical expressions can fail catastrophically without throwing errors. This chapter exists because many scientific disasters were caused by code that looked correct and ran without complaint. If you take nothing else from it, remember this: **numerical correctness is an active responsibility, not a default behavior**.
 
 ### Teaching the Computer to Think (Without Fooling It)
 
-[Chapter 3](./03-python-control-flow.qmd) is where we slow down and talk about *logic*. Control flow is not about syntax — it's about making your reasoning explicit. Writing pseudocode before you write Python is how you catch infinite loops, missing termination conditions, and logic that only works by accident. The patterns introduced here — accumulation, filtering, searching, convergence — appear in every simulation, every solver, and every data analysis pipeline you will ever write.
+[Chapter 3](03-python-control-flow.md) is where we slow down and talk about *logic*. Control flow is not about syntax — it's about making your reasoning explicit. Writing pseudocode before you write Python is how you catch infinite loops, missing termination conditions, and logic that only works by accident. The patterns introduced here — accumulation, filtering, searching, convergence — appear in every simulation, every solver, and every data analysis pipeline you will ever write.
 
-Then [Chapter 4](./04-python-data-structures.qmd) zooms out and asks a question most beginners never ask soon enough: **how does this scale?** Lists, dictionaries, and sets aren't interchangeable containers; they encode assumptions about access patterns, uniqueness, and performance. Choosing the wrong data structure doesn't make your code slightly slower — it can make a problem fundamentally intractable. This chapter exists so that when your simulation slows to a crawl, you know *why*, and you know where to look.
+Then [Chapter 4](04-python-data-structures.md) zooms out and asks a question most beginners never ask soon enough: **how does this scale?** Lists, dictionaries, and sets aren't interchangeable containers; they encode assumptions about access patterns, uniqueness, and performance. Choosing the wrong data structure doesn't make your code slightly slower — it can make a problem fundamentally intractable. This chapter exists so that when your simulation slows to a crawl, you know *why*, and you know where to look.
 
 ### From Scripts to Systems
 
-By the time you reach [Chapter 5](./05-python-functions-modules.qmd), you've written enough code that repetition becomes painful. Functions are introduced not just as reusable blocks, but as *contracts*: given valid input, they promise correct output, without side effects or surprises. Scope rules, default arguments, and namespaces matter here because small mistakes quietly couple parts of your code that should be independent. Chapter 5 is where you start writing code that other people — including future you — can safely reuse.
+By the time you reach [Chapter 5](05-python-functions-modules.md), you've written enough code that repetition becomes painful. Functions are introduced not just as reusable blocks, but as *contracts*: given valid input, they promise correct output, without side effects or surprises. Scope rules, default arguments, and namespaces matter here because small mistakes quietly couple parts of your code that should be independent. Chapter 5 is where you start writing code that other people — including future you — can safely reuse.
 
-[Chapter 6](./06-oop-fundamentals.qmd) completes the arc by introducing object-oriented thinking. This is not about "using classes because Python has classes." It's about modeling **entities that have state and behavior**. When data and the operations on that data are inseparable — particles, observations, simulations, instruments — objects reduce cognitive load and prevent entire classes of bugs. Properties and validation exist here to enforce physical constraints *at the moment they are violated*, not weeks later during analysis.
+[Chapter 6](06-oop-fundamentals.md) completes the arc by introducing object-oriented thinking. This is not about "using classes because Python has classes." It's about modeling **entities that have state and behavior**. When data and the operations on that data are inseparable — particles, observations, simulations, instruments — objects reduce cognitive load and prevent entire classes of bugs. Properties and validation exist here to enforce physical constraints *at the moment they are violated*, not weeks later during analysis.
 
 Importantly, Chapter 6 also teaches restraint. Not everything should be a class. Knowing *when not to use OOP* is as important as knowing how to use it.
 
@@ -87,7 +87,7 @@ You are learning how to write code that can survive:
 
 ## Chapter-by-Chapter Guide
 
-### [Chapter 1 — Computational Environments & Scientific Workflows](./01-python-environment.qmd)
+### [Chapter 1 — Computational Environments & Scientific Workflows](01-python-environment.md)
 
 You learn how to *control your computing universe*:
 
@@ -98,7 +98,7 @@ You learn how to *control your computing universe*:
 
 **When to revisit:** ModuleNotFoundError, wrong Python, weird version issues, "it worked yesterday."
 
-### [Chapter 2 — Python as Your Scientific Calculator](./02-python-calculator.qmd)
+### [Chapter 2 — Python as Your Scientific Calculator](02-python-calculator.md)
 
 You learn how computers represent numbers, and how scientific results go wrong:
 
@@ -109,7 +109,7 @@ You learn how computers represent numbers, and how scientific results go wrong:
 
 **When to revisit:** convergence tests, tolerance decisions, weird rounding, "why is 0.1 cursed?"
 
-### [Chapter 3 — Control Flow & Logic](./03-python-control-flow.qmd)
+### [Chapter 3 — Control Flow & Logic](03-python-control-flow.md)
 
 You learn to design algorithms that don't rely on hope:
 
@@ -120,7 +120,7 @@ You learn to design algorithms that don't rely on hope:
 
 **Why this one matters:** internalizing Chapter 3 is when you stop writing "Python that runs" and start designing **algorithms that work**.
 
-### [Chapter 4 — Data Structures: Organizing Scientific Data](./04-python-data-structures.qmd)
+### [Chapter 4 — Data Structures: Organizing Scientific Data](04-python-data-structures.md)
 
 You learn how code scales (or doesn't):
 
@@ -131,7 +131,7 @@ You learn how code scales (or doesn't):
 
 **When to revisit:** slow code, massive datasets, "why is this O($\mathrm{n}^{2}$)?", mysterious mutation bugs.
 
-### [Chapter 5 — Functions & Modules: Building Reusable Scientific Code](./05-python-functions-modules.qmd)
+### [Chapter 5 — Functions & Modules: Building Reusable Scientific Code](05-python-functions-modules.md)
 
 You learn how to turn scripts into tools:
 
@@ -143,7 +143,7 @@ You learn how to turn scripts into tools:
 
 **When to revisit:** repeated code, unclear logic, messy scripts, "why did this variable change?"
 
-### [Chapter 6 — OOP Fundamentals: Organizing Scientific Code](./06-oop-fundamentals.qmd)
+### [Chapter 6 — OOP Fundamentals: Organizing Scientific Code](06-oop-fundamentals.md)
 
 You learn when (and when **not**) objects help:
 
@@ -231,6 +231,6 @@ After these six chapters, the course can move faster because you have a shared t
 
 ---
 
-**Ready to build your toolkit?** Start with [Chapter 1: Computational Environments & Scientific Workflows](./01-python-environment.qmd) $\to$
+**Ready to build your toolkit?** Start with [Chapter 1: Computational Environments & Scientific Workflows](01-python-environment.md) $\to$
 
 *These chapters are your companions throughout the course. Bookmark them, return often, and use them actively as you solve real problems.*

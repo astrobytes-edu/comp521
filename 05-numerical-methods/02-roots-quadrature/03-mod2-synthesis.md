@@ -109,6 +109,7 @@ The journey from "find where f(x) = 0" to "I can locate Lagrange points and meas
 | Gaussian | $O(h^{2n+1})$ | $O(h^{2n})$ | n | Maximum accuracy |
 | Monte Carlo | — | $O(N^{-1/2})$ | N | Dimensions > 4 |
 
+(method-selection)=
 ### Method Selection Guide
 
 | If your problem has... | Use this method | Because... |

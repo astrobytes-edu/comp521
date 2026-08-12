@@ -28,6 +28,7 @@ By the end of this section, you will be able to:
 
 ---
 
+(linear-stability)=
 ## Linear Stability Theory
 
 To understand when methods fail catastrophically, we analyze their behavior on the test equation:
@@ -52,6 +53,8 @@ where $R(z)$ is the **stability function** with $z = h\lambda$.
 
 For bounded solutions, we need $|R(h\lambda)| \leq 1$. The **stability region** is the set of $z$ values where this holds.
 
+(stability-functions)=
+(stability-regions)=
 ## Stability Functions for Common Methods
 
 Let's derive the stability functions for our methods:
@@ -116,6 +119,7 @@ For exponential decay with rate $\gamma$:
 - **Euler**: Stable for $h < 2/\gamma$
 - **RK4**: Stable for $h < 2.78/\gamma$
 
+(stiff-equations)=
 ## Stiff Equations - When Stability Dominates
 
 :::{margin}
@@ -169,6 +173,7 @@ where cooling $\propto T^4$ for high temperatures. Near equilibrium:
 - Radiative transfer with cooling
 - Electrical circuits with multiple timescales
 
+(implicit-methods)=
 ## Implicit Methods for Stiff Problems
 
 :::{margin}

@@ -28,6 +28,7 @@ By the end of this section, you will be able to:
 
 ---
 
+(the-fundamental-problem)=
 ## The Fundamental Problem
 
 :::{margin}
@@ -86,6 +87,7 @@ Each approach has trade-offs between:
 
 ---
 
+(method-1-bisection)=
 ## Method 1: Bisection - The Reliable Workhorse
 
 ### The Mathematical Foundation
@@ -188,8 +190,10 @@ def bisection(f, a, b, tol=1e-10, max_iter=100):
 
 ---
 
+(method-2-newton-raphson)=
 ## Method 2: Newton-Raphson - The Speed Demon
 
+(the-geometric-insight)=
 ### The Geometric Insight
 
 :::{margin}
@@ -214,6 +218,7 @@ $$\boxed{x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}}$$
 
 This is the Newton-Raphson iteration formula.
 
+(convergence-analysis)=
 ### Convergence Analysis
 
 To understand the convergence rate, we analyze the error $e_n = x_n - r$ where $r$ is the true root.
@@ -240,6 +245,7 @@ $$e_{n+1} = \frac{f''(r)}{2f'(r)}e_n^2 + O(e_n^3)$$
 
 This shows **quadratic convergence**! The error is squared each iteration, meaning the number of correct digits approximately doubles.
 
+(when-newton-fails)=
 ### When Newton Fails
 
 Despite its speed, Newton's method can fail spectacularly:
@@ -269,6 +275,7 @@ Lagrange points occur where $\nabla\Phi_{eff} = 0$. Newton's method excels here 
 
 ---
 
+(method-3-secant)=
 ## Method 3: Secant - The Practical Compromise
 
 ### Motivation: No Derivatives Required
@@ -371,6 +378,7 @@ This keeps all numbers near unity, avoiding overflow/underflow and improving con
 
 ---
 
+(physical-example)=
 ## Physical Example: Stellar Structure Equilibrium
 
 In stellar interiors, hydrostatic equilibrium requires:

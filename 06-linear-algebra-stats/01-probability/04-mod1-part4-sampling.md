@@ -40,6 +40,7 @@ By the end of Part 4, you will be able to:
 - IMF slope sensitivity experiments in Section 4.2
 :::
 
+(random-sampling)=
 ## 4.1 Why Random Sampling Matters
 
 **Priority: 🔴 Essential**
@@ -223,6 +224,7 @@ Typical Monte Carlo standard error decreases as $1/\sqrt{N}$ (variance decreases
 **Project Hook**: This appears in **Project 2** when you transform uniform RNG draws into physically consistent mass, radius, and velocity samples.
 
 
+(inverse-transform)=
 ## 4.2 The Cumulative Distribution Function (CDF) and Inverse Transform Sampling
 
 :::{margin}
@@ -326,6 +328,7 @@ print(f"Theory: {mfp:.2f} pc")
 
 **Copy/paste quick-check**: Imports: `numpy`. Seed: set `rng = np.random.default_rng(536)` for repeatable means. Variability: sample mean fluctuates around the theoretical mean at finite draw counts.
 
+(power-laws)=
 ### Power Law Distributions: The Foundation of Astrophysics
 
 Power law distributions appear everywhere in astronomy:
@@ -665,6 +668,7 @@ def rejection_sample(p_func, x_min, x_max, f_max, n_samples, max_tries=10_000_00
 - The same uniform RNG can support very different target distributions.
 
 
+(plummer-sphere)=
 ## 4.4 Spatial Distributions: The Plummer Sphere
 
 **Priority: 🔴 Essential for Project 2**
