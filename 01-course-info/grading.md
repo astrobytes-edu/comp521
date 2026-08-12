@@ -180,7 +180,7 @@ result is *right* — not whether you produced one.
 :::
 
 Each project includes a **research memo** (2–3 pages: methods, results,
-discussion; Project 1 substitutes a 1–2 page EDA report). It is not graded
+discussion; Project 1's is shorter, 1–2 pages). It is not graded
 separately — it is part of the work I am reading.
 
 ### SE presentations

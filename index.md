@@ -42,7 +42,7 @@ mixes instruction with hands-on work — bring your laptop.
 
 | Weeks | Project | Focus | Due |
 |:--|:--|:--|:--|
-| 1–2 | Project 1 | Scientific programming & exploratory data analysis | Tue Sep 8 |
+| 1–2 | Project 1 | Scientific programming & the transit model | Tue Sep 8 |
 | 3–4 | Project 2 | Numerical integration | Mon Sep 21 |
 | 5–6 | Project 3 | Root finding & data acquisition | Mon Oct 5 |
 | 7–8 | Project 4 | Linear algebra & statistical methods | Mon Oct 19 |

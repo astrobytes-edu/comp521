@@ -179,7 +179,7 @@ finishing in the room.
 |---|---|---|
 | Project 0 (Bootcamp) | Tue **Aug 25** | Thu **Aug 27** |
 | Growth Memo 1 (baseline) | Tue **Aug 25** | Mon **Aug 31** |
-| Project 1 — Scientific Programming & EDA | Tue **Aug 25** | Tue **Sep 8** † |
+| Project 1 — Scientific Programming & the Transit Model | Tue **Aug 25** | Tue **Sep 8** † |
 | Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |
 | Project 3 — Root Finding & Data Acquisition | Tue **Sep 22** | Mon **Oct 5** |
 | Project 4 — Linear Algebra & Statistics | Tue **Oct 6** | Mon **Oct 19** |
@@ -363,11 +363,9 @@ Kepler data:
 **Single-spaced**, **2–3 pages of text** (not counting figures or references).
 Include at minimum: methods, results, and discussion.
 
-**Project 1 is the exception:** instead of a full research memo, submit a short
-**exploratory data analysis report (1–2 pages)** on the Gaia sample — what is in
-the data, what you had to clean, and what structure you found. It counts as
-Project 1's memo. The aim is to start the writing habit in Week 2, while the
-stakes are low and the analysis is genuinely exploratory.
+**Project 1 is the exception:** a shorter **research memo (1–2 pages)** rather
+than the full 2–3. The aim is to start the writing habit in Week 2, while the
+stakes are low.
 
 (sec-pairs)=
 ### Project Pairs & Collaboration

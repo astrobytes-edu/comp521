@@ -52,7 +52,7 @@ written and will appear before their week.
 | Final report due | Thu **Dec 17**, end of day |
 :::
 
-## Block 1 · Project 1 — Scientific Programming & EDA
+## Block 1 · Project 1 — Scientific Programming & the Transit Model
 
 *Assigned Tue Aug 25 · Due Tue Sep 8*
 
@@ -83,7 +83,7 @@ point, control flow, the five algorithmic patterns
 **Topics** — arrays vs. lists, vectorization, plotting; log and inverted axes;
 classes and modules (needed from Project 2 onward)
 
-**Due** — **Project 1** + short **EDA report** (1–2 pages), Tue **Sep 8**
+**Due** — **Project 1** + short **research memo** (1–2 pages), Tue **Sep 8**
 
 :::{note} Why Project 1 is due Tuesday
 Every other project is due Monday. Project 1 is the exception because Mon Sep 7
