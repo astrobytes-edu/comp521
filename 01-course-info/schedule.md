@@ -46,7 +46,7 @@ written and will appear before their week.
 | Labor Day — campus closed | Mon **Sep 7** |
 | Late withdrawal deadline | Sun **Nov 1** |
 | No class — Thanksgiving | Thu **Nov 26** |
-| Final presentations | Thu **Dec 10** |
+| Final presentations | Tue **Dec 8**, Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
 | Growth Synthesis due | Mon **Dec 14** (start of finals week) |
 | Final report due | Thu **Dec 17**, end of day |
@@ -69,7 +69,7 @@ written and will appear before their week.
 **Topics** — environment setup, Git/GitHub workflow, Python syntax, floating
 point, control flow, the five algorithmic patterns
 
-**Due** — **Project 0** (bootcamp) + **Growth Memo 1** (baseline), Mon **Aug 31**
+**Due** — **Project 0** (bootcamp), Thu **Aug 27** · **Growth Memo 1** (baseline), Mon **Aug 31**
 
 ### Week 2 — Sep 1, 3 · Data structures, OOP, and arrays
 
@@ -245,17 +245,22 @@ the following week has no cushion built in.
 
 Working sessions with individual check-ins.
 
-### Week 15 — Dec 1, 3 · Implementation
+### Week 15 — Dec 1, 3 · Implementation and dress rehearsal
 
-Working sessions with individual check-ins. Bring results to show, not just code.
+**Tue Dec 1** — working session with individual check-ins. Bring results to
+show, not just code.
 
-### Week 16 — Dec 8, 10 · Dress rehearsal and presentations
+**Thu Dec 3** — dress rehearsal. Run your talk past me and your classmates. This
+is the last chance to catch a figure nobody can read from the back of the room.
 
-**Tue Dec 8** — final working session. Bring your talk and run it past me and
-your classmates. This is the last chance to catch a figure nobody can read from
-the back of the room.
+### Week 16 — Dec 8, 10 · Final presentations
 
-**Thu Dec 10** — **final presentations**, ~10 minutes each including questions.
+**12 minutes each plus 3 for questions**, half the class each day. I will assign
+slots.
+
+**Tue Dec 8** — final presentations, group 1.
+
+**Thu Dec 10** — final presentations, group 2. Last class meeting.
 
 **Then:**
 

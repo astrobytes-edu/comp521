@@ -30,7 +30,7 @@ what is written here is what the course does.
 | **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[Classroom50](https://github.com/foundation50/classroom50/wiki) *(project submissions)* |
 
 :::{note} Start Here
-- **Due first:** **Project 0** (get your machine and Classroom50 working) and **Growth Memo 1** — both **Mon Aug 31**. Start Project 0 in Week 1; everything afterward assumes it is done.
+- **Due first:** **Project 0** — get your machine and Classroom50 working — by **Thu Aug 27**, our second class meeting. **Growth Memo 1** follows on **Mon Aug 31**.
 - **Read the [AI Policy](ai-policy.md).** It is probably stricter than you expect, and what is allowed changes as the semester goes on.
 - **Bring your laptop to every class.** Sessions mix instruction with hands-on work — there are no separate lab days, and much of what happens in the room is not posted anywhere.
 - **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned. See [Important Dates](#sec-important-dates).
@@ -177,7 +177,7 @@ finishing in the room.
 
 | Project | Assigned | Due |
 |---|---|---|
-| Project 0 (Bootcamp) | Tue **Aug 25** | Mon **Aug 31** |
+| Project 0 (Bootcamp) | Tue **Aug 25** | Thu **Aug 27** |
 | Growth Memo 1 (baseline) | Tue **Aug 25** | Mon **Aug 31** |
 | Project 1 — Scientific Programming & EDA | Tue **Aug 25** | Fri **Sep 4** † |
 | Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |
@@ -193,7 +193,7 @@ finishing in the room.
 
 | | Date | |
 |---|---|---|
-| Final presentations | Thu **Dec 10** | in class |
+| Final presentations | Tue **Dec 8** and Thu **Dec 10** | in class |
 | **Growth Synthesis** | Mon **Dec 14** | 11:59 pm PT |
 | **Final report + repository** | Thu **Dec 17** | end of day — our final exam date |
 
@@ -211,7 +211,8 @@ means writing it while the semester is genuinely in view.
 | Mon **Sep 7** | **Labor Day** — campus closed |
 | Sun **Nov 1** | Late withdrawal deadline |
 | Thu **Nov 26** | **No class** — Thanksgiving |
-| Thu **Dec 10** | Last class meeting — final presentations |
+| Tue **Dec 8**, Thu **Dec 10** | Final presentations |
+| Thu **Dec 10** | Last class meeting |
 | Thu **Dec 17** | Final exam date — final report due, end of day |
 
 Week-by-week topics and readings are on the [Course Schedule](schedule.md).
@@ -310,8 +311,9 @@ Each two-week project runs in two halves:
 (sec-project-zero)=
 #### Project 0 — Setup Bootcamp (ungraded, required)
 
-Due **Mon Aug 31**. Project 0 is not about Python — it is about making sure the
-machinery works before any real work depends on it. You will:
+Due **Thu Aug 27** — our second class meeting. Project 0 is not about Python;
+it is about making sure the machinery works before any real work depends on it.
+You will:
 
 - install and verify your Python environment,
 - get comfortable enough at the command line to navigate and run things,
@@ -322,9 +324,14 @@ machinery works before any real work depends on it. You will:
 Work through [Getting Started](../02-getting-started/index.md) alongside it.
 
 It is **graded on completion only** and does not count toward your project
-average — but it is required, and Project 1 assumes it is done. Environment and
-submission problems are the single most common reason students fall behind in
-the first weeks, and this is how we prevent that.
+average — but it is genuinely required, and the deadline is early on purpose.
+By Thursday of Week 1 you need to be able to work: if your environment is broken
+on the day we start writing code, you lose that session and the next. Environment
+and submission problems are the single most common reason students fall behind
+in the first weeks, and this is how we prevent that.
+
+If you get stuck on setup, come to office hours or tell me before Thursday.
+Being stuck is expected; being quietly stuck is the problem.
 
 (sec-thread)=
 #### The thread running through the projects
@@ -467,13 +474,16 @@ implementations.
 
 | Deliverable | Due |
 |---|---|
-| In-class presentation | Thu **Dec 10** |
+| In-class presentation | Tue **Dec 8** or Thu **Dec 10** |
 | Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
 | Research report (5–7 pages) + repository | Thu **Dec 17**, end of day |
 
 The report covers background and motivation, methods, results, and conclusions.
-Presentations are roughly **10 minutes including questions** — enough to explain
-what you built, show that it works, and say where it breaks.
+
+Presentations are **12 minutes plus 3 for questions**, the same format as the SE
+presentations — long enough to explain what you built, show that it works, and
+say where it breaks. Half the class presents on Dec 8 and half on Dec 10; I will
+assign slots.
 
 The final project is graded on the same description as the other projects (see
 [Grading](grading.md)), applied to a larger piece of work. You should expect to
