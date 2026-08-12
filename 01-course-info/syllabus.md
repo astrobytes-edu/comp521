@@ -19,12 +19,13 @@ author: "Dr. Anna Rosen"
 | **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[Classroom50](https://github.com/foundation50/classroom50/wiki) *(project submissions)* |
 
 :::{note} Start Here
-- **Where to find things:** Canvas + the course website (links above).
-- **Class format:** every session mixes instruction and hands-on work. **Bring your laptop to every class.**
-- **Weekly cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned.
-- **Deadlines:** projects are due **Mondays at 11:59 pm PT**. See [Important Dates](#sec-important-dates).
-- **Growth Reflections:** three across the semester — a baseline memo in Week 1, a mid-semester memo, and the Growth Synthesis at the start of finals week.
-- **Getting help:** see [Getting Help](#sec-getting-help). Before emailing, check this syllabus and recent Canvas announcements.
+- **Due first:** **Project 0** (get your machine and Classroom50 working) and **Growth Memo 1** — both **Mon Aug 31**. Start Project 0 in Week 1; everything afterward assumes it is done.
+- **Read the [AI Policy](ai-policy.md).** It is probably stricter than you expect, and what is allowed changes as the semester goes on.
+- **Bring your laptop to every class.** Sessions mix instruction with hands-on work — there are no separate lab days, and much of what happens in the room is not posted anywhere.
+- **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned. See [Important Dates](#sec-important-dates).
+- **Grading is by letter, not points.** One grade for each assignment as a whole, no itemized rubrics — see [Grading](grading.md), which includes a calculator you can run.
+- **You will work in rotating pairs** on Projects 1–6 (writing your own code), and **teach the class twice** — see [SE Presentations](../assignments/se-presentation.md).
+- **Getting help:** office hours **Thursdays 4–5 pm, Physics 239**. Before emailing, check this syllabus and recent Canvas announcements.
 :::
 
 ### Course Description
