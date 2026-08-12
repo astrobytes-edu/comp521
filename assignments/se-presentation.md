@@ -51,8 +51,8 @@ five people who are going to ask you questions is a different bar entirely — y
 tend to find the holes in your own understanding about an hour into preparing,
 which is exactly the point.
 
-**And it gets all of you eight tools instead of one.** Nobody picks up a
-professional toolchain in a semester alone. Six people each learning one tool
+**And it gets the class a whole toolchain instead of one tool.** Nobody picks
+up a professional toolchain in a semester alone. Each of you learning one tool
 well and teaching it means everyone leaves with a working map of the whole
 thing — and knows who to ask about each piece.
 
@@ -91,100 +91,173 @@ If you cannot name that regime, you have not used it enough to teach it.
 
 ## Topics
 
-Each topic below is paired with what a strong demo would show. These are
-suggestions, not requirements — if you have a better idea for making the point,
-propose it.
+Each topic lists what it is, what a strong demo would show, and where the real
+documentation lives. The demos are suggestions — if you have a better idea for
+making the point, propose it.
 
-### Testing with `pytest`
+### Testing and correctness
 
-Automated tests that run in one command, instead of assertions you check by
-eye.
+#### Testing with `pytest`
+
+Automated tests that run in one command, instead of assertions you check by eye.
 
 **Demo:** turn a set of validation checks into a real test suite. Then introduce
 a bug on purpose and let the suite catch it in front of us.
+**Docs:** <https://docs.pytest.org/>
 
-### Linting and formatting with `ruff` and pre-commit
+#### Testing numerical code
+
+The hard version of the above: how do you test code whose output is floating
+point? Tolerances, `assert_allclose`, testing properties rather than values
+(does your integrator conserve energy for *any* valid input?), and golden-file
+regression tests.
+
+**Demo:** show a test that passes for the wrong reason — a tolerance so loose it
+would accept a broken implementation — then tighten it. Or write a property test
+that fails on a subtly wrong algorithm.
+**Docs:** <https://numpy.org/doc/stable/reference/routines.testing.html> ·
+<https://hypothesis.readthedocs.io/>
+
+#### Code review
+
+How to read a change someone else wrote and say something useful about it — and
+how that skill changes when the author is a machine and the code looks
+plausible.
+
+**Demo:** review a real diff live. Show what you check first, what you skip, and
+what you would send back.
+**Docs:** <https://google.github.io/eng-practices/review/>
+
+#### Continuous integration with GitHub Actions
+
+Tests that run automatically on every push, so a broken commit announces itself.
+
+**Demo:** add a workflow that runs a test suite. Push something broken and show
+the red X, then fix it and show it go green.
+**Docs:** <https://docs.github.com/en/actions>
+
+:::{note} Depends on the testing talk
+CI runs your tests, so this is scheduled after `pytest`. If you pick it, you are
+building on a classmate's talk — go see what they covered.
+:::
+
+### Code quality
+
+#### Linting and formatting with `ruff` and pre-commit
 
 Automatic detection of bugs, dead code, and style problems — and hooks that stop
 bad code from being committed at all.
 
 **Demo:** run `ruff` on a real codebase and show what it finds. Fix something.
 Install a pre-commit hook and show it blocking a commit.
+**Docs:** <https://docs.astral.sh/ruff/> · <https://pre-commit.com/>
 
-### Reproducible environments with `uv` and lockfiles
-
-The difference between "it works on my machine" and "it works on any machine,
-including mine in six months."
-
-**Demo:** delete your virtual environment. Rebuild it from the lockfile. Show
-that a computation produces identical output afterward.
-
-### Continuous integration with GitHub Actions
-
-Tests that run automatically on every push, so a broken commit announces itself.
-
-**Demo:** add a workflow that runs your test suite. Push something broken and
-show the red X, then fix it and show it go green.
-
-:::{note} Depends on the testing talk
-CI runs your tests, so this topic is scheduled after `pytest`. If you pick it,
-you are building on your classmate's talk — go see what they covered.
-:::
-
-### Profiling and performance measurement
-
-Finding where time actually goes, rather than where you assume it goes.
-
-**Demo:** profile a numerical routine and find the hot spot. Make it faster.
-Then show that the numbers did not change — a speedup that alters your results
-is not a speedup, it is a bug.
-
-### Debugging with `pdb` / `ipdb`
-
-Inspecting a running program's state instead of adding `print` statements and
-re-running.
-
-**Demo:** find a real bug live, in the debugger, without adding a single
-`print`.
-
-### Type hints and `mypy`
+#### Type hints and `mypy`
 
 Annotations that document what your functions accept and return, and a checker
 that verifies you meant it.
 
 **Demo:** annotate a module. Show `mypy` catching something real — a function
 that can return `None`, an array where a scalar was expected.
+**Docs:** <https://mypy.readthedocs.io/>
 
-### Data versioning and large files
+### Debugging and performance
+
+#### Debugging with `pdb` / `ipdb`
+
+Inspecting a running program's state instead of adding `print` statements and
+re-running.
+
+**Demo:** find a real bug live, in the debugger, without adding a single
+`print`.
+**Docs:** <https://docs.python.org/3/library/pdb.html>
+
+#### Finding regressions with `git bisect`
+
+"It worked last week and I do not know what broke it." Binary search over your
+commit history, automated.
+
+**Demo:** take a repository where something broke, and find the exact commit
+that did it — in front of us, in under two minutes.
+**Docs:** <https://git-scm.com/docs/git-bisect>
+
+#### Profiling
+
+Finding where time actually goes, rather than where you assume it goes.
+
+**Demo:** profile a numerical routine and find the hot spot. Make it faster.
+Then show that the numbers did not change — a speedup that alters your results
+is not a speedup, it is a bug.
+**Docs:** <https://docs.python.org/3/library/profile.html>
+
+#### Benchmarking honestly
+
+Different from profiling: how to *measure* a speedup so that someone else
+believes it. Warm-up runs, variance between repeats, and why timing something
+once on a laptop with thirty browser tabs open means nothing.
+
+**Demo:** show the same benchmark producing two different answers, then measure
+it properly and report a number you can defend.
+**Docs:** <https://docs.python.org/3/library/timeit.html> ·
+<https://pytest-benchmark.readthedocs.io/> ·
+<https://github.com/sharkdp/hyperfine>
+
+### Reproducibility and sharing
+
+#### Reproducible environments with `uv` and lockfiles
+
+The difference between "it works on my machine" and "it works on any machine,
+including mine in six months."
+
+**Demo:** delete a virtual environment. Rebuild it from the lockfile. Show that
+a computation produces identical output afterward.
+**Docs:** <https://docs.astral.sh/uv/>
+
+#### Reproducibility in practice
+
+What "someone else can rerun this" actually requires: seeds and RNG state, where
+your data came from, and a project layout that makes the entry point obvious.
+
+**Demo:** show a stochastic result changing between runs, then pin it properly —
+and explain why a global `seed()` call is not the right answer.
+**Docs:** <https://numpy.org/doc/stable/reference/random/generator.html> ·
+<https://the-turing-way.netlify.app/>
+
+#### Data versioning and large files
 
 Why the Kepler light curves do not belong in git, and what to do instead.
 
 **Demo:** show what happens to a repository that commits large data files, then
-demonstrate the alternative — `.gitignore` plus a documented fetch script that
-reproduces the dataset from scratch.
+demonstrate the alternative — `.gitignore` plus a documented fetch script, or a
+tool built for it.
+**Docs:** <https://git-lfs.com/> · <https://dvc.org/>
+
+#### Licensing and citation for research software
+
+What a `LICENSE` file actually decides, how someone cites your code, and how to
+attach a permanent identifier to a release.
+
+**Demo:** add a license and a `CITATION.cff` to a repository and show what each
+one changes about how the project can be used and credited.
+**Docs:** <https://choosealicense.com/> ·
+<https://citation-file-format.github.io/> · <https://zenodo.org/>
 
 ## Choosing your topic
 
-Pick your topic **in class on Thursday, September 3**. First come, first served;
-one topic per person, so have a second choice ready.
+Topics are claimed in class, first come first served, one topic per person — so
+have a second choice ready. The date will be announced early in the semester.
 
 I assign the presentation dates rather than letting you choose them, for two
 reasons: some topics depend on others (CI needs testing to exist first), and
 some are far more useful early than late. A testing talk in September helps
-everyone for the rest of the semester. The same talk in November is a curiosity.
+everyone for the rest of the semester; the same talk in November is a
+curiosity.
 
 ## Schedule
 
-Presentations happen at the **start of Thursday class**, one per week:
-
-| Week | Date |
-|:--|:--|
-| 4 | Thu **Sep 17** |
-| 5 | Thu **Sep 24** |
-| 6 | Thu **Oct 1** |
-| 7 | Thu **Oct 8** |
-| 8 | Thu **Oct 15** |
-| 9 | Thu **Oct 22** |
+Presentations happen at the **start of class**. Dates will be announced once
+topics are chosen — I assign them so that dependencies work out and the most
+broadly useful tools come early.
 
 Your handout is due to me by the start of your presentation.
 
