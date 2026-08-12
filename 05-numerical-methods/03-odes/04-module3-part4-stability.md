@@ -54,7 +54,6 @@ where $R(z)$ is the **stability function** with $z = h\lambda$.
 For bounded solutions, we need $|R(h\lambda)| \leq 1$. The **stability region** is the set of $z$ values where this holds.
 
 (stability-functions)=
-(stability-regions)=
 ## Stability Functions for Common Methods
 
 Let's derive the stability functions for our methods:

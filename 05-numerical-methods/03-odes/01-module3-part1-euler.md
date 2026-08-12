@@ -79,6 +79,7 @@ For gravitational N-body systems, multiple timescales compete:
 
 ---
 
+(eulers-method)=
 ## Euler's Method - The Simplest Approach
 
 ### Mathematical Formulation
@@ -123,7 +124,6 @@ $$E_\text{global} = \sum_{i=0}^{N-1} \tau_i \approx N \cdot \frac{h^2}{2}x''(\xi
 Euler is globally first-order: halving the timestep only halves the total error.
 
 (energy-drift)=
-(energy-drift-catastrophe)=
 ## The Energy Drift Catastrophe
 
 Let's see Euler fail catastrophically on the harmonic oscillator:

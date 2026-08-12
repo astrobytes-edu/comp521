@@ -401,6 +401,7 @@ Newton's method excels here because we can compute $\theta$ and $d\theta/d\xi$ f
 
 ---
 
+(worked-example-keplers-equation)=
 ## Worked Example: Kepler's Equation
 
 The most famous root-finding problem in astronomy is Kepler's equation, which relates mean anomaly $M$ (proportional to time) to eccentric anomaly $E$ (related to position):

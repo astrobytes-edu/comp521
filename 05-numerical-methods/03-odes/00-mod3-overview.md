@@ -64,7 +64,7 @@ Essential concepts only
 - [Euler's failure](01-module3-part1-euler.md#eulers-method)
 - [RK4 basics](02-module3-part2-runge-kutta.md#rk4-classical)
 - [Leapfrog method](03-module3-part3-symplectic.md#leapfrog-verlet)
-- [Stability regions](04-module3-part4-stability.md#stability-regions)
+- [Stability regions](04-module3-part4-stability.md#stability-functions)
 :::
 
 :::{grid-item}
@@ -103,7 +103,7 @@ Complete module including:
 
 **For Project 2 (N-body Dynamics)**:
 - [Leapfrog implementation](03-module3-part3-symplectic.md#the-algorithm) - Your main integrator
-- [Energy monitoring](01-module3-part1-euler.md#energy-drift-catastrophe) - Conservation checks
+- [Energy monitoring](01-module3-part1-euler.md#energy-drift) - Conservation checks
 - [Timestep selection](01-module3-part1-euler.md#dimensional-analysis) - Setting h appropriately
 - [Close encounters](03-module3-part3-symplectic.md#implementation-tips) - Handling singularities
 - [Phase space structure](03-module3-part3-symplectic.md#phase-space-perspective) - Understanding orbits
@@ -116,7 +116,7 @@ Complete module including:
 **For Project 4 (MCMC)**:
 - [Hamiltonian Monte Carlo](03-module3-part3-symplectic.md#hamiltonian-mechanics) - Symplectic integration
 - [Detailed balance](03-module3-part3-symplectic.md#time-reversibility) - Preserving equilibrium
-- [Trajectory length](04-module3-part4-stability.md#stability-regions) - Choosing integration time
+- [Trajectory length](04-module3-part4-stability.md#stability-functions) - Choosing integration time
 
 **For Project 5 (Gaussian Processes)**:
 - [SDE integration](04-module3-part4-stability.md#implicit-methods) - Stochastic differential equations
