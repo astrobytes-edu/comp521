@@ -4,6 +4,17 @@ subtitle: "Introduction to Scientific Computing and Data Science | Fall 2026"
 author: "Dr. Anna Rosen"
 ---
 
+<!-- prep-banner:start -->
+:::{warning} This page is still being prepared
+COMP 521 begins **Tuesday, August 25**. This page is being written and revised
+until then — dates, policies, and details may still change. It is published
+early so you can see the shape of the course, not because it is finished.
+
+Anything still under discussion is settled by **Monday, August 24**. After that,
+what is written here is what the course does.
+:::
+<!-- prep-banner:end -->
+
 (sec-course-info)=
 ## Course Information
 
@@ -273,6 +284,17 @@ verification, and scientific reasoning — not typing speed.
 
 **Structure:** a one-week bootcamp (Project 0), six two-week projects, then a
 four-week final project.
+
+:::{important} Every project must be submitted
+**You must submit all six projects and the final project to pass this course.**
+A missing project cannot be averaged away by strong work elsewhere — absent a
+documented emergency, skipping one means you do not pass, whatever your other
+grades look like.
+
+This exists because the projects *are* the course. Six two-week projects is not
+a set of assignments you can sample; it is the sequence the whole thing is built
+on, and each one assumes the last.
+:::
 
 Each two-week project runs in two halves:
 

@@ -3,6 +3,17 @@ title: "COMP 521: Introduction to Scientific Computing and Data Science"
 subtitle: "San Diego State University | Fall 2026"
 ---
 
+<!-- prep-banner:start -->
+:::{warning} This page is still being prepared
+COMP 521 begins **Tuesday, August 25**. This page is being written and revised
+until then — dates, policies, and details may still change. It is published
+early so you can see the shape of the course, not because it is finished.
+
+Anything still under discussion is settled by **Monday, August 24**. After that,
+what is written here is what the course does.
+:::
+<!-- prep-banner:end -->
+
 # Welcome to COMP 521
 
 > **Build algorithms from scratch, then leverage libraries for real data.**

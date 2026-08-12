@@ -6,6 +6,17 @@ kernelspec:
   display_name: Python 3
 ---
 
+<!-- prep-banner:start -->
+:::{warning} This page is still being prepared
+COMP 521 begins **Tuesday, August 25**. This page is being written and revised
+until then — dates, policies, and details may still change. It is published
+early so you can see the shape of the course, not because it is finished.
+
+Anything still under discussion is settled by **Monday, August 24**. After that,
+what is written here is what the course does.
+:::
+<!-- prep-banner:end -->
+
 # Grading
 
 ## How grading works in this course
@@ -154,6 +165,13 @@ and could someone else follow it?
 | **C** | It runs, but there is little evidence it is right — tests that would pass for a broken implementation, or results reported without any check that could have caught an error. Or pieces are missing. |
 | **D** | Substantially incomplete, not working, or missing what was asked for. |
 | **F** | Not submitted, or not your own work. |
+
+:::{important} Every project must be submitted
+Submitting all six projects and the final project is a requirement to pass,
+independent of your average — see the
+[Syllabus](syllabus.md#sec-projects). The arithmetic on this page assumes you
+turned everything in.
+:::
 
 :::{important} Validation is where the grade is decided
 Code that runs is the starting point, not the finish line. The difference

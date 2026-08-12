@@ -3,6 +3,17 @@ title: "Course Schedule"
 subtitle: "COMP 521 | Fall 2026"
 ---
 
+<!-- prep-banner:start -->
+:::{warning} This page is still being prepared
+COMP 521 begins **Tuesday, August 25**. This page is being written and revised
+until then — dates, policies, and details may still change. It is published
+early so you can see the shape of the course, not because it is finished.
+
+Anything still under discussion is settled by **Monday, August 24**. After that,
+what is written here is what the course does.
+:::
+<!-- prep-banner:end -->
+
 # Course Schedule
 
 Sixteen weeks: six two-week projects (in rotating pairs), then a four-week
