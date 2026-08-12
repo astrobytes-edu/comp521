@@ -8,13 +8,12 @@ kernelspec:
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is being revised for COMP 521
-This chapter was adapted from COMP 536 and is still under review. You may find
-references to the wrong course number, setup instructions that do not match
-ours, or examples that assume material we have not covered yet.
+:::{warning} This reading is still being revised
+Readings are reviewed and finalized **at least one week before they are
+assigned**, so you will always have a settled version before you need it. Until
+then, expect rough edges — wording, examples, and cross-references may change.
 
-The Python and the science are sound — it is the packaging that is catching up.
-Where this page disagrees with the syllabus, the syllabus is right. If something
+Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
 :::
@@ -66,7 +65,7 @@ Most real scientific problems do not hand us a closed-form answer. We discretize
 
 :::{important} Course Units Reminder
 
-Throughout COMP 536, we will use explicit physical scales rather than vague "numbers":
+Throughout COMP 521, we will use explicit physical scales rather than vague "numbers":
 
 - Length: cm, AU, pc
 - Mass: g, $M_\odot$
@@ -644,7 +643,7 @@ def practical_optimal_h(
 
 Why this matters: the best way to internalize the error trade-off is to vary $h$ yourself and watch different methods succeed or fail.
 
-In COMP 536, we do this exploration directly in executable Python rather than through a separate browser demo. The goal is the same: choose a function, a point $x$, a method, and a log-scaled step size $h$, then compare what your prediction says to what the calculation actually does.
+In COMP 521, we do this exploration directly in executable Python rather than through a separate browser demo. The goal is the same: choose a function, a point $x$, a method, and a log-scaled step size $h$, then compare what your prediction says to what the calculation actually does.
 
 :::{note} Parameters to Explore
 

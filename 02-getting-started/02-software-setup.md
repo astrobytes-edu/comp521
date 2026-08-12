@@ -5,13 +5,12 @@ author: "Anna Rosen"
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is being revised for COMP 521
-This chapter was adapted from COMP 536 and is still under review. You may find
-references to the wrong course number, setup instructions that do not match
-ours, or examples that assume material we have not covered yet.
+:::{warning} This reading is still being revised
+Readings are reviewed and finalized **at least one week before they are
+assigned**, so you will always have a settled version before you need it. Until
+then, expect rough edges — wording, examples, and cross-references may change.
 
-The Python and the science are sound — it is the packaging that is catching up.
-Where this page disagrees with the syllabus, the syllabus is right. If something
+Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
 :::
@@ -86,7 +85,7 @@ Use this quick recovery loop:
 2. **Copy the exact error text** (screenshots are fine too).
 3. Try the simplest reset:
    - Close and reopen your terminal
-   - Re-run: `conda activate comp536`
+   - Re-run: `conda activate comp521`
 4. If it still fails, ask for help **with the full error text** (not "it doesn't work").
 
 **Rule:** vague errors get vague answers. Precise errors get fast fixes.
@@ -118,7 +117,7 @@ For academic work, Miniforge is the best choice: minimal, free, and access to th
 
 You may see modern Python workflows using **`uv`** (a very fast package + environment tool). It's excellent for many research codebases.
 
-**Why COMP 536 uses Miniforge/conda instead:** conda handles cross-platform scientific packages (compiled libraries) more reliably for a mixed classroom, and it makes everyone's environment consistent.
+**Why COMP 521 uses Miniforge/conda instead:** conda handles cross-platform scientific packages (compiled libraries) more reliably for a mixed classroom, and it makes everyone's environment consistent.
 
 **When `uv` is a good choice:** once you're comfortable with environments, and you're working on a Python-only project where speed and lockfiles matter. We may revisit `uv` later in the semester as an "industry-style" alternative.
 :::
@@ -253,7 +252,7 @@ If `conda --version` gives "command not found":
 Use the same terminal window throughout setup. If you accidentally close it:
 
 1. Open a new terminal
-2. Run `conda activate comp536` (after creating it)
+2. Run `conda activate comp521` (after creating it)
 3. Continue where you left off
 :::
 
@@ -261,17 +260,17 @@ An environment is an isolated workspace. Think of it as a clean room where we ca
 
 ```bash
 # Create environment with Python 3.11
-conda create -n comp536 python=3.11
+conda create -n comp521 python=3.11
 ```
 
 When prompted "Proceed ([y]/n)?", type `y` and press Enter.
 
 ```bash
 # Activate your environment
-conda activate comp536
+conda activate comp521
 ```
 
-**Success Check**: Your prompt now shows `(comp536)` at the beginning
+**Success Check**: Your prompt now shows `(comp521)` at the beginning
 
 :::{warning} Common Mistake #1
 
@@ -280,10 +279,10 @@ conda activate comp536
 Every time you open a new terminal, you MUST run:
 
 ```bash
-conda activate comp536
+conda activate comp521
 ```
 
-No (comp536) in prompt = wrong environment = packages "not found"!
+No (comp521) in prompt = wrong environment = packages "not found"!
 :::
 
 ### Install Essential Packages
@@ -387,7 +386,7 @@ python -c "import numpy; print('NumPy works!')"
 2. **Select Your Environment**:
    - Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
    - Type "Python: Select Interpreter"
-   - Choose `comp536` from the list
+   - Choose `comp521` from the list
    - **Note**: VS Code remembers this choice per folder - set once per project!
 
 That's it! Add other extensions only as you need them.
@@ -423,7 +422,7 @@ Create a simple test file to verify everything works:
 **1. Create `test_setup.py`:**
 
 ```python
-"""Quick setup test for COMP 536"""
+"""Quick setup test for COMP 521"""
 print("Testing imports...")
 
 import numpy as np
@@ -440,7 +439,7 @@ except ImportError:
     print("○ JAX not installed (that's okay for now)")
 
 print("\n🎉 Everything is installed correctly!")
-print("Your environment is ready for COMP 536!")
+print("Your environment is ready for COMP 521!")
 ```
 
 **2. Run the test:**
@@ -457,7 +456,7 @@ Let's make sure you're comfortable with the basics:
 
 ```bash
 # 1. Check your environment is active
-conda activate comp536
+conda activate comp521
 
 # 2. Check what's installed
 conda list
@@ -473,8 +472,8 @@ code .
 
 You're ready for the course when:
 
-- [ ] Opening a new terminal and typing `conda activate comp536` works
-- [ ] The prompt shows `(comp536)` after activation
+- [ ] Opening a new terminal and typing `conda activate comp521` works
+- [ ] The prompt shows `(comp521)` after activation
 - [ ] Running `python -c "import numpy"` produces no errors
 - [ ] VS Code opens when you type `code .`
 - [ ] The test script runs successfully
@@ -501,7 +500,7 @@ When you hit a problem, classify it first — it tells you what to do next.
   Fix: restart terminal $\to$ verify install $\to$ check you're using Miniforge Prompt (Windows).
 
 - **`ModuleNotFoundError`** $\to$ you're in the wrong environment *or* the package isn't installed.
-  Fix: does your prompt show `(comp536)`? If not: `conda activate comp536`. Then `conda list package`.
+  Fix: does your prompt show `(comp521)`? If not: `conda activate comp521`. Then `conda list package`.
 
 - **Permission / admin errors** $\to$ installer needs permissions, but **don't use `sudo` with conda**.
   Fix: reinstall "Just Me" / default location; on Windows run installer as admin if needed.
@@ -520,7 +519,7 @@ When you hit a problem, classify it first — it tells you what to do next.
 
 **"ModuleNotFoundError: No module named numpy"**
 
-- Check prompt shows `(comp536)` - if not, run `conda activate comp536`
+- Check prompt shows `(comp521)` - if not, run `conda activate comp521`
 - Verify package is installed: `conda list numpy`
 - Reinstall if needed: `conda install numpy`
 
@@ -528,7 +527,7 @@ When you hit a problem, classify it first — it tells you what to do next.
 
 - Open Command Palette (Ctrl/Cmd+Shift+P)
 - Run "Python: Select Interpreter"
-- Choose the comp536 environment
+- Choose the comp521 environment
 - Restart VS Code if needed
 
 **"Permission denied" errors**
@@ -557,7 +556,7 @@ conda config --set proxy_servers.https https://proxy.yourorg.com:8080
 ```bash
 # Remove environment and start fresh
 conda deactivate
-conda env remove -n comp536
+conda env remove -n comp521
 # Then go back to Step 2
 ```
 
@@ -567,7 +566,7 @@ conda env remove -n comp536
 # Remove unused packages and cache
 conda clean --all
 # Check environment size
-du -sh ~/miniforge3/envs/comp536
+du -sh ~/miniforge3/envs/comp521
 ```
 :::
 
@@ -580,7 +579,7 @@ It's okay to take a break after Step 2 (environment creation) and continue tomor
 Your progress is saved! When you return:
 
 1. Open a new terminal
-2. Run `conda activate comp536`
+2. Run `conda activate comp521`
 3. Continue from where you left off
 :::
 
@@ -593,7 +592,7 @@ Your progress is saved! When you return:
 **Save Time**: Add this to your terminal config file (.bashrc/.zshrc):
 
 ```bash
-alias comp="conda activate comp536"
+alias comp="conda activate comp521"
 ```
 
 Now just type `comp` to activate!
@@ -601,7 +600,7 @@ Now just type `comp` to activate!
 **Stay Organized**: Create a folder structure:
 
 ```bash
-mkdir -p ~/comp536/{projects,notes,data}
+mkdir -p ~/comp521/{projects,notes,data}
 ```
 
 **Practice Daily**: Open terminal every day, even for 5 minutes. Muscle memory develops fast!
@@ -611,7 +610,7 @@ mkdir -p ~/comp536/{projects,notes,data}
 
 | Command | What it does |
 |---------|--------------|
-| `conda activate comp536` | Enter course environment |
+| `conda activate comp521` | Enter course environment |
 | `conda deactivate` | Exit environment |
 | `conda list` | Show installed packages |
 | `conda install package_name` | Install new package |

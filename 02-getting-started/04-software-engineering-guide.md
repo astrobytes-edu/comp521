@@ -5,13 +5,12 @@ author: "Anna Rosen"
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is being revised for COMP 521
-This chapter was adapted from COMP 536 and is still under review. You may find
-references to the wrong course number, setup instructions that do not match
-ours, or examples that assume material we have not covered yet.
+:::{warning} This reading is still being revised
+Readings are reviewed and finalized **at least one week before they are
+assigned**, so you will always have a settled version before you need it. Until
+then, expect rough edges — wording, examples, and cross-references may change.
 
-The Python and the science are sound — it is the packaging that is catching up.
-Where this page disagrees with the syllabus, the syllabus is right. If something
+Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
 :::
@@ -28,7 +27,7 @@ Most scientists learn to code by trial and error. This works for small scripts, 
 This guide covers what CS students learn over 4 years, compressed into what you actually need.
 
 :::{note} How to use this chapter
-This is a course-wide reference, not a one-off assignment handout. We’ll use [Project 1](../08-short-projects/project-1/comp536-project-1.qmd) as a running example because it’s the first time you’ll be required to meet the full reproducibility contract (CI, `run.py`, deterministic runs, and non-interactive figure generation). Keep this open and return to it throughout the semester — these habits apply to every project and to real research code.
+This is a course-wide reference, not a one-off assignment handout. We’ll use **Project 1** as a running example because it’s the first time you’ll be required to meet the full reproducibility contract (CI, `run.py`, deterministic runs, and non-interactive figure generation). Keep this open and return to it throughout the semester — these habits apply to every project and to real research code.
 
 :::{tip} Need the one-page version?
 Use the [Scientific Software Workflow Cheatsheet](05-scientific-software-workflow-cheatsheet.qmd) before each coding session, and come back to this full chapter when you need deeper examples.
@@ -69,9 +68,9 @@ Use the [Scientific Software Workflow Cheatsheet](05-scientific-software-workflo
 
 ---
 
-## Part 0: The Reproducibility Contract (COMP 536)
+## Part 0: The Reproducibility Contract (COMP 521)
 
-In COMP 536, reproducibility is not an “extra” — it is a core requirement. Your code must be runnable by someone who has never met you, on a clean clone, without clicking around or guessing which cell to run.
+In COMP 521, reproducibility is not an “extra” — it is a core requirement. Your code must be runnable by someone who has never met you, on a clean clone, without clicking around or guessing which cell to run.
 
 Here is the standard you should design for from day one (and the standard Project 1 will grade directly):
 
@@ -142,7 +141,7 @@ project/
 ```
 :::
 
-If you build your workflow around these commands, everything else in this guide becomes easier: debugging is faster, your repo stays reviewable, and CI can run your project automatically. See [Project 1](../08-short-projects/project-1/comp536-project-1.qmd) for the exact submission contract.
+If you build your workflow around these commands, everything else in this guide becomes easier: debugging is faster, your repo stays reviewable, and CI can run your project automatically. See **Project 1** for the exact submission contract.
 
 :::{tip} Design for the grader you haven’t met yet
 If your work only runs “on your laptop, in your current directory, after you manually ran three cells”, it is not reproducible. The goal is a clean clone and a single, documented workflow.
@@ -382,9 +381,9 @@ def validate_luminosity():
 :::{note} Validation vs. tests vs. plots (don’t blur these)
 These three tools have different jobs. You want all three — but you don’t want to confuse them.
 
-- **Validation = scientific evidence.** Validation answers: “Does the science make sense?” These are fast physics or ground-truth checks (anchor values, trends, limiting cases). In COMP 536 this is typically `python run.py validate`.
+- **Validation = scientific evidence.** Validation answers: “Does the science make sense?” These are fast physics or ground-truth checks (anchor values, trends, limiting cases). In COMP 521 this is typically `python run.py validate`.
 - **Unit tests = behavioral evidence.** Unit tests answer: “Does the code meet its contract?” These are automated, fast checks of behavior and error handling (usually via `pytest` or `python run.py test`).
-- **Plots = diagnostic evidence.** Plots answer: “Where is it going wrong?” Plots are diagnostic checkpoints and sanity checks — often the fastest way to spot unit/shape mistakes. In COMP 536 this is typically `python run.py make-figures`.
+- **Plots = diagnostic evidence.** Plots answer: “Where is it going wrong?” Plots are diagnostic checkpoints and sanity checks — often the fastest way to spot unit/shape mistakes. In COMP 521 this is typically `python run.py make-figures`.
 
 Not everything belongs in a unit test. If a check is slow, visual, or requires generating figures, it probably belongs in validation or in your figure pipeline — not in `pytest`.
 :::

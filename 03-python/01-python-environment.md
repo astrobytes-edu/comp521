@@ -8,13 +8,12 @@ kernelspec:
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is being revised for COMP 521
-This chapter was adapted from COMP 536 and is still under review. You may find
-references to the wrong course number, setup instructions that do not match
-ours, or examples that assume material we have not covered yet.
+:::{warning} This reading is still being revised
+Readings are reviewed and finalized **at least one week before they are
+assigned**, so you will always have a settled version before you need it. Until
+then, expect rough edges — wording, examples, and cross-references may change.
 
-The Python and the science are sound — it is the packaging that is catching up.
-Where this page disagrees with the syllabus, the syllabus is right. If something
+Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
 :::
@@ -40,7 +39,7 @@ By the end of this chapter, you will be able to:
 Before starting this chapter, verify you have completed these items:
 
 - [ ] You can open a terminal/command prompt and are able to navigate directories (via `cd`, `ls`, `lsdir`, `pwd`).
-- [ ] You have Miniforge installed and created a `comp536` python conda environment for this course.
+- [ ] You have Miniforge installed and created a `comp521` python conda environment for this course.
 - [ ] You have a text editor (e.g., Vim) or IDE (e.g., VS Code) installed.
 - [ ] You have `git` installed and can you use basic `git` commands (e.g.,`clone`, `add`, `commit`, `pull`).
 
@@ -55,7 +54,7 @@ This chapter reveals the hidden machinery that makes Python work (or not work) o
 
 By chapter's end, you'll transform from someone who hopes code works to someone who knows exactly why it works (or doesn't). You'll diagnose "No module named" errors in seconds, create environments that work identically on any computing cluster, and understand the critical difference between exploration and reproducible science. Let's begin by exploring the tool that will become your new best friend: **IPython**.
 
-:::{warning} 🚫 Jupyter Notebooks Are Not Allowed in COMP 536
+:::{warning} 🚫 Jupyter Notebooks Are Not Allowed in COMP 521
 
 From **Day 1**, this course does **not** permit the use of Jupyter notebooks for assignments, projects, or submissions.
 
@@ -109,7 +108,7 @@ Throughout this book:
 
 ```bash
 # Terminal commands (type these in your terminal, not in Python!)
-$ conda activate comp536
+$ conda activate comp521
 $ ipython
 
 # You'll see something like this appear:
@@ -489,7 +488,7 @@ import sys
 common_pythons = {
     'System Python': '/usr/bin/python3',
     'Conda (base)': '~/miniforge3/bin/python',
-    'Conda (env)': '~/miniforge3/envs/comp536/bin/python',
+    'Conda (env)': '~/miniforge3/envs/comp521/bin/python',
     'Homebrew (Mac)': '/usr/local/bin/python3',
     'Module system': '/software/python/bin/python'
 }
@@ -523,7 +522,7 @@ $ python script.py    # Uses wrong Python!
 **Fix**: Always use explicit paths or conda:
 
 ```bash
-$ conda activate comp536
+$ conda activate comp521
 $ which python  # Verify it's YOUR Python
 $ python script.py
 ```
@@ -536,7 +535,7 @@ $ python script.py
 
 # Always activate your environment first!
 source ~/miniforge3/etc/profile.d/conda.sh
-conda activate comp536
+conda activate comp521
 python your_script.py
 ```
 :::
@@ -559,7 +558,7 @@ To start Jupyter (after activating your environment):
 
 ```bash
 # Terminal commands:
-$ conda activate comp536
+$ conda activate comp521
 $ jupyter lab
 
 # Opens browser at http://localhost:8888

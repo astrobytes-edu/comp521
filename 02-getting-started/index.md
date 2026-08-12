@@ -5,13 +5,12 @@ author: "Anna Rosen"
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is being revised for COMP 521
-This chapter was adapted from COMP 536 and is still under review. You may find
-references to the wrong course number, setup instructions that do not match
-ours, or examples that assume material we have not covered yet.
+:::{warning} This reading is still being revised
+Readings are reviewed and finalized **at least one week before they are
+assigned**, so you will always have a settled version before you need it. Until
+then, expect rough edges — wording, examples, and cross-references may change.
 
-The Python and the science are sound — it is the packaging that is catching up.
-Where this page disagrees with the syllabus, the syllabus is right. If something
+Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
 :::
@@ -31,7 +30,7 @@ Follow the workflow demonstrated in class over the steps written here.
 
 **Your Foundation for Computational Science**
 
-Before we model complex systems, we need to set up our computational laboratory. This module establishes the professional development environment and essential skills you'll use throughout COMP 536 and your research career.
+Before we model complex systems, we need to set up our computational laboratory. This module establishes the professional development environment and essential skills you'll use throughout COMP 521 and your research career.
 
 :::{tip} Module Philosophy: Tools Shape Thinking
 
@@ -144,7 +143,7 @@ After completing this module in order, you will:
 *Solution*: Start with just 3 commands (pwd, ls, cd). Everything else builds on these.
 
 **Challenge 2: "Command not found" errors**
-*Solution*: Usually means wrong environment. Check for `(comp536)` in your prompt.
+*Solution*: Usually means wrong environment. Check for `(comp521)` in your prompt.
 
 **Challenge 3: Git says "failed to push"**
 *Solution*: Someone else pushed first. Pull, resolve conflicts, then push.
@@ -172,7 +171,7 @@ Complete these milestones in order:
 
 - [ ] Miniforge installed and working
 - [ ] VS Code configured with Python extension
-- [ ] Can activate comp536 environment
+- [ ] Can activate comp521 environment
 - [ ] Test script runs successfully
 
 **After Git Guide**
@@ -199,7 +198,7 @@ Complete these milestones in order:
 | `cd folder_name` | Change to different directory |
 | `Tab` key | Autocomplete (use constantly!) |
 | **Python Environment** | |
-| `conda activate comp536` | Enter your course environment |
+| `conda activate comp521` | Enter your course environment |
 | `python script.py` | Run your Python code |
 | `which python` | Verify correct Python is active |
 | **Git Workflow** | |
@@ -242,7 +241,7 @@ $\to$ Great office hours questions!
 You're ready for [*Python Fundamentals*](../03-scientific-computing-with-python/01-python-fundamentals/index.qmd) when you can:
 
 1. **Open terminal** and navigate to any folder using cd and ls
-2. **Activate your environment** with `conda activate comp536`
+2. **Activate your environment** with `conda activate comp521`
 3. **Create a Git repository**, make commits, and push to GitHub
 4. **Run Python scripts** from the command line
 5. **Fix basic issues** using error messages and documentation

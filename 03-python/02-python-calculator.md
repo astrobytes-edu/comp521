@@ -8,13 +8,12 @@ kernelspec:
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is being revised for COMP 521
-This chapter was adapted from COMP 536 and is still under review. You may find
-references to the wrong course number, setup instructions that do not match
-ours, or examples that assume material we have not covered yet.
+:::{warning} This reading is still being revised
+Readings are reviewed and finalized **at least one week before they are
+assigned**, so you will always have a settled version before you need it. Until
+then, expect rough edges — wording, examples, and cross-references may change.
 
-The Python and the science are sound — it is the packaging that is catching up.
-Where this page disagrees with the syllabus, the syllabus is right. If something
+Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
 :::
@@ -42,7 +41,7 @@ By the end of this chapter, you will be able to:
 - [ ] You can launch IPython and use basic magic commands (Chapter 1)
 - [ ] You understand the difference between scripts and interactive sessions (Chapter 1)
 - [ ] You can navigate your file system and activate your conda environment (Chapter 1)
-- [ ] Your `comp536` environment is activated and IPython is ready
+- [ ] Your `comp521` environment is activated and IPython is ready
 
 If any boxes are unchecked, review Chapter 1 first.
 :::

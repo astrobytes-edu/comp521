@@ -5,13 +5,12 @@ author: "Anna Rosen"
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is being revised for COMP 521
-This chapter was adapted from COMP 536 and is still under review. You may find
-references to the wrong course number, setup instructions that do not match
-ours, or examples that assume material we have not covered yet.
+:::{warning} This reading is still being revised
+Readings are reviewed and finalized **at least one week before they are
+assigned**, so you will always have a settled version before you need it. Until
+then, expect rough edges — wording, examples, and cross-references may change.
 
-The Python and the science are sound — it is the packaging that is catching up.
-Where this page disagrees with the syllabus, the syllabus is right. If something
+Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
 :::
@@ -188,7 +187,7 @@ Your computer's files are organized in a tree:
 │   └── yourname/    # Your home directory (~)
 │       ├── Desktop/
 │       ├── Documents/
-│       └── comp536/
+│       └── comp521/
 │           ├── project1/
 │           └── project2/
 ```
@@ -376,7 +375,7 @@ ipython                         # Better interactive mode
 ### Managing Your Environment
 
 ```bash
-conda activate comp536    # Enter course environment
+conda activate comp521    # Enter course environment
 conda deactivate         # Exit environment
 which python            # Check which Python is active
 conda list              # See installed packages
@@ -496,7 +495,7 @@ grep "text" file    # Search in file
 
 # Python & Course
 python script.py            # Run Python
-conda activate comp536      # Enter environment
+conda activate comp521      # Enter environment
 git status                  # Check git
 git add . && git commit -m "msg" && git push  # Submit work
 
@@ -514,8 +513,8 @@ This is a quick "proof to yourself" that you can navigate and manipulate files s
 
 ```bash
 cd ~
-mkdir -p comp536_cli_quest/{data,code,notes}
-cd comp536_cli_quest
+mkdir -p comp521_cli_quest/{data,code,notes}
+cd comp521_cli_quest
 ```
 
 2. **Create a few files**
@@ -603,7 +602,7 @@ mv *.png images/
 ls -la */
 ```
 
-## Practical Examples for COMP 536
+## Practical Examples for COMP 521
 
 ### Setting Up a New Project
 
@@ -670,7 +669,7 @@ Remember: Closing and reopening terminal resets everything!
 3. Use Tab completion religiously
 4. $\to$ Continue to course projects
 
-**Optional Advanced Topics**: Curious about remote computing (SSH), long-running jobs (screen/tmux), or shell scripting? Those are useful for research but not needed for COMP 536.
+**Optional Advanced Topics**: Curious about remote computing (SSH), long-running jobs (screen/tmux), or shell scripting? Those are useful for research but not needed for COMP 521.
 
 **Remember**:
 

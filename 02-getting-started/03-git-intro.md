@@ -5,13 +5,12 @@ author: "Anna Rosen"
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is being revised for COMP 521
-This chapter was adapted from COMP 536 and is still under review. You may find
-references to the wrong course number, setup instructions that do not match
-ours, or examples that assume material we have not covered yet.
+:::{warning} This reading is still being revised
+Readings are reviewed and finalized **at least one week before they are
+assigned**, so you will always have a settled version before you need it. Until
+then, expect rough edges — wording, examples, and cross-references may change.
 
-The Python and the science are sound — it is the packaging that is catching up.
-Where this page disagrees with the syllabus, the syllabus is right. If something
+Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
 :::
@@ -172,7 +171,7 @@ We'll use Personal Access Tokens (classic) for simplicity. GitHub also offers "f
 2. In the left sidebar, click **Developer settings**
 3. Under **Personal access tokens**, click **Tokens (classic)**
 4. Click **Generate new token** $\to$ **Generate new token (classic)**
-5. Name it "COMP 536 Course"
+5. Name it "COMP 521 Course"
 6. Set expiration to after the semester ends
 7. Check these scopes:
    - ✓ repo (all)
@@ -210,7 +209,7 @@ Master these five commands and you can use Git for this entire course:
 | `git push` | Upload to GitHub |
 | `git pull` | Download latest changes |
 
-### ✅ Git Habits We Expect in COMP 536
+### ✅ Git Habits We Expect in COMP 521
 
 Git isn't just "submission plumbing" — it's part of your modeling workflow. In this course, we expect a few professional habits:
 
@@ -264,14 +263,14 @@ No uploading files, no Canvas submissions, no "did you get my email?"
    - Click the link to your repository
 
 4. **Your repository is created!**
-   - URL format: `github.com/comp536/project1-yourusername`
+   - URL format: `github.com/comp521/project1-yourusername`
    - This is YOUR personal copy
 
 ### Working on Assignments
 
 ```bash
 # 1. Clone your assignment repository
-git clone https://github.com/comp536/project1-yourusername.git
+git clone https://github.com/comp521/project1-yourusername.git
 cd project1-yourusername
 
 # 2. Work on your code
@@ -335,7 +334,7 @@ cd my_analysis
 git init
 
 # Create a Python file
-echo "print('Hello COMP 536!')" > hello.py
+echo "print('Hello COMP 521!')" > hello.py
 
 # Create a .gitignore file
 cat > .gitignore << EOF
