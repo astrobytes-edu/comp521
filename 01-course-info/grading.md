@@ -54,16 +54,18 @@ higher ceiling, but room to recover from one bad week.
 
 ### Turning your average into a course grade
 
-Your weighted average is rounded to the nearest letter:
+Each cutoff sits **0.2 below** that grade's own value, so you can fall a little
+short of straight-A work and still earn an A. What it will not do is round you
+up a whole step: consistent A− work earns an A−.
 
 | Average | Grade | | Average | Grade |
 |:--|:--|--|:--|:--|
-| ≥ 3.85 | **A** | | 1.85 – 2.14 | **C** |
-| 3.50 – 3.84 | **A−** | | 1.50 – 1.84 | **C−** |
-| 3.15 – 3.49 | **B+** | | 1.15 – 1.49 | **D+** |
-| 2.85 – 3.14 | **B** | | 0.85 – 1.14 | **D** |
-| 2.50 – 2.84 | **B−** | | 0.35 – 0.84 | **D−** |
-| 2.15 – 2.49 | **C+** | | < 0.35 | **F** |
+| ≥ 3.80 | **A** | | 1.80 – 2.09 | **C** |
+| 3.50 – 3.79 | **A−** | | 1.50 – 1.79 | **C−** |
+| 3.10 – 3.49 | **B+** | | 1.10 – 1.49 | **D+** |
+| 2.80 – 3.09 | **B** | | 0.80 – 1.09 | **D** |
+| 2.50 – 2.79 | **B−** | | 0.50 – 0.79 | **D−** |
+| 2.10 – 2.49 | **C+** | | < 0.50 | **F** |
 
 ### Work it out yourself
 
@@ -90,9 +92,9 @@ WEIGHTS = {
 
 # Highest cutoff first, so the first match wins.
 CUTOFFS = [
-    (3.85, "A"),  (3.50, "A-"), (3.15, "B+"), (2.85, "B"),
-    (2.50, "B-"), (2.15, "C+"), (1.85, "C"),  (1.50, "C-"),
-    (1.15, "D+"), (0.85, "D"),  (0.35, "D-"), (0.00, "F"),
+    (3.80, "A"),  (3.50, "A-"), (3.10, "B+"), (2.80, "B"),
+    (2.50, "B-"), (2.10, "C+"), (1.80, "C"),  (1.50, "C-"),
+    (1.10, "D+"), (0.80, "D"),  (0.50, "D-"), (0.00, "F"),
 ]
 
 
@@ -111,7 +113,7 @@ def course_grade(components):
 
 me = {
     "projects":      ["B+", "A-", "A", "A", "A+", "A-"],
-    "final":         ["A-"],
+    "final":         ["B+"],
     "presentations": ["B+", "A"],
     "reflections":   ["A", "B", "A"],
     "engagement":    ["A"],
