@@ -83,7 +83,7 @@ Each approach has trade-offs between:
 - **Speed**: How many iterations to converge?
 - **Requirements**: Do we need derivatives? Good initial guesses?
 
-![**Three geometric approaches to root finding.** The top panels show how bisection (bracketing), Newton (tangent lines), and secant (interpolation) methods work geometrically on the function $f(x) = x^3 - 2x - 5$. The bottom-right convergence plot reveals the mathematical power of each approach: bisection's reliable but slow linear convergence, secant's faster superlinear convergence, and Newton's rapid quadratic convergence when conditions are favorable. Note how the different slopes on the log-scale plot correspond to different convergence orders—a key signature for identifying method performance in practice.](figures/2_1_root_methods_comparison.png){#fig-root-methods-comparison width="100%"}
+![**Three geometric approaches to root finding.** The top panels show how bisection (bracketing), Newton (tangent lines), and secant (interpolation) methods work geometrically on the function $f(x) = x^3 - 2x - 5$. The bottom-right convergence plot reveals the mathematical power of each approach: bisection's reliable but slow linear convergence, secant's faster superlinear convergence, and Newton's rapid quadratic convergence when conditions are favorable. Note how the different slopes on the log-scale plot correspond to different convergence orders—a key signature for identifying method performance in practice.](figures/2_1_root_methods_comparison.webp){#fig-root-methods-comparison width="100%"}
 
 ---
 
@@ -255,7 +255,7 @@ Despite its speed, Newton's method can fail spectacularly:
 3. **Cycles**: Can oscillate between points without converging
 4. **Ill-conditioned**: When $|f'(r)|$ is very small, round-off errors dominate
 
-![**When Newton's method fails.** Four critical failure modes illustrate why Newton's method, despite its speed, requires careful application: (a) **Cycling behavior** occurs when iterates bounce between points without converging; (b) **Divergence** from poor initial guesses sends the method away from the root; (c) **Vertical tangents** (infinite derivatives) cause division by zero; (d) **Repeated roots** reduce convergence from quadratic to merely linear. Understanding these failure patterns is essential for robust algorithm design—they explain why production codes often combine Newton with bracketing methods for reliability.](figures/2_2_newton_failure_modes.png){#fig-newton-failure-modes width="100%"}
+![**When Newton's method fails.** Four critical failure modes illustrate why Newton's method, despite its speed, requires careful application: (a) **Cycling behavior** occurs when iterates bounce between points without converging; (b) **Divergence** from poor initial guesses sends the method away from the root; (c) **Vertical tangents** (infinite derivatives) cause division by zero; (d) **Repeated roots** reduce convergence from quadratic to merely linear. Understanding these failure patterns is essential for robust algorithm design—they explain why production codes often combine Newton with bracketing methods for reliability.](figures/2_2_newton_failure_modes.webp){#fig-newton-failure-modes width="100%"}
 
 ### Common Failure Modes and Fixes
 
@@ -363,7 +363,7 @@ Combines bisection's reliability with inverse quadratic interpolation's speed:
 4. Monitor condition number throughout
 ```
 
-![**Why production codes use hybrid methods.** Testing on the challenging function $f(x) = x^{20} - 1$ near $x = 1$ reveals the power of combining methods. **Pure Newton** (red) fails catastrophically from poor initial guesses due to the extreme conditioning of this function. **Pure bisection** (pink) is reliable but painfully slow, requiring dozens of iterations. The **hybrid approach** (blue) intelligently switches between methods: it uses bisection to establish a safe bracket, then switches to Newton for rapid final convergence, falling back to bisection if Newton steps become unreliable. This adaptive strategy delivers both robustness and speed—explaining why sophisticated root-finding libraries like those in SciPy implement such hybrid algorithms.](figures/2_3_hybrid_method_performance.png){#fig-hybrid-method-performance width="100%"}
+![**Why production codes use hybrid methods.** Testing on the challenging function $f(x) = x^{20} - 1$ near $x = 1$ reveals the power of combining methods. **Pure Newton** (red) fails catastrophically from poor initial guesses due to the extreme conditioning of this function. **Pure bisection** (pink) is reliable but painfully slow, requiring dozens of iterations. The **hybrid approach** (blue) intelligently switches between methods: it uses bisection to establish a safe bracket, then switches to Newton for rapid final convergence, falling back to bisection if Newton steps become unreliable. This adaptive strategy delivers both robustness and speed—explaining why sophisticated root-finding libraries like those in SciPy implement such hybrid algorithms.](figures/2_3_hybrid_method_performance.webp){#fig-hybrid-method-performance width="100%"}
 
 ---
 

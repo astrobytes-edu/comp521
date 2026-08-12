@@ -76,9 +76,9 @@ which says that star-formation problems mix local structure and cloud-scale stru
 
 Double precision gives about 15 to 16 decimal digits of relative precision near numbers of order unity. That is an approximate practical statement about floating-point spacing, not a law of nature about "how many digits exist" in a calculation.
 
-![What to notice in this figure: the computational challenge is not just that astronomy spans many orders of magnitude. It is that no single coordinate scale makes every subtraction, normalization, and conservation check equally well conditioned.](figures/2_3_astronomical_scales.png){#fig-astro-scales width="100%"}
+![What to notice in this figure: the computational challenge is not just that astronomy spans many orders of magnitude. It is that no single coordinate scale makes every subtraction, normalization, and conservation check equally well conditioned.](figures/2_3_astronomical_scales.webp){#fig-astro-scales width="100%"}
 
-![What to notice in this figure: representable numbers are discrete rather than continuous, and the gap between adjacent floating-point values grows with magnitude. That is why a subtraction that is safe near $1$ may be ill-conditioned near $10^{16}$.](figures/2_5_floating_point_spacing.png){#fig-floating-spacing width="100%"}
+![What to notice in this figure: representable numbers are discrete rather than continuous, and the gap between adjacent floating-point values grows with magnitude. That is why a subtraction that is safe near $1$ may be ill-conditioned near $10^{16}$.](figures/2_5_floating_point_spacing.webp){#fig-floating-spacing width="100%"}
 
 The takeaway is that scale is part of the numerical problem. The same subtraction can be harmless at one magnitude and poorly conditioned at another.
 
@@ -162,7 +162,7 @@ print(f"0.3              -> {0.3:.17f}")
 
 Interpretation: the mismatch is not folklore and it is not a Python bug. The finite binary approximation of $0.1$ is slightly different from the exact real number $0.1$, and those tiny differences survive arithmetic.
 
-![What to notice in this figure: the issue is not that the computer is careless. The issue is that most finite decimal fractions do not have finite binary expansions, so the stored values are the nearest available binary fractions.](figures/2_6_decimal_binary_mismatch.png){#fig-binary-mismatch width="100%"}
+![What to notice in this figure: the issue is not that the computer is careless. The issue is that most finite decimal fractions do not have finite binary expansions, so the stored values are the nearest available binary fractions.](figures/2_6_decimal_binary_mismatch.webp){#fig-binary-mismatch width="100%"}
 
 ### Worked Example 2: Computing $\epsilon_{\mathrm{machine}}$
 
@@ -410,7 +410,7 @@ This equation says that if $a$ and $b$ are close, the left-hand side performs tw
 If a quantity should be small because of physics, do not assume a noisy result is "just a small signal." Ask whether you are subtracting two large nearly equal numbers to get it.
 :::
 
-![What to notice in this figure: the dangerous step is not "small minus small." It is "almost equal minus almost equal," because the shared leading digits cancel and expose the least reliable trailing digits.](figures/2_1_catastrophic_cancellation.png){#fig-cancellation width="100%"}
+![What to notice in this figure: the dangerous step is not "small minus small." It is "almost equal minus almost equal," because the shared leading digits cancel and expose the least reliable trailing digits.](figures/2_1_catastrophic_cancellation.webp){#fig-cancellation width="100%"}
 
 Algebraic equivalence does not imply numerical equivalence. Catastrophic cancellation is a conditioning problem exposed by subtraction.
 
@@ -715,7 +715,7 @@ for row in propagation_results:
 
 Interpretation: the random-walk model grows more slowly because positive and negative errors partially cancel. The systematic model grows faster because every step pushes in the same direction.
 
-![What to notice in this figure: random-sign accumulation and coherent bias do not threaten long integrations in the same way. The random-walk curve grows slowly, while the systematic curve grows much faster and can dominate long-running calculations.](figures/2_2_error_propagation.png){#fig-error-propagation width="100%"}
+![What to notice in this figure: random-sign accumulation and coherent bias do not threaten long integrations in the same way. The random-walk curve grows slowly, while the systematic curve grows much faster and can dominate long-running calculations.](figures/2_2_error_propagation.webp){#fig-error-propagation width="100%"}
 
 The takeaway is that repeated tiny errors matter because history matters. Growth law, sign structure, and amplification all change the scientific risk.
 
@@ -800,7 +800,7 @@ for estimated_error in [1.0e-2, 5.0e-5, 0.0]:
 
 Interpretation: a large error estimate reduces the step size, a very small one allows a larger step, and the zero-error case is treated cautiously rather than dividing by zero.
 
-![What to notice in this figure: adaptive control is a feedback loop, not magic. The algorithm is constantly trading accuracy against efficiency by reacting to the local difficulty of the problem.](figures/2_4_adaptive_step_control.png){#fig-adaptive-control width="100%"}
+![What to notice in this figure: adaptive control is a feedback loop, not magic. The algorithm is constantly trading accuracy against efficiency by reacting to the local difficulty of the problem.](figures/2_4_adaptive_step_control.webp){#fig-adaptive-control width="100%"}
 
 The takeaway is that adaptive control is a method-specific feedback design, not a single rule to memorize.
 

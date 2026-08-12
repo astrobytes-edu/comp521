@@ -206,7 +206,7 @@ Typical Monte Carlo standard error decreases as $1/\sqrt{N}$ (variance decreases
 - Random sampling turns geometry problems into counting problems
 :::
 
-![Monte Carlo $\pi$ estimation: random sampling converts a geometric area ratio into a convergent numerical estimate with $1/\sqrt{N}$ error scaling.](figures/11_monte_carlo_pi_estimation.png){#fig-monte-carlo-pi-estimation width="100%"}
+![Monte Carlo $\pi$ estimation: random sampling converts a geometric area ratio into a convergent numerical estimate with $1/\sqrt{N}$ error scaling.](figures/11_monte_carlo_pi_estimation.webp){#fig-monte-carlo-pi-estimation width="100%"}
 
 **What to notice:**
 - The estimate fluctuates stochastically around the true value.
@@ -361,7 +361,7 @@ This is the foundation for understanding the Kroupa IMF, which is a broken power
 **Special case $\alpha = 1$**: The integral of $1/x$ is $\ln(x)$, so:
 $\boxed{x = x_{\min} \left(\frac{x_{\max}}{x_{\min}}\right)^u}$
 
-![**Sample Size Determines Accuracy in Power Law Distributions.** The Salpeter Initial Mass Function ($\alpha=2.35$) demonstrates how statistical convergence works in practice. Left panel ($N=100$): small samples show noisy histograms with poor fits to the theoretical power law. Center panel ($N=1{,}000$): medium samples begin to reveal the underlying distribution structure with better agreement. Right panel ($N=10{,}000$): large samples produce smooth histograms that closely match theory. Statistics boxes show quantitative metrics: mean mass, median mass, and fraction below $1\,M_\odot$. This convergence behavior is universal across Monte Carlo methods, following the expected $1/\sqrt{N}$ error scaling from Section 4.1.](figures/13_power_law_distribution_sampling.png){#fig-power-law-sampling width="100%"}
+![**Sample Size Determines Accuracy in Power Law Distributions.** The Salpeter Initial Mass Function ($\alpha=2.35$) demonstrates how statistical convergence works in practice. Left panel ($N=100$): small samples show noisy histograms with poor fits to the theoretical power law. Center panel ($N=1{,}000$): medium samples begin to reveal the underlying distribution structure with better agreement. Right panel ($N=10{,}000$): large samples produce smooth histograms that closely match theory. Statistics boxes show quantitative metrics: mean mass, median mass, and fraction below $1\,M_\odot$. This convergence behavior is universal across Monte Carlo methods, following the expected $1/\sqrt{N}$ error scaling from Section 4.1.](figures/13_power_law_distribution_sampling.webp){#fig-power-law-sampling width="100%"}
 
 
 ### Implementation and Visualization
@@ -660,7 +660,7 @@ def rejection_sample(p_func, x_min, x_max, f_max, n_samples, max_tries=10_000_00
 
 **Copy/paste quick-check**: Imports: `numpy`. Seed recommendation: pass `rng=np.random.default_rng(536)` for repeatable envelope comparisons. Variability: efficiency varies stochastically even with fixed target PDF.
 
-![Inverse-transform and rejection sampling comparison: both map uniform random numbers to target distributions, with different efficiency tradeoffs.](figures/12_random_sampling_methods.png){#fig-random-sampling-methods width="100%"}
+![Inverse-transform and rejection sampling comparison: both map uniform random numbers to target distributions, with different efficiency tradeoffs.](figures/12_random_sampling_methods.webp){#fig-random-sampling-methods width="100%"}
 
 **What to notice:**
 - Inverse transform is exact and efficient when an invertible CDF exists.
@@ -763,7 +763,7 @@ Your sampled positions should reproduce:
 3. The half-mass radius $r_{half} \approx 1.3a$ for Plummer
 4. The Sampling Diagnostic Trio: histogram-vs-theory for $\rho(r)$, empirical CDF-vs-theory for $M(<r)/M_{\mathrm{total}}$, and summary moments/tail fraction for radial structure
 
-![Plummer-sphere sampling validation: inverse-transform draws reproduce both radial density and enclosed-mass structure in 3D.](figures/14_plummer_sphere_spatial_sampling.png){#fig-plummer-sphere-sampling width="100%"}
+![Plummer-sphere sampling validation: inverse-transform draws reproduce both radial density and enclosed-mass structure in 3D.](figures/14_plummer_sphere_spatial_sampling.webp){#fig-plummer-sphere-sampling width="100%"}
 
 **What to notice:**
 - Radial sampling matches both $\rho(r)$ and $M(<r)$ diagnostics.

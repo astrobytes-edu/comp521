@@ -166,7 +166,7 @@ plot_temperature_emergence(N=10000)  # Temperature well-defined
 **Copy/paste quick-check**: Imports: `numpy`, `matplotlib`. Seed recommendation: set `np.random.seed(536)` before sampling for repeatable comparisons. Variability: inferred temperature fluctuates across runs at small $N$.
 :::
 
-![Temperature emerges as an ensemble property: as sample size increases from $N=1$ to $N=10^5$, measured temperature from $v_x$ variance converges toward the true value and histograms approach the 1D Gaussian component prediction.](figures/01_temperature_emergence_from_statistics.png) {#fig-temperature-emergence width="100%" fig-align="center"}
+![Temperature emerges as an ensemble property: as sample size increases from $N=1$ to $N=10^5$, measured temperature from $v_x$ variance converges toward the true value and histograms approach the 1D Gaussian component prediction.](figures/01_temperature_emergence_from_statistics.webp) {#fig-temperature-emergence width="100%" fig-align="center"}
 
 **What to notice:**
 - At very small $N$, "measured temperature" is unstable because variance estimates are noisy.
@@ -255,7 +255,7 @@ The ideal gas law emerges from pure statistics — no empirical fitting needed!
 
 **Visual insight**: Random molecular collisions $\to$ steady macroscopic pressure through averaging.
 
-![**Maxwell-Boltzmann molecular chaos averages to create steady macroscopic pressure.**<br> This scientifically accurate illustration demonstrates how pressure emerges from statistical mechanics: individual molecular collisions (gray points, sized proportional to momentum transfer) follow Maxwell-Boltzmann velocity statistics and create highly variable momentum transfers. However, their cumulative running average (blue line) converges smoothly to the theoretical pressure value (red dashed line). The particle sizes visually represent the physical reality that some molecules move much faster than others, yet statistical averaging over ~2000 collisions produces the stable pressure we observe macroscopically. This fundamental principle — microscopic chaos $\to$ macroscopic order through averaging — underlies all thermodynamic properties from atmospheric pressure to stellar interior conditions.](figures/02_simple_pressure_illustration.png) {#fig-simple-pressure width="100%" fig-align="center"}
+![**Maxwell-Boltzmann molecular chaos averages to create steady macroscopic pressure.**<br> This scientifically accurate illustration demonstrates how pressure emerges from statistical mechanics: individual molecular collisions (gray points, sized proportional to momentum transfer) follow Maxwell-Boltzmann velocity statistics and create highly variable momentum transfers. However, their cumulative running average (blue line) converges smoothly to the theoretical pressure value (red dashed line). The particle sizes visually represent the physical reality that some molecules move much faster than others, yet statistical averaging over ~2000 collisions produces the stable pressure we observe macroscopically. This fundamental principle — microscopic chaos $\to$ macroscopic order through averaging — underlies all thermodynamic properties from atmospheric pressure to stellar interior conditions.](figures/02_simple_pressure_illustration.webp) {#fig-simple-pressure width="100%" fig-align="center"}
 
 
 **The key insight**: Macroscopic observables are ensemble averages of microscopic quantities:
@@ -396,7 +396,7 @@ demonstrate_clt('exponential')  # Very skewed $\to$ Gaussian
 **Copy/paste quick-check**: Imports: `numpy`, `matplotlib`. Seed recommendation: set `np.random.seed(536)` before calling `demonstrate_clt(...)`. Variability: histogram shapes vary run-to-run but convergence trend with larger sums should persist.
 :::
 
-![CLT convergence in practice: standardized sums of non-Gaussian random variables approach a Gaussian as $N$ increases.](figures/03_central_limit_theorem_in_action.png) {#fig-central-limit-theorem width="100%" fig-align="center"}
+![CLT convergence in practice: standardized sums of non-Gaussian random variables approach a Gaussian as $N$ increases.](figures/03_central_limit_theorem_in_action.webp) {#fig-central-limit-theorem width="100%" fig-align="center"}
 
 **What to notice:**
 - The starting distribution can be highly skewed.
@@ -593,7 +593,7 @@ This is EXACTLY how constrained optimization works in ML:
 The same optimization framework appears everywhere!
 :::
 
-![Maximum entropy picks the least-biased distribution consistent with constraints; in thermal systems this yields Boltzmann factors.](figures/04_maximum_entropy_distributions.png) {#fig-maximum-entropy width="100%"}
+![Maximum entropy picks the least-biased distribution consistent with constraints; in thermal systems this yields Boltzmann factors.](figures/04_maximum_entropy_distributions.webp) {#fig-maximum-entropy width="100%"}
 
 **What to notice:**
 - Zero-entropy (single-energy) assumptions are overly restrictive unless explicitly justified.

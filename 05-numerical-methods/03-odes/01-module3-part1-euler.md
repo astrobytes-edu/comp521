@@ -96,7 +96,7 @@ $$\boxed{x_{n+1} = x_n + h f(x_n, t_n)}$$
 
 This assumes the derivative $f$ remains constant over the entire interval $[t_n, t_{n+1}]$ — essentially extending the tangent line at $t_n$ forward by distance $h$.
 
-![Euler's method extends the tangent line at each point, accumulating error by ignoring the solution's curvature. The diagram shows how Euler follows straight line segments (red) that deviate increasingly from the true curved solution (blue). The local truncation error at each step is proportional to $h^{2}$, but these errors accumulate to give $O(h)$ global error.](figures/3_1_euler_geometric.png){#fig-3-1-euler-geometric width="800px"}
+![Euler's method extends the tangent line at each point, accumulating error by ignoring the solution's curvature. The diagram shows how Euler follows straight line segments (red) that deviate increasingly from the true curved solution (blue). The local truncation error at each step is proportional to $h^{2}$, but these errors accumulate to give $O(h)$ global error.](figures/3_1_euler_geometric.webp){#fig-3-1-euler-geometric width="800px"}
 
 ### Taylor Series Analysis of Error
 
@@ -190,7 +190,7 @@ $$\frac{E_{final}}{E_0} \approx e^{0.1} \approx 1.1$$
 
 A 10% energy increase means that Earth would drift into a higher orbit!
 
-![Euler's method systematically violates energy conservation with catastrophic consequences. The figure shows a harmonic oscillator integrated over 10 periods with timestep h = 0.02: (Top left) Phase space trajectory spirals outward as energy increases ~3.5\times. (Top right) Energy grows monotonically from amplification factor $(1 + h^2\omega^2) \approx 1.0004$ per step compounding over many orbits. (Bottom left) Spatial orbit expands continuously—a planet would spiral away from its star! (Bottom right) Error analysis shows systematic energy injection (red line) versus oscillating position errors (teal). This demonstrates why Euler fails for long-term dynamics despite being locally accurate.](figures/3_2_energy_drift.png){#fig-3-2-energy-drift width="800px"}
+![Euler's method systematically violates energy conservation with catastrophic consequences. The figure shows a harmonic oscillator integrated over 10 periods with timestep h = 0.02: (Top left) Phase space trajectory spirals outward as energy increases ~3.5\times. (Top right) Energy grows monotonically from amplification factor $(1 + h^2\omega^2) \approx 1.0004$ per step compounding over many orbits. (Bottom left) Spatial orbit expands continuously—a planet would spiral away from its star! (Bottom right) Error analysis shows systematic energy injection (red line) versus oscillating position errors (teal). This demonstrates why Euler fails for long-term dynamics despite being locally accurate.](figures/3_2_energy_drift.webp){#fig-3-2-energy-drift width="800px"}
 
 ## Why Euler Fails: The Geometric View
 

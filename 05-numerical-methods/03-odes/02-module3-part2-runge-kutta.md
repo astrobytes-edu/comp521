@@ -67,7 +67,7 @@ $$x_{mid} = x_n + \frac{h}{2}k_1$$
 $$k_2 = f(x_{mid}, t_n + \frac{h}{2})$$
 $$x_{n+1} = x_n + h k_2$$
 
-![RK2 midpoint method: First evaluate derivative at start (k_{1}), use it to estimate midpoint, evaluate derivative there (k_{2}), then use midpoint derivative for full step. This captures solution curvature much better than Euler's single-point sampling, achieving O(h^{2}) global accuracy. The midpoint derivative (green) provides a better approximation to the average slope over the interval than the initial derivative alone.](figures/3_3_rk2_midpoint.png){#fig-3-3-rk2-midpoint width="800px"}
+![RK2 midpoint method: First evaluate derivative at start (k_{1}), use it to estimate midpoint, evaluate derivative there (k_{2}), then use midpoint derivative for full step. This captures solution curvature much better than Euler's single-point sampling, achieving O(h^{2}) global accuracy. The midpoint derivative (green) provides a better approximation to the average slope over the interval than the initial derivative alone.](figures/3_3_rk2_midpoint.webp){#fig-3-3-rk2-midpoint width="800px"}
 
 ### Error Analysis via Taylor Series
 
@@ -195,7 +195,7 @@ RK45 computes both 4th and 5th order solutions:
 
 If error is acceptable, accept the step and continue. Otherwise, reject and retry with smaller $h$.
 
-![Adaptive timestep control for eccentric orbit (e=0.9). Small steps near perihelion where velocity is high, large steps near aphelion where motion is slow. The top panel shows the elliptical orbit with color-coded timestep sizes, while the bottom panel shows how the timestep varies continuously around the orbit. This concentrates computational effort where dynamics are fastest while maintaining constant error throughout.](figures/3_4_adaptive_timestep.png){#fig-3-4-adaptive-timestep width="800px"}
+![Adaptive timestep control for eccentric orbit (e=0.9). Small steps near perihelion where velocity is high, large steps near aphelion where motion is slow. The top panel shows the elliptical orbit with color-coded timestep sizes, while the bottom panel shows how the timestep varies continuously around the orbit. This concentrates computational effort where dynamics are fastest while maintaining constant error throughout.](figures/3_4_adaptive_timestep.webp){#fig-3-4-adaptive-timestep width="800px"}
 
 ### When to Use Adaptive Methods
 

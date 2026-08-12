@@ -126,7 +126,7 @@ $$
 $$
 The approximation improves as $h$ gets smaller, but it is still not exact because we have not taken the true limit.
 
-![What to notice: as $h$ shrinks, the secant slope moves toward the tangent slope, but the figure never lets the discrete secant become the exact limit. That visual gap is the paradox of numerical differentiation: smaller $h$ improves the approximation, but the computer still works with a finite step.](figures/1_1_derivative_paradox.png){#fig-derivative-paradox width="100%"}
+![What to notice: as $h$ shrinks, the secant slope moves toward the tangent slope, but the figure never lets the discrete secant become the exact limit. That visual gap is the paradox of numerical differentiation: smaller $h$ improves the approximation, but the computer still works with a finite step.](figures/1_1_derivative_paradox.webp){#fig-derivative-paradox width="100%"}
 
 On a real computer, we also need to remember that numbers are stored in floating-point form. Double precision gives roughly 16 decimal digits of relative precision near numbers of order unity, but that does **not** mean every subtraction preserves 16 useful digits.
 
@@ -423,7 +423,7 @@ Computationally, this formula spends more function evaluations to buy a much sma
 
 If the function is noisy, non-smooth, or expensive to evaluate, higher order is not automatically better. A formally high-order method can still perform worse in practice if the assumptions behind the Taylor expansion are not satisfied.
 
-![What to notice: the right-hand truncation regime has slopes that match the theory — forward and backward behave like $O(h)$, central like $O(h^2)$, and fourth-order central like $O(h^4)$. The left-hand round-off upturn shows why higher order does not rescue you once subtraction error dominates.](figures/1_4_error_scaling.png){#fig-error-scaling width="100%"}
+![What to notice: the right-hand truncation regime has slopes that match the theory — forward and backward behave like $O(h)$, central like $O(h^2)$, and fourth-order central like $O(h^4)$. The left-hand round-off upturn shows why higher order does not rescue you once subtraction error dominates.](figures/1_4_error_scaling.webp){#fig-error-scaling width="100%"}
 
 ---
 
@@ -503,7 +503,7 @@ That scaling will appear again in the executable code below, but again as heuris
 Saying that double precision has "about 16 digits" is only a local statement about relative precision near numbers of order unity. It is not a promise that every numerical operation will preserve 16 correct digits. Subtraction between nearly equal numbers is where that intuition breaks most quickly.
 :::
 
-![What to notice: each curve is U-shaped because two error mechanisms are competing. The right side is the truncation regime, the left side is the round-off upturn, and the minimum marks the balance point where total error is smallest for that method.](figures/1_2_error_landscape.png){#fig-error-tradeoff width="100%"}
+![What to notice: each curve is U-shaped because two error mechanisms are competing. The right side is the truncation regime, the left side is the round-off upturn, and the minimum marks the balance point where total error is smallest for that method.](figures/1_2_error_landscape.webp){#fig-error-tradeoff width="100%"}
 
 For forward difference in double precision, it is common to get on the order of 8 correct digits in a well-scaled smooth problem. That is useful guidance, but it is not a universal accuracy ceiling for every derivative calculation.
 

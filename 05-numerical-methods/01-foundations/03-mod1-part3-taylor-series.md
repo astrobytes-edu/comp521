@@ -396,7 +396,7 @@ This numerical check should show observed order near $1$, which confirms the fir
 
 This confirms the first-order convergence predicted by Taylor series. Losing symmetry costs an order of accuracy.
 
-![What to notice in this figure: the lack of symmetry at the boundary forces all of the sample points onto one side of $x$, so the stencil loses the cancellation pattern that made the centered formulas more accurate.](figures/3_6_boundary_stencil_geometry.png){#fig-boundary-stencil width="100%"}
+![What to notice in this figure: the lack of symmetry at the boundary forces all of the sample points onto one side of $x$, so the stencil loses the cancellation pattern that made the centered formulas more accurate.](figures/3_6_boundary_stencil_geometry.webp){#fig-boundary-stencil width="100%"}
 
 ## General Recipe for Custom Methods
 
@@ -632,7 +632,7 @@ The right choice depends on smoothness, cost, noise, and access to the source co
 | Finite differences | black-box function, small derivative count | easy to implement and easy to inspect | sensitive to $h$, noise, and evaluation cost | validating convergence ideas and debugging |
 | Automatic differentiation | differentiable source code and many parameters | scalable accurate gradients for implemented code | depends on AD-compatible operations | optimization and neural-network training |
 
-![What to notice in this figure: the choice is not about prestige or mathematical purity. The path depends on smoothness, noise, evaluation cost, and whether you can access differentiable source code.](figures/3_5_method_selection_tree.png){#fig-method-selection width="100%"}
+![What to notice in this figure: the choice is not about prestige or mathematical purity. The path depends on smoothness, noise, evaluation cost, and whether you can access differentiable source code.](figures/3_5_method_selection_tree.webp){#fig-method-selection width="100%"}
 
 :::{note} Research Reality
 

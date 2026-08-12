@@ -297,7 +297,7 @@ $$
 
 Now the same observed brightness can be explained by a closer, dustier Cepheid or a farther, cleaner one. That is a genuine physical degeneracy, not a numerical inconvenience.
 
-![**Distance-extinction degeneracy for a Cepheid-like inference problem.** The elongated ridge shows that many combinations of distance and extinction can reproduce the same brightness. This is the first place students should feel why "just evaluate the posterior on a grid" stops being a satisfying answer: the physics already creates a structured, correlated posterior in only two parameters.](./figures/fig_part2_degeneracy_2d.png){width="100%" #fig-mcmc-degeneracy-2d}
+![**Distance-extinction degeneracy for a Cepheid-like inference problem.** The elongated ridge shows that many combinations of distance and extinction can reproduce the same brightness. This is the first place students should feel why "just evaluate the posterior on a grid" stops being a satisfying answer: the physics already creates a structured, correlated posterior in only two parameters.](./figures/fig_part2_degeneracy_2d.webp){width="100%" #fig-mcmc-degeneracy-2d}
 
 Even this toy extension becomes expensive quickly. A grid with 400 points in $d$ and 400 points in $A_V$ already needs $1.6 \times 10^5$ likelihood evaluations. Add metallicity, intrinsic scatter, a calibration offset, and one nuisance parameter for each observed star, and brute force becomes the bottleneck.
 
@@ -397,7 +397,7 @@ Why it is wrong:
 The peak is one feature of the posterior. It is not the whole inferential answer.
 :::
 
-![**A posterior is a full inferential object, not just a location of maximum probability.** Prior, likelihood, and posterior combine into a curve with width and shape. A MAP estimate would choose one location on this curve, but the scientific answer lives in the entire posterior because uncertainty, asymmetry, and later predictions all depend on that full structure.](./figures/fig_part2_bayesian_updating.png){width="100%" #fig-mcmc-posterior-full-object}
+![**A posterior is a full inferential object, not just a location of maximum probability.** Prior, likelihood, and posterior combine into a curve with width and shape. A MAP estimate would choose one location on this curve, but the scientific answer lives in the entire posterior because uncertainty, asymmetry, and later predictions all depend on that full structure.](./figures/fig_part2_bayesian_updating.webp){width="100%" #fig-mcmc-posterior-full-object}
 
 :::{note} Epistemic Contrast: Frequentist Testing vs Bayesian Inference
 :class: dropdown
@@ -1294,7 +1294,7 @@ Convergence is therefore not something you "prove" from a single plot. It is a j
 
 The first and most important diagnostic: **Plot your samples over time.**
 
-![**Representative trace-plot behaviors for MCMC.** A good trace plot looks like stationary, overlapping noise after burn-in, while problematic chains show drift or long sticky plateaus. This is the visual version of the convergence question students should ask before trusting any posterior summary.](./figures/04-fig2_trace_plots_comparison.png){width="100%" #fig-mcmc-trace-plot-comparison}
+![**Representative trace-plot behaviors for MCMC.** A good trace plot looks like stationary, overlapping noise after burn-in, while problematic chains show drift or long sticky plateaus. This is the visual version of the convergence question students should ask before trusting any posterior summary.](./figures/04-fig2_trace_plots_comparison.webp){width="100%" #fig-mcmc-trace-plot-comparison}
 
 A trace plot shows $\theta_t$ vs. $t$. What to look for:
 
@@ -1782,7 +1782,7 @@ $$
 \log p(m_{\text{obs}} | d) = -\frac{1}{2} \left[ \frac{(m_{\text{obs}} - m_{\text{model}}(d))^2}{\sigma_m^2} + \log(2\pi\sigma_m^2) \right]
 $$
 
-![**One-dimensional likelihood for a Cepheid-style distance inference.** This is the shape MCMC is trying to explore efficiently once brute-force evaluation becomes too expensive. The key pedagogical point is that the likelihood is already a function you could plot in 1D, inspect, and then later generalize to higher-dimensional posteriors where the same workflow is no longer cheap on a grid.](./figures/fig_part2_likelihood_1d.png){width="100%" #fig-mcmc-likelihood-1d}
+![**One-dimensional likelihood for a Cepheid-style distance inference.** This is the shape MCMC is trying to explore efficiently once brute-force evaluation becomes too expensive. The key pedagogical point is that the likelihood is already a function you could plot in 1D, inspect, and then later generalize to higher-dimensional posteriors where the same workflow is no longer cheap on a grid.](./figures/fig_part2_likelihood_1d.webp){width="100%" #fig-mcmc-likelihood-1d}
 
 ### Step 4: Prior
 

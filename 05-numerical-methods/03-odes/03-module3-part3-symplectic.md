@@ -77,7 +77,7 @@ These equations have remarkable properties:
 
 In **phase space**, each point $(q,p)$ represents a complete state of the system. Trajectories follow contours of constant energy $H = E$.
 
-![Phase space structure of Hamiltonian systems. (Left) Harmonic oscillator: closed orbits on energy surfaces. (Middle) Pendulum: separatrix divides oscillation from rotation. (Right) Liouville's theorem: phase space volume is preserved under Hamiltonian flow—areas deform but don't change size. This geometric structure is what symplectic integrators preserve, ensuring long-term stability.](figures/3_5_phase_space_structure.png){#fig-3-5-phase-space-structure width="800px"}
+![Phase space structure of Hamiltonian systems. (Left) Harmonic oscillator: closed orbits on energy surfaces. (Middle) Pendulum: separatrix divides oscillation from rotation. (Right) Liouville's theorem: phase space volume is preserved under Hamiltonian flow—areas deform but don't change size. This geometric structure is what symplectic integrators preserve, ensuring long-term stability.](figures/3_5_phase_space_structure.webp){#fig-3-5-phase-space-structure width="800px"}
 
 ### Liouville's Theorem
 
@@ -203,7 +203,7 @@ where $\{f,g\} = \frac{\partial f}{\partial q}\frac{\partial g}{\partial p} - \f
 
 The key insight: $\tilde{H} - H = O(h^2)$ is bounded! Energy oscillates within a band but never drifts away.
 
-![Energy behavior comparison. (Top) RK4 exhibits monotonic energy drift while Leapfrog energy oscillates within bounded envelope. (Bottom) Phase space trajectories: RK4 spirals outward, Leapfrog remains on a nearby invariant torus of the modified Hamiltonian. This demonstrates the fundamental advantage of symplectic methods—trading local accuracy for global stability.](figures/3_6_modified_hamiltonian.png){#fig-3-6-modified-hamiltonian width="800px"}
+![Energy behavior comparison. (Top) RK4 exhibits monotonic energy drift while Leapfrog energy oscillates within bounded envelope. (Bottom) Phase space trajectories: RK4 spirals outward, Leapfrog remains on a nearby invariant torus of the modified Hamiltonian. This demonstrates the fundamental advantage of symplectic methods—trading local accuracy for global stability.](figures/3_6_modified_hamiltonian.webp){#fig-3-6-modified-hamiltonian width="800px"}
 
 ## Higher-Order Symplectic Methods
 
