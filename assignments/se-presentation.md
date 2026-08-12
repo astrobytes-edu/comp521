@@ -22,21 +22,24 @@ however polished the slides were.
 Everything below follows from that.
 :::
 
-## Why this exists
+## Why you are the one teaching it
 
-This course description promises software engineering practice: testing,
-version control, documentation, reproducible research. The readings cover the
-*principles* — contracts, invariants, validation-first development, the
-reproducibility contract.
+**Because teaching is how you learn a tool properly.** You can read the `pytest`
+documentation and come away feeling like you understand it. Standing in front of
+five people who are going to ask you questions is a different bar entirely — you
+tend to find the holes in your own understanding about an hour into preparing,
+which is exactly the point.
 
-What they do not cover is the **tooling**. You are told to make your work
-reproducible; nobody shows you a lockfile. You are told to validate your
-results; nobody shows you a test suite that runs on every push.
+**And because it gets all of you eight tools instead of one.** Nobody picks up a
+professional toolchain in a semester alone. Six people each learning one tool
+well and teaching it means everyone leaves with a working map of the whole
+thing — and knows who to ask about each piece.
 
-That gap is what these presentations fill. Six people each learn one tool
-properly and teach it to the other five — which is both a faster way to cover
-eight tools than lecturing about them, and a considerably better way to learn
-the one you present.
+This course is about building things from scratch and knowing they are right.
+The practices you will be teaching each other — tests that catch regressions,
+environments that rebuild identically, checks that run automatically — are how
+working scientists go on knowing their code is right once it gets big enough
+that they can no longer hold all of it in their head.
 
 ## What you produce
 
