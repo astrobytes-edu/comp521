@@ -138,6 +138,7 @@ Through Taylor series expansion to fourth order:
 
 This means halving the timestep reduces error by a factor of 16!
 
+(general-framework)=
 ## The General Runge-Kutta Framework
 
 :::{margin}

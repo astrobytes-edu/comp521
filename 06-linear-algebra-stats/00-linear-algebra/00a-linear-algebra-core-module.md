@@ -381,7 +381,6 @@ Phase space transforms complexity into geometry. Instead of tracking millions of
 We begin with scalars – quantities with only magnitude – then advance to vectors that encode both magnitude and direction. We'll explore vectors' three complementary interpretations (physical, geometric, algebraic) and the operations that let us combine and manipulate them. By the end of this section, you'll see vectors not as lists of numbers but as the natural way to encode any quantity requiring directional information.
 :::
 
-(part-2-vectors)=
 ### 2.1 From Scalars to Vectors: Building Deep Understanding
 
 ```{margin}
@@ -1235,7 +1234,6 @@ Before this section, ensure you can:
 Review Section 3 if needed.
 :::
 
-(part-4-eigenvalues)=
 ### 4.1 The Eigenvalue Equation: Directions That Don't Rotate
 
 ```{margin}

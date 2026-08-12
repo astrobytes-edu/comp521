@@ -59,16 +59,16 @@ Want mastery? Read all sections including 🟢
 **For Project 4 (MCMC)**:
 - [Section 1.3: Covariance Matrices](#covariance-matrices) - Proposal distributions
 - [Section 1.4: Multivariate Gaussian](#multivariate-gaussian) - Sampling
-- [Section 3: Numerical Reality](#part-7-numerical-reality) - Stability
+- [Section 3: Numerical Reality](#part-3-numerical-reality) - Stability
 
 **For Project 5 (Gaussian Processes)**:
-- [Section 5: Positive Definite Matrices](#part-5-positive-definite) - Kernel matrices
+- [Section 5: Positive Definite Matrices](#part-1-positive-definite) - Kernel matrices
 - [Section 5.5: Cholesky Decomposition](#cholesky-decomposition) - GP implementation
 - [Section 6.2: Schur Complement](#block-matrices) - Efficient updates
 
 **For Final Project (Neural Networks)**:
-- [Section 6: Advanced Topics](#part-6-advanced) - Matrix norms, Jacobians
-- [Section 8: Bridge to ML](#part-8-bridge) - Connecting everything
+- [Section 6: Advanced Topics](#part-2-advanced) - Matrix norms, Jacobians
+- [Section 8: Bridge to ML](#part-4-bridge) - Connecting everything
 - [Section 8.5: Matrix Calculus](#matrix-calculus-nn) - Backpropagation
 :::
 
@@ -142,6 +142,7 @@ For Projects 4-6, you'll need:
 These aren't just mathematical abstractions—they're the tools that let you quantify uncertainty in cosmological parameters, interpolate sparse astronomical data, and train neural networks to discover patterns in observations.
 :::
 
+(part-1-positive-definite)=
 ## Part 1: Positive Definite Matrices and Statistical Foundations
 
 **Priority: 🟡 Important** - Essential for Projects 4-5
@@ -162,7 +163,6 @@ Can skip initially, but must understand before Project 4.
 **Positive definite matrices** are where linear algebra meets statistics and optimization. We'll see why these special matrices guarantee that energies are positive, distances make sense, and probability distributions are valid. This section bridges deterministic physics with statistical methods, preparing you for MCMC and Gaussian Processes.
 :::
 
-(part-5-positive-definite)=
 ### 1.1 Quadratic Forms and Energy
 
 ```{margin}
@@ -624,6 +624,7 @@ The **multivariate Gaussian** shows how mean vectors and **covariance matrices**
 
 ---
 
+(part-2-advanced)=
 ## Part 2: Advanced Topics for Your Projects
 
 **Priority: 🟢 Enrichment** - Read as needed for specific projects
@@ -1132,6 +1133,7 @@ As you progress through projects, return to these sections—concepts that seem 
 
 ---
 
+(part-3-numerical-reality)=
 ## Part 3: Numerical Reality - When Mathematics Meets Silicon
 
 **Priority: 🔴 Essential** - Critical for debugging all projects
@@ -1152,7 +1154,7 @@ Read this section early and refer back when debugging.
 Pure mathematics assumes infinite precision, but computers work with finite bits. This section reveals the harsh realities of floating-point arithmetic and teaches you to recognize and fix numerical disasters before they ruin your simulations. These aren't edge cases—you WILL encounter these issues in your projects.
 :::
 
-(condition-numbers)=
+(condition-numbers-stats)=
 ### 7.1 Condition Numbers Revisited: Statistical Context
 
 Building on Module 0a's introduction to condition numbers, let's explore their specific implications for statistical computations:
@@ -1447,6 +1449,7 @@ In your projects:
 
 ---
 
+(part-4-bridge)=
 ## Part 4: Bridge to Machine Learning
 
 **Priority: 🟡 Important** - Helps see the big picture

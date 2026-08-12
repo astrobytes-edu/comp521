@@ -115,7 +115,7 @@ Complete module including:
 
 **For Project 4 (MCMC)**:
 - [Hamiltonian Monte Carlo](03-module3-part3-symplectic.md#hamiltonian-mechanics) - Symplectic integration
-- [Detailed balance](03-module3-part3-symplectic.md#time-reversibility) - Preserving equilibrium
+- Detailed balance - Preserving equilibrium
 - [Trajectory length](04-module3-part4-stability.md#stability-functions) - Choosing integration time
 
 **For Project 5 (Gaussian Processes)**:

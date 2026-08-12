@@ -941,6 +941,7 @@ This isn't an analogy — it's an identity. Higher temperature literally means l
 
 The takeaway: Variance isn't just a statistical concept — it's often the physical quantity we're measuring (temperature, pressure, velocity dispersion).
 
+(bayesian-inference)=
 ## 2.7 Bayesian Thinking: Learning from Data
 
 **Priority: 🔴 Essential**
