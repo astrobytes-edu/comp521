@@ -3,6 +3,17 @@ title: "Project 1 — Python and the Transit Model"
 subtitle: "COMP 521 | Fall 2026"
 ---
 
+<!-- prep-banner:start -->
+:::{warning} This project is not yet assigned
+Every project is posted early so you can see where the course is going and plan
+around the deadlines. **A project is not final until I assign it in class** — until
+then, parts may be added, cut, or reworded.
+
+Once it is assigned, what is written here is what you are being asked to do, and
+it will not change underneath you. The due date is already firm.
+:::
+<!-- prep-banner:end -->
+
 # Project 1 — Python and the Transit Model
 
 **Due Tuesday, September 8, 11:59 pm PT** · pairs allowed, own code and own

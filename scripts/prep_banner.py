@@ -12,6 +12,7 @@ Usage:
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -38,6 +39,17 @@ then, expect rough edges — wording, examples, and cross-references may change.
 Where a reading disagrees with the syllabus, the syllabus is right. If something
 here does not work, tell me: that is genuinely useful and I would rather hear it
 from you than not.
+:::
+{END}"""
+
+PROJECT_BANNER = f"""{START}
+:::{{warning}} This project is not yet assigned
+Every project is posted early so you can see where the course is going and plan
+around the deadlines. **A project is not final until I assign it in class** — until
+then, parts may be added, cut, or reworded.
+
+Once it is assigned, what is written here is what you are being asked to do, and
+it will not change underneath you. The due date is already firm.
 :::
 {END}"""
 
@@ -68,9 +80,16 @@ def add(path: Path) -> str:
     if START in text:
         return "already present"
     fm, body = split_frontmatter(text)
-    # Authored pages promise a finalisation date; migrated readings cannot,
-    # since they are revised progressively as the semester needs them.
-    banner = BANNER if str(path) in DEFAULT_PAGES else READING_BANNER
+    # Three promises, because three kinds of page settle at different times:
+    # authored course-info pages settle on a fixed date, projects settle when
+    # assigned, and migrated readings settle a week before they are needed.
+    name = str(path)
+    if re.search(r"assignments/project-\d+\.md$", name):
+        banner = PROJECT_BANNER
+    elif name in DEFAULT_PAGES:
+        banner = BANNER
+    else:
+        banner = READING_BANNER
     path.write_text(f"{fm}\n{banner}\n\n{body.lstrip(chr(10))}")
     return "added"
 
