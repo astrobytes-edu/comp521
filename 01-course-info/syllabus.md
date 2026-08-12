@@ -483,6 +483,11 @@ Presentations are **10 minutes** — roughly 8 to present and 2 for questions.
 Short, so plan it: enough to say what you built, show that it works, and say
 where it breaks. Everyone presents on Dec 10.
 
+Shorter than an SE presentation, and deliberately so: those are hands-on
+workshops where the whole room follows along on their own machines, which takes
+time. This one is a report-out. You are telling us what you did and what you
+found, not teaching us to do it.
+
 The final project is graded on the same description as the other projects (see
 [Grading](grading.md)), applied to a larger piece of work. You should expect to
 defend your design and verification choices.
