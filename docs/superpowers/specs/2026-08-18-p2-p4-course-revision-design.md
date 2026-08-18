@@ -33,15 +33,19 @@ Keep the core scientific arc:
 2. Integrate the Planck function to derive the Stefan–Boltzmann constant.
 3. Compute a limb-darkened transit and recover the uniform-disk result at
    `u = 0`.
-4. Diagnose the reduced order caused by the transit integrand's branch point,
+4. Implement recursive adaptive Simpson and compare error against function
+   evaluations with fixed Simpson.
+5. Diagnose the reduced order caused by the transit integrand's branch point,
    then repair it with the specified substitution.
-5. Implement a seeded, one-dimensional Monte Carlo estimator and verify its
+6. Implement a seeded, one-dimensional Monte Carlo estimator and verify its
    empirical `N^(-1/2)` rate against the deterministic methods.
 
-Remove the recursive adaptive-Simpson implementation and the high-dimensional
-tensor-grid-versus-Monte-Carlo crossover experiment. The former duplicates the
-required substitution repair as a second advanced implementation; the latter is
-an interesting lecture or enrichment demonstration, not a required project
+Keep recursive adaptive Simpson: it is the general-purpose answer for an
+integrand whose structure is not yet understood, whereas the substitution is
+the more efficient answer once that structure is known. The point-distribution
+histogram is enrichment rather than a required deliverable. Remove only the
+high-dimensional tensor-grid-versus-Monte-Carlo crossover experiment; it is an
+interesting lecture or enrichment demonstration, not a required project
 deliverable.
 
 ## Project 3 — Root finding and stellar inference
@@ -97,8 +101,9 @@ their unbuilt particulars.
 
 ## Verification after implementation
 
-- The P2 brief has no required adaptive-Simpson or high-dimensional crossover
-  deliverable, while its one-dimensional seeded Monte Carlo requirement remains.
+- The P2 brief requires recursive adaptive Simpson, its fixed-grid comparison,
+  the substitution repair, and one-dimensional seeded Monte Carlo; it has no
+  required high-dimensional crossover or adaptive-point histogram deliverable.
 - The P3 brief retains the `Star` class and 15-star habitable-zone figure, and
   contains no data-download/Lightkurve requirement.
 - The P4 brief and solution contain no required star-model section, star
