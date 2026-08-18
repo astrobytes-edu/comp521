@@ -23,12 +23,9 @@ data/cache/
 
 .adr/
 
-# Internal planning site build
-planning/_build/
+# Local-only nested instructor repository. It has its own Git history and
+# ignores its own build, roster, and source-paper artifacts.
+_instructor/
 
 # Grading harness working dir (belt-and-braces; it lives outside the repo)
 comp521-grading/
-planning/grading-harness/roster.txt
-
-# Source papers: kept locally for prep, not redistributed via the repo
-planning/papers/*.pdf

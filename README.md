@@ -37,7 +37,7 @@ correctness.
 | `05-numerical-methods/` | Finite differences, root finding, quadrature, ODEs |
 | `06-linear-algebra-stats/` | Linear algebra, probability, statistical inference |
 | `scripts/` | `qmd2myst.py` — Quarto → MyST converter |
-| `_planning/` | Instructor planning docs (not published) |
+| `_instructor/` | Local-only instructor workspace; separate Git repository, never tracked or published by this repository |
 
 ## Content provenance
 
