@@ -40,12 +40,12 @@ The semester has six two-week projects and a four-week solo final project.
 Every class meeting combines instruction and hands-on work, so bring your
 laptop.
 
-The **P1 Technical Readiness Check** is due **Thu Aug 27**, our second class
-meeting. You complete it in your actual Project 1 repository to verify your
-Python environment, notebook, Git, Classroom50, and submission workflow before
-substantial project work begins. The [Schedule](01-course-info/schedule.md) is
-the authoritative source for all dates; [Projects](01-course-info/projects.md)
-explains what you will build and submit.
+The completion-only **P1 Technical Readiness Check** is due **before class Thu
+Aug 27**. You complete it in your actual Project 1 repository to verify access,
+notebook execution, and a successful GitHub push. It does not assess P1
+progress. The [Schedule](01-course-info/schedule.md) is the authoritative source
+for all dates; [Projects](01-course-info/projects.md) explains what you will
+build and submit.
 
 ## Start here
 

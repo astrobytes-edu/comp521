@@ -25,8 +25,9 @@ details may change; Canvas announcements are the authoritative record of updates
 
 :::{note} Start Here
 - **Due first:** the **P1 Technical Readiness Check** — completed in your actual
-  Project 1 repository and verified on GitHub — by **Thu Aug 27**, our second
-  class meeting. **Growth Memo 1** follows on **Mon Aug 31**.
+  Project 1 repository and verified automatically on GitHub — **before class
+  Thu Aug 27**. It is completion-only and does not assess P1 progress. **Growth
+  Memo 1** follows on **Mon Aug 31**.
 - **Read the [AI Policy](ai-policy.md) before beginning Project 1.** AI is
   optional, but you must write and be able to explain your own core solution
   code.
@@ -159,7 +160,7 @@ finishing in the room.
 
 | Project | Assigned | Due |
 |---|---|---|
-| P1 Technical Readiness Check (completion-only) | Tue **Aug 25** | Thu **Aug 27** |
+| P1 Technical Readiness Check (completion-only) | Tue **Aug 25** | Before class Thu **Aug 27** |
 | Growth Memo 1 (baseline) | Tue **Aug 25** | Mon **Aug 31** |
 | Project 1 — Scientific Programming & the Transit Model | Tue **Aug 25** | Tue **Sep 8** † |
 | Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |

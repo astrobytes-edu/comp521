@@ -14,31 +14,33 @@ halves:
 
 ## Before Project 1 — Technical Readiness Check
 
-**Due Thu Aug 27.** This is a required, completion-only milestone inside your
-**actual Project 1 repository**, not a separate Project 0 and not part of the
-project average. It verifies the full path you will use to submit P1:
+**Due before class Thu Aug 27.** This is a required, completion-only milestone
+inside your **actual Project 1 repository**, not a separate Project 0 and not
+part of the project average. It verifies only the minimum submission path:
 
 1. Use the course invitation in Canvas to accept your individual P1 repository
    through Classroom50, then clone that repository to your computer.
 2. Activate your COMP 521 Python environment and open the starter
    `analysis.ipynb`.
-3. Replace the name placeholder, run the tagged readiness cell, and save its
-   printed success message and plot in the notebook.
-4. From the P1 repository root, run `python readiness_check.py` and resolve
-   every reported failure.
-5. Commit and push `analysis.ipynb`, then open your P1 repository on GitHub and
+3. Run the tagged readiness cell and save its printed success message in the
+   notebook.
+4. Commit and push `analysis.ipynb`, then open your P1 repository on GitHub and
    confirm that the **P1 readiness** GitHub Actions check is green.
 
-Work through [Getting Started](../02-getting-started/index.md) as needed. You may
-retry the check as often as necessary before the deadline.
+The GitHub check runs automatically after each push. A green check records
+completion; there is no separate upload. You may retry as often as necessary
+before class. This checkpoint does **not** assess effort, code quality, or
+progress on the scientific work in P1.
+
+Work through [Getting Started](../02-getting-started/index.md) as needed.
 
 :::{important} The P1 deadline does not move
 Completing this checkpoint proves that your environment and submission route
-work before substantial project work begins. A missing checkpoint or a
+work; it neither evaluates nor requires P1 progress. A missing checkpoint or a
 technical problem discovered at or after the P1 deadline does not extend that
 deadline. The exceptions are an approved accommodation or a documented outage
-of GitHub/Classroom50; if an outage occurs, save evidence of the local passing
-check and contact the instructor through Canvas before the deadline.
+of GitHub/Classroom50; if an outage occurs, contact the instructor through
+Canvas before the checkpoint deadline.
 :::
 
 ## Project Sequence

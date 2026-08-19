@@ -58,8 +58,8 @@ written and will appear before their week.
 **Topics** — environment setup, Git/GitHub workflow, Python syntax, floating
 point, control flow, the five algorithmic patterns
 
-**Due** — **P1 Technical Readiness Check** in your Project 1 repository, Thu
-**Aug 27** · **Growth Memo 1** (baseline), Mon **Aug 31**
+**Due** — **P1 Technical Readiness Check** in your Project 1 repository, before
+class Thu **Aug 27** · **Growth Memo 1** (baseline), Mon **Aug 31**
 
 ### Week 2 — Sep 1, 3 · Data structures, OOP, and arrays
 

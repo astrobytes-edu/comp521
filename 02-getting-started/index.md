@@ -162,13 +162,14 @@ Complete these milestones in order:
 **Ready for Project 1**
 
 - [ ] Accept and clone your actual P1 repository from Classroom50
-- [ ] Run the starter readiness cell and `python readiness_check.py`
+- [ ] Run and save the starter readiness cell
 - [ ] Commit and push the saved `analysis.ipynb`
 - [ ] Confirm that the **P1 readiness** check is green on GitHub
 
 These last four items are the required [P1 Technical Readiness
 Check](../01-course-info/projects.md#before-project-1-technical-readiness-check),
-due Thu Aug 27.
+due before class Thu Aug 27. GitHub records completion automatically; the
+checkpoint does not assess how much P1 work you have completed.
 :::
 
 ## Quick Command Reference
