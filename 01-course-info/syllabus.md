@@ -95,28 +95,30 @@ discussion that responds to the class's current questions.
 
 By the end of this course, students will be able to:
 
-1. **Write scientific Python that another person can read, run, and test.**
-   Implement core numerical algorithms from first principles; use modules,
-   version control, tests, and a class only when there is state worth protecting.
+1. **Build modular, testable, and reproducible scientific software in Python**
+   that implements core numerical algorithms from first principles, using
+   functions, modules, version control, and classes when state and invariants
+   require them.
 
-2. **Decide whether a numerical answer deserves trust.** Measure error,
-   stability, convergence, and failure modes; check limits and reference cases;
-   and compare your implementation against a library when that comparison helps.
+2. **Analyze and validate numerical methods** by quantifying error, convergence,
+   stability, and failure modes; using analytic limits, reference solutions, and
+   library comparisons to establish reliability.
 
-3. **Work with real scientific data.** Acquire, clean, visualize, and document
-   data while making quality cuts, units, assumptions, and limitations explicit.
+3. **Acquire, clean, analyze, and visualize real scientific data** with
+   defensible treatment of quality flags, missing values, units, assumptions,
+   and limitations.
 
-4. **Use statistical and machine-learning methods to answer a scientific
-   question.** Fit models, quantify uncertainty, and evaluate what the result
-   does and does not support.
+4. **Apply statistical inference, model fitting, uncertainty quantification, and
+   introductory machine-learning methods** to evaluate scientific models and
+   hypotheses.
 
-5. **Turn a scientific question into a bounded computational investigation.**
-   Choose methods and evidence deliberately, make tradeoffs among correctness,
-   performance, and clarity, and define a minimum result that would be useful.
+5. **Formulate, scope, and carry out a computational investigation** by selecting
+   appropriate models, data, methods, validation evidence, and tradeoffs among
+   correctness, performance, and clarity.
 
-6. **Make a clear case for a computational result.** Use code, notebooks,
-   figures, READMEs, and short presentations to explain methods, evidence, and
-   limitations; document meaningful collaboration and AI use transparently.
+6. **Communicate reproducible computational work professionally** through code,
+   tests, documentation, figures, notebooks, and presentations; clearly stating
+   methods, evidence, limitations, and meaningful collaboration or AI use.
 
 **Where these outcomes are assessed:** Projects 1–6, the final-project proposal
 pitch, the Final Project, and the Growth Reflections.
