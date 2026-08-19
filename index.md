@@ -18,7 +18,7 @@ details may change; Canvas announcements are the authoritative record of updates
 :align: center
 ```
 
-> **Build algorithms from scratch, then leverage libraries for real data.**
+> **Build methods. Test their limits. Use them on real data.**
 
 You will implement the core algorithms behind scientific software — integrators,
 root-finders, ODE solvers, samplers, and classifiers — then apply them to real

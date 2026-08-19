@@ -1,5 +1,5 @@
 ---
-title: "Part 2: Scientific Computing Core"
+title: "Part II: The Scientific Python Toolkit"
 subtitle: "Scientific Computing with Python | COMP 521"
 author: "Anna Rosen"
 ---

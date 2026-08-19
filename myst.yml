@@ -6,8 +6,8 @@ project:
   short_title: COMP 521
   description: >-
     Computational methods for scientific problem-solving and data analysis in
-    Python. Implement numerical integrators, root-finders, optimizers, and
-    samplers from first principles, then apply them to real astronomical data.
+    Python. Build numerical methods from first principles, test their limits,
+    and use the scientific Python ecosystem to make claims from real data.
   authors:
     - name: Anna Rosen
       email: alrosen@sdsu.edu
@@ -30,7 +30,7 @@ project:
   toc:
     - file: index.md
 
-    - title: Course Information
+    - title: Course Roadmap
       children:
         - file: 01-course-info/syllabus.md
         - file: 01-course-info/schedule.md
@@ -48,27 +48,32 @@ project:
         - file: 02-getting-started/04-software-engineering-guide.md
         - file: 02-getting-started/05-scientific-software-workflow-cheatsheet.md
 
-    - title: Python Fundamentals
+    - title: Scientific Computing with Python
       children:
-        - file: 03-python/index.md
-        - file: 03-python/01-python-environment.md
-        - file: 03-python/02-python-calculator.md
-        - file: 03-python/03-python-control-flow.md
-        - file: 03-python/04-python-data-structures.md
-        - file: 03-python/05-python-functions-modules.md
-        - file: 03-python/06-oop-fundamentals.md
-        - file: 03-python/synthesis.md
+        - title: Part I · Programming for Scientific Work
+          children:
+            - file: 03-python/index.md
+            - file: 03-python/01-python-environment.md
+            - file: 03-python/02-python-calculator.md
+            - file: 03-python/03-python-control-flow.md
+            - file: 03-python/04-python-data-structures.md
+            - file: 03-python/05-python-functions-modules.md
+            - file: 03-python/06-oop-fundamentals.md
+            - file: 03-python/synthesis.md
+        - title: Part II · The Scientific Python Toolkit
+          children:
+            - file: 04-scientific-computing/index.md
+            - file: 04-scientific-computing/07-numpy-fundamentals.md
+            - file: 04-scientific-computing/08-matplotlib-fundamentals.md
+            - file: 04-scientific-computing/09-robust-computing.md
+            - file: 04-scientific-computing/10-advanced-oop.md
+        - title: Part III · Real Data Workflows
+          children:
+            - file: 04-scientific-computing/part-3-data-workflows.md
+            - file: 04-scientific-computing/11-pandas-fundamentals.md
+            - file: 04-scientific-computing/12-data-acquisition-cleaning.md
 
-    - title: Scientific Computing Core
-      children:
-        - file: 04-scientific-computing/index.md
-        - file: 04-scientific-computing/07-numpy-fundamentals.md
-        - file: 04-scientific-computing/08-matplotlib-fundamentals.md
-        - file: 04-scientific-computing/09-robust-computing.md
-        - file: 04-scientific-computing/10-advanced-oop.md
-        - file: 04-scientific-computing/11-pandas-fundamentals.md
-
-    - title: Numerical Methods
+    - title: Numerical Modeling
       children:
         - title: Foundations of Discrete Computing
           children:
@@ -92,9 +97,9 @@ project:
             - file: 05-numerical-methods/03-odes/04-module3-part4-stability.md
             - file: 05-numerical-methods/03-odes/05-mod3-synthesis.md
 
-    - title: Linear Algebra and Statistics
+    - title: Data, Inference, and Scientific ML
       children:
-        - title: Linear Algebra
+        - title: Linear Algebra for Modeling
           children:
             - file: 06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md
             - file: 06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md
@@ -112,6 +117,16 @@ project:
             - file: 06-linear-algebra-stats/02-inference/00-mod5-overview.md
             - file: 06-linear-algebra-stats/02-inference/01-mod5-part1-measurement.md
             - file: 06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md
+            - file: 06-linear-algebra-stats/02-inference/03-mod5-part3-mcmc.md
+            - file: 06-linear-algebra-stats/02-inference/04-mod5-part4-advanced-mcmc.md
+        - title: Model Fitting and Uncertainty
+          children:
+            - file: 06-linear-algebra-stats/03-model-fitting/00-overview.md
+        - title: Scientific Machine Learning
+          children:
+            - file: 06-linear-algebra-stats/04-scientific-ml/00-overview.md
+            - file: 06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md
+            - file: 06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md
 
 site:
   template: book-theme

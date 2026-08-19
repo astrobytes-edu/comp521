@@ -1,5 +1,5 @@
 ---
-title: "Part 1: Python Fundamentals"
+title: "Part I: Programming for Scientific Work"
 subtitle: "Scientific Computing with Python | COMP 521"
 author: "Anna Rosen"
 ---

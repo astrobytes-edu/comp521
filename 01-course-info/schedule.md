@@ -172,7 +172,7 @@ meant to reach you while you still have options. Come talk to me.
 
 **Readings**
 - [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md)
-- *Data acquisition and cleaning* (to be posted)
+- [Data acquisition, cleaning, and exploratory analysis](../04-scientific-computing/12-data-acquisition-cleaning.md)
 
 **Topics** — archives and APIs, Lightkurve, quality flags, gaps, outliers, and
 exploratory analysis of real Kepler light curves
@@ -184,6 +184,7 @@ exploratory analysis of real Kepler light curves
 - [Linear algebra for statistics](../06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md)
 - [Probability foundations](../06-linear-algebra-stats/01-probability/01-mod1-part1-foundations.md)
 - [Statistical tools](../06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md)
+- [Model fitting and uncertainty](../06-linear-algebra-stats/03-model-fitting/00-overview.md)
 
 **Topics** — design matrices, normal equations, conditioning, $\chi^2$, transit
 model fitting, and bootstrap uncertainty
@@ -199,14 +200,14 @@ notebook Discussion, Mon **Nov 2**
 
 **Readings**
 - [Advanced OOP](../04-scientific-computing/10-advanced-oop.md)
-- *Supervised learning from scratch* (to be posted)
+- [Supervised learning from scratch](../06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md)
 
 **Topics** — k-NN, decision trees, train/test splits, cross-validation;
 classifying stellar types; final-project pathways and examples
 
 ### Week 12 — Nov 10, 12 · Unsupervised learning and evaluation
 
-**Readings** — *Clustering, PCA, and model evaluation* (to be posted)
+**Readings** — [Clustering, PCA, and model evaluation](../06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md)
 
 **Topics** — k-means, hierarchical clustering, PCA; ROC curves, confusion
 matrices, feature importance; clustering the Gaia sample from Project 1 and

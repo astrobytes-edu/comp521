@@ -84,7 +84,7 @@ Software (Python, `git`, and the scientific stack) is free, open-source, and
 installed in Week 1 — see [Getting Started](../02-getting-started/index.md).
 
 :::{note} Course throughline
-Build algorithms from scratch, then use libraries on real data. The goal is
+**Build methods. Test their limits. Use them on real data.** The goal is
 evidence-backed scientific computing: clear methods, useful tests, and claims
 that survive checks.
 :::
