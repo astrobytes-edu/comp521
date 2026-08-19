@@ -119,7 +119,7 @@ estimation and convergence order; verifying you achieve the expected order
 **Due** — **Project 2** (integration library + exoplanet transit model) +
 notebook Discussion, Mon **Sep 21**
 
-## Block 3 · Project 3 — Root Finding & Data Acquisition
+## Block 3 · Project 3 — Root Finding & Stellar Inference
 
 *Assigned Tue Sep 22 · Due Mon Oct 5*
 
@@ -130,45 +130,43 @@ notebook Discussion, Mon **Sep 21**
 - [Robust computing](../04-scientific-computing/09-robust-computing.md)
 
 **Topics** — bisection, Newton–Raphson, secant; convergence rates; failure modes
-and bracketing; habitable-zone calculation
+and bracketing; Wien's law and habitable-zone calculation
 
-### Week 6 — Sep 29, Oct 1 · Real data acquisition
+### Week 6 — Sep 29, Oct 1 · Kepler orbits and stellar inference
 
 **Readings**
-- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md)
-- *Data acquisition and cleaning* (to be posted)
+- [Advanced OOP](../04-scientific-computing/10-advanced-oop.md)
+- [Robust computing](../04-scientific-computing/09-robust-computing.md)
 
-**Topics** — APIs, Lightkurve, quality flags, missing data, outlier
-identification; downloading and cleaning real Kepler light curves
+**Topics** — Kepler's equation, orbital geometry, root-finding contact points;
+`Star` objects and habitable zones for the 15-star P1 sample
 
-**Due** — **Project 3** (root-finding library + Kepler data pipeline) +
+**Due** — **Project 3** (root-finding library + stellar-inference notebook) +
 notebook Discussion, Mon **Oct 5**
 
-## Block 4 · Project 4 — Linear Algebra & Statistical Methods
+## Block 4 · Project 4 — ODE Methods & Exoplanet Interiors
 
 *Assigned Tue Oct 6 · Due Mon Oct 19*
 
-### Week 7 — Oct 6, 8 · Linear systems
+### Week 7 — Oct 6, 8 · ODE solvers
 
 **Readings**
-- [Core linear algebra](../06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md)
-- [Formula sheet](../06-linear-algebra-stats/00-linear-algebra/00c-linear-algebra-formula-sheet.md)
+- [Euler methods](../05-numerical-methods/03-odes/01-module3-part1-euler.md)
+- [Runge–Kutta](../05-numerical-methods/03-odes/02-module3-part2-runge-kutta.md)
 
-**Topics** — Gaussian elimination, LU decomposition, conditioning, least squares
-and the normal equations
+**Topics** — Euler, RK2, RK4; local and global error; order verification
 
-### Week 8 — Oct 13, 15 · Statistics and model fitting
+### Week 8 — Oct 13, 15 · Shooting and planetary interiors
 
 **Readings**
-- [Linear algebra for statistics](../06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md)
-- [Probability foundations](../06-linear-algebra-stats/01-probability/01-mod1-part1-foundations.md)
-- [Statistical tools](../06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md)
-- [Moments](../06-linear-algebra-stats/01-probability/03-mod1-part3-moments.md)
+- [Stability](../05-numerical-methods/03-odes/04-module3-part4-stability.md)
+- [Module synthesis](../05-numerical-methods/03-odes/05-mod3-synthesis.md)
 
-**Topics** — hypothesis testing, chi-squared, goodness of fit; fitting the
-transit model to real Kepler data
+**Topics** — hydrostatic equilibrium, equations of state, locating a moving
+surface, shooting, and diagnosing observed order loss
 
-**Due** — **Project 4** + notebook Discussion + **Growth Memo 2**
+**Due** — **Project 4** (ODE library + exoplanet-interior notebook) + notebook
+Discussion + **Growth Memo 2**
 (mid-semester), Mon **Oct 19**
 
 :::{tip} Check your standing before Nov 1
@@ -177,33 +175,34 @@ Growth Memo 2 is due Oct 19 and returned the following week — before the
 meant to reach you while you still have options. Come talk to me.
 :::
 
-## Block 5 · Project 5 — ODEs & Time Series
+## Block 5 · Project 5 — Real Data & Model Fitting
 
 *Assigned Tue Oct 20 · Due Mon Nov 2*
 
-### Week 9 — Oct 20, 22 · ODE solvers
+### Week 9 — Oct 20, 22 · Real data acquisition and cleaning
 
 **Readings**
-- [Euler methods](../05-numerical-methods/03-odes/01-module3-part1-euler.md)
-- [Runge–Kutta](../05-numerical-methods/03-odes/02-module3-part2-runge-kutta.md)
-- [Symplectic integrators](../05-numerical-methods/03-odes/03-module3-part3-symplectic.md)
-- [Stability](../05-numerical-methods/03-odes/04-module3-part4-stability.md)
+- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md)
+- *Data acquisition and cleaning* (to be posted)
 
-**Topics** — Euler, RK2, RK4; local vs. global error; stability regions; energy
-conservation and why symplectic methods matter
+**Topics** — archives and APIs, Lightkurve, quality flags, gaps, outliers, and
+exploratory analysis of real Kepler light curves
 
-### Week 10 — Oct 27, 29 · Time series
+### Week 10 — Oct 27, 29 · Model fitting and uncertainty
 
 **Readings**
-- [Sampling](../06-linear-algebra-stats/01-probability/04-mod1-part4-sampling.md)
-- *Time series analysis* (to be posted)
+- [Core linear algebra](../06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md)
+- [Linear algebra for statistics](../06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md)
+- [Probability foundations](../06-linear-algebra-stats/01-probability/01-mod1-part1-foundations.md)
+- [Statistical tools](../06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md)
 
-**Topics** — autocorrelation, periodograms, detrending, period recovery
+**Topics** — design matrices, normal equations, conditioning, $\chi^2$, transit
+model fitting, and bootstrap uncertainty
 
-**Due** — **Project 5** (ODE solver library + time series analysis) +
+**Due** — **Project 5** (real Kepler photometry + transit-model fit) +
 notebook Discussion, Mon **Nov 2**
 
-## Block 6 · Project 6 — Machine Learning Foundations
+## Block 6 · Project 6 — Machine Learning & Scientific Classification
 
 *Assigned Tue Nov 3 · Due Mon Nov 16*
 

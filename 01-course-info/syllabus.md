@@ -181,10 +181,10 @@ finishing in the room.
 | Growth Memo 1 (baseline) | Tue **Aug 25** | Mon **Aug 31** |
 | Project 1 — Scientific Programming & the Transit Model | Tue **Aug 25** | Tue **Sep 8** † |
 | Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |
-| Project 3 — Root Finding & Data Acquisition | Tue **Sep 22** | Mon **Oct 5** |
-| Project 4 — Linear Algebra & Statistics | Tue **Oct 6** | Mon **Oct 19** |
-| Project 5 — ODEs & Time Series | Tue **Oct 20** | Mon **Nov 2** |
-| Project 6 — Machine Learning Foundations | Tue **Nov 3** | Mon **Nov 16** |
+| Project 3 — Root Finding & Stellar Inference | Tue **Sep 22** | Mon **Oct 5** |
+| Project 4 — ODE Methods & Exoplanet Interiors | Tue **Oct 6** | Mon **Oct 19** |
+| Project 5 — Real Data & Model Fitting | Tue **Oct 20** | Mon **Nov 2** |
+| Project 6 — Machine Learning & Scientific Classification | Tue **Nov 3** | Mon **Nov 16** |
 | Final Project | Tue **Nov 17** | Thu **Dec 17**, end of day |
 
 † **Project 1 is due Tuesday**, not Monday — Mon Sep 7 is Labor Day. It is the
@@ -344,11 +344,12 @@ Kepler data:
 
 | Project | Contribution to the investigation |
 |---|---|
-| 2 | Build the transit model equations |
-| 3 | Download and clean real Kepler light curves |
-| 4 | Fit the transit model to real data |
-| 5 | Recover orbital periods from time series |
-| 6 | Classify planet candidates |
+| 1 | Build and validate a transit model; place 15 real stars on a theoretical HR diagram |
+| 2 | Integrate a limb-darkened transit model and derive the Stefan–Boltzmann constant |
+| 3 | Solve orbital and transit-contact problems; infer habitable zones for those 15 stars |
+| 4 | Build exoplanet interiors and test mass–radius relations against Seager et al. |
+| 5 | Download, clean, and fit a transit model to real Kepler photometry |
+| 6 | Classify a Gaia stellar sample with machine-learning methods |
 | Final | Assemble the complete discovery pipeline |
 
 (sec-submissions)=
