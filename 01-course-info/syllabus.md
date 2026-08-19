@@ -160,7 +160,7 @@ finishing in the room.
 | Project 4 — ODE Methods & Exoplanet Interiors | Tue **Oct 6** | Mon **Oct 19** |
 | Project 5 — Real Data & Model Fitting | Tue **Oct 20** | Mon **Nov 2** |
 | Project 6 — Machine Learning & Scientific Classification | Tue **Nov 3** | Mon **Nov 16** |
-| Final-Project Proposal Pitch | Tue **Nov 3** | Thu **Nov 12**, in class |
+| Final-Project Proposal Pitch | Tue **Nov 17** | Thu **Nov 19**, in class |
 | Final Project | Tue **Nov 17** | Thu **Dec 17**, end of day |
 
 † **Project 1 is due Tuesday**, not Monday — Mon Sep 7 is Labor Day. It is the
@@ -367,7 +367,7 @@ absence are reflected in this grade.
 (sec-final-project)=
 ### Final-Project Proposal Pitch (5%)
 
-On **Thu Nov 12**, give a five-minute in-class proposal using a short slide deck.
+On **Thu Nov 19**, give a five-minute in-class proposal using a short slide deck.
 State your scientific question, data or source, computational approach,
 validation plan, bounded minimum result, and immediate next step. Commit the
 slides to your repository before class. The pitch is graded as one whole for

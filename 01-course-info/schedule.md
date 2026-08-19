@@ -212,8 +212,7 @@ classifying stellar types; final-project pathways and examples
 matrices, feature importance; clustering the Gaia sample from Project 1 and
 comparing against scikit-learn
 
-**Due** — **Final-Project Proposal Pitch** (5 minutes + short slide deck), Thu
-**Nov 12** · **Project 6**, Mon **Nov 16**
+**Due** — **Project 6**, Mon **Nov 16**
 
 ## Block 7 · Final Project
 
@@ -226,6 +225,9 @@ comparing against scikit-learn
 - [Inferential thinking](../06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md)
 
 **Topics** — measurement uncertainty, inference; final-project launch
+
+**Due** — **Final-Project Proposal Pitch** (5 minutes + short slide deck), Thu
+**Nov 19**, in class
 
 ### Week 14 — Nov 24 · Implementation
 
