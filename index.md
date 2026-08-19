@@ -12,6 +12,12 @@ details may change; Canvas announcements are the authoritative record of updates
 
 # Welcome to COMP 521
 
+```{image} assets/comp521-logo.png
+:alt: COMP 521 Scientific Computing and Data Science wordmark with a transit curve, scientific data points, and gold stars.
+:width: 820px
+:align: center
+```
+
 > **Build algorithms from scratch, then leverage libraries for real data.**
 
 You will implement the core algorithms behind scientific software — integrators,
