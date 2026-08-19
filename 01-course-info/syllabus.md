@@ -4,17 +4,6 @@ subtitle: "Introduction to Scientific Computing and Data Science | Fall 2026"
 author: "Dr. Anna Rosen"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This page is still being prepared
-COMP 521 begins **Tuesday, August 25**. This page is being written and revised
-until then — dates, policies, and details may still change. It is published
-early so you can see the shape of the course, not because it is finished.
-
-Anything still under discussion is settled by **Monday, August 24**. After that,
-what is written here is what the course does.
-:::
-<!-- prep-banner:end -->
-
 (sec-course-info)=
 ## Course Information
 
@@ -35,7 +24,7 @@ what is written here is what the course does.
 - **Bring your laptop to every class.** Sessions mix instruction with hands-on work — there are no separate lab days, and much of what happens in the room is not posted anywhere.
 - **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned. See [Important Dates](#sec-important-dates).
 - **Grading is by letter, not points.** One grade for each assignment as a whole, no itemized rubrics — see [Grading](grading.md), which includes a calculator you can run.
-- **You will work in rotating pairs** on Projects 1–6 (writing your own code), and **teach the class twice** — see [SE Presentations](../assignments/se-presentation.md).
+- **You will work in rotating pairs** on Projects 1–6 while writing and submitting your own code. The final project is solo.
 - **Getting help:** office hours **Thursdays 4–5 pm, Physics 239**. Before emailing, check this syllabus and recent Canvas announcements.
 :::
 
@@ -85,17 +74,10 @@ large amount of memory.
 Software (Python, `git`, and the scientific stack) is free, open-source, and
 installed in Week 1 — see [Getting Started](../02-getting-started/index.md).
 
-:::{note} Core Course Throughline
-> Build algorithms from scratch, then leverage libraries for real data.
-
-There are two ways to learn scientific computing. One is to learn which library
-function to call. The other is to understand what that function does, so you can
-recognize when it is lying to you. This course takes the second path, then hands
-you the libraries once you have earned them.
-
-The goal is not "making code run." The goal is durable skill: designing
-algorithms, debugging methodically, checking limits and invariants, and making
-claims only when you have evidence.
+:::{note} Course throughline
+Build algorithms from scratch, then use libraries on real data. The goal is
+evidence-backed scientific computing: clear methods, useful tests, and claims
+that survive checks.
 :::
 
 ### Class Format
@@ -105,9 +87,8 @@ combines short instruction with hands-on work, and the balance shifts depending
 on where we are in a project — heavier on instruction when a new method is
 introduced, heavier on working time as a deadline approaches.
 
-**This means class attendance matters more than in a lecture course.** Much of
-the instruction happens in response to what you are actually stuck on, and that
-does not get posted anywhere afterward.
+Bring your laptop. Much of the instruction happens through hands-on work and
+discussion that responds to the class's current questions.
 
 (sec-outcomes)=
 ## Student Learning Outcomes
@@ -149,8 +130,8 @@ By the end of this course, students will be able to:
    meaningful use and independently verifying outputs so that submissions
    reflect your own understanding.
 
-**Where these outcomes are assessed:** Projects 1–6, the Final Project, the
-Software Engineering Presentations, and the Growth Reflections.
+**Where these outcomes are assessed:** Projects 1–6, the final-project proposal
+pitch, the Final Project, and the Growth Reflections.
 
 (sec-grading)=
 ## Grading & Assessments
@@ -158,8 +139,8 @@ Software Engineering Presentations, and the Growth Reflections.
 | Component | Weight |
 |---|-:|
 | Projects (6 total; ~8.3% each) | 50% |
-| Final Project | 20% |
-| SE Presentations (2 total; 5% each) | 10% |
+| Final-Project Proposal Pitch | 5% |
+| Final Project | 25% |
 | Growth Reflections (3 total) | 10% |
 | Scholarly Engagement | 10% |
 
@@ -185,6 +166,7 @@ finishing in the room.
 | Project 4 — ODE Methods & Exoplanet Interiors | Tue **Oct 6** | Mon **Oct 19** |
 | Project 5 — Real Data & Model Fitting | Tue **Oct 20** | Mon **Nov 2** |
 | Project 6 — Machine Learning & Scientific Classification | Tue **Nov 3** | Mon **Nov 16** |
+| Final-Project Proposal Pitch | Tue **Nov 17** | Thu **Nov 19**, in class |
 | Final Project | Tue **Nov 17** | Thu **Dec 17**, end of day |
 
 † **Project 1 is due Tuesday**, not Monday — Mon Sep 7 is Labor Day. It is the
@@ -196,14 +178,9 @@ stuck.
 
 | | Date | |
 |---|---|---|
-| Final presentations | Thu **Dec 10** | in class |
+| Final presentation | Thu **Dec 10** | in class |
 | **Growth Synthesis** | Mon **Dec 14** | 11:59 pm PT |
 | **Final report + repository** | Thu **Dec 17** | end of day — our final exam date |
-
-The Growth Synthesis is due **before** the report on purpose. If both were due
-the same day, the reflection would get written in the last hour and be worth
-nothing to you. Submitting it after your presentation and before your final push
-means writing it while the semester is genuinely in view.
 
 **University dates that affect you:**
 
@@ -285,14 +262,8 @@ including reading, project work, and preparation for class.
 (sec-projects)=
 ### Projects Overview
 
-Projects are the core of COMP 521. The goal is not "getting code to run once" —
-it is learning how to design, debug, verify, and explain computation you
-actually understand. In an era where AI can generate plausible-looking code
-quickly, the bar has shifted: what matters is judgment — correctness,
-verification, and scientific reasoning — not typing speed.
-
-**Structure:** a one-week bootcamp (Project 0), six two-week projects, then a
-four-week final project.
+Projects are the core of COMP 521: a one-week setup bootcamp, six two-week
+projects, and a four-week solo final project.
 
 :::{important} Every project must be submitted
 **You must submit all six projects and the final project to pass this course.**
@@ -300,22 +271,18 @@ A missing project cannot be averaged away by strong work elsewhere — absent a
 documented emergency, skipping one means you do not pass, whatever your other
 grades look like.
 
-This exists because the projects *are* the course. Six two-week projects is not
-a set of assignments you can sample; it is the sequence the whole thing is built
-on, and each one assumes the last.
 :::
 
 Each two-week project runs in two halves:
 
-- **Week A** — theory, implementation, validation against known results
-- **Week B** — application to real data, comparison with library implementations
+- **Week 1** — method, implementation, and validation against known results
+- **Week 2** — scientific application, diagnosis, or comparison
 
 (sec-project-zero)=
 #### Project 0 — Setup Bootcamp (ungraded, required)
 
-Due **Thu Aug 27** — our second class meeting. Project 0 is not about Python;
-it is about making sure the machinery works before any real work depends on it.
-You will:
+Due **Thu Aug 27**. Project 0 makes sure the machinery works before project work
+begins. You will:
 
 - install and verify your Python environment,
 - get comfortable enough at the command line to navigate and run things,
@@ -325,15 +292,8 @@ You will:
 
 Work through [Getting Started](../02-getting-started/index.md) alongside it.
 
-It is **graded on completion only** and does not count toward your project
-average — but it is genuinely required, and the deadline is early on purpose.
-By Thursday of Week 1 you need to be able to work: if your environment is broken
-on the day we start writing code, you lose that session and the next. Environment
-and submission problems are the single most common reason students fall behind
-in the first weeks, and this is how we prevent that.
-
-If you get stuck on setup, come to office hours or tell me before Thursday.
-Being stuck is expected; being quietly stuck is the problem.
+It is completion-only and does not count toward your project average. Get help
+before Thursday if setup is not working.
 
 (sec-thread)=
 #### The thread running through the projects
@@ -350,7 +310,7 @@ Kepler data:
 | 4 | Build exoplanet interiors and test mass–radius relations against Seager et al. |
 | 5 | Download, clean, and fit a transit model to real Kepler photometry |
 | 6 | Classify a Gaia stellar sample with machine-learning methods |
-| Final | Assemble the complete discovery pipeline |
+| Final | Use the course toolkit on a bounded scientific question |
 
 (sec-submissions)=
 #### What a project submission includes
@@ -359,55 +319,30 @@ Kepler data:
 - verification evidence (tests, sanity checks, convergence diagnostics),
 - an **analysis notebook** that runs top to bottom and ends with a written
   **Discussion**,
-- a **Growth Memo** with Project 4 only (see [Growth Reflections](#sec-reflections)).
+- Growth Reflections on the three dates listed below.
 
-**The notebook is the report.** There is no separate document to write. Your
-Jupyter notebook is the thing I read: it contains your analysis, your figures,
-and your argument, in the order a reader needs them. From Project 2 onward your
-code lives in `.py` modules and the notebook imports them, so the notebook is
-narrative and results rather than a wall of implementation.
+**The notebook is the report.** From Project 2 onward, implementation belongs
+in `.py` modules; the notebook contains analysis, figures, and interpretation.
 
 **Every notebook must end with a section titled `Discussion`.** Prose only — no
 code cells in it. This is where you answer the project's questions and say what
 your results mean. Roughly 500–800 words; Project 1's is shorter.
 
 :::{important} Run it top to bottom before you submit
-**Kernel → Restart Kernel and Run All Cells**, every time, before your final
-commit. A notebook whose stored output was produced by code you have since
-changed is worse than one that fails outright, because it looks fine.
-
-I re-execute submitted notebooks. If yours does not run from a clean kernel, it
+**Kernel → Restart Kernel and Run All Cells** before your final commit. I
+re-execute submitted notebooks; if yours does not run from a clean kernel, it
 does not count as running.
-:::
-
-:::{note} Why a notebook and not a PDF report
-Because your claims and the evidence for them belong on the same page. A report
-can describe results the code does not produce; a notebook that re-executes
-cannot. It also means one artifact instead of two, and no exporting.
-
-The exception is the **final project**, which requires a standalone written
-report. Writing for a reader who will not run your code is a genuinely different
-skill, and by December you will have had a semester of practice at the
-argument-making part.
 :::
 
 (sec-pairs)=
 ### Project Pairs & Collaboration
 
-**Projects 1–6 are done in pairs**, and **pairs rotate each project** so that
-over the semester you work with everyone in the class. Pair work is how
-computational science actually happens, and rotating partners means you see more
-than one way of approaching a problem.
-
-**The final project is solo.** It is the capstone, it is where you demonstrate
-individual command of the whole toolkit, and the three options push people
-toward different datasets and questions anyway. You may still talk through
-design and debug with classmates — the collaboration rules below continue to
-apply — but the work and the submission are yours alone.
+Projects 1–6 are done in rotating pairs. The final project is solo, although you
+may still discuss design and debugging with classmates.
 
 :::{important} You are responsible for your own code
-Working in a pair does **not** mean submitting shared work. **Each student
-writes, submits, and must be able to explain their own implementation.**
+Working in a pair does **not** mean submitting shared work. Each student writes,
+submits, and must be able to explain their own implementation.
 
 - **Encouraged:** designing algorithms together, whiteboarding equations,
   debugging side by side, comparing strategies, sharing **tests you wrote**.
@@ -417,52 +352,14 @@ writes, submits, and must be able to explain their own implementation.**
   your project `README.md`.
 :::
 
-**On the natural convergence of paired work.** If you and your partner spend
-forty minutes at a whiteboard designing an algorithm, your implementations will
-end up structurally similar — same decomposition, similar names, comparable
-logic. That is what collaboration produces, and it is not a violation. The line
-that matters is whether **you** typed it and whether **you** can explain it. I
-will ask.
-
-If a pairing is not working, tell me and I will re-pair you. Do not suffer
-through it silently.
-
-(sec-se-presentations)=
-### Software Engineering Presentations (10% total; 2 × 5%)
-
-Twice during the semester you teach the class a software engineering tool or
-practice — not by talking at us, but by walking the room through it while
-everyone follows along on their own laptop. You publish a GitHub repository,
-everyone clones it beforehand, and you lead a 12-minute hands-on walkthrough
-with 3 minutes of questions. No slides.
-
-When someone else is presenting, cloning and setting up their repository before
-class is part of your Scholarly Engagement.
-
-The goal is that your classmates can use the tool afterward. Topics range across
-testing, code quality, debugging, performance, and reproducibility; you present
-two different ones, in two rounds.
-
-Full details, the topic list, and what each grade means are on the
-[Software Engineering Presentation](../assignments/se-presentation.md) page.
+If a pairing is not working, tell me promptly and I will re-pair you.
 
 (sec-engagement)=
 ### Scholarly Engagement (10%)
 
-This is a small class, and it runs closer to a research group meeting than a
-lecture course. Scholarly engagement means showing up prepared and making your
-thinking *visible*: asking questions, contributing to discussion, debugging
-systematically, verifying results, and being able to explain your code. It also
-means arriving at a classmate's presentation with their repository already
-cloned and working, and coming to check-ins with something to show.
-
-In a class this size everyone's participation is load-bearing — if two people
-disengage, the discussion stops working for everyone.
-
-You receive **one engagement grade at the end of the semester** for the term as
-a whole. See [Grading](grading.md) for what each letter means. Thinking out loud
-and thinking quietly both count, as long as your reasoning becomes visible
-somewhere.
+Scholarly engagement means prepared participation, productive collaboration,
+and visible reasoning: questions, tests, debugging, and the ability to explain
+your code. You receive one engagement grade for the term as a whole.
 
 **Classroom norms.** We are all members of a professional academic community.
 Treat classmates and the instructor with respect. Spirited, courteous debate
@@ -470,12 +367,11 @@ about ideas is welcome; disrespectful behavior is not. Because active reasoning
 is the point of being in the room, off-task device use during class is
 distracting and will negatively affect your engagement grade.
 
-I will not take formal attendance, but in a class of this size I will absolutely
-notice. Because instruction is interleaved with working time, missing class
-means missing material that is not posted anywhere. Please arrive on time.
+I do not take formal attendance, but preparation, participation, and repeated
+absence are reflected in this grade.
 
 (sec-final-project)=
-### Final Project (20%)
+### Final Project (25%)
 
 The final project synthesizes the course into a complete data science pipeline.
 You will choose one of:
@@ -494,6 +390,14 @@ implementations.
 
 **This project is solo.** See [Project Pairs & Collaboration](#sec-pairs).
 
+#### Final-Project Proposal Pitch (5%)
+
+On **Thu Nov 19**, give a five-minute in-class proposal using a short slide deck.
+State your scientific question, data or source, computational approach,
+validation plan, bounded minimum result, and immediate next step. Commit the
+slides to your repository before class. The pitch is graded as one whole for
+clarity, feasibility, and a credible plan to test the result.
+
 **Deliverables and dates:**
 
 | Deliverable | Due |
@@ -502,16 +406,8 @@ implementations.
 | Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
 | Research report (5–7 pages) + repository | Thu **Dec 17**, end of day |
 
-The report covers background and motivation, methods, results, and conclusions.
-
-Presentations are **10 minutes** — roughly 8 to present and 2 for questions.
-Short, so plan it: enough to say what you built, show that it works, and say
-where it breaks. Everyone presents on Dec 10.
-
-Shorter than an SE presentation, and deliberately so: those are hands-on
-workshops where the whole room follows along on their own machines, which takes
-time. This one is a report-out. You are telling us what you did and what you
-found, not teaching us to do it.
+The final presentation is 10 minutes: what you built, evidence that it works,
+and its limits. The report covers background, methods, results, and conclusions.
 
 The final project is graded on the same description as the other projects (see
 [Grading](grading.md)), applied to a larger piece of work. You should expect to
@@ -525,8 +421,7 @@ can improve your workflow, debugging habits, and verification discipline over
 time. Write them in an **informal, memo-like voice** (not an essay). Honesty and
 specific evidence matter more than polished prose.
 
-There are three, deliberately spaced so they form a trajectory rather than a
-chore:
+There are three:
 
 | | Due | Purpose |
 |---|---|---|
@@ -534,10 +429,8 @@ chore:
 | **Growth Memo 2** | Mon **Oct 19** | **Course correction** — what has changed, what has not |
 | **Growth Synthesis** | Mon **Dec 14** | **Synthesis** — the whole arc |
 
-All three are graded on honesty and specificity rather than polish or length —
-see [Grading](grading.md). Be specific throughout. "I did not understand why Newton's method diverged until
-I plotted the iterates" is worth more than a page of general statements about
-learning a lot.
+All three are graded on honesty and specificity rather than polish or length;
+see [Grading](grading.md).
 
 (sec-growth-memo-1)=
 #### Growth Memo 1 — Baseline (due Mon Aug 31)
@@ -594,30 +487,11 @@ what you did not yet know to worry about. Guidance posted in Week 13.
 (sec-ai-policy)=
 ## Academic Integrity & Generative AI Policy
 
-All submitted work in this course must reflect **your own understanding**.
-Collaboration is strongly encouraged for discussing concepts and strategies.
-However, what you submit must be written independently and must represent your
-own reasoning. Copying solutions (from classmates, the internet, generative AI,
-or solution manuals) is not permitted. Violations of academic integrity will be
-handled according to university procedures and may be reported to the
-[Center for Student Rights and Responsibilities](https://sacd.sdsu.edu/student-rights/academic-dishonesty/cheating-and-plagiarism).
-
-For full details — including the staged three-phase rules and documentation
-requirements — read the [AI Use & Growth Mindset Policy](ai-policy.md).
-
-:::{important} Generative AI rules (enforced)
-- **AI is optional.** You can earn full credit without using AI.
-- **Understanding is required.** If you can't explain it, don't submit it.
-- **No AI refactoring / restructuring** of your solution unless explicitly assigned.
-- **No AI-written core solution code** (the algorithmic logic that produces the result).
-- **Struggle first, then ask.** Do ~20–30 minutes of productive effort (try, check docs, minimal repro, hypothesis) before using AI for coding help.
-- **Disclose meaningful AI use** whenever a submission asks for AI/collaboration disclosure.
-:::
-
-Generative AI can produce fluent explanations and plausible-looking solutions
-that are subtly wrong. In a quantitative, model-based course, "sounds right" is
-not a standard of truth. If you do not have the quantitative discipline to
-verify an AI output, you risk learning the wrong thing confidently.
+All submitted work must reflect your own understanding and reasoning. AI is
+optional; core solution code remains yours in every phase. Disclose meaningful
+use, and do not submit work you cannot explain. Read the full
+[AI Use & Growth Mindset Policy](ai-policy.md) before Project 1; its staged
+rules and documentation requirements are enforced.
 
 (sec-materials)=
 ## Course Materials (Sharing Policy)

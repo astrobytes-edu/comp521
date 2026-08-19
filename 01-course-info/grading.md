@@ -6,17 +6,6 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This page is still being prepared
-COMP 521 begins **Tuesday, August 25**. This page is being written and revised
-until then — dates, policies, and details may still change. It is published
-early so you can see the shape of the course, not because it is finished.
-
-Anything still under discussion is settled by **Monday, August 24**. After that,
-what is written here is what the course does.
-:::
-<!-- prep-banner:end -->
-
 # Grading
 
 ## How grading works in this course
@@ -95,8 +84,8 @@ GRADE_POINTS = {
 
 WEIGHTS = {
     "projects": 0.50,
-    "final": 0.20,
-    "presentations": 0.10,
+    "proposal": 0.05,
+    "final": 0.25,
     "reflections": 0.10,
     "engagement": 0.10,
 }
@@ -124,8 +113,8 @@ def course_grade(components):
 
 me = {
     "projects":      ["B+", "A-", "A", "A", "A+", "A-"],
+    "proposal":      ["A-"],
     "final":         ["B+"],
-    "presentations": ["B+", "A"],
     "reflections":   ["A", "B", "A"],
     "engagement":    ["A"],
 }
@@ -146,8 +135,8 @@ A no matter how many you collect.
 | Component | Weight |
 |:--|--:|
 | Projects (6) | 50% |
-| Final project | 20% |
-| SE presentations (2) | 10% |
+| Final-project proposal pitch | 5% |
+| Final project | 25% |
 | Growth Reflections (3) | 10% |
 | Scholarly engagement | 10% |
 
@@ -184,19 +173,11 @@ Each project's **analysis notebook** ends with a written **Discussion** section
 graded separately — it is part of the work I am reading, and it is usually the
 first thing I read.
 
-### SE presentations
+### Final-project proposal pitch
 
-Judged on whether the class can use the tool afterward.
-
-| | |
-|:--|:--|
-| **A** | The room ran the tool and left able to use it. Your repository worked on other people's machines. You knew where the tool breaks down and said so. |
-| **B** | A solid walkthrough, but some people got stuck and stayed stuck, or the setup needed hand-holding, or you could not say much about the tool's limits. |
-| **C** | Mostly a demo you performed rather than one we did, or a repository that did not really work outside your own laptop. |
-| **D / F** | Unprepared, or not delivered. |
-
-Full assignment and topic list:
-[Software Engineering Presentation](../assignments/se-presentation.md).
+The five-minute in-class proposal pitch is judged as a whole: is the question
+clear, the scope feasible, and the plan capable of producing evidence? Slides
+are a communication aid, not a separate written assignment.
 
 ### Growth Reflections
 
@@ -224,7 +205,7 @@ One grade, at the end of the semester, for the term as a whole.
 
 | | |
 |:--|:--|
-| **A** | Prepared and present. Contributes and asks real questions. Arrives at classmates' presentations already set up. Comes to check-ins with work to show. |
+| **A** | Prepared and present. Contributes and asks real questions. Comes to check-ins with work to show. |
 | **B** | Steady and cooperative, with some quiet stretches or occasional unpreparedness. |
 | **C** | Frequently unprepared or disengaged; participates mainly when prompted. |
 | **D / F** | Habitually absent or habitually disengaged. |
