@@ -95,7 +95,8 @@ Your project must run for someone who has never met you.
 
 - One-command entrypoint: `python run.py <command>`
 - Deterministic by default (fixed seeds unless overridden)
-- Non-interactive by default (no prompts, no notebooks)
+- No prompts or hidden manual steps; submitted notebooks run top to bottom from
+  a clean kernel
 - Separate concerns:
   - `validate` $\to$ fast scientific checks
   - `test` $\to$ automated contract checks

@@ -48,19 +48,35 @@ Each project submission includes:
 
 - a code repository with a runnable workflow, README, and reproduction instructions;
 - verification evidence: tests, sanity checks, or convergence diagnostics; and
-- an **analysis notebook** that runs top to bottom and ends with a written
-  **Discussion**.
+- an **analysis notebook** that runs top to bottom, is documented well enough
+  for another scientist to follow, and ends with a written **Discussion**.
 
-**The notebook is the report.** From Project 2 onward, implementation belongs in
-`.py` modules; the notebook contains analysis, figures, and interpretation. End
-every notebook with a prose-only section titled `Discussion` that answers the
-project's questions and explains what the results mean. Aim for 500–800 words;
-Project 1's discussion is shorter.
+### Notebook and code policy
+
+**The notebook is the report, not a hiding place for reusable code.** Project 1
+is the bootcamp exception: its functions may live in the notebook. From Project
+2 onward, implementation belongs in importable, testable `.py` modules; the
+notebook imports that code and contains the ordered analysis, figures, and
+interpretation.
+
+Every submitted notebook must:
+
+- use Markdown headings and short explanations so the purpose and order of the
+  work are easy to follow;
+- make inputs, assumptions, units, and important choices visible where they are
+  used;
+- produce its figures and numerical results without undocumented manual steps;
+  and
+- end with a prose-only section titled `Discussion` that answers the project's
+  questions and explains what the results mean.
+
+Aim for 500–800 words in the Discussion; Project 1's discussion is shorter.
 
 :::{important} Run it top to bottom before you submit
 Use **Kernel → Restart Kernel and Run All Cells** before your final commit. I
-re-execute submitted notebooks; if yours does not run from a clean kernel, it
-does not count as running.
+re-execute submitted notebooks from a clean kernel using the repository's
+instructions. If I cannot run yours from top to bottom, it does not count as
+running.
 :::
 
 (sec-pairs)=

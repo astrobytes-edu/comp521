@@ -24,11 +24,18 @@ You already know how to write code that *runs*. What this sequence of chapters t
 
 These chapters are written to be **used**, not memorized. You'll come back to them when your code is slow, confusing, wrong-but-not-crashing, or hard to extend (which is… most real science code).
 
-:::{important} 🚫 Course Policy: No Jupyter Notebooks
+:::{important} Course policy: modules for implementation, notebooks for analysis
 
-All code in this course runs as **scripts** (`.py` files) executed in **IPython** or the terminal. Notebooks hide state, break reproducibility, and teach bad habits. See [Chapter 1](01-python-environment.md) for the full rationale and workflow.
+Jupyter notebooks are allowed for the documented analysis and report that each
+project requires. Project 1 is the bootcamp exception: its functions may live in
+the notebook. From Project 2 onward, reusable and testable implementation belongs
+in `.py` modules; the notebook imports that code and presents the analysis,
+figures, and interpretation.
 
-**Your workflow:** Write `.py` files $\to$ Run in IPython (`%run script.py`) $\to$ Iterate $\to$ Commit to Git.
+Every submitted notebook must be easy to follow and must run from a clean kernel
+with **Restart Kernel and Run All Cells**. See the canonical
+[notebook and code policy](../01-course-info/projects.md#notebook-and-code-policy)
+and [Chapter 1](01-python-environment.md) for the rationale and workflow.
 :::
 
 ---
@@ -202,7 +209,8 @@ You learn when (and when **not**) objects help:
 
 By mid-semester, you should be able to:
 
-- [ ] run everything in **scripts** (not notebooks) with reproducible results
+- [ ] keep reusable implementation in `.py` modules and analysis in documented,
+      restartable notebooks
 - [ ] explain why "same code, different answer" happens and how to debug it
 - [ ] design algorithms using pseudocode + invariants + guard clauses
 - [ ] choose data structures that scale beyond toy problems

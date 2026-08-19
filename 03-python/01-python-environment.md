@@ -54,24 +54,29 @@ This chapter reveals the hidden machinery that makes Python work (or not work) o
 
 By chapter's end, you'll transform from someone who hopes code works to someone who knows exactly why it works (or doesn't). You'll diagnose "No module named" errors in seconds, create environments that work identically on any computing cluster, and understand the critical difference between exploration and reproducible science. Let's begin by exploring the tool that will become your new best friend: **IPython**.
 
-:::{warning} 🚫 Jupyter Notebooks Are Not Allowed in COMP 521
+:::{important} Course policy: use notebooks deliberately
 
-From **Day 1**, this course does **not** permit the use of Jupyter notebooks for assignments, projects, or submissions.
+Jupyter notebooks are allowed—and required—for project analysis and reporting.
+They are not a substitute for modular implementation.
 
-This is not a stylistic preference — it is a **scientific integrity decision**.
+Project 1 is the bootcamp exception: its functions may live in the notebook.
+From Project 2 onward, reusable and testable implementation belongs in `.py`
+modules; the notebook imports that code and presents the ordered analysis,
+figures, and interpretation.
 
-Notebooks encourage hidden state, ambiguous execution order, and results that cannot be reliably reproduced. Those properties directly conflict with the goals of computational modeling and scientific inference.
+The risks in this chapter—hidden state, ambiguous execution order, and stale
+output—are why every submitted notebook must be documented, easy to follow, and
+runnable from a clean kernel using **Restart Kernel and Run All Cells**.
 
 In this course:
 
-- **IPython** is used for *interactive exploration*
-- **Python scripts** are used for *all scientific work*
+- **IPython** may be used for *interactive exploration*
+- **Python modules and scripts** own reusable, testable computation
+- **Jupyter notebooks** own the ordered analysis, figures, and report
 - **Reproducibility and traceability** matter more than convenience
 
-You may encounter notebooks in tutorials or online resources. You may read them.
-But **you may not submit notebook-based work** in this course.
-
-This chapter explains *why* — and gives you the professional tools used in real research instead.
+See the canonical [notebook and code
+policy](../01-course-info/projects.md#notebook-and-code-policy).
 :::
 
 :::{note} How to Use These Readings
@@ -542,13 +547,21 @@ python your_script.py
 
 ---
 
-## 1.3 Jupyter Notebooks: Beautiful Disasters Waiting to Happen
+## 1.3 Jupyter Notebooks: Powerful, Stateful, and Easy to Misuse
 
 **Jupyter notebooks** seem perfect for scientific computing and data analysis - you can mix code, plots, and explanations in one streamlined document. You'll see them in tutorials and even published papers. If you're like most students, notebooks are probably how you learned Python, and there's good reason for that - they're excellent for learning concepts and exploring data interactively.
 
-However, as your projects grow more complex - think large simulations, Monte Carlo methods, or processing gigabytes of data - notebooks reveal serious limitations that can corrupt results and make debugging nearly impossible. The hidden state problems we're about to explore aren't academic edge cases; they're issues that every computational scientist eventually faces.
+However, as projects grow more complex—think large simulations, Monte Carlo
+methods, or processing gigabytes of data—carelessly managed notebooks reveal
+limitations that can corrupt results and make debugging nearly impossible. The
+hidden-state problems below are not academic edge cases; they are reasons to use
+notebooks with an explicit reproducibility discipline.
 
-This course will expand your toolkit beyond notebooks. You can use them for `Project 1` since that's likely your comfort zone - and honestly, notebooks *are* great for initial exploration. But then we'll transition to writing scripts and using IPython, the approach used by every major data processing pipeline, every Python analysis framework from `numpy` to `scipy`, and every production machine learning pipeline. Even when the heavy numerical lifting happens in C++ or Fortran, the analysis, visualization, and workflow orchestration happens through Python scripts, not notebooks.
+This course expands your toolkit beyond notebook-only work. Project 1 keeps its
+functions and analysis together in one notebook. From Project 2 onward, you will
+move reusable computation into `.py` modules and import it into a notebook that
+documents the analysis, figures, and interpretation. That separation combines
+testable code with a readable scientific narrative.
 
 Here's what you'll gain: **modular design** where functions can be reused across projects, **testable code** where each component can be verified independently, **version control** that actually works (no more JSON merge conflicts!), and **true reproducibility**. By Chapter 5, you'll be building your own professional libraries - versatile toolkits you can import into any project. Yes, the transition might feel awkward initially, but this course is designed to transform you from notebook-only coding to professional-level development - but first we must begin by understanding what notebooks actually do behind the scenes...
 
@@ -695,23 +708,25 @@ When Herndon finally obtained the original Excel spreadsheet, he discovered a co
 Just like hidden state in Jupyter notebooks, the error was invisible in the final spreadsheet. The lesson? Computational transparency and reproducibility aren't just academic exercises — they have real-world consequences. Always make your computational process visible and reproducible!
 :::
 
-### The Notebook-to-Script Transition
+### The Notebook-to-Module Transition
 
-After Project 1, we'll abandon notebooks for **scripts**. Here's why scripts are superior for scientific research:
+After Project 1, notebooks remain the analysis report, while reusable
+implementation moves into **modules and scripts**. The two formats have different
+jobs:
 
 | Aspect | Notebooks | Scripts |
 |--------|-----------|---------|
-| Execution Order | Ambiguous, user-determined | Top-to-bottom, always |
-| Hidden State | Accumulates invisibly | Fresh start each run |
-| Large Data Processing | Memory leaks common | Controlled memory usage |
+| Execution Order | Can be run out of order; submissions must run top to bottom | Top-to-bottom, always |
+| Hidden State | Persists until the kernel is restarted | Fresh start each run |
+| Best course role | Analysis, figures, interpretation | Reusable computation, tests, pipelines |
 | Cluster Jobs | Possible but awkward (e.g., `papermill`, `nbconvert`) | Easy batch submission |
-| Version Control | JSON mess with outputs | Clean text diffs |
-| Pipeline Integration | Nearly impossible | Straightforward |
-| Reproducible Results | Easy to accidentally break | Much more reliable (with pinned deps + fixed inputs + seeds) |
+| Version Control | Noisier JSON diffs, especially with output | Clean text diffs |
+| Pipeline Integration | Possible, but not the implementation owner here | Straightforward |
+| Reproducible Results | Requires clean-kernel execution and controlled inputs | Requires controlled inputs, dependencies, and seeds |
 
 ```{mermaid}
 graph TD
-    subgraph "Notebook Execution"
+    subgraph "Out-of-order Notebook Execution"
         N1[Any cell] --> N2[Any cell]
         N2 --> N3[Any cell]
         N3 --> N1
@@ -736,21 +751,27 @@ graph TD
 
 When you submit your first paper. The referee may ask: "Can you verify that your algorithm consistently identifies the pattern in your data sample?"
 
-With a **notebook**, you'll panic:
+With an **out-of-order notebook**, you'll panic:
 
 - Which cells did you run to get that result?
 - Did you update the preprocessing before or after running the analysis?
 - Your memory says one thing, but re-running gives different results
 
-With a **script**, you'll confidently respond:
+With **tested modules and a cleanly executed analysis notebook**, you'll
+confidently respond:
 
 - "Run `python analyze.py --input data/sample.csv --method algorithm1`"
 - "Results are identical: value = 0.5673 $\pm$ 0.0002"
 - "See our GitHub repository for version-controlled analysis code"
 
-Real example: Major scientific collaborations require discoveries to be verified with independent analysis pipelines. In practice, those checks are run as **scripts/pipelines**, not as ad-hoc interactive notebooks, because there’s no room for hidden state corruption. Your career depends on reproducible results.
+Real example: Major scientific collaborations require discoveries to be verified
+with independent analysis pipelines. In practice, those checks are run as
+**scripts/pipelines**, while notebooks may communicate and inspect results. The
+boundary matters: reusable computation must not depend on hidden interactive
+state.
 
-Remember: **Notebooks are for exploration. Scripts are for science.**
+Remember: **Modules and scripts own reusable computation; restartable notebooks
+can communicate the analysis.**
 :::
 
 :::{important} Computational Thinking: Reproducible Analysis Pipelines
@@ -766,7 +787,11 @@ Each step must be:
 - **Logged**: Record all parameters
 - **Testable**: Unit tests for each component
 
-Notebooks tend to fight these requirements unless you impose extra structure; scripts make them much easier to satisfy. This is why major projects often use workflow managers (Snakemake, Pegasus) orchestrating Python scripts rather than manually re-running notebook cells.
+Notebooks require extra discipline to meet these requirements; scripts make them
+easier to enforce automatically. This is why major projects often use workflow
+managers (Snakemake, Pegasus) to orchestrate Python scripts rather than depend on
+manual cell execution. In this course, **Restart Kernel and Run All Cells** is the
+minimum notebook check, not a replacement for modular code and tests.
 
 Remember: *"If it's not reproducible, it's not science."*
 :::
@@ -1547,7 +1572,12 @@ This chapter has revealed the hidden complexity underlying every Python analysis
 
 **IPython** is more than an enhanced prompt - it's your scientific computing and data exploration laboratory. The ability to quickly test algorithms, explore new libraries, and time different approaches is fundamental to computational science. The **magic commands** like `%timeit` for benchmarking and `%debug` for post-mortem analysis aren't conveniences; they're essential tools for developing robust pipelines. Master IPython now, because you'll use it every day.
 
-The **Jupyter notebook** trap is particularly dangerous in scientific computing where we often explore large datasets interactively. While notebooks seem perfect for examining data or creating plots, hidden state can make serious analysis fragile. That beautiful notebook showing your results might give different values each time it's run due to out-of-order execution. After Project 1, you'll transition to **scripts/pipelines** that make reproducibility much more reliable — especially when combined with pinned dependencies, fixed inputs, and controlled randomness.
+The **Jupyter notebook** trap is particularly dangerous in scientific computing
+because hidden state can make serious analysis fragile. A polished notebook may
+still produce different values when run out of order. In this course, you prevent
+that failure by restarting the kernel, running every cell in order, documenting
+the analysis, and moving reusable implementation into `.py` modules after
+Project 1.
 
 Scripts enforce **reproducibility** through predictable execution. The `if __name__ == "__main__"` pattern enables you to build modular analysis tools that work both standalone and as part of larger pipelines — crucial for large projects where individual components must integrate into massive data processing systems.
 
@@ -1561,7 +1591,8 @@ Creating reproducible environments is about scientific integrity, not just conve
 
 ✓ **Environment problems cause most "broken" analysis code**: When imports fail, check your environment first with `sys.executable` and `conda list`
 
-✓ **Notebooks can corrupt scientific analysis**: Hidden state and execution ambiguity can make results irreproducible — use them only for initial exploration
+✓ **Notebooks require a reproducibility discipline**: Document the analysis,
+run it from a clean kernel, and keep reusable implementation in `.py` modules
 
 ✓ **Scripts support reproducibility**: Top-to-bottom execution eliminates a major source of ambiguity; reproducibility still requires pinned deps, fixed inputs, and controlled randomness
 

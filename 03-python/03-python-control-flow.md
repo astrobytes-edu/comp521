@@ -72,9 +72,11 @@ The concepts in this chapter underpin *everything* that follows: simulations, co
 **This chapter is worth revisiting.** Come back to it mid-semester. The pseudocode strategies and algorithmic patterns will make more sense once you've seen them in action.
 :::
 
-:::{warning} 🚫 Course Policy: No Jupyter Notebooks
+:::{warning} Course policy: do not let notebook state hide your control flow
 
-COMP 521 does not permit Jupyter notebooks — not because notebooks are bad tools, but because they actively interfere with what this chapter teaches.
+COMP 521 permits notebooks for analysis and reporting, but notebook state must
+never be part of the algorithm. Project 1 may contain its functions in the
+notebook; from Project 2 onward, implementation belongs in `.py` modules.
 
 **Why notebooks undermine control flow learning:**
 
@@ -83,9 +85,13 @@ COMP 521 does not permit Jupyter notebooks — not because notebooks are bad too
 - **Silent logic errors**: A loop that should fail might "work" because a variable was set by a cell you ran earlier and forgot about.
 - **Unreproducible results**: Your code may not produce the same output when someone else runs it (or when you run it tomorrow).
 
-Control flow is about **predictable, reproducible execution**. Notebooks make execution unpredictable by design. For exploratory data analysis elsewhere in your career, notebooks can be useful — but for learning to think algorithmically, they create more confusion than they solve.
+Control flow is about **predictable, reproducible execution**. A notebook that
+only works because cells were run out of order fails that standard.
 
-**In this course:** Write `.py` scripts. Run them from the terminal. Know exactly what state your program has at every moment.
+**In this course:** Write explicit functions, know exactly what state they use,
+and verify the submitted notebook with **Restart Kernel and Run All Cells**. See
+the canonical [notebook and code
+policy](../01-course-info/projects.md#notebook-and-code-policy).
 :::
 
 :::{note} How This Chapter Differs from Most Programming Courses

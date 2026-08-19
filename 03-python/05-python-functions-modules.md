@@ -81,9 +81,13 @@ In this course, functions are not just "avoiding repetition." They are how you:
 If you invest in this chapter, you'll write less code—and get **more correct results**.
 :::
 
-:::{warning} Course Policy Reminder: No Notebooks
+:::{warning} Course policy reminder: notebooks do not replace modules
 
-COMP 521 uses **scripts + IPython** (not Jupyter notebooks). Functions are the unit of reuse in script-based workflows: they make your code modular, debuggable, and reproducible.
+Project 1 may keep its functions in the analysis notebook. From Project 2 onward,
+reusable and testable functions belong in `.py` modules that the notebook
+imports. The notebook documents the analysis, figures, and interpretation; it
+must run from a clean kernel. See the canonical [notebook and code
+policy](../01-course-info/projects.md#notebook-and-code-policy).
 :::
 
 :::{note} How to Use This Chapter
