@@ -36,7 +36,7 @@ correctness.
 | `04-scientific-computing/` | NumPy, Matplotlib, pandas, robust computing, OOP |
 | `05-numerical-methods/` | Finite differences, root finding, quadrature, ODEs |
 | `06-linear-algebra-stats/` | Linear algebra, probability, statistical inference |
-| `scripts/` | `qmd2myst.py` — Quarto → MyST converter |
+| `scripts/` | `qmd2myst.py` — Quarto → MyST converter; `check_landing_page.py` — landing-page source-of-truth check |
 | `_instructor/` | Local-only instructor workspace; separate Git repository, never tracked or published by this repository |
 
 ## Content provenance
