@@ -25,7 +25,9 @@ author: "Dr. Anna Rosen"
 - **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned. See [Important Dates](#sec-important-dates).
 - **Grading is by letter, not points.** One grade for each assignment as a whole, no itemized rubrics — see [Grading](grading.md), which includes a calculator you can run.
 - **You will work in rotating pairs** on Projects 1–6 while writing and submitting your own code. The final project is solo.
-- **Getting help:** office hours **Thursdays 4–5 pm, Physics 239**. Before emailing, check this syllabus and recent Canvas announcements.
+- **Getting help:** office hours are **Thursdays 4–5 pm, Physics 239**. Use
+  Canvas Inbox for course-related messages; reserve email for genuine emergencies
+  or confidential matters.
 :::
 
 ### Course Description
@@ -498,10 +500,15 @@ prohibited.
 (sec-communication)=
 ## Communication & Getting Help
 
-All course-related communication should be sent through Canvas messaging when
-possible. Include "COMP 521" in the subject line. I aim to respond within 24–48
-hours on weekdays. **Before emailing, check this syllabus and recent Canvas
-announcements.**
+**Use Canvas Inbox for all routine course-related messages**, including questions
+about assignments, deadlines, grades, extensions, missed work, and appointments.
+Use the Canvas discussion board when your question may help others. I aim to
+respond to Canvas messages within **24–48 hours on weekdays**.
+
+Do **not** send routine course questions to my SDSU email. If you do, I will
+reply only to direct you to Canvas; I will not provide a separate substantive
+response by email. Email is reserved for a genuine emergency or a confidential
+matter that cannot appropriately be handled through Canvas.
 
 If you encounter difficulties with the assignments or find yourself falling
 behind, seek help immediately by:

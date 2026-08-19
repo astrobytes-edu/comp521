@@ -316,7 +316,8 @@ If you’re uncertain about what’s allowed, or you’re stuck in a way that is
 
 - Ask in class or during office hours (see the syllabus).
 - Talk with classmates and compare debugging hypotheses (two brains often beat one model).
-- If it’s urgent, email me with a short description of what you tried and what you think is happening.
+- If it’s urgent, send me a Canvas message with a short description of what you
+  tried and what you think is happening.
 
 **Stuck outside office hours:** if it’s late and you’re genuinely blocked after **~45+ minutes** of documented effort, you may use AI *minimally* to get unstuck (e.g., interpret an error, suggest tests). You still may not generate core solution code or refactor/restructure your solution. Bring the issue to office hours or class afterward so we can make sure the understanding is solid.
 
