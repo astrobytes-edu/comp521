@@ -254,10 +254,11 @@ including reading, project work, and preparation for class.
 [Click here for SDSU's explanation of *Credit Hour or Unit*.](https://catalog.sdsu.edu/content.php?catoid=10&navoid=924#credit-hour-or-unit)
 
 (sec-projects)=
-### Projects Overview
+### Projects
 
-Projects are the core of COMP 521: a one-week setup bootcamp, six two-week
-projects, and a four-week solo final project.
+COMP 521 includes a setup bootcamp, six two-week projects, and a four-week solo
+final project. See [Projects](projects.md) for project sequence, submissions,
+and collaboration expectations.
 
 :::{important} Every project must be submitted
 **You must submit all six projects and the final project to pass this course.**
@@ -266,87 +267,6 @@ documented emergency, skipping one means you do not pass, whatever your other
 grades look like.
 
 :::
-
-Each two-week project runs in two halves:
-
-- **Week 1** — method, implementation, and validation against known results
-- **Week 2** — scientific application, diagnosis, or comparison
-
-(sec-project-zero)=
-#### Project 0 — Setup Bootcamp (ungraded, required)
-
-Due **Thu Aug 27**. Project 0 makes sure the machinery works before project work
-begins. You will:
-
-- install and verify your Python environment,
-- get comfortable enough at the command line to navigate and run things,
-- set up `git` and GitHub,
-- join the course on **Classroom50** and push a first commit through it,
-- confirm your submission actually arrived.
-
-Work through [Getting Started](../02-getting-started/index.md) alongside it.
-
-It is completion-only and does not count toward your project average. Get help
-before Thursday if setup is not working.
-
-(sec-thread)=
-#### The thread running through the projects
-
-Rather than six disconnected assignments, the projects build one continuous
-scientific investigation — detecting and characterizing exoplanets in real
-Kepler data:
-
-| Project | Contribution to the investigation |
-|---|---|
-| 1 | Build and validate a transit model; place 15 real stars on a theoretical HR diagram |
-| 2 | Integrate a limb-darkened transit model and derive the Stefan–Boltzmann constant |
-| 3 | Solve orbital and transit-contact problems; infer habitable zones for those 15 stars |
-| 4 | Build exoplanet interiors and test mass–radius relations against Seager et al. |
-| 5 | Download, clean, and fit a transit model to real Kepler photometry |
-| 6 | Classify a Gaia stellar sample with machine-learning methods |
-| Final | Use the course toolkit on a bounded scientific question |
-
-(sec-submissions)=
-#### What a project submission includes
-
-- a code repository with a runnable workflow (README + reproduction instructions),
-- verification evidence (tests, sanity checks, convergence diagnostics),
-- an **analysis notebook** that runs top to bottom and ends with a written
-  **Discussion**,
-- Growth Reflections on the three dates listed below.
-
-**The notebook is the report.** From Project 2 onward, implementation belongs
-in `.py` modules; the notebook contains analysis, figures, and interpretation.
-
-**Every notebook must end with a section titled `Discussion`.** Prose only — no
-code cells in it. This is where you answer the project's questions and say what
-your results mean. Roughly 500–800 words; Project 1's is shorter.
-
-:::{important} Run it top to bottom before you submit
-**Kernel → Restart Kernel and Run All Cells** before your final commit. I
-re-execute submitted notebooks; if yours does not run from a clean kernel, it
-does not count as running.
-:::
-
-(sec-pairs)=
-### Project Pairs & Collaboration
-
-Projects 1–6 are done in rotating pairs. The final project is solo, although you
-may still discuss design and debugging with classmates.
-
-:::{important} You are responsible for your own code
-Working in a pair does **not** mean submitting shared work. Each student writes,
-submits, and must be able to explain their own implementation.
-
-- **Encouraged:** designing algorithms together, whiteboarding equations,
-  debugging side by side, comparing strategies, sharing **tests you wrote**.
-- **Not allowed:** sharing or copying solution code — even from your partner,
-  even when you worked out the approach together.
-- **Required:** credit your partner and describe what you worked on together in
-  your project `README.md`.
-:::
-
-If a pairing is not working, tell me promptly and I will re-pair you.
 
 (sec-engagement)=
 ### Scholarly Engagement (10%)
@@ -389,7 +309,8 @@ Your project must:
 - communicate the result, its limitations, and what you would investigate next.
 
 The final-project brief will define the available project pathways and submission
-format. **This project is solo.** See [Project Pairs & Collaboration](#sec-pairs).
+format. **This project is solo.** See
+[Project Pairs & Collaboration](projects.md#sec-pairs).
 
 **Deliverables and dates:**
 

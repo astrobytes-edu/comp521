@@ -33,6 +33,7 @@ project:
       children:
         - file: 01-course-info/syllabus.md
         - file: 01-course-info/schedule.md
+        - file: 01-course-info/projects.md
         - file: 01-course-info/ai-policy.md
         - file: 01-course-info/grading.md
         - file: 01-course-info/growth-reflections.md
