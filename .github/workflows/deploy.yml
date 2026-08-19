@@ -45,6 +45,9 @@ jobs:
       - name: Check landing-page contract
         run: python3 scripts/check_landing_page.py
 
+      - name: Check public repository boundary
+        run: python3 scripts/check_public_boundary.py
+
       - name: Build site
         run: |
           source .venv/bin/activate

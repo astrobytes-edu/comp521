@@ -23,9 +23,11 @@ data/cache/
 
 .adr/
 
-# Local-only nested instructor repository. It has its own Git history and
-# ignores its own build, roster, and source-paper artifacts.
+# Local-only instructor material. `_instructor` is a nested Git repository;
+# `_planning` is retained only as a legacy ignore guard after its tracked files
+# were moved into that private repository.
 _instructor/
+_planning/
 
 # Grading harness working dir (belt-and-braces; it lives outside the repo)
 comp521-grading/
