@@ -47,6 +47,7 @@ project:
         - file: 02-getting-started/03-git-intro.md
         - file: 02-getting-started/04-software-engineering-guide.md
         - file: 02-getting-started/05-scientific-software-workflow-cheatsheet.md
+        - file: 02-getting-started/06-markdown-analysis-notebooks.md
 
     - title: Scientific Computing with Python
       children:

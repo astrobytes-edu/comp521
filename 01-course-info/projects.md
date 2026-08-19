@@ -70,6 +70,10 @@ Every submitted notebook must:
 - end with a prose-only section titled `Discussion` that answers the project's
   questions and explains what the results mean.
 
+Use [Markdown for Analysis
+Notebooks](../02-getting-started/06-markdown-analysis-notebooks.md) for the
+submission-focused writing and formatting conventions.
+
 Aim for 500–800 words in the Discussion; Project 1's discussion is shorter.
 
 :::{important} Run it top to bottom before you submit
