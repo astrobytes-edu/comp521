@@ -20,7 +20,9 @@ author: "Dr. Anna Rosen"
 
 :::{note} Start Here
 - **Due first:** **Project 0** — get your machine and Classroom50 working — by **Thu Aug 27**, our second class meeting. **Growth Memo 1** follows on **Mon Aug 31**.
-- **Read the [AI Policy](ai-policy.md).** It is probably stricter than you expect, and what is allowed changes as the semester goes on.
+- **Read the [AI Policy](ai-policy.md) before beginning Project 1.** AI is
+  optional, but you must write and be able to explain your own core solution
+  code.
 - **Bring your laptop to every class.** Sessions mix instruction with hands-on work — there are no separate lab days, and much of what happens in the room is not posted anywhere.
 - **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned. See [Important Dates](#sec-important-dates).
 - **Grading is by letter, not points.** One grade for each assignment as a whole, no itemized rubrics — see [Grading](grading.md), which includes a calculator you can run.
@@ -158,7 +160,7 @@ finishing in the room.
 | Project 4 — ODE Methods & Exoplanet Interiors | Tue **Oct 6** | Mon **Oct 19** |
 | Project 5 — Real Data & Model Fitting | Tue **Oct 20** | Mon **Nov 2** |
 | Project 6 — Machine Learning & Scientific Classification | Tue **Nov 3** | Mon **Nov 16** |
-| Final-Project Proposal Pitch | Tue **Nov 17** | Thu **Nov 19**, in class |
+| Final-Project Proposal Pitch | Tue **Nov 3** | Thu **Nov 12**, in class |
 | Final Project | Tue **Nov 17** | Thu **Dec 17**, end of day |
 
 † **Project 1 is due Tuesday**, not Monday — Mon Sep 7 is Labor Day. It is the
@@ -365,26 +367,25 @@ absence are reflected in this grade.
 (sec-final-project)=
 ### Final Project (25%)
 
-The final project synthesizes the course into a complete data science pipeline.
-You will choose one of:
+The final project is a four-week, solo computational investigation. Choose a
+bounded scientific question and use the course toolkit to produce and defend a
+result. You may extend a course project, analyze a curated scientific data set,
+or propose a small project from your own field. Custom projects require approval
+at the proposal pitch.
 
-1. **Exoplanet discovery pipeline** — apply your full toolkit to unseen Kepler
-   data, with statistical validation of candidates.
-2. **Custom scientific data analysis** — a dataset from your own field, using
-   numerical methods plus machine learning.
-3. **Algorithm comparison study** — your implementations versus libraries, with
-   computational complexity analysis.
+Your project must:
 
-All options require: data acquisition and cleaning, exploratory analysis with
-visualizations, statistical testing, at least two numerical methods you
-implemented, a machine learning application, and comparison against library
-implementations.
+- state a focused scientific question;
+- make its data, model, methods, and assumptions explicit;
+- include reproducible code and evidence that the result is trustworthy; and
+- communicate the result, its limitations, and what you would investigate next.
 
-**This project is solo.** See [Project Pairs & Collaboration](#sec-pairs).
+The final-project brief will define the available project pathways and submission
+format. **This project is solo.** See [Project Pairs & Collaboration](#sec-pairs).
 
 #### Final-Project Proposal Pitch (5%)
 
-On **Thu Nov 19**, give a five-minute in-class proposal using a short slide deck.
+On **Thu Nov 12**, give a five-minute in-class proposal using a short slide deck.
 State your scientific question, data or source, computational approach,
 validation plan, bounded minimum result, and immediate next step. Commit the
 slides to your repository before class. The pitch is graded as one whole for
@@ -394,12 +395,12 @@ clarity, feasibility, and a credible plan to test the result.
 
 | Deliverable | Due |
 |---|---|
-| In-class presentation | Thu **Dec 10** |
+| Final presentation (8 minutes + 2 minutes for questions) | Thu **Dec 10** |
 | Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
-| Research report (5–7 pages) + repository | Thu **Dec 17**, end of day |
+| Final report (5–7 pages) + repository | Thu **Dec 17**, end of day |
 
-The final presentation is 10 minutes: what you built, evidence that it works,
-and its limits. The report covers background, methods, results, and conclusions.
+The final presentation explains what you built, the evidence that it works, and
+its limits. The report covers background, methods, results, and conclusions.
 
 The final project is graded on the same description as the other projects (see
 [Grading](grading.md)), applied to a larger piece of work. You should expect to
@@ -422,59 +423,7 @@ There are three:
 | **Growth Synthesis** | Mon **Dec 14** | **Synthesis** — the whole arc |
 
 All three are graded on honesty and specificity rather than polish or length;
-see [Grading](grading.md).
-
-(sec-growth-memo-1)=
-#### Growth Memo 1 — Baseline (due Mon Aug 31)
-
-This one is different from the others: it is written in the first week, before
-you have done any real work in this course. That is the point. It is a record of
-how you thought *before*, and it only exists because nobody can reconstruct that
-honestly in December.
-
-Write about half a page on:
-
-- **How you currently work.** When you sit down to write code, what do you
-  actually do first? Be honest rather than aspirational.
-- **How you currently know your code is right.** What convinces you? Running it
-  once? Eyeballing a plot? Something else?
-- **What you expect to be hard** about this course, and why.
-- **What you want to be able to do** by December that you cannot do now.
-
-:::{tip} Do not skip this one
-It is tempting to treat a week-1 memo as a formality. It is the opposite: it is
-the only record of how you actually thought before this course changed how you
-think. In December you will be asked what changed — and a specific, honest
-baseline is what makes that question answerable instead of guesswork.
-:::
-
-(sec-growth-memo-2)=
-#### Growth Memo 2 — Mid-semester (due Mon Oct 19)
-
-By now you have finished four projects. This one looks backward at real work.
-Include:
-
-- evidence of how your work evolved (what you tried, what failed, what changed),
-- 2–3 recurring patterns and their likely causes,
-- 2–3 concrete next-step habits ("When I…, I will…"),
-- a verification plan (how you will know your results are correct),
-- a brief AI and collaboration reflection and disclosure (even if "none"),
-- **a look back at Growth Memo 1** — where were you right about yourself, and
-  where were you wrong?
-
-Returned before the **Nov 1 late withdrawal deadline**, so that if something is
-going badly you find out while you still have options.
-
-(sec-growth-synthesis)=
-#### Growth Synthesis (due Mon Dec 14)
-
-Submitted at the start of finals week, synthesizing your learning across the
-semester: how your habits changed, how your verification strategies matured, and
-what you can do now that you could not do in August.
-
-**Write it against your own earlier memos.** Re-read what you wrote in August and
-October, quote yourself, and say where you were right, where you were wrong, and
-what you did not yet know to worry about. Guidance posted in Week 13.
+see [Growth Reflections](growth-reflections.md) for the prompts.
 
 (sec-ai-policy)=
 ## Academic Integrity & Generative AI Policy
@@ -529,27 +478,9 @@ even if you are not sure what to ask, or have non-course-related questions.
 (sec-study-tools)=
 ### Study Tools (Build Your Own)
 
-I am **not** providing a course AI notebook. Instead, I will show you how to
-build your own — because assembling one is itself a study technique, and because
-a tool you built from materials you selected is one whose limits you understand.
-
-**NotebookLM** (or a similar grounded tool) lets you upload the course readings
-and ask questions answered *from those sources* rather than from the open
-internet. That grounding matters: a general chatbot will confidently invent a
-convergence rate, whereas a notebook restricted to your readings will tell you
-what the readings actually say. I will demo the setup in class.
-
-:::{note} This does not conflict with the materials policy
-Building a **private** notebook from course readings for your own studying is
-exactly the personal educational use the [Course Materials](#sec-materials)
-policy permits. What that policy prohibits is publishing or redistributing the
-materials — so keep your notebook private and do not share it outside the class.
-:::
-
-Study tools remain subject to the
-[AI Use & Growth Mindset Policy](ai-policy.md): a notebook is an AI tool, and
-using it to generate solution code is prohibited in every phase, the same as any
-other.
+I will show you how to build a private, grounded study notebook from course
+materials. It remains subject to the [AI Use & Growth Mindset Policy](ai-policy.md):
+keep it private and do not use it to generate solution code.
 
 (sec-growth-mindset)=
 ## Fostering a Growth Mindset

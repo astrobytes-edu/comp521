@@ -202,7 +202,7 @@ notebook Discussion, Mon **Nov 2**
 - *Supervised learning from scratch* (to be posted)
 
 **Topics** — k-NN, decision trees, train/test splits, cross-validation;
-classifying stellar types
+classifying stellar types; final-project pathways and examples
 
 ### Week 12 — Nov 10, 12 · Unsupervised learning and evaluation
 
@@ -212,7 +212,8 @@ classifying stellar types
 matrices, feature importance; clustering the Gaia sample from Project 1 and
 comparing against scikit-learn
 
-**Due** — **Project 6**, Mon **Nov 16**
+**Due** — **Final-Project Proposal Pitch** (5 minutes + short slide deck), Thu
+**Nov 12** · **Project 6**, Mon **Nov 16**
 
 ## Block 7 · Final Project
 
@@ -224,10 +225,7 @@ comparing against scikit-learn
 - [Measurement](../06-linear-algebra-stats/02-inference/01-mod5-part1-measurement.md)
 - [Inferential thinking](../06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md)
 
-**Topics** — measurement uncertainty, inference; scoping your final project
-
-**Due** — **Final-Project Proposal Pitch** (5 minutes + short slide deck), Thu
-**Nov 19**, in class
+**Topics** — measurement uncertainty, inference; final-project launch
 
 ### Week 14 — Nov 24 · Implementation
 
@@ -257,10 +255,3 @@ is the last chance to catch a figure nobody can read from the back of the room.
 |---|---|
 | Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
 | Final report + repository | Thu **Dec 17**, end of day |
-
-:::{note} Final project options
-1. **Exoplanet discovery pipeline** — apply your full toolkit to unseen Kepler data
-2. **Custom scientific data analysis** — a dataset from your own field
-3. **Algorithm comparison study** — your implementations vs. libraries, with
-   complexity analysis
-:::
