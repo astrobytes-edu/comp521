@@ -116,5 +116,5 @@ project:
 site:
   template: book-theme
   options:
-    favicon: assets/comp521-favicon.png
-    logo_text: COMP 521
+    logo: assets/comp521-logo.png
+    favicon: assets/comp521-logo-square.png
