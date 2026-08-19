@@ -365,6 +365,14 @@ I do not take formal attendance, but preparation, participation, and repeated
 absence are reflected in this grade.
 
 (sec-final-project)=
+### Final-Project Proposal Pitch (5%)
+
+On **Thu Nov 12**, give a five-minute in-class proposal using a short slide deck.
+State your scientific question, data or source, computational approach,
+validation plan, bounded minimum result, and immediate next step. Commit the
+slides to your repository before class. The pitch is graded as one whole for
+clarity, feasibility, and a credible plan to test the result.
+
 ### Final Project (25%)
 
 The final project is a four-week, solo computational investigation. Choose a
@@ -382,14 +390,6 @@ Your project must:
 
 The final-project brief will define the available project pathways and submission
 format. **This project is solo.** See [Project Pairs & Collaboration](#sec-pairs).
-
-#### Final-Project Proposal Pitch (5%)
-
-On **Thu Nov 12**, give a five-minute in-class proposal using a short slide deck.
-State your scientific question, data or source, computational approach,
-validation plan, bounded minimum result, and immediate next step. Commit the
-slides to your repository before class. The pitch is graded as one whole for
-clarity, feasibility, and a credible plan to test the result.
 
 **Deliverables and dates:**
 
