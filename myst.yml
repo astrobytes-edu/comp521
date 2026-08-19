@@ -13,6 +13,7 @@ project:
       email: alrosen@sdsu.edu
       affiliations:
         - San Diego State University
+      orcid: 0000-0003-4423-0660
   github: https://github.com/astrobytes-edu/comp521
   license:
     content: CC-BY-4.0
