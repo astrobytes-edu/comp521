@@ -4,6 +4,11 @@ subtitle: "Introduction to Scientific Computing and Data Science | Fall 2026"
 author: "Dr. Anna Rosen"
 ---
 
+:::{warning} This syllabus is still being finalized
+This version is provisional through **Thu Sep 24**. Policies, dates, and course
+details may change; Canvas announcements are the authoritative record of updates.
+:::
+
 (sec-course-info)=
 ## Course Information
 
