@@ -36,15 +36,16 @@ permission, or graduate standing.
 
 ## How this course is structured
 
-The semester has a one-week setup bootcamp, six two-week projects, and a
-four-week solo final project. Every class meeting combines instruction and
-hands-on work, so bring your laptop.
+The semester has six two-week projects and a four-week solo final project.
+Every class meeting combines instruction and hands-on work, so bring your
+laptop.
 
-Project 0 is due **Thu Aug 27**, our second class meeting. It gets your Python
-environment, command line, Git, and Classroom50 workflow working before project
-work begins. The [Schedule](01-course-info/schedule.md) is the authoritative
-source for all dates; [Projects](01-course-info/projects.md) explains what you
-will build and submit.
+The **P1 Technical Readiness Check** is due **Thu Aug 27**, our second class
+meeting. You complete it in your actual Project 1 repository to verify your
+Python environment, notebook, Git, Classroom50, and submission workflow before
+substantial project work begins. The [Schedule](01-course-info/schedule.md) is
+the authoritative source for all dates; [Projects](01-course-info/projects.md)
+explains what you will build and submit.
 
 ## Start here
 
@@ -77,7 +78,7 @@ Read this before beginning Project 1.
 :::{grid-item-card} Getting Started
 :link: 02-getting-started/index.md
 
-Set up your machine and complete Project 0.
+Set up your machine and complete the P1 Technical Readiness Check.
 :::
 
 ::::

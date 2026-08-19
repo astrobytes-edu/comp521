@@ -24,7 +24,9 @@ details may change; Canvas announcements are the authoritative record of updates
 | **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[Classroom50](https://github.com/foundation50/classroom50/wiki) *(project submissions)* |
 
 :::{note} Start Here
-- **Due first:** **Project 0** — get your machine and Classroom50 working — by **Thu Aug 27**, our second class meeting. **Growth Memo 1** follows on **Mon Aug 31**.
+- **Due first:** the **P1 Technical Readiness Check** — completed in your actual
+  Project 1 repository and verified on GitHub — by **Thu Aug 27**, our second
+  class meeting. **Growth Memo 1** follows on **Mon Aug 31**.
 - **Read the [AI Policy](ai-policy.md) before beginning Project 1.** AI is
   optional, but you must write and be able to explain your own core solution
   code.
@@ -157,7 +159,7 @@ finishing in the room.
 
 | Project | Assigned | Due |
 |---|---|---|
-| Project 0 (Bootcamp) | Tue **Aug 25** | Thu **Aug 27** |
+| P1 Technical Readiness Check (completion-only) | Tue **Aug 25** | Thu **Aug 27** |
 | Growth Memo 1 (baseline) | Tue **Aug 25** | Mon **Aug 31** |
 | Project 1 — Scientific Programming & the Transit Model | Tue **Aug 25** | Tue **Sep 8** † |
 | Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |
@@ -261,9 +263,10 @@ including reading, project work, and preparation for class.
 (sec-projects)=
 ### Projects
 
-COMP 521 includes a setup bootcamp, six two-week projects, and a four-week solo
-final project. See [Projects](projects.md) for project sequence, submissions,
-and collaboration expectations.
+COMP 521 includes a required technical-readiness checkpoint inside Project 1,
+six two-week projects, and a four-week solo final project. See
+[Projects](projects.md) for the checkpoint, project sequence, submissions, and
+collaboration expectations.
 
 :::{important} Every project must be submitted
 **You must submit all six projects and the final project to pass this course.**

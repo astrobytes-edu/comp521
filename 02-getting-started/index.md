@@ -161,9 +161,14 @@ Complete these milestones in order:
 
 **Ready for Project 1**
 
-- [ ] Clone assignment from Classroom50
-- [ ] Make commits with meaningful messages
-- [ ] Push changes to submit work
+- [ ] Accept and clone your actual P1 repository from Classroom50
+- [ ] Run the starter readiness cell and `python readiness_check.py`
+- [ ] Commit and push the saved `analysis.ipynb`
+- [ ] Confirm that the **P1 readiness** check is green on GitHub
+
+These last four items are the required [P1 Technical Readiness
+Check](../01-course-info/projects.md#before-project-1-technical-readiness-check),
+due Thu Aug 27.
 :::
 
 ## Quick Command Reference

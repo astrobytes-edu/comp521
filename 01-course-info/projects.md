@@ -5,25 +5,41 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Projects
 
-Projects are the core of COMP 521: a one-week setup bootcamp followed by six
-two-week projects. Each project has two halves:
+Projects are the core of COMP 521: six two-week projects, beginning with a
+required technical-readiness checkpoint inside Project 1. Each project has two
+halves:
 
 - **Week 1** — method, implementation, and validation against known results
 - **Week 2** — scientific application, diagnosis, or comparison
 
-## Project 0 — Setup Bootcamp
+## Before Project 1 — Technical Readiness Check
 
-**Due Thu Aug 27.** Project 0 makes sure the machinery works before project work
-begins. You will:
+**Due Thu Aug 27.** This is a required, completion-only milestone inside your
+**actual Project 1 repository**, not a separate Project 0 and not part of the
+project average. It verifies the full path you will use to submit P1:
 
-- install and verify your Python environment;
-- get comfortable enough at the command line to navigate and run things;
-- set up `git` and GitHub;
-- join the course on Classroom50 and push a first commit; and
-- confirm your submission actually arrived.
+1. Use the course invitation in Canvas to accept your individual P1 repository
+   through Classroom50, then clone that repository to your computer.
+2. Activate your COMP 521 Python environment and open the starter
+   `analysis.ipynb`.
+3. Replace the name placeholder, run the tagged readiness cell, and save its
+   printed success message and plot in the notebook.
+4. From the P1 repository root, run `python readiness_check.py` and resolve
+   every reported failure.
+5. Commit and push `analysis.ipynb`, then open your P1 repository on GitHub and
+   confirm that the **P1 readiness** GitHub Actions check is green.
 
-Work through [Getting Started](../02-getting-started/index.md) alongside it.
-Project 0 is completion-only and does not count toward your project average.
+Work through [Getting Started](../02-getting-started/index.md) as needed. You may
+retry the check as often as necessary before the deadline.
+
+:::{important} The P1 deadline does not move
+Completing this checkpoint proves that your environment and submission route
+work before substantial project work begins. A missing checkpoint or a
+technical problem discovered at or after the P1 deadline does not extend that
+deadline. The exceptions are an approved accommodation or a documented outage
+of GitHub/Classroom50; if an outage occurs, save evidence of the local passing
+check and contact the instructor through Canvas before the deadline.
+:::
 
 ## Project Sequence
 

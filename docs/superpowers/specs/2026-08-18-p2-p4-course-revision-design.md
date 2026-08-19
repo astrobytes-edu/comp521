@@ -20,9 +20,9 @@ as ordinary starter code.
 
 ## Project 1
 
-Retain Project 1's scope, deliverables, and two-figure structure. It remains
-the first-project foundation after Project 0 and needs only a final
-student-facing consistency pass.
+Retain Project 1's scope, deliverables, and two-figure structure. Its required
+technical-readiness checkpoint establishes the first-project foundation, and
+the project needs only a final student-facing consistency pass.
 
 ## Project 2 — Numerical integration
 
