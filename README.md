@@ -68,8 +68,9 @@ re-sync:
 Treat the entire Getting Started module as locally owned; do not overwrite it
 from the older source course. GitHub Classroom stopped accepting new sign-ups
 in May 2026 and is scheduled for decommissioning on **28 August 2026**. COMP 521
-uses Classroom50 and publishes only the course-specific steps verified in the
-fresh-student rehearsal.
+uses Classroom50. The durable repository workflow is documented now; final
+invitation and interface-specific directions remain provisional until the
+scheduled fresh-student rehearsal.
 
 ## Still to be written
 

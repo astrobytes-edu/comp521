@@ -106,7 +106,7 @@ the instructor before cloning the course repository.
 |---|---|---|
 | Inspect | `git status` | Which files changed, and what is staged? |
 | Review | `git diff` | What changed in tracked text files? |
-| Stage | `git add path/to/file` | Which changes belong in this commit? |
+| Stage | `git add <path>` or `git add -A` | Which changes belong in this commit? |
 | Record | `git commit -m "message"` | What project state am I preserving? |
 | Share | `git push` | Which local commits am I sending to GitHub? |
 
@@ -114,19 +114,36 @@ the instructor before cloning the course repository.
 `git commit` records that staged state locally. `git push` transfers commits
 to GitHub.
 
-Prefer targeted staging to `git add .`:
+### Choose the staging scope deliberately
+
+All three of these forms are useful:
+
+| Command | What it stages | When to use it |
+|---|---|---|
+| `git add analysis.ipynb README.md` | Only the named paths | The commit should contain a specific subset of the work. |
+| `git add .` | Changes at and below the current directory | You are at the repository root and all visible changes belong to one coherent checkpoint. |
+| `git add -A` | All additions, modifications, and deletions anywhere in the repository | The whole repository state belongs in the checkpoint, even if your terminal is in a subdirectory. |
+
+`git add .` and `git add -A` are normal course-workflow commands, not mistakes.
+Their scope is simply broader than naming files. Inspect that scope before and
+after staging:
 
 ```bash
 git status
-git add analysis.ipynb README.md
-git diff --staged --stat
+git diff
+git add .
+git status
+git diff --staged
 git commit -m "Complete transit branch checks"
 git push
 ```
 
-For readable text files, `git diff --staged` shows the exact staged lines. A
-notebook is structured JSON, so `--stat` plus a clean restart-and-run check is
-usually more useful.
+Run `git add .` from the repository root when you mean “this whole project.” If
+unrelated files appear in `git status`, stage named paths instead. For readable
+text files, `git diff --staged` shows the exact staged lines. A notebook is
+structured JSON, so `git diff --staged --stat` plus a clean restart-and-run
+check is usually more useful. Never stage credentials, excluded datasets, or
+machine-specific files merely because a broad command found them.
 
 ## Classroom50 and Project 1
 
@@ -146,7 +163,7 @@ example.
 ### Accept and clone P1
 
 1. Open the **Project 1 Classroom50 invitation** in Canvas.
-2. Follow the verified acceptance prompts and open the repository assigned to
+2. Follow the Classroom50 acceptance prompts and open the repository assigned to
    your GitHub account.
 3. On that repository's GitHub page, copy its HTTPS clone URL.
 4. In Git Bash or Terminal, go to the parent directory where you keep course
@@ -204,12 +221,22 @@ git status
 ```
 
 During the session, work in one coherent slice and run the smallest relevant
-check. At a useful checkpoint:
+check. At a useful checkpoint, choose a staging command whose scope matches the
+checkpoint:
 
 ```bash
 git status
 git diff
-git add path/to/the-files-you-intend
+git add .
+```
+
+From the repository root, `git add .` stages the project changes shown by
+`git status`. Use `git add -A` when you intend to stage the complete repository
+state from any subdirectory, or name paths when the commit should contain only
+part of the work. Then inspect and record the staged state:
+
+```bash
+git status
 git diff --staged
 git commit -m "Explain the completed change"
 git push
@@ -298,7 +325,8 @@ unless a project brief explicitly changes that rule. See the
 - [ ] My Git name and email are configured.
 - [ ] `gh auth status` shows the GitHub account I use for the course.
 - [ ] I can distinguish working, staged, committed, and pushed changes.
-- [ ] I use `git status` and targeted `git add` before each commit.
+- [ ] I use `git status`, choose an appropriate staging scope (`<path>`, `.`,
+      or `-A`), and inspect the staged result before each commit.
 - [ ] I cloned the assigned P1 repository from its actual Classroom50 route.
 - [ ] My saved readiness notebook is visible on GitHub.
 - [ ] The **P1 readiness** check is green.
@@ -311,6 +339,7 @@ unless a project brief explicitly changes that rule. See the
 - [Classroom50 student web guide](https://github.com/foundation50/classroom50/wiki/Web-Student-Guide)
 
 :::{important} The essential habit
-Use `status` to observe, stage only the files you intend, describe the
-checkpoint in the commit message, push, and verify the result on GitHub.
+Use `status` to observe, choose the right staging scope, inspect what is staged,
+describe the checkpoint in the commit message, push, and verify the result on
+GitHub.
 :::

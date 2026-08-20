@@ -12,8 +12,8 @@ notebook, and save the result with Git.
 COMP 521 uses Classroom50, not GitHub Classroom. The course-specific invitation
 and acceptance screens are scheduled for a fresh-student rehearsal on **August
 20**. Until that check is complete, use the invitation posted in Canvas and the
-verified P1 steps in this module; do not rely on Classroom50 screenshots from a
-different course.
+current P1 readiness contract in this module; do not rely on Classroom50
+screenshots from a different course.
 :::
 
 ## What to read, and when
