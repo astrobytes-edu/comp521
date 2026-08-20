@@ -65,6 +65,8 @@ jobs:
         run: |
           source .venv/bin/activate
           myst build --html --execute
+          cp -R assets/jupyterlite _build/html/jupyterlite
+          python3 scripts/check_jupyterlite_bundle.py
 
       - uses: actions/configure-pages@v5
 

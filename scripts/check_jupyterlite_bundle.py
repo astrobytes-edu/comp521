@@ -47,12 +47,24 @@ def validate_bundle(bundle: Path, environment_file: Path | None = None) -> list[
     return errors
 
 
+def validate_published_site(site: Path) -> list[str]:
+    """Return errors when the generated Lite bundle is absent from site output."""
+    bundle = site / "jupyterlite"
+    if not (bundle / "jupyter-lite.json").is_file():
+        return [f"{site}: missing published jupyterlite/jupyter-lite.json"]
+    return required_bundle_files(bundle)
+
+
 def main() -> int:
     bundle = ROOT / "assets" / "jupyterlite"
     environment_file = ROOT / "tools" / "jupyterlite" / "environment.yml"
     errors = validate_bundle(bundle, environment_file)
     if errors:
         print("\n".join(errors))
+        return 1
+    published_errors = validate_published_site(ROOT / "_build" / "html")
+    if published_errors:
+        print("\n".join(published_errors))
         return 1
     print("JupyterLite xeus bundle check passed.")
     return 0

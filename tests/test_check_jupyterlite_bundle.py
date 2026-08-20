@@ -12,6 +12,16 @@ class JupyterLiteBundleTests(unittest.TestCase):
             (bundle / "jupyter-lite.json").write_text('{"jupyter-lite-schema-version": 0}')
             self.assertEqual(validate_bundle(bundle), required_bundle_files(bundle))
 
+    def test_requires_bundle_in_published_html_tree(self):
+        from scripts.check_jupyterlite_bundle import validate_published_site
+
+        with TemporaryDirectory() as temporary:
+            site = Path(temporary)
+            self.assertEqual(
+                validate_published_site(site),
+                [f"{site}: missing published jupyterlite/jupyter-lite.json"],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
