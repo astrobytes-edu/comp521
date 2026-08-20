@@ -1,162 +1,122 @@
 ---
-title: "COMP 521 — Scientific Software Workflow Cheatsheet"
-subtitle: "Read this before every coding session"
+title: "Scientific Software Workflow Checklist"
+subtitle: "A one-page companion for COMP 521 projects"
 author: "Anna Rosen"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
+Keep this page beside your editor. It is a working aid, not a grading rubric;
+the current project brief defines the deliverables.
 
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
+## First: identify the project phase
 
-**Read this before every coding session. Keep it open while you work.**
+| Project | Where implementation belongs | Final execution check |
+|---|---|---|
+| **P1** | Functions may remain in `analysis.ipynb`. | Restart the kernel and run all cells; save, commit, push, and verify. |
+| **P2 onward** | Reusable code belongs in the modules named by the brief; the notebook imports it. | Run the brief's exact tests and reproduction commands, then restart and run the notebook. |
 
-This course treats software engineering as part of the *scientific method*. The goal is not “code that runs,” but **code you can trust**.
+There is no course-wide `run.py` command. Do not substitute a generic workflow
+for the repository's instructions.
 
----
+## Before coding
 
-## The Prime Rule
+Write down:
 
-:::{important} The keyboard is the last step, not the first
-If you start coding without a plan, you are choosing longer debugging later.
-:::
+- **Claim:** What quantity or behavior am I trying to establish?
+- **Inputs:** Meanings, units, shapes, and valid range.
+- **Output:** Meaning, units, shape, and normalization.
+- **Model:** Equation, approximation, or algorithm—and its source.
+- **Boundary:** One limiting or edge case I can predict independently.
+- **Failure signal:** What observation would make me doubt the implementation?
+- **Cheapest check:** The smallest calculation that distinguishes the likely
+  explanations.
 
-## 1. Pre-Coding Contract (Required Before Writing Code)
+If the project or reference does not specify an interface choice, label it as
+your decision instead of presenting it as a scientific requirement.
 
-Before you write *any* new function or module, answer these in writing (comment, notes file, or planning doc — anywhere visible):
+## Build in small slices
 
-### Inputs
+1. Implement one scalar or boundary case.
+2. Compare it with a value you can derive or trust.
+3. Add the neighboring case.
+4. Generalize to arrays or repeated evaluation.
+5. Create the diagnostic figure.
+6. Interpret what the evidence supports and what it does not.
+7. Commit a coherent checkpoint.
 
-- Type(s):
-- Units:
-- Valid range(s):
-- Scalar or array?
+## Use claim-matched evidence
 
-### Outputs
+| Evidence | Use it for |
+|---|---|
+| **Reference or analytic comparison** | anchor values, limiting cases, known solutions |
+| **Behavioral check/test** | interfaces, shapes, bounds, branches, error behavior |
+| **Visual diagnostic** | trends, discontinuities, outliers, residual structure |
+| **Clean rerun** | reproducibility from the submitted repository |
 
-- Type(s):
-- Units:
-- Shape / format:
+- A smooth plot is not proof of the formula.
+- A passing test is not proof that the model represents nature.
+- One anchor value does not validate every regime.
+- State numerical tolerances and why they are appropriate.
 
-### Edge Cases / Failure Modes
+For P1, place compact checks directly in the notebook. From P2 onward, preserve
+repeatable behavior checks in the project-required test suite.
 
-- What inputs should raise errors?
-- What values are physically or numerically invalid?
+## Debug with one hypothesis at a time
 
-### One Invariant (Sacred Rule)
+1. Save the exact input, output, warning, or traceback.
+2. Reduce it to the smallest failing case.
+3. State one hypothesis in a sentence.
+4. Choose one observation that could disconfirm it.
+5. Change one cause and rerun the same case.
+6. Keep a successful regression check.
 
-- Something that must *never* silently change (e.g., units, coefficients, reference values)
+If you are stuck, bring the contract, the smallest failing input, the complete
+error, and what you tried. Use the Canvas discussion board for a shared
+question, Canvas Inbox for a private matter, or office hours. Follow the
+[course AI policy](../01-course-info/ai-policy.md) for tutoring and verification
+uses.
 
-### Validation Checks
-
-- One anchor value (from paper / known result)
-- One trend (what must increase/decrease?)
-- One limiting case (behavior at boundaries)
-
-If you cannot fill this out in ~15 minutes, you are not ready to code yet.
-
-## 2. The Three Kinds of Evidence (Do Not Confuse Them)
-
-Each tool answers a *different* question:
-
-**Validation** (`python run.py validate`)  
-$\to$ *Does the science make sense?* (anchor values, trends, limiting cases)
-
-**Tests** (`python run.py test`)  
-$\to$ *Does the code meet its contract?* (error handling, shape, behavior)
-
-**Plots** (`python run.py make-figures`)  
-$\to$ *Where is it going wrong?* (diagnostics, sanity checks, visualization)
-
-A plot that “looks right” is not proof.  
-A passing test suite is not scientific validation.  
-You need all three.
-
-```{mermaid}
-flowchart LR
-    S["Spec"] --> C["Contract"]
-    C --> V["Validate<br/>(scientific evidence)"]
-    V --> T["Test<br/>(behavioral evidence)"]
-    T --> P["Plot<br/>(diagnostic evidence)"]
-    P --> I["Iterate"]
-    I --> S
-```
-
-## 3. Reproducibility Contract (Non-Negotiable)
-
-Your project must run for someone who has never met you.
-
-- One-command entrypoint: `python run.py <command>`
-- Deterministic by default (fixed seeds unless overridden)
-- No prompts or hidden manual steps; submitted notebooks run top to bottom from
-  a clean kernel
-- Separate concerns:
-  - `validate` $\to$ fast scientific checks
-  - `test` $\to$ automated contract checks
-  - `make-figures` $\to$ plots only
-
-If it only works “on your laptop,” it does not work.
-
-## 4. Tiered Expectations (Know What “Good” Means)
-
-### Bronze (minimum pass)
-
-- Clean `run.py` workflow
-- $\ge 3$ real validation checks
-- Deterministic, non-interactive runs
-
-### Silver (strong submission)
-
-- Tests enforce contracts and error handling
-- Clear module separation
-- Validation catches at least one real bug during development
-
-### Gold (professional-grade)
-
-- Single source of truth for constants and formulas
-- Plots used *during* development, not just at the end
-- Willingness to delete and rewrite after validation
-
-Aim high — but do not freeze trying to be perfect.
-
-## 5. Debugging Ladder (Use in Order)
-
-When something is wrong:
-
-1. Can you reproduce it with one specific input?
-2. Can you say a hypothesis in one sentence?
-3. Can you write one small check to test that hypothesis?
-4. Still stuck after ~30 minutes?
-   - Walk away **or**
-   - Rewrite the function cleanly using what you now know
-
-Do not thrash. Debugging is hypothesis testing.
-
-## 6. Permission to Delete (Use Git First)
-
-If code is ugly, tangled, or fighting you:
+## Before every commit
 
 ```bash
-git add -A
-git commit -m "WIP: saving before rewrite"
+git status
+git diff
+git add path/to/the-files-you-intend
+git diff --staged
+git commit -m "Describe the completed change"
+git push
 ```
 
-Then delete and rewrite.
+- Stage named files rather than everything by reflex.
+- Never commit credentials, downloaded data that the brief excludes, or
+  machine-specific paths.
+- Do not use force-push or `reset --hard` as routine recovery.
+- Verify important commits on GitHub.
 
-Code is cheap. Your time and sanity are not.
+## Before submitting any notebook
 
-## Final Reminder
+- [ ] The notebook's headings match the current project brief.
+- [ ] Imports and configuration appear near the top.
+- [ ] Paths are relative to the repository.
+- [ ] Equations, data, constants, and reference values have provenance.
+- [ ] Every figure has labeled quantities and units, readable text, and a
+  color-independent way to distinguish series.
+- [ ] Nearby prose states each figure's main pattern and a limitation.
+- [ ] Numerical checks name an expectation, obtained value, and tolerance.
+- [ ] Abandoned cells and hidden manual steps are gone.
+- [ ] **Kernel → Restart Kernel and Run All Cells** succeeds in order.
+- [ ] Saved outputs agree with the current code.
+- [ ] The required files are committed, pushed, and visible on GitHub.
 
-:::{important}
-**Assume your code is wrong.**  
-Prove otherwise with validation, tests, and plots.
+## P2+ additions
 
-That is what professional scientific computing looks like.
+- [ ] Reusable implementation lives in the required `.py` modules.
+- [ ] The notebook imports rather than duplicates that implementation.
+- [ ] Each formula and constant has one canonical definition.
+- [ ] Project-required `pytest` checks pass.
+- [ ] Any random behavior uses a documented seed when reproducibility matters.
+- [ ] The repository's stated reproduction command works from a fresh terminal.
+
+:::{important} The final question
+What exact claim does this result support, what evidence supports it, and what
+important possibility has not been ruled out?
 :::

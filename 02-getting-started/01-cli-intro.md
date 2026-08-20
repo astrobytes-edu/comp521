@@ -1,681 +1,283 @@
 ---
-title: "Chapter 1: Introduction to the Command Line Interface (CLI)"
-subtitle: "COMP 521"
+title: "Chapter 1: The Command Line"
+subtitle: "Navigate, inspect, and run a project safely"
 author: "Anna Rosen"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
+The terminal is a text interface to your computer. In COMP 521 you will use it
+for a small, repeatable set of tasks: enter a project directory, activate an
+environment, run code, and use Git. You do not need to memorize a catalog of
+commands.
 
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
+## Before you begin
 
-## Before You Begin: Safety Rules
+### Open the course terminal
 
-:::{important} Terminal Safety First
+::::::{tab-set}
 
-The terminal is powerful but unforgiving. Follow these rules ALWAYS:
+:::::{tab-item} macOS
+Open **Terminal** from Applications → Utilities, or search for it with
+`Command + Space`.
+:::::
 
-1. **pwd before rm** - Always know where you are before deleting
-2. **ls before rm** - Always see what you'll delete
-3. **Use Tab completion** - Reduces dangerous typos
-4. **Keep backups** - The terminal has NO undo button
-5. **Think twice, type once** - Especially with delete commands
+:::::{tab-item} Linux
+Open your distribution's **Terminal** application. `Ctrl + Alt + T` works on
+many systems.
+:::::
 
-**Remember**: One wrong character can delete everything. There is no recycle bin.
-:::
+:::::{tab-item} Windows
+The examples on this page use Bash commands. If **Git Bash** is not installed,
+install [Git for Windows](https://git-scm.com/download/win) using its default
+options, then open **Git Bash** from the Start menu. This also installs Git for
+Chapter 3.
 
-## Why Use the Terminal?
+Do not use Command Prompt for this reading: its file commands and path syntax
+are different. PowerShell is a capable shell, but it is not the course's
+documented beginner path.
+:::::
 
-### The GUI Limitation
+::::::
 
-When you use Finder (macOS) or File Explorer (Windows), you're limited to what the designers decided to show you. Want to:
-
-- Rename 1000 files at once? Good luck clicking each one.
-- Find all Python files modified in the last week? No easy way.
-- Run your code on a supercomputer? There's no GUI there.
-- Process data on a remote server? You need the terminal.
-
-### The CLI Superpower
-
-The command line gives you:
-
-- **Automation**: Do repetitive tasks in seconds, not hours
-- **Remote access**: Control computers anywhere in the world
-- **Power**: Access to thousands of tools not available in GUIs
-- **Speed**: Keyboard is faster than mouse for many tasks
-- **Reproducibility**: Save and share exact commands you ran
-- **Professional necessity**: Every computational scientist uses it
-
-**Real example**: Renaming simulation outputs
-
-```bash
-# GUI way: Click each file, rename manually (30 minutes for 100 files)
-
-# CLI way: One command, 2 seconds (we'll learn how later)
-for i in *.dat; do mv "$i" "simulation_${i}"; done
-```
-
-## Understanding the Terminal (2-minute conceptual foundation)
-
-### What's What?
-
-- **Terminal**: The application you open (like Terminal.app on Mac)
-- **Shell**: The program that interprets your commands (bash, zsh, etc.)
-- **Command Line**: Where you type commands
-- **Prompt**: Shows you're ready for input (usually ends with $ or >)
-
-### How Commands Work
-
-```
-command -options arguments
-   ^        ^        ^
-  what    how to   what to
-  to do    do it    do it on
-```
-
-*Example:* `ls -la /home` means "list (ls) with long format and all files (-la) in the /home directory"
-
-## Getting Started: Opening the Terminal
-
-### macOS
-
-- Press `Cmd + Space`, type "Terminal", press Enter
-- Or: Applications $\to$ Utilities $\to$ Terminal
-
-### Linux
-
-- Press `Ctrl + Alt + T`
-- Or: Look for "Terminal" in applications
-
-### Windows
-
-- **Best option**: Use "Git Bash" (installed with Git)
-- Alternative: Windows Terminal or PowerShell
-- **Avoid**: Command Prompt (cmd.exe) - uses different commands
-
-:::{warning} Windows Users: Important Differences
-
-If using Git Bash on Windows:
-
-- Some commands work differently (we'll note these)
-- No `man` command (use `--help` instead)
-- Path separators: Use `/` not `\`
-- Your home is `/c/Users/YourName` not `C:\Users\YourName`
+:::{important} A safe terminal habit
+Commands can change files immediately. Before deleting anything, run `pwd`,
+list the exact target, and prefer `rm -i` while practicing. Never paste a
+deletion command you do not understand. If a path or wildcard surprises you,
+stop.
 :::
 
-## Your First Three Commands
+## Terminal, shell, and prompt
 
-Master these three before anything else. Seriously, practice just these for 10 minutes.
+- The **terminal** is the application window.
+- The **shell** reads the commands you type. This page uses Bash-compatible
+  commands.
+- The **prompt** is the text before your cursor. It may show your computer,
+  current folder, or active environment.
+- The **command line** is where you enter a command.
 
-### 1. Where Am I? (`pwd`)
+A command usually has this shape:
 
-```bash
-pwd    # Print Working Directory
+```text
+command  option  argument
+ls       -la     project
 ```
 
-**Try it**: Type `pwd` and press Enter
+Here `ls` is the action, `-la` changes how it behaves, and `project` is
+the target. Type only the command—not the explanatory prompt characters shown
+in some documentation.
 
-**You should see something like**:
+## Your navigation loop
 
-- macOS/Linux: `/Users/yourname` or `/home/yourname`
-- Windows Git Bash: `/c/Users/yourname`
+These three commands answer the questions you will ask most often.
 
-### 2. What's Here? (`ls`)
-
-```bash
-ls      # List files and folders
-```
-
-**Try it**: Type `ls` and press Enter
-
-You'll see files and folders in your current location.
-
-### 3. Move Around (`cd`)
-
-```bash
-cd Desktop    # Change Directory to Desktop
-cd ..         # Go up one level
-cd ~          # Go to your home directory
-```
-
-**Try it**:
-
-1. Type `cd Desktop` (or any folder you see from `ls`)
-2. Type `pwd` to confirm you moved
-3. Type `cd ..` to go back
-
-:::{tip} Quick Practice #1
-
-Can you:
-
-- [ ] Find out where you are? (pwd)
-- [ ] See what's in your current folder? (ls)
-- [ ] Move to a different folder and back? (cd)
-
-If yes, you've mastered the basics! If no, practice for 5 more minutes.
-:::
-
-### ✅ Mastery Checklist (you're "done" when…)
-
-Before moving on, you should be able to do each of these *without guessing*:
-
-- [ ] **Recover when lost:** use `pwd` + `ls` + `cd ..` + `cd ~` to get back to safety.
-- [ ] **Navigate with intent:** move into a folder, move back out, and explain what `..` and `~` mean.
-- [ ] **Create a tiny workspace:** `mkdir cli_practice`, `cd cli_practice`, `touch notes.txt`, and confirm with `ls -la`.
-- [ ] **Move and rename safely:** rename a file with `mv old.txt new.txt`, then verify it happened with `ls`.
-- [ ] **Delete *carefully*:** remove a single file with `rm file.txt` **only after** `pwd` + `ls` confirm you're in the right place.
-- [ ] **Use Tab completion:** demonstrate that Tab prevents typos (e.g., `cd Des[TAB]`).
-
-If any box feels shaky, that's normal — spend **5 extra minutes** practicing *just that one skill*. Fluency comes from repetition, not reading.
-
-## File System Navigation
-
-### Understanding Paths
-
-Your computer's files are organized in a tree:
-
-```
-/                    # Root (top level)
-├── home/
-│   └── yourname/    # Your home directory (~)
-│       ├── Desktop/
-│       ├── Documents/
-│       └── comp521/
-│           ├── project1/
-│           └── project2/
-```
-
-**Two types of paths**:
-
-- **Absolute**: Full path from root `/home/yourname/Desktop`
-- **Relative**: Path from where you are `Desktop` or `../Documents`
-
-### Navigation Shortcuts
-
-```bash
-~     # Your home directory
-.     # Current directory
-..    # Parent directory (one up)
--     # Previous directory
-```
-
-### Enhanced ls Commands
-
-Now let's add options to `ls`:
-
-```bash
-ls -a          # Show ALL files (including hidden)
-ls -l          # Long format (details)
-ls -la         # Combine: all files, detailed
-ls -lh         # Human-readable sizes (KB, MB)
-ls *.py        # List only Python files
-```
-
-**Example output of `ls -lh`**:
-
-```bash
-total 28K
--rw-r--r-- 1 user group 2.4K Nov 15 14:23 main.py
--rw-r--r-- 1 user group  15K Nov 15 14:20 nbody.py
-drwxr-xr-x 2 user group 4.0K Nov 14 10:15 data/
-```
-
-This shows: permissions, owner, size, date, name
-
-### Pro Navigation with Tab Completion
-
-:::{important} THE MOST IMPORTANT TIP
-
-**Tab is your best friend!** Start typing, press Tab to autocomplete:
-
-```bash
-cd Desk[TAB]        # Autocompletes to Desktop/
-cd ~/comp[TAB]/pr[TAB]  # Autocompletes full path
-```
-
-Tab prevents typos and saves typing. Use it CONSTANTLY.
-:::
-
-## File and Directory Operations
-
-### Creating Directories
-
-```bash
-mkdir project3                   # Make one directory
-mkdir -p data/raw/2024          # Make nested directories
-mkdir results plots analysis    # Make multiple at once
-```
-
-### Creating Files
-
-```bash
-touch README.md              # Create empty file
-touch script.py module.py    # Create multiple files
-echo "# Project 1" > README.md   # Create file with content
-```
-
-### Copying Files
-
-```bash
-cp file1.py file2.py             # Copy file
-cp file1.py backup/              # Copy to directory
-cp -r project1/ project1_backup/ # Copy entire directory (-r = recursive)
-```
-
-:::{tip} Always Backup Before Dangerous Operations
-
-Before modifying important files:
-
-```bash
-cp important.py important.py.backup
-```
-
-Now you can recover if something goes wrong!
-:::
-
-### Moving and Renaming
-
-```bash
-mv oldname.py newname.py    # Rename file
-mv file.py ../              # Move up one directory
-mv *.dat data/             # Move all .dat files
-```
-
-### Removing Files and Directories
-
-:::{caution} EXTREME DANGER ZONE: rm Commands
-
-**THE rm COMMAND IS PERMANENT. NO UNDO. NO RECYCLE BIN.**
-
-**NEVER EVER use these**:
-
-- `rm -rf /` = DELETE ENTIRE COMPUTER
-- `rm -rf ~` = DELETE ALL YOUR FILES
-- `rm -rf *` = DELETE EVERYTHING IN CURRENT FOLDER
-
-**What -rf means**:
-
-- `-r` = recursive (delete folders and everything inside)
-- `-f` = force (no confirmation, even for important files)
-
-**Safe practices**:
-
-1. Use `rm -i` for interactive mode (asks confirmation)
-2. Use `ls` first to see what you'll delete
-3. Use `pwd` to confirm you're in the right place
-4. Start with `rm` (no flags) for single files
-:::
-
-Safe deletion examples:
-
-```bash
-rm file.py                # Remove single file
-rm -i *.tmp              # Remove with confirmation
-rm -r empty_folder/      # Remove empty directory
-```
-
-## Viewing Files
-
-### Quick Views
-
-```bash
-cat file.py          # Show entire file
-head file.py         # Show first 10 lines
-head -n 20 file.py   # Show first 20 lines
-tail file.py         # Show last 10 lines
-tail -f output.log   # Follow file updates (great for logs)
-less bigfile.txt     # Page through file (q to quit)
-```
-
-### Searching in Files
-
-```bash
-grep "import" *.py       # Find "import" in Python files
-grep -n "error" log.txt  # Show with line numbers
-grep -r "TODO" .         # Search all files recursively
-grep -i "warning" log    # Case-insensitive search
-```
-
-## Platform Compatibility Reference
-
-:::{note} Command Differences Across Platforms
-
-| Command | macOS/Linux | Git Bash | Windows CMD | Alternative |
-|---------|-------------|----------|-------------|------------|
-| `ls`    | Works    | Works | No | Use `dir` |
-| `pwd`   | Works    | Works | No | Use `cd` (no args) |
-| `cat`   | Works    | Works | No | Use `type` |
-| `rm`    | Works    | Works | No | Use `del` |
-| `man`   | Works    | No | No | Use `--help` |
-| `grep`  | Works    | Works | No | Use `findstr` |
-| `ps aux`| Works    | Limited | No | Use `tasklist` |
-
-**Tip**: When in doubt, use `command --help` to see options
-:::
-
-## Working with Python
-
-### Running Python Scripts
-
-```bash
-python script.py                 # Run script
-python -m module                 # Run module
-python -c "print('hello')"      # Run one line
-python                          # Interactive mode (exit() to quit)
-ipython                         # Better interactive mode
-```
-
-### Managing Your Environment
-
-```bash
-conda activate comp521    # Enter course environment
-conda deactivate         # Exit environment
-which python            # Check which Python is active
-conda list              # See installed packages
-```
-
-## When Things Go Wrong
-
-:::{tip} Understanding Error Messages
-:class: dropdown
-
-**"command not found"**
-
-- Typo in command name
-- Command not installed
-- Not in PATH
-- **Fix**: Check spelling, install missing tool
-
-**"permission denied"**
-
-- Need admin/sudo rights
-- File is protected
-- Wrong ownership
-- **Fix**: Use sudo (carefully!) or check file permissions
-
-**"no such file or directory"**
-
-- Wrong path or filename
-- In wrong directory
-- File doesn't exist
-- **Fix**: Check with `pwd` and `ls`, verify path
-
-**"syntax error near unexpected token"**
-
-- Special character not escaped
-- Quote mismatch
-- Wrong shell syntax
-- **Fix**: Check quotes and special characters
-
-**Process running forever**
-
-- Press `Ctrl+C` to stop
-- If frozen, try `Ctrl+Z` then `kill %1`
-:::
-
-## Input/Output Redirection
-
-### Saving Output
-
-```bash
-python script.py > output.txt    # Save output to file
-python script.py >> output.txt   # Append to file
-python script.py 2> errors.txt   # Save errors only
-python script.py &> all.txt      # Save everything
-```
-
-### Pipes (Combining Commands)
-
-```bash
-ls -la | grep ".py"              # List files, filter Python
-cat data.txt | sort | uniq       # Sort and remove duplicates
-history | grep "git"             # Find git commands
-```
-
-## Useful Shortcuts and Tips
-
-### Keyboard Shortcuts
-
-```
-Tab         # AUTOCOMPLETE (use constantly!)
-^/v         # Previous/next command
-Ctrl+C      # Stop current command
-Ctrl+L      # Clear screen
-Ctrl+A      # Go to line beginning
-Ctrl+E      # Go to line end
-Ctrl+R      # Search command history
-Ctrl+D      # Exit/logout
-```
-
-### Wildcards (Pattern Matching)
-
-```bash
-*           # Any characters
-?           # Single character
-[abc]       # Any of a, b, c
-[0-9]       # Any digit
-
-# Examples:
-ls *.py                 # All Python files
-ls data_?.txt          # data_1.txt, data_2.txt, etc.
-ls img_[0-9][0-9].png  # img_00.png through img_99.png
-```
-
-## Quick Reference Card
-
-### Essential Daily Commands
-
-```bash
-# Navigation
-pwd                 # Where am I?
-ls -la              # What's here? (all files, detailed)
-cd folder/          # Enter folder
-cd ..               # Go up one level
-cd ~                # Go home
-
-# Files & Directories
-mkdir project       # Create directory
-touch file.py       # Create empty file
-cp source dest      # Copy
-mv old new          # Move/rename
-rm file             # Delete (CAREFUL!)
-
-# Viewing Files
-cat file            # Show entire file
-head -20 file       # Show first 20 lines
-tail -f log         # Follow log file
-grep "text" file    # Search in file
-
-# Python & Course
-python script.py            # Run Python
-conda activate comp521      # Enter environment
-git status                  # Check git
-git add . && git commit -m "msg" && git push  # Submit work
-
-# Getting Help
-command --help      # See command options (not 'man' on Windows)
-```
-
-### 🧭 Mini-Quest: The 5-Minute CLI Scavenger Hunt
-
-This is a quick "proof to yourself" that you can navigate and manipulate files safely.
-
-**Goal:** create a tiny project folder, generate a few files, organize them, and produce a screenshot-worthy final `ls -la`.
-
-1. **Make a sandbox and enter it**
-
-```bash
-cd ~
-mkdir -p comp521_cli_quest/{data,code,notes}
-cd comp521_cli_quest
-```
-
-2. **Create a few files**
-
-```bash
-touch notes/todo.txt
-touch code/main.py code/utils.py
-touch data/raw1.txt data/raw2.txt
-```
-
-3. **Write one line into your todo file**
-
-```bash
-echo "Quest complete: I can navigate and organize files safely." > notes/todo.txt
-```
-
-4. **Verify what you built (the "evidence")**
+### Where am I? — `pwd`
 
 ```bash
 pwd
-ls -la
-ls -la code data notes
 ```
 
-5. **Bonus (optional): find all Python files**
+`pwd` prints the full path to your current directory.
+
+### What is here? — `ls`
 
 ```bash
-ls code/*.py
+ls
+ls -la
 ```
 
-✅ **You're done when:** you can explain *what each command did* and your folder structure matches the three subfolders (`code/`, `data/`, `notes/`).
+`ls` lists visible files. `ls -la` adds hidden files and details. A name
+beginning with `.`, such as `.gitignore`, is hidden by convention.
 
-## Practice Exercises
-
-### Exercise 1: Navigation Basics (10 min)
+### How do I move? — `cd`
 
 ```bash
-# 1. Find where you are
-pwd
-
-# 2. Go to your home directory
-cd ~
-
-# 3. Create a practice folder
-mkdir cli_practice
-cd cli_practice
-
-# 4. Create some files
-touch data1.txt data2.txt script.py
-
-# 5. List what you created
-ls -la
-
-# 6. Go back home
+cd Documents
 cd ..
+cd ~
 ```
 
-### Exercise 2: File Management (15 min)
+- `cd Documents` enters a directory named `Documents`.
+- `cd ..` moves to its parent.
+- `cd ~` returns to your home directory.
 
-1. Create a project structure:
+Directory names are case-sensitive in the course examples. Use **Tab
+completion** instead of retyping a long path: type its first few characters,
+then press `Tab`.
 
-```bash
-mkdir -p project/{src,data,docs}
-```
-
-2. Create files in each folder
-3. Copy a file between folders
-4. Rename a file
-5. Safely delete a test file
-
-### Exercise 3: Real Task - Organize Files (20 min)
-
-```bash
-# Create messy folder
-mkdir messy && cd messy
-touch file1.py file2.py data1.txt data2.txt image1.png image2.png
-
-# Now organize them
-mkdir {code,data,images}
-mv *.py code/
-mv *.txt data/
-mv *.png images/
-
-# Verify organization
-ls -la */
-```
-
-## Practical Examples for COMP 521
-
-### Setting Up a New Project
-
-```bash
-# Create full project structure
-mkdir -p project2/{src,data,outputs,docs}
-cd project2
-touch README.md requirements.txt
-touch src/{main.py,stellar.py,utils.py}
-echo "# Project 2: N-Body Simulation" > README.md
-```
-
-### Running and Logging Simulations
-
-```bash
-# Run with timing
-time python nbody_sim.py
-
-# Run with output capture
-python nbody_sim.py > output.log 2>&1
-
-# Run multiple parameters
-for n in 100 500 1000; do
-    python nbody.py --particles=$n > results_n$n.txt
-done
-```
-
-### Data Processing Pipeline
-
-```bash
-# Process all data files
-for file in data/*.txt; do
-    python process.py "$file" > "processed/$(basename $file)"
-done
-
-# Check results
-grep "converged" processed/*.txt | wc -l
-```
-
-## Emergency Recovery
-
-:::{tip} "I'm Lost, Help!"
-
-If you're confused or lost:
-
-1. **Where am I?** $\to$ `pwd`
-2. **Go home** $\to$ `cd ~`
-3. **See what's here** $\to$ `ls -la`
-4. **Stop running process** $\to$ `Ctrl+C`
-5. **Clear messy screen** $\to$ `Ctrl+L` or `clear`
-6. **Exit and start over** $\to$ `exit` and reopen terminal
-
-Remember: Closing and reopening terminal resets everything!
+:::{tip} First checkpoint
+Move into one directory and back. After every `cd`, run `pwd` and `ls`
+until the path changes make sense. If you can recover with `cd ~`, you have
+the core skill.
 :::
 
-## Next Steps
+## Paths: directions to a file
 
-**Congratulations!** You now know the essential CLI commands for this course.
+An **absolute path** starts at the filesystem root and identifies one location:
 
-**Your learning path**:
+```text
+/Users/yourname/Documents/comp521/project-1
+```
 
-1. Master the first three commands (pwd, ls, cd)
-2. Practice file operations carefully
-3. Use Tab completion religiously
-4. $\to$ Continue to course projects
+A **relative path** starts from your current directory:
 
-**Optional Advanced Topics**: Curious about remote computing (SSH), long-running jobs (screen/tmux), or shell scripting? Those are useful for research but not needed for COMP 521.
+```text
+project-1/analysis.ipynb
+```
 
-**Remember**:
+Useful path symbols are:
 
-- **Tab is your friend**: Saves typing and prevents errors
-- **pwd before rm**: Always know where you are
-- **Be paranoid with rm**: No undo in terminal!
-- **Practice daily**: 10 minutes/day for two weeks = mastery
+| Symbol | Meaning |
+|---|---|
+| `~` | your home directory |
+| `.` | the current directory |
+| `..` | the parent directory |
+| `-` | the previous directory when used as `cd -` |
 
-The command line may seem "old school" and scary at first, but it's just typing commands instead of clicking. Within two weeks of daily use, it'll feel natural. You've got this!
+Paths containing spaces need quotes:
+
+```bash
+cd "My Projects"
+```
+
+For course work, prefer simple directory names such as `comp521` and
+`project-1`.
+
+## Create, inspect, copy, and move
+
+Make a harmless practice workspace:
+
+```bash
+cd ~
+mkdir comp521_cli_practice
+cd comp521_cli_practice
+touch notes.txt
+ls -la
+```
+
+Now inspect and rename the file:
+
+```bash
+cat notes.txt
+cp notes.txt notes-backup.txt
+mv notes.txt observations.txt
+ls -la
+```
+
+| Command | Purpose |
+|---|---|
+| `mkdir directory` | create a directory |
+| `touch file` | create an empty file, or update its timestamp |
+| `cat file` | print a short text file |
+| `cp source target` | copy a file |
+| `mv source target` | move or rename a file |
+
+Use `less file.txt` for a long text file; press `q` to quit. Use
+`head file.txt` or `tail file.txt` to inspect its beginning or end.
+
+### Remove only what you have identified
+
+```bash
+rm -i observations.txt
+rmdir an_empty_directory
+```
+
+`rm -i` asks before removing each file. `rmdir` removes only an empty
+directory, so it is the right teaching tool for an empty-directory example.
+
+:::{warning} Stop before recursive or forced deletion
+`rm -r`, `rm -f`, and especially `rm -rf` can remove many files without
+an ordinary undo path. They are not needed for this module. If instructions
+seem to require one of them, verify the exact directory with the instructor
+first.
+:::
+
+## Find files and text
+
+You do not need to click through every directory to locate something:
+
+```bash
+find . -name "*.py"
+grep -n "flux" analysis.py
+grep -r -n "TODO" .
+```
+
+- `find . -name "*.py"` finds Python files below the current directory.
+- `grep -n` prints matching lines and their line numbers.
+- `grep -r` searches recursively.
+
+The `*` is a **wildcard**: it matches multiple characters. Quote the pattern
+in the `find` command so the shell does not expand it too early.
+
+## Run Python from the project directory
+
+After you create the course environment in Chapter 2, the usual loop is:
+
+```bash
+cd path/to/your/project
+conda activate comp521
+which python
+python script.py
+```
+
+On Windows Git Bash, `which python` may print a path under Miniforge. On all
+platforms, the important observation is that the active Python belongs to the
+`comp521` environment.
+
+Use `Ctrl + C` to interrupt a running command. This asks the program to stop;
+it does not undo work the program already completed.
+
+## Read errors before changing anything
+
+| Message | What it establishes | First evidence to collect |
+|---|---|---|
+| `command not found` | This shell could not locate that executable. | Check spelling, installation, `echo $PATH`, and the active environment. |
+| `No such file or directory` | The path given does not resolve here. | Run `pwd` and `ls`; inspect one path component at a time. |
+| `Permission denied` | The requested action is not allowed for this user or file. | Run `ls -l` and ask for help; do not add `sudo` as a guess. |
+| Python traceback | Python reports the call path and final exception. | Save the complete traceback and read the final line first. |
+
+A fresh terminal starts a fresh shell session. It can reset session state such
+as the active conda environment, but it does **not** undo commands or restore
+files.
+
+## Keyboard shortcuts worth learning
+
+| Key | Effect |
+|---|---|
+| `Tab` | complete a file or command name |
+| `↑` / `↓` | move through command history |
+| `Ctrl + C` | interrupt the current command |
+| `Ctrl + A` / `Ctrl + E` | move to the beginning/end of the line |
+| `Ctrl + L` | clear the visible terminal |
+
+## Optional: combine small commands
+
+A pipe sends one command's output to the next:
+
+```bash
+ls -la | grep -E '\.ipynb$'
+```
+
+Redirection saves output:
+
+```bash
+python script.py > output.txt
+```
+
+`>` replaces the target file; `>>` appends. Inspect the target name before
+using either. These are reference skills, not prerequisites for P1 readiness.
+
+## Proof task
+
+Without using Finder or File Explorer:
+
+1. Go to your home directory.
+2. Create `comp521_cli_practice/project-1`.
+3. Enter `project-1` and confirm its absolute path.
+4. Create `notes.txt`, copy it to `notes-backup.txt`, and list both files.
+5. Return to your home directory using one command.
+
+Keep the practice directory; you can revisit it without deleting anything.
+
+:::{important} Ready for software setup
+Continue when you can explain what `pwd`, `ls`, and `cd` tell you, use Tab
+completion, and identify a file before moving or removing it.
+:::

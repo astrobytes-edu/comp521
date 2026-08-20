@@ -1,40 +1,37 @@
 ---
 title: "Markdown for Analysis Notebooks"
-subtitle: "A submission-focused cheatsheet | COMP 521"
+subtitle: "A submission-focused reference for COMP 521"
 author: "Anna Rosen"
 ---
 
-# Markdown for Analysis Notebooks
+An analysis notebook is both a computational record and a scientific argument.
+Code produces evidence; Markdown tells a reader what question you asked, what
+you did, what happened, and what the result means.
 
-An analysis notebook is both a computational record and a scientific report.
-The code produces the evidence; the Markdown tells a reader what question you
-asked, what you did, what happened, and what the result means.
-
-This page is a focused reference for COMP 521 submissions. It is not a complete
-Markdown manual.
-
-:::{important} The course standard
-Your notebook must be **easy to follow** and must run from top to bottom using
-**Kernel → Restart Kernel and Run All Cells**. Project 1 may keep its functions
-in the notebook. From Project 2 onward, reusable and testable implementation
-belongs in `.py` modules that the notebook imports. See the canonical
-[notebook and code policy](../01-course-info/projects.md#notebook-and-code-policy).
+:::{important} Follow the current project brief
+Project 1 places interpretation immediately after each part and ends with
+`Looking back`; it does not require a separate final report. From Project 2
+onward, follow the headings and final `Discussion` requirements in that
+project's brief. The brief wins if a generic example on this page differs.
 :::
 
-## Give Markdown cells and code cells different jobs
+## Give Markdown and code different jobs
 
 | Cell type | Its job |
 |---|---|
-| **Markdown** | State the question, explain the method, identify assumptions and units, introduce figures or checks, and interpret results |
-| **Code** | Perform one coherent computational step and produce evidence that the surrounding text discusses |
+| **Markdown** | State the question, explain the method, identify assumptions and units, cite sources, introduce evidence, and interpret it. |
+| **Code** | Perform one coherent computational step and produce the evidence discussed nearby. |
 
-Do not narrate every line of Python. Explain the scientific or computational
-choice the code implements.
+Do not narrate every Python line. Explain the scientific or computational
+choice that the code implements.
 
-## Use a visible notebook spine
+## Build a visible notebook spine
 
-A reader should be able to understand the structure by scanning the headings.
-This is a useful starting pattern:
+A reader should understand the analysis by scanning the headings. Use `#` once
+for the notebook title, `##` for major sections, and `###` only when a major
+section genuinely needs subsections.
+
+For a later project, a useful pattern might be:
 
 ```markdown
 # Project title
@@ -43,13 +40,10 @@ This is a useful starting pattern:
 What am I trying to determine, and what is my plan?
 
 ## Setup and assumptions
-What inputs, units, constants, and conventions does the analysis use?
+What inputs, units, constants, sources, and conventions do I use?
 
-## Method
-What computation am I performing, and why is it appropriate?
-
-## Verification
-What known result, limiting case, or comparison could reveal a mistake?
+## Method and verification
+What computation am I performing, and what could reveal a mistake?
 
 ## Results
 What did the computation produce?
@@ -58,45 +52,35 @@ What did the computation produce?
 What does the result mean, how trustworthy is it, and what are its limits?
 ```
 
-Use `#` once for the notebook title, `##` for major sections, and `###` only
-when a major section genuinely needs subsections. Do not use bold text as a
-substitute for headings.
+Do not impose that template on P1. Use its required Part 1–4 structure, answer
+each **Interpret your result** prompt next to the evidence it discusses, and end
+with the required `Looking back` heading.
 
-## Markdown syntax you will actually use
+## Markdown syntax you will use
 
 ### Paragraphs and emphasis
 
-Separate paragraphs with a blank line. Use `**bold**` sparingly for a term or
-conclusion and `*italics*` for emphasis. A wall of bold text has no hierarchy.
+Separate paragraphs with a blank line. Use **bold** for a small number of terms
+or conclusions and *italics* for genuine emphasis. Bold text is not a substitute
+for a heading.
 
 ### Lists
 
-Use a list when the items are genuinely parallel:
+Use a list when items are parallel:
 
 ```markdown
-The validation checks are:
+The verification checks are:
 
-- the solar luminosity is recovered;
-- the transit branches agree at their boundaries; and
-- the loop and vectorized implementations agree within the stated tolerance.
+- the solar luminosity anchor;
+- agreement at the transit branch boundaries; and
+- agreement between loop and vectorized curves.
 ```
 
-Use prose when the relationships among ideas matter more than enumeration.
-
-### Links
-
-Give links meaningful text:
-
-```markdown
-[NumPy broadcasting documentation](https://numpy.org/doc/stable/user/basics.broadcasting.html)
-```
-
-Avoid labels such as “click here,” which do not tell a reader where the link
-goes.
+Use prose when the relationship among ideas is the important part.
 
 ### Mathematics
 
-Use dollar signs for mathematics in Markdown cells:
+Use dollar signs in Markdown cells:
 
 ```markdown
 The expected mid-transit depth is $\delta = p^2$.
@@ -106,38 +90,46 @@ L = 4\pi R^2 \sigma T_{\mathrm{eff}}^4.
 $$
 ```
 
-Define every symbol that is not already established, and state units where they
-matter.
+Define symbols before using them and state units for dimensional quantities.
+An equation is not self-documenting: cite or derive it and state the
+approximation under which it applies.
 
-### Images
+### Links and citations
 
-Prefer figures generated by the notebook. When you embed an image file, use a
-relative path and descriptive alternative text:
+Use meaningful link text:
 
 ```markdown
-![Transit flux decreases smoothly from first contact to mid-transit.](figures/transit-curve.png)
+[NumPy broadcasting documentation](https://numpy.org/doc/stable/user/basics.broadcasting.html)
 ```
 
-Do not paste a screenshot of a plot, table, equation, error message, or code
-when the notebook can generate or represent it directly.
+For an external equation, dataset, coefficient, or comparison value, identify
+the author or organization, title or dataset name, year/version when available,
+and a stable link or citation. Put the source near the analysis that depends on
+it. “Found online” and a bare URL do not establish provenance.
 
 ### Tables
 
-Use small tables for compact comparisons, not for long prose:
+Use small tables for compact comparisons:
 
 ```markdown
 | Check | Expected | Obtained |
 |---|---:|---:|
-| Solar luminosity | $1\,L_\odot$ | $1.000\,L_\odot$ |
-| Transit depth | $p^2$ | $0.0100$ |
+| Solar luminosity [$L_\odot$] | 1.000 | 1.000 |
+| Transit depth | $p^2$ | 0.0100 |
 ```
 
-Include units in a column heading or value rather than leaving them implicit.
+Put units in a heading or value instead of leaving them implicit.
 
 ## Write around the evidence
 
-Introduce a computation **before** its code cell and interpret the output
-**after** it. The reader should never have to guess why a cell or figure exists.
+Introduce a computation **before** its code cell and interpret its output
+**after** it. A strong interpretation names:
+
+1. the expectation;
+2. the observation;
+3. the comparison or discrepancy;
+4. the claim the evidence supports; and
+5. a limitation or alternative not ruled out.
 
 Weak:
 
@@ -145,39 +137,70 @@ Weak:
 
 Stronger:
 
-> The analytic model predicts a mid-transit depth of $p^2=0.0100$. The computed
-> minimum flux is 0.9900, agreeing to the displayed precision. This checks the
-> depth but not the contact-point geometry, which is tested separately below.
+> The uniform-disk model predicts a mid-transit depth of
+> `p^2 = 0.0100`. The computed minimum flux is 0.9900, agreeing to the displayed
+> precision. This checks the depth in the fully overlapping branch; it does not
+> test the partial-overlap geometry, which I check separately at contact.
 
-The stronger version names the expectation, the observation, the comparison,
-and the limit of the evidence.
+The stronger version tells a reader exactly why the output matters.
+
+## Make figures readable and accessible
+
+For every notebook-generated figure:
+
+- label axes with the physical quantity and units;
+- use text, ticks, and line weights that remain readable at normal page size;
+- distinguish multiple series with markers, linestyles, or direct labels as
+  well as color;
+- use a legend only when its mapping is unambiguous;
+- avoid screenshots when the notebook can generate the figure; and
+- add nearby prose stating the main visual pattern and an important limitation.
+
+Matplotlib output in a notebook does not provide ordinary Markdown alt text.
+The nearby prose is therefore part of making the scientific point available to
+a reader who cannot rely on color or detailed visual inspection.
+
+When embedding a separate image file, use a relative path and descriptive alt
+text:
+
+```markdown
+![Normalized transit flux decreases during ingress, remains flat at full
+overlap, and returns symmetrically during egress.](figures/transit-curve.png)
+```
+
+The alt text should communicate the purpose or pattern, not begin with “image
+of.” Do not paste screenshots of code, equations, tables, or error messages
+that could be represented as text.
 
 ## Keep the execution path obvious
 
 - Put imports and configuration near the top.
-- Use relative paths inside the repository; do not depend on files elsewhere on
-  your laptop.
-- Do not require the reader to edit a variable manually between cells.
-- Remove abandoned experiments and dead cells before submission.
+- Use paths relative to the repository.
+- Do not require a reader to edit a variable manually between cells.
 - Keep each code cell focused enough that its output has a clear purpose.
-- If a cell takes substantial time, say why and report the expected runtime.
-- Preserve useful error checks; do not hide warnings without explaining them.
+- Remove abandoned experiments and dead cells before submission.
+- Report an expected runtime when a cell is meaningfully slow.
+- Preserve useful checks and explain warnings instead of hiding them.
+- From P2 onward, import reusable implementation from the modules required by
+  the brief; do not duplicate it in the notebook.
 
 ## Before you submit
 
-1. Save your work.
-2. Use **Kernel → Restart Kernel and Run All Cells**.
-3. Confirm that every cell runs in order without manual intervention.
-4. Check that figures, tables, and numerical results appear where the prose says
+1. Follow the current brief's required headings, filenames, and written prompts.
+2. Confirm sources and units are visible where used.
+3. Use **Kernel → Restart Kernel and Run All Cells**.
+4. Confirm every cell runs in order without manual intervention.
+5. Check that figures, tables, and numerical outputs appear where the prose says
    they do.
-5. Read only the headings and first sentence of each section. The argument
+6. Read only the headings and first sentence of each section; the argument
    should still be recognizable.
-6. Follow the repository's reproduction instructions from a fresh terminal.
-7. Commit and push, then verify the submitted repository contains the final
-   notebook and every file it needs.
+7. Run any additional reproduction or test command named in the project brief.
+8. Save, stage the intended files, commit, and push.
+9. Open the repository on GitHub and verify that it contains the final notebook,
+   figures, README, and every other required file.
 
-:::{note} The standard is reader independence
-Your notebook is ready when the instructor can clone the repository, follow its
-instructions, run the notebook from a clean kernel, and understand the analysis
-without asking what each section was meant to do.
+:::{note} Reader independence
+The notebook is ready when the instructor can clone the repository, follow its
+instructions, run the notebook from a clean kernel, and understand both the
+analysis and its limits without asking what a section was meant to do.
 :::

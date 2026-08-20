@@ -63,13 +63,13 @@ re-sync:
 
 | File | Local edit |
 |:--|:--|
-| `02-getting-started/index.md` | GitHub Classroom retirement banner; generic Classroom references repointed to Classroom50 |
-| `02-getting-started/03-git-intro.md` | Retirement banner above the assignment-workflow section; help link repointed to the Classroom50 wiki; generic "submit via GitHub Classroom" references repointed to Classroom50 |
+| `02-getting-started/*.md` | Course-local Fall 2026 rewrite: P1 readiness route, minimal environment, GitHub CLI authentication, Classroom50, notebook-first P1/P2+ contract, safe Git recovery, engineering workflow, and notebook-writing guide |
 
-GitHub retired Classroom on **28 August 2026**, so the migrated Classroom
-instructions are factually wrong rather than merely stale. They are flagged
-in place rather than deleted, because the surrounding `git` material is still
-correct and worth keeping.
+Treat the entire Getting Started module as locally owned; do not overwrite it
+from the older source course. GitHub Classroom stopped accepting new sign-ups
+in May 2026 and is scheduled for decommissioning on **28 August 2026**. COMP 521
+uses Classroom50 and publishes only the course-specific steps verified in the
+fresh-student rehearsal.
 
 ## Still to be written
 

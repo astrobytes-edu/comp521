@@ -85,14 +85,16 @@ Every submitted notebook must:
   used;
 - produce its figures and numerical results without undocumented manual steps;
   and
-- end with a prose-only section titled `Discussion` that answers the project's
-  questions and explains what the results mean.
+- use the interpretation structure required by its project brief.
 
 Use [Markdown for Analysis
 Notebooks](../02-getting-started/06-markdown-analysis-notebooks.md) for the
 submission-focused writing and formatting conventions.
 
-Aim for 500–800 words in the Discussion; Project 1's discussion is shorter.
+Project 1 places short interpretation next to each part and ends with
+`Looking back`; it has no separate final report. From Project 2 onward, include
+the prose-only `Discussion` required by the current brief, normally 500–800
+words unless that brief says otherwise.
 
 :::{important} Run it top to bottom before you submit
 Use **Kernel → Restart Kernel and Run All Cells** before your final commit. I
