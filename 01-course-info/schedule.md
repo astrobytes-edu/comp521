@@ -51,9 +51,7 @@ written and will appear before their week.
 - [Command line intro](../02-getting-started/01-cli-intro.md)
 - [Software setup](../02-getting-started/02-software-setup.md)
 - [Git intro](../02-getting-started/03-git-intro.md)
-- [Python environment](../03-python/01-python-environment.md)
-- [Python as a calculator](../03-python/02-python-calculator.md)
-- [Control flow and logic](../03-python/03-python-control-flow.md)
+- [Python Fundamentals: Project 1 core route](../03-python/index.md#the-project-1-core-route): environment and clean-kernel execution; arithmetic, variables, and numerical comparison; pseudocode, conditionals, and loops
 
 **Topics** — environment setup, Git/GitHub workflow, Python syntax, floating
 point, control flow, the five algorithmic patterns
@@ -61,17 +59,16 @@ point, control flow, the five algorithmic patterns
 **Due** — **P1 Technical Readiness Check** in your Project 1 repository, before
 class Thu **Aug 27** · **Growth Memo 1** (baseline), Mon **Aug 31**
 
-### Week 2 — Sep 1, 3 · Data structures, OOP, and arrays
+### Week 2 — Sep 1, 3 · Data structures, functions, and arrays
 
 **Readings**
-- [Data structures](../03-python/04-python-data-structures.md)
-- [Functions and modules](../03-python/05-python-functions-modules.md)
-- [OOP fundamentals](../03-python/06-oop-fundamentals.md)
+- [Python Fundamentals: Project 1 core route](../03-python/index.md#the-project-1-core-route): basic data structures, mutability, and functions (Section 5.1)
 - [NumPy fundamentals](../04-scientific-computing/07-numpy-fundamentals.md)
 - [Matplotlib fundamentals](../04-scientific-computing/08-matplotlib-fundamentals.md)
 
 **Topics** — arrays vs. lists, vectorization, plotting; log and inverted axes;
-classes and modules (needed from Project 2 onward)
+functions in P1 notebooks; modules from Project 2 onward. OOP is reference
+material for now and returns when a later project needs it.
 
 **Due** — **Project 1** + **analysis notebook** + Discussion, Tue **Sep 8**
 

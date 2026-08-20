@@ -26,6 +26,35 @@ course content, not decoration. A build without `--execute` will render the
 pages but strip those results, so always use `--execute` when checking
 correctness.
 
+## Interactive reading experiments
+
+Long readings remain static, build-executed references. Short, dedicated
+experiment pages may use the local `interactive-python` directive for
+browser-local Pyodide/WebAssembly execution. This is a low-barrier rehearsal
+space, not the authoritative environment for submitted work. The installed
+MyST release's native Thebe/JupyterLite capability is site-wide, so it remains
+disabled until it gains trustworthy page-level scoping.
+
+For high-value linked controls, figures, and dashboards, use the local
+`panel-pyodide` directive. It loads Panel and Bokeh in an isolated browser
+frame, with no Panel server or student Python installation. Reserve it for
+interactions whose coordinated views justify its heavier first-load cost.
+
+When authoring an experiment page:
+
+1. Keep the activity bounded: predict, run, inspect, change, explain.
+2. Keep a static, build-executed baseline visible if browser execution is slow
+   or unavailable.
+3. Use only browser-compatible scientific dependencies and test the page in a
+   clean browser session.
+4. End with a project-notebook handoff and a clean-kernel reproducibility
+   check.
+
+Student-facing mathematics uses `$...$` inline and `$$...$$` for display math.
+Run `python3 scripts/check_math_rendering.py` before publishing; it rejects
+literal bracket delimiters, malformed adjacent dollars, and LaTeX trapped in
+inline code.
+
 ## Repository layout
 
 | Path | Contents |

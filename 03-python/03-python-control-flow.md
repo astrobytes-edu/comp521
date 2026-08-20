@@ -7,18 +7,6 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
-
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
@@ -548,7 +536,9 @@ print(f"math.isclose? {math.isclose(0.1 + 0.2, 0.3)}")  # True!
 
 :::{warning} ⚠️ Common Bug Alert: The Equality Trap
 
-**Never use `==` with floating-point numbers!** Even tiny rounding errors break equality.
+For a computed floating-point quantity, use `==` only when exact equality is the
+stated contract. When the scientific question is “close enough,” state and use
+an absolute or relative tolerance instead.
 
 **Wrong (dangerous for critical systems):**
 ```python
@@ -1613,7 +1603,7 @@ Remember that every major computational achievement relies on these fundamentals
 
 ✓ Master all six comparison operators (`>`, `<`, `>=`, `<=`, `==`, `!=`) and three logical operators (**and**, **or**, **not**)
 
-✓ Never use `==` with floating-point numbers; always use tolerance-based comparisons like `math.isclose()`
+✓ For computed floating-point quantities, use a tolerance chosen for the claim; use `==` only when exact equality is the stated contract
 
 ✓ The **is** operator checks identity, not equality — use it for None checks
 

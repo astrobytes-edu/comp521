@@ -7,18 +7,6 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
-
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
@@ -129,8 +117,8 @@ Need ordered sequence with duplicates?
 |-----------|----------|-------------------------|-------------|
 | `list` | Yes | Anything | Ordered data, will modify |
 | `tuple` | No | Anything | Constants, dict keys, records |
-| `dict` | Yes | **Hashable** (immutable) | Fast lookup by key |
-| `set` | Yes | **Hashable** (immutable) | Uniqueness, membership tests |
+| `dict` | Yes | **Hashable** | Fast lookup by key |
+| `set` | Yes | **Hashable** | Uniqueness, membership tests |
 
 :::{note} What Does "Hashable" Mean?
 
@@ -571,7 +559,10 @@ Here's where **immutability** becomes a superpower for computational physics - *
 
 :::{warning} ⚠️ Caching with Floats is Dangerous
 
-Never use raw floating-point values as cache keys! Tiny representation differences (e.g., `1.0000000001` vs `1.0`) cause cache misses. Always use:
+Raw floating-point values are valid cache keys when exact stored inputs define
+the calculation. Do not round them merely to improve cache hits: rounding can
+merge scientifically distinct inputs. Use discrete indices or rounded values
+only when the model explicitly defines that grid or resolution:
 
 - **Discrete indices**: `(T_index, rho_index)`
 - **Rounded values**: `(round(T, -3), round(rho, 6))`

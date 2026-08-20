@@ -7,23 +7,11 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
-
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
 
-- [ ] **(1) Configure and navigate IPython as your primary interactive computing environment** for scientific projects and data analysis.
+- [ ] **(1) Use an interactive Python session, including optional IPython, for focused scientific exploration and debugging.**
 - [ ] **(2) Diagnose and fix** three common causes of environment-dependent behavior in scientific code.
 - [ ] **(3) Explain step-by-step how Python's import system** locates and loads modules when you type `import module`.
 - [ ] **(4) Identify** five specific dangers of Jupyter notebooks that can corrupt scientific results.
@@ -38,7 +26,7 @@ By the end of this chapter, you will be able to:
 
 Before starting this chapter, verify you have completed these items:
 
-- [ ] You can open a terminal/command prompt and are able to navigate directories (via `cd`, `ls`, `lsdir`, `pwd`).
+- [ ] You can open a terminal/command prompt and navigate directories (via `cd`, `ls`, and `pwd`).
 - [ ] You have Miniforge installed and created a `comp521` python conda environment for this course.
 - [ ] You have a text editor (e.g., Vim) or IDE (e.g., VS Code) installed.
 - [ ] You have `git` installed and can you use basic `git` commands (e.g.,`clone`, `add`, `commit`, `pull`).
@@ -52,7 +40,10 @@ Picture this: You download code from a groundbreaking scientific paper, eager to
 
 This chapter reveals the hidden machinery that makes Python work (or not work) on your computer. You'll discover why the same analysis code produces different results on different machines, master **IPython** as your computational laboratory for rapid prototyping, understand the dangers of **Jupyter notebooks** in scientific computing, and learn to create truly reproducible computational environments for your research. These aren't just technical skills — they're the foundation of trustworthy scientific research.
 
-By chapter's end, you'll transform from someone who hopes code works to someone who knows exactly why it works (or doesn't). You'll diagnose "No module named" errors in seconds, create environments that work identically on any computing cluster, and understand the critical difference between exploration and reproducible science. Let's begin by exploring the tool that will become your new best friend: **IPython**.
+By chapter's end, you'll have a practical way to diagnose common environment
+problems, describe the difference between exploration and reproducible science,
+and record enough environment information for another reader to investigate a
+disagreement. Let's begin with interactive exploration.
 
 :::{important} Course policy: use notebooks deliberately
 
@@ -800,7 +791,10 @@ Remember: *"If it's not reproducible, it's not science."*
 
 ## 1.4 Scripts: Write Once, Run Anywhere (Correctly)
 
-Python scripts are simple text files containing Python code, executed from top to bottom, the same way every time. No hidden state, no ambiguity, just predictable execution - essential for scientific computing.
+Python scripts execute in a fresh process from top to bottom, which avoids a
+notebook's hidden cell history. That alone does not make a result reproducible:
+inputs, dependencies, configuration, random seeds, and the execution command
+must still be controlled and recorded.
 
 ### From IPython to Scripting
 
@@ -1010,7 +1004,7 @@ In scientific instrument control and data acquisition:
 
 ## 1.5 Creating Reproducible Environments
 
-Your scientific analysis depends on its **environment** — Python version, numpy version, even the linear algebra backend. Creating reproducible environments ensures your code produces identical results on any system, from your laptop to a supercomputer.
+Your scientific analysis depends on its **environment** — Python version, numpy version, even the linear algebra backend. Capturing an environment reduces avoidable differences between systems. It does not by itself guarantee identical results across operating systems, hardware, or time; inputs, numerical libraries, configuration, and random seeds also matter.
 
 ### The Conda Solution
 
@@ -1083,7 +1077,7 @@ dependencies:
     - specialized-package==1.2.3
 ```
 
-Collaborators recreate your exact environment:
+Collaborators can recreate a closely matched environment:
 
 ```bash
 $ conda env create -f environment.yml
@@ -1644,4 +1638,4 @@ run it from a clean kernel, and keep reusable implementation in `.py` modules
 
 ## Next Chapter Preview
 
-Now that you've mastered your computational environment, Chapter 2 will transform Python into a powerful scientific calculator. You'll discover why `0.1 + 0.2 $\neq$ 0.3` matters when doing numerical calculations, learn how floating-point errors compound during numerical integration, and understand why some calculations require extra precision. You'll implement algorithms for transformations, conversions, and computations — all while managing the numerical precision that separates successful results from incorrect ones. Get ready to understand why numerical errors happen and how to prevent similar problems in your computations!
+Now that you've mastered your computational environment, Chapter 2 will transform Python into a powerful scientific calculator. You'll discover why $0.1 + 0.2 \neq 0.3$ matters when doing numerical calculations, learn how floating-point errors compound during numerical integration, and understand why some calculations require extra precision. You'll implement algorithms for transformations, conversions, and computations — all while managing the numerical precision that separates successful results from incorrect ones. Get ready to understand why numerical errors happen and how to prevent similar problems in your computations!

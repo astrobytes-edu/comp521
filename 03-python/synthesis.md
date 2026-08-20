@@ -4,18 +4,6 @@ subtitle: "What You're Actually Learning Here | Part 1: Python Fundamentals"
 author: "Anna Rosen"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
-
 ## Your Code Is a Scientific Instrument
 
 When you build a telescope, you don't just bolt lenses together. You align optics, calibrate sensors, characterize systematic errors, and document everything—because the instrument *is* your claim to truth. If the instrument is compromised, the science is compromised.

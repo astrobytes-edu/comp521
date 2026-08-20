@@ -7,18 +7,6 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
-
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
@@ -56,7 +44,9 @@ print(f"Original: {measurement['value']}")  # What value?
 print(f"Result: {result['value']}")         # What value?
 ```
 
-If you said both print "200", you're ready! Python passes object references (call-by-sharing). If the object is mutable, a function or method can mutate it in-place—which becomes crucial when methods modify object state.
+If you said both print "200", you're ready! Python uses **call-by-sharing**:
+the function receives a reference to the same object, so mutating a mutable
+object is visible to the caller; rebinding the local parameter is not.
 
 ## Chapter Overview
 
@@ -68,9 +58,13 @@ This chapter introduces OOP's essential concepts through practical scientific ex
 
 :::{tip} TL;DR — Why This Chapter Matters
 
-OOP isn't about syntax — it's about **preventing errors** in systems where data and behavior must stay synchronized. When a particle's position changes, its kinetic energy must update consistently. When a measurement is recorded, its uncertainty must propagate correctly. OOP gives you tools to **enforce these invariants automatically**: validation in setters catches impossible values before they corrupt your simulation; properties guarantee derived quantities stay consistent with underlying state; encapsulation prevents external code from putting objects into invalid configurations.
+OOP isn't about syntax — it can help manage systems where data and behavior must
+stay synchronized. Well-designed properties and validation can enforce declared
+invariants, but they do not do so automatically: the class must define the
+invariant, validate every relevant path, and be tested.
 
-**The real lesson:** You're not just learning to write classes. You're learning to build **self-protecting data structures** that make entire categories of bugs structurally impossible.
+**The real lesson:** classes can make selected invalid states harder to create;
+they are one design tool among several, not a guarantee of correctness.
 :::
 
 :::{note} 📖 How to Use This Chapter
@@ -82,7 +76,10 @@ OOP isn't about syntax — it's about **preventing errors** in systems where dat
 3. **Find the contracts** — Which methods *mutate* state vs *compute* values?
 4. **Question the design** — Could this be a simple function instead? What would break?
 
-**Run every code block.** Modify values. Break things on purpose. The error messages teach you more than the working code.
+Run a few representative blocks, especially the early state and validation
+examples. Treat longer historical and extension examples as reference; modify
+values and observe the resulting behavior rather than trying to execute the
+whole chapter linearly.
 :::
 
 ---
@@ -884,11 +881,20 @@ Today, medical device software uses extensive validation at every state change. 
 :::{note} 🌟 The More You Know: How Properties Could Have Saved Hubble's Mirror
 :class: dropdown
 
-In 1990, the Hubble Space Telescope reached orbit with a catastrophic flaw - its primary mirror was ground to the wrong shape by 2.2 micrometers, about 1/50th the width of a human hair. The error occurred because a measuring device called a null corrector had been assembled incorrectly, with one lens positioned 1.3mm out of place. But here's the tragic part: the computer software accepting test measurements had no validation. It accepted clearly impossible values without question.
+In 1990, the Hubble Space Telescope reached orbit with a catastrophic optical
+flaw: its primary mirror was ground to the wrong shape. The incident shows why
+independent measurements, explicit interfaces, and careful investigation of
+disagreement matter in scientific work.
 
-During testing, technicians actually got measurements showing the mirror was wrong. But other tests (using the faulty null corrector) showed it was "perfect." The software happily stored both sets of contradictory data. No validation checks asked: "Why do these measurements disagree by orders of magnitude?" or "Is this curvature physically possible for a mirror this size?"
+The class below is a **fictional classroom illustration**, not a reconstruction
+of Hubble's testing software and not evidence that a Python property alone would
+have prevented the failure. It illustrates a narrower design question: how might
+a program reject an input outside a documented range and flag disagreement with
+an independent expectation?
 
-The servicing mission to install COSTAR cost over $600 million (the total impact including delays and lost science time exceeded $1.5 billion). The repair required a daring Space Shuttle mission in 1993 to install COSTAR - essentially giving Hubble "glasses." But the software fix was equally important. NASA completely rewrote their testing software with aggressive validation:
+Use the example to discuss the limits of validation: a check is only as useful
+as its assumptions, tolerances, independent evidence, and response when it
+finds a disagreement.
 
 ```python
 # Simplified version of the validation concept:
@@ -915,21 +921,25 @@ class MirrorMeasurement:
         self._curvature_mm = value
 ```
 
-Note: Modern NASA testing actually uses far more sophisticated validation including statistical process control, multiple sensor cross-validation, and machine learning-based anomaly detection - this example shows the core concept.
+Validation code can make a local contract visible and testable. It cannot replace
+independent measurement, system-level verification, or scientific judgment.
 
-Today, every NASA mirror goes through validation software that checks measurements at the moment of entry. Properties ensure that impossible values trigger immediate alerts, not billion-dollar disasters. The James Webb Space Telescope, Hubble's successor, had its mirrors tested with software that validates every measurement against physical constraints, expected ranges, and cross-checks with redundant sensors.
-
-When you write validation in your setters, you're implementing the same safeguards that now protect every space telescope from Hubble's fate. That simple `if value <= 0: raise ValueError()` in your code? That's the pattern that could have saved one of humanity's greatest scientific instruments from launching half-blind into space!
-
-*[Sources: Allen, L. (1990). The Hubble Space Telescope Optical Systems Failure Report. NASA. Simplified technical details for pedagogical purposes.]*
 :::
 
 :::{important} 🌟 Why This Matters: Mars Climate Orbiter
 :class: dropdown
 
-In 1999, NASA's Mars Climate Orbiter burned up in Mars' atmosphere. The cause? One team used pound-force seconds, another used newton-seconds. The spacecraft's thrusters fired with 4.45$\times$ the intended force.
+In 1999, Mars Climate Orbiter was lost after ground-software trajectory models
+interpreted angular-momentum-desaturation impulse data in newton-seconds when it
+had been supplied in pound-force seconds. The unit mismatch introduced errors
+into the estimated trajectory; it was not a claim that the physical thrusters
+fired at 4.45$\times$ their intended force.
 
-While Python wasn't used in the 1999 mission (spacecraft used Ada and C++), modern spacecraft software prevents such disasters using property-based validation - a pattern we can now demonstrate in Python:
+The class below is a classroom illustration of a single unit-conversion boundary,
+not a reconstruction of the mission or a claim that a property alone prevents
+system-level interface failures. See NASA's [Mars Climate Orbiter Mishap
+Investigation Board report](https://discovery.larc.nasa.gov/pdf_files/MCO_report_2.pdf)
+for the actual failure analysis.
 
 ```python
 class Thruster:
@@ -950,7 +960,10 @@ class Thruster:
         self._thrust_n = value / 0.224809
 ```
 
-Properties ensure units are always consistent internally, regardless of what units the user provides. This pattern is now mandatory in NASA's modern flight software, preventing the type of error that destroyed the Mars Climate Orbiter.
+The lesson is narrower: a class can store one documented internal unit and
+convert at a well-defined boundary. That convention helps only when every input
+path is validated and the interface is tested; a Python property does not itself
+guarantee unit consistency or prevent a system-level interface error.
 :::
 
 :::{note} 🔍 Check Your Understanding
@@ -1293,7 +1306,7 @@ class RunningStatistics:
 
 :::{warning} Numerical Stability Note
 
-The variance formula above (`sum_sq - n*$\mathrm{mean}^{2}$`) can suffer from catastrophic cancellation when values are large but variance is small. For production code, use Welford's algorithm (introduced in Chapter 3) which computes running variance stably. This example prioritizes clarity over numerical robustness.
+The variance formula above, $\mathrm{sum\_sq} - n\,\mathrm{mean}^{2}$, can suffer from catastrophic cancellation when values are large but variance is small. For production code, use Welford's algorithm (introduced in Chapter 3) which computes running variance stably. This example prioritizes clarity over numerical robustness.
 :::
 
 ```{code-cell} python

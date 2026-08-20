@@ -19,6 +19,14 @@ project:
     content: CC-BY-4.0
     code: MIT
 
+  # MyST's native Thebe/JupyterLite integration is currently site-wide in the
+  # installed release. Keep it off so long reference readings remain static;
+  # selected experiment cards use the scoped local Pyodide directive below.
+  thebe: false
+  plugins:
+    - plugins/interactive-python/interactive-python.mjs
+    - plugins/panel-pyodide/panel-pyodide.mjs
+
   numbering:
     heading_2: false
     figure: true
@@ -51,6 +59,8 @@ project:
         - title: Part I · Programming for Scientific Work
           children:
             - file: 03-python/index.md
+            - file: 03-python/interactive-lab-transit-depth.md
+            - file: 03-python/interactive-dashboard-transit.md
             - file: 03-python/01-python-environment.md
             - file: 03-python/02-python-calculator.md
             - file: 03-python/03-python-control-flow.md

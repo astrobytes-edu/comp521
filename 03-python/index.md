@@ -4,18 +4,6 @@ subtitle: "Scientific Computing with Python | COMP 521"
 author: "Anna Rosen"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
-
 ## Your Computational Toolkit for Scientific Computing
 
 Welcome to the Python Fundamentals module. This is not "learn Python syntax." This is **learn to think computationally and build trustworthy scientific code**.
@@ -36,6 +24,52 @@ Every submitted notebook must be easy to follow and must run from a clean kernel
 with **Restart Kernel and Run All Cells**. See the canonical
 [notebook and code policy](../01-course-info/projects.md#notebook-and-code-policy)
 and [Chapter 1](01-python-environment.md) for the rationale and workflow.
+:::
+
+## The Project 1 core route
+
+These chapters are a reference library, not a linear textbook assignment. For
+Project 1, use the bounded route below. It should take **about 45 minutes before
+each Week 1 meeting and about 45 minutes before each Week 2 meeting**; do not
+read or run every example in the full reference chapters.
+
+| Read now for P1 | Do this with it | Return later for |
+|---|---|---|
+| [Chapter 1](01-python-environment.md): the **Course policy** callout and the clean-kernel guidance in **Section 1.3** | Open the `comp521` kernel and use **Restart Kernel and Run All Cells** before submitting. | Import internals, IPython history, environment-file details, and advanced debugging. |
+| [Chapter 2](02-python-calculator.md): **Section 2.1**, variables in **Section 2.5**, and **Safe Floating-Point Comparisons** | Predict a calculation, run it, then compare an obtained value with a stated expectation. | Complex numbers, Fourier examples, cancellation, and overflow/underflow strategies. |
+| [Chapter 3](03-python-control-flow.md): **Sections 3.1, 3.3, and 3.4** | Write a short pseudocode plan before implementing a P1 part. | Walrus syntax, advanced loop patterns, and IPython-specific debugging tools. |
+| [Chapter 4](04-python-data-structures.md): **Quick Preview**, **Sections 4.2 and 4.4** | Choose a list, tuple, or dictionary for one P1 input or intermediate result and explain the choice. | Benchmarking, caching, spatial data structures, and memory-layout detail. |
+| [Chapter 5](05-python-functions-modules.md): **Section 5.1 only** | State inputs, output, units, and one limiting-case check next to the function. | Modules, packages, advanced argument rules, type hints, testing infrastructure, and optimization. |
+
+**Chapter 6 (OOP)** is valuable reference material, but it is not part of the
+Project 1 route. We will return to classes when a project has a genuine
+stateful-modeling need.
+
+### P1 launch task — predict, run, explain
+
+In a scratch notebook or the appropriate location in your P1 notebook, make one
+small, inspectable calculation:
+
+1. In Markdown, define the dimensionless radius ratio `p = 0.10` and predict
+   the full-overlap uniform-source flux: `1 - p**2 = 0.99`.
+2. Write three lines of pseudocode: define `p`; compute `flux`; compare the
+   computed and expected values.
+3. Implement those steps in one code cell and print the result.
+4. Add one sentence explaining what the calculation checks and what it does
+   **not** check (for example, it does not test partial-overlap geometry).
+5. Restart the kernel and run all cells. Keep the visible output.
+
+This is not a substitute for the P1 brief. Its job is to make the first reading
+cycle observable: you predicted, computed, checked, explained, and reproduced a
+result.
+
+:::{tip} Prefer a browser-first rehearsal?
+
+Try the [interactive transit-depth lab](interactive-lab-transit-depth.md) or
+the [interactive transit-geometry dashboard](interactive-dashboard-transit.md).
+They run locally in your browser and follow the same predict → run → explain →
+change cycle. They are rehearsals, not replacements for doing the documented
+work in your Project 1 notebook.
 :::
 
 ---
@@ -239,6 +273,7 @@ After these six chapters, the course can move faster because you have a shared t
 
 ---
 
-**Ready to build your toolkit?** Start with [Chapter 1: Computational Environments & Scientific Workflows](01-python-environment.md) $\to$
+**Ready to build your toolkit?** Start with the Project 1 core route above, then
+use these chapters as companions when a concrete programming question appears.
 
 *These chapters are your companions throughout the course. Bookmark them, return often, and use them actively as you solve real problems.*

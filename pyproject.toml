@@ -17,6 +17,7 @@ dependencies = [
     # MyST drives cell execution through a Jupyter server, not the kernel
     # directly; without this the build silently skips every executable cell.
     "jupyter-server>=2.14",
+    "panel>=1.9,<2",
 ]
 
 [dependency-groups]

@@ -7,18 +7,6 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
-
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
@@ -64,7 +52,10 @@ We'll explore Python's scope rules, which determine where variables can be acces
 
 :::{note} 📝 Import Statement Convention
 
-In production code, Python modules should be imported at the top of files for clarity and efficiency. However, in these educational examples, we sometimes import inside functions for pedagogical clarity — to show exactly what each function needs. In your own code, always prefer top-level imports unless you have a specific reason to import locally (such as avoiding circular dependencies or optional dependencies).
+In most modules, imports belong at the top of the file for clarity. Local imports
+are appropriate when a dependency is optional, expensive, or needed to avoid a
+circular import. Choose deliberately rather than treating either location as a
+universal rule.
 :::
 
 :::{important} TL;DR — Why Functions Matter in Scientific Code
@@ -2014,11 +2005,10 @@ def _planck_function_cached(wavelength_nm, temp_k):
     denominator = math.expm1(exp_term)  # stable for small exp_term
     return numerator / denominator
 
-# Wrapper: make cache keys robust (floats as cache keys are often a footgun)
+# Cache the exact inputs supplied to this function. For a model-defined grid,
+# use grid indices as the cache keys and document the grid resolution separately.
 def planck_function(wavelength_nm, temp_k):
-    wl = int(round(wavelength_nm))
-    T = int(round(temp_k))
-    return _planck_function_cached(wl, T)
+    return _planck_function_cached(wavelength_nm, temp_k)
 
 # Compare performance
 n = 28

@@ -7,25 +7,13 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
-
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
 
 - [ ] **(1) Use Python as an interactive scientific calculator** with correct operator precedence (PEMDAS) and all seven arithmetic operators (`+`, `-`, `*`, `/`, `//`, `%`, `**`).
 - [ ] **(2) Explain how computers represent numbers in memory** using IEEE 754 standard for floats (64 bits: sign, exponent, fraction field $\to$ ~53-bit significand precision) and arbitrary precision for integers.
-- [ ] **(3) Demonstrate why `0.1 + 0.2 $\neq$ 0.3`** due to binary representation limits and handle comparisons with `math.isclose()`.
+- [ ] **(3) Demonstrate why $0.1 + 0.2 \neq 0.3$** due to binary representation limits and handle comparisons with `math.isclose()`.
 - [ ] **(4) Recognize and prevent three numerical hazards**: catastrophic cancellation, overflow (float64 max ~1e308; float32 max ~1e38), and silent underflow to zero.
 - [ ] **(5) Choose appropriate numeric types** (int, float32, float64, complex) based on precision needs and memory constraints.
 - [ ] **(6) Format scientific output using f-strings** with format specifiers (`.2f`, `.2e`, `:10.2f`, `:,`) for publication-quality results.
@@ -72,7 +60,9 @@ Before trusting a numerical result, quickly ask:
 
 ## 2.1 Python as Your Scientific Calculator
 
-Fire up `ipython` (remember from Chapter 1 — not the basic `python` interpreter, we want the enhanced features) and let's start with the basics. Python handles arithmetic operations naturally, but there are subtleties that matter for scientific work:
+Open a Python cell in VS Code, or an optional `ipython` session, and start with
+the basics. Python handles arithmetic operations naturally, but there are
+subtleties that matter for scientific work:
 
 ```{code-cell} python
 # Basic arithmetic - but watch the precision!
@@ -245,7 +235,7 @@ The trade-offs are crucial for scientific computing:
 | Aspect | 32-bit (float32) | 64-bit (float64) |
 |--------|------------------|------------------|
 | **Precision** | ~7 decimal digits | ~15 decimal digits |
-| **Range** | $\pm$$10^{-38}$ to $10^{38}$ | $\pm$$10^{-308}$ to $10^{308}$ |
+| **Range** | $\pm 10^{-38}$ to $10^{38}$ | $\pm 10^{-308}$ to $10^{308}$ |
 | **Memory** | 4 bytes | 8 bytes |
 | **Speed** | Faster on GPU | Standard on CPU |
 | **Use case** | Graphics, ML training | Scientific computing |
@@ -305,7 +295,7 @@ print(f"0.1 * 3 = {0.1 * 3:.17f}")
 print(f"0.3 =     {0.3:.17f}")
 ```
 
-You'll see that `0.1 * 3` gives approximately `0.30000000000000004`, while `0.3` is approximately `0.29999999999999999`. They're different by about $5.5$\times$$10^{-17}$$ - *tiny* but not zero!
+You'll see that `0.1 * 3` gives approximately `0.30000000000000004`, while `0.3` is approximately `0.29999999999999999`. They're different by about $5.5 \times 10^{-17}$ — *tiny* but not zero!
 
 This isn't a quirk — it's fundamental to how every computer on Earth handles decimals. This is why we use `math.isclose()` (see Section @sec-isclose) for floating-point comparisons.
 :::
@@ -378,20 +368,23 @@ The Patriot radar system looked in the wrong section of sky and never detected t
 (sec-isclose)=
 ### Safe Floating-Point Comparisons
 
-Never use `==` with floating-point numbers! Here's how to compare them safely:
+For values produced by a calculation, do not assume `==` expresses the
+scientific comparison you intend. Use a tolerance chosen for the quantity and
+claim. Exact equality remains appropriate when exactness is explicitly part of
+the contract.
 
 **Stage 1: Understanding the Problem**
 
 ```{code-cell} python
 # The problem with direct comparison
 velocity = 299792458.0  # Speed of light in m/s
-calculated = 299792457.999999999  # From some calculation
+calculated = 299792457.9999  # From some calculation
 
 print(f"Velocity: {velocity}")
 print(f"Calculated: {calculated}")
 print(f"Difference: {velocity - calculated:.2e}")
 print(f"Are they equal? {velocity == calculated}")
-print("Even tiny differences fail equality test!")
+print("The floats differ, but the relevant question is whether the discrepancy matters.")
 ```
 
 **Stage 2: Basic Solution**
@@ -400,7 +393,7 @@ print("Even tiny differences fail equality test!")
 import math
 
 v1 = 299792458.0
-v2 = 299792457.999999999
+v2 = 299792457.9999
 
 # Absolute tolerance matters when values are near 0 (units matter!)
 print(math.isclose(v1, v2, abs_tol=1e-6))
@@ -575,7 +568,7 @@ When you see patterns like “something very close to 1” or “`exp(x) - 1` fo
 
 :::{tip} Another cancellation “greatest hit”: the quadratic formula
 
-When `b^2 >> 4ac`, the naive quadratic formula can lose many digits in `-b $\pm$ sqrt(b^2 - 4ac)`.
+When $b^2 \gg 4ac$, the naive quadratic formula can lose many digits in $-b \pm \sqrt{b^2 - 4ac}$.
 
 ```python
 import math
@@ -1104,7 +1097,7 @@ Perhaps most importantly, you've learned to think about numbers the way computer
 
 ## Key Takeaways
 
-✓ Floating-point arithmetic is approximate by design — never use `==` to compare floats
+✓ Floating-point arithmetic is approximate by design — use a claim-appropriate tolerance for computed quantities; use `==` only when exact equality is the stated contract
 
 ✓ Machine epsilon (~2.2e-16) sets the fundamental precision limit for calculations
 
