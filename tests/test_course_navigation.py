@@ -55,3 +55,25 @@ def test_myst_toc_uses_the_approved_top_level_libraries():
         "Assessments",
         "Tools & Workflow",
     ]
+
+
+@pytest.mark.parametrize(
+    ("path", "number"),
+    [
+        ("03-python/01-python-environment.md", 1),
+        ("03-python/02-python-calculator.md", 2),
+        ("03-python/03-python-control-flow.md", 3),
+        ("03-python/04-python-data-structures.md", 4),
+        ("03-python/05-python-functions-modules.md", 5),
+        ("03-python/06-oop-fundamentals.md", 6),
+        ("04-scientific-computing/07-numpy-fundamentals.md", 7),
+        ("04-scientific-computing/08-matplotlib-fundamentals.md", 8),
+        ("04-scientific-computing/09-robust-computing.md", 9),
+        ("04-scientific-computing/10-advanced-oop.md", 10),
+        ("04-scientific-computing/11-pandas-fundamentals.md", 11),
+        ("04-scientific-computing/12-data-acquisition-cleaning.md", 12),
+    ],
+)
+def test_python_textbook_chapter_title_is_sequential(path, number):
+    text = (ROOT / path).read_text()
+    assert f'title: "Chapter {number}:' in text

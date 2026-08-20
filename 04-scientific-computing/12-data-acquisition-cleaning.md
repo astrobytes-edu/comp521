@@ -1,5 +1,5 @@
 ---
-title: "Data Acquisition, Cleaning, and Exploratory Analysis"
+title: "Chapter 12: Data Acquisition, Cleaning, and Exploratory Analysis"
 subtitle: "Part III: Real Data Workflows | COMP 521"
 ---
 

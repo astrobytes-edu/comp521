@@ -124,9 +124,10 @@ Expected: FAIL for pages whose title currently omits a chapter number.
 
 - [ ] **Step 3: Normalize the twelve front-matter titles and index wording**
 
-Use exactly: `Computational Environments & Scientific Workflows`; `Python as Your Scientific Calculator`; `Control Flow & Logic`; `Data Structures: Organizing Scientific Data`; `Functions & Modules: Building Reusable Scientific Code`; `Object-Oriented Programming Fundamentals`; `NumPy Fundamentals`; `Matplotlib Fundamentals`; `Robust Computing`; `Advanced Object-Oriented Programming`; `Pandas: Organizing Scientific Data`; `Data Acquisition, Cleaning & Exploratory Analysis`.
-
-Keep the existing “Chapter-by-Chapter Guide” and sequential prose in `03-python/index.md`. Do not label separate Readings or Lectures as chapters.
+Retain the established Chapter 1–11 authorial titles and add the missing
+`Chapter 12:` prefix to `Data Acquisition, Cleaning, and Exploratory Analysis`.
+Keep the existing “Chapter-by-Chapter Guide” and sequential prose in
+`03-python/index.md`. Do not label separate Readings or Lectures as chapters.
 
 - [ ] **Step 4: Run tests, math checks, and strict build**
 
