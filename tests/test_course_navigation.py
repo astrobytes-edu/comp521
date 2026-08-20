@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 import pytest
 
@@ -40,3 +41,17 @@ def test_new_course_route_has_its_required_contract(path, required):
     text = (ROOT / path).read_text()
     for fragment in required:
         assert fragment in text
+
+
+def test_myst_toc_uses_the_approved_top_level_libraries():
+    config = (ROOT / "myst.yml").read_text()
+    titles = re.findall(r"^    - title: (.+)$", config, flags=re.MULTILINE)
+    assert titles[:7] == [
+        "Course Info & Roadmap",
+        "Scientific Computing with Python",
+        "Readings",
+        "Lectures",
+        "Practice Labs",
+        "Assessments",
+        "Tools & Workflow",
+    ]

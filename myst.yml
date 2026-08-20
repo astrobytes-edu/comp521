@@ -36,31 +36,19 @@ project:
   toc:
     - file: index.md
 
-    - title: Course Roadmap
+    - title: Course Info & Roadmap
       children:
         - file: 01-course-info/syllabus.md
         - file: 01-course-info/schedule.md
-        - file: 01-course-info/projects.md
+        - file: 01-course-info/this-week.md
         - file: 01-course-info/ai-policy.md
-        - file: 01-course-info/grading.md
-        - file: 01-course-info/growth-reflections.md
-
-    - title: Getting Started
-      children:
-        - file: 02-getting-started/index.md
-        - file: 02-getting-started/01-cli-intro.md
-        - file: 02-getting-started/02-software-setup.md
-        - file: 02-getting-started/03-git-intro.md
-        - file: 02-getting-started/04-software-engineering-guide.md
-        - file: 02-getting-started/05-scientific-software-workflow-cheatsheet.md
-        - file: 02-getting-started/06-markdown-analysis-notebooks.md
+        - file: 01-course-info/technology-submission.md
 
     - title: Scientific Computing with Python
       children:
         - title: Part I · Programming for Scientific Work
           children:
             - file: 03-python/index.md
-            - file: 03-python/interactive-lab-transit-depth.md
             - file: 03-python/01-python-environment.md
             - file: 03-python/02-python-calculator.md
             - file: 03-python/03-python-control-flow.md
@@ -81,7 +69,7 @@ project:
             - file: 04-scientific-computing/11-pandas-fundamentals.md
             - file: 04-scientific-computing/12-data-acquisition-cleaning.md
 
-    - title: Numerical Modeling
+    - title: Readings
       children:
         - title: Foundations of Discrete Computing
           children:
@@ -105,36 +93,63 @@ project:
             - file: 05-numerical-methods/03-odes/04-module3-part4-stability.md
             - file: 05-numerical-methods/03-odes/05-mod3-synthesis.md
 
-    - title: Data, Inference, and Scientific ML
+        - title: Data, Inference, and Scientific ML
+          children:
+            - title: Linear Algebra for Modeling
+              children:
+                - file: 06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md
+                - file: 06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md
+                - file: 06-linear-algebra-stats/00-linear-algebra/00c-linear-algebra-formula-sheet.md
+            - title: Probability and Sampling
+              children:
+                - file: 06-linear-algebra-stats/01-probability/00-mod1-part0-overview.md
+                - file: 06-linear-algebra-stats/01-probability/01-mod1-part1-foundations.md
+                - file: 06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md
+                - file: 06-linear-algebra-stats/01-probability/03-mod1-part3-moments.md
+                - file: 06-linear-algebra-stats/01-probability/04-mod1-part4-sampling.md
+                - file: 06-linear-algebra-stats/01-probability/05-mod1-part5-synthesis.md
+            - title: Statistical Inference
+              children:
+                - file: 06-linear-algebra-stats/02-inference/00-mod5-overview.md
+                - file: 06-linear-algebra-stats/02-inference/01-mod5-part1-measurement.md
+                - file: 06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md
+                - file: 06-linear-algebra-stats/02-inference/03-mod5-part3-mcmc.md
+                - file: 06-linear-algebra-stats/02-inference/04-mod5-part4-advanced-mcmc.md
+            - title: Model Fitting and Uncertainty
+              children:
+                - file: 06-linear-algebra-stats/03-model-fitting/00-overview.md
+            - title: Scientific Machine Learning
+              children:
+                - file: 06-linear-algebra-stats/04-scientific-ml/00-overview.md
+                - file: 06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md
+                - file: 06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md
+
+    - title: Lectures
       children:
-        - title: Linear Algebra for Modeling
+        - title: Block 1 · Scientific Programming & Transit Model
           children:
-            - file: 06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md
-            - file: 06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md
-            - file: 06-linear-algebra-stats/00-linear-algebra/00c-linear-algebra-formula-sheet.md
-        - title: Probability and Sampling
-          children:
-            - file: 06-linear-algebra-stats/01-probability/00-mod1-part0-overview.md
-            - file: 06-linear-algebra-stats/01-probability/01-mod1-part1-foundations.md
-            - file: 06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md
-            - file: 06-linear-algebra-stats/01-probability/03-mod1-part3-moments.md
-            - file: 06-linear-algebra-stats/01-probability/04-mod1-part4-sampling.md
-            - file: 06-linear-algebra-stats/01-probability/05-mod1-part5-synthesis.md
-        - title: Statistical Inference
-          children:
-            - file: 06-linear-algebra-stats/02-inference/00-mod5-overview.md
-            - file: 06-linear-algebra-stats/02-inference/01-mod5-part1-measurement.md
-            - file: 06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md
-            - file: 06-linear-algebra-stats/02-inference/03-mod5-part3-mcmc.md
-            - file: 06-linear-algebra-stats/02-inference/04-mod5-part4-advanced-mcmc.md
-        - title: Model Fitting and Uncertainty
-          children:
-            - file: 06-linear-algebra-stats/03-model-fitting/00-overview.md
-        - title: Scientific Machine Learning
-          children:
-            - file: 06-linear-algebra-stats/04-scientific-ml/00-overview.md
-            - file: 06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md
-            - file: 06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md
+            - file: 03-python/interactive-lab-transit-depth.md
+
+    - title: Practice Labs
+      children:
+        - file: 07-practice-labs/index.md
+
+    - title: Assessments
+      children:
+        - file: 08-assessments/index.md
+        - file: 01-course-info/projects.md
+        - file: 01-course-info/growth-reflections.md
+        - file: 01-course-info/grading.md
+
+    - title: Tools & Workflow
+      children:
+        - file: 02-getting-started/index.md
+        - file: 02-getting-started/01-cli-intro.md
+        - file: 02-getting-started/02-software-setup.md
+        - file: 02-getting-started/03-git-intro.md
+        - file: 02-getting-started/04-software-engineering-guide.md
+        - file: 02-getting-started/05-scientific-software-workflow-cheatsheet.md
+        - file: 02-getting-started/06-markdown-analysis-notebooks.md
 
 site:
   template: book-theme

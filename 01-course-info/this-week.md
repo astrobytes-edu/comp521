@@ -22,8 +22,8 @@ to connect the observable change in flux to a deliberately simple model. The
 interactive figure helps you test predictions; your project notebook remains
 the place where you implement and document your work.
 
-Before the readiness milestone, follow the [Projects](projects.md#before-project-1--technical-readiness-check)
-page exactly. For the accompanying reflection, use [Growth Reflections](growth-reflections.md).
+Before the readiness milestone, follow the [Projects](projects.md) page exactly.
+For the accompanying reflection, use [Growth Reflections](growth-reflections.md).
 
 ## What appears here later
 
