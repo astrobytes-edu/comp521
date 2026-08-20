@@ -8,6 +8,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_PACKAGES = ("xeus-python", "numpy", "matplotlib", "scipy", "pandas", "ipywidgets")
+REQUIRED_RUNTIME_ARTIFACTS = (
+    "xeus/comp521-xeus/bin/xpython.js",
+    "xeus/comp521-xeus/bin/xpython.wasm",
+    "files/transit-depth.ipynb",
+)
 
 
 def required_bundle_files(bundle: Path) -> list[str]:
@@ -22,6 +27,9 @@ def required_bundle_files(bundle: Path) -> list[str]:
 
     if not any(is_xeus_kernel(path) for path in kernel_files):
         errors.append(f"{bundle}: missing xeus-python kernel specification")
+    for artifact in REQUIRED_RUNTIME_ARTIFACTS:
+        if not (bundle / artifact).is_file():
+            errors.append(f"{bundle}: missing required runtime artifact '{artifact}'")
     return errors
 
 
