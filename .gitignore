@@ -6,6 +6,7 @@ _build/
 .venv/
 .jupyterlite-build/
 assets/jupyterlite/
+tools/jupyterlite/.jupyterlite.doit.db
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
