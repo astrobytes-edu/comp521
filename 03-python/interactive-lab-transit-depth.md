@@ -115,18 +115,14 @@ not capture limb darkening, ingress, or egress.
 :::
 
 :::{lecture-scene}
-:id: transit-run-it-yourself
-:label: 4. Optional: run the formula yourself
-:time: 3 min
+:id: transit-takeaway
+:label: 4. Take the model to your notebook
+:time: 2 min
 
-Use the editable card to make one controlled change. It is a browser-local
-rehearsal, not the authoritative record for submitted work.
-:::
-
-:::{lecture-code}
-:id: transit-depth-experiment
-:starter: transit-depth.ipynb
-:fallback: Run the supplied xeus Python notebook to calculate p squared, plot the depth curve, and change p from 0.10 to 0.20.
+For your Project 1 notebook, reproduce the short calculation above, change
+`p` from `0.10` to `0.20`, and preserve the printed evidence. The Panel model
+is for prediction and inspection; your restartable project notebook is the
+scientific record.
 :::
 
 :::{lecture-checkpoint}
@@ -135,13 +131,6 @@ rehearsal, not the authoritative record for submitted work.
 :rows: 5
 :::
 
-Reproduce the calculation in your Project 1 notebook and run that notebook
-from a clean kernel. Browser execution is useful for a first experiment; the
-project notebook is the durable scientific record.
-
-:::{note} Reset is evidence, not punishment
-
-Use **Reset Python** in the experiment card, then rerun the experiment. If a
-result depends on a variable you forgot to define, that is useful evidence that
-the calculation is not yet reproducible from a clean state.
-:::
+Run the Project 1 notebook from a clean kernel before submitting. If a result
+depends on a variable you forgot to define, that is useful evidence that the
+calculation is not yet reproducible.
