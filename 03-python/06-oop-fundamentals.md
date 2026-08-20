@@ -1,13 +1,86 @@
 ---
 title: "Chapter 6: OOP Fundamentals - Organizing Scientific Code"
-subtitle: "COMP 521 | Python Fundamentals"
+subtitle: "Foundations for Scientific Programming"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
 ---
 
-## Learning Objectives
+## Scientific question
+
+When does a scientific entity have state and behavior that should be kept
+together, and how can a small class make its valid states explicit?
+
+## Core ideas
+
+- Use a class when data and operations that change or interpret that data form
+  one coherent, stateful entity; use a function for a simple transformation.
+- `__init__` establishes state, methods act on it, and properties can expose a
+  derived value or validate a controlled update.
+- A class documents an invariant but does not prove scientific correctness:
+  validate relevant inputs and test behavior independently.
+
+## Prerequisites
+
+You should be able to write functions with explicit inputs and outputs
+(Chapter 5), use dictionaries (Chapter 4), and reason about mutation and
+aliasing (Chapter 4).
+
+## Learning objectives
+
+By the end of the core route, you can decide whether a class is warranted,
+write a small class with one invariant, and distinguish an instance attribute
+from a class attribute.
+
+## Predict → run → explain → revise
+
+Predict which construction succeeds and why before running it.
+
+```python
+class Measurement:
+    def __init__(self, value, unit):
+        if unit not in {"K", "m"}:
+            raise ValueError("unit must be declared")
+        self.value = value
+        self.unit = unit
+
+print(Measurement(273.15, "K").unit)
+# Measurement(273.15, "kelvin")  # predict the exception before uncommenting
+```
+
+Explain the invariant this class enforces and one limitation: the accepted
+strings alone do not convert units or establish that the measurement is valid.
+Revise the class for a stateful entity in your own work, or choose a function
+instead if it has no state to preserve.
+
+## Apply or extend
+
+Sketch either a function or a class for a measured entity such as a sensor,
+sample, particle, or experiment configuration. State why it should retain
+state—or why a plain function and a data record would be clearer—and name one
+invariant that a test should check.
+
+## Recap and next connection
+
+Small classes can make selected states and operations explicit; they are not a
+replacement for evidence about a model or its data. [Part II: Arrays,
+Visualization, and Reliable Computing](../04-scientific-computing/index.md)
+next applies these programming habits to array calculations, figures, and
+numerical evidence.
+
+## Deep dive / reference
+
+The core route gives a deliberate, small use of classes. The detailed material
+below covers inheritance, method catalogues, debugging tools, and other
+features to consult when an actual design requires them.
+
+:::::{dropdown} Legacy detailed reference
+
+The following reference preserves the original extended explanations and
+examples. It is not a second required route through the chapter.
+
+### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -20,7 +93,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Recognize when OOP improves** code organization versus when functions suffice
 - [ ] **(8) Connect the transition** from procedural to object-oriented thinking in scientific computing
 
-## Prerequisites Check
+### Reference prerequisites and self-check
 
 Before starting this chapter, verify you can:
 
@@ -48,7 +121,7 @@ If you said both print "200", you're ready! Python uses **call-by-sharing**:
 the function receives a reference to the same object, so mutating a mutable
 object is visible to the caller; rebinding the local parameter is not.
 
-## Chapter Overview
+### Reference overview
 
 You've mastered functions to organize behavior and modules to organize related functions. But what happens when data and the functions that operate on it are inseparable? When tracking particles in a simulation, each particle has position, velocity, and mass, along with methods to update position, calculate kinetic energy, and check collisions. Passing all this data between separate functions becomes error-prone and verbose. This is where Object-Oriented Programming transforms your code from a collection of functions to a model of your problem domain.
 
@@ -929,11 +1002,12 @@ independent measurement, system-level verification, or scientific judgment.
 :::{important} 🌟 Why This Matters: Mars Climate Orbiter
 :class: dropdown
 
-In 1999, Mars Climate Orbiter was lost after ground-software trajectory models
-interpreted angular-momentum-desaturation impulse data in newton-seconds when it
-had been supplied in pound-force seconds. The unit mismatch introduced errors
-into the estimated trajectory; it was not a claim that the physical thrusters
-fired at 4.45$\times$ their intended force.
+In 1999, Mars Climate Orbiter was lost after ground navigation calculations
+received angular-momentum-desaturation impulse data in pound-force seconds
+(lbf-s) while another interface expected newton-seconds (N-s). The mismatch
+introduced an approximately 4.45 conversion factor into navigation
+calculations; it was not a claim that the physical thrusters fired at
+4.45$\times$ their intended force.
 
 The class below is a classroom illustration of a single unit-conversion boundary,
 not a reconstruction of the mission or a claim that a property alone prevents
@@ -1016,7 +1090,7 @@ Always use a different internal name (usually with underscore) for the actual st
 
 ---
 
-## 6.5 Special Methods: Making Objects Pythonic
+## 6.5 Special Methods: Making Objects Pythonic — Deep dive / reference
 
 :::{margin}
 **Special Method**
@@ -1238,7 +1312,7 @@ This is why your custom objects can work with built-in functions! A DataSet with
 
 ---
 
-## 6.6 When to Use Objects vs Functions
+## 6.6 When to Use Objects vs Functions — Deep dive / reference
 
 Now that you understand HOW to create classes with all their powerful features - properties for validation, special methods for integration, inheritance for code reuse (Chapter 10) - you need wisdom about WHEN to use them. Not every problem needs objects. Creating unnecessary classes can make code harder to understand, not easier. The art of programming lies in choosing the right tool for the right job.
 
@@ -1461,7 +1535,7 @@ Today, Astropy has over 10 million downloads and is astronomy's most-used packag
 *[Sources: Robitaille, T., et al. (2013). Astropy: A community Python package for astronomy. Astronomy & Astrophysics, 558, A33. Development history simplified for pedagogical purposes.]*
 :::
 
-## 6.7 Debugging Classes
+## 6.7 Debugging Classes — Deep dive / reference
 
 Understanding how to inspect and debug objects is crucial. Python provides powerful introspection tools to examine objects at runtime:
 
@@ -1589,7 +1663,7 @@ This bug has caused real problems in production systems. Always use `None` as de
 
 You've just made a fundamental leap in how you think about programming. Object-Oriented Programming isn't just a different syntax—it's a different mental model. Instead of thinking "what operations do I need to perform on this data?", you now think "what *is* this thing and what can it *do*?" This shift from procedural to object-oriented thinking mirrors how we naturally conceptualize scientific systems. A particle isn't just three numbers for position; it's an entity with mass, velocity, and behaviors like moving and colliding. This conceptual alignment makes complex programs more intuitive and maintainable.
 
-The power of OOP becomes clear when managing complexity. That simple Particle class with five attributes and three methods might seem like overkill compared to a dictionary. But when your simulation has thousands of particles, each needing consistent updates, validation, and state tracking, the object-oriented approach prevents the chaos that killed the Mars Climate Orbiter mission. Properties ensure units stay consistent. Methods guarantee state updates follow physical laws. Special methods make your objects work seamlessly with Python's syntax. These aren't just programming conveniences—they're safety mechanisms that prevent billion-dollar disasters. The Therac-25 radiation overdoses, Hubble's mirror error, and countless other failures could have been prevented with proper encapsulation and validation.
+The power of OOP becomes clear when managing complexity. That simple Particle class with five attributes and three methods might seem like overkill compared to a dictionary. But when a simulation has many particles that need consistent updates, validation, and state tracking, a carefully designed class can make local contracts easier to inspect and test. Properties can validate a controlled update, methods can make the intended state transition explicit, and special methods can integrate an object with Python syntax. None of those mechanisms alone establishes system-level correctness: interfaces, units, models, and independent evidence still need their own checks.
 
 The historical journey from SIMULA to modern Python reveals how OOP emerged from practical needs. Norwegian scientists needed to simulate factories and harbors, leading them to bundle data with behavior—the birth of objects. This paradigm spread through Smalltalk, C++, and Java, eventually reaching Python where Guido van Rossum's radical transparency (special methods anyone can implement) democratized programming. When you write `__add__` to define addition for your objects, you're using the same mechanism that made NumPy arrays feel native to Python. This is why scientific libraries integrate so seamlessly—they all follow the same protocols.
 
@@ -1649,7 +1723,7 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 
 ✓ **Not everything needs to be a class** – Use objects for stateful entities with behavior, functions for simple calculations and transformations
 
-✓ **Properties prevent unit disasters** – Validation in setters catches errors immediately, preventing Mars Climate Orbiter-style catastrophes
+✓ **Properties can expose local unit checks** – Validation in setters can catch a declared local constraint, but system-level unit interfaces require independent verification
 
 ✓ **Everything in Python is an object** – Even functions and modules are objects, making Python's object model consistent and powerful
 
@@ -1716,9 +1790,12 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 | `vars(obj)` or `obj.__dict__` | Get instance attributes only | `vars(particle)` |
 | `help(obj)` | Get documentation | `help(Particle)` |
 
-## Next Chapter Preview
+## Recap and next connection
 
-In Chapter 7: NumPy Fundamentals, you'll see how the OOP concepts you just learned power the foundation of scientific Python. NumPy arrays aren't just data containers—they're sophisticated objects with methods like `.reshape()`, `.mean()`, and `.dot()`. You'll discover how NumPy combines the intuitive OOP interface you now understand with blazing-fast C implementations, achieving the best of both worlds. We'll explore array creation, indexing, broadcasting, and vectorization—concepts that eliminate explicit loops and make calculations orders of magnitude faster. Most importantly, you'll see how NumPy's object-oriented design enables the entire scientific Python ecosystem, from plotting with Matplotlib to machine learning with scikit-learn. The objects you just learned to create? They're the same pattern that processes terabytes of astronomical data and simulates the universe's evolution!
+Part II begins with [Chapter 7: NumPy Fundamentals](../04-scientific-computing/01-numpy-fundamentals.md).
+There, arrays provide a different kind of abstraction: many numerical values,
+their shape, and operations over them. Carry forward the same habits—name
+assumptions, protect invariants, and test a known case.
 
 ## References
 
@@ -1762,3 +1839,4 @@ In Chapter 7: NumPy Fundamentals, you'll see how the OOP concepts you just learn
     - Lutz, M. (2013). *Learning Python* (5th ed.). O'Reilly Media.
     - Ramalho, L. (2015). *Fluent Python*. O'Reilly Media.
     - Beazley, D., & Jones, B. K. (2013). *Python Cookbook* (3rd ed.). O'Reilly Media.
+:::::

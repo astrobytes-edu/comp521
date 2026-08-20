@@ -12,10 +12,11 @@ linked page remains the source of truth for its own instructions.
 
 ## Launch period · Project 1
 
-Start with the [Project 1 core route](../03-python/index.md#the-project-1-core-route).
-It names the specific reference sections to read now and the small
-predict → run → explain rehearsal that prepares you to work in your own
-notebook.
+Start with the [Part I guide](../03-python/index.md#how-to-use-this-part),
+then use the course schedule's exact chapter links for this week's preparation.
+The guide explains the textbook's predict → run → explain → revise convention;
+the course overlay identifies the preparation that belongs to the current
+class meeting.
 
 In class, we will use the [Transit Depth lecture](../03-python/interactive-lab-transit-depth.md)
 to connect the observable change in flux to a deliberately simple model. The

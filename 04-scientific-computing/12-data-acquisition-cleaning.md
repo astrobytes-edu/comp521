@@ -1,11 +1,11 @@
 ---
-title: "Chapter 12: Data Acquisition, Cleaning, and Exploratory Analysis"
-subtitle: "Part III: Real Data Workflows | COMP 521"
+title: "Chapter 12: From Raw Data to a Defensible Dataset (in development)"
+subtitle: "Scientific Computing with Python"
 ---
 
-:::{warning} Reading in preparation
-This reading is the Project 5 entry point and will be finalized before that
-project begins. Do not treat this page as a complete technical guide yet.
+:::{important} In development
+This page records the approved scope for a future completed chapter. It is not
+a technical guide or a completed textbook chapter yet.
 :::
 
 ## Why this chapter belongs here
@@ -23,5 +23,6 @@ data before model fitting.
 - making cleaning choices explicit and testable;
 - using exploratory plots to find structure and failure modes before fitting.
 
-For now, use [Pandas fundamentals](11-pandas-fundamentals.md) for table
-operations and follow the Project 5 brief when it is released.
+For now, use [Chapter 11](11-pandas-fundamentals.md) as early reference
+material for table operations and [Part II](index.md) for the completed
+foundations that support later data work.

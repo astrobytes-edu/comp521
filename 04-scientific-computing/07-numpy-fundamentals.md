@@ -1,30 +1,95 @@
 ---
-title: "Chapter 7: NumPy - The Foundation of Scientific Computing"
-subtitle: "COMP 521 | Scientific Computing Core"
+title: "Chapter 7: NumPy Arrays for Scientific Reasoning"
+subtitle: "Shapes, dtypes, and operations that make numerical assumptions inspectable"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
+## Scientific question
 
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
+How can an array make the structure of a numerical calculation visible—rather
+than hiding assumptions about units, dimensions, and which observations are
+included?
 
-## Learning Objectives
+## Core ideas
+
+- An array has a **shape**, a **dtype**, and values. Inspect all three before
+  interpreting a result.
+- Vectorized operations express one operation over many values; they are not a
+  promise of a particular speedup.
+- Boolean masks make inclusion rules explicit. Broadcasting aligns compatible
+  trailing dimensions; it does not guess your intended axis.
+- Slices can be views, while advanced indexing commonly makes copies. Check
+  before mutating an array you did not create.
+- Use a named `np.random.Generator` with a recorded seed when simulated data
+  must be reproducible.
+
+## Prerequisites
+
+You should be comfortable with Python variables, lists, functions, imports,
+and basic numerical expressions. This chapter introduces array storage and
+array operations directly; it does not assume prior file-I/O instruction.
+
+## Learning objectives
+
+By the end of the core route, you can create arrays with deliberate dtypes,
+inspect their shapes, vectorize and mask a calculation, reason about a
+broadcast, distinguish a view from a copy, and reproduce a simple random
+simulation.
+
+## Predict → run → explain → revise
+
+Suppose each row is one sensor and each column is one measurement time. Predict
+the shape of `readings - baseline[:, None]` before running it. Then inspect the
+shape and explain why `baseline` must be reshaped to `(n_sensors, 1)` rather
+than `(n_sensors,)`. Change the baseline to one value per time and revise your
+prediction.
+
+```python
+import numpy as np
+
+readings = np.array([[10.0, 11.0, 12.0], [20.0, 21.0, 22.0]])
+baseline = np.array([10.0, 20.0])
+corrected = readings - baseline[:, None]
+print(readings.shape, baseline[:, None].shape, corrected.shape)
+print(corrected)
+```
+
+The reshape makes the intended alignment inspectable: subtract one baseline
+from every time measurement in its corresponding row.
+
+## Apply or extend
+
+Choose a measurement matrix from your field. State in a comment what each axis
+means, write a mask for observations that meet one declared quality rule, and
+report how many observations the rule excludes. If you simulate measurements,
+record the generator seed and the distributional assumption.
+
+## Recap and next connection
+
+Arrays provide a compact, inspectable representation of numerical data.
+Chapter 8 turns those arrays into visual evidence: a figure should reveal its
+units, uncertainty, and limits as clearly as an array reveals its shape.
+
+## Deep dive / reference
+
+The remainder preserves extended examples, API reference, and specialized
+methods. Start with the core route above; return here when a concrete
+calculation needs more detail.
+
+:::::{dropdown} Legacy detailed reference
+
+The following reference preserves extended explanations, API details, and
+examples. It is not a second required route through the chapter.
+
+### Reference objectives
 
 By the end of this chapter, you will be able to:
 
 - [ ] **(1) Create and manipulate NumPy arrays** for efficient numerical computation
-- [ ] **(2) Apply vectorized operations** to eliminate explicit loops and improve performance by large factors
+- [ ] **(2) Apply vectorized operations** to express repeated numerical operations clearly
 - [ ] **(3) Master array indexing, slicing, boolean masking, and broadcasting** for sophisticated data manipulation
 - [ ] **(4) Use essential NumPy functions** for scientific computing (`linspace`, `logspace`, `where`, `meshgrid`)
 - [ ] **(5) Perform array transformations** including reshaping, stacking, and splitting for data analysis
@@ -32,7 +97,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Apply NumPy to real scientific calculations** with proper unit conversions and unit-aware variable names
 - [ ] **(8) Recognize when and why to use NumPy** instead of pure Python for numerical tasks
 
-## Prerequisites Check
+### Reference prerequisites and self-check
 
 Before starting this chapter, verify you can:
 
@@ -41,7 +106,6 @@ Before starting this chapter, verify you can:
 - [ ] Understand functions and return values (Chapter 5)
 - [ ] Work with nested data structures (Chapter 4)
 - [ ] Import and use modules (Chapter 5)
-- [ ] Read and write files (Chapter 6)
 
 ### Self-Assessment Diagnostic
 
@@ -81,7 +145,7 @@ If you got all four correct, you're ready for NumPy! If not, review the indicate
 
 ---
 
-## Chapter Overview
+### Reference overview
 
 You've been using Python lists to store collections of numbers, and the math module to perform calculations. But what happens when you need to analyze a million stellar spectra, each with thousands of wavelength points? Or when you need to perform the same calculation on every pixel in a telescope image? Try using a list comprehension on a million-element list, and you'll be waiting a while. This is where NumPy transforms Python from a general-purpose language into a powerhouse for scientific computing, providing the speed and tools necessary for research-grade computational science.
 
@@ -364,9 +428,11 @@ for i in range(1000):
 :::
 :::
 
-### Saving and Loading Arrays (Connection to Chapter 6)
+### Saving and Loading Arrays
 
-Remember the file I/O concepts from Chapter 6? NumPy extends them for efficient array storage:
+This section introduces NumPy's array-specific storage operations locally. They
+are useful when a calculation needs to preserve values, shape, and dtype
+together:
 
 ```python
 import os  # For cleanup
@@ -803,7 +869,7 @@ def sum_squares_loop(arr):
         total += x**2
     return total
 
-# O(n) - Linear time with NumPy (but ~100x faster!)
+# O(n) - Linear time with NumPy; measure the result on your workload.
 def sum_squares_numpy(arr):
     return (arr**2).sum()
 
@@ -1415,6 +1481,12 @@ For observatories processing massive nightly data volumes, understanding views v
 
 ---
 
+## Deep dive / reference: numerical methods and performance
+
+The following tools are useful in particular scientific contexts. They are not
+part of the Chapter 7 first-use core; introduce their assumptions explicitly
+before relying on them for an inference.
+
 ## 7.8 Essential Scientific Functions
 
 NumPy provides specialized functions crucial for scientific computing:
@@ -1577,7 +1649,11 @@ Units and assumptions: N, n, and k are unitless indices. The physical units of f
 - **Power $|X[k]|^2$**: The energy at that frequency (power spectrum)
 - **Frequency bins**: $k$ corresponds to frequency $f = k \times (\mathrm{sampling\_rate}/N)$
 
-For real-valued signals, the FFT has symmetry properties – negative frequencies mirror positive ones, so we typically only analyze the positive half.
+`np.fft.fftfreq` orders bins as zero frequency, positive frequencies, then
+negative frequencies. For a real-valued signal, use `np.fft.rfft` with
+`np.fft.rfftfreq` when you need only the non-negative-frequency half; this
+matches the transform's Hermitian symmetry. Both choices still require a
+uniform sample spacing and an explicit interpretation of units.
 
 ```{code-cell} python
 import numpy as np
@@ -1783,7 +1859,9 @@ windowed_signal = signal * window
 fft_windowed = np.fft.fft(windowed_signal)
 ```
 
-For this course, you won't need window functions — but knowing they exist prepares you for advanced signal processing!
+Window functions are a specialized signal-processing tool. Use one only after
+checking how it changes resolution, leakage, and the interpretation of any
+amplitudes.
 :::
 
 :::{note} Quick Check
@@ -2184,7 +2262,8 @@ The performance gains you've witnessed aren't just convenient; they're transform
 
 Beyond performance, NumPy provides a vocabulary for scientific computing that's consistent across the entire Python ecosystem. The array indexing, broadcasting rules, and ufuncs you've learned aren't just NumPy features – they're the standard interface for numerical computation in Python. When you move on to using SciPy for optimization, Matplotlib for visualization, or Pandas for data analysis, you'll find they all speak NumPy's language. This consistency means the effort you've invested in understanding NumPy pays dividends across every scientific Python library you'll ever use. You've learned to leverage views for memory efficiency, use boolean masking for sophisticated data filtering, and apply broadcasting to solve complex problems elegantly. These aren't just programming techniques; they're computational thinking patterns that will shape how you approach every numerical problem.
 
-You've also mastered the random number generation capabilities essential for Monte Carlo simulations – a cornerstone of modern computational astrophysics. From simulating photon counting statistics with Poisson distributions to modeling measurement errors with Gaussian noise, you now have the tools to create realistic synthetic data and perform statistical analyses. The ability to generate random samples from various distributions, perform bootstrap resampling, and create correlated multivariate data will be crucial in your upcoming projects, especially when you tackle Monte Carlo sampling techniques.
+Random generators let you create controlled synthetic data, but a simulation is
+only as defensible as its stated distributional assumptions and seed record.
 
 Looking ahead, NumPy arrays will be the primary data structure for the rest of your scientific computing journey. Every image you process, every spectrum you analyze, every simulation you run will flow through NumPy arrays. You now have the tools to use NumPy for arrays and the `math` module for scalar-only tasks when appropriate. The concepts you've mastered – vectorization, broadcasting, boolean masking – aren't just NumPy features; they're the foundation of modern computational science. You're no longer limited by Python's native capabilities; you have access to the same computational power that enables large‑scale data analysis across many scientific fields. In the next chapter, you'll see how NumPy arrays become the canvas for scientific visualization with Matplotlib, where every plot, image, and diagram starts with the arrays you now know how to create and manipulate.
 
@@ -2378,3 +2457,4 @@ Assume `rng = np.random.default_rng(42)` for the examples below.
 ## Next Chapter Preview
 
 In Chapter 8: Matplotlib - Visualizing Your Universe, you'll discover how to transform the NumPy arrays you've mastered into publication-quality visualizations. You'll learn to create everything from simple line plots to complex multi-panel figures displaying astronomical data. Using the same NumPy arrays you've been working with, you'll visualize spectra with proper wavelength scales, create color-magnitude diagrams from stellar catalogs, display telescope images with world coordinate systems, and generate the kinds of plots that appear in research papers. You'll master customization techniques to control every aspect of your figures, from axis labels with LaTeX formatting to colormaps optimized for astronomical data. The NumPy operations you've learned – slicing for zooming into data, masking for highlighting specific objects, and meshgrid for creating coordinate systems – become the foundation for creating compelling scientific visualizations. Most importantly, you'll understand how NumPy and Matplotlib work together as an integrated system, with NumPy handling the computation and Matplotlib handling the visualization, forming the core workflow that will carry you through your entire career in computational astrophysics!
+:::::

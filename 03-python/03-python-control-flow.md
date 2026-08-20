@@ -1,13 +1,91 @@
 ---
 title: "Chapter 3: Control Flow & Logic"
-subtitle: "Python Fundamentals | COMP 521"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
 ---
 
-## Learning Objectives
+## Scientific question
+
+What decisions, invariants, and termination conditions make an algorithm's
+result interpretable?
+
+## Core ideas
+
+- Pseudocode exposes the algorithm before syntax obscures it.
+- Branches and loops should make their valid states and failure paths explicit.
+- Iterative scientific calculations need both a convergence criterion and a
+  finite iteration guard.
+
+## Prerequisites
+
+Complete [Chapter 2](02-python-calculator.md), including tolerance-based
+comparison, and be able to run short Python programs.
+
+## Learning objectives
+
+By the end of this chapter, you can translate a scientific procedure into
+pseudocode, write explicit branches and loops, and state why an iterative result
+stopped.
+
+## Worked scientific example
+
+The following bounded loop approximates the square root of a positive number by
+successive refinement. Its convergence condition and `max_iter` limit are both
+part of the model of trustworthy execution.
+
+```{code-cell} python
+import math
+
+target = 2.0
+estimate = 1.0
+tolerance = 1e-12
+max_iter = 20
+
+for iteration in range(max_iter):
+    next_estimate = 0.5 * (estimate + target / estimate)
+    if math.isclose(next_estimate, estimate, rel_tol=0.0, abs_tol=tolerance):
+        estimate = next_estimate
+        break
+    estimate = next_estimate
+else:
+    raise RuntimeError("did not converge within max_iter")
+
+print(iteration + 1, estimate)
+```
+
+This is a deliberately simple solver. Its output supports the claim that this
+particular update met the stated criterion within the stated bound.
+
+## Predict → run → explain → revise
+
+Predict what happens if `max_iter = 0`, then run the example with that change.
+Explain why the resulting failure is evidence about the algorithm's execution,
+not a workaround to hide. Revise the experiment by choosing a looser tolerance
+and comparing the iteration count and final estimate.
+
+## Apply or extend
+
+Write pseudocode for one repeated scientific procedure in your field. State a
+progress quantity, stopping rule, maximum number of iterations, and the action
+to take if it does not converge. Then identify one input that should be rejected
+before the loop begins.
+
+## Recap and next connection
+
+Explicit conditions and bounds make control flow inspectable. [Chapter
+4](04-python-data-structures.md) next considers how the data an algorithm moves
+through should be represented.
+
+::::{dropdown} Deep dive / reference
+
+The sections below preserve detailed syntax, algorithm-pattern, and debugging
+reference material. They are optional after the core route above; return when a
+specific control-flow design or failure needs more detail.
+
+### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -27,14 +105,14 @@ By the end of this chapter, you will be able to:
 - [ ] You understand floating-point precision and comparison issues (Chapter 2)
 - [ ] You can write and run Python scripts from the terminal (Chapter 1)
 - [ ] You can use f-strings for formatted output (Chapter 2)
-- [ ] Your `comp521` environment is activated and working
+- [ ] A Python environment is active and working
 
 If any boxes are unchecked, review the indicated chapters first.
 :::
 
 ---
 
-## Chapter Overview
+### Reference overview
 
 Programming is fundamentally about teaching computers to make decisions and repeat tasks. When you write an **if** statement or a loop, you're translating human logic into instructions a machine can follow. But here's the critical insight that separates computational thinkers from mere coders: the logic must be designed before it's implemented. This chapter transforms you from someone who writes code to someone who designs algorithms.
 
@@ -60,26 +138,12 @@ The concepts in this chapter underpin *everything* that follows: simulations, co
 **This chapter is worth revisiting.** Come back to it mid-semester. The pseudocode strategies and algorithmic patterns will make more sense once you've seen them in action.
 :::
 
-:::{warning} Course policy: do not let notebook state hide your control flow
+:::{warning} Do not let notebook state hide control flow
 
-COMP 521 permits notebooks for analysis and reporting, but notebook state must
-never be part of the algorithm. Project 1 may contain its functions in the
-notebook; from Project 2 onward, implementation belongs in `.py` modules.
-
-**Why notebooks undermine control flow learning:**
-
-- **Hidden state**: Variables persist invisibly between cells, making it impossible to reason about what your code actually does when run fresh.
-- **Non-deterministic execution order**: Running cells out of order creates bugs that only appear sometimes — the worst kind.
-- **Silent logic errors**: A loop that should fail might "work" because a variable was set by a cell you ran earlier and forgot about.
-- **Unreproducible results**: Your code may not produce the same output when someone else runs it (or when you run it tomorrow).
-
-Control flow is about **predictable, reproducible execution**. A notebook that
-only works because cells were run out of order fails that standard.
-
-**In this course:** Write explicit functions, know exactly what state they use,
-and verify the submitted notebook with **Restart Kernel and Run All Cells**. See
-the canonical [notebook and code
-policy](../01-course-info/projects.md#notebook-and-code-policy).
+Variables that persist between notebook cells can make an algorithm appear to
+work only because an earlier cell set unrecorded state. A reproducible notebook
+can be restarted and executed from top to bottom with the same declared inputs.
+Keep the loop's state, guards, and stopping rule visible in the code itself.
 :::
 
 :::{note} How This Chapter Differs from Most Programming Courses
@@ -100,16 +164,16 @@ The same algorithmic thinking you develop here is used in telescope scheduling s
 
 This chapter is a **reference** as much as a reading. You're not expected to memorize every pattern or internalize every example on first pass.
 
-**What we do expect:**
+**A productive reading approach:**
 
 - Read through the chapter to build familiarity with the concepts
-- Return to specific sections when you're designing algorithms for projects
+- Return to specific sections when you're designing an algorithm
 - Use the Quick Reference Tables at the end as a lookup resource
 - Recognize when a problem fits one of the five universal patterns
 
 **What's normal:**
 
-- Feeling like some material "clicks" only after you've tried to use it in a project
+- Feeling like some material "clicks" only after you have tried to use it
 - Returning to re-read sections on guard clauses or convergence loops mid-semester
 - Finding that pseudocode feels awkward at first but becomes essential later
 
@@ -1801,3 +1865,5 @@ Imagine trying to find a specific star in a catalog of millions. With a list, yo
 The control flow patterns you've mastered here will operate on the data structures you'll learn next. Your loops will iterate through dictionaries of astronomical objects. Your conditionals will filter sets of observations. Your comprehensions will transform lists of measurements into meaningful results. Together, control flow and data structures give you the power to handle the massive datasets of modern science — from Gaia's billion-star catalog to the petabytes of data from the Square Kilometre Array.
 
 Get excited — Chapter 4 is where your code goes from processing dozens of data points to handling thousands efficiently!
+
+::::

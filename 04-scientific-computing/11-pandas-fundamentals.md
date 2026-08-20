@@ -1,18 +1,15 @@
 ---
-title: "Chapter 11: Pandas - Organizing Scientific Data"
-subtitle: "COMP 521 | Scientific Computing Core"
+title: "Chapter 11: DataFrames — Tables, Types, and Relational Operations"
+subtitle: "Scientific Computing with Python | early reference"
 author: "Anna Rosen"
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+:::{important} Early reference — Part III is in development
+This chapter is available as reference material while Part III is being
+hardened. It is not part of the completed Parts I–II route. Its durable focus
+is table semantics, types, filtering, aggregation, joins, and provenance-aware
+operations; Pandas is the first concrete implementation.
 :::
 <!-- prep-banner:end -->
 

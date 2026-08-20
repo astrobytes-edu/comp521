@@ -51,7 +51,7 @@ written and will appear before their week.
 - [Command line intro](../02-getting-started/01-cli-intro.md)
 - [Software setup](../02-getting-started/02-software-setup.md)
 - [Git intro](../02-getting-started/03-git-intro.md)
-- [Python Fundamentals: Project 1 core route](../03-python/index.md#the-project-1-core-route): environment and clean-kernel execution; arithmetic, variables, and numerical comparison; pseudocode, conditionals, and loops
+- [Part I guide](../03-python/index.md#how-to-use-this-part), then [Chapter 1](../03-python/01-python-environment.md), [Chapter 2](../03-python/02-python-calculator.md), and [Chapter 3](../03-python/03-python-control-flow.md): environment and clean-kernel execution; arithmetic, variables, numerical comparison; pseudocode, conditionals, and loops
 
 **Topics** — environment setup, Git/GitHub workflow, Python syntax, floating
 point, control flow, the five algorithmic patterns
@@ -62,7 +62,7 @@ class Thu **Aug 27** · **Growth Memo 1** (baseline), Mon **Aug 31**
 ### Week 2 — Sep 1, 3 · Data structures, functions, and arrays
 
 **Readings**
-- [Python Fundamentals: Project 1 core route](../03-python/index.md#the-project-1-core-route): basic data structures, mutability, and functions (Section 5.1)
+- [Part I guide](../03-python/index.md#how-to-use-this-part), then [Chapter 4](../03-python/04-python-data-structures.md) and [Chapter 5](../03-python/05-python-functions-modules.md): basic data structures, mutability, and function contracts
 - [NumPy fundamentals](../04-scientific-computing/07-numpy-fundamentals.md)
 - [Matplotlib fundamentals](../04-scientific-computing/08-matplotlib-fundamentals.md)
 

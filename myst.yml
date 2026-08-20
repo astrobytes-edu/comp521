@@ -46,7 +46,7 @@ project:
 
     - title: Scientific Computing with Python
       children:
-        - title: Part I · Programming for Scientific Work
+        - title: Part I · Foundations for Scientific Programming
           children:
             - file: 03-python/index.md
             - file: 03-python/01-python-environment.md
@@ -56,7 +56,7 @@ project:
             - file: 03-python/05-python-functions-modules.md
             - file: 03-python/06-oop-fundamentals.md
             - file: 03-python/synthesis.md
-        - title: Part II · The Scientific Python Toolkit
+        - title: Part II · Arrays, Visualization, and Reliable Computing
           children:
             - file: 04-scientific-computing/index.md
             - file: 04-scientific-computing/07-numpy-fundamentals.md

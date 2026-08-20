@@ -7,6 +7,50 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 
 
+PART_I_II_CHAPTERS = (
+    "03-python/01-python-environment.md",
+    "03-python/02-python-calculator.md",
+    "03-python/03-python-control-flow.md",
+    "03-python/04-python-data-structures.md",
+    "03-python/05-python-functions-modules.md",
+    "03-python/06-oop-fundamentals.md",
+    "04-scientific-computing/07-numpy-fundamentals.md",
+    "04-scientific-computing/08-matplotlib-fundamentals.md",
+    "04-scientific-computing/09-robust-computing.md",
+    "04-scientific-computing/10-advanced-oop.md",
+)
+
+
+@pytest.mark.parametrize("path", PART_I_II_CHAPTERS)
+def test_completed_chapter_exposes_reader_contract(path):
+    text = (ROOT / path).read_text()
+    for heading in (
+        "## Scientific question",
+        "## Core ideas",
+        "## Prerequisites",
+        "## Learning objectives",
+        "## Predict → run → explain → revise",
+        "## Apply or extend",
+        "## Recap and next connection",
+    ):
+        assert heading in text
+
+
+def test_part_i_and_ii_guides_are_course_agnostic_and_truthful():
+    part_i = (ROOT / "03-python/index.md").read_text()
+    part_ii = (ROOT / "04-scientific-computing/index.md").read_text()
+    assert "Project 1" not in part_i
+    assert "assignments and projects" not in part_ii
+    assert "11-pandas-fundamentals.md" not in part_ii
+
+
+def test_deferred_part_iii_is_honest_about_its_status():
+    part_iii = (ROOT / "04-scientific-computing/part-3-data-workflows.md").read_text()
+    chapter_12 = (ROOT / "04-scientific-computing/12-data-acquisition-cleaning.md").read_text()
+    assert "in development" in part_iii.lower()
+    assert "in development" in chapter_12.lower()
+
+
 @pytest.mark.parametrize(
     ("path", "required"),
     [
@@ -55,6 +99,12 @@ def test_myst_toc_uses_the_approved_top_level_libraries():
         "Assessments",
         "Tools & Workflow",
     ]
+
+
+def test_myst_toc_uses_the_release_one_textbook_part_labels():
+    config = (ROOT / "myst.yml").read_text()
+    assert "title: Part I · Foundations for Scientific Programming" in config
+    assert "title: Part II · Arrays, Visualization, and Reliable Computing" in config
 
 
 @pytest.mark.parametrize(

@@ -1,13 +1,79 @@
 ---
 title: "Chapter 5: Functions & Modules - Building Reusable Scientific Code"
-subtitle: "COMP 521 | Python Fundamentals"
+subtitle: "Foundations for Scientific Programming"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
 ---
 
-## Learning Objectives
+## Scientific question
+
+How can a calculation state its inputs, units, assumptions, output, and failure
+conditions clearly enough to be reused and checked?
+
+## Core ideas
+
+- A function is a contract: its name, parameters, return value, validation,
+  and documentation communicate what result it promises.
+- Prefer explicit inputs and outputs over hidden global state; make optional
+  behavior visible with named keyword arguments.
+- A module groups related, importable definitions so a calculation can be
+  tested independently of the narrative or interface that uses it.
+
+## Prerequisites
+
+You should be comfortable with expressions and floating-point comparison
+(Chapter 2), control flow (Chapter 3), and the basic collection types
+(Chapter 4).
+
+## Learning objectives
+
+By the end of the core route, you can write a small unit-bearing function,
+document its contract, reject an invalid input, and test a limiting or known
+case.
+
+## Predict → run → explain → revise
+
+Predict what happens when a distance in metres is paired with a time of zero,
+then run the function below.
+
+```python
+def mean_speed(distance_m, elapsed_s):
+    """Return mean speed in m/s for a positive elapsed time."""
+    if elapsed_s <= 0:
+        raise ValueError("elapsed_s must be positive")
+    return distance_m / elapsed_s
+
+print(mean_speed(120.0, 30.0))
+# mean_speed(120.0, 0.0)  # predict the exception before uncommenting
+```
+
+Explain how the parameter names, docstring, validation, and return unit make
+the contract inspectable. Revise it for your own calculation by naming its
+units and adding one boundary or limiting-case check.
+
+## Apply or extend
+
+Extract a repeated calculation from a notebook, script, or analysis into one
+function. Write one sentence each for its valid inputs, output units, and one
+condition it should reject. Put it in a small module once another calculation
+needs to import it.
+
+## Recap and next connection
+
+Functions localize assumptions and tests; modules make those contracts usable
+across a larger program. [Chapter 6](06-oop-fundamentals.md) considers the
+different case where a measured entity has state and behavior that must remain
+synchronized.
+
+::::{dropdown} Deep dive / reference
+
+The core route is about explicit scientific contracts. The detailed material
+below is reference material for parameter edge cases, scope, packages,
+documentation, testing, and performance once a concrete codebase needs them.
+
+### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -20,7 +86,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Apply optimization strategies** through memoization and vectorization for large-scale computations.
 - [ ] **(8) Build modular, reusable code** that forms the foundation for object-oriented scientific applications.
 
-## Prerequisites Check
+### Reference prerequisites
 
 Before starting this chapter, verify you can:
 
@@ -32,7 +98,7 @@ Before starting this chapter, verify you can:
 
 ---
 
-## Chapter Overview
+### Reference overview
 
 :::{margin}
 **Function**
@@ -62,23 +128,22 @@ universal rule.
 
 Functions are how you turn a one-off script into a **reusable scientific tool**.
 
-In this course, functions are not just "avoiding repetition." They are how you:
+Functions are not just "avoiding repetition." They are how you:
 
 - make your logic **testable** (so you trust results)
 - isolate assumptions (units, tolerances, edge cases)
-- reuse code safely across projects
+- reuse code safely across analyses and applications
 - collaborate without breaking each other's work
 
 If you invest in this chapter, you'll write less code—and get **more correct results**.
 :::
 
-:::{warning} Course policy reminder: notebooks do not replace modules
+:::{warning} Reproducible analysis convention
 
-Project 1 may keep its functions in the analysis notebook. From Project 2 onward,
-reusable and testable functions belong in `.py` modules that the notebook
-imports. The notebook documents the analysis, figures, and interpretation; it
-must run from a clean kernel. See the canonical [notebook and code
-policy](../01-course-info/projects.md#notebook-and-code-policy).
+When a calculation is reused or needs an independent check, place it in an
+importable `.py` module and keep a notebook or report focused on the analysis,
+figures, and interpretation. Restart and run the analysis from a clean kernel
+before relying on its results.
 :::
 
 :::{note} How to Use This Chapter
@@ -90,7 +155,7 @@ Come back to it when you:
 - are copy/pasting the same code twice
 - can't explain what a block of code is supposed to do
 - need to test a calculation in isolation
-- are ready to organize a project into modules
+- are ready to organize a growing analysis into modules
 :::
 
 ## 5.1 Defining Functions: The Basics
@@ -368,7 +433,7 @@ This pattern appears in:
 ```
 :::
 
-:::{tip} Function Contract Checklist (use this all semester)
+:::{tip} Function Contract Checklist (use throughout your work)
 
 Before you write a function, answer these:
 
@@ -1012,7 +1077,7 @@ The error happens because Python sees you're assigning to `counter`, assumes it'
 **Real disaster:** A climate model that tried to update global temperature but created local variables instead, producing nonsense results for months before discovery.
 :::
 
-### Closures: Functions That Remember
+### Closures: Functions That Remember — Deep dive / reference
 
 :::{margin}
 **Closure**
@@ -1112,11 +1177,13 @@ HIDDEN STATE ANTI-PATTERN:
 - Testing requires global setup
 - Parallel processing becomes impossible
 
-Real disaster: Mars Climate Orbiter (1999)
-- Global unit variable (metric vs imperial)
-- One module changed it to imperial
-- Another module read it expecting metric
-- $327 million spacecraft crashed into Mars
+Mars Climate Orbiter (1999) is a useful warning about an interface contract,
+not about a Python global variable. Ground navigation calculations received
+impulse-bit data in pound-force seconds (lbf-s) while another interface
+expected newton-seconds (N-s). The incompatible units introduced an
+approximately 4.45 conversion factor into navigation calculations; they do
+not imply that the physical thrusters delivered 4.45 times their intended
+force.
 
 Better pattern: Explicit State Passing
 BAD:  current_units = 'metric'; calculate()
@@ -1124,7 +1191,7 @@ GOOD: calculate(units='metric')
 ```
 :::
 
-## 5.4 Functional Programming Elements
+## 5.4 Functional Programming Elements — Deep dive / reference
 
 :::{margin}
 **Side Effect**
@@ -1323,7 +1390,7 @@ Functional programming isn't just academic—it's essential for modern scientifi
 Example: In JAX, you can automatically differentiate through an entire physics simulation if it's written functionally. This enables techniques like physics-informed neural networks that would be impossibly complex to implement manually.
 :::
 
-## 5.5 Modules and Packages
+## 5.5 Modules and Packages — Deep dive / reference
 
 :::{margin}
 **Module**
@@ -1775,7 +1842,9 @@ test_quadratic()
 
 Type hints are an **optional** Python feature introduced in Python 3.5. They document expected types but **Python does not enforce them** - they're primarily for documentation and IDE support.
 
-**For this course**: Type hints are not required but can help make your code clearer. Focus on writing correct functions first, then add type hints if desired.
+Type hints are not required for Python to run a function, but they can clarify
+an interface and help development tools find mismatches. Establish a correct,
+tested function contract first; add hints where they improve communication.
 :::
 
 Python supports type hints to document expected types:
@@ -1898,7 +1967,7 @@ Peak definitions are domain-specific. This heuristic is a reasonable default, an
 :::
 :::
 
-## 5.7 Performance Considerations
+## 5.7 Performance Considerations — Deep dive / reference
 
 Understanding function overhead helps you write efficient code. Let's measure and optimize!
 
@@ -2162,11 +2231,11 @@ With functions and modules, you can hide complexity behind clean interfaces. In 
 | Slow recursion | Exponential time | Add memoization |
 | Type confusion | Unexpected types | Add type hints/validation |
 
-## Next Chapter Preview
+## Recap and next connection
 
-With functions and modules mastered, Chapter 6 introduces Object-Oriented Programming (OOP)—a paradigm that bundles data and behavior together. You'll learn to create classes that model physical systems naturally: a `Particle` class with position and velocity attributes, methods to calculate energy and momentum, and special methods that make your objects work seamlessly with Python's built-in functions.
-
-The functional programming concepts from this chapter provide essential background for OOP. Methods are just functions attached to objects, and understanding scope prepares you for the `self` parameter that confuses many beginners. The module organization skills you've developed will expand to organizing classes and building object hierarchies. Most importantly, the design thinking you've practiced—creating clean interfaces and thinking about contracts—directly applies to designing effective classes that model the complex systems you'll encounter in computational physics.
+Functions and modules are usually the clearest choice for stateless
+transformations. [Chapter 6](06-oop-fundamentals.md) introduces small classes
+only for entities whose changing state and behavior must remain synchronized.
 
 ## References
 
@@ -2199,3 +2268,5 @@ The functional programming concepts from this chapter provide essential backgrou
 6. **Scientific Python Resources**
    - Harris, C. R. et al. (2020). "Array programming with NumPy." *Nature*, 585(7825), 357-362.
    - VanderPlas, J. (2016). *Python Data Science Handbook*. O'Reilly Media. ISBN: 978-1491912058.
+
+::::

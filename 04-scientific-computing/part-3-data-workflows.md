@@ -1,37 +1,35 @@
 ---
-title: "Part III: Real Data Workflows"
-subtitle: "Scientific Computing with Python | COMP 521"
+title: "Part III Guide — Tabular Data and Reproducible Workflows (in development)"
+subtitle: "Scientific Computing with Python"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This part is still being prepared
-Part III will be finalized before it is assigned. Its organization and links
-are stable; examples and exercises are still being developed.
+:::{important} In development
+Part III is planned, but it is not part of the completed Parts I–II textbook
+release. Its eventual chapters will be published only after their examples,
+data-provenance claims, exercises, and navigation satisfy the same reader
+contract as the completed parts.
 :::
-<!-- prep-banner:end -->
 
-## From Arrays to Evidence
+## Intended scope
 
-The first two parts of *Scientific Computing with Python* establish how to
-write, inspect, and validate scientific code. Part III turns those habits
-toward observational data: reading a dataset, retaining its provenance,
-handling missing or suspect measurements, visualizing structure, and producing
-an analysis that another person can reproduce.
+Part III will apply the earlier habits of explicit assumptions, inspection, and
+testing to tabular data. Its planned topics are DataFrames and relational
+operations; raw versus derived data; schemas and quality flags; cleaning
+decision records; exploratory data analysis; columnar formats and Polars; and
+SQL/DuckDB query workflows.
 
-This part supports Project 5 and later final projects. It is not a substitute
-for statistical inference; the methods and uncertainty pages in **Data,
-Inference, and Scientific ML** provide that next layer.
+The aim is not merely to load and transform a table. It is to create a
+defensible dataset whose source, transformations, missingness, and limitations
+another reader can inspect.
 
-## Reading sequence
+## Current preview material
 
-1. [Pandas fundamentals](11-pandas-fundamentals.md) — tables, joins,
-   grouping, and time-series data.
-2. [Data acquisition, cleaning, and exploratory analysis](12-data-acquisition-cleaning.md)
-   — the Project 5 workflow from archive to an analysis-ready dataset.
+[Chapter 11](11-pandas-fundamentals.md) is available as an early reference on
+labeled tables and operations. [Chapter 12](12-data-acquisition-cleaning.md)
+is an outline only. Neither is part of the completed Release 1 reading route.
 
-## What you should be able to do
+## What to use now
 
-- distinguish raw data, derived data, and analysis products;
-- preserve enough provenance to rerun the workflow;
-- make cleaning decisions explicit rather than silently dropping observations;
-- use plots to inspect data before fitting a model.
+For current independent foundations, use [Part II](index.md): arrays,
+visualization, tests, and small scientific types. This guide will link to a
+complete Part III sequence when that sequence exists.

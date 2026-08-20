@@ -1,13 +1,75 @@
 ---
 title: "Chapter 4: Data Structures - Organizing Scientific Data"
-subtitle: "Python Fundamentals | COMP 521"
+subtitle: "Foundations for Scientific Programming"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
 ---
 
-## Learning Objectives
+## Scientific question
+
+How should a program represent measurements, identifiers, and configuration so
+that its operations are both correct and feasible at the scale of the question?
+
+## Core ideas
+
+- A `list` preserves ordered, repeatable observations; a `tuple` is useful for
+  an immutable record; a `dict` maps a stable key to a value; and a `set`
+  represents unique membership.
+- Select a structure from the access pattern you need, then measure a
+  performance claim on representative data rather than assuming it.
+- Assignment can create aliases. Copy deliberately when two evolving states
+  must be independent.
+
+## Prerequisites
+
+You should be comfortable with variables, comparisons, loops, and conditionals
+from Chapters 1–3.
+
+## Learning objectives
+
+By the end of the core route, you can choose among lists, tuples, dictionaries,
+and sets from an access pattern; explain mutability and aliasing; and check a
+basic complexity or memory claim with a small experiment.
+
+## Predict → run → explain → revise
+
+Suppose repeated sample identifiers must be removed before a calibration step.
+Predict which collection preserves the first-seen order and which only answers
+membership quickly. Then run:
+
+```python
+sample_ids = ["b17", "a02", "b17", "c04"]
+print(list(dict.fromkeys(sample_ids)))
+print("a02" in set(sample_ids))
+```
+
+Explain why the two lines answer different questions. Revise the representation
+if downstream work needs both ordered unique identifiers *and* fast membership:
+keep the ordered sequence and construct a set only where that lookup is needed.
+
+## Apply or extend
+
+Choose representations for one scientific workflow you know: an ordered time
+series, a configuration record, a lookup from sensor ID to calibration, and a
+collection of invalid observations. State the operation each choice makes easy
+and one assumption it encodes.
+
+## Recap and next connection
+
+Data structures make assumptions about order, identity, mutation, and access
+visible. In [Chapter 5](05-python-functions-modules.md), turn those choices
+into functions with explicit input, output, unit, and failure contracts.
+
+::::{dropdown} Deep dive / reference
+
+The core route above is enough to start choosing and checking structures. The
+legacy detailed material below covers implementation details, specialized
+containers, and performance experiments to consult when a concrete design or
+measurement question requires them.
+
+### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -32,7 +94,7 @@ By the end of this chapter, you will be able to:
 If any boxes are unchecked, review the indicated chapters first.
 :::
 
-## Chapter Overview
+### Reference overview
 
 Imagine you're simulating the interactions between a million particles - whether they're dark matter particles in a galaxy, molecules in a gas, or nodes in a network. Each timestep, you need to find which particles are close enough to interact strongly. With the wrong data structure, this neighbor search could take hours per timestep. With the right one - a spatial hash table or tree structure - it takes seconds. That's the difference between a simulation finishing in a day versus running for months. This chapter teaches you to make these critical choices that determine whether your code scales to research problems or remains stuck with toy models.
 
@@ -53,7 +115,9 @@ If you internalize this chapter, you'll start thinking like a computational scie
 - You'll avoid whole classes of bugs by using **immutability** and careful copying.
 - You'll measure performance instead of guessing (because in science, **measurement beats assumption**).
 
-You do not need to memorize everything here. You *do* want to revisit this chapter all semester—especially when your code starts getting slow, memory-hungry, or mysteriously wrong.
+You do not need to memorize everything here. You *do* want to revisit this
+chapter throughout your work—especially when code becomes slow, memory-hungry,
+or mysteriously wrong.
 :::
 
 :::{note} How to Use This Chapter
@@ -132,7 +196,9 @@ This is why you can use tuples as dict keys but not lists!
 
 :::{tip} Quick Reflection (1 minute)
 
-Think of the last piece of code you wrote (in this course or elsewhere). Where did it spend most of its time: searching, looping, looking up values, or building results? That answer usually tells you which data structure matters most.
+Think of the last piece of code you wrote. Where did it spend most of its time:
+searching, looping, looking up values, or building results? That answer usually
+tells you which data structure matters most.
 :::
 
 :::{tip} 🌟 The More You Know: When Data Structures Cost Billions
@@ -1208,7 +1274,7 @@ Think about the search process...
 For a million-particle simulation, this is the difference between microseconds and seconds per lookup. When you're checking thousands of particle interactions per timestep, this performance difference determines whether your simulation finishes in hours or weeks!
 :::
 
-## 4.7 Memory and Performance for Scientific Computing
+## 4.7 Memory and Performance for Scientific Computing — Deep dive / reference
 
 Now that we understand how different data structures behave algorithmically with sets, dictionaries, and lists, let's examine their actual memory footprint and cache performance implications. Understanding memory layout is crucial for scientific computing because it explains why specialized numerical libraries are so much faster than pure Python and will help you write **cache**-efficient simulation codes.
 
@@ -1540,7 +1606,7 @@ Once you can reason about control flow (Chapter 3) and data layout (this chapter
 
 ✓ **Dictionaries** enable **memoization** that can speed up equation of state calculations 100$\times$
 
-## Python Module & Method Reference
+## Python Module & Method Reference — Deep dive / reference
 
 This reference section catalogs all Python modules, functions, and methods introduced in this chapter. Keep this as a quick lookup guide for your physics simulations.
 
@@ -1720,7 +1786,7 @@ def expensive_calculation(T, rho):
 - `.isdisjoint(other)` - Check if no elements in common
 - `.copy()` - Create shallow copy
 
-## Quick Reference Tables
+## Quick Reference Tables — Deep dive / reference
 
 ### Data Structure Operations
 
@@ -1776,6 +1842,11 @@ def expensive_calculation(T, rho):
 | Boundary particles | Deque | Fast operations at both ends |
 | Particle counts | Counter | Automatic histogram creation |
 
-## Next Chapter Preview
+## Recap and next connection
 
-With data structures mastered, Chapter 5 will explore functions and modules - how to organize code for reusability, testing, and collaboration. You'll learn how Python's function model, with first-class functions and closure support, enables powerful patterns like decorators and functional programming techniques. These concepts prepare you for building modular physics engines, creating reusable analysis pipelines, and understanding the functional programming paradigm used in modern frameworks like JAX where functions transform into automatically differentiable computational graphs. Get ready to transform your scripts into professional-quality scientific libraries!
+With data structures mastered, Chapter 5 will explore functions and modules—how
+to make data representations and scientific assumptions explicit, reusable, and
+testable. Begin with its core function-contract example; return to the advanced
+function patterns when a real interface needs them.
+
+::::

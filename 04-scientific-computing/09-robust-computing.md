@@ -1,22 +1,109 @@
 ---
-title: "Chapter 9: Robust Computing - Writing Reliable Scientific Code"
-subtitle: "COMP 521 | Scientific Computing Core"
+title: "Chapter 9: Testing, Failure Modes, and Reproducible Scientific Code"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
+## Scientific question
 
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
+How can you tell whether a scientific program has the behavior you claim? A
+plot that looks plausible and a function that returns a number are not enough.
+You need explicit conditions—units, domains, known cases, tolerances, and
+failure behavior—that could reveal a wrong result.
 
-## Learning Objectives
+## Core ideas
+
+- A test is evidence for a stated behavioral or numerical contract, not proof
+  that a scientific model is physically adequate.
+- Validate inputs at boundaries, let unexpected bugs surface, and catch only
+  failures the program can handle deliberately.
+- Numerical comparisons need a justified tolerance; exact equality is usually
+  the wrong test for floating-point results.
+- Known solutions, limiting cases, parameterized boundary cases, deterministic
+  random generators, and convergence checks each expose different failures.
+
+## Prerequisites
+
+- [Functions and contracts](../03-python/05-python-functions-modules.md)
+- [Array operations and finite-value checks](07-numpy-fundamentals.md)
+- [Control flow and bounded iteration](../03-python/03-python-control-flow.md)
+
+## Learning objectives
+
+By the end of this chapter, you can:
+
+- state a behavioral or numerical contract before writing a test;
+- use `pytest` and `numpy.testing` to test known values and arrays;
+- choose and document a tolerance appropriate to a calculation;
+- test invalid inputs and convergence boundaries without hiding unexpected
+  errors; and
+- distinguish code verification from model validation and calibration.
+
+## Worked scientific example
+
+For a uniform-source, full-overlap transit approximation, the normalized flux
+is $F = 1 - p^2$, where $p = R_\mathrm{occulting}/R_\mathrm{source}$ is
+dimensionless. At $p=0$, the model predicts $F=1$; at $p=0.1$, it predicts
+$F=0.99$. These are behavioral checks of this deliberately simple model, not
+evidence that it includes limb darkening, partial overlap, or instrumental
+systematics.
+
+```python
+import pytest
+import numpy as np
+from numpy.testing import assert_allclose
+
+
+def uniform_transit_flux(radius_ratio: float) -> float:
+    if not 0.0 <= radius_ratio <= 1.0:
+        raise ValueError("radius_ratio must be between 0 and 1")
+    return 1.0 - radius_ratio**2
+
+
+def test_uniform_transit_flux_known_cases() -> None:
+    assert_allclose(uniform_transit_flux(0.0), 1.0, rtol=0.0, atol=1e-14)
+    assert_allclose(uniform_transit_flux(0.1), 0.99, rtol=0.0, atol=1e-14)
+
+
+def test_uniform_transit_flux_rejects_invalid_radius_ratio() -> None:
+    with pytest.raises(ValueError, match="between 0 and 1"):
+        uniform_transit_flux(1.1)
+```
+
+## Predict → run → explain → revise
+
+Predict what happens if `radius_ratio` is `1.1`, then inspect the
+`pytest.raises` test above. Save the complete example as `test_transit.py` and
+run `pytest -q test_transit.py`; the expected result is `2 passed`. Explain why
+returning a negative flux would hide an invalid model input. Revise the test or
+function only after you can state the physical and numerical contract it
+protects.
+
+## Apply or extend
+
+Choose a calculation from your field. Write one known-value or limiting-case
+test, one invalid-input test, and one tolerance-based numerical test. In a
+sentence beside each test, say what it verifies and what it cannot establish.
+
+## Recap and next connection
+
+Tests make claims about program behavior inspectable; they do not replace a
+scientific validation argument. Next, [Chapter 10](10-advanced-oop.md) uses the
+same contracts to decide whether a small stateful type clarifies a scientific
+model.
+
+## Deep dive / reference
+
+The material below expands debugging, exceptions, validation, logging, and
+testing patterns. Use it when a concrete failure mode or workflow requires more
+than the core contract above.
+
+:::::{dropdown} Legacy detailed reference
+
+The following reference preserves extended failure-handling patterns and
+examples. It is not a second required route through the chapter.
+
+### Legacy learning objectives
 
 By the end of this chapter, you will be able to:
 
@@ -29,7 +116,7 @@ By the end of this chapter, you will be able to:
 - [ ] **7. Debug** code systematically using scientific method, binary search, and hypothesis-testing approaches
 - [ ] **8. Evaluate** how errors propagate through scientific calculations and implement appropriate safeguards for numerical stability
 
-## Prerequisites Check
+### Further prerequisites and self-check
 
 Before starting this chapter, verify you can:
 
@@ -38,7 +125,7 @@ Before starting this chapter, verify you can:
 - [ ] Create plots with Matplotlib (Chapter 8)
 - [ ] Use if/else statements and loops (Chapter 3)
 - [ ] Work with lists and dictionaries (Chapter 4)
-- [ ] Read and write files (Chapter 6)
+- [ ] Read a traceback and identify the operation that raised an exception
 
 ### Self-Assessment Diagnostic
 
@@ -77,9 +164,12 @@ distance = parsecs_to_lightyears("10")  # String instead of number
 If you struggled with these, review the prerequisite chapters first!
 :::
 
-## Chapter Overview
+### Debugging and failure-handling reference
 
-Your code will fail. This isn't pessimism—it's reality. The difference between amateur programmers and professionals isn't that professionals write perfect code; it's that professionals write code that **fails gracefully**, tells them exactly what went wrong, and helps them fix problems quickly. In scientific computing, where a single simulation might run for weeks on supercomputers, robust code isn't a luxury—it's essential. A crashed pipeline at 3 AM during a time-critical data collection could mean losing irreplaceable data. A numerical instability in your simulation discovered after 500 CPU-hours means starting over. This chapter transforms you from writing hopeful code that works "most of the time" into creating **robust code** that handles the unexpected, validates its inputs, and helps you diagnose problems when they inevitably occur.
+Programs fail, and a useful failure exposes enough context to diagnose the
+problem. In scientific computing, validation and tests are ways to preserve a
+claim about behavior—not markers that someone has reached a more professional
+identity.
 
 Think back to the simple functions we wrote in earlier chapters. In Chapter 5, we created `calculate_mean(values)` without checking if values was empty. In Chapter 7, we processed NumPy arrays without verifying they contained valid numbers. In Chapter 8, we plotted data assuming it was always plottable. Real scientific data breaks all these assumptions: sensors have failures producing NaN values, instruments have glitches creating outliers, and experiments can be interrupted leaving incomplete datasets. The Mars Climate Orbiter crashed into Mars because of uncaught unit conversion errors. The Hubble Space Telescope initially produced blurry images due to a mirror specification error that proper validation would have caught. The Ariane 5 rocket exploded because of an integer overflow in reused code that was never tested with the new rocket's parameters. These disasters, costing hundreds of millions of dollars, were preventable with the techniques you'll learn in this chapter.
 
@@ -1806,6 +1896,10 @@ The overarching theme is **defensive programming**—anticipating what can go wr
 | Performance | Large datasets | 10^6 particles |
 | Units | Dimensional analysis | SI vs CGS consistency |
 
-## Next Chapter Preview
+### Further reference connection
 
-Now that your code can handle errors gracefully and validate inputs robustly, Chapter 10 will explore **Advanced Object-Oriented Programming**—taking your class design skills from Chapter 6 to the next level. You'll learn to build sophisticated software architectures using inheritance to model object hierarchies, composition to build complex systems from simpler components, and design patterns that solve recurring problems in scientific computing. You'll create abstract base classes, implement polymorphic behavior for different data types, and use special methods to make your objects work seamlessly with Python's built-in functions. The robust computing skills from this chapter will be essential as you design larger systems—your error handling will prevent cascading failures through object hierarchies, your validation will ensure objects maintain consistent states, and your testing strategies will verify complex class interactions. This final chapter of Module 2 synthesizes everything you've learned about scientific computing, preparing you for the advanced libraries and parallel computing challenges in Module 3!
+The next core chapter, [Chapter 10](10-advanced-oop.md), applies validation and
+tests to one deliberately small stateful scientific type. More advanced
+architecture and performance topics belong to later reference material and
+should be introduced only when a concrete maintenance problem requires them.
+:::::

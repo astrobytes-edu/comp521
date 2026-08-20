@@ -1,22 +1,104 @@
 ---
-title: "Chapter 10: Advanced OOP Patterns - Architecting Scientific Software"
-subtitle: "COMP 521 | Scientific Computing Core"
+title: "Chapter 10: Designing Small Scientific Types"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
+## Scientific question
 
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
+When does a scientific value need to carry state, validation, and behavior as
+one named object—and when is a function plus ordinary data clearer? A useful
+type makes an invariant visible; it does not make a small calculation more
+serious by adding ceremony.
 
-## Learning Objectives
+## Core ideas
+
+- Use a small type when values and their valid relationships belong together.
+- Put physical or numerical invariants at construction boundaries.
+- Prefer composition and ordinary functions over inheritance unless a real
+  interface requirement has appeared.
+- Give the type a readable representation and tests that state its contract.
+
+## Prerequisites
+
+- [Functions and contracts](../03-python/05-python-functions-modules.md)
+- [Testing behavioral and numerical claims](09-robust-computing.md)
+- [Data structures and mutability](../03-python/04-python-data-structures.md)
+
+## Learning objectives
+
+By the end of this chapter, you can:
+
+- decide whether a scientific problem benefits from a small stateful type;
+- create a dataclass with explicit units and validation;
+- state and test an invariant at a type boundary;
+- compose a small type with ordinary functions; and
+- explain why an advanced OOP pattern is unnecessary for a given model.
+
+## Worked scientific example
+
+This type records one observation with a positive flux in a declared unit. It
+does not model a detector, uncertainty distribution, or calibration pipeline;
+those would need additional assumptions rather than extra fields by default.
+
+```python
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class FluxMeasurement:
+    value: float
+    unit: str = "W m^-2"
+
+    def __post_init__(self) -> None:
+        if self.value < 0.0:
+            raise ValueError("flux must be non-negative in this measurement model")
+        if not self.unit:
+            raise ValueError("unit must be stated")
+
+
+def fractional_change(before: FluxMeasurement, after: FluxMeasurement) -> float:
+    if before.unit != after.unit:
+        raise ValueError("convert to a common unit before comparison")
+    if before.value == 0.0:
+        raise ValueError("fractional change is undefined from zero baseline")
+    return (after.value - before.value) / before.value
+```
+
+## Predict → run → explain → revise
+
+Predict what happens when you construct `FluxMeasurement(-0.01)`, then run the
+construction. Explain which assumption the error exposes. Next, predict what
+the comparison function should do for unequal units; revise the type or
+function only after deciding whether conversion belongs in this model's scope.
+
+## Apply or extend
+
+Define a small type from your field with one invariant: a positive scale,
+ordered bounds, a normalized fraction, or a stated unit. Write one valid case,
+one invalid case, and one sentence explaining why a dictionary or function
+would be preferable if that invariant did not exist.
+
+## Recap and next connection
+
+Small types make meaningful state and constraints inspectable. The next
+textbook part, [Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md),
+is in development; it will move from one validated entity to collections of
+measurements and their provenance.
+
+## Deep dive / reference
+
+The material below is optional reference for situations that genuinely require
+larger interfaces, advanced inheritance, metaprogramming, asynchronous
+execution, or measurement. Measure a real workload before adopting a
+performance-oriented pattern.
+
+:::::{dropdown} Legacy detailed reference
+
+The following reference preserves advanced patterns and examples. It is not a
+second required route through the chapter.
+
+### Legacy learning objectives
 
 By the end of this chapter, you will be able to:
 
@@ -29,7 +111,7 @@ By the end of this chapter, you will be able to:
 - Optimize memory and performance using `__slots__`, caching, and profiling techniques
 - Recognize these patterns in NumPy, SciPy, Matplotlib, and other scientific libraries
 
-## Prerequisites Check
+### Reference prerequisites
 
 Before starting this chapter, verify you can:
 
@@ -59,13 +141,13 @@ result = arr.reshape(3, 1).mean(axis=0)  # What pattern?
 
 If you recognized factory, context manager, factory again, and fluent interface patterns, you're ready to understand how they work internally!
 
-## Chapter Overview
+### Reference overview
 
-You've mastered NumPy's powerful arrays and created stunning visualizations with Matplotlib. You've noticed that NumPy arrays somehow work with every mathematical operator, that Matplotlib figures manage complex state across multiple method calls, and that both libraries seem to magically know how to work together. How does `np.array([1,2,3]) + np.array([4,5,6])` know to add element-wise? Why can you pass NumPy arrays directly to Matplotlib functions? How do these libraries coordinate thousands of classes and millions of lines of code while remaining so elegant to use? The answer lies in advanced object-oriented patterns - the architectural principles that make scientific Python possible.
-
-This chapter reveals the design patterns hidden throughout the scientific Python ecosystem you've been using. You'll discover that NumPy's universal functions (ufuncs) rely on abstract base classes to ensure every array type supports the same operations. Matplotlib's figure and axes use mixins to compose dozens of plotting capabilities without code duplication. Unit-aware libraries use descriptors and metaclasses to catch unit errors at assignment time, not after your simulation crashes. These aren't academic exercises - they're the exact patterns that power the tools enabling modern scientific discoveries, from detecting gravitational waves to analyzing particle collisions.
-
-Most importantly, you'll develop the architectural thinking needed to contribute to these packages or build your own research-grade software. You'll understand why certain design decisions were made, recognize patterns when reading source code, and know when to apply these techniques in your own work. By the end, you'll see NumPy, Matplotlib, and other scientific libraries not as black boxes but as masterclasses in software architecture, and you'll have the skills to architect systems at the same level. This isn't just about learning advanced Python - it's about joining the community of developers who build the tools that enable scientific discovery.
+The following sections are a catalogue of advanced Python techniques. They are
+not prerequisites for writing a useful scientific type, and they do not imply
+particular implementation details of NumPy, Matplotlib, or other libraries.
+Use them when an actual interface, maintenance, concurrency, or measured
+performance need makes the trade-off concrete.
 
 ## 10.1 Abstract Base Classes: Defining Scientific Interfaces
 
@@ -79,7 +161,10 @@ A class that cannot be instantiated and defines methods that subclasses must imp
 A contract specifying what methods a class must provide, ensuring compatibility between components.
 :::
 
-Now that you've used NumPy and Matplotlib extensively, you've encountered abstract base classes without realizing it. Every time NumPy performs an operation on different array types, it's using ABCs to ensure compatibility. Let's understand how this works.
+An abstract base class can express an interface when several independently
+implemented objects must satisfy the same contract. It is one possible design;
+it is not the mechanism behind every polymorphic operation in scientific
+Python.
 
 ```python
 from abc import ABC, abstractmethod
@@ -294,18 +379,22 @@ print(f"Wavelength range: {spectrograph.wavelength_range_cm} cm")
 :::{note} Check Your Understanding
 :class: dropdown
 
-Why does NumPy's `np.asarray()` work with so many different input types (lists, tuples, other arrays)? How do ABCs enable this?
+Why does NumPy's `np.asarray()` work with so many different input types (lists, tuples, other arrays)?
 
 **Answer:**
 
-NumPy uses the Array API protocol (similar to an ABC) that defines what methods an object needs to be "array-like". Any object implementing `__array__()` or `__array_interface__` can be converted to a NumPy array.
+`np.asarray()` accepts several input representations. Some third-party objects
+provide array-conversion protocols such as `__array__()`, while built-in lists
+and tuples are converted by NumPy's own input handling. This interoperability
+does not mean that all of those objects share an abstract base class.
 
 This is why you can do:
 - `np.asarray([1,2,3])` - lists work
 - `np.asarray((1,2,3))` - tuples work
 - `np.asarray(pandas_series)` - Pandas objects work
 
-Each of these types implements the array protocol differently, but NumPy doesn't care about the implementation - just that the required methods exist. This is ABC-based design enabling the entire scientific Python ecosystem to interoperate!
+When an interface matters, consult the documented protocol and test the
+conversion behavior required by the program you are writing.
 :::
 
 ## 10.2 Multiple Inheritance and Mixins
@@ -2044,15 +2133,12 @@ print("  3. No caching of expensive calculations")
 print("  4. Using dict instead of __slots__")
 ```
 
-## Main Takeaways
+### Reference summary
 
-You've completed a transformative journey from using scientific Python packages to understanding their architectural foundations. The abstract base classes, mixins, design patterns, and optimization techniques you've mastered aren't just advanced features - they're the pillars supporting every major scientific Python package you use. When NumPy seamlessly handles different array types, when Matplotlib coordinates thousands of plot elements, when unit-aware libraries prevent conversion disasters, they're using exactly the patterns you now understand. You've moved beyond being a consumer of these tools to understanding how they're built, why they work, and how to contribute at the same level.
-
-The progression through this chapter mirrors your growth as a computational scientist. You started by understanding how ABCs enabled incompatible instruments to coordinate into unified systems. You discovered how mixins let complex experiments process vast amounts of data without code duplication. You learned how async programming enables modern facilities to control dozens of instruments simultaneously. These aren't just programming techniques - they're the engineering principles that enable modern scientific discovery. Every major scientific project relies on software architected with these patterns.
-
-The practical skills you've developed prepare you for real research challenges. Dataclasses eliminate the boilerplate that clutters scientific code, letting you focus on science instead of syntax. Async programming enables you to build instrument control systems that maximize precious experiment time. Descriptors and metaclasses let you build domain-specific languages that make unit errors impossible. Performance optimization techniques ensure your code scales from prototype to production, from analyzing one sample to processing entire datasets. You now have the tools to build software that not only works but scales to the demands of modern science.
-
-Looking forward, you're equipped to recognize these patterns throughout the scientific Python ecosystem and apply them in your own work. When you see NumPy's factory functions creating appropriate array types, you understand the factory pattern at work. When SciPy swaps optimization algorithms, you recognize the strategy pattern. When Matplotlib manages complex figure state, you see context managers and mixins in action. More importantly, you know when to apply these patterns in your own code - using ABCs when defining interfaces for collaboration, mixins when composing behaviors, async when controlling hardware, and optimization techniques when processing large datasets. You've transformed from someone who writes scripts to someone who architects systems, ready to build the next generation of tools that will enable tomorrow's discoveries.
+Advanced patterns can be useful once a concrete interface, concurrency, or
+measured resource constraint exists. They are not evidence that a model is more
+scientific, and library source code should be read or documented before making
+claims about its internal architecture.
 
 ## Definitions
 
@@ -2094,27 +2180,17 @@ Looking forward, you're equipped to recognize these patterns throughout the scie
 
 **\_\_slots\_\_**: Class attribute that restricts instance attributes to a fixed set, saving memory.
 
-## Key Takeaways
+### Reference cautions
 
-- **Abstract base classes enforce interfaces across teams** - ABCs enable incompatible instruments and data sources to work together seamlessly
-
-- **Mixins compose behaviors without code duplication** - Large experiments use mixins to give different detectors different capabilities efficiently
-
-- **Dataclasses eliminate boilerplate in data-heavy code** - Modern scientific packages use dataclasses to reduce code by 30% while improving type safety
-
-- **Async programming enables parallel instrument control** - Modern facilities use async to control multiple instruments simultaneously, maximizing efficiency
-
-- **Descriptors and metaclasses enable domain-specific behavior** - Unit-aware systems use these to catch unit errors at assignment time, preventing disasters
-
-- **Design patterns solve recurring architectural problems** - SciPy's 20+ optimization algorithms use the Strategy pattern, letting you swap algorithms with one parameter
-
-- **\_\_slots\_\_ saves 40-50% memory for large datasets** - Critical for processing billion-element catalogs or massive nightly data
-
-- **Caching dramatically improves performance** - The `@lru_cache` decorator can provide 10-1000x speedups for expensive calculations
-
-- **Type hints make scientific code self-documenting** - Modern packages use type hints to catch errors early and improve IDE support
-
-- **Profile before optimizing** - Real pipelines often find 60% of time in coordinate transforms, not core algorithms as expected
+- ABCs, mixins, descriptors, metaclasses, and async solve different problems;
+  introduce one only when its problem is present.
+- Dataclasses reduce repeated boilerplate in some designs, but they do not make
+  validation or type safety automatic.
+- `__slots__`, caching, vectorization, and async have workload-dependent costs
+  and benefits. Measure memory, wall time, and correctness in the intended
+  environment before adopting them.
+- Type hints communicate interface expectations; static checking supplements
+  execution and tests rather than replacing them.
 
 ## Quick Reference Tables
 
@@ -2130,13 +2206,13 @@ Looking forward, you're equipped to recognize these patterns throughout the scie
 
 ### Performance Optimization Techniques
 
-| Technique | When to Use | Typical Improvement | Example |
+| Technique | When to Consider | What to measure | Example |
 |-----------|------------|-------------------|---------|
-| `__slots__` | Many small objects | 40-50% memory | Large catalogs |
-| `@lru_cache` | Repeated calculations | 10-1000x speed | Shift finding |
-| Async | I/O or hardware control | 2-10x throughput | Instrument control |
-| Vectorization | Numerical operations | 10-100x speed | Array operations |
-| Dataclasses | Data containers | 30% less code | Measurements |
+| `__slots__` | Many small objects | retained memory and API constraints | Large catalogs |
+| `@lru_cache` | repeated pure calculations | hit rate, memory, and wall time | repeated transforms |
+| Async | independent I/O operations | throughput and failure handling | instrument control |
+| Vectorization | compatible numerical operations | wall time and allocation | array operations |
+| Dataclasses | compact data containers | readability and invariant coverage | measurements |
 
 ### Async Best Practices
 
@@ -2192,6 +2268,9 @@ Looking forward, you're equipped to recognize these patterns throughout the scie
 
 16. Beazley, D. (2016). **Python Concurrency From the Ground Up**. PyCon 2015. https://www.youtube.com/watch?v=MCs5OvhV9S4 - Deep dive into Python's concurrency models including asyncio.
 
-## Next Chapter Preview
+### Further reference connection
 
-In Chapter 11, you'll learn Pandas fundamentals for data manipulation and analysis. You'll discover how to work with DataFrames and Series, perform grouping and aggregation operations, merge and join datasets, and handle time series data. The patterns you've learned here - especially dataclasses, design patterns, and performance optimization - will help you understand how Pandas implements its elegant API for handling tabular scientific data. You'll see how Pandas uses many of the same architectural patterns to provide a powerful, intuitive interface for data analysis!
+[Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md)
+is in development. Its eventual focus is collections of measurements,
+provenance, and data-quality decisions—not an assumed need for advanced OOP.
+:::::

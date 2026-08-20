@@ -1,278 +1,82 @@
 ---
-title: "Part I: Programming for Scientific Work"
-subtitle: "Scientific Computing with Python | COMP 521"
+title: "Start Here: Part I Guide — Foundations for Scientific Programming"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 ---
 
-## Your Computational Toolkit for Scientific Computing
+Part I develops the habits that make a scientific calculation inspectable: know
+which interpreter ran it, state numerical assumptions, make algorithmic logic
+explicit, choose data structures deliberately, and give reusable code a clear
+contract.
 
-Welcome to the Python Fundamentals module. This is not "learn Python syntax." This is **learn to think computationally and build trustworthy scientific code**.
+## How to use this part
 
-You already know how to write code that *runs*. What this sequence of chapters teaches is how to write code that you can **trust**, **extend**, and **reason about six weeks later when you've forgotten what you were thinking**.
+Each chapter begins with a compact core route: a scientific question, the ideas
+needed to answer it, a worked example, and a **predict → run → explain → revise**
+activity. Read that route first. Sections labelled **Deep dive / reference**
+preserve useful detail for the moment when you have a concrete need; they are not
+a second hidden prerequisite sequence.
 
-These chapters are written to be **used**, not memorized. You'll come back to them when your code is slow, confusing, wrong-but-not-crashing, or hard to extend (which is… most real science code).
+### First reading
 
-:::{important} Course policy: modules for implementation, notebooks for analysis
+Read [Chapter 1](01-python-environment.md) through
+[Chapter 5](05-python-functions-modules.md) in order. Read
+[Chapter 6](06-oop-fundamentals.md) when a scientific entity genuinely needs
+state and behavior together.
 
-Jupyter notebooks are allowed for the documented analysis and report that each
-project requires. Project 1 is the bootcamp exception: its functions may live in
-the notebook. From Project 2 onward, reusable and testable implementation belongs
-in `.py` modules; the notebook imports that code and presents the analysis,
-figures, and interpretation.
-
-Every submitted notebook must be easy to follow and must run from a clean kernel
-with **Restart Kernel and Run All Cells**. See the canonical
-[notebook and code policy](../01-course-info/projects.md#notebook-and-code-policy)
-and [Chapter 1](01-python-environment.md) for the rationale and workflow.
-:::
-
-## The Project 1 core route
-
-These chapters are a reference library, not a linear textbook assignment. For
-Project 1, use the bounded route below. It should take **about 45 minutes before
-each Week 1 meeting and about 45 minutes before each Week 2 meeting**; do not
-read or run every example in the full reference chapters.
-
-| Read now for P1 | Do this with it | Return later for |
+| Chapter | Central question | Return when… |
 |---|---|---|
-| [Chapter 1](01-python-environment.md): the **Course policy** callout and the clean-kernel guidance in **Section 1.3** | Open the `comp521` kernel and use **Restart Kernel and Run All Cells** before submitting. | Import internals, IPython history, environment-file details, and advanced debugging. |
-| [Chapter 2](02-python-calculator.md): **Section 2.1**, variables in **Section 2.5**, and **Safe Floating-Point Comparisons** | Predict a calculation, run it, then compare an obtained value with a stated expectation. | Complex numbers, Fourier examples, cancellation, and overflow/underflow strategies. |
-| [Chapter 3](03-python-control-flow.md): **Sections 3.1, 3.3, and 3.4** | Write a short pseudocode plan before implementing a P1 part. | Walrus syntax, advanced loop patterns, and IPython-specific debugging tools. |
-| [Chapter 4](04-python-data-structures.md): **Quick Preview**, **Sections 4.2 and 4.4** | Choose a list, tuple, or dictionary for one P1 input or intermediate result and explain the choice. | Benchmarking, caching, spatial data structures, and memory-layout detail. |
-| [Chapter 5](05-python-functions-modules.md): **Section 5.1 only** | State inputs, output, units, and one limiting-case check next to the function. | Modules, packages, advanced argument rules, type hints, testing infrastructure, and optimization. |
-
-**Chapter 6 (OOP)** is valuable reference material, but it is not part of the
-Project 1 route. We will return to classes when a project has a genuine
-stateful-modeling need.
-
-### P1 launch task — predict, run, explain
-
-In a scratch notebook or the appropriate location in your P1 notebook, make one
-small, inspectable calculation:
-
-1. In Markdown, define the dimensionless radius ratio `p = 0.10` and predict
-   the full-overlap uniform-source flux: `1 - p**2 = 0.99`.
-2. Write three lines of pseudocode: define `p`; compute `flux`; compare the
-   computed and expected values.
-3. Implement those steps in one code cell and print the result.
-4. Add one sentence explaining what the calculation checks and what it does
-   **not** check (for example, it does not test partial-overlap geometry).
-5. Restart the kernel and run all cells. Keep the visible output.
-
-This is not a substitute for the P1 brief. Its job is to make the first reading
-cycle observable: you predicted, computed, checked, explained, and reproduced a
-result.
-
-:::{tip} Prefer a browser-first rehearsal?
-
-Try the [interactive transit-depth lab](interactive-lab-transit-depth.md). It
-includes both the fast transit model and the optional embedded dashboard, and
-follows the same predict → run → explain → change cycle. It is a rehearsal,
-not a replacement for doing the documented work in your Project 1 notebook.
-:::
-
----
-
-## Why This Module Exists
-
-Computational science fails far more often from *structure* problems than from syntax problems. Results are wrong because environments drift, state leaks, numerical assumptions are violated, or a small design choice quietly turns an O(n) operation into O($\mathrm{n}^{2}$). Chapters 1–6 exist to give you a mental framework for avoiding those failures.
-
-**Think of this module as teaching you how to *build a laboratory*, not how to use a calculator.**
-
-### From "It Runs" to "I Trust It"
-
-[Chapter 1](01-python-environment.md) starts with environments and workflows because nothing else matters if you don't know **what code you're actually running**. If two students get different answers from the same script, or your code breaks when you move from your laptop to the cluster, that's not a programming problem — it's a reproducibility failure. By the end of Chapter 1, you should understand where Python is coming from, how packages are resolved, and why isolation (conda environments) is non-negotiable for real science.
-
-Once you know *where* your code lives, [Chapter 2](02-python-calculator.md) forces you to confront a harder truth: computers don't do math the way humans do. Floating-point arithmetic is approximate, precision is finite, and naive numerical expressions can fail catastrophically without throwing errors. This chapter exists because many scientific disasters were caused by code that looked correct and ran without complaint. If you take nothing else from it, remember this: **numerical correctness is an active responsibility, not a default behavior**.
-
-### Teaching the Computer to Think (Without Fooling It)
-
-[Chapter 3](03-python-control-flow.md) is where we slow down and talk about *logic*. Control flow is not about syntax — it's about making your reasoning explicit. Writing pseudocode before you write Python is how you catch infinite loops, missing termination conditions, and logic that only works by accident. The patterns introduced here — accumulation, filtering, searching, convergence — appear in every simulation, every solver, and every data analysis pipeline you will ever write.
-
-Then [Chapter 4](04-python-data-structures.md) zooms out and asks a question most beginners never ask soon enough: **how does this scale?** Lists, dictionaries, and sets aren't interchangeable containers; they encode assumptions about access patterns, uniqueness, and performance. Choosing the wrong data structure doesn't make your code slightly slower — it can make a problem fundamentally intractable. This chapter exists so that when your simulation slows to a crawl, you know *why*, and you know where to look.
-
-### From Scripts to Systems
-
-By the time you reach [Chapter 5](05-python-functions-modules.md), you've written enough code that repetition becomes painful. Functions are introduced not just as reusable blocks, but as *contracts*: given valid input, they promise correct output, without side effects or surprises. Scope rules, default arguments, and namespaces matter here because small mistakes quietly couple parts of your code that should be independent. Chapter 5 is where you start writing code that other people — including future you — can safely reuse.
-
-[Chapter 6](06-oop-fundamentals.md) completes the arc by introducing object-oriented thinking. This is not about "using classes because Python has classes." It's about modeling **entities that have state and behavior**. When data and the operations on that data are inseparable — particles, observations, simulations, instruments — objects reduce cognitive load and prevent entire classes of bugs. Properties and validation exist here to enforce physical constraints *at the moment they are violated*, not weeks later during analysis.
-
-Importantly, Chapter 6 also teaches restraint. Not everything should be a class. Knowing *when not to use OOP* is as important as knowing how to use it.
-
----
-
-## The Throughline: Defensive Scientific Programming
-
-Across all six chapters, a few ideas keep reappearing:
-
-- **Make state explicit.** Don't let variables drift or hide.
-- **Validate assumptions early.** Fail fast with clear messages.
-- **Prefer clarity over cleverness.** Tomorrow-you is your first collaborator.
-- **Choose abstractions that match the physics, not the syntax.** Data structures should reflect the problem.
-- **Design first, then implement.** Pseudocode before Python.
-
-These are not Python rules. They are **computational science rules**.
-
-You are learning how to write code that can survive:
-
-- different machines
-- long runtimes
-- collaborators
-- future extensions
-- and your own imperfect memory
-
-**That is the real goal of Python Fundamentals.**
-
----
-
-## Chapter-by-Chapter Guide
-
-### [Chapter 1 — Computational Environments & Scientific Workflows](01-python-environment.md)
-
-You learn how to *control your computing universe*:
-
-- IPython as your computational lab
-- how imports work (and why "it works on my machine" happens)
-- reproducible environments (`conda`, dependency sanity)
-- debugging environments systematically
-
-**When to revisit:** ModuleNotFoundError, wrong Python, weird version issues, "it worked yesterday."
-
-### [Chapter 2 — Python as Your Scientific Calculator](02-python-calculator.md)
-
-You learn how computers represent numbers, and how scientific results go wrong:
-
-- floating-point reality (IEEE 754)
-- safe comparisons (`math.isclose`)
-- numerical hazards (cancellation, overflow/underflow)
-- defensive numerical checks
-
-**When to revisit:** convergence tests, tolerance decisions, weird rounding, "why is 0.1 cursed?"
-
-### [Chapter 3 — Control Flow & Logic](03-python-control-flow.md)
-
-You learn to design algorithms that don't rely on hope:
-
-- pseudocode as a real design tool
-- boolean logic + short-circuiting
-- guard clauses, loops, convergence patterns
-- debugging control flow (prints, assertions used correctly, sanity checks)
-
-**Why this one matters:** internalizing Chapter 3 is when you stop writing "Python that runs" and start designing **algorithms that work**.
-
-### [Chapter 4 — Data Structures: Organizing Scientific Data](04-python-data-structures.md)
-
-You learn how code scales (or doesn't):
-
-- choosing between list/tuple/dict/set based on access pattern
-- Big-O *as scaling intuition* (not trivia)
-- memory layout, mutability, aliasing bugs
-- caching, lookup tables, time–space tradeoffs
-
-**When to revisit:** slow code, massive datasets, "why is this O($\mathrm{n}^{2}$)?", mysterious mutation bugs.
-
-### [Chapter 5 — Functions & Modules: Building Reusable Scientific Code](05-python-functions-modules.md)
-
-You learn how to turn scripts into tools:
-
-- function contracts: inputs/outputs/units/failure modes
-- argument design (keyword-only, defaults, *args/**kwargs)
-- scope + namespaces (LEGB, avoiding global state)
-- modular organization: building reusable libraries
-- documentation + testing as scientific integrity tools
-
-**When to revisit:** repeated code, unclear logic, messy scripts, "why did this variable change?"
-
-### [Chapter 6 — OOP Fundamentals: Organizing Scientific Code](06-oop-fundamentals.md)
-
-You learn when (and when **not**) objects help:
-
-- stateful scientific entities (particles, instruments, datasets)
-- invariants via properties + validation
-- instance vs class attributes
-- Pythonic special methods (`__repr__`, `__str__`, etc.)
-- the crucial judgment: **objects vs functions**
-
-**When to revisit:** you're passing too many related values around, or state bugs are multiplying.
-
----
-
-## Quick Navigation Guide
-
-| "I need to…" | Go to… | Look for… |
-|--------------|--------|-----------|
-| Fix import / environment problems | Ch 1 | Import system, diagnostics |
-| Compare floats safely | Ch 2 | `math.isclose`, tolerances |
-| Design a loop that converges | Ch 3 | Convergence pattern, guard clauses |
-| Speed up lookups / membership tests | Ch 4 | dict/set O(1), access patterns |
-| Stop copy/pasting code | Ch 5 | function contracts, modules |
-| Bundle data + behavior safely | Ch 6 | properties, invariants, state |
-
----
-
-## The Core Habits We're Building
-
-### 1) Defensive Programming (correctness first)
-
-- validate inputs early
-- fail fast with clear error messages
-- make invalid states hard to represent
-
-### 2) Numerical Honesty (science first)
-
-- tolerate floating-point reality
-- use stability-aware formulas
-- don't trust equality checks for floats
-
-### 3) Traceability (Git + reproducibility)
-
-- commit meaningful steps
-- push early and often
-- treat your repo as a scientific record
-
-### 4) Scaling Intuition (performance-aware)
-
-- recognize O($\mathrm{n}^{2}$) traps early
-- choose data structures based on access patterns
-- measure before guessing
-
----
-
-## Your Reference Checklist
-
-By mid-semester, you should be able to:
-
-- [ ] keep reusable implementation in `.py` modules and analysis in documented,
-      restartable notebooks
-- [ ] explain why "same code, different answer" happens and how to debug it
-- [ ] design algorithms using pseudocode + invariants + guard clauses
-- [ ] choose data structures that scale beyond toy problems
-- [ ] write functions with clear contracts (units, assumptions, failure modes)
-- [ ] organize code into modules you can reuse across projects
-- [ ] decide when objects help and when they're unnecessary
-
----
-
-## How to Use This Going Forward
-
-You are not expected to memorize this module, and you are not expected to master it all at once. You will return to these chapters later in the course — often after Project 2 or Project 3 — with better context and sharper questions. When something breaks, slows down, or behaves strangely, this module is where you diagnose *why*.
-
-If you treat Chapters 1–6 as a **reference and a mindset** rather than a checklist, they will quietly make everything else in the course easier, more reliable, and more intellectually honest.
-
----
-
-## What's Next
-
-After these six chapters, the course can move faster because you have a shared toolkit. Next modules will lean heavily on:
-
-- NumPy arrays (performance + vectorization)
-- plotting and interpretation
-- numerical solvers and modeling workflows
-- structured projects with reusable code
-
----
-
-**Ready to build your toolkit?** Start with the Project 1 core route above, then
-use these chapters as companions when a concrete programming question appears.
-
-*These chapters are your companions throughout the course. Bookmark them, return often, and use them actively as you solve real problems.*
+| [1. Computational environments](01-python-environment.md) | Which Python and package versions produced this result? | an import, version, or notebook result differs between machines |
+| [2. Python as a scientific calculator](02-python-calculator.md) | What numerical claim can this computation support? | a value rounds oddly, overflows, or fails an equality check |
+| [3. Control flow and logic](03-python-control-flow.md) | What precisely makes this algorithm stop or choose a path? | a loop does not terminate or a condition silently skips cases |
+| [4. Data structures](04-python-data-structures.md) | What access pattern does this data representation promise? | mutation, lookup, or scaling behavior is surprising |
+| [5. Functions and modules](05-python-functions-modules.md) | What does this computation promise about inputs, outputs, and failure? | code is duplicated or a result’s assumptions are unclear |
+| [6. Small scientific objects](06-oop-fundamentals.md) | Does state belong with the operations that maintain it? | related values travel together and invariants are being lost |
+
+### Return visit
+
+Use the chapters diagnostically rather than memorizing them. A result that
+changes across machines belongs in Chapter 1; an uncertain tolerance belongs in
+Chapter 2; a non-terminating loop belongs in Chapter 3; an unexpectedly slow
+lookup belongs in Chapter 4; and a computation with unclear assumptions belongs
+in Chapter 5.
+
+## The throughline: defensive scientific programming
+
+Computational science fails as often from structure as from syntax: an
+environment drifts, hidden state changes an analysis, a numerical assumption is
+unstated, or a data representation does not match the question. These chapters
+treat code as an instrument for reasoning.
+
+- Make state and assumptions explicit.
+- Validate inputs and limiting cases early.
+- Prefer clarity over cleverness.
+- Choose abstractions that fit the problem, not the language feature.
+- Design the logic before implementing it.
+
+These are computational-science habits, not Python trivia. They make work
+portable across scientific domains: a transit-depth calculation, a climate
+model, an image-processing pipeline, or a laboratory calibration all need an
+environment record, named quantities, explicit stopping rules, and interpretable
+code.
+
+## Core habits to carry forward
+
+| Habit | What it protects | Where to build it |
+|---|---|---|
+| Reproducible environments | accidental interpreter and dependency drift | Chapter 1 |
+| Numerical honesty | unsupported precision and fragile comparisons | Chapter 2 |
+| Explicit control flow | hidden branches and unbounded iteration | Chapter 3 |
+| Scaling intuition | inappropriate lookup and mutation patterns | Chapter 4 |
+| Function contracts | ambiguous inputs, units, and failure modes | Chapter 5 |
+| Useful state | invalid or disconnected scientific entities | Chapter 6 |
+
+## Next connection
+
+When these foundations feel familiar, continue to
+[Part II: Arrays, Visualization, and Reliable Computing](../04-scientific-computing/index.md).
+Its chapters use arrays and figures to inspect scientific evidence, then extend
+the same reliability habits to numerical behavior and small scientific types.
+
+For a diagnostic recap of Part I, see
+[Part I Recap — Trustworthy Scientific Programming](synthesis.md).

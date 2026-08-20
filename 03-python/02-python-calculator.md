@@ -1,13 +1,87 @@
 ---
 title: "Chapter 2: Python as Your Scientific Calculator"
-subtitle: "COMP 521 | Python Fundamentals"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
 ---
 
-## Learning Objectives
+## Scientific question
+
+What numerical claim can a computation support when its inputs and arithmetic
+are represented with finite precision?
+
+## Core ideas
+
+- Name quantities and units before combining them.
+- Floating-point values approximate real numbers; exact equality is rarely the
+  right test for a computed measurement.
+- A tolerance is part of a scientific claim, not merely a programming setting.
+
+## Prerequisites
+
+Complete [Chapter 1](01-python-environment.md) or be able to run a Python cell
+or script and identify the interpreter used.
+
+## Learning objectives
+
+By the end of this chapter, you can express a calculation with named units,
+choose an appropriate numerical comparison, recognize basic precision hazards,
+and communicate the limits of a computed value.
+
+## Worked scientific example
+
+Suppose a detector reports an exposure of 2.5 seconds at a count rate of 12.0
+counts per second. The expected count is 30.0 counts. The units make the
+calculation inspectable:
+
+```{code-cell} python
+exposure_s = 2.5
+rate_counts_per_s = 12.0
+expected_counts = exposure_s * rate_counts_per_s
+
+print(f"expected count: {expected_counts:.1f} counts")
+```
+
+The multiplication is simple, but naming the variables prevents an unlabelled
+quantity from being treated as evidence.
+
+## Predict → run → explain → revise
+
+Predict whether `0.1 + 0.2 == 0.3` is `True`. Run the following check and
+explain why exact equality fails even though the printed values may look the
+same. Revise the comparison by selecting tolerances appropriate to the scale of
+the calculation.
+
+```{code-cell} python
+import math
+
+computed = 0.1 + 0.2
+expected = 0.3
+print(computed == expected)
+print(math.isclose(computed, expected, rel_tol=1e-12, abs_tol=0.0))
+```
+
+## Apply or extend
+
+Choose a quantity from another field—energy, concentration, pressure, or a
+model residual. State its units, a reference value, and why an absolute,
+relative, or combined tolerance is the relevant comparison.
+
+## Recap and next connection
+
+Numerical honesty means matching a comparison to the claim and the scale. In
+[Chapter 3](03-python-control-flow.md), those comparisons become guard clauses
+and stopping conditions for algorithms.
+
+::::{dropdown} Deep dive / reference
+
+The sections below preserve detailed numerical reference material. They are
+optional after the core route above; use them when a calculation presents a
+specific representation, stability, or formatting question.
+
+### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -22,21 +96,21 @@ By the end of this chapter, you will be able to:
 - [ ] **(9) Use essential `math` module functions** for scientific computing: `sqrt()`, `log()`, `sin()`, `cos()`, `isfinite()`, `isnan()`.
 - [ ] **(10) Work with complex numbers** using Python's `j` notation for wave physics and Fourier analysis.
 
-## Prerequisites Check
+### Reference prerequisites
 
 :::{note} Before Starting This Chapter
 
 - [ ] You can launch IPython and use basic magic commands (Chapter 1)
 - [ ] You understand the difference between scripts and interactive sessions (Chapter 1)
 - [ ] You can navigate your file system and activate your conda environment (Chapter 1)
-- [ ] Your `comp521` environment is activated and IPython is ready
+- [ ] A Python environment is active and an interactive session or script can run
 
 If any boxes are unchecked, review Chapter 1 first.
 :::
 
 ---
 
-## Chapter Overview
+### Reference overview
 
 Now that you've mastered setting up your computational environment and understand how Python finds and loads code, it's time to transform IPython into your personal calculator. But this chapter goes far beyond simple arithmetic - you're about to discover the hidden complexity of numerical computation that can make the difference between correct results and completely wrong ones due to rounding errors.
 
@@ -44,7 +118,7 @@ You'll learn why spacecraft have crashed, why some calculations fail catastrophi
 
 By mastering these fundamentals now, you'll develop the numerical intuition that separates computational scientists from programmers who just happen to work with scientific data. Every simulation you build, every dataset you analyze, and every statistical test you run will rely on the concepts in this chapter. Let's begin your journey from calculator user to numerical computing expert.
 
-:::{important} Numerical Thinking Checklist (use this all semester)
+:::{important} Numerical Thinking Checklist (use throughout your work)
 
 Before trusting a numerical result, quickly ask:
 
@@ -1188,3 +1262,5 @@ import math
 ## Next Chapter Preview
 
 Armed with a deep understanding of Python's numeric types and the perils of floating-point arithmetic, you're ready for Chapter 3: Control Flow & Logic. You'll learn to make your code dynamic with `if`-statements and loops, building algorithms that can adapt to data and iterate until convergence. The numerical foundations from this chapter become essential when you're checking whether a calculation has converged, comparing values within tolerance, or detecting numerical instabilities in your simulations. Get ready to transform static calculations into intelligent algorithms that can make decisions and repeat tasks — the essence of computational thinking.
+
+::::

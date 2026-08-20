@@ -1,13 +1,89 @@
 ---
 title: "Chapter 1: Computational Environments & Scientific Workflows"
-subtitle: "COMP 521 | Python Fundamentals"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
 ---
 
-## Learning Objectives
+## Scientific question
+
+How can another reader identify the interpreter and dependency set that produced
+a scientific result?
+
+## Core ideas
+
+- An environment is the Python executable, import paths, and package versions
+  available to a computation.
+- Record the executable and relevant versions alongside evidence from a run.
+- Interactive notebooks are useful for exploration, but their hidden state must
+  not become an unrecorded assumption.
+
+## Prerequisites
+
+Open a terminal and a Python session. A generic Python environment manager such
+as Conda, Mamba, or `venv` is useful but not required for the core examples.
+
+## Learning objectives
+
+By the end of this chapter, you can identify the active interpreter, diagnose a
+common import mismatch, record a minimal environment fingerprint, and distinguish
+exploration from a reproducible execution path.
+
+## Worked scientific example
+
+A numerical result is only interpretable if a reader can recover the software
+context that produced it. This minimal fingerprint records the executable,
+language version, and one dependency version:
+
+```{code-cell} python
+import importlib.metadata
+import platform
+import sys
+
+try:
+    numpy_version = importlib.metadata.version("numpy")
+except importlib.metadata.PackageNotFoundError:
+    numpy_version = "not installed"
+
+print("executable:", sys.executable)
+print("python:", platform.python_version())
+print("numpy:", numpy_version)
+```
+
+The values are not universal targets. They are evidence: a later import or
+numerical discrepancy can be compared with this record.
+
+## Predict → run → explain → revise
+
+Predict: if two terminals use different values of `sys.executable`, will they
+necessarily import the same installed packages? Run the fingerprint above in two
+available Python sessions. Explain the observed executable and version lines in
+one or two sentences. Revise the record by adding the version of one package your
+own calculation uses.
+
+## Apply or extend
+
+For a computation in your field, write a short run record containing the
+interpreter, package versions, input-data identifier, and random seed when one
+is used. Identify which difference would make two results not directly
+comparable.
+
+## Recap and next connection
+
+An environment record makes software context inspectable; it does not prove the
+numerical claim itself. [Chapter 2](02-python-calculator.md) addresses that next:
+how number representation and tolerance choices constrain what a computation can
+support.
+
+::::{dropdown} Deep dive / reference
+
+The sections below preserve detailed environment, import, notebook, and script
+reference material. They are optional after the core route above; consult them
+when a concrete workflow or failure requires the additional detail.
+
+### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -20,21 +96,22 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Transform notebook explorations into reproducible Python scripts** following best practices.
 - [ ] **(8) Execute Python code effectively** from both terminal and IPython environments.
 
-## Prerequisites Check
+### Reference prerequisites
 
 :::{important} Prerequisites Self-Assessment
 
 Before starting this chapter, verify you have completed these items:
 
 - [ ] You can open a terminal/command prompt and navigate directories (via `cd`, `ls`, and `pwd`).
-- [ ] You have Miniforge installed and created a `comp521` python conda environment for this course.
+- [ ] You have a Python environment available for experiments; an isolated Conda, Mamba, or `venv` environment is recommended.
 - [ ] You have a text editor (e.g., Vim) or IDE (e.g., VS Code) installed.
 - [ ] You have `git` installed and can you use basic `git` commands (e.g.,`clone`, `add`, `commit`, `pull`).
 
-If you checked 'no' to any item, see the [Getting Started](../02-getting-started/index.md) module.
+If you checked “no” to an item, consult a current Python setup guide for your
+operating system before continuing.
 :::
 
-## Chapter Overview
+### Reference overview
 
 Picture this: You download code from a groundbreaking scientific paper, eager to reproduce their analysis. You run it exactly as instructed. Instead of the published results, you get error messages, or worse — completely different values with no indication why. This frustrating scenario happens to nearly every computational scientist, from graduate students to professors. The problem isn't bad code or user error; it's that scientific computing happens in complex **environments** where tiny differences can cascade into complete failures.
 
@@ -45,29 +122,12 @@ problems, describe the difference between exploration and reproducible science,
 and record enough environment information for another reader to investigate a
 disagreement. Let's begin with interactive exploration.
 
-:::{important} Course policy: use notebooks deliberately
+:::{important} Use notebooks deliberately
 
-Jupyter notebooks are allowed—and required—for project analysis and reporting.
-They are not a substitute for modular implementation.
-
-Project 1 is the bootcamp exception: its functions may live in the notebook.
-From Project 2 onward, reusable and testable implementation belongs in `.py`
-modules; the notebook imports that code and presents the ordered analysis,
-figures, and interpretation.
-
-The risks in this chapter—hidden state, ambiguous execution order, and stale
-output—are why every submitted notebook must be documented, easy to follow, and
-runnable from a clean kernel using **Restart Kernel and Run All Cells**.
-
-In this course:
-
-- **IPython** may be used for *interactive exploration*
-- **Python modules and scripts** own reusable, testable computation
-- **Jupyter notebooks** own the ordered analysis, figures, and report
-- **Reproducibility and traceability** matter more than convenience
-
-See the canonical [notebook and code
-policy](../01-course-info/projects.md#notebook-and-code-policy).
+Notebooks support exploration, figures, and narrative. Reusable computation is
+easier to test and review in functions and modules. Before relying on notebook
+output, restart the kernel and run the notebook from top to bottom; record the
+inputs and environment that produced the visible result.
 :::
 
 :::{note} How to Use These Readings
@@ -104,7 +164,7 @@ Throughout this book:
 
 ```bash
 # Terminal commands (type these in your terminal, not in Python!)
-$ conda activate comp521
+$ conda activate scientific-python
 $ ipython
 
 # You'll see something like this appear:
@@ -484,7 +544,7 @@ import sys
 common_pythons = {
     'System Python': '/usr/bin/python3',
     'Conda (base)': '~/miniforge3/bin/python',
-    'Conda (env)': '~/miniforge3/envs/comp521/bin/python',
+    'Conda (env)': '~/miniforge3/envs/scientific-python/bin/python',
     'Homebrew (Mac)': '/usr/local/bin/python3',
     'Module system': '/software/python/bin/python'
 }
@@ -518,7 +578,7 @@ $ python script.py    # Uses wrong Python!
 **Fix**: Always use explicit paths or conda:
 
 ```bash
-$ conda activate comp521
+$ conda activate scientific-python
 $ which python  # Verify it's YOUR Python
 $ python script.py
 ```
@@ -531,7 +591,7 @@ $ python script.py
 
 # Always activate your environment first!
 source ~/miniforge3/etc/profile.d/conda.sh
-conda activate comp521
+conda activate scientific-python
 python your_script.py
 ```
 :::
@@ -548,13 +608,10 @@ limitations that can corrupt results and make debugging nearly impossible. The
 hidden-state problems below are not academic edge cases; they are reasons to use
 notebooks with an explicit reproducibility discipline.
 
-This course expands your toolkit beyond notebook-only work. Project 1 keeps its
-functions and analysis together in one notebook. From Project 2 onward, you will
-move reusable computation into `.py` modules and import it into a notebook that
-documents the analysis, figures, and interpretation. That separation combines
-testable code with a readable scientific narrative.
-
-Here's what you'll gain: **modular design** where functions can be reused across projects, **testable code** where each component can be verified independently, **version control** that actually works (no more JSON merge conflicts!), and **true reproducibility**. By Chapter 5, you'll be building your own professional libraries - versatile toolkits you can import into any project. Yes, the transition might feel awkward initially, but this course is designed to transform you from notebook-only coding to professional-level development - but first we must begin by understanding what notebooks actually do behind the scenes...
+For sustained work, separate reusable computation from the notebook narrative:
+put functions in importable modules and let the notebook document the analysis,
+figures, and interpretation. That separation supports testing, review, version
+control, and a readable scientific record.
 
 ### The Seductive Power of Notebooks
 
@@ -562,7 +619,7 @@ To start Jupyter (after activating your environment):
 
 ```bash
 # Terminal commands:
-$ conda activate comp521
+$ conda activate scientific-python
 $ jupyter lab
 
 # Opens browser at http://localhost:8888
@@ -701,16 +758,15 @@ Just like hidden state in Jupyter notebooks, the error was invisible in the fina
 
 ### The Notebook-to-Module Transition
 
-After Project 1, notebooks remain the analysis report, while reusable
-implementation moves into **modules and scripts**. The two formats have different
-jobs:
+Notebooks and scripts have different jobs. Keep reusable implementation in
+**modules and scripts** while notebooks document exploration and interpretation:
 
 | Aspect | Notebooks | Scripts |
 |--------|-----------|---------|
-| Execution Order | Can be run out of order; submissions must run top to bottom | Top-to-bottom, always |
+| Execution Order | Can be run out of order; a reproducible notebook runs top to bottom | Top-to-bottom, always |
 | Hidden State | Persists until the kernel is restarted | Fresh start each run |
-| Best course role | Analysis, figures, interpretation | Reusable computation, tests, pipelines |
-| Cluster Jobs | Possible but awkward (e.g., `papermill`, `nbconvert`) | Easy batch submission |
+| Best role | Analysis, figures, interpretation | Reusable computation, tests, pipelines |
+| Cluster Jobs | Possible but awkward (e.g., `papermill`, `nbconvert`) | Easy batch execution |
 | Version Control | Noisier JSON diffs, especially with output | Clean text diffs |
 | Pipeline Integration | Possible, but not the implementation owner here | Straightforward |
 | Reproducible Results | Requires clean-kernel execution and controlled inputs | Requires controlled inputs, dependencies, and seeds |
@@ -781,7 +837,7 @@ Each step must be:
 Notebooks require extra discipline to meet these requirements; scripts make them
 easier to enforce automatically. This is why major projects often use workflow
 managers (Snakemake, Pegasus) to orchestrate Python scripts rather than depend on
-manual cell execution. In this course, **Restart Kernel and Run All Cells** is the
+manual cell execution. A reproducible notebook should use **Restart Kernel and Run All Cells** as the
 minimum notebook check, not a replacement for modular code and tests.
 
 Remember: *"If it's not reproducible, it's not science."*
@@ -1349,7 +1405,8 @@ These functions are starting points! For your research:
 - Test specific numerical libraries
 - Verify cluster-specific modules are loaded
 
-Copy these functions and customize them for your specific computational needs throughout the semester! The few seconds it takes to run these can save hours of misguided debugging.
+Adapt these functions to your computational needs throughout your work. The few
+seconds it takes to run them can save hours of misguided debugging.
 :::
 
 ### Using IPython's Debugger
@@ -1568,10 +1625,9 @@ This chapter has revealed the hidden complexity underlying every Python analysis
 
 The **Jupyter notebook** trap is particularly dangerous in scientific computing
 because hidden state can make serious analysis fragile. A polished notebook may
-still produce different values when run out of order. In this course, you prevent
-that failure by restarting the kernel, running every cell in order, documenting
-the analysis, and moving reusable implementation into `.py` modules after
-Project 1.
+still produce different values when run out of order. Prevent that failure by
+restarting the kernel, running every cell in order, documenting the analysis,
+and moving reusable implementation into `.py` modules.
 
 Scripts enforce **reproducibility** through predictable execution. The `if __name__ == "__main__"` pattern enables you to build modular analysis tools that work both standalone and as part of larger pipelines — crucial for large projects where individual components must integrate into massive data processing systems.
 
@@ -1639,3 +1695,5 @@ run it from a clean kernel, and keep reusable implementation in `.py` modules
 ## Next Chapter Preview
 
 Now that you've mastered your computational environment, Chapter 2 will transform Python into a powerful scientific calculator. You'll discover why $0.1 + 0.2 \neq 0.3$ matters when doing numerical calculations, learn how floating-point errors compound during numerical integration, and understand why some calculations require extra precision. You'll implement algorithms for transformations, conversions, and computations — all while managing the numerical precision that separates successful results from incorrect ones. Get ready to understand why numerical errors happen and how to prevent similar problems in your computations!
+
+::::

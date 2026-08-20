@@ -1,78 +1,69 @@
 ---
-title: "Part II: The Scientific Python Toolkit"
-subtitle: "Scientific Computing with Python | COMP 521"
+title: "Start Here: Part II Guide — Arrays, Visualization, and Reliable Computing"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
+Part II develops the habits that turn a collection of numbers into
+inspectable computational evidence. The emphasis is not on collecting APIs or
+making a plot look persuasive. It is on making array operations, visual choices,
+and checks visible enough that another reader can question the result.
 
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
-:::
-<!-- prep-banner:end -->
+## How to use this part
 
-## Deepening Your Computational Toolkit
+Read Chapters 7–10 in order on a first pass. Each begins with a compact core:
+a scientific question, the ideas needed to answer it safely, a small worked
+example, and a predict → run/inspect → explain → revise check. The remaining
+material is marked **Deep dive / reference**. It is there when a concrete
+problem demands it; it is not a hidden prerequisite for the core.
 
-This module builds on the `Python Fundamentals` material and teaches the high-performance numerical tools and workflows used in real research: array programming with NumPy, visualization with Matplotlib, robust numerical computing practices, and performance-aware algorithms.
+On a return visit, begin with the question that matches the problem in front of
+you:
 
-:::{tip} 📚 How to Use This Module
+| If you are asking… | Start with… |
+| --- | --- |
+| “Why does this array have this shape or dtype?” | [Chapter 7: NumPy](07-numpy-fundamentals.md) |
+| “What claim does this figure actually support?” | [Chapter 8: Matplotlib](08-matplotlib-fundamentals.md) |
+| “How can I test this numerical behavior?” | [Chapter 9: Testing, Failure Modes, and Reproducible Scientific Code](09-robust-computing.md) |
+| “Does this scientific entity need state and invariants?” | [Chapter 10: Designing Small Scientific Types](10-advanced-oop.md) |
 
-Treat these chapters as practical, reusable resources: read the concept sections, run the code examples in IPython, complete the exercises to solidify performance and numerical best practices, and refer back to these pages often as your go-to references during assignments and projects.
-:::
+## Chapter map
 
-## Module Overview
+### [Chapter 7: NumPy — Arrays as Scientific Objects](07-numpy-fundamentals.md)
 
-### [🧮 Chapter 7: NumPy - The Foundation of Scientific Computing in Python](07-numpy-fundamentals.md)
+Shape, axes, dtype, vectorized operations, masking, broadcasting, copies and
+views, and reproducible random generators. The central question is whether the
+array represents the quantity you think it represents.
 
-NumPy arrays, vectorization, broadcasting, indexing, and memory/layout considerations — the foundation for efficient astronomical computation.
+### [Chapter 8: Matplotlib — Visualizing Scientific Evidence](08-matplotlib-fundamentals.md)
 
-### [🖼️ Chapter 8: Matplotlib - Visualizing Your Universe](08-matplotlib-fundamentals.md)
+The `Figure`/`Axes` model, labels and units, scales, uncertainty, accessible
+encodings, and export. The central question is what an honest figure lets a
+reader see—and what it cannot establish on its own.
 
-Create publication-quality figures from NumPy arrays: line plots, images, colormaps, multi-panel layouts, and WCS-aware displays for astronomical data.
+### [Chapter 9: Testing, Failure Modes, and Reproducible Scientific Code](09-robust-computing.md)
 
-### [🔧 Chapter 9: Robust Numerical Computing & Best Practices](09-robust-computing.md)
+Input validation, expected failures, assertions, tests, tolerances, known
+solutions, convergence checks, and diagnostic logging. The central question is
+what evidence supports a stated behavior of the code.
 
-Numerical stability, defensive algorithms, error propagation, and techniques for writing reliable scientific code that produces trustworthy results.
+### [Chapter 10: Designing Small Scientific Types](10-advanced-oop.md)
 
-### [🚀 Chapter 10: Advanced Patterns & Performance](10-advanced-oop.md)
+Dataclasses, validation, invariants, readable representations, composition,
+and tests for compact stateful models. The central question is whether a small
+type makes a scientific assumption clearer than a loose collection of values.
 
-Advanced object-oriented patterns, performance profiling, C/Fortran integration paths, and packaging/testing strategies for production-grade scientific software.
+## Scientific examples and transfer
 
-### [📊 Chapter 11: Pandas Fundamentals](11-pandas-fundamentals.md)
+Examples may use transit signals, laboratory measurements, field observations,
+or simulation outputs. Their units, assumptions, and limits should be visible.
+The transferable skill is always the same: inspect the representation, make a
+claim proportionate to the evidence, and add a check that could expose a
+mistake.
 
-Data manipulation and analysis with Pandas: DataFrames, series operations, grouping, merging, and time series analysis for scientific datasets.
+## What comes next
 
-## Learning Strategy
-
-1. **Run examples interactively** to observe performance differences between naive and vectorized implementations.
-2. **Profile before optimizing** — use small benchmarks to find hotspots.
-3. **Prefer NumPy idioms** (vectorize, mask, broadcast) over Python loops for data-heavy tasks.
-4. **Write tests** for numerical code to guard against subtle regressions.
-
-## Quick Navigation Guide
-
-- Fix performance bottlenecks $\to$ [Ch 7: NumPy](07-numpy-fundamentals.md)
-- Improve plots and figures $\to$ [Ch 8: Matplotlib](08-matplotlib-fundamentals.md)
-- Ensure numerical stability $\to$ [Ch 9: Robust Computing](09-robust-computing.md)
-- Productionize code $\to$ [Ch 10: Advanced Patterns](10-advanced-oop.md)
-- Data analysis workflows $\to$ [Ch 11: Pandas](11-pandas-fundamentals.md)
-
-## Core Competencies
-
-- Efficient array programming with NumPy
-- Vectorized algorithms and broadcasting
-- Memory-aware data handling (views vs copies)
-- Numerical stability and defensive programming
-- Creating publication-quality visualizations with Matplotlib
-- Profiling and optimizing performance-critical code
-- Packaging and testing scientific libraries
-- Data manipulation with Pandas
-
----
-
-**Next:** Start with [Chapter 7: NumPy](07-numpy-fundamentals.md)
+[Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md)
+is in development. It will extend these habits to data provenance, tables,
+cleaning decisions, exploratory analysis, and query workflows; it is not part
+of this completed Part II route.
