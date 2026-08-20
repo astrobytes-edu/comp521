@@ -4,9 +4,19 @@ from bokeh.plotting import figure
 pn.extension(sizing_mode="stretch_width")
 radius_ratio = pn.widgets.FloatSlider(name="Planet/star radius ratio, p", start=0.02, end=0.50, step=0.01, value=0.10)
 
-def metrics(p):
+def summary(p):
     depth = p**2
-    return pn.Column(pn.pane.Markdown(f"### Blocked fraction\n## {depth:.3f}"), pn.pane.Markdown(f"Normalized flux F = 1 − p² = {1-depth:.3f}. Doubling p multiplies the blocked fraction by four."))
+    return pn.Row(
+        pn.Column("### Blocked fraction", f"## {depth:.3f}", width=175),
+        pn.Column("### Normalized flux", f"## {1 - depth:.3f}", width=175),
+        pn.Column(
+            "### What this means",
+            "The blocked fraction is an **area ratio**, so it follows p². "
+            "Doubling p makes the depth four times larger.",
+            sizing_mode="stretch_width",
+        ),
+        sizing_mode="stretch_width",
+    )
 
 def depth_plot(p):
     values = [i / 100 for i in range(2, 51)]
@@ -15,4 +25,11 @@ def depth_plot(p):
     plot.scatter([p], [p**2], size=10, color="#e57200")
     return plot
 
-app = pn.Column("## Predict → change → explain", "Predict whether the orange point moves linearly or quadratically before moving the slider.", radius_ratio, pn.Row(pn.bind(metrics, radius_ratio), pn.bind(depth_plot, radius_ratio)))
+app = pn.Column(
+    "## Predict → change → explain",
+    "Before moving the slider, predict whether the orange point follows a line or a curve.",
+    radius_ratio,
+    pn.bind(summary, radius_ratio),
+    pn.bind(depth_plot, radius_ratio),
+    sizing_mode="stretch_width",
+)
