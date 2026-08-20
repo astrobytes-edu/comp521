@@ -406,20 +406,89 @@ For each hardening slice:
 5. perform an adversarial pedagogy review before claiming the affected chapter
    or part is student-ready.
 
+## Release implementation strategy
+
+The textbook will be hardened in explicit releases, not declared complete as a
+single all-or-nothing conversion. A release may call a part **complete** only
+when every reader-facing page in that part satisfies the shared chapter or
+guide contract, its examples are qualified, and its navigation does not route
+readers into unfinished work.
+
+### Release 1: complete Parts I and II
+
+Release 1 is the pre-class priority. It makes Parts I and II a coherent,
+course-agnostic foundation for scientific programming, arrays, visualization,
+testing, and small scientific types.
+
+1. Convert the Part I and Part II guides to independent entry pages: remove
+   COMP 521 project routes, weekly timing, grading, and submission language;
+   retain diagnostic navigation and a clear explanation of how to use a
+   chapter as either a first read or later reference.
+2. Give every completed Chapter 1–10 a consistent first-screen contract:
+   scientific question, core ideas, accurate prerequisites, observable
+   objectives, a visibly bounded core route, and a visible deep-dive/reference
+   boundary.
+3. Add or repair one small **predict → run/inspect → explain → revise**
+   activity in each chapter. Activities must use a runnable or inspectable
+   example, state variables and units where relevant, and end in a
+   domain-transferable claim rather than a course submission instruction.
+4. Retain astrophysics, transit, root-finding, and COMP 536-style applications
+   as labeled scientific examples. Every such example must name its domain
+   assumptions and expose a transfer prompt that another field can use.
+5. Harden Part II's core content: arrays and figures as reasoning tools,
+   Chapter 9 as behavioral/numerical evidence, and Chapter 10 as small
+   scientific types. Advanced APIs, specialized ecosystems, and design-pattern
+   catalogues become clearly marked deep dives or Part IV reference material.
+6. Correct stale terminology, inaccurate links, unsupported prerequisite
+   claims, and unqualified performance/library-internals claims in the
+   affected parts.
+7. Add machine-checkable textbook-contract tests for Part I and II titles,
+   guide labels, required chapter-contract headings, no course-project
+   language, and valid immediate next/part links where those checks are
+   feasible. Content quality still requires rendered inspection and adversarial
+   review; it cannot be reduced to string matching.
+
+### Deferred publication: Parts III and IV
+
+Parts III and IV are future work, not hidden required reading. Until a part is
+hardened, its guide must display a concise **in development** status card with
+its intended scope and an honest statement that it is not part of Release 1.
+The main textbook entry may show these parts as planned, but it must not route
+students to incomplete Chapter 12 or imply that Chapters 13–15 and Part IV
+pages already exist.
+
+The course overlay may independently point to finished readings or activities
+outside Release 1. It must not use the textbook's deferred status to disguise
+course requirements; it owns its own preparation directions.
+
+### Release workflow for each chapter
+
+1. Audit the live chapter against the shared contract, scientific-integrity
+   rules, and the previous/next navigation contract.
+2. Make the smallest coherent editorial change that creates a usable core and
+   protects important reference depth.
+3. Execute changed code examples where supported; otherwise label pseudocode
+   or an environment-dependent example honestly.
+4. Run contract tests, strict MyST build, math/link checks, and focused visual
+   inspection at desktop and narrow-screen widths.
+5. Conduct an adversarial pedagogy review. Address correctness, cognitive
+   load, accessibility, motivation, and transfer before marking the chapter
+   hardened.
+6. Commit the independently reviewable chapter or part slice with its
+   verification evidence.
+
 ## Migration order
 
-1. Apply the hierarchy and guide/recap naming convention; fix Part II/III
-   routing and stale terminology.
-2. Harden the Part I Guide and Recap as independent book pages; remove COMP
-   521 policy and project language from textbook pages.
-3. Harden Chapters 9 and 10 first, because testing and restrained scientific
-   type design provide the highest reusable value for the current book.
-4. Establish the shared chapter contract across Chapters 1–8 and 11, beginning
-   with core/deep-dive separation and accurate prerequisite/next links.
-5. Author Chapter 12 fully before calling Part III complete.
-6. Publish the Part IV Quality Workflow guide after Chapter 9 establishes the
-   conceptual base; stage later Part IV references as substantive pages, not
-   empty placeholders.
+1. Complete Release 1: Part I guide/recap and Chapters 1–6, followed by Part
+   II guide and Chapters 7–10.
+2. Apply the hierarchy and guide/recap naming convention; fix stale
+   terminology, routing, unsupported prerequisites, and inaccurate claims in
+   Parts I and II.
+3. Mark Parts III and IV as deferred publication until each page can meet the
+   shared contract; author Chapter 12 fully before calling Part III complete.
+4. Publish the Part IV Quality Workflow guide only after Chapter 9 establishes
+   the conceptual base; stage later Part IV references as substantive pages,
+   not empty placeholders.
 
 ## Open iteration questions
 
