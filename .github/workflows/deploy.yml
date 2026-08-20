@@ -42,6 +42,19 @@ jobs:
       - name: Set up Python environment
         run: uv sync --no-dev
 
+      - name: Set up xeus JupyterLite builder
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: tools/jupyterlite/build-environment.yml
+          environment-name: comp521-jupyterlite-build
+          cache-environment: true
+
+      - name: Build xeus JupyterLite runtime
+        shell: bash -l {0}
+        run: |
+          JUPYTERLITE_PYTHON="$CONDA_PREFIX/bin/python" bash tools/jupyterlite/build.sh
+          python3 scripts/check_jupyterlite_bundle.py
+
       - name: Check landing-page contract
         run: python3 scripts/check_landing_page.py
 

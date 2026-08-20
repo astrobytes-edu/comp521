@@ -1,0 +1,4 @@
+jupyter_server>=2.14
+jupyterlite-core>=0.7
+jupyterlite-xeus>=4.3
+notebook>=7.5

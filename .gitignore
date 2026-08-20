@@ -4,6 +4,8 @@ _build/
 
 # Python
 .venv/
+.jupyterlite-build/
+assets/jupyterlite/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
@@ -18,6 +20,7 @@ __pycache__/
 /.playwright-cli/
 /.playwright-mcp/
 /output/
+/.superpowers/
 
 # OS
 .DS_Store
