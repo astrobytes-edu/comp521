@@ -433,3 +433,122 @@ These are intentional design choices to revisit with evidence, not blockers:
   environment and editor pathway are frozen.
 - Whether selected deep dives remain in long chapter pages or become separate
   appendix/reference pages after a reader walkthrough reveals navigation load.
+
+## Future companion textbook: Differentiable Scientific Computing
+
+This is a deliberately separate future textbook, not Part V of *Scientific
+Computing with Python*. The separation protects both books: the present book
+remains a broadly useful foundation for scientific programming and data work,
+while the companion can develop the mathematics, numerical semantics, and
+scientific-validity questions of differentiable programs without becoming a
+JAX appendix.
+
+The companion's working title is **Differentiable Scientific Computing**. Its
+core promise is:
+
+> Build, differentiate, and qualify scientific programs while being explicit
+> about when a derivative represents a meaningful property of the model.
+
+### Scope and boundary
+
+The companion teaches differentiable programming for computational scientists
+and research trainees. It treats automatic differentiation as a program
+transformation with numerical and scientific assumptions—not as a shortcut to
+unexamined optimization. It will cover JAX as an important concrete runtime,
+but the ideas must remain intelligible beyond one framework.
+
+It does not duplicate the present textbook's Python foundations, dataframe
+workflows, or general research-software reference material. Readers should be
+comfortable with arrays, functions, tests, numerical tolerances, and simple
+scientific models before beginning. When a prerequisite is needed, link to the
+relevant independent material rather than copying it.
+
+### Intellectual guide and source boundary
+
+The primary methods guide is Blondel and Roulet's *The Elements of
+Differentiable Programming*. Its source-backed topic map includes
+differentiation, parameterized programs, control flow, data structures, finite
+differences, automatic and second-order differentiation, graphical-model
+inference, differentiating optimization and integration, smoothing, and
+optimization/duality. It is a strong guide for mathematical sequencing and
+method vocabulary; it is not a source of domain-physics authority or a chapter
+template to copy.
+
+For any mathematical exposition adapted from an external source, author from a
+verified equation digest and check displayed equations against the canonical
+source before publication. Scientific case studies require their own
+domain-appropriate assumptions, references, validation criteria, and
+limitations.
+
+### Provisional information architecture
+
+This outline is approved as a living design, not as a claim that the pages
+exist or that every topic belongs in a first release.
+
+```text
+Differentiable Scientific Computing
+├── Part I · Differentiable Programs and Scientific Questions
+│   ├── Guide: What Differentiability Can—and Cannot—Mean
+│   ├── Chapter 1 · Scientific Models, Parameters, and Sensitivities
+│   ├── Chapter 2 · Derivatives, Directional Derivatives, and Finite-Difference Checks
+│   └── Chapter 3 · Functional Array Programming for Differentiable Models
+├── Part II · Automatic Differentiation and Program Semantics
+│   ├── Chapter 4 · Automatic Differentiation: JVPs, VJPs, and Jacobians
+│   ├── Chapter 5 · Compilation, Control Flow, Shapes, and Pytrees
+│   └── Chapter 6 · Memory, Checkpointing, Precision, and Derivative Cost
+├── Part III · Differentiating Scientific Solvers
+│   ├── Chapter 7 · Differentiating Time Evolution and ODE Solvers
+│   ├── Chapter 8 · Differentiating Root Finding, Integration, and Implicit Solves
+│   └── Chapter 9 · Constraints, Events, Discontinuities, and Smoothing
+├── Part IV · Inference and Optimization
+│   ├── Chapter 10 · Losses, Calibration, and Identifiability
+│   ├── Chapter 11 · Differentiating Through Optimization
+│   └── Chapter 12 · Second-Order Information and Practical Curvature
+└── Part V · Qualification and Scientific Use
+    ├── Chapter 13 · Derivative Verification and Failure Diagnosis
+    ├── Chapter 14 · Reproducibility, Devices, and Performance Evidence
+    └── Chapter 15 · Differentiable Scientific Case Studies
+```
+
+### Pedagogical signature
+
+Each core concept must be taught as an evidence loop:
+
+1. state a physical, numerical, or program-behavior prediction;
+2. run a small differentiable model or inspect its derivative;
+3. compare automatic differentiation with an independently justified check
+   such as directional finite differences, a known solution, or a convergence
+   study;
+4. explain a discrepancy in terms of model assumptions, solver behavior,
+   floating-point arithmetic, or program semantics; and
+5. revise the model, test, or claim accordingly.
+
+The goal is not merely to obtain gradients. It is to establish what those
+gradients mean, where they fail, and what evidence supports their use in a
+scientific decision.
+
+### First-release design constraints
+
+- JAX examples must distinguish mathematical concept, JAX-specific API, and
+  runtime limitation.
+- No example may imply that automatic differentiation validates a physical
+  model, establishes identifiability, or replaces an independent derivative
+  check.
+- Differentiating through an iterative solver must make its stopping rule,
+  convergence behavior, and selected differentiation method visible.
+- Non-smooth operations, events, thresholds, discrete choices, and hidden
+  mutable state must be treated as first-class modeling constraints, not edge
+  cases.
+- Performance claims must state device, precision, problem size, compilation
+  state, and comparison baseline; microbenchmarks alone are not scientific
+  evidence.
+- Case studies must state observables, parameters, units, domain assumptions,
+  validity limits, and a separate scientific validation argument.
+
+### Relationship to the current textbook
+
+*Scientific Computing with Python* may eventually contain a short “where
+next” connection to this companion after its array, numerical-testing, and
+research-software foundations are stable. It will not gain a partial JAX part
+or duplicate companion chapters. Cross-links must remain optional, accurate,
+and usable by readers who never take the differentiable-programming path.
