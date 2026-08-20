@@ -8,17 +8,38 @@ This module gets one complete scientific-computing loop working on your own
 computer: navigate to a project, activate its Python environment, run a
 notebook, and save the result with Git.
 
-:::{warning} Classroom50 acceptance check
-COMP 521 uses Classroom50, not GitHub Classroom. The course-specific invitation
-and acceptance screens are scheduled for a fresh-student rehearsal on **August
-20**. Until that check is complete, use the invitation posted in Canvas and the
-current P1 readiness contract in this module; do not rely on Classroom50
-screenshots from a different course.
+:::{note} Classroom50 access
+COMP 521 uses Classroom50, not GitHub Classroom. Use the Project 1 invitation
+posted in Canvas and follow the course-specific directions it provides; do not
+rely on screenshots or instructions from a different course.
 :::
+
+## Your first 10-minute success
+
+Before installing anything, establish one small success in the terminal. Open
+the course terminal described in Chapter 1 and run:
+
+```bash
+pwd
+cd ~
+mkdir -p comp521_cli_practice/project-1
+cd comp521_cli_practice/project-1
+pwd
+```
+
+Success means the final command prints a path ending in
+`comp521_cli_practice/project-1`. You have not installed software or changed a
+course repository; you have simply proved that you can navigate a workspace.
+Chapter 1 explains each command and gives you a longer practice task.
 
 ## What to read, and when
 
 ### Complete for P1 technical readiness
+
+Set aside **about two hours** for this route. Allow **up to three hours** if you
+are installing software from scratch, creating a GitHub account, or encounter a
+network delay. Start before the readiness deadline so that a technical problem
+does not become a time problem.
 
 ::::{grid} 1 1 3 3
 
@@ -33,14 +54,14 @@ Learn the small set of terminal commands needed to find and run a project.
 :link: 02-software-setup.md
 
 Install Miniforge and VS Code, create the `comp521` environment, and run a
-local notebook check. **About 30–45 minutes.**
+local notebook check. **About 45–75 minutes from scratch.**
 :::
 
 :::{card} 3. Git and Classroom50
 :link: 03-git-intro.md
 
 Clone your assigned P1 repository, commit one targeted file, push it, and
-verify the green readiness check. **About 35 minutes.**
+verify the green readiness check. **About 35–50 minutes after setup.**
 :::
 
 ::::
@@ -120,7 +141,8 @@ If the first checks do not resolve it, ask for help with:
 - your operating system;
 - the exact command or action;
 - the complete error text;
-- the output of `pwd`, `git status`, or `which python` when relevant; and
+- the output of `pwd`, `git status`, `which python`, or
+  `python -c "import sys; print(sys.executable)"` when relevant; and
 - what you already tried.
 
 Use the Canvas discussion board when the answer may help the class, Canvas

@@ -215,12 +215,14 @@ After you create the course environment in Chapter 2, the usual loop is:
 cd path/to/your/project
 conda activate comp521
 which python
+python -c "import sys; print(sys.executable)"
 python script.py
 ```
 
-On Windows Git Bash, `which python` may print a path under Miniforge. On all
-platforms, the important observation is that the active Python belongs to the
-`comp521` environment.
+In Git Bash or another Bash-compatible shell, `which python` may print a path
+under Miniforge. The Python command reports the same interpreter using Python
+itself and works across shells. On all platforms, the important observation is
+that the active Python belongs to the `comp521` environment.
 
 Use `Ctrl + C` to interrupt a running command. This asks the program to stop;
 it does not undo work the program already completed.

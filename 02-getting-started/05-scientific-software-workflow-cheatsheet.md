@@ -4,7 +4,9 @@ subtitle: "A one-page companion for COMP 521 projects"
 author: "Anna Rosen"
 ---
 
-Keep this page beside your editor. It is a working aid, not a grading rubric;
+Read [Scientific Software: From Claim to Evidence](04-software-engineering-guide.md)
+for the reasoning behind these practices; keep this page beside your editor when
+you need the compact working version. It is a working aid, not a grading rubric;
 the current project brief defines the deliverables.
 
 ## First: identify the project phase

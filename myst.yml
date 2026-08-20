@@ -130,4 +130,5 @@ site:
   template: book-theme
   options:
     logo: assets/comp521-logo.png
+    logo_alt: COMP 521 home
     favicon: assets/comp521-logo-square.png

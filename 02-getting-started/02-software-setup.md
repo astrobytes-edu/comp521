@@ -84,8 +84,7 @@ Download the installer for your operating system and processor from the
    Bash** window.
 
 This connects the Miniforge installation to the Bash terminal used in Chapter
-1. The route will receive its required clean-Windows rehearsal before release;
-if `conda` is not found, preserve the exact message and use the help route
+1. If `conda` is not found, preserve the exact message and use the help route
 below instead of changing system `PATH` entries by guesswork.
 :::::
 
@@ -120,14 +119,17 @@ imports:
 
 ```bash
 which python
+python -c "import sys; print(sys.executable)"
 python --version
 python -c "import numpy, matplotlib; print('COMP 521 imports work')"
 gh --version
 ```
 
-The Python path should point inside the `comp521` environment, Python should
-report version 3.11, the import command should print its success message, and
-`gh` should report a GitHub CLI version. Installing `gh` in the same
+Both interpreter-path commands should point inside the `comp521` environment.
+`which python` is convenient in Git Bash and other Bash-compatible shells;
+`python -c "import sys; print(sys.executable)"` works across shells. Python
+should report version 3.11, the import command should print its success message,
+and `gh` should report a GitHub CLI version. Installing `gh` in the same
 cross-platform environment gives every supported operating system the browser
 authentication path used in Chapter 3.
 
@@ -139,7 +141,8 @@ authentication path used in Chapter 3.
 | `conda deactivate` | leave the current environment |
 | `conda env list` | show available environments |
 | `conda list` | show packages in the active environment |
-| `which python` | show which Python this shell will run |
+| `which python` | show which Python a Bash-compatible shell will run |
+| `python -c "import sys; print(sys.executable)"` | show the active Python across shells |
 
 :::{important} Add packages only when the course asks for them
 Do not run `conda update --all`, mix in arbitrary `pip install` commands, or
@@ -216,6 +219,7 @@ Before continuing, confirm:
 - [ ] A new terminal recognizes `conda`.
 - [ ] `conda activate comp521` changes the prompt.
 - [ ] `which python` points inside the `comp521` environment.
+- [ ] `python -c "import sys; print(sys.executable)"` points inside the same environment.
 - [ ] NumPy and Matplotlib import without error.
 - [ ] `gh --version` reports a GitHub CLI version.
 - [ ] VS Code has the Microsoft Python and Jupyter extensions.
@@ -231,7 +235,7 @@ completed after you receive and push your assigned repository in Chapter 3.
 |---|---|
 | `conda: command not found` | Open a new terminal. Confirm Miniforge installed for your user. On Windows, try the exact `conda init bash` step from Miniforge Prompt once. |
 | `EnvironmentNameNotFound: comp521` | Run `conda env list`. If the environment is absent, repeat the create command; if it exists under another name, preserve the output and ask for help. |
-| `ModuleNotFoundError` | Run `conda activate comp521`, `which python`, and `conda list <package>`. |
+| `ModuleNotFoundError` | Run `conda activate comp521`, `which python`, `python -c "import sys; print(sys.executable)"`, and `conda list <package>`. |
 | VS Code shows the wrong Python | Open the project folder, then select the `comp521` interpreter or kernel again. |
 | Kernel will not start | Record the VS Code notification and Jupyter output; confirm `python -c "import ipykernel"` works in the active environment. |
 | Installation stalls or cannot reach a server | Save the complete network error and try the same command once on a stable network. Do not add an unknown proxy or clear caches blindly. |

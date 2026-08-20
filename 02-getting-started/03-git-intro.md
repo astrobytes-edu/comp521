@@ -147,18 +147,11 @@ machine-specific files merely because a broad command found them.
 
 ## Classroom50 and Project 1
 
-:::{warning} Course-specific acceptance UI
-The invitation and acceptance screens are scheduled for a fresh-student
-rehearsal on **August 20**. The durable route below is the current course
-contract; the final invitation link and any interface-specific directions will
-be posted in Canvas after that rehearsal.
-:::
-
 Classroom50 is the assignment-distribution service for COMP 521. Its current
 [student web guide](https://github.com/foundation50/classroom50/wiki/Web-Student-Guide)
 describes GitHub authorization and repository creation. The course-specific
 project brief and Canvas invitation take precedence over a generic service
-example.
+example or screenshots from another course.
 
 ### Accept and clone P1
 
