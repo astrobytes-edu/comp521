@@ -19,9 +19,6 @@ project:
     content: CC-BY-4.0
     code: MIT
 
-  # 203 executable cells across the Python readings need a live kernel.
-  jupyter: true
-
   numbering:
     heading_2: false
     figure: true
