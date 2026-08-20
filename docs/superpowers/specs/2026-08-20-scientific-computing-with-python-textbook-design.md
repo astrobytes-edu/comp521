@@ -67,8 +67,11 @@ Scientific Computing with Python
 │   └── Chapter 10 · Designing Small Scientific Types
 ├── Part III · Tabular Data and Reproducible Workflows
 │   ├── Start Here: Part III Guide
-│   ├── Chapter 11 · Pandas: Organizing Scientific Data
-│   └── Chapter 12 · From Raw Data to a Defensible Dataset
+│   ├── Chapter 11 · DataFrames: Tables, Types, and Relational Operations
+│   ├── Chapter 12 · From Raw Data to a Defensible Dataset
+│   ├── Chapter 13 · Exploratory Data Analysis as Scientific Debugging
+│   ├── Chapter 14 · Scalable Tabular Workflows: Arrow, Parquet, and Polars
+│   └── Chapter 15 · Relational Scientific Data: SQL and DuckDB
 └── Part IV · Research Software Practice
     ├── Guide: Quality Workflow for Scientific Python
     ├── Packages, Environments, and Reproducible Releases
@@ -90,6 +93,7 @@ will follow the Chapter 9 hardening pass.
 | `03-python/synthesis.md` | **Part I Recap — Trustworthy Scientific Programming** | Keep its diagnostic-manual role; remove all “module” terminology and make it an unnumbered recap. |
 | `04-scientific-computing/index.md` | **Start Here: Part II Guide — Arrays, Visualization, and Reliable Computing** | Limit its route to Chapters 7–10; remove Chapter 11 and promises not supported by Chapter 10. |
 | `04-scientific-computing/part-3-data-workflows.md` | **Start Here: Part III Guide — Tabular Data and Reproducible Workflows** | Retain the data-to-evidence framing and reading sequence; remove course-project references. |
+| `04-scientific-computing/11-pandas-fundamentals.md` | **Chapter 11 — DataFrames: Tables, Types, and Relational Operations** | Use Pandas as the first concrete implementation while teaching durable dataframe concepts. |
 | `04-scientific-computing/12-data-acquisition-cleaning.md` | **Chapter 12 — From Raw Data to a Defensible Dataset** | Keep an explicit availability status until the chapter meets the shared contract; do not represent a scope note as finished instruction. |
 
 ## Course overlays versus textbook content
@@ -236,11 +240,12 @@ presented as required to understand the core chapter.
 
 ### Part III: data to evidence
 
-**Chapter 11 — Pandas: Organizing Scientific Data**
+**Chapter 11 — DataFrames: Tables, Types, and Relational Operations**
 
 - Core: tables, schema/metadata inspection, selecting and filtering,
   aggregation, joins when warranted, time-indexed data, and plots that inspect
-  rather than overstate.
+  rather than overstate. Pandas is the initial concrete implementation, while
+  the chapter's durable concepts are table semantics and relational operations.
 - Remove advanced-OOP prerequisites and generic simulation-first framing.
 - Preserve missingness by default. Any interpolation, imputation, or row
   exclusion requires a stated domain rationale and sensitivity check.
@@ -254,6 +259,40 @@ presented as required to understand the core chapter.
   dataset that another reader can trace.
 - Include one complete, runnable workflow using a public scientific dataset or
   a small bundled example with durable provenance.
+
+**Chapter 13 — Exploratory Data Analysis as Scientific Debugging**
+
+- Establish EDA as a scientific reasoning practice before formal inference or
+  model fitting, not as an ornamental plotting chapter.
+- Core: distributions, units and scales, outliers, missingness patterns,
+  grouped comparisons, transformations, selection effects, suspicious
+  correlations, data leakage, and questions a dataset cannot answer.
+- Every visualization must lead to a stated observation, an alternative
+  explanation, and a next diagnostic or analysis decision.
+
+**Chapter 14 — Scalable Tabular Workflows: Arrow, Parquet, and Polars**
+
+- Introduce columnar interchange, Parquet, eager versus lazy execution, query
+  plans, and the reason filters/projections can be moved closer to data access.
+- Present Polars as a distinct dataframe/query model, not as “faster Pandas.”
+  Make eager/lazy semantics, type behavior, missing-value behavior, and
+  materialization explicit.
+- Use one paired Pandas/Polars workflow and inspect the Polars plan. Do not
+  claim a universal speedup; performance claims require a measured workload.
+- Defer this chapter until after readers can reason about a small dataset with
+  the Chapter 11 and 12 concepts.
+
+**Chapter 15 — Relational Scientific Data: SQL and DuckDB**
+
+- Teach relational questions—selection, projection, aggregation, joins, and
+  provenance-preserving query records—rather than an encyclopedia of SQL.
+- Introduce DuckDB as a local analytical engine for querying data files and
+  interoperating with dataframe workflows. Explain when a database query is a
+  clearer, more reproducible representation than an in-memory sequence of
+  transformations.
+- Make query result type, source files, schema assumptions, and row-count
+  checks visible. Keep database administration, server deployment, and
+  distributed systems outside this chapter.
 
 ## Research software practice: Part IV
 
@@ -286,6 +325,10 @@ Tooling rationale is grounded in the primary guidance for
 [Scientific Python Development Guide on testing](https://learn.scientific-python.org/development/guides/pytest/),
 [style checks](https://learn.scientific-python.org/development/guides/style/),
 and [static typing](https://learn.scientific-python.org/development/guides/typing/).
+
+Part III's dataframe comparisons will use primary documentation for
+[Pandas](https://pandas.pydata.org/docs/user_guide/) and
+[Polars lazy execution](https://docs.pola.rs/user-guide/concepts/lazy-api/).
 
 ### Later Part IV references
 
