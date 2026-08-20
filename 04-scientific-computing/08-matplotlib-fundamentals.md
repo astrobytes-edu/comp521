@@ -80,7 +80,7 @@ tolerances, and failure modes.
 The remainder preserves extended examples, specialized plotting approaches,
 and library pointers. Treat them as reference material after the core route.
 
-:::::{dropdown} Legacy detailed reference
+### Detailed reference
 
 The following reference preserves extended explanations, API details, and
 examples. It is not a second required route through the chapter.
@@ -2290,4 +2290,3 @@ Looking ahead to robust computing, the visualization skills you've developed bec
 ## Next Chapter Preview
 
 In Chapter 9: Robust Computing - Writing Reliable Scientific Code, you'll learn how to transform your scripts from fragile prototypes into robust, reliable tools that can handle the messiness of real scientific data. You'll master error handling with try-except blocks, learning to gracefully manage missing files, corrupted data, and numerical edge cases that would otherwise crash your analysis. You'll discover defensive programming techniques that validate inputs, check assumptions, and fail informatively when something goes wrong. Most importantly, you'll learn to write code that helps you debug problems quickly – using logging instead of print statements, creating useful error messages, and structuring your code to isolate failures. The visualization skills you've developed with Matplotlib will become powerful debugging tools, helping you create diagnostic plots that reveal where your code is failing and why. These skills are essential for research computing, where your code needs to process thousands of files from telescopes, handle incomplete observations, and work with data that's often messier than textbook examples. You'll learn that robust code isn't about preventing all errors – it's about failing gracefully, recovering when possible, and always giving you enough information to understand what went wrong!
-:::::

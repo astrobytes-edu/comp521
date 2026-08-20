@@ -67,7 +67,7 @@ across a larger program. [Chapter 6](06-oop-fundamentals.md) considers the
 different case where a measured entity has state and behavior that must remain
 synchronized.
 
-::::{dropdown} Deep dive / reference
+## Deep dive / reference
 
 The core route is about explicit scientific contracts. The detailed material
 below is reference material for parameter edge cases, scope, packages,
@@ -2268,5 +2268,3 @@ only for entities whose changing state and behavior must remain synchronized.
 6. **Scientific Python Resources**
    - Harris, C. R. et al. (2020). "Array programming with NumPy." *Nature*, 585(7825), 357-362.
    - VanderPlas, J. (2016). *Python Data Science Handbook*. O'Reilly Media. ISBN: 978-1491912058.
-
-::::

@@ -62,7 +62,7 @@ Data structures make assumptions about order, identity, mutation, and access
 visible. In [Chapter 5](05-python-functions-modules.md), turn those choices
 into functions with explicit input, output, unit, and failure contracts.
 
-::::{dropdown} Deep dive / reference
+## Deep dive / reference
 
 The core route above is enough to start choosing and checking structures. The
 legacy detailed material below covers implementation details, specialized
@@ -1848,5 +1848,3 @@ With data structures mastered, Chapter 5 will explore functions and modules—ho
 to make data representations and scientific assumptions explicit, reusable, and
 testable. Begin with its core function-contract example; return to the advanced
 function patterns when a real interface needs them.
-
-::::

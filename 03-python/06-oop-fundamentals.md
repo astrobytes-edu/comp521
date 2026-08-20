@@ -75,7 +75,7 @@ The core route gives a deliberate, small use of classes. The detailed material
 below covers inheritance, method catalogues, debugging tools, and other
 features to consult when an actual design requires them.
 
-:::::{dropdown} Legacy detailed reference
+### Detailed reference
 
 The following reference preserves the original extended explanations and
 examples. It is not a second required route through the chapter.
@@ -1839,4 +1839,3 @@ assumptions, protect invariants, and test a known case.
     - Lutz, M. (2013). *Learning Python* (5th ed.). O'Reilly Media.
     - Ramalho, L. (2015). *Fluent Python*. O'Reilly Media.
     - Beazley, D., & Jones, B. K. (2013). *Python Cookbook* (3rd ed.). O'Reilly Media.
-:::::

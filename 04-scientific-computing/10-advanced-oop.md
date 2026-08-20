@@ -93,7 +93,7 @@ larger interfaces, advanced inheritance, metaprogramming, asynchronous
 execution, or measurement. Measure a real workload before adopting a
 performance-oriented pattern.
 
-:::::{dropdown} Legacy detailed reference
+### Detailed reference
 
 The following reference preserves advanced patterns and examples. It is not a
 second required route through the chapter.
@@ -2273,4 +2273,3 @@ claims about its internal architecture.
 [Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md)
 is in development. Its eventual focus is collections of measurements,
 provenance, and data-quality decisions—not an assumed need for advanced OOP.
-:::::

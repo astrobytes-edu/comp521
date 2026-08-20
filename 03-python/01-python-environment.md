@@ -77,7 +77,7 @@ numerical claim itself. [Chapter 2](02-python-calculator.md) addresses that next
 how number representation and tolerance choices constrain what a computation can
 support.
 
-::::{dropdown} Deep dive / reference
+## Deep dive / reference
 
 The sections below preserve detailed environment, import, notebook, and script
 reference material. They are optional after the core route above; consult them
@@ -1695,5 +1695,3 @@ run it from a clean kernel, and keep reusable implementation in `.py` modules
 ## Next Chapter Preview
 
 Now that you've mastered your computational environment, Chapter 2 will transform Python into a powerful scientific calculator. You'll discover why $0.1 + 0.2 \neq 0.3$ matters when doing numerical calculations, learn how floating-point errors compound during numerical integration, and understand why some calculations require extra precision. You'll implement algorithms for transformations, conversions, and computations — all while managing the numerical precision that separates successful results from incorrect ones. Get ready to understand why numerical errors happen and how to prevent similar problems in your computations!
-
-::::

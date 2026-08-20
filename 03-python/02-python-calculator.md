@@ -75,7 +75,7 @@ Numerical honesty means matching a comparison to the claim and the scale. In
 [Chapter 3](03-python-control-flow.md), those comparisons become guard clauses
 and stopping conditions for algorithms.
 
-::::{dropdown} Deep dive / reference
+## Deep dive / reference
 
 The sections below preserve detailed numerical reference material. They are
 optional after the core route above; use them when a calculation presents a
@@ -1262,5 +1262,3 @@ import math
 ## Next Chapter Preview
 
 Armed with a deep understanding of Python's numeric types and the perils of floating-point arithmetic, you're ready for Chapter 3: Control Flow & Logic. You'll learn to make your code dynamic with `if`-statements and loops, building algorithms that can adapt to data and iterate until convergence. The numerical foundations from this chapter become essential when you're checking whether a calculation has converged, comparing values within tolerance, or detecting numerical instabilities in your simulations. Get ready to transform static calculations into intelligent algorithms that can make decisions and repeat tasks — the essence of computational thinking.
-
-::::

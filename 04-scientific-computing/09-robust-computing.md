@@ -98,7 +98,7 @@ The material below expands debugging, exceptions, validation, logging, and
 testing patterns. Use it when a concrete failure mode or workflow requires more
 than the core contract above.
 
-:::::{dropdown} Legacy detailed reference
+### Detailed reference
 
 The following reference preserves extended failure-handling patterns and
 examples. It is not a second required route through the chapter.
@@ -1902,4 +1902,3 @@ The next core chapter, [Chapter 10](10-advanced-oop.md), applies validation and
 tests to one deliberately small stateful scientific type. More advanced
 architecture and performance topics belong to later reference material and
 should be introduced only when a concrete maintenance problem requires them.
-:::::

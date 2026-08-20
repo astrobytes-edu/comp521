@@ -79,7 +79,7 @@ Explicit conditions and bounds make control flow inspectable. [Chapter
 4](04-python-data-structures.md) next considers how the data an algorithm moves
 through should be represented.
 
-::::{dropdown} Deep dive / reference
+## Deep dive / reference
 
 The sections below preserve detailed syntax, algorithm-pattern, and debugging
 reference material. They are optional after the core route above; return when a
@@ -1865,5 +1865,3 @@ Imagine trying to find a specific star in a catalog of millions. With a list, yo
 The control flow patterns you've mastered here will operate on the data structures you'll learn next. Your loops will iterate through dictionaries of astronomical objects. Your conditionals will filter sets of observations. Your comprehensions will transform lists of measurements into meaningful results. Together, control flow and data structures give you the power to handle the massive datasets of modern science — from Gaia's billion-star catalog to the petabytes of data from the Square Kilometre Array.
 
 Get excited — Chapter 4 is where your code goes from processing dozens of data points to handling thousands efficiently!
-
-::::

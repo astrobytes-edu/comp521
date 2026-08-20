@@ -79,7 +79,7 @@ The remainder preserves extended examples, API reference, and specialized
 methods. Start with the core route above; return here when a concrete
 calculation needs more detail.
 
-:::::{dropdown} Legacy detailed reference
+### Detailed reference
 
 The following reference preserves extended explanations, API details, and
 examples. It is not a second required route through the chapter.
@@ -2457,4 +2457,3 @@ Assume `rng = np.random.default_rng(42)` for the examples below.
 ## Next Chapter Preview
 
 In Chapter 8: Matplotlib - Visualizing Your Universe, you'll discover how to transform the NumPy arrays you've mastered into publication-quality visualizations. You'll learn to create everything from simple line plots to complex multi-panel figures displaying astronomical data. Using the same NumPy arrays you've been working with, you'll visualize spectra with proper wavelength scales, create color-magnitude diagrams from stellar catalogs, display telescope images with world coordinate systems, and generate the kinds of plots that appear in research papers. You'll master customization techniques to control every aspect of your figures, from axis labels with LaTeX formatting to colormaps optimized for astronomical data. The NumPy operations you've learned – slicing for zooming into data, masking for highlighting specific objects, and meshgrid for creating coordinate systems – become the foundation for creating compelling scientific visualizations. Most importantly, you'll understand how NumPy and Matplotlib work together as an integrated system, with NumPy handling the computation and Matplotlib handling the visualization, forming the core workflow that will carry you through your entire career in computational astrophysics!
-:::::
