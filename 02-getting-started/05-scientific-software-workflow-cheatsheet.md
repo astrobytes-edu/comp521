@@ -80,13 +80,19 @@ uses.
 ```bash
 git status
 git diff
-git add path/to/the-files-you-intend
+git add .
+git status
 git diff --staged
 git commit -m "Describe the completed change"
 git push
 ```
 
-- Stage named files rather than everything by reflex.
+- From the repository root, use `git add .` when all visible project changes
+  belong to the checkpoint.
+- Use `git add -A` for the complete repository state from any subdirectory, or
+  name paths when only a subset belongs in the commit.
+- Whichever form you choose, inspect `git status` and the staged diff before
+  committing.
 - Never commit credentials, downloaded data that the brief excludes, or
   machine-specific paths.
 - Do not use force-push or `reset --hard` as routine recovery.

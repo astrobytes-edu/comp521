@@ -24,7 +24,9 @@ Define the claim → write the contract → implement the smallest case → coll
 claim-matched evidence → interpret the result → commit a state worth keeping.
 :::
 
-## 1. Start from the scientific question
+## Part I: From question to contract
+
+### 1. Start from the scientific question
 
 Before writing a function, answer:
 
@@ -41,7 +43,7 @@ remains visible for a given radius ratio and projected separation?” That
 wording identifies the observable—normalized flux—and the approximation—a
 uniform stellar disk.
 
-## 2. Write a contract before an implementation
+### 2. Write a contract before an implementation
 
 A function contract makes assumptions visible. Use this compact template:
 
@@ -68,7 +70,7 @@ an invariant. A published validity range does not automatically mean your
 function must raise `ValueError`; enforce that behavior only when the project
 or your documented interface requires it.
 
-### P1 example: `flux(p, z)`
+#### P1 example: `flux(p, z)`
 
 The project defines:
 
@@ -88,7 +90,9 @@ Those statements are testable consequences of the model. Whether the P1
 function accepts arrays, clips invalid values, or raises an error is a separate
 interface question; follow the brief instead of adding unrequested behavior.
 
-## 3. Match evidence to the claim
+## Part II: Scientific evidence and numerical comparison
+
+### 3. Match evidence to the claim
 
 Different checks answer different questions and sometimes overlap:
 
@@ -103,7 +107,7 @@ A check supports only the claim it actually probes. One solar-luminosity anchor
 does not validate an entire HR diagram; a passing boundary test does not show
 that the uniform-disk approximation describes a limb-darkened star.
 
-### Strong P1 checks
+#### Strong P1 checks
 
 For the current project, useful evidence includes:
 
@@ -124,7 +128,7 @@ For the current project, useful evidence includes:
 The best check is often a limiting case you can derive independently of the
 full implementation.
 
-## 4. Compare floating-point results intentionally
+### 4. Compare floating-point results intentionally
 
 Computed floating-point values should usually be compared with a tolerance:
 
@@ -148,7 +152,9 @@ Exact equality is appropriate when exactness is part of the contract—for
 example, a branch deliberately returns the literal state `1`. Computed
 analytic or iterative results generally need an explicit tolerance.
 
-## 5. Implement the smallest discriminating case
+## Part III: Small implementations and systematic debugging
+
+### 5. Implement the smallest discriminating case
 
 Build one behavior that can be checked before generalizing:
 
@@ -171,7 +177,7 @@ Names such as `p` and `z` are fine once the notebook defines them and uses
 them consistently. Units belong in the surrounding prose, docstring, or name
 when ambiguity is likely.
 
-## 6. Debug by testing a hypothesis
+### 6. Debug by testing a hypothesis
 
 When a result is wrong:
 
@@ -192,7 +198,7 @@ narrow toward the first disagreement. This is often efficient, but it has no
 guaranteed `O(log n)` complexity: stages may interact and one fault may create
 several symptoms.
 
-### Read warnings as data
+#### Read warnings as data
 
 Suppressing a warning is not the same as fixing its cause. First identify which
 inputs reach the warned operation and whether that operation should have been
@@ -200,7 +206,7 @@ evaluated. Array expressions can evaluate multiple branches even when a later
 `where` selects only one result; a scalar `if` does not. A correct repair
 must preserve the intended values, not merely make the warning quiet.
 
-## 7. Move reusable code into modules from P2 onward
+## Part IV: Reusable modules and tests from P2 onward
 
 P1 is deliberately notebook-first. Starting with P2:
 
@@ -223,7 +229,9 @@ A green suite means the encoded behaviors passed under that configuration. It
 does not prove that every relevant behavior was encoded or that the scientific
 model is valid.
 
-## 8. Make diagnostics readable and attributable
+## Part V: Readable, reproducible results
+
+### 8. Make diagnostics readable and attributable
 
 A scientific figure should work without an oral explanation:
 
@@ -242,7 +250,7 @@ sentence that states the main visual pattern and its limitation so the
 scientific point is available without relying on color or visual inspection
 alone.
 
-## 9. Preserve a reproducible path
+### 9. Preserve a reproducible path
 
 Before submitting:
 
@@ -257,17 +265,24 @@ Before submitting:
 If a clean run fails, the saved output is not evidence that the current code
 works.
 
-## 10. Use Git as a checkpoint, not an undo gamble
+## Part VI: Safe iteration and effective help
+
+### 10. Use Git as a checkpoint, not an undo gamble
 
 Before a risky experiment, preserve the exact files that currently work:
 
 ```bash
 git status
-git add path/to/the-files-you-intend
+git add -A
 git diff --staged
 git commit -m "Checkpoint before vectorizing transit model"
 git push
 ```
+
+`git add -A` is appropriate here when every repository change shown by
+`git status` belongs to the checkpoint. Use `git add .` from the repository
+root for the same project-wide intent, or name paths when only a subset belongs
+in the commit. Inspect the staged diff whichever form you choose.
 
 If an experiment changes a tracked file and you decide to discard those
 uncommitted edits, inspect `git diff` and then restore the committed version:
@@ -280,7 +295,7 @@ That restores the file from `HEAD`—the checkpoint you just committed. Do not
 use `HEAD~1`, which means the commit *before* that checkpoint. Untracked files
 need separate care; `git restore` cannot recover them.
 
-## 11. Ask for help with a scientific debugging packet
+### 11. Ask for help with a scientific debugging packet
 
 Bring:
 
@@ -297,7 +312,7 @@ AI for tutoring or verification, follow the [course AI
 policy](../01-course-info/ai-policy.md) and remain the author of the core
 solution.
 
-## Before you call a result ready
+## Final readiness review
 
 - [ ] I can state the scientific question and approximation.
 - [ ] Inputs, outputs, units, shapes, and valid domain are visible.
