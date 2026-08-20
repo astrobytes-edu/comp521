@@ -26,6 +26,7 @@ project:
   plugins:
     - plugins/interactive-python/interactive-python.mjs
     - plugins/panel-pyodide/panel-pyodide.mjs
+    - plugins/interactive-lecture/interactive-lecture.mjs
 
   numbering:
     heading_2: false
@@ -60,7 +61,6 @@ project:
           children:
             - file: 03-python/index.md
             - file: 03-python/interactive-lab-transit-depth.md
-            - file: 03-python/interactive-dashboard-transit.md
             - file: 03-python/01-python-environment.md
             - file: 03-python/02-python-calculator.md
             - file: 03-python/03-python-control-flow.md

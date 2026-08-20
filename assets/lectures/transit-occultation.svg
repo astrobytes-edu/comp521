@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" role="img" aria-labelledby="title desc">
+  <title id="title">A planet transit across a star</title>
+  <desc id="desc">A dark planet silhouette crosses the bright visible disk of a star. An arrow points from the star toward an observer, showing that the observer measures a small reduction in received light.</desc>
+  <rect width="900" height="420" fill="#f7fbff"/>
+  <circle cx="280" cy="210" r="145" fill="#ffd36a" stroke="#a85e00" stroke-width="5"/>
+  <circle cx="330" cy="210" r="34" fill="#172b3a" stroke="#fff" stroke-width="4"/>
+  <path d="M485 210H735" stroke="#195c8f" stroke-width="7" marker-end="url(#arrow)"/>
+  <path d="M520 146H730" stroke="#91b4d8" stroke-width="3" stroke-dasharray="10 8"/>
+  <path d="M520 274H730" stroke="#91b4d8" stroke-width="3" stroke-dasharray="10 8"/>
+  <text x="280" y="390" text-anchor="middle" font-family="system-ui, sans-serif" font-size="25" fill="#172b3a">visible stellar disk</text>
+  <text x="330" y="220" text-anchor="middle" font-family="system-ui, sans-serif" font-size="19" fill="#fff">planet</text>
+  <text x="612" y="190" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#172b3a">light reaching observer</text>
+  <text x="748" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#172b3a">observer</text>
+  <text x="450" y="64" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" font-weight="700" fill="#172b3a">A transit blocks part of the star’s visible light</text>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#195c8f"/></marker></defs>
+</svg>

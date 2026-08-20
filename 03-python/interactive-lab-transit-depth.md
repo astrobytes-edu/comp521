@@ -91,6 +91,20 @@ to check the scaling even if an interactive model cannot load.
 :fallback: The blocked fraction is p squared: p = 0.10 gives 0.010 and p = 0.20 gives 0.040. The model is quadratic and assumes a uniform stellar disk with the planet fully in front of it.
 :::
 
+### Explore the same relationship in a dashboard (optional)
+
+The embedded dashboard adds a live curve and a plotted point. Use it only
+after making your prediction: change `p`, observe both the number and the
+orange point, then describe whether the relationship is linear or quadratic.
+The quick model above remains the core activity if this richer visualization is
+slow to load.
+
+:::{panel-pyodide}
+:id: transit-geometry-dashboard
+:height: 570
+:code-file: transit-geometry-panel.py
+:::
+
 :::{lecture-reveal}
 :id: transit-area-reasoning
 

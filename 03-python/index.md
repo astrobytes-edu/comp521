@@ -65,11 +65,10 @@ result.
 
 :::{tip} Prefer a browser-first rehearsal?
 
-Try the [interactive transit-depth lab](interactive-lab-transit-depth.md) or
-the [interactive transit-geometry dashboard](interactive-dashboard-transit.md).
-They run locally in your browser and follow the same predict → run → explain →
-change cycle. They are rehearsals, not replacements for doing the documented
-work in your Project 1 notebook.
+Try the [interactive transit-depth lab](interactive-lab-transit-depth.md). It
+includes both the fast transit model and the optional embedded dashboard, and
+follows the same predict → run → explain → change cycle. It is a rehearsal,
+not a replacement for doing the documented work in your Project 1 notebook.
 :::
 
 ---
