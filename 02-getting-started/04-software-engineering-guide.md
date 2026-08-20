@@ -208,6 +208,8 @@ must preserve the intended values, not merely make the warning quiet.
 
 ## Part IV: Reusable modules and tests from P2 onward
 
+### 7. Move reusable code into modules from P2 onward
+
 P1 is deliberately notebook-first. Starting with P2:
 
 - put reusable functions and constants in the modules named by the brief;
