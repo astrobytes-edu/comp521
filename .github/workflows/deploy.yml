@@ -53,7 +53,7 @@ jobs:
         shell: bash -l {0}
         run: |
           JUPYTERLITE_PYTHON="$CONDA_PREFIX/bin/python" bash tools/jupyterlite/build.sh
-          python3 scripts/check_jupyterlite_bundle.py
+          python3 scripts/check_jupyterlite_bundle.py --bundle-only
 
       - name: Check landing-page contract
         run: python3 scripts/check_landing_page.py

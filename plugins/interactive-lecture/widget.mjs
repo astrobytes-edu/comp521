@@ -1,92 +1,43 @@
-import { mountLecture } from "./runtime.mjs";
+// This file is deliberately self-contained. MyST fingerprints and publishes the
+// anywidget entry module, but not sibling ESM imports.
 const STYLE_ID = "comp521-interactive-lecture-styles";
-const STYLES = `.comp521-lecture-widget{margin:1rem 0;padding:1rem;border-left:4px solid #195c8f;background:#f7fbff;color:#172b3a}.comp521-lecture-widget button{margin:.25rem .5rem .25rem 0;padding:.45rem .7rem;border:1px solid #195c8f;border-radius:.3rem;background:#fff;color:#195c8f;font-weight:600}.comp521-lecture-widget textarea{box-sizing:border-box;width:100%;margin:.5rem 0;padding:.65rem;border:1px solid #91b4d8;border-radius:.3rem;font:inherit}.comp521-lecture-widget .reveal{margin-top:.6rem;padding:.7rem;background:#fff8e7;border-left:4px solid #bd7c00}.comp521-lecture-widget iframe,.comp521-lecture-widget video{display:block;width:100%;border:0;min-height:18rem}.comp521-lecture-widget video{min-height:0}.comp521-lecture-widget[data-kind="lecture-checkpoint"]{border-left-color:#714d9b}.comp521-lecture-widget[data-kind="lecture-panel"]{border-left-color:#007f7a}@media (prefers-reduced-motion:reduce){.comp521-lecture-widget *{scroll-behavior:auto!important;transition:none!important}}`;
+const STYLES = `.comp521-lecture-widget{margin:1.25rem 0;border:1px solid #b7d5d3;border-radius:1rem;background:#f7fffe;color:#102a2c;overflow:hidden}.comp521-lecture-widget__head{padding:1rem 1.25rem;background:#073447;color:#fff;display:flex;justify-content:space-between;gap:1rem;align-items:center}.comp521-lecture-widget__body{padding:1.25rem}.comp521-lecture-widget button{font:inherit;font-weight:650;border:1px solid #0c6f72;border-radius:.5rem;background:#fff;color:#075f63;padding:.5rem .75rem;cursor:pointer}.comp521-lecture-widget button:hover{background:#e9f8f6}.comp521-lecture-widget textarea{box-sizing:border-box;width:100%;min-height:7rem;font:inherit;padding:.65rem;border:1px solid #92bbb9;border-radius:.5rem}.comp521-lecture-widget__status{font-size:.88rem;color:#426165;margin-top:.5rem}.comp521-lecture-widget__choices{display:flex;flex-wrap:wrap;gap:.55rem;margin:.75rem 0}.comp521-lecture-widget__choice{display:flex;gap:.35rem;align-items:center;padding:.5rem .65rem;border:1px solid #b7d5d3;border-radius:.5rem;background:#fff}.comp521-lecture-widget__metric{padding:.65rem .85rem;border-radius:.6rem;background:#e8f5f4}.comp521-lecture-widget svg{display:block;width:100%;height:auto;margin:.75rem 0;border-radius:.75rem;background:#071f2c}.comp521-lecture-widget input[type=range]{width:100%;accent-color:#0c6f72}.comp521-lecture-widget iframe{display:block;width:100%;min-height:34rem;border:1px solid #92bbb9;border-radius:.5rem;background:#fff}.comp521-lecture-static[hidden]{display:none!important}@media (prefers-reduced-motion:reduce){.comp521-lecture-widget *{transition:none!important;scroll-behavior:auto!important}}`;
 
-function node(name, attributes = {}, text = "") {
-  const item = document.createElement(name);
-  Object.entries(attributes).forEach(([key, value]) => item.setAttribute(key, value));
-  item.textContent = text;
-  return item;
+function node(name, attributes = {}, text = "") { const item = document.createElement(name); Object.entries(attributes).forEach(([key, value]) => item.setAttribute(key, value)); item.textContent = text; return item; }
+function ensureStyles(el) { const root = el.getRootNode(); if (root.querySelector?.(`#${STYLE_ID}`)) return; const style = node("style", { id: STYLE_ID }); style.textContent = STYLES; root.append(style); }
+function storageKey(model) { return `comp521:lecture:${model.get("pageSlug")}:${model.get("id")}`; }
+function classSafeId(id) { return String(id || "").replace(/[^a-zA-Z0-9_-]/g, "-"); }
+function staticBlock(model) { return document.querySelector(`.lecture-id-${classSafeId(model.get("id"))}`); }
+function download(text, name) { const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" })); const link = node("a", { href: url, download: name }); link.click(); URL.revokeObjectURL(url); }
+function shell(model) { const options = model.get("options") || {}; const wrap = node("section", { class: "comp521-lecture-widget", "data-kind": model.get("kind"), "aria-label": options.label || model.get("kind") }); const head = node("div", { class: "comp521-lecture-widget__head" }); head.append(node("strong", {}, options.label || options.title || "Interactive activity"), node("span", {}, "Student mode")); const body = node("div", { class: "comp521-lecture-widget__body" }); wrap.append(head, body); return { wrap, body }; }
+
+function draftWidget(model, prediction = false) {
+  const options = model.get("options") || {}; const key = storageKey(model); const fragment = document.createDocumentFragment(); const prompt = node("p", {}, options.prompt || "Write your reasoning."); fragment.append(prompt);
+  if (prediction && options.options) { const choices = node("div", { class: "comp521-lecture-widget__choices", role: "radiogroup", "aria-label": prompt.textContent }); String(options.options).split("|").forEach((choice) => { const label = node("label", { class: "comp521-lecture-widget__choice" }); const radio = node("input", { type: "radio", name: `prediction-${model.get("id")}`, value: choice }); radio.checked = localStorage.getItem(`${key}:choice`) === choice; radio.addEventListener("change", () => localStorage.setItem(`${key}:choice`, choice)); label.append(radio, document.createTextNode(choice)); choices.append(label); }); fragment.append(choices); }
+  const textarea = node("textarea", { rows: String(options.rows || 4), "aria-label": `${prompt.textContent} Explain why.` }); textarea.value = localStorage.getItem(key) || ""; textarea.addEventListener("input", () => localStorage.setItem(key, textarea.value)); const controls = node("p"); const copy = node("button", { type: "button" }, "Copy"); copy.addEventListener("click", async () => navigator.clipboard?.writeText(textarea.value)); const save = node("button", { type: "button" }, "Download"); save.addEventListener("click", () => download(`${prompt.textContent}\n\n${textarea.value}\n`, `${model.get("id")}.txt`)); const clear = node("button", { type: "button" }, "Clear"); clear.addEventListener("click", () => { textarea.value = ""; localStorage.removeItem(key); localStorage.removeItem(`${key}:choice`); }); controls.append(copy, save, clear); fragment.append(textarea, controls); return fragment;
 }
 
-function ensureStyles(el) {
-  const root = el.getRootNode();
-  if (root.querySelector?.(`#${STYLE_ID}`)) return;
-  const style = node("style", { id: STYLE_ID });
-  style.textContent = STYLES;
-  root.append(style);
+function mountTransitDepthFigure(container) {
+  let p = 0.10; const label = node("label", {}, "Planet-to-star radius ratio, p = Rₚ/R★"); const slider = node("input", { type: "range", min: "0.02", max: "0.50", step: "0.01", value: String(p), "aria-label": label.textContent }); const metrics = node("div", { class: "comp521-lecture-widget__metric", role: "status" }); const svg = node("svg", { viewBox: "0 0 760 290", role: "img", "aria-label": "A planet crossing a star and the resulting normalized flux" }); const note = node("p", {}, "Uniform-brightness model: the blocked area fraction is p², so F/F₀ = 1 − p² at mid-transit.");
+  function render() { const depth = p * p; const planetR = 18 + p * 88; const fluxY = 245 - depth * 120; svg.innerHTML = `<defs><radialGradient id="comp521-star" cx="38%" cy="35%"><stop stop-color="#fff8c7"/><stop offset="1" stop-color="#f5bb52"/></radialGradient></defs><circle cx="150" cy="112" r="82" fill="url(#comp521-star)"/><circle cx="245" cy="112" r="${planetR}" fill="#233647" opacity=".96"/><path d="M42 245 H718" stroke="#78929c" stroke-width="2"/><path d="M42 145 C150 145 180 145 215 ${fluxY} S275 ${fluxY} 315 145 S450 145 718 145" fill="none" stroke="#65d4c7" stroke-width="5"/><line x1="245" y1="145" x2="245" y2="${fluxY}" stroke="#f5bb52" stroke-dasharray="5 5"/><text x="42" y="274" fill="#d4e4e8" font-size="18">time →</text><text x="455" y="130" fill="#d4e4e8" font-size="17">normalized flux F/F₀</text>`; metrics.textContent = `p = ${p.toFixed(2)}   •   transit depth = ${(depth * 100).toFixed(2)}%   •   mid-transit F/F₀ = ${(1 - depth).toFixed(4)}`; }
+  slider.addEventListener("input", () => { p = Number(slider.value); render(); }); render(); container.append(label, slider, metrics, svg, note);
 }
 
-function storageKey(pageSlug, promptId) { return `comp521:lecture:${pageSlug}:${promptId}`; }
-
-function draftWidget(model, checkpoint = false) {
-  const options = model.get("options") || {};
-  const key = storageKey(model.get("pageSlug"), model.get("id"));
-  const prompt = options.prompt || "Write your reasoning.";
-  const wrap = node("div", {}, prompt);
-  const textarea = node("textarea", { rows: String(options.rows || 4), "aria-label": prompt });
-  textarea.value = localStorage.getItem(key) || "";
-  textarea.addEventListener("input", () => localStorage.setItem(key, textarea.value));
-  const copy = node("button", { type: "button" }, "Copy");
-  copy.addEventListener("click", async () => navigator.clipboard?.writeText(textarea.value));
-  const download = node("button", { type: "button" }, checkpoint ? "Download notes" : "Download draft");
-  download.addEventListener("click", () => {
-    const text = `${prompt}\n\n${textarea.value}\n`;
-    const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
-    const link = node("a", { href: url, download: `${model.get("id")}.txt` });
-    link.click(); URL.revokeObjectURL(url);
-  });
-  const clear = node("button", { type: "button" }, "Clear");
-  clear.addEventListener("click", () => { if (confirm("Clear this private draft?")) { textarea.value = ""; localStorage.removeItem(key); } });
-  wrap.append(textarea, copy, download, clear);
-  return wrap;
+function mountCodeActivity(container, options) {
+  const launch = node("button", { type: "button" }, "Run this Python experiment"); const status = node("p", { class: "comp521-lecture-widget__status" }, "Python opens in your browser; no installation is required."); launch.addEventListener("click", () => { const frame = node("iframe", { loading: "lazy", title: "COMP 521 xeus Python experiment" }); const root = new URL("../", document.querySelector("base")?.href || location.href); frame.src = new URL(`jupyterlite/lab/index.html?path=${encodeURIComponent(options.starter || "transit-depth.ipynb")}`, root).href; frame.addEventListener("error", () => { status.textContent = "The browser Python environment could not load. Use the worked result above and retry later."; }); launch.replaceWith(frame); status.textContent = "Loading xeus Python…"; }); container.append(launch, status);
 }
 
 function render({ model, el }) {
-  return mountLecture(model, el);
-  ensureStyles(el);
-  const kind = model.get("kind");
-  const options = model.get("options") || {};
-  const wrap = node("section", { class: "comp521-lecture-widget", "data-kind": kind, "aria-label": options.label || kind });
-  if (kind === "lecture-write") wrap.append(draftWidget(model));
-  else if (kind === "lecture-checkpoint") wrap.append(draftWidget(model, true));
-  else if (kind === "lecture-reveal") {
-    const button = node("button", { type: "button", "aria-expanded": "false" }, "Reveal reasoning");
-    const answer = node("div", { class: "reveal", hidden: "" }, model.get("body") || "");
-    button.addEventListener("click", () => { const open = answer.hidden; answer.hidden = !open; button.setAttribute("aria-expanded", String(open)); button.textContent = open ? "Hide reasoning" : "Reveal reasoning"; });
-    wrap.append(button, answer);
-  } else if (kind === "lecture-panel") {
-    const frame = node("iframe", { loading: "lazy", title: options.label || "Interactive lecture model" });
-    const code = model.get("body") || "";
-    if (code) {
-      const python = `${code}\n\napp.servable(target='app');`;
-      frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><script src="https://cdn.jsdelivr.net/pyodide/v0.29.3/full/pyodide.js"><\/script><script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.9.2.min.js"><\/script><script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.9.2.min.js"><\/script><script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.9.2.min.js"><\/script><script src="https://cdn.jsdelivr.net/npm/@holoviz/panel@1.9.4/dist/panel.min.js"><\/script></head><body><p id="status">Loading interactive model…</p><div id="app"></div><script>async function main(){try{const p=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.29.3/full/'});await p.loadPackage('micropip');await p.runPythonAsync(${JSON.stringify("import micropip\nawait micropip.install(['https://cdn.holoviz.org/panel/1.9.4/dist/wheels/bokeh-3.9.2-py3-none-any.whl','https://cdn.holoviz.org/panel/1.9.4/dist/wheels/panel-1.9.4-py3-none-any.whl'])")});await p.runPythonAsync(${JSON.stringify(python)});document.getElementById('status').remove()}catch(e){document.getElementById('status').textContent='Model unavailable: '+e}}main()<\/script></body></html>`;
-    } else frame.src = `/${options.src || ""}`;
-    frame.addEventListener("load", () => {
-      // Panel scenes are authored as ordinary MyST pages for standalone use.
-      // In a lecture, retain only their Panel widget rather than nesting a
-      // second copy of the site navigation and page chrome.
-      const document = frame.contentDocument;
-      const article = document?.querySelector("article");
-      const panelFrame = document?.querySelector('iframe[title="Interactive Panel dashboard"]');
-      if (!article || !panelFrame) return;
-      let keep = panelFrame;
-      while (keep.parentElement && keep.parentElement !== article) keep = keep.parentElement;
-      [...article.children].forEach((child) => { child.style.display = child === keep ? "block" : "none"; });
-      article.style.maxWidth = "none";
-      article.style.margin = "0";
-      article.style.padding = "0";
-    });
-    wrap.append(frame);
-  } else if (kind === "lecture-media") {
-    const video = node("video", { controls: "", preload: "metadata", poster: options.poster || "" });
-    video.append(node("source", { src: options.mp4 || "", type: "video/mp4" }), node("source", { src: options.webm || "", type: "video/webm" }), node("track", { kind: "captions", src: options.captions || "", srclang: "en", default: "" }));
-    wrap.append(video, node("a", { href: options.transcript || "" }, "Read transcript"));
-    if (options.youtube_id) wrap.append(node("a", { href: `https://www.youtube.com/watch?v=${encodeURIComponent(options.youtube_id)}` }, "Watch on YouTube"));
-  } else if (kind === "interactive-lecture") {
-    wrap.append(node("strong", {}, `${options.title || "Interactive lecture"} · ${options.duration || ""}`));
-  }
-  el.replaceChildren(wrap);
+  ensureStyles(el); const kind = model.get("kind"); const options = model.get("options") || {}; const fallback = staticBlock(model);
+  if (kind === "lecture-scene") { el.replaceChildren(); return; }
+  if (kind === "presenter-note") { if (fallback) fallback.hidden = new URLSearchParams(location.search).get("lecture") !== "presentation"; el.replaceChildren(); return; }
+  if (kind === "lecture-code") { const { wrap, body } = shell(model); body.append(node("p", {}, options.fallback || "Open the supplied notebook, then change one input and predict the consequence.")); mountCodeActivity(body, options); el.replaceChildren(wrap); return; }
+  if (kind === "lecture-reveal") { const { wrap, body } = shell(model); if (fallback) fallback.hidden = true; const button = node("button", { type: "button", "aria-expanded": "false" }, "Reveal reasoning"); button.addEventListener("click", () => { if (!fallback) return; fallback.hidden = !fallback.hidden; button.setAttribute("aria-expanded", String(!fallback.hidden)); button.textContent = fallback.hidden ? "Reveal reasoning" : "Hide reasoning"; }); body.append(button); el.replaceChildren(wrap); return; }
+  if (fallback) fallback.hidden = true; const { wrap, body } = shell(model);
+  if (["lecture-write", "lecture-checkpoint", "lecture-predict"].includes(kind)) body.append(draftWidget(model, kind === "lecture-predict"));
+  else if (kind === "lecture-figure" && options.model === "transit-depth") mountTransitDepthFigure(body);
+  else if (kind === "interactive-lecture") body.append(node("p", {}, options.duration ? `Plan for about ${options.duration}. Work through each numbered scene at your own pace.` : "Work through each numbered scene at your own pace."));
+  else body.append(node("p", {}, options.fallback || model.get("body") || "Continue to the next activity.")); el.replaceChildren(wrap);
 }
 
 export default { render };

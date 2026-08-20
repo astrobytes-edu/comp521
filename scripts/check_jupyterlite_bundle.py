@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import sys
+import argparse
 from pathlib import Path
 
 
@@ -55,17 +55,25 @@ def validate_published_site(site: Path) -> list[str]:
     return required_bundle_files(bundle)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--bundle-only",
+        action="store_true",
+        help="Validate the generated runtime before it is copied into site output.",
+    )
+    args = parser.parse_args(argv)
     bundle = ROOT / "assets" / "jupyterlite"
     environment_file = ROOT / "tools" / "jupyterlite" / "environment.yml"
     errors = validate_bundle(bundle, environment_file)
     if errors:
         print("\n".join(errors))
         return 1
-    published_errors = validate_published_site(ROOT / "_build" / "html")
-    if published_errors:
-        print("\n".join(published_errors))
-        return 1
+    if not args.bundle_only:
+        published_errors = validate_published_site(ROOT / "_build" / "html")
+        if published_errors:
+            print("\n".join(published_errors))
+            return 1
     print("JupyterLite xeus bundle check passed.")
     return 0
 

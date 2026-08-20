@@ -51,7 +51,21 @@ function lectureDirective(name, staticBody) {
         data.body = readFileSync(resolve(dirname(vfile.path), data.options["code-file"]), "utf8");
       }
       const body = staticBody(data);
-      return [...staticContent(ctx, name, data.options?.label || data.options?.title || name, body, data.options?.id), widget(data, vfile, name)];
+      const fallbackHeading = {
+        "interactive-lecture": "Interactive lecture",
+        "lecture-scene": "Lecture scene",
+        "lecture-predict": "Make a prediction",
+        "lecture-figure": "Interactive figure",
+        "lecture-write": "Write your reasoning",
+        "lecture-reveal": "Reasoning",
+        "lecture-code": "Browser Python experiment",
+        "lecture-sandbox": "Optional exploration",
+        "lecture-panel": "Interactive model",
+        "lecture-checkpoint": "Evidence checkpoint",
+        "lecture-media": "Media",
+        "presenter-note": "Presenter note",
+      }[name];
+      return [...staticContent(ctx, name, data.options?.label || data.options?.title || fallbackHeading, body, data.options?.id), widget(data, vfile, name)];
     },
   };
 }
