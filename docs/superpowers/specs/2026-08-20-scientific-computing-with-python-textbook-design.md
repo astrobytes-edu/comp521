@@ -9,9 +9,10 @@
 This document governs textbook scope, information architecture, and the
 chapter roadmap. The instructor-facing
 `_instructor/teaching/scientific-computing-with-python-pedagogy.md` is the
-single authority for textbook voice, callout purpose, code/figure presentation,
-interactivity, and MyST formatting. If the two documents appear to conflict on
-those matters, the instructor pedagogy document governs.
+review authority for textbook voice, callout purpose, code/figure presentation,
+interactivity, and MyST formatting. Once its draft status is approved, it
+becomes the single authority for those matters. Until then, make no substantive
+format or pedagogy change without direct instructor direction.
 :::
 
 This document defines the independent textbook identity of *Scientific
