@@ -54,7 +54,7 @@ You've mastered functions to organize behavior and modules to organize related f
 
 **Object-Oriented Programming** (OOP) isn't just another way to organize code - it's a fundamental shift in how we think about programs. Instead of viewing code as a sequence of operations on data, we model it as interactions between objects that combine data and behavior. A thermometer knows its temperature and how to convert units. A dataset knows its values and how to calculate statistics. A simulation particle knows its state and how to evolve. This paradigm mirrors how we naturally think about scientific systems, making complex programs more intuitive and maintainable.
 
-This chapter introduces OOP's essential concepts through practical scientific examples. You'll learn to create classes (blueprints for objects), instantiate objects (specific instances), and define methods (functions attached to objects). We'll explore how properties provide computed attributes and validation, ensuring your scientific constraints are always satisfied. Most importantly, you'll develop judgment about when OOP clarifies code (managing stateful systems, modeling entities) versus when it adds unnecessary complexity (simple calculations, stateless transformations). By the end, you'll understand why NumPy arrays are objects with methods, setting the foundation for leveraging Python's scientific ecosystem.
+This chapter introduces OOP's essential concepts through practical scientific examples. You'll learn to create classes (blueprints for objects), instantiate objects (specific instances), and define methods (functions attached to objects). We'll explore how properties provide computed attributes and validation, making declared local scientific constraints visible and enforceable along the paths a class controls. Most importantly, you'll develop judgment about when OOP clarifies code (managing stateful systems, modeling entities) versus when it adds unnecessary complexity (simple calculations, stateless transformations). By the end, you'll understand why NumPy arrays are objects with methods, setting the foundation for leveraging Python's scientific ecosystem.
 
 :::{tip} TL;DR — Why This Chapter Matters
 
@@ -82,8 +82,18 @@ values and observe the resulting behavior rather than trying to execute the
 whole chapter linearly.
 :::
 
+For a first reading, follow the transformation from a particle dictionary to a
+small object, then focus on `self`, method contracts, and properties. Return
+later to the protocol and design-choice Deep Dives when a class needs to work
+with Python syntax or you are deciding whether a class is warranted.
+
+## Try this chapter
+
+- [**Browser Python lab · Temperature invariant**](jupyterlite/ch06-temperature-invariant.html): predict whether construction accepts a temperature below absolute zero, run the local check, then explain both the boundary the class enforces and one measurement question it cannot answer. The activity is optional; the static example below remains complete without browser Python.
+
 ---
 
+(from-functions-to-objects)=
 ## 6.1 From Functions to Objects: The Conceptual Leap
 
 :::{margin}
@@ -142,12 +152,13 @@ class Particle:
         return 0.5 * self.mass * v_squared
 
     def update_position(self, dt):
-        """Update position based on velocity (forward Euler integration).
+        """Update position using constant-velocity kinematics.
 
         Contract: MUTATES self.x and self.y in place; returns None.
 
-        Note: This simple x += v*dt integrator doesn't conserve energy.
-        For long simulations, use symplectic integrators (Chapter 10+).
+        This is not a force-integrating simulation. With fixed vx and vy,
+        kinetic energy remains constant by construction. For long simulations
+        with forces, choose an integrator appropriate to the model.
         """
         self.x += self.vx * dt
         self.y += self.vy * dt
@@ -166,14 +177,33 @@ Both approaches solve the problem, but notice the differences:
 - **State**: The object maintains its own state between method calls
 - **Clarity**: The object-oriented version reads more naturally
 
-:::{note} 🌟 The More You Know: How Objects Saved the Mars Rover
+:::{important} Design decision: give a class a job
+
+The `Particle` class earns its existence only when position, velocity, mass,
+and the operations that maintain them must travel together. For one
+stateless calculation, the dictionary-and-function form is often clearer.
+The class is a design boundary, not an automatic improvement or a replacement
+for testing the physical model.
+:::
+
+:::{note} 🌟 The More You Know: Spirit's Flash-Memory Recovery and State Management
 :class: dropdown
 
-In 2004, NASA's Spirit rover suddenly stopped responding, 18 days into its mission. The cause? Procedural code managing 250+ hardware components through global variables and scattered functions. When flash memory filled up, the initialization functions couldn't track which subsystems were already started, causing an infinite reboot loop.
+In January 2004, shortly after Spirit began science operations on Mars, the
+rover entered a repetitive reset and re-initialization loop. NASA's anomaly
+account traces the incident to incorrect configuration parameters in operating
+system modules responsible for system and flash-memory files; the overloaded
+file systems had not been recognized or tested in the relevant ground testing.
 
-The fix required remotely clearing flash memory and implementing better state tracking. While the actual fix involved procedural error handling and filesystem limits, the incident highlighted why modern rovers use object-oriented design principles for state management. JPL engineer Jennifer Trosper, who had warned about potential state management issues, helped lead the recovery effort. The team's solution involved better encapsulation of subsystem states - a principle now implemented through OOP in modern missions:
+Mission operations first worked around flash-memory use, then deleted files,
+reallocated memory, and rebuilt the file system. This was a recovery and
+operations problem, not evidence that object-oriented programming would by
+itself have prevented the failure. It does, however, motivate a narrower
+design question: can a software component make its lifecycle state explicit
+enough that invalid transitions are easier to inspect and test?
 
 ```python
+# FICTIONAL classroom pattern, not Spirit flight software.
 class RoverComponent:
     def __init__(self, name):
         self.name = name
@@ -186,11 +216,18 @@ class RoverComponent:
             self.initialized = True
 ```
 
-This pattern - objects knowing their own state - is now standard in spacecraft software. Spirit went on to operate for 6 years instead of the planned 90 days. When Curiosity launched in 2011, its entire control system used OOP from the start. Each instrument is an object, each motor is an object, even each wheel is an object with its own wear tracking.
+The pattern makes one local state contract visible; it does not substitute for
+requirements, file-system limits, integration testing, or operations
+procedures. Spirit nevertheless returned to normal operations and ultimately
+worked for more than six years, far beyond its planned 90-Martian-day mission.
 
-You're learning the same pattern that keeps billion-dollar spacecraft alive on other planets!
+That distinction is the useful lesson for scientific code: a class can help
+name and protect a local state boundary, while real reliability depends on the
+larger system around it.
 
-*[Source: Reeves, G., & Neilson, T. (2005). "The Mars Rover Spirit FLASH Anomaly." IEEE Aerospace Conference Proceedings.]*
+**Sources:** NASA's [Spirit mission account](https://science.nasa.gov/mission/mer-spirit/),
+NASA's [lessons-learned summary](https://llis.nasa.gov/lesson/1483), and Reeves,
+Neilson, and Litwin (2005), *The Mars Rover Spirit FLASH Anomaly*.
 :::
 
 ---
@@ -351,7 +388,9 @@ obj = GoodClass()
 print(obj.method())  # Works!
 ```
 
-This is probably the most common OOP error. Remember: instance methods ALWAYS need `self` as their first parameter.
+This is probably the most common OOP error. An instance method needs a first
+parameter that receives the instance when it is called through an object; by
+convention, that parameter is named `self`.
 :::
 
 ### Instance vs Class Attributes
@@ -437,13 +476,21 @@ When you write `p1.count = 100`, you create a new instance attribute that shadow
 
 :::{tip} 💡 Attribute Lookup Order
 
-When you access `obj.attr`, Python searches in this order:
+For an ordinary attribute, a useful first approximation is:
 
 1. **Instance `__dict__`** — attributes specific to this object
 2. **Class attributes** — shared by all instances
 3. **Base classes** — inherited attributes (Chapter 10)
 
-This is why `p1.count = 100` creates a *new* instance attribute that shadows the class attribute. The class attribute still exists at `DataPoint.count`.
+This is why `p1.count = 100` creates a *new* instance attribute that shadows
+the class attribute. The class attribute still exists at `DataPoint.count`.
+
+Properties are an important refinement: a property with a setter is a *data
+descriptor*, so it takes precedence over an entry in the instance dictionary.
+That is why `circle.radius = 10` runs the property's setter rather than simply
+creating an unrelated `radius` attribute. Python's full lookup rules also
+involve descriptors and `__getattribute__`; use the simplified order above for
+the ordinary class-attribute case shown here.
 :::
 
 :::{margin}
@@ -491,6 +538,8 @@ print(f"Sinks in water: {iron.is_denser_than_water()}")
 Now let's advance to more complex mathematical methods:
 
 ```{code-cell} python
+import math
+
 class Vector2D:
     """A 2D vector for physics calculations."""
 
@@ -509,9 +558,10 @@ class Vector2D:
         Contract: MUTATES self.x and self.y in place; returns None.
         """
         mag = self.magnitude()
-        if mag > 0:
-            self.x /= mag
-            self.y /= mag
+        if mag == 0:
+            raise ValueError("Cannot normalize a zero vector")
+        self.x /= mag
+        self.y /= mag
 
     def dot(self, other):
         """Calculate dot product with another vector."""
@@ -522,7 +572,7 @@ class Vector2D:
         dot_product = self.dot(other)
         mags = self.magnitude() * other.magnitude()
         if mags == 0:
-            return 0
+            raise ValueError("Angle is undefined when either vector has zero magnitude")
         cos_angle = dot_product / mags
         # Clamp to [-1, 1] to avoid numerical errors
         cos_angle = max(-1, min(1, cos_angle))
@@ -540,6 +590,14 @@ v1.normalize()  # Makes magnitude = 1
 print(f"After normalization: ({v1.x:.2f}, {v1.y:.2f})")
 print(f"New magnitude: {v1.magnitude():.2f}")
 ```
+
+:::{tip} Predict before running
+
+What should `Vector2D(0, 0).angle_with(v2)` return? A zero vector has no
+direction, so this implementation raises `ValueError` instead of inventing an
+angle. Try the call, then explain why returning `0` would make a false geometric
+claim.
+:::
 
 ::::{note} 🔍 Check Your Understanding
 
@@ -564,6 +622,8 @@ Some libraries return `self` from mutation methods to enable chaining (`v.normal
 ### Method Types: Instance, Class, and Static
 
 ```{code-cell} python
+import math
+
 class DataProcessor:
     """Demonstrates different method types."""
 
@@ -571,7 +631,9 @@ class DataProcessor:
 
     def __init__(self, data):
         """Initialize with data to process."""
-        self.data = data
+        if not self.validate_data(data):
+            raise ValueError("data must be a non-empty sequence of finite numbers")
+        self.data = list(data)
 
     # Instance method - needs self
     def process(self):
@@ -580,30 +642,37 @@ class DataProcessor:
 
     # Class method - gets class, not instance
     @classmethod
-    def from_file(cls, filename):
-        """Create instance from file."""
-        # Simulate file reading
-        data = [1, 2, 3, 4, 5]
-        return cls(data)  # Create new instance
+    def from_values(cls, values):
+        """Create an instance from an already-loaded sequence of values."""
+        return cls(values)
 
     # Static method - doesn't need self or cls
     @staticmethod
     def validate_data(data):
-        """Check if data is valid."""
-        return len(data) > 0 and all(isinstance(x, (int, float)) for x in data)
+        """Check for a non-empty sequence of finite, non-Boolean numbers."""
+        return bool(data) and all(
+            isinstance(x, (int, float))
+            and not isinstance(x, bool)
+            and math.isfinite(x)
+            for x in data
+        )
 
     # Static method with physics example
     @staticmethod
     def celsius_to_kelvin(celsius):
-        """Convert temperature - no instance needed."""
-        return celsius + 273.15
+        """Convert Celsius to a finite, physically meaningful Kelvin value."""
+        kelvin = celsius + 273.15
+        if not math.isfinite(kelvin) or kelvin < 0:
+            raise ValueError("temperature must be finite and not below absolute zero")
+        return kelvin
 
 # Using different method types
 processor = DataProcessor([10, 20, 30])
 print(f"Average: {processor.process()}")
 
-# Class method creates new instance
-# processor2 = DataProcessor.from_file("data.txt")
+# Class method creates a new instance
+processor2 = DataProcessor.from_values([1, 2, 3, 4, 5])
+print(f"Factory average: {processor2.process()}")
 
 # Static methods work without instance
 valid = DataProcessor.validate_data([1, 2, 3])
@@ -648,8 +717,9 @@ from astropy import units as u
 
 # SkyCoord is a class with properties and methods!
 m31 = SkyCoord(ra=10.68*u.degree, dec=41.27*u.degree)
+m33 = SkyCoord(ra=23.4621*u.degree, dec=30.6602*u.degree)
 print(m31.galactic)  # Property with coordinate transformation
-print(m31.separation(another_coord))  # Method for angular distance
+print(m31.separation(m33))  # Method for angular distance
 
 # You're learning the same patterns that power professional astronomy code!
 ```
@@ -669,7 +739,7 @@ A special attribute that executes code when accessed or set, created with the `@
 A property method that validates and sets attribute values, defined with `@attribute.setter`.
 :::
 
-Properties are Python's mechanism for **enforcing invariants** — conditions that must always be true about your object. A circle's radius must be positive. A temperature can't go below absolute zero. A probability must be between 0 and 1. Without properties, any code could set `circle.radius = -5` and corrupt your simulation. With properties, the object *protects itself*:
+Properties can enforce **declared invariants** through a controlled public interface. A circle's radius must be positive. A temperature can't go below absolute zero. A probability must be between 0 and 1. Without a controlled setter, any code could set `circle.radius = -5` and corrupt your simulation. With one, the class can reject values it explicitly recognizes as invalid:
 
 **What properties give you:**
 
@@ -699,18 +769,23 @@ class Circle:
     @radius.setter
     def radius(self, value):
         """Set radius with validation."""
-        if value <= 0:
-            raise ValueError(f"Radius must be positive, got {value}")
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+            or value <= 0
+        ):
+            raise ValueError(f"Radius must be a finite positive number, got {value}")
         self._radius = value
 
     @property
     def area(self):
-        """Computed area in cm^2 using pir^2."""
+        """Computed area in cm^2 using $\\pi r^2$."""
         return math.pi * self._radius**2
 
     @property
     def circumference(self):
-        """Computed circumference in cm using 2pir."""
+        """Computed circumference in cm using $2\\pi r$."""
         return 2 * math.pi * self._radius
 
 # Properties look like attributes but run code
@@ -733,6 +808,8 @@ except ValueError as e:
 ### Properties for Unit Safety
 
 ```{code-cell} python
+import math
+
 class Temperature:
     """Temperature with automatic unit conversion."""
 
@@ -748,8 +825,13 @@ class Temperature:
     @kelvin.setter
     def kelvin(self, value):
         """Set temperature with validation."""
-        if value < 0:
-            raise ValueError("Below absolute zero!")
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+            or value < 0
+        ):
+            raise ValueError(f"Kelvin temperature must be finite and non-negative, got {value}")
         self._kelvin = value
 
     @property
@@ -872,8 +954,8 @@ class Observation:
         return (1 - math.cos(phase_angle)) / 2
 
     @property
-    def sky_brightness_category(self):
-        """Categorize sky brightness based on moon."""
+    def moon_illumination_category(self):
+        """Categorize lunar illumination, not total sky brightness."""
         if self.moon_phase < 0.25:
             return "Dark"
         elif self.moon_phase < 0.75:
@@ -886,12 +968,17 @@ obs = Observation("M31", altitude_deg=60, moon_days_since_new=7)
 print(f"Observing {obs.target}:")
 print(f"  Airmass: {obs.airmass:.2f}")
 print(f"  Moon illumination: {obs.moon_phase:.1%}")
-print(f"  Sky conditions: {obs.sky_brightness_category}")
+print(f"  Moon illumination category: {obs.moon_illumination_category}")
 ```
 
 :::{note} Pedagogical Simplification
 
-The `airmass` and `moon_phase` properties above are toy models for teaching purposes. Real astronomical calculations use ephemeris data and more sophisticated formulas. For production work, use [Astropy](https://www.astropy.org/) which handles these correctly.
+The `airmass` and `moon_phase` properties above are toy models for teaching
+purposes. Moon illumination alone does not determine sky brightness: separation
+from the target, lunar altitude, extinction, and site conditions also matter.
+Real astronomical calculations use ephemeris data and more sophisticated
+formulas. For production work, use [Astropy](https://www.astropy.org/) and a
+validated observing model for the question at hand.
 :::
 
 :::{important} 🌟 Why This Matters: The Therac-25 and the Importance of Validation
@@ -902,7 +989,7 @@ safety-critical system. Between 1985 and 1987, the machine caused at least six
 accidents involving massive radiation overdoses; three patients died directly
 from the overdoses.
 
-The root cause was a lack of validation in the software's state management. The machine could operate in electron-beam mode (low power) or X-ray mode (high power with metal target). A race condition meant the machine could be left in a lethal state: high power WITHOUT the metal target.
+The investigation identified multiple unsafe conditions: race conditions, unsafe state transitions, poor error reporting, and inadequate system engineering. The machine could operate in electron-beam mode (low power) or X-ray mode (high power with a metal target); in a dangerous configuration, high power could be delivered without that target.
 
 The class below is a **fictional local-invariant illustration**, not a
 reconstruction of Therac-25 software and not a claim that Python properties
@@ -923,7 +1010,7 @@ class RadiationTherapyMachine:
 
     @power_level.setter
     def power_level(self, value):
-        # Validation prevents lethal configuration
+        # Reject one modeled unsafe configuration; this is not the device's model.
         if self._mode == "electron" and value > ELECTRON_MAX:
             raise ValueError("Power too high for electron mode!")
         if self._mode == "xray" and not self._target_in_place:
@@ -939,7 +1026,7 @@ safety-critical software needs.
 [Source: Leveson, N.G. & Turner, C.S. (1993). "An Investigation of the Therac-25 Accidents". IEEE Computer, 26(7), 18-41.]
 :::
 
-:::{note} 🌟 The More You Know: How Properties Could Have Saved Hubble's Mirror
+:::{note} 🌟 The More You Know: Hubble's Mirror and Independent Measurement
 :class: dropdown
 
 In 1990, the Hubble Space Telescope reached orbit with a catastrophic optical
@@ -958,28 +1045,36 @@ as its assumptions, tolerances, independent evidence, and response when it
 finds a disagreement.
 
 ```python
-# Simplified version of the validation concept:
+# ILLUSTRATIVE Python: the values below are classroom values, not Hubble
+# specifications or a reconstruction of the mirror-testing software.
+import warnings
+
 class MirrorMeasurement:
-    def __init__(self, expected_curvature):
-        self.expected = expected_curvature
-        self._curvature_mm = None
+    def __init__(self, expected_value, allowed_range, relative_tolerance):
+        self.expected_value = expected_value
+        self.allowed_range = allowed_range
+        self.relative_tolerance = relative_tolerance
+        self._measured_value = None
 
     @property
-    def curvature_mm(self):
-        return self._curvature_mm
+    def measured_value(self):
+        return self._measured_value
 
-    @curvature_mm.setter
-    def curvature_mm(self, value):
-        # Physical limits based on mirror specifications
-        if not (2200.0 <= value <= 2400.0):
-            raise ValueError(f"Impossible curvature: {value}mm")
+    @measured_value.setter
+    def measured_value(self, value):
+        low, high = self.allowed_range
+        if not low <= value <= high:
+            raise ValueError(f"Outside the declared design range: {value}")
 
-        # Check against expected value
-        deviation = abs(value - self.expected) / self.expected
-        if deviation > 0.001:  # 0.1% tolerance
-            raise Warning(f"Curvature {value} deviates {deviation*100:.2f}% from expected")
+        deviation = abs(value - self.expected_value) / self.expected_value
+        if deviation > self.relative_tolerance:
+            warnings.warn(
+                f"Measurement deviates {deviation * 100:.2f}% from expectation",
+                UserWarning,
+                stacklevel=2,
+            )
 
-        self._curvature_mm = value
+        self._measured_value = value
 ```
 
 Validation code can make a local contract visible and testable. It cannot replace
@@ -999,27 +1094,39 @@ calculations; it was not a claim that the physical thrusters fired at
 
 The class below is a classroom illustration of a single unit-conversion boundary,
 not a reconstruction of the mission or a claim that a property alone prevents
-system-level interface failures. See NASA's [Mars Climate Orbiter Mishap
+system-level interface failures. It deliberately names *impulse* rather than
+thrust: newton-seconds and pound-force seconds are impulse units. See NASA's [Mars Climate Orbiter Mishap
 Investigation Board report](https://discovery.larc.nasa.gov/pdf_files/MCO_report_2.pdf)
 for the actual failure analysis.
 
 ```python
-class Thruster:
-    @property
-    def thrust_newtons(self):
-        return self._thrust_n
+import math
 
-    @thrust_newtons.setter
-    def thrust_newtons(self, value):
-        self._thrust_n = value
+class NavigationImpulse:
+    def __init__(self, impulse_newton_seconds=0.0):
+        self.impulse_newton_seconds = impulse_newton_seconds
 
     @property
-    def thrust_pounds(self):
-        return self._thrust_n * 0.224809
+    def impulse_newton_seconds(self):
+        return self._impulse_ns
 
-    @thrust_pounds.setter
-    def thrust_pounds(self, value):
-        self._thrust_n = value / 0.224809
+    @impulse_newton_seconds.setter
+    def impulse_newton_seconds(self, value):
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+        ):
+            raise ValueError("impulse must be a finite number")
+        self._impulse_ns = value
+
+    @property
+    def impulse_pound_force_seconds(self):
+        return self._impulse_ns * 0.224809
+
+    @impulse_pound_force_seconds.setter
+    def impulse_pound_force_seconds(self, value):
+        self.impulse_newton_seconds = value / 0.224809
 ```
 
 The lesson is narrower: a class can store one documented internal unit and
@@ -1045,7 +1152,7 @@ obj.value = 100  # What happens?
 :::{tip} Answer
 :class: dropdown
 
-You get an `AttributeError: can't set attribute`. Properties without setters are read-only. This is actually useful for computed values that should never be directly modified, like the area of a circle (which should only change when the radius changes). This pattern enforces data consistency by preventing invalid states.
+You get an `AttributeError` because the property has no setter (the exact message is Python-version dependent). Properties without setters are read-only. This is useful for computed values that should never be directly modified, like the area of a circle (which should only change when the radius changes). This pattern can protect a declared local relationship from accidental assignment.
 :::
 ::::
 
@@ -1078,56 +1185,73 @@ Always use a different internal name (usually with underscore) for the actual st
 
 ---
 
-## 6.5 Special Methods: Making Objects Pythonic — Deep dive / reference
+(deep-dive-python-protocols)=
+## Deep Dive: Python Protocols and Special Methods
 
 :::{margin}
 **Special Method**
 Methods with double underscores (like `__init__`, `__str__`) that define object behavior for built-in operations.
 :::
 
-Special methods (also called "magic methods" or "dunder methods") let your objects work with Python's built-in functions and operators. The term "duck typing" comes from the saying "If it walks like a duck and quacks like a duck, it's a duck" - meaning Python cares about what an object can do, not what type it is.
+Special methods (also called "magic methods" or "dunder methods") let your
+objects work with Python's built-in functions and operators. The phrase "duck
+typing" is shorthand for a related idea: an operation can depend on the
+capability an object supplies, rather than on one nominal class alone. Code may
+still make explicit type checks when a scientific interface needs them.
 
 :::{margin}
 **Duck Typing**
-Python's philosophy that an object's suitability is determined by its methods, not its type.
+A style in which an operation depends on supported behavior or a protocol,
+rather than only on a declared class.
 :::
 
-:::{note} 🌟 The More You Know: How Python Democratized Programming
+:::{note} 🌟 The More You Know: How Python Made Protocols Visible
 :class: dropdown
 
-In December 1989, Guido van Rossum was frustrated. Working at CWI (Centrum Wiskunde & Informatica) in Amsterdam on the Amoeba distributed operating system, he found existing languages inadequate. ABC was too rigid and couldn't be extended. C was too low-level for rapid development. So during the Christmas vacation (he was bored and the office was closed), he started writing his own language, naming it after the British comedy group Monty Python's Flying Circus.
+In December 1989, Guido van Rossum began developing Python at CWI in Amsterdam,
+building on ideas from ABC and work around the Amoeba distributed operating
+system. He named the language after *Monty Python's Flying Circus*. Python's
+history is not a story in which one language suddenly made operator overloading
+possible—C++ and other languages already had related mechanisms. The useful
+Python design lesson is more specific: common operations are exposed through
+documented methods that ordinary classes can implement.
 
-Guido made a radical decision that would change programming forever: instead of hiding object behavior behind compiler magic like C++ did, Python would expose everything through special methods that anyone could implement. Want your object to work with `len()`? Just add `__len__()`. Want it to support addition? Add `__add__()`. No special compiler support needed - just simple methods with funny names.
+Want an object to work with `len()`? Implement `__len__()`. Want it to support
+addition? Implement `__add__()`. Python's interpreter dispatches the operation
+through those protocol methods. That visible connection is valuable for a
+reader: syntax such as `a + b` has an inspectable object-level contract.
 
-This transparency was revolutionary. In C++, only the compiler could decide what `+` meant for built-in types. In Python, ANY object could define it:
+For a user-defined Python class, for example:
 
 ```python
-# This wasn't possible in other languages of the time!
 class Vector:
     def __add__(self, other):
-        # YOU decide what + means for YOUR objects
+        # Define a documented operation for this class.
         return Vector(self.x + other.x, self.y + other.y)
 
-v1 + v2  # Calls YOUR __add__ method
+v1 + v2  # Calls Vector.__add__
 ```
 
-The scientific community immediately saw the implications. Jim Hugunin created Numeric (NumPy's ancestor) in 1995, using special methods to make arrays feel like native Python objects:
+Scientific libraries take advantage of the same protocol hooks. Numeric, an
+ancestor of NumPy, used operations such as addition, slicing, length, and
+printing to make arrays work naturally in Python:
 
 ```python
-# Scientific arrays that felt built-in!
+# Scientific arrays that feel built in.
 array1 + array2    # Element-wise addition via __add__
 array[5:10]        # Slicing via __getitem__
 len(array)         # Size via __len__
 print(array)       # Readable output via __str__
 ```
 
-Guido later reflected: "I wanted Python to be a bridge between the shell and C. I never imagined it would become the language of scientific computing" (paraphrased from various interviews). That bridge was built on special methods - the democratic principle that any object could be a first-class citizen.
+When you implement `__str__` or `__add__`, you are making your class participate
+in one of Python's protocols. The obligation is not merely to add a magic name:
+the operation needs a clear scientific meaning, documented units where relevant,
+and behavior that callers can test.
 
-Alex Martelli, who would later coin the term "duck typing" for Python's approach, explained it perfectly: "In Python, you don't check if it IS-a duck, you check if it QUACKS-like-a duck, WALKS-like-a duck" (2000, comp.lang.python newsgroup). This philosophy meant scientific libraries could create objects that integrated seamlessly with Python's syntax.
-
-When you implement `__str__` or `__add__`, you're using the democratic principle that made Python the world's most popular scientific language: your objects are equals with Python's built-in types. No special privileges needed - just implement the methods, and Python treats your objects as first-class citizens!
-
-*[Sources: Van Rossum, G. (1996). Foreword for "Programming Python" (1st ed.). Various interviews compiled. Martelli's "duck typing" coined circa 2000.]*
+**Sources:** Python's [history documentation](https://docs.python.org/3/license.html),
+CWI's [account of Python's origin](https://www.cwi.nl/en/news/25-years-of-python-at-cwi/),
+and Van Rossum (1996), foreword to *Programming Python*.
 :::
 
 ```{code-cell} python
@@ -1271,11 +1395,17 @@ This pattern extends to many built-ins: `len()` calls `__len__()`, `str()` calls
 **PATTERN: Duck Typing Through Special Methods**
 _"If it walks like a duck and quacks like a duck, it's a duck"_
 
-Python doesn't check types - it checks capabilities. Any object implementing the right special methods can be used anywhere:
+Python's built-ins and many idiomatic APIs use capabilities expressed through
+protocols. Your own code can still use explicit type checks when an interface
+requires a particular scientific representation. An object that implements the
+right protocol can participate in the corresponding operation:
 
-**Iterator Protocol:**
+**Iterable and iterator protocols:**
 
-- `__iter__()` and `__next__()` $\to$ works in `for` loops
+- An *iterable* implements `__iter__()` and returns an iterator.
+- An *iterator* implements `__next__()` as well as `__iter__()`.
+- A `for` loop asks an iterable for an iterator, then repeatedly calls
+  `__next__()` on that iterator.
 
 **Container Protocol:**
 
@@ -1305,7 +1435,8 @@ their own documented interoperability protocols.
 
 ---
 
-## 6.6 When to Use Objects vs Functions — Deep dive / reference
+(deep-dive-objects-or-functions)=
+## Deep Dive: Choosing Objects or Functions
 
 Now that you understand HOW to create classes with all their powerful features - properties for validation, special methods for integration, inheritance for code reuse (Chapter 10) - you need wisdom about WHEN to use them. Not every problem needs objects. Creating unnecessary classes can make code harder to understand, not easier. The art of programming lies in choosing the right tool for the right job.
 
@@ -1345,35 +1476,39 @@ class RunningStatistics:
     def __init__(self):
         """Initialize empty statistics."""
         self.count = 0
-        self.sum = 0
-        self.sum_sq = 0
+        self._mean = 0.0
+        self._M2 = 0.0
 
     def add_value(self, x):
         """Add new value to statistics.
 
-        Contract: MUTATES internal state (count, sum, sum_sq); returns None.
+        Contract: MUTATES internal state (count, _mean, _M2); returns None.
         """
         self.count += 1
-        self.sum += x
-        self.sum_sq += x**2
+        delta = x - self._mean
+        self._mean += delta / self.count
+        self._M2 += delta * (x - self._mean)
 
     @property
     def mean(self):
         """Current mean."""
-        return self.sum / self.count if self.count > 0 else 0
+        return self._mean if self.count > 0 else None
 
     @property
     def variance(self):
-        """Current variance."""
+        """Current sample variance, or None until two values exist."""
         if self.count < 2:
-            return 0
-        mean = self.mean
-        return (self.sum_sq - self.count * mean**2) / (self.count - 1)
+            return None
+        return self._M2 / (self.count - 1)
 ```
 
-:::{warning} Numerical Stability Note
+:::{important} Design decision: preserve sufficient running state
 
-The variance formula above, $\mathrm{sum\_sq} - n\,\mathrm{mean}^{2}$, can suffer from catastrophic cancellation when values are large but variance is small. For production code, use Welford's algorithm (introduced in Chapter 3) which computes running variance stably. This example prioritizes clarity over numerical robustness.
+This class stores the running mean and the accumulated squared deviation rather
+than `sum` and `sum_sq`. That is Welford's stable streaming update from Chapter
+3. It makes the object useful both as an OOP example and as a more reliable
+way to accumulate a sample variance. Returning `None` before two values makes
+the unavailable statistic explicit rather than silently calling it zero.
 :::
 
 ```{code-cell} python
@@ -1381,7 +1516,8 @@ The variance formula above, $\mathrm{sum\_sq} - n\,\mathrm{mean}^{2}$, can suffe
 stats = RunningStatistics()
 for value in [1, 2, 3, 4, 5]:
     stats.add_value(value)
-    print(f"After {value}: mean={stats.mean:.1f}, var={stats.variance:.1f}")
+    variance_text = "n/a" if stats.variance is None else f"{stats.variance:.1f}"
+    print(f"After {value}: mean={stats.mean:.1f}, sample var={variance_text}")
 ```
 
 2. **Modeling Real Entities**
@@ -1397,19 +1533,34 @@ class Galaxy:
         self.redshift = redshift
 
     def recession_velocity(self):
-        """Calculate recession velocity in km/s."""
+        """Approximate low-redshift recession velocity in km/s."""
         c = 3e5  # km/s
-        return c * self.redshift  # Simple approximation
+        return c * self.redshift
 
     def lookback_time_gyr(self):
-        """Estimate lookback time in Gyr."""
-        # Simplified: t approx z / H0
+        """Estimate low-redshift lookback time in Gyr using a stated H0."""
+        if self.redshift < 0:
+            raise ValueError(
+                "This low-redshift lookback approximation is not defined for a blueshifted object"
+            )
         H0 = 70  # km/s/Mpc
         return self.redshift * 1000 / H0
 
 m31 = Galaxy("Andromeda", 0.78, -0.001)  # Blueshifted!
 print(f"{m31.name}: v={m31.recession_velocity():.0f} km/s")
+
+# A deliberately illustrative low-redshift object, consistent with H0 = 70 km/s/Mpc.
+example_galaxy = Galaxy("Illustrative low-redshift galaxy", 43.0, 0.01)
+print(f"Lookback estimate: {example_galaxy.lookback_time_gyr():.2f} Gyr")
 ```
+
+:::{warning} Modeling boundary: a small-redshift estimate is not cosmology
+
+The `Galaxy` methods use $v \approx cz$ and $t \approx z/H_0$, which are
+low-redshift approximations with an adopted value of $H_0$. They are useful for
+showing how behavior can belong to a data model, not for precision distances or
+lookback times. Use an explicitly chosen cosmological model for that work.
+:::
 
 ### Use Functions When:
 
@@ -1417,17 +1568,24 @@ print(f"{m31.name}: v={m31.recession_velocity():.0f} km/s")
 
 ```{code-cell} python
 # No need for a class here
-def celsius_to_kelvin(celsius):
-    """Convert Celsius to Kelvin."""
-    return celsius + 273.15
+import math
 
-def calculate_orbital_period(semi_major_axis_au):
-    """Kepler's third law: P^2 = a^3 for period in years."""
+def celsius_to_kelvin(celsius):
+    """Convert Celsius to a finite Kelvin temperature above absolute zero."""
+    kelvin = celsius + 273.15
+    if not math.isfinite(kelvin) or kelvin < 0:
+        raise ValueError("temperature must be finite and not below absolute zero")
+    return kelvin
+
+def orbital_period_years_solar_mass(semi_major_axis_au):
+    """Return P in years for a negligible companion orbiting one solar mass."""
+    if not math.isfinite(semi_major_axis_au) or semi_major_axis_au <= 0:
+        raise ValueError("semi-major axis must be finite and positive")
     return semi_major_axis_au ** 1.5
 
 # Simple functions are clearer than unnecessary classes
 temp_k = celsius_to_kelvin(25)
-period = calculate_orbital_period(1.0)  # Earth
+period = orbital_period_years_solar_mass(1.0)  # Earth, to this approximation
 print(f"Temperature: {temp_k} K")
 print(f"Period: {period} years")
 ```
@@ -1440,59 +1598,71 @@ def mean(values):
     """Calculate mean."""
     return sum(values) / len(values)
 
-def standard_deviation(values):
-    """Calculate standard deviation."""
+def population_standard_deviation(values):
+    """Calculate population standard deviation for a non-empty sequence."""
+    if not values:
+        raise ValueError("values must not be empty")
     m = mean(values)
     variance = sum((x - m)**2 for x in values) / len(values)
     return variance**0.5
 
 data = [1, 2, 3, 4, 5]
 print(f"Mean: {mean(data)}")
-print(f"Std: {standard_deviation(data):.2f}")
+print(f"Population std: {population_standard_deviation(data):.2f}")
 ```
 
-:::{important} 🌟 Why This Matters: The NumPy Decision
+:::{important} 🌟 Why This Matters: Why `ndarray` Is an Object
 :class: dropdown
 
-When Travis Oliphant designed NumPy in 2005, he faced this exact decision. Should arrays be simple functions operating on data, or objects with methods?
+An `ndarray` is not only a collection of values. It also has shape, dtype,
+strides, and a memory representation. That makes it a useful example of a
+scientific object: selected operations can be methods because they act on that
+array's representation, while many operations remain ordinary NumPy functions.
 
-He chose objects, and it transformed scientific Python:
+This is not a binary choice between an object-oriented API and a functional API:
+NumPy deliberately supports both styles.
 
 ```python
-# If NumPy used only functions:
-array = create_array([1, 2, 3])
-mean = calculate_mean(array)
-reshaped = reshape_array(array, (3, 1))
-
-# Because NumPy uses objects:
+# ILLUSTRATIVE NumPy API contrast; requires `import numpy as np` to run.
 array = np.array([1, 2, 3])
 mean = array.mean()
 reshaped = array.reshape(3, 1)
+
+# Functional forms are also part of NumPy's public interface.
+same_mean = np.mean(array)
+same_shape = np.reshape(array, (3, 1))
 ```
 
-The object approach won because arrays maintain state (shape, dtype, memory layout) and operations naturally belong to the data. This decision made NumPy intuitive and helped it become the foundation of scientific Python. You're learning to make the same architectural decisions!
-
-Note: For arrays with millions of elements (common in N-body simulations), the performance difference between OOP and functional approaches can matter. NumPy solves this by implementing operations in C while exposing an OOP interface - the best of both worlds!
+The design lesson is not “methods are faster” or “objects replace functions.”
+It is that an abstraction should expose the data and operations a reader needs
+without hiding its important representation. For large numerical workloads,
+measure the stated operation on the stated array and backend rather than infer
+performance from API style alone.
 :::
 
-:::{note} 🌟 The More You Know: How OOP United Astronomy's Warring Packages
+:::{note} 🌟 The More You Know: How Astropy Coordinated an Astronomy Ecosystem
 :class: dropdown
 
-By 2011, Python astronomy had descended into chaos. Every research group had created their own packages with incompatible interfaces. There was PyFITS for reading FITS files, PyWCS for world coordinate systems, vo.table for Virtual Observatory tables, asciitable for text data, cosmolopy for cosmological calculations, and dozens more. Installing a working astronomy environment was a nightmare - each package had different conventions, different dependencies, and different ways of representing the same concepts.
+By the early 2010s, astronomy Python had many independently developed packages.
+That variety created real coordination costs: common functionality, interfaces,
+documentation, tests, and maintenance effort could be distributed across
+projects. An early-2011 mailing-list conversation about the proliferation of
+general astronomy packages led to a planning wiki where more than 100 people
+voted for a shared package effort.
 
-Erik Tollerud, a graduate student at UC Irvine, described the situation: "I spent more time converting between data formats than doing science" (paraphrased from development discussions). A coordinate might be represented as a tuple in one package, a list in another, and a custom object in a third. Unit conversions were handled differently everywhere. Even reading a simple FITS file could require three different packages that didn't talk to each other.
+The formal beginning of the Astropy Project was a planning meeting at the
+Harvard Center for Astrophysics in fall 2011—not a single package merger at a
+Python in Astronomy conference. The project combined code already developed by
+several contributors with common development practices and an ecosystem of
+affiliated packages. Its purpose was coordination and interoperability, not a
+claim that every astronomical concept should become a class.
 
-At the 2011 Python in Astronomy conference, something remarkable happened. Thomas Robitaille, Perry Greenfield, Erik Tollerud, and developers from competing packages made a radical decision: merge everything into one coherent framework using consistent OOP principles. The design philosophy was simple but powerful:
-
-1. **If it's an entity with state and behavior, make it a class** (SkyCoord for coordinates, Table for data, Quantity for values with units)
-2. **If it's a simple transformation, keep it a function** (unit conversions, mathematical operations)
-3. **Everything has units, always** (no more Mars Climate Orbiter disasters)
-4. **One obvious way to do things** (borrowed from Python's philosophy)
-
-The transformation was remarkable. This incompatible mess:
+The following contrast is schematic rather than an archival program. It shows
+why stable interfaces can matter when scientific objects carry a coordinate
+frame, metadata, or units:
 
 ```python
-# Old way - three packages, incompatible outputs
+# SCHEMATIC: representative separate-package workflow, not archival code.
 import pyfits
 import pywcs
 import coords
@@ -1506,29 +1676,39 @@ sky = wcs.wcs_pix2sky([[100, 200]], 1)
 galactic = coords.Position((sky[0][0], sky[0][1])).galactic()
 ```
 
-Became this unified interface:
+Astropy can instead supply coordinated interfaces:
 
 ```python
-# Astropy way - one package, consistent OOP
+# Requires Astropy and an actual FITS file.
 from astropy.io import fits
 from astropy.wcs import WCS
-from astropy.coordinates import SkyCoord
 
-hdu = fits.open('image.fits')[0]  # Unified HDU object
-wcs = WCS(hdu.header)  # Same package, consistent interface
-# Returns SkyCoord object with units and frame info!
+with fits.open('image.fits') as hdul:
+    wcs = WCS(hdul[0].header)
+
+# A celestial WCS can return a SkyCoord with frame information.
 sky = wcs.pixel_to_world(100, 200)
-galactic = sky.galactic  # Simple property access for conversion
+galactic = sky.galactic
 ```
 
-The key insight? Objects should model astronomical concepts the way astronomers think about them. A coordinate isn't just numbers - it's a position with a reference frame, epoch, and possibly distance. A table isn't just an array - it has columns with units, metadata, and masks. A quantity isn't just a float - it has units that propagate through calculations.
+Objects can help model astronomical concepts: a coordinate may carry a frame,
+epoch, and distance; a table can carry column metadata and masks; and an Astropy
+`Quantity` carries units through supported operations. Astropy does not make
+every number unit-bearing automatically, and its interfaces still need tests at
+the boundaries where data enter or leave a calculation.
 
-Today, Astropy has over 10 million downloads and is astronomy's most-used package. The Large Synoptic Survey Telescope, the Event Horizon Telescope that imaged black holes, and the James Webb Space Telescope data pipelines all build on Astropy's OOP foundation. When you're deciding whether to use a class or function, you're making the same architectural decisions that unified an entire scientific community and enabled discoveries like gravitational waves and exoplanets!
+The transferable lesson is community design: a shared scientific interface can
+make it easier to reuse code, compare results, and maintain tools together.
+That is a stronger and more realistic reason to care about representation than
+claiming that one abstraction alone produced a scientific discovery.
 
-*[Sources: Robitaille, T., et al. (2013). Astropy: A community Python package for astronomy. Astronomy & Astrophysics, 558, A33. Development history simplified for pedagogical purposes.]*
+**Sources:** Astropy's [project history](https://www.astropy.org/history.html),
+the [Astropy Project overview](https://www.astropy.org/about), and Robitaille
+et al. (2013), [*Astropy: A Community Python Package for Astronomy*](https://arxiv.org/abs/1307.6212).
 :::
 
-## 6.7 Debugging Classes — Deep dive / reference
+(reference-debugging-objects)=
+## Reference: Debugging Small Scientific Objects
 
 Understanding how to inspect and debug objects is crucial. Python provides powerful introspection tools to examine objects at runtime:
 
@@ -1648,7 +1828,9 @@ def __init__(self, name, telescopes=None):
     self.telescopes = telescopes if telescopes is not None else []
 ```
 
-This bug has caused real problems in production systems. Always use `None` as default for mutable arguments, then create a new object in the method.
+This bug can make observatories that should be independent share telescopes.
+Use `None` as the default for a mutable argument, then create a new object in
+the method.
 :::
 ::::
 
@@ -1658,15 +1840,15 @@ You've just made a fundamental leap in how you think about programming. Object-O
 
 The power of OOP becomes clear when managing complexity. That simple Particle class with five attributes and three methods might seem like overkill compared to a dictionary. But when a simulation has many particles that need consistent updates, validation, and state tracking, a carefully designed class can make local contracts easier to inspect and test. Properties can validate a controlled update, methods can make the intended state transition explicit, and special methods can integrate an object with Python syntax. None of those mechanisms alone establishes system-level correctness: interfaces, units, models, and independent evidence still need their own checks.
 
-The historical journey from SIMULA to modern Python reveals how OOP emerged from practical needs. Norwegian scientists needed to simulate factories and harbors, leading them to bundle data with behavior—the birth of objects. This paradigm spread through Smalltalk, C++, and Java, eventually reaching Python where Guido van Rossum's radical transparency (special methods anyone can implement) democratized programming. When you write `__add__` to define addition for your objects, you're using the same mechanism that made NumPy arrays feel native to Python. This is why scientific libraries integrate so seamlessly—they all follow the same protocols.
+The historical journey from SIMULA to modern Python reveals how OOP emerged from practical needs. Norwegian scientists needed to simulate factories and harbors, leading them to bundle data with behavior—the birth of objects. This paradigm spread through Smalltalk, C++, Java, and Python. When you write `__add__` to define addition for an object, you are participating in a visible Python protocol; scientific libraries can choose compatible protocols when doing so serves a real interface.
 
-But perhaps the most important lesson is knowing when NOT to use objects. Not every function needs to become a method. Not every data structure needs to become a class. Simple calculations should stay as functions. Stateless transformations don't need objects. The art lies in recognizing when you're modeling entities with state and behavior (use classes) versus performing operations on data (use functions). The NumPy decision to make arrays objects wasn't arbitrary—arrays maintain complex state (shape, dtype, memory layout) and operations naturally belong to the data. The Astropy unification succeeded because astronomical concepts map naturally to objects—a coordinate is more than numbers, it's a position with a reference frame.
+But perhaps the most important lesson is knowing when NOT to use objects. Not every function needs to become a method. Not every data structure needs to become a class. Simple calculations should stay as functions. Stateless transformations don't need objects. The art lies in recognizing when you're modeling entities with state and behavior (use classes) versus performing operations on data (use functions). An array's shape, dtype, and memory layout make an object interface useful, while Astropy shows how a community can coordinate scientific representations and interfaces.
 
 Looking ahead, everything in Python's scientific stack builds on these concepts. NumPy arrays are objects with methods like `.mean()` and `.reshape()`. Every Matplotlib plot is an object maintaining state about axes, data, and styling. When you write `array.sum()` or `figure.savefig()`, you're using the same patterns you just learned. More importantly, you can now create your own scientific classes that integrate seamlessly with these tools. You're not just learning to use objects—you're learning to think in objects, and that's a superpower for scientific computing that will serve you throughout your career.
 
 ---
 
-**What's Next:** You now have the conceptual tools to understand *why* NumPy arrays are objects with methods, *why* properties enforce dtype constraints, and *why* special methods like `__getitem__` enable slicing syntax. In Chapter 7, you'll see these OOP patterns in action at scale — arrays with millions of elements, operations that complete in milliseconds instead of minutes, and broadcasting rules that eliminate explicit loops. The classes you learned to build here are the foundation; NumPy is where you learn to *leverage* them for real scientific work.
+**What's Next:** You now have the conceptual tools to understand *why* NumPy arrays are objects with methods, *how* properties can expose local constraints, and *why* special methods like `__getitem__` enable slicing syntax. In Chapter 7, you'll see these OOP patterns in action at scale through arrays and broadcasting. The classes you learned to build here are the foundation; NumPy is where you learn to *leverage* related ideas for real scientific work.
 
 ## Definitions
 
@@ -1678,7 +1860,7 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 
 **constructor** - The `__init__` method that initializes new objects when they're created
 
-**duck typing** - Python's philosophy that an object's suitability is determined by its methods and attributes, not its type
+**duck typing** - A style in which an operation relies on supported behavior or a protocol rather than only a declared class; code may still use explicit type checks when needed
 
 **encapsulation** - The bundling of data and methods that operate on that data within a single unit (class)
 
@@ -1704,11 +1886,11 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 
 ## Key Takeaways
 
-✓ **Classes combine data and behavior** – Objects bundle related attributes and methods, keeping code organized and preventing errors from mismatched data and functions
+✓ **Classes combine data and behavior** – Objects bundle related attributes and methods, helping keep coordinated state and operations inspectable
 
 ✓ **The self parameter connects methods to objects** – It's automatically passed to methods and refers to the specific instance being operated on
 
-✓ **Properties provide smart attributes** – Use `@property` for computed values and validation, ensuring data consistency without explicit method calls
+✓ **Properties provide smart attributes** – Use `@property` for computed values and declared local validation, while still testing the wider scientific interface
 
 ✓ **Special methods make objects Pythonic** – Implementing `__str__`, `__len__`, `__add__` lets your objects work naturally with built-in functions and operators
 
@@ -1720,11 +1902,11 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 
 ✓ **Everything in Python is an object** – Even functions and modules are objects, making Python's object model consistent and powerful
 
-✓ **Duck typing enables flexibility** – Objects work based on capabilities (methods) not types, allowing seamless integration with Python's protocols
+✓ **Duck typing enables flexibility** – Protocols let operations depend on supported capabilities; explicit type checks remain appropriate when an interface requires them
 
 ✓ **OOP emerged from practical simulation needs** – SIMULA's factory simulations birthed the paradigm that now powers scientific computing
 
-## Quick Reference Tables
+## Reference: Class Syntax, Protocols, and Debugging
 
 ### Class Definition Syntax
 
@@ -1735,10 +1917,10 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 | Instance attribute | `self.attr = value` | `self.mass = 1.67e-24` |
 | Class attribute | `attr = value` | `SPEED_OF_LIGHT = 3e10` |
 | Instance method | `def method(self):` | `def velocity(self):` |
-| Property getter | `@property` | `@property def energy(self):` |
-| Property setter | `@attr.setter` | `@energy.setter` |
-| Class method | `@classmethod` | `@classmethod def from_file(cls):` |
-| Static method | `@staticmethod` | `@staticmethod def validate():` |
+| Property getter | `@property` plus a getter | `@property` + `def energy(self):` |
+| Property setter | `@attr.setter` plus a setter | `@energy.setter` + `def energy(self, value):` |
+| Class method | `@classmethod` | `@classmethod` + `def from_values(cls, values):` |
+| Static method | `@staticmethod` | `@staticmethod` + `def validate(data):` |
 
 ### Essential Special Methods
 

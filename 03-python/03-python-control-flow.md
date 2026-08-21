@@ -5,31 +5,27 @@ author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
+site:
+  hide_outline: true
 ---
 
 ## Learning objectives
 
 By the end of this chapter, you will be able to:
 
-- [ ] (1) **Design algorithms using structured pseudocode** before writing any Python code, progressing through three levels of refinement.
-- [ ] (2) **Implement conditional statements** (`if`/`elif`/`else`) with proper guard clauses and edge case handling.
-- [ ] (3) **Choose appropriate loop structures** (`for` vs `while`) based on problem requirements and iteration patterns.
-- [ ] (4) **Master all six comparison operators** (`>`, `<`, `>=`, `<=`, `==`, `!=`) and **three logical operators** (`and`, `or`, `not`).
-- [ ] (5) **Handle floating-point comparisons safely** using `math.isclose()` instead of direct equality checks.
-- [ ] (6) **Debug logic errors systematically** using IPython's `%debug` magic command and strategic `assert` statements.
-- [ ] (7) **Write efficient list comprehensions** for simple transformations while recognizing when explicit loops are clearer.
-- [ ] (8) **Recognize and apply five universal algorithmic patterns**: accumulation, filtering, mapping, searching, and convergence.
-- [ ] (9) **Build defensive code with guard clauses** that validate inputs and fail fast with clear error messages.
+- [ ] **(1) Design an algorithm in pseudocode** by naming its state, branches, termination rule, and failure outcome before implementation.
+- [ ] **(2) Implement and justify conditional logic** (`if`/`elif`/`else`, guard clauses, and logical operators) for a stated decision.
+- [ ] **(3) Choose a `for` or bounded `while` loop**, then distinguish an accepted result from a run that merely reached its iteration limit.
+- [ ] **(4) Diagnose a control-flow bug** involving precedence, missing cases, misaligned paired data, or an unsupported numerical comparison.
+- [ ] **(5) Recognize and apply** accumulation, filtering, mapping, searching, and convergence patterns, using compact syntax only when it remains clear.
 
 ## Prerequisites
 
 :::{note} ✅ Before Starting This Chapter
 
-- [ ] You can launch IPython and use magic commands like %timeit (Chapter 1)
-- [ ] You understand floating-point precision and comparison issues (Chapter 2)
-- [ ] You can write and run Python scripts from the terminal (Chapter 1)
-- [ ] You can use f-strings for formatted output (Chapter 2)
-- [ ] A Python environment is active and working
+- [ ] You can run a short Python cell or script and read its output.
+- [ ] You understand that a floating-point tolerance must match a stated claim (Chapter 2).
+- [ ] You can assign a value to a variable and use basic arithmetic (Chapter 2).
 
 If any boxes are unchecked, review the indicated chapters first.
 :::
@@ -62,7 +58,7 @@ The concepts in this chapter underpin *everything* that follows: simulations, co
 **This chapter is worth revisiting.** Come back to it mid-semester. The pseudocode strategies and algorithmic patterns will make more sense once you've seen them in action.
 :::
 
-:::{warning} Do not let notebook state hide control flow
+:::{important} Research practice: make state and stopping rules reproducible
 
 Variables that persist between notebook cells can make an algorithm appear to
 work only because an earlier cell set unrecorded state. A reproducible notebook
@@ -104,8 +100,24 @@ This chapter is a **reference** as much as a reading. You're not expected to mem
 This material compounds. Give it time, and revisit it when you need it.
 :::
 
+For a first reading, follow this route:
+
+1. [Sketch the algorithm and its state](#pseudocode-and-state).
+2. [Choose a branch and guard its inputs](#decisions-and-guards).
+3. [Specify a bounded stopping rule](#bounded-convergence).
+4. [Investigate a stopped-or-converged result](#control-flow-case-file).
+
+The walrus operator, ternary expressions, loop `else`, nested loops, Welford's
+algorithm, debugger commands, and the tables remain part of this chapter's
+prose and reference path; they are not hidden prerequisites for the first route.
+
+## Try this chapter
+
+- [**Browser Python lab · Bounded Convergence Inspector**](jupyterlite/ch03-bounded-convergence-inspector.html): predict whether an update rule meets a stated numerical contract before its iteration limit, run it, then revise the claim. The activity is optional; the static convergence check below remains complete without browser Python.
+
 ---
 
+(pseudocode-and-state)=
 ## 3.1 Algorithmic Thinking: The Lost Art of Pseudocode
 
 :::{margin}
@@ -190,8 +202,11 @@ FUNCTION adaptive_integrate(initial_state, end_time):  # FUNCTION groups reusabl
             error = compute_error(trial_step)
         UNTIL error < tolerance OR dt < dt_min         # OR means "either condition can be true"
 
-        state = trial_step
-        dt = adjust_timestep(error, dt)
+    state = trial_step
+    dt = adjust_timestep(error, dt)
+
+    IF error >= tolerance:
+        RETURN failure("minimum timestep reached before an acceptable step")
 
     RETURN state                                        # RETURN sends value back to caller
 ```
@@ -239,6 +254,9 @@ FUNCTION adaptive_integrate(initial_state, end_time, tolerance):
             ELSE:
                 dt <- max(dt * 0.5, dt_min)
             attempts <- attempts + 1
+
+        IF NOT step_accepted:
+            RETURN failure("no acceptable step within MAX_ATTEMPTS")
 ```
 
 Each refinement level reveals new issues and solutions. The **NOT** operator inverts a boolean value (True becomes False, False becomes True). The **AND** operator requires both conditions to be true. This is computational thinking in action!
@@ -482,55 +500,44 @@ Avoid it when:
 
 ### The Floating-Point Equality Trap
 
-Never use **==** with floating-point numbers! Even tiny rounding errors break equality:
+For a computed floating-point quantity, `==` is often not the comparison you
+mean—but it remains correct when exact equality is the stated contract. When
+the question is whether two temperatures agree at a stated resolution, name
+that resolution and use it explicitly:
 
 ```{code-cell} python
 import math
 
 # The floating-point trap strikes!
-calculated_temp = 5778.0000000001
-expected_temp = 5778.0
+calculated_temp_K = 5778.0000000001
+expected_temp_K = 5778.0
+temperature_resolution_K = 0.01  # An illustrative instrument/reporting contract
 
-print(f"Calculated == Expected? {calculated_temp == expected_temp}")  # False!
-print(f"Tiny difference: {calculated_temp - expected_temp:.2e}")
+print(f"Calculated == Expected? {calculated_temp_K == expected_temp_K}")  # False
+print(f"Tiny difference: {calculated_temp_K - expected_temp_K:.2e} K")
 
-# The solution: tolerance-based comparison (use the standard library)
-print(f"math.isclose? {math.isclose(calculated_temp, expected_temp)}")
+# The intended contract: agreement within a stated absolute resolution.
+print(math.isclose(
+    calculated_temp_K,
+    expected_temp_K,
+    rel_tol=0.0,
+    abs_tol=temperature_resolution_K,
+))
 
-# Optional: re-implementing isclose (for understanding)
-def safe_equal(a, b, rel_tol=1e-9, abs_tol=1e-12):
-    """Re-implement math.isclose() (educational; prefer math.isclose in real code)."""
-    # Handle exact equality (includes infinities)
-    if a == b:
-        return True
-
-    # Handle NaN (NaN != NaN by IEEE standard)
-    if math.isnan(a) or math.isnan(b):
-        return False
-
-    # Handle infinity cases
-    if math.isinf(a) or math.isinf(b):
-        return a == b
-
-    # Normal comparison with tolerance
-    # Note: math.isclose() does this internally, but understanding it matters!
-    return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
-
-# Test our safe comparison
-print(f"\n0.1 + 0.2 == 0.3? {0.1 + 0.2 == 0.3}")  # False!
-print(f"Safe equal? {safe_equal(0.1 + 0.2, 0.3)}")  # True!
-print(f"math.isclose? {math.isclose(0.1 + 0.2, 0.3)}")  # True!
+# For a scale-dependent requirement, use a named relative tolerance instead.
+# Chapter 2 develops why these two contracts are not interchangeable.
 ```
 
 :::{warning} ⚠️ Common Bug Alert: The Equality Trap
 
 For a computed floating-point quantity, use `==` only when exact equality is the
 stated contract. When the scientific question is “close enough,” state and use
-an absolute or relative tolerance instead.
+an absolute or relative tolerance instead. A default tolerance is not a
+scientific justification.
 
 **Wrong (dangerous for critical systems):**
 ```python
-if velocity == 0.0:  # Dangerous!
+if velocity_m_s == 0.0:  # Wrong if "at rest" means below an instrument resolution
     print("At rest")
 ```
 
@@ -538,11 +545,14 @@ if velocity == 0.0:  # Dangerous!
 ```python
 import math
 
-if math.isclose(velocity, 0.0, abs_tol=1e-10):  # Safe!
-    print("Effectively at rest")
+velocity_resolution_m_s = 1e-3  # Supplied by this illustrative measurement contract
+if math.isclose(velocity_m_s, 0.0, rel_tol=0.0, abs_tol=velocity_resolution_m_s):
+    print("Not resolved from zero at this resolution")
 ```
 
-This avoids brittle `==` comparisons and makes your intent explicit.
+This avoids brittle comparisons and makes the limited conclusion explicit. It
+does not establish that an instrument has no bias or that a physical quantity is
+exactly zero.
 :::
 
 ### Short-Circuit Evaluation: Order Matters!
@@ -627,6 +637,7 @@ Checking distance first avoids millions of expensive velocity calculations per d
 
 ---
 
+(decisions-and-guards)=
 ## 3.3 Conditional Statements: Teaching Computers to Decide
 
 :::{margin}
@@ -667,7 +678,8 @@ if stellar_mass > 8:
 The **else** clause provides an alternative when the condition is false:
 
 ```{code-cell} python
-# Binary decision with if-else
+# Binary decision with if-else. This is a toy routing rule, not a physical
+# definition of "nearby" or a complete observation-quality model.
 redshift = 0.8
 
 if redshift < 0.1:
@@ -681,11 +693,11 @@ print(f"z = {redshift}: {classification}")
 observation_snr = 3.5  # Signal-to-noise ratio
 
 if observation_snr >= 5.0:
-    print("High quality detection")
+    print("Passes this toy screening threshold; investigate further")
     process_immediately = True
     confidence = "high"
 else:
-    print("Low SNR - needs verification")
+    print("Does not pass this toy screening threshold")
     process_immediately = False
     confidence = "low"
 ```
@@ -883,7 +895,7 @@ star_positions = [0.1, 0.3, 0.5, 0.7, 0.9]  # Parsecs from origin
 total_mass = 0.0
 weighted_position = 0.0
 
-for mass, position in zip(star_masses, star_positions):
+for mass, position in zip(star_masses, star_positions, strict=True):
     total_mass += mass
     weighted_position += mass * position
 
@@ -911,17 +923,24 @@ for i, mag in enumerate(magnitudes):
     if mag < 9.0:
         print(f"  Alert! Index {i}: magnitude {mag}")
 
-# zip() for parallel iteration
+# zip() for parallel iteration. In a scientific time series, a missing position
+# should be an error rather than silently dropping the final unmatched time.
 times = [0, 1, 2, 3, 4]  # seconds
 positions = [0, 4.9, 19.6, 44.1, 78.4]  # meters
 
 print("\nParallel iteration with zip:")
-for t, x in zip(times, positions):
+for t, x in zip(times, positions, strict=True):  # Python 3.10+
     if t > 0:  # Avoid division by zero
         velocity = x / t
         print(f"  t={t}s: v={velocity:.1f} m/s")
 ```
 
+Ordinary `zip(times, positions)` stops at the shorter sequence. That may be
+convenient for text processing, but it can silently discard a measurement in
+paired scientific data. Use `strict=True` when equal lengths are part of the
+data contract; otherwise check lengths explicitly before iterating.
+
+(bounded-convergence)=
 ### The `while` Loop: Conditional Iteration
 
 The **while** loop continues as long as a condition remains true:
@@ -932,21 +951,71 @@ count = 0
 while count < 3:
     print(f"Iteration {count}")
     count += 1  # Don't forget to update!
-
-# While loop for convergence
-print("\nConvergence example:")
-value = 100.0
-target = 1.0
-iteration = 0
-
-while abs(value - target) > 0.01 and iteration < 100:  # Safety limit!
-    value = value * 0.9 + target * 0.1  # Gradual approach
-    iteration += 1
-    if iteration <= 3 or iteration % 10 == 0:  # Print selectively
-        print(f"  Iter {iteration}: value = {value:.3f}")
-
-print(f"Converged to {value:.3f} after {iteration} iterations")
 ```
+
+:::{tip} Predict before running
+
+This toy update uses dimensionless values. With `rate=0.1`, an absolute
+tolerance of `0.01`, and `max_iterations=5`, will it satisfy the stated
+numerical contract—or stop first because its iteration budget is exhausted?
+:::
+
+```{code-cell} python
+import math
+
+def bounded_relaxation(initial_value, target_value, rate, abs_tol, max_iterations):
+    """Move toward a target, returning a value and an explicit stopping status.
+
+    ``abs_tol`` is a supplied numerical contract in the same units as the
+    values; it is not a universal convergence tolerance.
+    """
+    if not 0 < rate <= 1:
+        raise ValueError("rate must be in (0, 1]")
+    if abs_tol <= 0:
+        raise ValueError("abs_tol must be positive")
+    if max_iterations < 1:
+        raise ValueError("max_iterations must be at least 1")
+
+    value = initial_value
+    for iteration in range(1, max_iterations + 1):
+        value = value * (1 - rate) + target_value * rate
+        if math.isclose(value, target_value, rel_tol=0.0, abs_tol=abs_tol):
+            return value, "converged", iteration
+
+    return value, "max_iterations_reached", max_iterations
+
+
+value, status, iteration = bounded_relaxation(
+    initial_value=100.0,
+    target_value=1.0,
+    rate=0.1,
+    abs_tol=0.01,
+    max_iterations=5,
+)
+print(f"Stopped after {iteration} iterations: {status}; value={value:.3f}")
+```
+
+:::{important} Design decision: bounded work is not convergence evidence
+
+The function returns a status instead of always printing “converged.” A maximum
+iteration count protects runtime and gives the caller a decision point; it does
+not show that the model, update rule, or tolerance is scientifically adequate.
+:::
+
+(control-flow-case-file)=
+:::{tip} Check Your Understanding: interpret a stopped loop
+:class: dropdown
+
+Change `max_iterations` to `100`, then run the same cell. What is different
+between the two outcomes? What can the `"converged"` status establish, and
+what remains outside this calculation?
+
+**Answer:** With 100 iterations this toy update reaches the stated absolute
+tolerance; with 5 it only establishes that the iteration budget ended first.
+The successful status supports agreement with this explicit numerical contract.
+It does not validate the update rule, choose a tolerance, or establish the
+physical adequacy of a model.
+:::
 
 ### Loop Control: `break`, `continue`, and `else`
 
@@ -954,12 +1023,12 @@ Python provides additional loop control statements:
 
 ```{code-cell} python
 # break: Exit loop early
-print("Using break to find first detection:")
+print("Using break to find the first sample above an illustrative screen:")
 observations = [0.1, 0.3, 0.2, 5.8, 0.4, 6.2]
 
 for obs in observations:
     if obs > 1.0:
-        print(f"First significant detection: {obs}")
+        print(f"First sample above this screen: {obs}")
         break  # Stop searching
 
 # continue: Skip to next iteration
@@ -986,7 +1055,8 @@ else:  # This runs because we didn't break
 
 ### The `pass` Statement: Placeholder
 
-The **pass** statement does nothing — useful as a placeholder:
+The **pass** statement does nothing — useful as a placeholder. It should not
+become a way to hide an unexpected error:
 
 ```{code-cell} python
 # pass as placeholder
@@ -1000,7 +1070,7 @@ for i in range(3):
 try:
     risky_operation = 1 / 1  # No error this time
 except ZeroDivisionError:
-    pass  # Silently ignore this specific error
+    pass  # Accept silence only when this specific outcome is genuinely harmless
 
 print("Continued after pass")
 ```
@@ -1060,15 +1130,19 @@ Off-by-one errors show up everywhere. Double-check your ranges!
 
 Don't worry — everyone writes an infinite loop occasionally! Here are two common causes:
 
-**Case 1: Floating-point precision prevents exact equality**
+**Case 1: Using a floating-point value as a loop counter**
 ```python
-x = 0.0
-while x != 1.0:  # INFINITE LOOP!
-    x += 0.1  # After 10 additions, x approx 0.9999999999
+dt_s = 0.1
+max_steps = 10
 
-# Fix: Use tolerance
-while abs(x - 1.0) > 1e-10:
-    x += 0.1
+# Do not write ``while time_s != 1.0``: binary floating-point cannot promise
+# that repeated addition lands exactly on a target.
+for step in range(max_steps):
+    time_s = (step + 1) * dt_s
+    print(f"step={step + 1}, time={time_s:.1f} s")
+
+# For an iterative scientific calculation, use a bounded stopping rule like
+# bounded_relaxation above and inspect its returned status.
 ```
 
 **Case 2: Forgetting to update loop variable**
@@ -1079,14 +1153,17 @@ while i < 10:
     # Forgot: i += 1  # INFINITE LOOP!
 ```
 
-Always add a maximum iteration safeguard!
+Always add a maximum iteration safeguard, then make the post-loop outcome
+visible to the caller.
 :::
 
 ---
 
 ## 3.5 List Comprehensions: Elegant and Efficient
 
-Now that you've mastered loops, let's evolve them into something even more powerful! List comprehensions are Python's gift to scientific programmers. They transform verbose loops into concise, readable, and faster expressions.
+Now that you've mastered loops, let's evolve them into something more compact.
+List comprehensions can make a simple transformation readable, but performance
+depends on the operation and workload; clarity is the reason to choose one.
 
 ### From Loop to Comprehension
 
@@ -1142,7 +1219,7 @@ print(f"\nBright stars dictionary: {star_dict}")
 def classify_galaxies(redshifts, luminosities):
     """When logic is complex, loops are clearer!"""
     classifications = []
-    for z, L in zip(redshifts, luminosities):
+    for z, L in zip(redshifts, luminosities, strict=True):
         if z < 0.5 and L > 1e10:
             classifications.append("nearby bright")
         elif z < 0.5:
@@ -1162,7 +1239,7 @@ print(f"Galaxy classifications: {galaxy_types}")
 
 ---
 
-## 3.6 Advanced Control Flow Patterns
+## Deep Dive: advanced control flow patterns
 
 Now let's explore powerful patterns that appear throughout scientific computing. These aren't just code tricks — they're fundamental algorithmic building blocks!
 
@@ -1170,6 +1247,7 @@ Now let's explore powerful patterns that appear throughout scientific computing.
 
 ```{code-cell} python
 import math
+import statistics
 
 def running_statistics(data_stream):
     """
@@ -1198,14 +1276,12 @@ photometry = [1e8, 1e8 + 1, 1e8 + 2, 1e8 - 1, 1e8 + 0.5]
 mean, var = running_statistics(photometry)
 print(f"Stable algorithm: mean={mean:.1f}, std={math.sqrt(var):.2f}")
 
-# The naive approach would lose precision!
+# Compare the risky one-pass formula with a library reference on this dataset.
 naive_mean = sum(photometry) / len(photometry)
 naive_var = sum(x**2 for x in photometry) / len(photometry) - naive_mean**2
-print(f"Naive variance (can go negative due to cancellation): {naive_var:.3e}")
-if naive_var < 0:
-    print("Warning: numerical artifact: negative variance from floating-point cancellation")
-naive_std = math.sqrt(max(naive_var, 0.0))
-print(f"Naive std (after clipping at 0 for display): {naive_std:.2f}")
+reference_var = statistics.variance(photometry)
+print(f"Risky one-pass variance: {naive_var:.3e}")
+print(f"Reference sample variance: {reference_var:.3e}")
 ```
 
 **Why is Welford's algorithm numerically stable?**
@@ -1224,7 +1300,7 @@ difference of two large aggregate terms.
 :::{note}
 :class: dropdown
 **Why not use log space?**
-Students often ask why we don't use logarithms here like we did for the luminosity calculation. Log space is perfect for products (multiplication becomes addition) but wrong for statistics. Welford's algorithm computes arithmetic mean and variance, which require addition. In log space, you'd compute geometric mean instead - a completely different statistic! Plus, log fails on negative values, common in astronomy (radial velocities, position residuals). Welford's incremental approach is already optimal.
+Students often ask why we don't use logarithms here like we did for the luminosity calculation. Log space is useful for products and positive quantities spanning huge dynamic ranges, but it changes arithmetic means and variances into different statistics. Welford's algorithm is a useful stable streaming pattern; it is not the only valid variance algorithm or a reason to take logarithms of every dataset.
 :::
 
 :::{important} 💡 Computational Thinking: The Convergence Pattern
@@ -1251,7 +1327,8 @@ This pattern appears throughout computational science:
 - **Radiative transfer** (temperature iterations)
 - **N-body orbit integration** (adaptive timesteps)
 
-Master this pattern and you've mastered half of computational physics!
+Recognizing this pattern helps you inspect a solver's stopping rule before you
+trust its output.
 :::
 
 ---
@@ -1604,23 +1681,23 @@ Remember that every major computational achievement relies on these fundamentals
 
 ✓ **break** exits loops early, **continue** skips to the next iteration, **else** runs if loop completes
 
-✓ List comprehensions are faster than loops for simple transformations but become unreadable for complex logic
+✓ List comprehensions can clarify simple transformations but become unreadable for complex logic; measure performance when it matters
 
 ✓ Short-circuit evaluation in **and**/**or** prevents errors and improves performance
 
 ✓ The accumulator pattern is fundamental to scientific computing, appearing in all statistical calculations
 
-✓ Always include maximum iteration limits in **while** loops to prevent infinite loops
+✓ For iterative numerical **while** loops, include a maximum iteration limit and inspect the returned status
 
-✓ Welford's algorithm solves numerical stability issues in streaming statistics
+✓ Welford's algorithm helps avoid a cancellation-prone variance formula in streaming statistics
 
 ✓ Use **assert** statements to document and enforce assumptions during development
 
-✓ Every major scientific discovery relies on the control flow patterns you've learned
+✓ Control-flow patterns make assumptions, stopping rules, and failure paths inspectable in scientific software
 
 ---
 
-## Quick Reference Tables
+## Reference: quick tables and debugging tools
 
 | Operator | Description | Example |
 |----------|-------------|---------|
@@ -1628,7 +1705,7 @@ Remember that every major computational achievement relies on these fundamentals
 | `<` | Less than | `if redshift < 0.1:` |
 | `>=` | Greater or equal | `if snr >= 5.0:` |
 | `<=` | Less or equal | `if error <= tolerance:` |
-| `==` | Equal (avoid with floats!) | `if status == 'complete':` |
+| `==` | Exact value comparison | `if status == 'complete':` |
 | `!=` | Not equal | `if flag != -999:` |
 
 : Comparison Operators
@@ -1655,7 +1732,7 @@ Remember that every major computational achievement relies on these fundamentals
 |-----------|---------|---------|
 | `if/elif/else` | Conditional execution | `if mag < 6: visible = True` |
 | `for` | Iterate over sequence | `for star in catalog:` |
-| `while` | Loop while condition true | `while error > tolerance:` |
+| `while` | Loop while condition is true | `while not converged and n < max:` |
 | `break` | Exit loop early | `if converged: break` |
 | `continue` | Skip to next iteration | `if bad_data: continue` |
 | `pass` | Do nothing (placeholder) | `if not ready: pass` |
@@ -1668,7 +1745,7 @@ Remember that every major computational achievement relies on these fundamentals
 | `range(n)` | Generate 0 to n-1 | `for i in range(10):` |
 | `range(start, stop, step)` | Generate with step | `for i in range(0, 10, 2):` |
 | `enumerate(seq)` | Get index and value | `for i, val in enumerate(data):` |
-| `zip(seq1, seq2)` | Parallel iteration | `for x, y in zip(xs, ys):` |
+| `zip(seq1, seq2, strict=True)` | Parallel iteration with an equal-length contract | `for x, y in zip(xs, ys, strict=True):` |
 | `len(seq)` | Sequence length | `for i in range(len(data)):` |
 
 : Built-in Functions for Loops
@@ -1677,7 +1754,7 @@ Remember that every major computational achievement relies on these fundamentals
 |----------|---------|---------|
 | `all(iterable)` | All elements true | `if all(x > 0 for x in data):` |
 | `any(iterable)` | Any element true | `if any(x < 0 for x in data):` |
-| `math.isclose()` | Safe float comparison | `if math.isclose(a, b):` |
+| `math.isclose()` | Float comparison with a stated tolerance contract | `if math.isclose(a, b, abs_tol=resolution):` |
 | `math.isfinite()` | Check not inf/nan | `if math.isfinite(result):` |
 | `math.isnan()` | Check for NaN | `if not math.isnan(value):` |
 | `math.isinf()` | Check for infinity | `if math.isinf(value):` |
@@ -1699,7 +1776,7 @@ Remember that every major computational achievement relies on these fundamentals
 
 ---
 
-## Python Module & Method Reference (Chapter 3 Additions)
+### Extended reference: operators, methods, and debugger commands
 
 ### New Built-in Functions
 
@@ -1712,7 +1789,7 @@ Remember that every major computational achievement relies on these fundamentals
 **Loop Support**
 
 - `enumerate(iterable, start=0)` - Returns index-value pairs
-- `zip(*iterables)` - Combines multiple iterables for parallel iteration
+- `zip(*iterables, strict=False)` - Combines iterables; use `strict=True` when equal lengths are required
 - `range(start, stop, step)` - Generate arithmetic progression
 
 ### Control Flow Keywords
@@ -1756,7 +1833,7 @@ Remember that every major computational achievement relies on these fundamentals
 import math
 ```
 
-- `math.isclose(a, b, rel_tol=1e-9, abs_tol=0.0)` - Safe floating-point comparison
+- `math.isclose(a, b, rel_tol=1e-9, abs_tol=0.0)` - Compare floats only after choosing tolerances for the claim
 - `math.isfinite(x)` - Check if neither infinite nor NaN
 - `math.isnan(x)` - Check if value is NaN
 - `math.isinf(x)` - Check if value is infinite
@@ -1783,9 +1860,9 @@ import math
 
 ## Next Chapter Preview
 
-You've conquered control flow — now get ready for the next level! Chapter 4 will reveal how to organize data efficiently using Python's powerful data structures. You'll discover when to use lists versus dictionaries versus sets, and more importantly, you'll understand why these choices can make your algorithms run 100 times faster or 100 times slower.
+You've conquered control flow — now get ready for the next level! Chapter 4 will reveal how to organize data deliberately using Python's lists, dictionaries, sets, and tuples. You will connect each choice to an access pattern, mutability question, and measured workload rather than assuming a universal speedup.
 
-Imagine trying to find a specific star in a catalog of millions. With a list, you'd check each star one by one — taking minutes or hours. With a dictionary, you'll find it instantly — in microseconds! The data structures you'll learn next are the difference between simulations that finish in minutes and ones that run for days.
+Imagine trying to find a specific star in a catalog of millions. A list search and a dictionary lookup make different promises, and their actual costs depend on the operation, data size, hardware, and implementation. Chapter 4 will give you the vocabulary to reason about that tradeoff and measure it honestly.
 
 The control flow patterns you've mastered here will operate on the data structures you'll learn next. Your loops will iterate through dictionaries of astronomical objects. Your conditionals will filter sets of observations. Your comprehensions will transform lists of measurements into meaningful results. Together, control flow and data structures give you the power to handle the massive datasets of modern science — from Gaia's billion-star catalog to the petabytes of data from the Square Kilometre Array.
 

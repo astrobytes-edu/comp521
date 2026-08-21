@@ -14,6 +14,8 @@ jupyter:
 `ValueError`? Write a one-sentence reason before you run the next cell.
 
 ```{code-cell} python
+import math
+
 class Temperature:
     """Temperature with a non-negative Kelvin invariant."""
 
@@ -26,8 +28,13 @@ class Temperature:
 
     @kelvin.setter
     def kelvin(self, value):
-        if value < 0:
-            raise ValueError("Below absolute zero!")
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+            or value < 0
+        ):
+            raise ValueError(f"Kelvin temperature must be finite and non-negative, got {value}")
         self._kelvin = value
 
     @property

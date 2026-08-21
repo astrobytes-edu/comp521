@@ -160,3 +160,44 @@ Avoid:
 * Files changed (bulleted)
 * How to verify (exact commands/steps)
 * Assumptions / risks (only if any)
+
+## Brain hub — COMP 521 reports to `~/brain` (read-only from here)
+
+The Brain is Anna's cross-project teaching and research hub. Course content,
+private instructor materials, code, and build artifacts remain canonical in
+this repository; use the Brain for cross-project context and durable capture.
+
+- **Read before cross-session work:** `~/brain/AGENTS.md`,
+  `~/brain/guide/how-to/use-brain-from-a-spoke.md`, and the relevant teaching
+  dashboard under `~/brain/work/teaching/`. Use only the Brain resources that
+  bear on the current course decision.
+- **Need a scholarly source or reusable teaching context?** Start with the
+  relevant `~/brain/knowledge/sources/<bibkey>.md` note. For exact claims,
+  equations, tables, or quotations, verify against
+  `~/brain/knowledge/library/<bibkey>.pdf`; `knowledge/raw/` is search-only.
+  Do not treat an `ai:drafted`, inferred, or hypothesis record as settled
+  course evidence.
+- **Report notable outcomes, blockers, decisions, or deadlines** through the
+  one sanctioned write path:
+      brain "comp521: short, factual milestone or blocker"
+  For an insight that matters beyond this course:
+      brain "xref: <insight> — touches COMP 521 + <other course/project>"
+  Capture facts and evidence, not speculative status claims or student data.
+- **Never hand-edit `~/brain` from this course session** — including its
+  teaching dashboards, knowledge, ADRs, `roots.yml`, and `_generated/`.
+  The `brain` command appends a capture for later Brain triage; it is the only
+  permitted course-to-Brain write.
+- **Privacy boundary:** never capture student PII, grades, submissions,
+  accommodations, or private `_instructor/` contents. Capture only a concise
+  non-sensitive milestone and leave authoritative course details here.
+- **Live status:** this course is federated as `comp521`. Keep the root
+  `STATUS.md` accurate whenever its one next action, blocker, or dated release
+  gate changes; the Brain pulls those `next:`, `blocker:`, and `due:` lines
+  into Focus and Standup. A status update is not a Brain edit and must remain
+  factual, concise, and non-sensitive.
+- **Focused planning:** after the Brain has refreshed, `/brain-pack comp521`
+  provides course-specific status, relevant literature, and cross-project
+  context. Read the pack; do not copy it into course materials or treat it as
+  approval for a content change.
+
+<!-- brain-handshake: derived from ~/brain/guide/how-to/set-up-a-project.md#spoke-stanza -->

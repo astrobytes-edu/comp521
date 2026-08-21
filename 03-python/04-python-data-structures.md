@@ -1,46 +1,42 @@
 ---
 title: "Chapter 4: Data Structures - Organizing Scientific Data"
-subtitle: "Foundations for Scientific Programming"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
+site:
+  hide_outline: true
 ---
 
 ## Learning objectives
 
 By the end of this chapter, you will be able to:
 
-- [ ] (1) **Choose optimal data structures** (`list`, `tuple`, `dict`, `set`) based on algorithmic requirements and **O(n)** vs **O(1)** performance constraints.
-- [ ] (2) **Predict operation complexity** using Big-O notation for common operations like search, insertion, and deletion.
-- [ ] (3) **Understand Python's reference model** and memory layout explaining why NumPy arrays are often 10-100$\times$ faster than lists for vectorized operations.
-- [ ] (4) **Implement defensive copying strategies** using `copy.copy()` and `copy.deepcopy()` to prevent aliasing bugs.
-- [ ] (5) **Profile memory usage** with `sys.getsizeof()` and optimize data structure choices for particle simulations.
-- [ ] (6) **Master dictionary operations** for O(1) lookups using hash tables for caching expensive calculations.
-- [ ] (7) **Apply set operations** (union, intersection, difference) for particle tracking and domain decomposition.
-- [ ] (8) **Debug three common bugs**: mutable defaults, aliasing during grid updates, and iteration modification.
-- [ ] (9) **Design hybrid data structures** combining lists, dicts, and sets for real physics simulations.
+- [ ] **(1) Choose and justify** a `list`, `tuple`, `dict`, or `set` from a stated access pattern, mutation requirement, and uniqueness requirement.
+- [ ] **(2) Predict and explain** the usual lookup, membership, and insertion costs of these structures, including the difference between average-case and worst-case hash-table behavior.
+- [ ] **(3) Diagnose** aliasing, shallow-copy, and mutable-default bugs, then make an intentional ownership or copying decision.
+- [ ] **(4) Distinguish** a data representation from the algorithm that uses it, and state what a simple complexity or timing result does—and does not—establish.
+- [ ] **(5) Combine** structures to represent a small scientific dataset while making the resulting lookup, ordering, and mutation contracts explicit.
 
 ## Prerequisites
 
 :::{note} ✅ Before Starting This Chapter
 
-- [ ] You can write loops and conditional statements fluently (Chapter 3)
-- [ ] You understand the difference between assignment and equality (Chapter 2)
-- [ ] You can use IPython for testing and timing code (Chapter 1)
-- [ ] You understand floating-point precision issues (Chapter 2)
-- [ ] You understand defensive programming principles (Chapter 1)
+- [ ] You can assign values, compare them, and read a short Python expression (Chapter 2).
+- [ ] You can use a `for` loop to visit items in a sequence (Chapter 3).
+- [ ] You recognize that a result can need an explicit failure check or boundary (Chapters 1–3).
 
 If any boxes are unchecked, review the indicated chapters first.
 :::
 
 ## Why this chapter matters
 
-Imagine you're simulating the interactions between a million particles - whether they're dark matter particles in a galaxy, molecules in a gas, or nodes in a network. Each timestep, you need to find which particles are close enough to interact strongly. With the wrong data structure, this neighbor search could take hours per timestep. With the right one - a spatial hash table or tree structure - it takes seconds. That's the difference between a simulation finishing in a day versus running for months. This chapter teaches you to make these critical choices that determine whether your code scales to research problems or remains stuck with toy models.
+Imagine that a simulation must repeatedly answer three different questions: Which measurements arrived first? Which particle has this identifier? Which particles have already been processed? Those questions ask for order, keyed lookup, and uniqueness—not one generic container. The representation you choose determines what your program can ask efficiently and what kinds of accidental mutation it permits.
 
-This chapter transforms you from someone who stores data to someone who orchestrates it strategically for scientific computing. You'll discover not just that dictionary lookups are fast, but *why* they're fast - through hash functions that turn particle positions into array indices. You'll understand *when* they might fail - like when hash collisions cluster your data. And you'll learn *how* to verify performance yourself - because in computational science, measurement beats assumption every time.
+This chapter transforms you from someone who stores data to someone who organizes it deliberately for scientific computing. You'll discover why dictionary and set membership are usually fast, when their hash-table assumptions matter, and how to measure a specific workload rather than inheriting a performance slogan. You will also learn why two names can quietly refer to the same mutable state—and how to make that ownership decision visible.
 
-These concepts directly prepare you for the numerical computing ahead. The memory layout discussions explain why NumPy arrays can be 10-100$\times$ more efficient than Python lists for vectorized operations. The immutability concepts prepare you for functional programming paradigms used in modern frameworks like JAX, where immutable operations enable automatic differentiation. The performance profiling skills will help you identify bottlenecks whether you're solving differential equations or analyzing experimental data. By chapter's end, you'll think about data organization like a computational scientist, architecting for performance from the start.
+These concepts prepare you for numerical computing ahead. Typed, contiguous arrays can offer a different memory and execution model from Python object containers, but the size of that advantage depends on the operation, hardware, dtype, and baseline. Immutability and explicit ownership also prepare you to reason about stateful and functional interfaces. By chapter's end, you will be able to make a representation choice, state its trade-off, and test the assumption when it matters.
 
 In Chapter 3, you learned how algorithms *flow* through decisions and loops. In Chapter 4, you'll learn how algorithms *scale*—because data structures determine whether your logic runs in seconds or in days.
 
@@ -51,7 +47,7 @@ Most courses teach data structures as a list of methods to memorize. This chapte
 If you internalize this chapter, you'll start thinking like a computational scientist:
 
 - You'll design around **access patterns** (what you need to look up, update, or traverse).
-- You'll predict when code will **scale** to large problems — and when it will explode.
+- You'll reason about when code may **scale** poorly—and what measurement or algorithmic analysis is needed next.
 - You'll avoid whole classes of bugs by using **immutability** and careful copying.
 - You'll measure performance instead of guessing (because in science, **measurement beats assumption**).
 
@@ -74,6 +70,21 @@ A good workflow is:
 If this material feels "advanced," that's normal. It clicks fastest when you apply it to real code.
 :::
 
+For a first reading, follow this route:
+
+1. [Match a structure to an access pattern](#access-patterns-and-costs).
+2. [Choose ordered or immutable sequences](#lists-and-tuples).
+3. [Trace mutation and aliasing](#mutability-and-aliasing).
+4. [Use keyed lookup and set membership carefully](#keyed-lookup-and-sets).
+5. [Make and justify a combined choice](#choose-a-structure).
+
+For a return visit, use the [memory, caches, and benchmark Deep Dive](#memory-caches-and-benchmarks) or the [structures and operations Reference](#structures-and-operations-reference). They remain part of this chapter, not hidden prerequisites for the first route.
+
+## Try this chapter
+
+- [**Browser Python lab · Aliasing and Lookup Inspector**](jupyterlite/ch04-aliasing-and-lookup-inspector.html): predict whether a grid copy shares mutable state, run the selected copy mode, then choose a structure for a stated access contract. The activity is optional; the static examples below remain complete without browser Python.
+
+(access-patterns-and-costs)=
 ## 4.1 What Is a Data Structure?
 
 :::{margin}
@@ -81,7 +92,7 @@ If this material feels "advanced," that's normal. It clicks fastest when you app
 A way of organizing data in memory to enable efficient access and modification
 :::
 
-A **data structure** is fundamentally about organizing information to match your access patterns. Think about an N-body simulation where particles interact through forces - these particles could represent stars in a star cluster, molecules in a gas, or charges in a plasma. You could store particles in order of creation (like a **list**), organize them by spatial region for fast neighbor finding (like a **dictionary** of cells), or track unique particle IDs (like a **set**). Each choice profoundly affects your simulation's performance - the difference between **O($\mathrm{n}^{2}$)** all-pairs checks and **O(n log n)** tree-based algorithms.
+A **data structure** organizes information to match an access pattern. In an N-body simulation, you might store particles in creation order (a **list**), map a known particle ID to its properties (a **dictionary**), or record which IDs have already been processed (a **set**). A spatial-index algorithm may additionally organize particles into cells or a tree for a neighbor query. The container is one ingredient in that algorithm; it does not by itself turn an all-pairs calculation into a tree code.
 
 :::{margin}
 **Big-O notation (e.g, O($\mathrm{n}^{2}$), O(n log n))**
@@ -109,9 +120,9 @@ Need ordered sequence with duplicates?
 │         ├── Yes -> list
 │         └── No (constants/config) -> tuple
 └── No -> Need key-value mapping?
-          ├── Yes -> dict (O(1) lookup by key)
+          ├── Yes -> dict (average-case O(1) lookup by key)
           └── No -> Need uniqueness/set math?
-                    ├── Yes -> set (O(1) membership)
+                    ├── Yes -> set (average-case O(1) membership)
                     └── No -> Probably list
 ```
 
@@ -134,6 +145,16 @@ An object is **hashable** if it has a hash value that never changes during its l
 This is why you can use tuples as dict keys but not lists!
 :::
 
+:::{important} Design decision: choose the question before the container
+
+A `list` answers “what is item *i*?” and preserves order. A `dict` answers
+“what value belongs to this key?” A `set` answers “has this hashable item
+appeared?” A spatial hash answers “which cell contains this position?”—but a
+neighbor search still needs a cell size, adjacent-cell policy, occupancy
+assumption, and distance check. Select the smallest representation whose
+contract matches the question your code must answer.
+:::
+
 :::{tip} Quick Reflection (1 minute)
 
 Think of the last piece of code you wrote. Where did it spend most of its time:
@@ -141,26 +162,34 @@ searching, looping, looking up values, or building results? That answer usually
 tells you which data structure matters most.
 :::
 
-:::{tip} 🌟 The More You Know: When Data Structures Cost Billions
+:::{tip} 🌟 The More You Know: Different failures, different software boundaries
 :class: dropdown
 
-**Ariane 5 (1996) - $370M lost**: A 64-bit float was cast to 16-bit int without bounds checking. Integer overflow crashed the rocket 39 seconds after launch.[^ariane5]
+**Ariane 5 (1996)**: A 64-bit floating-point value was converted to a 16-bit integer without an adequate range check, producing an overflow during the first flight.[^ariane5] This is a boundary and representation failure: a value’s permitted range was not made explicit at the conversion.
 
-**Mars Pathfinder (1997) - Near mission loss**: Priority inversion in a task queue caused system resets on Mars. JPL debugged it from 50 million miles away.[^mars-pathfinder]
+**Mars Pathfinder (1997)**: A priority-inversion problem involving shared resources and task scheduling triggered resets. The team reproduced the failure, used instrumentation, and enabled priority inheritance.[^mars-pathfinder] This is a coordination and ownership lesson, not evidence that a Python queue choice alone prevents failures.
 
-**Cassini (2006) - Data loss risk**: Wrong buffer structure caused data loss during communication transitions. Fixed with a circular buffer (`deque`-like structure).[^cassini]
-
-Each disaster traces to a data structure choice. Bounds checking, queue design, buffer management - these "basic" concepts have billion-dollar consequences.
+The stories are connected by a narrower point: software needs explicit value
+ranges, ownership rules, and operational checks. A container can support those
+contracts, but it cannot substitute for an algorithm, a scheduler, or a
+deployment procedure.
 
 ***
 [^ariane5]: Lions, J.L., et al. (1996). "Ariane 5 Flight 501 Failure Report." ESA/CNES.
 [^mars-pathfinder]: Jones, M.B. (1997). "What Really Happened on Mars." Microsoft Research.
-[^cassini]: Anderson, Y.Z., et al. (2006). "Solving Cassini's Data Glitch Problem." NASA/JPL.
 :::
 
 ### Building Intuition: Measuring Speed Empirically
 
 Ready to discover something that will transform how you think about organizing data in your simulations? We're going to measure the dramatic performance difference between different data structures. This empirical approach - measure first, understand why, then optimize - is exactly how computational scientists approach performance optimization.
+
+:::{tip} Predict before running
+
+For an absent particle ID, predict which timing will change substantially as
+`n` grows: list membership or set membership. Then predict one reason the
+measured ratio might differ on another machine or for longer, more expensive
+keys.
+:::
 
 ```{code-cell} python
 # Let's discover why data structure choice matters for simulations!
@@ -214,25 +243,28 @@ Now that you've witnessed this dramatic performance difference empirically, let'
 
 Big-O describes how runtime grows with input size—not the exact speed—so constants, memory layout, and access patterns still matter.
 
-**Complexity Scaling for Physics Simulations:**
+**Asymptotic operation counts (ignoring constants and implementation details):**
 
 | Complexity | 1,000 particles | 1,000,000 particles | Example |
 |------------|-----------------|---------------------|---------|
-| O(1) | 1 op | 1 op | Hash table lookup |
+| O(1) | 1 op | 1 op | Average-case hash-table lookup |
 | O(log n) | 10 ops | 20 ops | Tree traversal |
-| O(n) | 1,000 ops | 1,000,000 ops | Direct summation |
-| O(n log n) | 10,000 ops | 20,000,000 ops | Tree codes (GADGET) |
-| O($\mathrm{n}^{2}$) | 1,000,000 ops | 1,000,000,000,000 ops | All-pairs (impossible!) |
+| O(n) | 1,000 ops | 1,000,000 ops | One linear scan or reduction |
+| O(n log n) | 10,000 ops | 20,000,000 ops | Sorting or some tree algorithms |
+| O($\mathrm{n}^{2}$) | 1,000,000 ops | 1,000,000,000,000 ops | All-pairs comparison |
 
 :::{note} 📊 Visualization: Big-O Scaling (click to expand)
 :class: dropdown
+
+This is illustrative static code for an environment with Matplotlib. It plots
+normalized operation-count curves, not timing data from a simulation.
 
 ```python
 
 import matplotlib.pyplot as plt
 import math
 
-# Visualize how different algorithms scale for physics simulations
+# Illustrative normalized operation-count curves; not measured runtime.
 n = range(1, 101)
 constant = [1 for _ in n]
 logarithmic = [math.log2(x) if x > 0 else 0 for x in n]
@@ -249,9 +281,9 @@ ax.plot(n, quadratic, label='O(n^2) - All-pairs', linewidth=2)
 
 ax.set_xlim(0, 100)
 ax.set_ylim(0, 500)
-ax.set_xlabel('Number of Particles (thousands)', fontsize=12)
-ax.set_ylabel('Operations (arbitrary units)', fontsize=12)
-ax.set_title('Algorithm Scaling: Why Data Structures Matter', fontsize=14)
+ax.set_xlabel('Input size n (arbitrary units)', fontsize=12)
+ax.set_ylabel('Normalized operation count', fontsize=12)
+ax.set_title('Asymptotic Scaling Curves', fontsize=14)
 ax.legend(loc='upper left')
 ax.grid(True, alpha=0.3)
 plt.tight_layout()
@@ -262,19 +294,28 @@ plt.show()
 ```{code-cell} python
 import math
 
-print("For a million-particle simulation:")
-print(f"  O(1):       1 operation           - spatial hash lookup")
+print("Illustrative operation counts at n = 1,000,000:")
+print(f"  O(1):       1 operation           - one average-case hash lookup")
 print(f"  O(log n):   {math.log2(1e6):.0f} operations         - tree traversal")
-print(f"  O(n):       1,000,000 operations  - direct force sum")
-print(f"  O(n log n): {1e6 * math.log2(1e6):.0e} operations - tree codes")
-print(f"  O(n^2):      1,000,000,000,000 ops - all pairs (impossible!)")
-
-print("\nIn astronomy: This enables galaxy simulations with billions of stars")
-print("In chemistry: This allows protein folding with millions of atoms")
-print("In climate: This permits global models with millions of grid cells")
+print(f"  O(n):       1,000,000 operations  - one scan or reduction")
+print(f"  O(n log n): {1e6 * math.log2(1e6):.0e} operations - a sorting/tree-like cost")
+print(f"  O(n^2):      1,000,000,000,000 ops - all-pairs comparison")
 ```
 
-The table above reveals why algorithmic complexity matters for computational physics. The naive **O($\mathrm{n}^{2}$)** approach that checks all particle pairs becomes impossible beyond a few thousand particles. But with smart **data structures** like trees (**O(n log n)**) or spatial hashing (**O(n)**), we can simulate entire galaxies, proteins, or climate systems!
+The table explains why a scaling question belongs beside a timing question. An
+all-pairs calculation can become infeasible at a particular problem size and
+hardware budget, but it is not made O(n log n) merely by putting data in a
+tree-shaped container. A tree algorithm needs an approximation policy; a
+spatial hash needs a cell size, occupancy distribution, adjacent-cell search,
+and final distance criterion.
+
+:::{warning} Modeling boundary: a lookup is not a neighbor algorithm
+
+A dictionary can give average-case O(1) access to a **known cell key**. It does
+not guarantee O(1) neighbor finding: a physical query may inspect multiple
+cells and compare distances to every candidate in them. Complexity claims need
+the query, representation, and data distribution they assume.
+:::
 
 :::{important} 💡 Computational Thinking: The Time-Space Tradeoff in Physics Simulations
 
@@ -285,181 +326,82 @@ This universal pattern appears throughout computational physics: trading memory 
 - Use less memory $\to$ simpler organization $\to$ slower computation
 
 **Real Physics Examples:**
-- **Particle mesh methods**: Store density on a grid (memory) to avoid O($\mathrm{n}^{2}$) particle interactions
-- **Neighbor lists**: Store nearby particles (memory) vs O($\mathrm{n}^{2}$) distance checks for every step
-- **Tree codes**: Store spatial hierarchy (memory) for O(n log n) force calculation
+- **Particle-mesh methods**: Store density on a grid (memory) to change the force-calculation algorithm.
+- **Neighbor lists**: Store nearby-particle candidates (memory) to avoid repeating every possible distance check at every step.
+- **Tree codes**: Store a spatial hierarchy (memory) to support an approximate force algorithm.
 - **Lookup tables**: Store pre-computed values vs recalculating expensive functions
 - **FFT methods**: Store complex coefficients for O(n log n) vs O($\mathrm{n}^{2}$) convolution
 
-In astronomy, the GADGET cosmology code uses 200 bytes per particle (vs 24 for just position/velocity) to achieve O(n log n) scaling, enabling billion-particle dark matter simulations. This 8$\times$ memory cost enables 1000$\times$ speedup!
+The transferable move is not a fixed multiplier: store extra structure only
+when a measured workload shows that the representation and algorithm together
+buy useful time, accuracy, or clarity for their memory cost.
 :::
 
+(lists-and-tuples)=
 ## 4.2 Lists: Python's Workhorse Sequence
 
-**Lists** are Python's most versatile **data structure** - perfect for particle arrays, time series data, or any ordered collection. But here's something crucial for scientific computing: Python **lists** don't store your numbers directly! Understanding this explains why NumPy arrays are so much faster for numerical work.
+**Lists** are Python's most versatile **data structure** - useful for ordered
+measurements, records, or a changing collection. A list holds references to
+Python objects rather than a homogeneous raw-value buffer. That distinction
+matters when numerical array operations dominate, but it does not supply a
+universal speed comparison with NumPy.
 
-### How Lists Really Work in Memory
+### A representation preview
 
-Let's explore how Python actually stores your simulation data in memory. This knowledge will help you understand when to use Python **lists** versus when you need NumPy arrays.
-
-```{code-cell} python
-# Stage 1: Basic memory inspection (10 lines)
-import sys
-
-# Position of one particle in 3D space
-position = [1.5e10, 2.3e10, 0.8e10]  # cm (typical scale for solar system)
-
-# The list container itself
-list_size = sys.getsizeof(position)
-print(f"List container: {list_size} bytes")
-
-# Each float is a full Python object!
-element_sizes = [sys.getsizeof(x) for x in position]
-print(f"Each coordinate: {element_sizes[0]} bytes")
-```
-
-:::{important} ⚠️ `sys.getsizeof()` Measures Shallow Size Only
-
-`sys.getsizeof()` returns the memory used by the **container object itself**, not including the objects it contains. For nested structures, use recursive measurement:
-
-```python
-# Shallow: just the list container
-sys.getsizeof(position)  # ~80 bytes
-
-# Deep: container + all contained objects
-total = sys.getsizeof(position) + sum(sys.getsizeof(x) for x in position)
-```
-
-For accurate deep memory profiling, use `pympler.asizeof()` or write a recursive helper. This distinction is critical when optimizing memory for large simulations.
-:::
-
-```{code-cell} python
-# Stage 2: Calculate total overhead (10 lines)
-# Total memory footprint
-total = list_size + sum(element_sizes)
-print(f"Total: {total} bytes for 3 floats!")
-print(f"That's {total/24:.1f}x more than raw floats would need!")
-
-print("\nWhy so much memory?")
-print("- List stores pointers, not values")
-print("- Each float is a full object with type info")
-print("- Python must track reference counts")
-print("\nThis is why NumPy arrays (Chapter 7) store raw values contiguously!")
-```
-
-Here's what's actually happening in memory when you store particle positions:
-
-```
-Python List of Positions:          Objects in Memory:
-┌─────────────────┐               ┌──────────────────┐
-│ size: 3         │               │ float: 1.5e10    │
-│ capacity: 4     │          ┌───>│ type info        │
-├─────────────────┤          │    │ ref count        │
-│ pointer ────────┼──────────┘    └──────────────────┘
-│ pointer ────────┼──────────────>┌──────────────────┐
-│ pointer ────────┼──────┐        │ float: 2.3e10    │
-│ (unused)        │    │          └──────────────────┘
-└─────────────────┘    └────────>┌──────────────────┐
-                                  │ float: 0.8e10    │
-                                  └──────────────────┘
-
-NumPy Array (preview):
-┌────┬────┬────┐
-│1.5 │2.3 │0.8 │  <- Raw values, no pointers!
-└────┴────┴────┘
-```
+Use a list when a changing, ordered collection is the clearest contract. When
+you need one dtype and repeated numerical operations across an entire grid or
+particle coordinate array, Chapter 7's NumPy arrays provide a different model:
+an array stores same-type values in an explicit data buffer. The memory details,
+allocation behavior, and a careful measurement example appear in the
+[Deep Dive](#memory-caches-and-benchmarks), where they can be read when a real
+memory or performance question arises.
 
 ### List Operations: Performance for Simulations
 
 Different **list** operations have vastly different costs - critical knowledge when processing particle data or building spatial **data structures**.
 
 ```{code-cell} python
-import time
+import timeit
 
-# Simulate a growing particle system
-particles = list(range(100_000))
 
-# Adding particles at the END (common pattern)
-start = time.perf_counter()
-particles.append(100_000)  # New particle enters domain
-particles.pop()            # Remove for fair comparison
-end_time = time.perf_counter() - start
+def compare_list_end_operations(n, trials=1_000):
+    """Measure one machine's append/pop and insert(0)/pop(0) workload."""
+    particles = list(range(n))
+    end_time = timeit.timeit(
+        lambda: (particles.append(-1), particles.pop()), number=trials
+    ) / trials
+    beginning_time = timeit.timeit(
+        lambda: (particles.insert(0, -1), particles.pop(0)), number=trials
+    ) / trials
+    return end_time, beginning_time
 
-# Adding particles at the BEGINNING (avoid this!)
-start = time.perf_counter()
-particles.insert(0, -1)    # Insert at front
-particles.pop(0)           # Remove from front
-begin_time = time.perf_counter() - start
 
-print(f"Adding particle at END:   {end_time*1e6:.2f} microseconds")
-print(f"Adding particle at START: {begin_time*1e6:.2f} microseconds")
-print(f"\nBeginning is {begin_time/end_time:.0f}x slower!")
+for n in (100, 10_000, 100_000):
+    end_time, beginning_time = compare_list_end_operations(n)
+    print(f"n={n:>7,}: end={end_time * 1e6:7.2f} us; beginning={beginning_time * 1e6:7.2f} us")
 
-print("\nWhy? Inserting at the beginning shifts ALL particles in memory!")
-print("For particle systems, use collections.deque if you need")
-print("fast operations at both ends (e.g., boundary conditions).")
+print("\nThis workload normally makes the beginning operation grow with n.")
+print("The timings are evidence about this Python build and workload, not a universal ratio.")
 ```
 
 :::{tip} 💡 Performance Tip: When Both Ends Matter
 
-If your simulation needs fast operations at both ends (like particles entering/leaving through boundaries), use `collections.deque`:
+If your program needs fast queue operations at both ends—for example, a rolling
+window of recent observations or pending work items—use `collections.deque`:
 
 ```python
 from collections import deque
 particles = deque(maxlen=1000000)  # Efficient at both ends!
 ```
 
-This is particularly useful in molecular dynamics where particles cross periodic boundaries, or in astronomical simulations tracking objects entering and leaving a field of view.
+For dense particle coordinates, an array representation is often a clearer
+choice; a `deque` is a queue, not a substitute for a spatial model.
 :::
 
-### List Growth Strategy: Understanding Dynamic Arrays
-
-Watch how Python manages memory as your particle system grows. This pattern appears in many languages and understanding it helps you write efficient simulation codes.
-
-```{code-cell} python
-# Stage 1: Basic growth observation (12 lines)
-import sys
-
-particles = []
-print("Watch Python's list growth strategy:")
-print("(Critical for understanding simulation performance)")
-print("Length -> Capacity (overallocation)")
-print("-" * 40)
-
-for i in range(10):
-    old_size = sys.getsizeof(particles)
-    particles.append(i)
-    new_size = sys.getsizeof(particles)
-
-    if new_size != old_size:
-        print(f"{len(particles):4d} -> larger allocation")
-```
-
-```{code-cell} python
-# Stage 2: Observe growth pattern (12 lines)
-# Note: Exact capacity inference is CPython/64-bit specific
-# We observe the PATTERN, not exact numbers
-particles = []
-previous_size = sys.getsizeof(particles)
-
-print("\nWatch list grow with overallocation:")
-print("Length -> Size change")
-print("-" * 30)
-
-for i in range(20):
-    particles.append(i)
-    current_size = sys.getsizeof(particles)
-
-    if current_size != previous_size:
-        print(f"Length {len(particles):4d} -> +{current_size - previous_size:4d} bytes")
-        previous_size = current_size
-
-print("\nKey insight: Python overallocates to make future")
-print("appends O(1) amortized. Exact growth factor is")
-print("implementation-dependent (~1.125x in CPython).")
-```
-
-This growth pattern is why appending to lists is "**amortized** O(1)" - usually fast, occasionally slow when reallocation happens. For time-critical simulations, pre-allocate your arrays when particle count is known!
+Python lists overallocate so appending is **amortized** O(1): usually fast,
+with occasional resizing. The allocation pattern is implementation-dependent;
+the [Deep Dive](#memory-caches-and-benchmarks) shows how to inspect it without
+treating one interpreter's byte count as a language guarantee.
 
 :::{margin}
 **amortized**
@@ -560,112 +502,45 @@ print(f"  {result}")
 print("\nLesson: Immutability turns silent corruption into immediate, loud errors!")
 ```
 
-### Tuples as Dictionary Keys: Caching Expensive Calculations
+### Tuples as Dictionary Keys
 
-Here's where **immutability** becomes a superpower for computational physics - **tuples** can be **dictionary** keys, enabling powerful **memoization** patterns for expensive calculations.
-
-:::{warning} ⚠️ Caching with Floats is Dangerous
-
-Raw floating-point values are valid cache keys when exact stored inputs define
-the calculation. Do not round them merely to improve cache hits: rounding can
-merge scientifically distinct inputs. Use discrete indices or rounded values
-only when the model explicitly defines that grid or resolution:
-
-- **Discrete indices**: `(T_index, rho_index)`
-- **Rounded values**: `(round(T, -3), round(rho, 6))`
-- **Grid bin IDs**: `(T_bin, rho_bin, composition_id)`
-:::
-
-```{code-cell} python
-# A teaching cache for a discretized equation-of-state-like calculation.
-# Production stellar-evolution codes use carefully validated table
-# interpolation, not ordinary Python-dictionary lookup as a physical model.
-
-eos_cache = {}
-calculation_count = 0
-
-def get_pressure(T_index, rho_index, composition_id):
-    """
-    Look up pressure from equation of state table.
-
-    Keys are discrete indices into pre-computed grids,
-    NOT raw floating-point values (which would cause cache misses).
-    """
-    global calculation_count
-
-    # Cache key uses discrete, hashable indices
-    cache_key = (T_index, rho_index, composition_id)
-
-    if cache_key in eos_cache:
-        return eos_cache[cache_key]
-
-    calculation_count += 1
-    # Simulate an expensive calculation on a declared discrete grid.
-    # Real EOS tables require validated interpolation and physical assumptions.
-    T = 1e6 * (1.1 ** T_index)      # Temperature grid
-    rho = 1e-3 * (1.2 ** rho_index)  # Density grid
-
-    # Ideal gas approximation (real EOS is much more complex)
-    k_B = 1.381e-16  # erg/K
-    mu = 0.6 if composition_id == 0 else 1.3  # mean molecular weight
-    m_H = 1.673e-24  # g
-
-    pressure = rho * k_B * T / (mu * m_H)
-
-    eos_cache[cache_key] = pressure
-    return pressure
-
-# Simulate stellar evolution lookups
-print("EOS lookups during stellar evolution:")
-print("-" * 45)
-
-# First calculation at this grid point
-P1 = get_pressure(T_index=10, rho_index=5, composition_id=0)
-print(f"First lookup:  P = {P1:.2e} dyne/cm^2")
-
-# Same grid point - cache hit!
-P2 = get_pressure(T_index=10, rho_index=5, composition_id=0)
-print(f"Second lookup: P = {P2:.2e} dyne/cm^2 (cache hit!)")
-
-# Different grid point
-P3 = get_pressure(T_index=11, rho_index=5, composition_id=0)
-print(f"New point:     P = {P3:.2e} dyne/cm^2")
-
-print(f"\nTotal expensive calculations: {calculation_count}")
-print("Cache hits avoid recalculation entirely!")
-```
-
-This pattern is fundamental to stellar evolution codes like MESA, which use pre-computed opacity and equation of state tables with discrete grid indices for O(1) lookup.
+A tuple whose contents are hashable can be a dictionary key. That is useful
+when an application's **declared** inputs are naturally a discrete record—for
+example `(temperature_index, density_index, composition_id)`. The deeper cache
+example below explains why this is an implementation choice, not a physical
+model or a promise that arbitrary floating-point rounding is safe.
 
 :::{tip} 🤔 Check Your Understanding
 
-You're storing 1 million particle positions. Calculate the memory difference between:
+You are storing particle positions. Before reading the answer, decide which
+question must be answered first:
 
-1. List of lists: `[[x, y, z] for _ in range(1_000_000)]`
-2. List of tuples: `[(x, y, z) for _ in range(1_000_000)]`
-3. Single flat list: `[x1, y1, z1, x2, y2, z2, ...]`
+1. Must each position be modified in place?
+2. Must the coordinates be protected as an immutable record?
+3. Must a single numerical dtype support bulk arithmetic?
 
-Which is most memory efficient? Which is easiest to use?
+What measurement would you need before making a memory claim?
 
-**Solution:** Tuples save ~10% memory over lists. Single flat list is most memory efficient but harder to work with. This is why NumPy uses flat arrays internally with views for usability!
+**Answer:** A list of lists, list of tuples, and flat list have different
+container and object overhead on a particular Python implementation; a
+homogeneous numerical array introduces another representation entirely. The
+right choice first follows mutability and access needs. Then measure the actual
+structure—including contained objects—on the target interpreter before claiming
+a memory advantage.
 :::
 
-:::{note} 🎯 Why This Matters: Lookup Tables Beat Recalculation
-:class: dropdown
-
-Stellar evolution codes like MESA use pre-computed opacity and equation of state tables rather than calculating these values from first principles at every timestep[^mesa]. The choice of data structure for storing and accessing these tables matters: O(1) dictionary lookups are faster than O(n) list searches, especially when accessed repeatedly throughout a simulation.
-
-***
-[^mesa]: Paxton et al. (2011). "Modules for Experiments in Stellar Astrophysics (MESA)." *ApJS*, 192, 3.
-:::
-
+(mutability-and-aliasing)=
 ## 4.4 The Mutable vs Immutable Distinction
 
 Time for one of Python's most important concepts for scientific computing! Understanding **mutability** is the key to avoiding mysterious bugs where your simulation state changes unexpectedly. This connects directly to Chapter 1's defensive programming principles - catching errors early prevents corrupted results.
 
 ### Python's Reference Model in Physics Simulations
 
-Python doesn't store values in variables - it stores **references** to objects. This has profound implications for simulation codes:
+Python names are bindings to objects. For immutable values, rebinding one name
+does not change another name's value. For a mutable container, two names can
+refer to the same object, so mutation through either name is visible through
+both. This distinction matters whenever a simulation claims to preserve an
+initial state or to return an independent next state:
 
 ```{code-cell} python
 # Critical concept for simulation state management!
@@ -696,41 +571,40 @@ print(f"Original particles: {particles}")
 print(f"'Backup': {backup}")
 print("You just corrupted your simulation state!")
 
-print("\nLesson: Use copy.deepcopy() for simulation state backups!")
+print("\nLesson: decide explicitly whether this function shares, copies, or rebuilds state.")
 ```
 
-:::{tip} 🌟 The More You Know: Knight Capital's $440 Million Software Disaster
+:::{tip} 🌟 The More You Know: Knight Capital and deployment control
 :class: dropdown
 
-On August 1, 2012, Knight Capital Group lost $440 million in 45 minutes due to a software deployment error that created unintended feedback loops in their trading $\mathrm{system}^{1}$.
+On August 1, 2012, Knight Capital's automated router sent millions of erroneous
+orders after a deployment failure. The SEC's later order reports more than four
+million executions in 45 minutes and an eventual loss above $460 million.[^knight-capital]
 
 According to SEC filings and news reports, Knight was updating their trading software to handle a new NYSE order type. The deployment went to 7 of their 8 servers correctly, but one server retained old test code from 2003. When the market opened, this server began processing live orders using the old "Power Peg" test functionality, which was designed to continuously buy and sell stocks for **testing purposes**.
 
-The catastrophic interaction occurred because:
+The important operational failures were not a generic dictionary or queue
+mistake. They included:
 
-- Both old and new code read from the same order queue (shared data structure)
-- The old code interpreted a flag differently than the new code
-- No validation existed to detect incompatible code versions
-- The shared state created a feedback loop of unintended trades
+- incomplete deployment of the new code;
+- an old function responding to a reused flag;
+- controls that did not stop the erroneous orders quickly enough; and
+- alerts that were not treated as actionable before the market opened.
 
 In 45 minutes, the malfunctioning system:
 
-- Executed over 4 million unintended trades
-- Accumulated $7 billion in unwanted positions
-- Generated 10% of total US market volume that morning
-- Lost $10 million per minute
+- produced more than four million executions;
+- accumulated multi-billion-dollar unwanted positions; and
+- exposed the cost of treating deployment state and operational alerts as
+  secondary to the nominal code path.
 
-This disaster illustrates critical data structure principles:
-
-- **Shared mutable state** between incompatible systems is dangerous
-- **Queue structures** without version validation can corrupt workflows
-- **Missing defensive checks** on shared data structures cascade failures
-- A single **configuration dictionary** misinterpretation can destroy a company
-
-Knight Capital, once the largest US equity trader, was acquired within a week for a fraction of its previous value. **The lesson**: when multiple systems share data structures, defensive programming and validation aren't optional—they're essential.[^knight-capital]
+For this chapter, the lesson is narrower and more useful: a program must make
+its state, ownership, version assumptions, and failure signals explicit.
+Choosing an immutable record or avoiding accidental aliasing helps locally; it
+does not replace deployment validation and system-level controls.
 
 ***
-[^knight-capital]: "Knight Capital Says Trading Mishap Cost It $440 Million." [*The New York Times*](https://archive.nytimes.com/dealbook.nytimes.com/2012/08/02/knight-capital-says-trading-mishap-cost-it-440-million/), August 2, 2012. SEC Release No. 70694 (October 16, 2013).
+[^knight-capital]: U.S. Securities and Exchange Commission (2013). [Release No. 70694](https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf).
 :::
 
 ### The Classic Mutable Default Argument Bug
@@ -768,9 +642,9 @@ def accumulate_energies_fixed(energy, history=None):
     history.append(energy)
     return history
 
-print("\nRun 3:")
+print("\nRun 3 (intentional accumulation):")
 run3 = accumulate_energies_fixed(100)
-run3 = accumulate_energies_fixed(95)
+run3 = accumulate_energies_fixed(95, history=run3)
 print(f"  Energy history: {run3}")
 
 print("\nRun 4 (properly independent):")
@@ -782,6 +656,13 @@ print("  Runs are independent!")
 ### Shallow vs Deep Copies in Grid Simulations
 
 This distinction is critical for grid-based simulations in computational fluid dynamics, stellar atmospheres, or any field-based calculation:
+
+:::{tip} Predict before running
+
+`grid_next_shallow` is a new outer list. Before changing its center entry,
+predict whether the original `grid` will still contain `50.0` or will also
+contain `35.0`. Name the nested object you think is shared.
+:::
 
 ```{code-cell} python
 # Stage 1: Set up the problem (12 lines)
@@ -816,14 +697,14 @@ grid = [[20.0, 20.0, 20.0],
 
 ```{code-cell} python
 # Stage 3: Show the deep copy solution (12 lines)
-# Deep copy - SAFE for grids!
+# Deep copy makes independent nested containers for this small built-in grid.
 print("\n--- DEEP COPY (independent arrays) ---")
 grid_next_deep = copy.deepcopy(grid)
 grid_next_deep[1][1] = 35.0  # Cooling
 
 print(f"Original grid center: {grid[1][1]} degC")
 print(f"Next step grid center: {grid_next_deep[1][1]} degC")
-print("Grids are independent! Simulation is correct!")
+print("Grids are independent for this update!")
 
 print("\nMemory visualization:")
 print("Shallow: grid -> [ref1, ref2, ref3] -> same inner arrays")
@@ -832,7 +713,9 @@ print("Deep:    grid -> [ref1, ref2, ref3] -> independent arrays")
 
 :::{tip} 💡 Professional Pattern: Ping-Pong Buffers
 
-For iterative grid updates (heat equation, fluid dynamics), `deepcopy` is too slow. Use the **ping-pong buffer** pattern instead:
+For iterative grid updates, repeated `deepcopy` can be an unnecessary and
+expensive ownership choice. If the numerical method needs a current and a next
+state, use the **ping-pong buffer** pattern instead:
 
 ```python
 # Allocate TWO grids once at the start
@@ -861,7 +744,9 @@ for timestep in range(1000):
 # current now points to the latest state
 ```
 
-This swaps two pointers instead of copying millions of values - the canonical pattern in CFD, climate models, and any time-stepping simulation!
+This swaps two references instead of copying a complete grid each step. The
+method must still define boundary updates, array ownership, and whether every
+entry of `next_step` is overwritten before the next swap.
 :::
 
 :::{note} 🐛 Debug This!
@@ -884,32 +769,45 @@ for timestep in range(100):
     particles, forces = update_particles(particles)
 ```
 
-Find and fix THREE bugs related to mutable defaults and aliasing:
+Find and fix THREE risks related to mutable defaults and aliasing:
 1. The `forces=[]` default is created once and shared between calls
-2. The function modifies the original `particles` list (no defensive copy)
+2. The function mutates the caller's particle records without documenting that ownership contract
 3. The forces list grows unbounded, carrying over between timesteps
 
 **Solution:**
 ```python
-def update_particles(particles, forces=None):
-    """Update particle positions based on forces."""
-    if forces is None:
-        forces = []
-    particles = copy.deepcopy(particles)  # Defensive copy
-    forces_new = []  # Fresh forces each time
+def update_particles(particles, dt):
+    """Return a fresh next state and forces; do not mutate ``particles``."""
+    next_particles = []
+    forces = []
 
     for particle in particles:
         force = calculate_force(particle)
-        forces_new.append(force)
-        particle['velocity'] += force * dt
-        particle['position'] += particle['velocity'] * dt
-    return particles, forces_new
+        next_velocity = particle['velocity'] + force * dt
+        next_position = particle['position'] + next_velocity * dt
+        next_particles.append({
+            **particle,
+            'velocity': next_velocity,
+            'position': next_position,
+        })
+        forces.append(force)
+    return next_particles, forces
 ```
+
+The repair chooses a **functional ownership contract**: `particles` remains the
+old state and the return value is a separate next state. In-place mutation can
+also be valid, but then the function name, documentation, tests, and caller
+must all make that contract explicit.
 :::
 
+(keyed-lookup-and-sets)=
 ## 4.5 Dictionaries: Average-Case O(1) Lookup for Physics
 
-Now we explore one of computer science's most elegant inventions - the **dictionary**! In computational physics, **dictionaries** are perfect for particle properties, lookup tables, and **caching** expensive calculations. You're about to understand exactly how they achieve near-instantaneous lookups regardless of size.
+Now we explore one of computer science's most useful inventions - the
+**dictionary**. In scientific Python, dictionaries are often useful for named
+properties, lookup tables, and caches. Their average-case lookup cost does not
+mean every numerical dataset should become a dictionary, nor that lookup is
+independent of key construction, memory, collisions, or the work after lookup.
 
 ### Organizing Simulation Data with Dictionaries
 
@@ -917,8 +815,7 @@ Let's see how **dictionaries** transform particle management in an N-body simula
 
 ```{code-cell} python
 # Stage 1: Basic dictionary structure (15 lines)
-# N-body simulation: Managing particle properties efficiently
-import json
+# N-body simulation: managing particle properties by identifier
 
 # Individual particle data (could have thousands)
 particles = {
@@ -938,8 +835,8 @@ particles = {
 ```
 
 ```{code-cell} python
-# Stage 2: O(1) lookup demonstration (15 lines)
-# O(1) lookup by particle ID - instant access!
+# Stage 2: average-case O(1) lookup demonstration (15 lines)
+# Lookup by known particle ID.
 target = 'particle_0002'
 print(f"Accessing {target}:")
 print(f"  Mass: {particles[target]['mass']:.2e} g")
@@ -954,22 +851,24 @@ for pid, data in particles.items():
     by_type[ptype].append(pid)
 
 print(f"\nParticles by type: {by_type}")
-print("In astronomy: Perfect for star/planet/dark matter separation")
+print("A mapping lets an application find a record from a known identifier.")
 ```
 
 ### Understanding Hash Tables for Physics Applications
 
-Let's demystify how **dictionaries** achieve **O(1)** lookup - critical for lookup tables in equation of state calculations:
+Let's demystify the average-case lookup mechanism used by **dictionaries**:
 
 :::{warning} ⚠️ Average-Case vs Worst-Case Complexity
 
 Dictionary and set operations are **average-case O(1)**, not guaranteed O(1). In pathological cases with many hash collisions, lookups can degrade to **O(n)**. This happens when:
 
-- Many keys hash to the same bucket (adversarial inputs)
-- Poor hash function design
-- Hash table needs resizing
+- Many keys hash to the same candidate location (including adversarial inputs)
+- A user-defined key type with a poor hash implementation
+- Some **insertions** also take O(n) while the table resizes; that is a separate amortized-cost caveat
 
-For scientific computing, Python's built-in hash functions work well for typical data. The O(1) claim holds in practice for nearly all physics applications.
+For typical non-adversarial inputs, Python's built-in hash functions make these
+operations usefully fast. The stated claim remains **average-case** and applies
+to the lookup operation, not automatically to an entire scientific workflow.
 :::
 
 ```{code-cell} python
@@ -978,7 +877,7 @@ def demonstrate_hashing_for_physics():
 
     # Common lookup table keys in physics simulations
     physics_keys = [
-        (1.0e6, 1.0e-3),   # (Temperature, Density) for EOS (equation of state)
+        (1.0e6, 1.0e-3),   # Hashable floats for mechanism only, not a cache-grid policy
         (2.0e6, 2.0e-3),
         (5.0e6, 1.0e-2),
         "H_ionization",     # Reaction rates
@@ -1001,117 +900,35 @@ def demonstrate_hashing_for_physics():
             key_str = str(key)
         print(f"{key_str:20s} -> {hash_value:11d} -> {bucket:3d}")
 
-    print("\nThe O(1) lookup process:")
+    print("\nThe average-case lookup process:")
     print("1. Hash the key -> integer")
-    print("2. Map to bucket index")
-    print("3. Direct array access!")
-    print("\nThis is why equation of state tables are fast!")
+    print("2. Use it to find a candidate table location")
+    print("3. Check the stored key and resolve collisions if needed")
+    print("\nThis illustrates a mapping lookup, not a physical table-interpolation method.")
 
 demonstrate_hashing_for_physics()
 ```
 
 :::{note} Note: Hash Values Change Between Python Sessions
 
-Python salts string hashes for security. Running this code multiple times will show different hash values and bucket assignments - that's expected! The key insight is that the **process** (hash $\to$ bucket $\to$ O(1) access) remains constant, even if specific values change.
+Python salts string hashes for security. Running this code multiple times will
+show different hash values and bucket assignments—that is expected. The key
+insight is the process (hash $\to$ candidate location $\to$ key check), whose
+usual lookup cost is average-case O(1), even though specific values change.
 :::
 
-### Dictionary Performance for Particle Lookups
-
-Time to see the dramatic performance difference for particle system queries:
-
-```python
-
-# Stage 1: Create test data (10 lines)
-import time
-import random
-
-# Seed for reproducibility - critical for scientific computing!
-rng = random.Random(42)
-
-# Create a large particle system
-n_particles = 100_000  # Reduced for reasonable runtime
-print(f"Creating system with {n_particles:,} particles...")
-
-# List approach (what beginners might try)
-particle_list = [(f"particle_{i:07d}", rng.uniform(1e27, 1e30))
-                 for i in range(n_particles)]
-```
-
-```python
-
-# Stage 2: Create dictionary version (8 lines)
-# Reset RNG for same masses
-rng = random.Random(42)
-
-# Dictionary approach (professional solution)
-particle_dict = {f"particle_{i:07d}": rng.uniform(1e27, 1e30)
-                 for i in range(n_particles)}
-
-# Search for specific particle
-target = "particle_0050000"
-
-print(f"Finding {target} among {n_particles:,} particles...")
-```
-
-```python
-
-# Stage 3: Time the lookups (15 lines)
-# Time list search - O(n)
-start = time.perf_counter()
-for pid, mass in particle_list:
-    if pid == target:
-        mass_list = mass
-        break
-list_time = time.perf_counter() - start
-
-# Time dict lookup - O(1)
-start = time.perf_counter()
-mass_dict = particle_dict[target]
-dict_time = time.perf_counter() - start
-
-print(f"\nList search: {list_time*1000:.3f} ms")
-print(f"Dict lookup: {dict_time*1000:.6f} ms")
-print(f"Dictionary is {list_time/dict_time:,.0f}x faster!")
-print("\nFor astronomical catalogs with millions of objects:")
-print("This difference determines feasibility!")
-```
-
-**Sample output (from 100,000 particles on typical hardware):**
-```
-Finding particle_0050000 among 100,000 particles...
-
-List search: 2.847 ms
-Dict lookup: 0.000312 ms
-Dictionary is 9,125x faster!
-
-For astronomical catalogs with millions of objects:
-This difference determines feasibility!
-```
-
-:::{important} 💡 Computational Thinking: Memoization in Physics Calculations
-
-This **caching** pattern dramatically speeds up physics codes:
-
-```python
-from functools import lru_cache
-
-@lru_cache(maxsize=10000)
-def equation_of_state(temperature, density):
-    # Expensive calculation cached automatically
-    return complex_eos_calculation(temperature, density)
-```
-
-**Real physics applications:**
-
-- **Nuclear reaction rates**: Cache temperature-dependent rates
-- **Opacity calculations**: Cache (T, $\rho$, composition) lookups
-- **Molecular dynamics**: Cache pairwise interaction potentials
-- **Climate models**: Cache radiative transfer calculations
-:::
+The membership benchmark in Section 4.1 is deliberately narrow: it compares
+one absent-item lookup. A dictionary can be a good representation when an
+application repeatedly maps known identifiers to records; the [Deep Dive]
+(#memory-caches-and-benchmarks) shows how to benchmark a broader workload and
+how cache keys encode a modeling decision.
 
 ## 4.6 Sets: Mathematical Operations for Particle Systems
 
-**Sets** are perfect for tracking unique particles, finding neighbors, and performing mathematical operations on particle groups. They provide **O(1)** membership testing plus elegant **set** operations - ideal for computational physics!
+**Sets** represent unique, hashable values and provide average-case O(1)
+membership testing plus useful set operations. They can track processed IDs or
+overlapping domain memberships; they do not themselves compute geometric
+neighbors.
 
 ### Set Operations in Particle Dynamics
 
@@ -1124,9 +941,9 @@ domain_A = {'p001', 'p002', 'p003', 'p004', 'p005'}
 domain_B = {'p004', 'p005', 'p006', 'p007'}
 domain_C = {'p003', 'p007', 'p008', 'p009'}
 
-# Particles that need communication (on boundaries)
-boundary_particles = (domain_A & domain_B) | (domain_B & domain_C) | (domain_A & domain_C)
-print(f"Boundary particles needing communication: {boundary_particles}")
+# IDs represented in more than one domain (for example, ghost/overlap records)
+overlapping_ids = (domain_A & domain_B) | (domain_B & domain_C) | (domain_A & domain_C)
+print(f"Overlapping IDs needing a consistency check: {overlapping_ids}")
 
 # Particles unique to each domain (no communication needed)
 interior_A = domain_A - domain_B - domain_C
@@ -1146,8 +963,8 @@ for i in range(len(all_domains)):
         duplicated |= (all_domains[i] & all_domains[j])
 
 print(f"Particles in multiple domains: {duplicated}")
-print("\nSets make domain decomposition bookkeeping trivial!")
-print("Used in: MPI parallel codes, astronomical survey overlaps")
+print("\nSets make overlap bookkeeping explicit.")
+print("A production parallel code still needs ownership and communication rules.")
 ```
 
 :::{tip} Need a Set as a Dictionary Key?
@@ -1165,60 +982,29 @@ frozenset({'p001', 'p002'}) == frozenset({'p002', 'p001'})  # True
 ```
 :::
 
-### Performance: Sets vs Lists for Neighbor Finding
-
-```{code-cell} python
-# Stage 1: Create test data (10 lines)
-import time
-
-# Simulate neighbor finding in particle simulation
-n_particles = 100_000
-n_neighbors = 100
-
-print(f"Finding neighbors among {n_particles:,} particles...")
-
-# Create particle IDs
-all_particles = [f"p_{i:06d}" for i in range(n_particles)]
-neighbors = [f"p_{i:06d}" for i in range(n_neighbors)]
-```
-
-```{code-cell} python
-# Stage 2: Time the membership tests (15 lines)
-# Convert to set for fast lookup
-all_particles_set = set(all_particles)
-
-# Test if neighbors exist - List approach
-start = time.perf_counter()
-for neighbor in neighbors:
-    found = neighbor in all_particles  # O(n) each time!
-list_time = time.perf_counter() - start
-
-# Test if neighbors exist - Set approach
-start = time.perf_counter()
-for neighbor in neighbors:
-    found = neighbor in all_particles_set  # O(1) each time!
-set_time = time.perf_counter() - start
-
-print(f"\nChecking {n_neighbors} potential neighbors:")
-print(f"List approach: {list_time*1000:.2f} ms")
-print(f"Set approach:  {set_time*1000:.5f} ms")
-print(f"Set is {list_time/set_time:,.0f}x faster!")
-```
-
 :::{tip} ✅ Check Your Understanding
 
-Why is checking particle membership **O(n)** with **lists** but **O(1)** with **sets**?
+Why is checking a particle ID in a list usually O(n), while checking it in a
+set is usually average-case O(1)? What does the set result **not** tell you
+about the cost of finding geometrically nearby particles?
 
 Think about the search process...
 
-**Answer:** **Lists** must check each element sequentially until finding a match (or reaching the end) - this is **O(n)** linear time. **Sets** use **hash tables**: they compute a hash of the particle ID and jump directly to where it would be stored - this is **O(1)** constant time.
-
-For a million-particle simulation, this is the difference between microseconds and seconds per lookup. When you're checking thousands of particle interactions per timestep, this performance difference determines whether your simulation finishes in hours or weeks!
+**Answer:** A list search compares elements in sequence until it finds a match
+or reaches the end, so an absent item requires O(n) comparisons. A set hashes a
+hashable ID to find a candidate location and is average-case O(1), subject to
+the cost of hashing and collision handling. Neither result constructs candidate
+neighbors from positions, chooses a search radius, or evaluates distance; that
+requires a separate spatial algorithm.
 :::
 
-## 4.7 Memory and Performance for Scientific Computing — Deep dive / reference
+(memory-caches-and-benchmarks)=
+## Deep Dive: Memory, Caches, and Benchmarks
 
-Now that we understand how different data structures behave algorithmically with sets, dictionaries, and lists, let's examine their actual memory footprint and cache performance implications. Understanding memory layout is crucial for scientific computing because it explains why specialized numerical libraries are so much faster than pure Python and will help you write **cache**-efficient simulation codes.
+Now that we understand the core representations, this deeper path examines
+memory measurements, cache keys, and benchmark design. These details can guide
+a real optimization decision, but a local byte count or timing remains evidence
+about its own interpreter, input, and operation—not a universal library claim.
 
 ### Memory Usage in Particle Systems
 
@@ -1229,34 +1015,35 @@ Let's examine memory costs for different **data structures** in a particle simul
 import sys
 
 def measure_particle_memory(n=10000):
-    """Compare memory for particle ID storage."""
+    """Compare shallow container sizes for one ID-storage workload."""
     ids_list = [f"p_{i:06d}" for i in range(n)]
     ids_set = set(ids_list)
 
     print(f"Storing {n:,} particle IDs:")
-    print(f"  List: {sys.getsizeof(ids_list):,} bytes")
-    print(f"  Set:  {sys.getsizeof(ids_set):,} bytes")
+    print(f"  List container: {sys.getsizeof(ids_list):,} bytes")
+    print(f"  Set container:  {sys.getsizeof(ids_set):,} bytes")
+    print("  (Both containers refer to the same string objects.)")
 
 measure_particle_memory()
 ```
 
 ```{code-cell} python
 # Stage 2: Understanding the Tradeoff (10 lines)
-def understand_physics_tradeoffs():
-    """Memory vs speed tradeoffs in physics codes."""
+def understand_mapping_tradeoffs():
+    """Compare shallow containers for one ordered-record versus ID-map workload."""
     # Small particle system
     n = 100
     positions = [[i*1.0, 0.0, 0.0] for i in range(n)]
 
     list_bytes = sys.getsizeof(positions)
-    # If we used spatial hashing (dict of cells)
-    dict_bytes = sys.getsizeof({i: pos for i, pos in enumerate(positions)})
+    id_to_position = {i: pos for i, pos in enumerate(positions)}
+    mapping_bytes = sys.getsizeof(id_to_position)
 
     print(f"100 particles as list: {list_bytes:,} bytes")
-    print(f"With spatial hash: ~{dict_bytes:,} bytes")
-    print(f"Extra {dict_bytes - list_bytes:,} bytes enables O(1) neighbor finding!")
+    print(f"ID-to-position mapping: {mapping_bytes:,} bytes")
+    print("The mapping supports lookup by known ID; it is not a spatial neighbor index.")
 
-understand_physics_tradeoffs()
+understand_mapping_tradeoffs()
 ```
 
 ```{code-cell} python
@@ -1279,19 +1066,22 @@ def profile_simulation_structures(n_particles=1000):
     print(f"{'List of tuples':18s}: {sys.getsizeof(list_of_tuples):>8,} bytes (container only!)")
     print(f"{'Dictionary':18s}: {sys.getsizeof(dict_struct):>8,} bytes (container only!)")
 
-    # NumPy: use .nbytes for actual data buffer size
-    print(f"{'NumPy .nbytes':18s}: {numpy_arr.nbytes:>8,} bytes (actual data!)")
-    print(f"{'NumPy getsizeof':18s}: {sys.getsizeof(numpy_arr):>8,} bytes (header only!)")
+    # NumPy: .nbytes reports the logical data buffer size.
+    print(f"{'NumPy .nbytes':18s}: {numpy_arr.nbytes:>8,} bytes (data buffer)")
+    print(f"{'NumPy getsizeof':18s}: {sys.getsizeof(numpy_arr):>8,} bytes (object; ownership-dependent)")
 
-    print("\n⚠️  getsizeof() is SHALLOW - it misses contained objects!")
-    print("   NumPy's .nbytes gives the actual data buffer size.")
+    print("\nPython-container sizes omit their contained objects.")
+    print("For an owning NumPy array, getsizeof commonly includes its owned buffer;")
+    print(".nbytes remains the direct statement of logical element storage.")
 
 profile_simulation_structures()
 ```
 
 ### Cache Efficiency in Grid Computations
 
-Modern CPUs are fast, but memory access is slow. Understanding cache efficiency is critical for grid-based simulations:
+Modern CPUs use several layers of memory. This experiment compares two traversal
+orders for one nested-list workload; interpreter overhead, CPU architecture,
+and the data representation all affect the result:
 
 ```{code-cell} python
 # Stage 1: Setup (8 lines)
@@ -1308,7 +1098,7 @@ print("(Common in CFD and atmospheric modeling)")
 
 ```{code-cell} python
 # Stage 2: Row-major access (10 lines)
-# Row-major access (cache-friendly in Python)
+# Visit one inner list completely before moving to the next.
 start = time.perf_counter()
 total = 0.0
 for i in range(size):
@@ -1317,12 +1107,12 @@ for i in range(size):
 row_time = time.perf_counter() - start
 
 print(f"Processing {size}x{size} grid:")
-print(f"Row-major (cache-friendly):   {row_time*1000:.1f} ms")
+print(f"Row-first traversal:   {row_time*1000:.1f} ms")
 ```
 
 ```{code-cell} python
 # Stage 3: Column-major comparison (12 lines)
-# Column-major access (cache-hostile in Python)
+# Revisit many inner lists for each column.
 start = time.perf_counter()
 total = 0.0
 for j in range(size):
@@ -1330,17 +1120,83 @@ for j in range(size):
         total += grid[i][j]
 col_time = time.perf_counter() - start
 
-print(f"Column-major (cache-hostile): {col_time*1000:.1f} ms")
+print(f"Column-first traversal: {col_time*1000:.1f} ms")
 if row_time > 0:
     print(f"Ratio: {col_time/row_time:.1f}x")
 
-print("\n⚠️  Important caveat about Python nested lists:")
-print("Each row is a SEPARATE list object in memory.")
-print("Only the row's pointers are contiguous, not the data.")
-print("")
-print("In NumPy with contiguous arrays, this effect is 10-100x!")
-print("That's why memory layout matters so much in CFD/climate codes.")
+print("\nImportant caveat: each Python row is a separate list object.")
+print("This experiment does not predict a NumPy speedup or a production CFD runtime.")
 ```
+
+### Allocation and cache decisions
+
+Python lists overallocate so that repeated `.append()` is amortized O(1). The
+exact capacity sequence is an implementation detail, but observing allocation
+events can explain a local timing trace:
+
+```{code-cell} python
+particles = []
+previous_size = sys.getsizeof(particles)
+
+for i in range(20):
+    particles.append(i)
+    current_size = sys.getsizeof(particles)
+    if current_size != previous_size:
+        print(f"length {len(particles):2d}: allocation changed by {current_size - previous_size} bytes")
+        previous_size = current_size
+
+print("Exact byte counts and growth factors are interpreter-dependent.")
+```
+
+Tuples can supply composite, hashable cache keys, but cache-key construction is
+a modeling decision. Raw floating-point values are appropriate only when the
+exact stored float values define the calculation. Rounding merely to increase
+cache hits can merge distinct cases; use grid indices or bins only when the
+model defines that discretization.
+
+```{code-cell} python
+# A teaching cache for a discretized equation-of-state-like calculation.
+# It demonstrates a cache contract; it is not an EOS interpolation model.
+eos_cache = {}
+calculation_count = 0
+
+
+def get_pressure(T_index, rho_index, composition_id):
+    """Return pressure and whether a declared discrete-grid cache hit occurred."""
+    global calculation_count
+    cache_key = (T_index, rho_index, composition_id)
+    if cache_key in eos_cache:
+        return eos_cache[cache_key], "cache_hit"
+
+    calculation_count += 1
+    T_K = 1e6 * (1.1 ** T_index)
+    rho_g_cm3 = 1e-3 * (1.2 ** rho_index)
+    k_B_erg_K = 1.381e-16
+    mu = 0.6 if composition_id == 0 else 1.3
+    m_H_g = 1.673e-24
+    pressure_dyne_cm2 = rho_g_cm3 * k_B_erg_K * T_K / (mu * m_H_g)
+    eos_cache[cache_key] = pressure_dyne_cm2
+    return pressure_dyne_cm2, "computed"
+
+
+for indices in ((10, 5, 0), (10, 5, 0), (11, 5, 0)):
+    pressure, status = get_pressure(*indices)
+    print(f"indices={indices}; P={pressure:.2e} dyne/cm^2; {status}")
+print(f"expensive calculations in this toy cache: {calculation_count}")
+```
+
+:::{note} 🎯 Why This Matters: lookup tables beat recalculation
+:class: dropdown
+
+Stellar-evolution codes such as MESA use equation-of-state and opacity modules
+with tabulated inputs and interpolation.[^mesa] That is a different claim from
+“a Python dictionary is the physical model.” A cache or lookup-table design
+must state its grid, interpolation, units, invalid-input behavior, and what a
+cache hit means for the calculation.
+
+***
+[^mesa]: Paxton et al. (2011). "Modules for Experiments in Stellar Astrophysics (MESA)." *ApJS*, 192, 3.
+:::
 
 :::{warning} ⚠️ Common Bug Alert: The Iteration Modification Trap
 
@@ -1370,9 +1226,11 @@ for p in to_remove:
     particles.remove(p)
 ```
 
-This bug has corrupted many molecular dynamics simulations!
+This pattern can silently skip an item, so a filtering or explicit rebuild is
+often easier to inspect than mutation during iteration.
 :::
 
+(choose-a-structure)=
 ## 4.8 Choosing the Right Structure for Physics
 
 After exploring all options, how do you choose? Here's your decision framework for computational physics:
@@ -1381,7 +1239,7 @@ After exploring all options, how do you choose? Here's your decision framework f
 
 For each physics scenario, what **data structure** would you choose?
 
-1. **Tracking unique particle IDs in collision detection** $\to$ ?
+1. **Tracking unique particle IDs already examined by a collision algorithm** $\to$ ?
 2. **Time series of energy measurements** $\to$ ?
 3. **Caching expensive equation of state calculations** $\to$ ?
 4. **Physical constants that must not change** $\to$ ?
@@ -1389,9 +1247,9 @@ For each physics scenario, what **data structure** would you choose?
 Think before reading...
 
 **Answers:**
-1. **Set** (unique particles, **O(1)** collision checks)
+1. **Set** (unique IDs and average-case membership; the collision algorithm still needs geometry)
 2. **List** (ordered by time, allows duplicates)
-3. **Dictionary** (**cache** (T,$\rho$) $\to$ pressure with **O(1)** lookup)
+3. **Dictionary** (a cache keyed by a declared discrete record, with average-case lookup)
 4. **Tuple** or namedtuple (**immutable** constants, prevents accidents)
 :::
 
@@ -1400,15 +1258,14 @@ Think before reading...
 | Operation | List | Tuple | Dict | Set |
 |-----------|------|-------|------|-----|
 | Access by index | **O(1)** | **O(1)** | N/A | N/A |
-| Search for particle | **O(n)** | **O(n)** | **O(1)**†‡ | **O(1)**† |
-| Add particle | **O(1)**‡ | N/A | **O(1)**‡ | **O(1)**‡ |
-| Remove particle | **O(n)** | N/A | **O(1)**† | **O(1)**† |
-| Memory (relative) | 1$\times$ | 0.9$\times$ | 3$\times$ | 3$\times$ |
-| Spatial ordering | Yes | Yes | Yes* | No |
+| Search for value / membership | **O(n)** | **O(n)** | **O(1)**† by key | **O(1)**† |
+| Add at end / new key or item | **O(1)**‡ | N/A | **O(1)**†‡ | **O(1)**†‡ |
+| Remove a known value / key / item | **O(n)** | N/A | **O(1)**† | **O(1)**† |
+| Iteration order | insertion | fixed sequence | insertion* | unspecified |
 
 \* Dicts maintain insertion order (Python 3.7+)
-† **Average-case**; worst-case O(n) with hash collisions
-‡ **Amortized** - occasionally O(n) during resize
+† **Average-case**; worst-case can degrade with collisions
+‡ **Amortized**; resize events can cost O(n)
 
 ### Real Example: Combining Data Structures
 
@@ -1420,14 +1277,14 @@ Let's see how different data structures work together in a simple particle track
 # Constants (tuple - can't be changed accidentally!)
 CONSTANTS = (6.674e-8, 2.998e10, 1.381e-16)  # G, c, k_B
 
-# Particle data (dictionary for O(1) lookup by ID)
+# Particle data (dictionary for average-case lookup by ID)
 particles = {
     'p001': {'mass': 1e30, 'x': 0.0, 'y': 0.0},
     'p002': {'mass': 2e30, 'x': 10.0, 'y': 0.0},
     'p003': {'mass': 1.5e30, 'x': 5.0, 'y': 5.0},
 }
 
-# Active particles (set for fast membership testing)
+# Active particles (set for unique IDs and average-case membership testing)
 active = {'p001', 'p002'}  # p003 is inactive
 
 # Time series measurements (list - ordered by time)
@@ -1439,8 +1296,8 @@ measurements = [
 
 # Example: Find total mass of active particles
 total_mass = 0
-for pid in active:  # O(1) membership test for each
-    if pid in particles:  # O(1) lookup
+for pid in active:
+    if pid in particles:  # average-case O(1) lookup by known ID
         total_mass += particles[pid]['mass']
 
 print(f"Total active mass: {total_mass:.1e} g")
@@ -1449,26 +1306,31 @@ print(f"Constants are protected: type(CONSTANTS) = {type(CONSTANTS).__name__}")
 
 # This simple combination shows:
 # - Tuple for constants (immutable)
-# - Dictionary for particle data (O(1) lookup)
-# - Set for active particles (O(1) membership)
+# - Dictionary for particle data (average-case lookup by ID)
+# - Set for active particles (uniqueness and average-case membership)
 # - List for time series (ordered)
 ```
 
 ## Main Takeaways
 
-You've just mastered concepts that will transform your computational physics from toy problems to research-grade simulations! The journey from understanding simple lists to architecting with dictionaries and sets represents a fundamental shift in how you approach scientific computing. You now see data structures not just as containers, but as carefully chosen tools where the right choice can mean the difference between simulations that finish in hours versus weeks.
+You now have a way to reason about a representation before reaching for a method:
+name the access pattern, state whether mutation is allowed, and ask whether
+uniqueness or a key is part of the problem. A list preserves sequence, a tuple
+preserves an immutable record, a dictionary maps a known key to a value, and a
+set records unique hashable items.
 
-The most profound insight from this chapter is that data structure choice often matters more than algorithm optimization. We saw how switching from a list to a set for particle lookups gave us a 100,000$\times$ speedup - no amount of code optimization could achieve that! This is the secret that separates research codes from student projects: professionals spend more time architecting their data organization than writing physics equations. The best physics insight in the world is useless if your code can't handle realistic problem sizes.
+The mutable-versus-immutable distinction is equally practical. An assignment can
+share a mutable object; a shallow copy shares its nested objects; a deep copy
+duplicates nested objects but may be the wrong cost or ownership choice for a
+large state. State whether a function mutates its input, returns a new state, or
+uses preallocated buffers, then test that contract.
 
-The mutable versus immutable distinction that seemed abstract at first is actually critical for scientific computing. Every time you use a tuple for physical constants or configuration parameters, you're preventing bugs that have literally crashed spacecraft and corrupted published results. When you properly use defensive copying for your simulation state, you're protecting yourself from the aliasing bugs that have plagued computational physics for decades. Remember: in the Cassini example, a simple data structure choice nearly lost a billion-dollar mission.
-
-The performance principles you've learned extend far beyond Python. The cache efficiency concepts explain why codes like LAMMPS and GADGET obsess over memory layout - it's not premature optimization, it's the difference between simulating thousands versus millions of atoms. The Big-O notation you've mastered is the universal language for discussing whether an algorithm scales to galaxy-sized problems. The hash table concept underlying dictionaries appears in every parallel communication library, every adaptive mesh refinement code, and every spatial indexing scheme you'll encounter.
-
-Most importantly, you now understand the connection between data structures and numerical methods. That O($\mathrm{n}^{2}$) all-pairs particle interaction that's impossible for large systems? It becomes O(n log n) with tree-based structures. The O(n) searching that makes timesteps crawl? It becomes O(1) with spatial hashing. These aren't just computer science concepts - they're the difference between simulating a few hundred particles and modeling entire galaxies with billions of stars.
-
-Remember: every data structure makes trade-offs. Lists give you ordering but slow searches. Dictionaries trade memory for lightning-fast lookups. Sets provide uniqueness and mathematical operations but lose ordering. There's no universally "best" structure - only the best structure for your specific physics problem. As you tackle research simulations, you'll combine multiple structures: NumPy arrays for number crunching, dictionaries for particle properties, sets for collision detection, and spatial data structures for neighbor finding.
-
-With this foundation, you're ready to architect simulations that scale to astronomical proportions. The next chapter on functions and modules will show you how to organize this knowledge into reusable, testable components. After that, NumPy will supercharge your numerical operations using the memory layout principles you now understand. You're no longer just writing code - you're engineering solutions to the computational challenges of modern physics!
+Finally, complexity and timing are diagnostic tools. Average-case hash lookup
+can be valuable when known-ID lookup is the measured bottleneck, but it does
+not replace a spatial algorithm, a model approximation, or a workload-specific
+benchmark. When a calculation becomes slow, use this chapter to identify the
+question your representation must answer, then measure and redesign with the
+algorithm's assumptions visible.
 
 Once you can reason about control flow (Chapter 3) and data layout (this chapter), you're ready to start **abstracting** your work: writing functions and modules that hide complexity while preserving correctness and performance. That's the goal of Chapter 5.
 
@@ -1480,11 +1342,11 @@ Once you can reason about control flow (Chapter 3) and data layout (this chapter
 
 **Big-O Notation**: Mathematical notation describing how an algorithm's runtime scales with input size, focusing on the dominant term.
 
-**Cache**: Small, fast memory close to the CPU that stores recently accessed data for quick retrieval.
+**Cache**: Stored results reused to avoid repeating work. A Python memoization cache is distinct from the CPU's hardware cache.
 
 **Data Structure**: A way of organizing data in computer memory to enable efficient access and modification.
 
-**Deep Copy**: Creating a completely independent copy of an object and all objects it contains, recursively.
+**Deep Copy**: Creating a recursively independent object graph. It is useful only when that ownership and copying cost match the intended state contract.
 
 **Dictionary**: A **mutable** mapping type storing key-value pairs with **average-case O(1)** lookup time using **hash tables**. Worst-case O(n) with hash collisions.
 
@@ -1502,7 +1364,7 @@ Once you can reason about control flow (Chapter 3) and data layout (this chapter
 
 **Named Tuple**: A **tuple** subclass allowing element access by name as well as index.
 
-**O(1) - Constant Time**: An operation whose runtime doesn't depend on input size.
+**O(1) - Constant Time**: An operation whose asymptotic work does not grow with input size; hash-table O(1) claims are usually average-case.
 
 **O(n) - Linear Time**: An operation whose runtime grows proportionally with input size.
 
@@ -1512,43 +1374,34 @@ Once you can reason about control flow (Chapter 3) and data layout (this chapter
 
 **O(n log n)**: Common complexity for efficient sorting algorithms and tree-based operations.
 
-**Reference**: A variable that points to an object in memory rather than containing the value directly.
+**Reference / binding**: A name can refer to an object; two names may refer to the same mutable object. Python does not promise that this corresponds to a user-visible memory address.
 
-**Set**: A **mutable** collection of unique, unordered elements with **O(1)** membership testing.
+**Set**: A **mutable** collection of unique, unordered elements with average-case **O(1)** membership testing.
 
 **Shallow Copy**: Creating a new container with **references** to the same contained objects.
 
-**Spatial Hashing**: Organizing particles by spatial region for **O(1)** neighbor finding.
+**Spatial Hashing**: Organizing particles by spatial region so a query can first find candidate cells by key. Neighbor-query cost also depends on cell occupancy, adjacent cells, and distance checks.
 
 **Tuple**: An **immutable** sequence type that cannot be changed after creation.
 
 ## Key Takeaways
 
-✓ **Data structure** choice can change performance by factors of 1,000,000$\times$ or more for large-scale simulations
+✓ Choose a representation from its ordering, mutability, key, and uniqueness contract.
 
-✓ **Lists** are versatile but have **O(n)** search - use for ordered particle arrays that you'll vectorize with NumPy
+✓ List membership is O(n); dictionary and set lookup are average-case O(1) for hashable keys or items.
 
-✓ **Dictionaries** and **sets** provide **O(1)** lookup through **hash tables** - essential for particle lookups and caching
+✓ Assignment and shallow copying can share nested mutable state; document whether a function mutates, copies, or rebuilds it.
 
-✓ **Tuples** prevent modification bugs - use for physical constants and configuration parameters
+✓ A tuple can protect an immutable record and can serve as a hashable composite key when its contents are hashable.
 
-✓ The **shallow** vs **deep copy** distinction is critical for grid-based simulations
+✓ A list/set/dictionary timing is evidence about one workload. It does not establish a production speedup or replace a spatial algorithm.
 
-✓ Python stores **references** to objects, explaining why NumPy's contiguous arrays are faster
+✓ `sys.getsizeof()` needs an ownership-aware interpretation; measure contained objects and array buffers deliberately.
 
-✓ Memory layout affects **cache** performance by 2-10$\times$ even in Python
+✓ Caches, spatial indices, and specialized numerical arrays are additional designs with their own assumptions and memory costs.
 
-✓ Every data structure trades something (memory, speed, flexibility) for something else
-
-✓ **Mutable** default arguments are dangerous - always use the None sentinel pattern (Chapter 1 callback)
-
-✓ Spatial data structures transform **O($\mathrm{n}^{2}$)** physics problems into **O(n)** or **O(n log n)**
-
-✓ **Sets** provide elegant mathematical operations for domain decomposition and particle tracking
-
-✓ **Dictionaries** enable **memoization** that can speed up equation of state calculations 100$\times$
-
-## Python Module & Method Reference — Deep dive / reference
+(structures-and-operations-reference)=
+## Reference: Structures, Operations, and Modules
 
 This reference section catalogs all Python modules, functions, and methods introduced in this chapter. Keep this as a quick lookup guide for your physics simulations.
 
@@ -1566,10 +1419,10 @@ import time
 ```python
 import sys
 ```
-- `sys.getsizeof(object)` - Returns **shallow** memory size of object in bytes
-  - Measures container overhead only, **not** contained objects
+- `sys.getsizeof(object)` - Returns the direct size reported by the object
+  - For Python containers, does not include separately referenced contents
   - For deep size: sum recursively or use `pympler.asizeof()`
-  - Use for comparing container overhead, not total memory
+  - For an owning NumPy array, compare `.nbytes` with `getsizeof()` and inspect ownership
 
 **`copy` module** - Create object copies with control over depth
 ```python
@@ -1577,8 +1430,8 @@ import copy
 ```
 - `copy.copy(x)` - Creates shallow copy (new container, same contents)
 - `copy.deepcopy(x)` - Creates deep copy (recursively copies all contents)
-  - Critical for grid simulations to avoid aliasing bugs
-  - Use for simulation state backups
+  - Use only when the desired ownership contract needs independent nested state
+  - Consider rebuilt state or ping-pong buffers for repeated numerical updates
 
 **`random` module** - Generate random numbers for Monte Carlo
 ```python
@@ -1588,15 +1441,6 @@ import random
 - `random.uniform(a, b)` - Random float in [a, b]
 - `random.choice(seq)` - Random element from sequence
 - `random.sample(population, k)` - k unique random elements
-
-**`json` module** - Save/load structured data
-```python
-import json
-```
-- `json.dump(obj, file, indent=2)` - Write object to file with formatting
-- `json.load(file)` - Read object from file
-- `json.dumps(obj)` - Convert object to JSON string
-- `json.loads(string)` - Parse JSON string to object
 
 **`math` module** - Mathematical functions (review from Chapter 2)
 ```python
@@ -1633,7 +1477,7 @@ from collections import OrderedDict, Counter, defaultdict, deque, namedtuple
 - `deque(maxlen=n)` - Fixed-size queue (old elements dropped)
 - `.append(x)` / `.appendleft(x)` - Add to right/left end
 - `.pop()` / `.popleft()` - Remove from right/left end
-- Essential for boundary conditions in simulations
+- Useful for rolling windows, pending work, and other queue-like workflows
 
 **`namedtuple`** - Tuple subclass with named fields
 ```python
@@ -1659,18 +1503,21 @@ def expensive_calculation(T, rho):
 - `maxsize=None` for unlimited cache
 - `.cache_info()` - Returns cache statistics
 - `.cache_clear()` - Clear the cache
+- Cache keys must encode a declared input contract; do not round floats merely
+  to create more cache hits.
 
 ### Built-in Functions for Data Structures
 
 **Type Checking**
 - `type(obj)` - Returns object's type
 - `isinstance(obj, type)` - Check if obj is instance of type
-- `id(obj)` - Returns unique identifier (memory address)
+- `id(obj)` - Returns an identity marker unique among live objects; use `is` to
+  check identity, not `id()` as scientific data or a portable memory address
 - `obj1 is obj2` - Check if same object (identity)
 
 **Container Operations**
 - `len(container)` - Number of elements
-- `x in container` - Membership test (O(1) for sets/dicts, O(n) for lists)
+- `x in container` - Membership test (average-case O(1) for sets/dict keys; O(n) for lists)
 - `sorted(iterable)` - Returns new sorted list
 - `reversed(sequence)` - Returns reverse iterator
 - `enumerate(iterable, start=0)` - Returns (index, value) pairs
@@ -1701,7 +1548,7 @@ def expensive_calculation(T, rho):
 - `.get(key, default=None)` - Safe access with default
 - `.setdefault(key, default)` - Get or set with default
 - `.pop(key, default)` - Remove and return value
-- `.popitem()` - Remove and return arbitrary (key, value)
+- `.popitem()` - Remove and return the most recently inserted `(key, value)` pair (LIFO)
 - `.update(other)` - Update with other dict/pairs
 - `.keys()` - View of keys
 - `.values()` - View of values
@@ -1728,7 +1575,7 @@ def expensive_calculation(T, rho):
 - `.isdisjoint(other)` - Check if no elements in common
 - `.copy()` - Create shallow copy
 
-## Quick Reference Tables — Deep dive / reference
+## Reference tables
 
 ### Data Structure Operations
 
@@ -1746,15 +1593,16 @@ def expensive_calculation(T, rho):
 | Operation | List | Tuple | Dict | Set | Deque |
 |-----------|------|-------|------|-----|-------|
 | Access by index | O(1) | O(1) | N/A | N/A | O(n) |
-| Search for value | O(n) | O(n) | O(1)* | O(1) | O(n) |
-| Add to end | O(1)† | N/A | O(1)† | O(1)† | O(1) |
-| Add to beginning | O(n) | N/A | O(1)† | O(1)† | O(1) |
+| Search for value / membership | O(n) | O(n) | O(1)*‡ | O(1)‡ | O(n) |
+| Add to end / new item | O(1)† | N/A | O(1)†‡ | O(1)†‡ | O(1) |
+| Add to beginning | O(n) | N/A | N/A | N/A | O(1) |
 | Remove from end | O(1) | N/A | N/A | N/A | O(1) |
 | Remove from beginning | O(n) | N/A | N/A | N/A | O(1) |
-| Remove specific | O(n) | N/A | O(1) | O(1) | O(n) |
+| Remove specific | O(n) | N/A | O(1)‡ | O(1)‡ | O(n) |
 
 \* Dict searches by key, not value
 † Amortized - occasionally O(n) during resize
+‡ Average-case; worst-case can degrade with collisions
 
 ### Common Methods for Physics
 
@@ -1765,23 +1613,23 @@ def expensive_calculation(T, rho):
 | dict | `.get(k, default)` | Safe parameter lookup |
 | dict | `@lru_cache` | Automatic memoization |
 | set | `.union(other)` | Combine particle domains |
-| set | `.intersection(other)` | Find boundary particles |
-| deque | `.appendleft()` | Boundary conditions |
+| set | `.intersection(other)` | Find overlapping IDs or records |
+| deque | `.appendleft()` | Rolling window or pending-work queue |
 | OrderedDict | `.move_to_end()` | LRU cache management |
 
 ### When to Use Each Structure
 
 | Physics Task | Best Choice | Why |
 |--------------|------------|-----|
-| Particle positions | List $\to$ NumPy array | Vectorizable operations |
-| Particle lookup by ID | Dictionary | O(1) access |
-| Active particles | Set | Fast membership, uniqueness |
+| Particle positions | List, then a typed array when array operations dominate | Ordered records; explicit numerical representation when warranted |
+| Particle lookup by ID | Dictionary | Average-case lookup by known key |
+| Active particles | Set | Average-case membership, uniqueness |
 | Physical constants | Tuple/NamedTuple | Immutable, safe |
-| EOS cache | Dictionary/LRU cache | Fast lookup by (T,$\rho$) |
-| Collision candidates | Set | No duplicates, set operations |
+| EOS cache | Dictionary/LRU cache | Reuse results for a declared discrete-input contract |
+| Collision candidates | Set | Track unique candidate IDs; geometry remains separate |
 | Time series | List | Ordered, allows duplicates |
-| Spatial grid | Dict of sets | O(1) cell access |
-| Boundary particles | Deque | Fast operations at both ends |
+| Spatial grid | Mapping from cell ID to records | Average-case cell lookup plus stated neighbor-query policy |
+| Pending boundary-work queue | Deque | Fast operations at both ends |
 | Particle counts | Counter | Automatic histogram creation |
 
 ## Recap and next connection

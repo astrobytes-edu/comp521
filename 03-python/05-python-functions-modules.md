@@ -1,34 +1,34 @@
 ---
 title: "Chapter 5: Functions & Modules - Building Reusable Scientific Code"
-subtitle: "Foundations for Scientific Programming"
+subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
+site:
+  hide_outline: true
 ---
 
 ## Learning objectives
 
 By the end of this chapter, you will be able to:
 
-- [ ] **(1) Design and encapsulate** computational physics and astronomy algorithms with clear input/output contracts, including debugging common errors like mutable defaults and scope violations.
-- [ ] **(2) Apply Python's LEGB scope rules** to prevent variable conflicts in complex numerical simulations.
-- [ ] **(3) Implement flexible function interfaces** using positional, keyword, and default arguments for scientific computing.
-- [ ] **(4) Transform iterative calculations** into functional programming patterns using `map`, `filter`, and `lambda`.
-- [ ] **(5) Organize related computational functions** into reusable modules following scientific Python conventions.
-- [ ] **(6) Write comprehensive docstrings** that document physical units, assumptions, and numerical methods.
-- [ ] **(7) Apply optimization strategies** through memoization and vectorization for large-scale computations.
-- [ ] **(8) Build modular, reusable code** that forms the foundation for object-oriented scientific applications.
+- [ ] **(1) Design a function contract** that names inputs, units, outputs, valid domain, failure behavior, and side effects.
+- [ ] **(2) Choose positional, keyword, default, and keyword-only parameters** so a scientific call communicates its intent.
+- [ ] **(3) Diagnose mutable-default and scope bugs**, then make state ownership explicit.
+- [ ] **(4) Organize related public functions** in an importable module with documentation, tests, and lightweight type annotations.
+- [ ] **(5) Distinguish** a local timing or cache result from a general performance claim.
 
 ## Prerequisites
 
-Before starting this chapter, verify you can:
+:::{note} ✅ Before Starting This Chapter
 
-- [ ] Write loops and conditionals fluently (Chapter 3)
-- [ ] Choose appropriate data structures for different tasks (Chapter 4)
-- [ ] Handle floating-point arithmetic safely (Chapter 2)
-- [ ] Use IPython for testing and timing code (Chapter 1)
-- [ ] Design algorithms with pseudocode (Chapter 3)
+- [ ] You can follow a calculation through an assignment, comparison, and loop (Chapters 2–3).
+- [ ] You can state whether a container should be ordered, keyed, or mutable (Chapter 4).
+- [ ] You recognize that numerical results need explicit assumptions and failure checks (Chapters 1–3).
+
+If any boxes are unchecked, review the indicated chapters first.
+:::
 
 ---
 
@@ -48,7 +48,14 @@ This chapter teaches you to think about functions as contracts between different
 A simplified interface that hides complex implementation details, allowing users to work with concepts rather than low-level operations. Functions are the fundamental abstraction mechanism in programming.
 :::
 
-We'll explore Python's scope rules, which determine where variables can be accessed, and learn how seemingly simple concepts like default arguments can create subtle bugs that have plagued even major scientific software packages. You'll discover how Python's flexible parameter system enables powerful interfaces, and how functional programming concepts prepare you for modern scientific computing frameworks. By the end, you'll be organizing your code into modules that can be shared, tested, and maintained professionally—essential skills for collaborative scientific research.
+We'll explore Python's scope rules, which determine where variables can be
+accessed, and learn how seemingly simple concepts like default arguments can
+create subtle ownership bugs that contaminate calls meant to be independent.
+You'll discover how Python's flexible parameter system enables powerful
+interfaces, and how functional programming concepts help make state explicit
+for modern scientific frameworks. By the end, you'll be organizing your code
+into modules that can be shared, tested, and maintained professionally—essential
+skills for collaborative scientific research.
 
 :::{note} 📝 Import Statement Convention
 
@@ -72,7 +79,7 @@ Functions are not just "avoiding repetition." They are how you:
 If you invest in this chapter, you'll write less code—and get **more correct results**.
 :::
 
-:::{warning} Reproducible analysis convention
+:::{note} Research practice: an importable calculation has a review boundary
 
 When a calculation is reused or needs an independent check, place it in an
 importable `.py` module and keep a notebook or report focused on the analysis,
@@ -92,6 +99,21 @@ Come back to it when you:
 - are ready to organize a growing analysis into modules
 :::
 
+For a first reading, follow this route:
+
+1. [State a function contract](#function-contracts).
+2. [Make calls communicate intent](#calls-that-communicate-intent).
+3. [Trace scope and state ownership](#scope-and-explicit-state).
+4. [Create an importable scientific module](#modules-as-reusable-scientific-boundaries).
+5. [Document and test the public contract](#documentation-tests-and-public-type-hints).
+
+For a return visit, use the [closures and functional-interface Deep Dive](#closures-higher-order-functions-and-functional-interfaces), the [benchmark and cache Deep Dive](#measure-and-cache-a-stated-workload), or the [Reference](#function-signatures-imports-and-typing-reference).
+
+## Try this chapter
+
+- [**Browser Python lab · Function Contract Inspector**](jupyterlite/ch05-function-contract-inspector.html): predict whether a call satisfies a public contract, then observe the difference between a fresh result, a shared mutable default, and an explicit ownership check. The activity is optional; the static examples below remain complete without browser Python.
+
+(function-contracts)=
 ## 5.1 Defining Functions: The Basics
 
 A **function** encapsulates a piece of logic that transforms inputs into outputs. Think of a function as a machine: you feed it raw materials (inputs), it performs some process (the function body), and it produces a product (output). In scientific computing, a function might calculate statistical measures, integrate equations, or transform data — each function performs **one clear task** that can be tested and trusted.
@@ -133,7 +155,8 @@ Let's break down exactly how this works:
 1. **`def` keyword**: Tells Python we're defining a function.
 2. **Function name** (`calculate_mean`): Follows snake_case convention, describes what it does.
 3. **Parameters** (`values`): Variables that receive values when function is called.
-4. **Docstring**: Brief description of what the function does (always include this!).
+4. **Docstring**: Brief description of what the function does. Include one for
+   public, reused, or non-obvious functions.
 5. **Function body**: Indented code that does the actual work.
 6. **`return` statement**: Sends a value back to whoever called the function.
 
@@ -251,6 +274,10 @@ def kinetic_energy_cgs(mass_g, velocity_cms):
     Returns:
         energy in ergs (g*cm^2/s^2)
     """
+    import math
+
+    if not (math.isfinite(mass_g) and math.isfinite(velocity_cms)):
+        raise ValueError("mass_g and velocity_cms must be finite")
     if mass_g < 0:
         raise ValueError(f"mass_g must be nonnegative, got {mass_g}")
     energy_ergs = 0.5 * mass_g * velocity_cms**2
@@ -265,6 +292,23 @@ ke = kinetic_energy_cgs(electron_mass, electron_velocity)
 print(f"Electron kinetic energy: {ke:.2e} ergs")
 print(f"In eV: {ke/1.602e-12:.2f} eV")  # 1 eV = 1.602e-12 ergs
 ```
+
+:::{important} Design decision: make the scientific contract visible at the call site
+
+`mass_g` and `velocity_cms` carry units in their names because a function call
+is part of the scientific record. This function accepts finite values with a
+nonnegative mass and returns energy in ergs without mutating either input. A
+caller still decides whether the Newtonian approximation is appropriate for the
+physical regime.
+:::
+
+:::{warning} Modeling boundary: Newtonian kinetic energy is not a relativistic model
+
+The expression $E = \tfrac12 mv^2$ is a useful low-speed approximation. The
+example uses $v = 0.01c$, where that approximation is well controlled; this
+function does not validate or replace relativistic dynamics for arbitrary
+velocities.
+:::
 
 ### The Design Process: From Problem to Function
 
@@ -290,6 +334,9 @@ def validate_result(value, min_val=None, max_val=None):
     """
     import math
 
+    if min_val is not None and max_val is not None and min_val > max_val:
+        raise ValueError("min_val must not exceed max_val")
+
     # Check if finite
     if not math.isfinite(value):
         return False
@@ -312,9 +359,9 @@ print(f"Valid (in range)? {validate_result(energy, 0, 10000)}")
 :::{important} 🌟 Why This Matters: The Therac-25 Radiation Overdose Disasters
 :class: dropdown
 
-Between 1985 and 1987, the Therac-25 radiation therapy machine caused at least
-six accidents involving massive radiation overdoses. Three patients died
-directly from the overdoses, and three others suffered serious injuries.
+Between 1985 and 1987, the Therac-25 radiation therapy machine was involved in
+at least six known accidents involving massive radiation overdoses, with
+resultant deaths and serious injuries.
 
 The investigation identified race conditions, unsafe state transitions, poor
 error reporting, and inadequate system engineering. The machine could be
@@ -351,7 +398,8 @@ system-level requirements, or safe operation. In safety-critical systems those
 concerns require independent engineering and verification beyond a single
 function contract.
 
-[Source: Leveson, N.G. & Turner, C.S. (1993). "An Investigation of the Therac-25 Accidents". IEEE Computer, 26(7), 18-41.]
+**Source:** Leveson and Turner's [primary investigation of the Therac-25
+accidents](https://escholarship.org/uc/item/5dr206s3).
 :::
 
 :::{tip} 💡 Computational Thinking: Function Contract Design
@@ -366,7 +414,7 @@ CONTRACT PATTERN:
 4. **Side effects:** What else happens
 
 Example for kinetic_energy_cgs():
-- **Precondition:** mass > 0, velocity is numeric
+- **Precondition:** mass is finite and nonnegative; velocity is finite and in cm/s
 - **Postcondition:** returns positive energy value
 - **Invariant:** input values unchanged
 - **Side effects:** none (pure function)
@@ -394,7 +442,8 @@ A good function makes assumptions explicit and failures loud.
 
 ---
 
-## 5.2 Function Arguments In-Depth
+(calls-that-communicate-intent)=
+## 5.2 Calls That Communicate Intent
 
 :::{margin}
 **Parameter**
@@ -410,6 +459,14 @@ The actual value passed to a function when calling it.
 
 ### Positional vs Keyword Arguments
 
+:::{tip} Predict before running
+
+Both `earth_mass` and `earth_radius` are ordinary floating-point numbers. Before
+running the reversed call below, predict whether Python will reject it or return
+a numerical value. Then decide what information a positional call hides from a
+reader.
+:::
+
 ```{code-cell} python
 def escape_velocity(mass_g, radius_cm):
     """
@@ -422,6 +479,10 @@ def escape_velocity(mass_g, radius_cm):
     Returns:
         escape velocity in cm/s
     """
+    if mass_g < 0:
+        raise ValueError("mass_g must be nonnegative")
+    if radius_cm <= 0:
+        raise ValueError("radius_cm must be positive")
     G = 6.674e-8  # gravitational constant in cm^3/(g*s^2)
     v_escape = (2 * G * mass_g / radius_cm) ** 0.5
     return v_escape
@@ -438,7 +499,8 @@ v_wrong = escape_velocity(earth_radius, earth_mass)
 
 print(f"Correct escape velocity: {v_correct:.2e} cm/s = {v_correct/1e5:.1f} km/s")
 print(f"Wrong (args reversed): {v_wrong:.2e} cm/s")
-print(f"The wrong value is {v_correct/v_wrong:.0f}x too small!")
+print("Python accepts the reversed call because both inputs are numbers;")
+print("the result is physically meaningless because their units were swapped.")
 
 # Keywords make intent clear
 v_safe = escape_velocity(radius_cm=earth_radius, mass_g=earth_mass)
@@ -465,6 +527,12 @@ def simulate_decay(initial_atoms, half_life_years=5730, time_years=0):
         time_years: elapsed time in years (default: 0)
     """
     import math
+    if initial_atoms < 0:
+        raise ValueError("initial_atoms must be nonnegative")
+    if half_life_years <= 0:
+        raise ValueError("half_life_years must be positive")
+    if time_years < 0:
+        raise ValueError("time_years must be nonnegative in this forward-time model")
     remaining = initial_atoms * (0.5 ** (time_years / half_life_years))
     return remaining
 
@@ -510,7 +578,7 @@ print(f"U-238 after 1 billion years: {simulate_decay(n0, 4.5e9, 1e9):.0f} atoms"
 
 ### The Mutable Default Trap
 
-Here's a critical bug that has appeared in major scientific software:
+Here's a common bug that can quietly contaminate a scientific analysis:
 
 ```{code-cell} python
 # THE TRAP - DON'T DO THIS!
@@ -531,17 +599,15 @@ print(f"Same list? {day1 is day2}")  # True - it's the same object!
 
 :::{warning} ⚠️ Common Bug Alert: The Mutable Default Disaster
 
-This bug has appeared in:
-
-- CERN analysis scripts (accumulated all runs' data)
-- NASA trajectory calculations (mixed mission parameters)
-- Weather prediction models (combined different forecasts)
-
-**The symptom:** data from previous runs mysteriously appears in new analyses.
+**The symptom:** data from earlier calls mysteriously appears in a new
+calculation. In a scientific workflow, that can make independent runs look as
+though they share observations or configuration.
 
 **The cause:** Python evaluates default arguments **once** when the function is defined, not each time it's called.
 
-The fix: always use `None` as default for mutable arguments.
+The fix: use `None` as the default for a mutable argument, then create the new
+object inside the function. Python's [programming FAQ](https://docs.python.org/3/faq/programming.html)
+explains the rule and this pattern.
 :::
 
 Here's the correct pattern:
@@ -657,7 +723,7 @@ result = run_experiment(
 )
 ```
 
-### Parameter Ordering Rules
+### Reference: parameter-order rules
 
 Python enforces specific rules about parameter order in function definitions. These rules exist to make functions clearer and prevent ambiguous calls. Let's build up from simple to complex.
 
@@ -912,7 +978,8 @@ func_d(1, 2, 3)          # ERROR: z must be keyword (not positional)
 :::
 ::::
 
-## 5.3 Scope and Namespaces
+(scope-and-explicit-state)=
+## 5.3 Scope and Explicit State
 
 :::{margin}
 **Scope**
@@ -1020,10 +1087,15 @@ The error happens because Python sees you're assigning to `counter`, assumes it'
 
 **Fix:** Either use `global` keyword or (better) pass the value explicitly.
 
-**Real disaster:** A climate model that tried to update global temperature but created local variables instead, producing nonsense results for months before discovery.
+**Scientific consequence:** In a simulation, a mistakenly local update can
+leave later calculations using stale state. The program may run while reporting
+results for a model that was not actually updated.
 :::
 
-### Closures: Functions That Remember — Deep dive / reference
+(closures-higher-order-functions-and-functional-interfaces)=
+## Deep Dive: Closures, Higher-Order Functions, and Functional Interfaces
+
+### Closures: Functions That Remember
 
 :::{margin}
 **Closure**
@@ -1116,12 +1188,10 @@ If the inner function didn't define its own `x`, it would see the outer's `x` du
 
 Global variables violate the "principle of least surprise" in computing:
 
-```
-HIDDEN STATE ANTI-PATTERN:
-- Function behavior depends on external state
-- Can't understand function in isolation
-- Testing requires global setup
-- Parallel processing becomes impossible
+**Hidden-state anti-pattern:** a function's behavior depends on external state,
+cannot be understood in isolation, and requires global setup to test. Hidden
+state does not make parallel execution literally impossible, but it makes
+reasoning about shared state and safely parallelizing a program much harder.
 
 Mars Climate Orbiter (1999) is a useful warning about an interface contract,
 not about a Python global variable. Ground navigation calculations received
@@ -1129,15 +1199,22 @@ impulse-bit data in pound-force seconds (lbf-s) while another interface
 expected newton-seconds (N-s). The incompatible units introduced an
 approximately 4.45 conversion factor into navigation calculations; they do
 not imply that the physical thrusters delivered 4.45 times their intended
-force.
+force. The [NASA mishap report](https://discovery.larc.nasa.gov/pdf_files/MCO_report_2.pdf)
+documents the interface mismatch.
 
-Better pattern: Explicit State Passing
-BAD:  current_units = 'metric'; calculate()
-GOOD: calculate(units='metric')
+Better pattern: make required state explicit.
+
+```python
+# Hidden dependency: callers must know that this global exists.
+current_units = "metric"
+calculate()
+
+# Explicit dependency: the function's contract names the choice.
+calculate(units="metric")
 ```
 :::
 
-## 5.4 Functional Programming Elements — Deep dive / reference
+### Functional Programming Elements
 
 :::{margin}
 **Side Effect**
@@ -1238,10 +1315,9 @@ total = reduce(lambda a, b: a + b, calibrated, 0.0)
 mean = total / len(calibrated)
 print(f"Final mean: {mean:.1f} cm/s^2")
 
-# Note: These functional patterns are essential for JAX
-# Pure functions enable automatic differentiation
-# Map operations parallelize on GPUs
-# Immutable data prevents side effects
+# In array frameworks such as JAX, transformations act most predictably on
+# functions whose inputs and outputs make state explicit. Python's built-in
+# map() does not itself promise GPU execution or parallelism.
 ```
 
 ::::{note} 🔍 Check Your Understanding
@@ -1326,17 +1402,30 @@ print(f"Normalized: {[f'{x:.2f}' for x in normalized]}")
 
 :::{important} 🌟 Why This Matters: Modern Frameworks Require Functional Thinking
 
-Functional programming isn't just academic—it's essential for modern scientific computing:
+Functional programming is not a requirement for all scientific Python, but
+explicit inputs, outputs, and state are especially useful in frameworks that
+transform functions:
 
-1. **JAX** (Google's NumPy replacement) requires pure functions for automatic differentiation
-2. **Parallel processing** works best with stateless functions
-3. **Testing** is trivial when functions have no side effects
-4. **GPU computing** maps naturally to functional operations
+1. **JAX** provides a NumPy-like array API plus transformations such as `jit`,
+   `vmap`, and `grad`.
+2. JAX transformations require the functions they wrap to be pure: outputs
+   depend on stated inputs and the function has no side effects such as updating
+   global state.
+3. A pure function makes a unit test easier to isolate, but it does not replace
+   boundary cases, comparison data, or scientific validation.
+4. Explicit array operations can be transformed and accelerated on supported
+   hardware; performance still depends on the stated workload and backend.
 
-Example: In JAX, you can automatically differentiate through an entire physics simulation if it's written functionally. This enables techniques like physics-informed neural networks that would be impossibly complex to implement manually.
+For example, `jax.grad` can differentiate a scalar-valued objective built from
+a physics model when its inputs, outputs, and state are explicit. This is one
+reason functional interfaces are useful in differentiable scientific computing.
+
+**Sources:** JAX's [stateful-computations guidance](https://docs.jax.dev/en/latest/stateful-computations.html)
+and [NumPy API documentation](https://docs.jax.dev/en/latest/jax.numpy.html).
 :::
 
-## 5.5 Modules and Packages — Deep dive / reference
+(modules-as-reusable-scientific-boundaries)=
+## 5.4 Modules as Reusable Scientific Boundaries
 
 :::{margin}
 **Module**
@@ -1347,7 +1436,9 @@ As your analysis grows from scripts to projects, organization becomes critical. 
 
 :::{margin}
 **Package**
-A directory containing multiple Python modules and an `__init__.py` file.
+A directory that makes related modules importable together. A conventional
+regular package contains an `__init__.py` file; namespace packages are a more
+advanced pattern.
 :::
 
 ### Creating Your First Module
@@ -1565,7 +1656,7 @@ Wildcard imports are dangerous because:
 3. **Unclear source**: Can't tell where a function comes from
 4. **Namespace pollution**: Hundreds of unwanted names
 
-Real example that caused wrong results:
+A constructed collision that can produce wrong results:
 ```python
 from numpy import *    # Has log (natural log)
 from math import *     # Also has log, overwrites numpy's
@@ -1582,12 +1673,19 @@ Always use explicit imports for clarity and safety!
 :::{note} 🌟 The More You Know: How Modular Code Detected Gravitational Waves
 :class: dropdown
 
-On September 14, 2015, at 09:50:45 UTC, the Laser Interferometer Gravitational-Wave Observatory (LIGO) detected humanity's first gravitational wave signal, named GW150914. This discovery, which earned the 2017 Nobel Prize in Physics, was only possible because of meticulously modular software architecture.
+On September 14, 2015, at 09:50:45 UTC, the Laser Interferometer
+Gravitational-Wave Observatory (LIGO) observed GW150914, the first direct
+detection of gravitational waves. The 2017 Nobel Prize recognized decisive
+contributions to the LIGO detector and that observation.
 
-The LIGO analysis pipeline consisted of hundreds of independent Python modules, each performing one specific task:
+No single program established the discovery. LIGO combined prompt searches,
+detector-characterization work, and independently developed matched-filter
+pipelines, including PyCBC and GstLAL. A schematic signal-analysis workflow
+can still show why clear function boundaries help a collaboration inspect and
+compare its work:
 
 ```python
-# Simplified LIGO pipeline structure
+# SCHEMATIC: this is not source code from the LIGO analyses.
 def calibrate_strain(raw_data, calibration_data):
     """Convert detector output to strain."""
     # Complex calibration involving transfer functions
@@ -1605,49 +1703,60 @@ def matched_filter(data, template_bank):
     # Cross-correlation with theoretical waveforms
 ```
 
-When the first signal appeared, this modular design enabled unprecedented rapid verification. Within minutes, automated pipelines had processed the data through dozens of independent checks. The modularity allowed the 1000+ member collaboration to:
+Prompt searches reported the candidate within three minutes. The broader
+verification required independent methods, data-quality studies, and sustained
+scientific review. Clear boundaries between stages make it easier to:
 
-- Test each processing step with simulated signals
-- Run multiple independent analysis pipelines in parallel
-- Swap alternative algorithms to verify robustness
-- Complete peer review in record time
+- Test a stage with simulated signals and controlled inputs
+- Compare independent analysis pipelines
+- Substitute an alternative algorithm without rewriting the entire workflow
+- Communicate what a result does—and does not—depend on
 
-The discovery paper lists over 30 independent software modules, each thoroughly tested and documented. This modular approach—exactly what you're learning in this chapter—enabled one of physics' greatest discoveries!
+Modular code does not, by itself, prove a discovery. It makes the evidence more
+inspectable: other people can trace stages, challenge assumptions, and compare
+results from independent methods. That is the connection to this chapter.
+
+**Sources:** LIGO's [GW150914 analysis summary](https://ligo.org/science-summaries/gw150914cbc/),
+which describes the independent pipelines, and the [2017 Nobel Prize press
+release](https://www.nobelprize.org/prizes/physics/2017/press-release/).
 :::
 
-:::{note} 🌟 The More You Know: The $370 Million Integer Overflow
+:::{note} 🌟 The More You Know: The Ariane 5 Range-Conversion Failure
 :class: dropdown
 
-On June 4, 1996, the maiden flight of Ariane 5 ended in spectacular failure just 37 seconds after liftoff. The rocket veered off course and self-destructed, destroying four Cluster satellites worth $370 million. This disaster teaches us a crucial lesson about function design and validation.
+On June 4, 1996, Ariane 5's maiden flight failed about 37 seconds after the
+main-engine ignition sequence began—about 30 seconds after lift-off. The
+launcher veered off course, broke apart, and its automatic destruct system was
+triggered; it was carrying four Cluster satellites.
 
-The root cause traced back to a single function in the inertial reference system, originally written for Ariane 4. This function converted a 64-bit floating-point horizontal velocity value to a 16-bit signed integer. In Ariane 4's slower flight profile, this worked perfectly. But Ariane 5 was more powerful. At T+37 seconds, the horizontal velocity exceeded 32,767—the maximum value for a 16-bit signed integer.
+One cause was a conversion in the inertial reference system that had been
+reused from Ariane 4. A 64-bit floating-point result named `BH`, a horizontal
+bias/alignment quantity related to horizontal velocity, was converted to a
+16-bit signed integer. Ariane 5's flight domain exceeded the old assumed range.
 
-The conversion function essentially looked like this conceptually:
+This executable Python models only the range precondition. It is not the
+original Ada code or a model of the flight-control system; Python integers do
+not themselves overflow at 16 bits.
 
 ```python
-def convert_velocity(velocity_64bit):
-    # Direct conversion without validation
-    return int(velocity_64bit)  # Assumes it fits in 16 bits!
+def checked_int16(value):
+    """Return value only when it is representable by a signed 16-bit field."""
+    max_int16 = 32_767
+    min_int16 = -32_768
+
+    if not min_int16 <= value <= max_int16:
+        raise OverflowError(f"{value} is outside the signed 16-bit range")
+
+    return int(value)
 ```
 
-What they needed was:
-
-```python
-def convert_velocity_safe(velocity_64bit):
-    MAX_INT16 = 32767
-    MIN_INT16 = -32768
-
-    if velocity_64bit > MAX_INT16:
-        # Handle overflow appropriately
-        log_error(f"Velocity {velocity_64bit} exceeds 16-bit range")
-        return MAX_INT16  # Or raise exception with proper handling
-    elif velocity_64bit < MIN_INT16:
-        return MIN_INT16
-
-    return int(velocity_64bit)
-```
-
-The overflow caused an exception in both the primary and backup systems (which ran identical code). The main flight computer, suddenly receiving diagnostic data instead of attitude information, interpreted it as actual flight data and commanded a violent course correction. The resulting aerodynamic forces exceeded design limits, triggering automatic self-destruct.
+In Ariane 5, the exception occurred in both the primary and backup systems,
+which ran identical software. The flight computer received diagnostic data in
+place of attitude information and interpreted it as flight data, commanding a
+violent correction. The resulting aerodynamic loads caused breakup and the
+automatic destruct sequence. Raising an exception is therefore not enough in a
+safety-critical system: the surrounding system must enter a qualified safe
+state and handle failures independently.
 
 The investigation revealed four critical lessons about function design:
 1. **Always validate input ranges**, especially when converting between data types
@@ -1660,9 +1769,12 @@ useful, but they do not establish concurrency safety, hardware interlocks,
 system-level requirements, or safe operation. In safety-critical systems those
 concerns require independent engineering and verification beyond a single
 function contract.
+
+**Source:** ESA's [Inquiry Board summary](https://www.esa.int/esapub/bulletin/bullet87/inbrie87.htm).
 :::
 
-## 5.6 Documentation and Testing
+(documentation-tests-and-public-type-hints)=
+## 5.5 Documentation, Tests, and Public Type Hints
 
 Good documentation and testing make your functions trustworthy and reusable. Professional scientific code requires both to ensure reproducibility and reliability.
 
@@ -1676,7 +1788,7 @@ def integrate_trapezoid(x_values, y_values):
     Parameters
     ----------
     x_values : list or array
-        X coordinates of data points (must be sorted)
+        X coordinates of data points (strictly increasing)
     y_values : list or array
         Y coordinates of data points
 
@@ -1705,6 +1817,10 @@ def integrate_trapezoid(x_values, y_values):
     """
     if len(x_values) != len(y_values):
         raise ValueError("x and y must have same length")
+    if len(x_values) < 2:
+        raise ValueError("trapezoid integration requires at least two points")
+    if any(right <= left for left, right in zip(x_values, x_values[1:])):
+        raise ValueError("x_values must be strictly increasing")
 
     integral = 0.0
     for i in range(len(x_values) - 1):
@@ -1724,6 +1840,10 @@ print(f"Error: {abs(result - 8/3):.3f}")
 ```
 
 ### Testing Your Functions
+
+The assertions below are a compact executable check of named boundary cases.
+They are not a claim that one script proves a numerical method correct; later
+chapters develop broader testing and validation practice.
 
 ```{code-cell} python
 def quadratic_formula(a, b, c):
@@ -1817,10 +1937,10 @@ def kinetic_energy_typed(mass_g: float, velocity_cms: float) -> float:
 energy: float = kinetic_energy_typed(9.109e-28, 3e9)
 print(f"Energy: {energy:.2e} ergs")
 
-# Python still allows "wrong" types - hints aren't enforced!
-# This works even though we pass integers instead of floats:
+# Python does not check annotations before entering the function. Integers are
+# accepted where floats are annotated in the usual numeric type relationship:
 energy2 = kinetic_energy_typed(1, 100)  # Still works!
-print(f"Integer inputs still work: {energy2} ergs")
+print(f"Integer inputs are accepted: {energy2} ergs")
 
 # For more complex types, import from typing module
 from typing import List, Tuple, Optional
@@ -1920,11 +2040,20 @@ Peak definitions are domain-specific. This heuristic is a reasonable default, an
 :::
 ::::
 
-## 5.7 Performance Considerations — Deep dive / reference
+(measure-and-cache-a-stated-workload)=
+## Deep Dive: Measure and Cache a Stated Workload
 
 Understanding function overhead helps you write efficient code. Let's measure and optimize!
 
 ### Function Call Overhead
+
+:::{tip} Predict before running
+
+Predict which comparison is meaningful: timing one inline addition against one
+function call, or timing a full scientific workload whose expensive numerical
+work dominates the call overhead. Then identify the workload you would profile
+before changing an interface for speed.
+:::
 
 ```{code-cell} python
 import timeit
@@ -1950,7 +2079,7 @@ print(f"Simple function: {simple_time*1000:.1f} ms")
 print(f"Inline addition: {inline_time*1000:.1f} ms")
 print(f"Overhead factor: {simple_time/inline_time:.1f}x")
 print(f"\nComplex function: {complex_time*1000:.1f} ms")
-print("\nLesson: Overhead only matters for trivial operations!")
+print("\nThis is one interpreter and workload; profile the calculation that matters.")
 ```
 
 ### Vectorization (A Quick Preview)
@@ -1975,8 +2104,12 @@ def ke_loop(m, v):
 def ke_vec(m, v):
     return 0.5 * m * v**2
 
-print("Loop:", timeit.timeit("ke_loop(masses, velocities)", globals=globals(), number=3))
-print("Vec :", timeit.timeit("ke_vec(masses, velocities)", globals=globals(), number=50))
+repetitions = 3
+loop_time = timeit.timeit("ke_loop(masses, velocities)", globals=globals(), number=repetitions)
+vector_time = timeit.timeit("ke_vec(masses, velocities)", globals=globals(), number=repetitions)
+print(f"Loop ({repetitions} equivalent calls): {loop_time:.3f} s")
+print(f"Vector ({repetitions} equivalent calls): {vector_time:.3f} s")
+print("This compares one array operation on this machine; it does not predict every NumPy workload.")
 ```
 
 ### Memoization for Expensive Calculations
@@ -2046,7 +2179,7 @@ time_fast = time.perf_counter() - start
 print(f"Fibonacci({n}) = {result_fast}")
 print(f"Without memoization: {time_slow*1000:.1f} ms")
 print(f"With memoization: {time_fast*1000:.3f} ms")
-print(f"Speedup: {time_slow/time_fast:.0f}x")
+print(f"Local ratio for this first call: {time_slow/time_fast:.0f}x")
 
 # Check cache statistics
 print(f"\nCache info: {fib_fast.cache_info()}")
@@ -2060,17 +2193,17 @@ print(f"Cache info: {_planck_function_cached.cache_info()}")
 
 Functions transform programming from repetitive scripting into modular, maintainable software engineering. When you encapsulate logic in well-designed functions, you create building blocks that can be tested independently, shared with collaborators, and combined into complex analysis pipelines. The progression from simple functions to modules to packages mirrors how scientific software naturally grows—what starts as a quick calculation evolves into a shared tool used by entire research communities.
 
-The distinction between positional, keyword, and default arguments gives you the flexibility to design interfaces that are both powerful and intuitive. Positional arguments work well for obvious parameters like `power(base, exponent)`, while keyword arguments with defaults enable complex functions that remain simple for common cases. Understanding when to use each type—and the critical danger of mutable default arguments—prevents the subtle bugs that have plagued major scientific packages.
+The distinction between positional, keyword, and default arguments gives you the flexibility to design interfaces that are both powerful and inspectable. Positional arguments work well for obvious parameters like `power(base, exponent)`, while named arguments make units, switches, and optional behavior visible. The mutable-default trap is a specific ownership bug: a default list is created once and can couple calls that were meant to be independent.
 
-The scope rules and namespace concepts you've learned explain why variables sometimes behave unexpectedly in complex programs. Understanding the LEGB rule prevents frustrating bugs where variables have unexpected values or modifications in one place affect seemingly unrelated code. The mutable default argument trap demonstrates why understanding Python's evaluation model is crucial for writing reliable code. These aren't just academic concepts—they've caused real disasters in production systems.
+The scope rules and namespace concepts you've learned explain why variables sometimes behave unexpectedly in complex programs. Understanding the LEGB rule prevents frustrating bugs where variables have unexpected values or modifications in one place affect seemingly unrelated code. The mutable default argument trap demonstrates why understanding Python's evaluation model is crucial for writing reliable code. These are not merely academic concepts: they can silently misstate outputs or couple calculations that should be independent.
 
-Functional programming concepts like map, filter, and pure functions prepare you for modern scientific computing frameworks. JAX requires functional style for automatic differentiation, parallel processing works best with stateless functions, and testing becomes trivial when functions have no side effects. The ability to pass functions as arguments and return them from other functions enables powerful patterns like the specialized integrators we created with closures.
+Functional programming concepts such as pure functions and higher-order functions prepare you for modern scientific frameworks. JAX transformations expect their wrapped functions to make inputs, outputs, and state explicit; pure functions also make a contract easier to isolate in a test. The ability to pass functions as arguments and return them from other functions enables patterns such as the specialized integrators in the Deep Dive.
 
-The performance measurements showed that function call overhead only matters for trivial operations in tight loops—exactly where you'll want to use NumPy's vectorized operations (Chapter 7) instead. For complex calculations, overhead is negligible compared to computation time. Memoization can provide dramatic speedups when expensive calculations repeat, as often happens in optimization and parameter searching.
+The performance examples are a method, not a fixed ranking. A function call, vectorized array operation, or cache may help only for a stated workload on a stated machine. Profile the calculation first, then measure an equivalent comparison and record the cache-key or array assumptions that make the result meaningful.
 
 Looking forward, the functions you've learned to write here form the foundation for object-oriented programming in Chapter 6, where functions become methods attached to objects. The module organization skills prepare you for building larger scientific packages, while the documentation practices ensure your code can be understood and maintained by others. Most importantly, thinking in terms of functional contracts and clear interfaces will make you a better computational scientist, capable of building the robust, efficient tools that modern research demands.
 
-With functions and modules, you can hide complexity behind clean interfaces. In Chapter 6, you'll go one step further: you'll bundle **data + behavior** into objects, which is often the most natural way to model scientific systems.
+With functions and modules, you can hide complexity behind clean interfaces. In Chapter 6, you'll consider small objects when changing state and the operations that preserve its invariants genuinely belong together.
 
 ## Definitions
 
@@ -2100,7 +2233,7 @@ With functions and modules, you can hide complexity behind clean interfaces. In 
 
 **namespace** - A container that holds a set of identifiers and their associated objects
 
-**package** - A directory containing multiple Python modules and an `__init__.py` file
+**package** - A directory that makes related modules importable together; a regular package conventionally includes an `__init__.py` file
 
 **parameter** - A variable in a function definition that receives a value when the function is called
 
@@ -2122,23 +2255,30 @@ With functions and modules, you can hide complexity behind clean interfaces. In 
 
 ## Key Takeaways
 
-- Functions are contracts: they promise specific outputs for given inputs
-- Choose positional arguments for obvious parameters, keyword arguments for optional ones
+- Functions are contracts: state their inputs, units, outputs, valid domain, failure behavior, and side effects
+- Choose positional arguments for obvious parameters; use named arguments when meaning, units, or switches need to be visible
 - The mutable default argument trap occurs because defaults are evaluated once at definition time
 - Always use `None` as a sentinel for mutable default arguments
 - Python searches for variables using LEGB: Local, Enclosing, Global, Built-in
 - Global variables make code hard to test, debug, and parallelize
 - Lambda functions are useful for simple operations but limited to single expressions
-- Functional programming concepts (map, filter, reduce) prepare you for modern frameworks
+- Functional programming concepts are an optional extension once the core function contract is clear
 - The `if __name__ == "__main__"` pattern makes modules both importable and executable
 - Never use `from module import *` in production code—it causes namespace pollution
 - Docstrings are essential for scientific code that others will use and maintain
-- Function call overhead matters only in tight loops with trivial operations
-- Memoization can dramatically speed up expensive repeated calculations
+- A timing or cache result describes its stated workload, not every Python or NumPy program
+- Memoization can avoid repeated work when its cache key represents the intended input contract
 - Testing and validation functions are as important as calculation functions
-- Performance optimization should follow: algorithm $\to$ vectorization $\to$ caching $\to$ parallelization
+- Choose and measure an optimization from the measured bottleneck and its modeling assumptions
 
-## Quick Reference Tables
+(function-signatures-imports-and-typing-reference)=
+## Reference: Function Signatures, Imports, and Typing
+
+Use this section to look up forms after you understand the public function
+contract. It does not replace stating a calculation's units, assumptions, and
+failure behavior.
+
+### Quick Reference Tables
 
 ### Function Definition Patterns
 
@@ -2159,7 +2299,7 @@ With functions and modules, you can hide complexity behind clean interfaces. In 
 |--------------|-------------|---------|
 | Positional | Obvious meaning, 1-3 params | `power(2, 3)` |
 | Keyword | Many params, optional | `plot(data, color='red')` |
-| Default | Common values | `round(3.14, digits=2)` |
+| Default | Common values | `round(3.14, ndigits=2)` |
 | *args | Variable inputs | `maximum(1, 2, 3, 4)` |
 | **kwargs | Configuration options | `setup(debug=True, verbose=False)` |
 
@@ -2196,21 +2336,22 @@ only for entities whose changing state and behavior must remain synchronized.
 
 1. **Ariane 5 Flight 501 Failure (1996)**
    - Lions, J. L. et al. (1996). "ARIANE 5 Flight 501 Failure: Report by the Inquiry Board." European Space Agency. Paris: ESA.
+     [ESA's Inquiry Board summary](https://www.esa.int/esapub/bulletin/bullet87/inbrie87.htm).
    - Gleick, J. (1996). "A Bug and A Crash." *The New York Times Magazine*, December 1, 1996.
    - Nuseibeh, B. (1997). "Ariane 5: Who Dunnit?" *IEEE Software*, 14(3), 15-16.
 
 2. **LIGO Gravitational Wave Detection (2015)**
    - Abbott, B. P. et al. (LIGO Scientific Collaboration) (2016). "Observation of Gravitational Waves from a Binary Black Hole Merger." *Physical Review Letters*, 116(6), 061102.
    - Abbott, B. P. et al. (2016). "GW150914: The Advanced LIGO Detectors in the Era of First Discoveries." *Physical Review Letters*, 116(13), 131103.
+   - LIGO Scientific Collaboration. "[Observation of gravitational waves from a binary black hole merger](https://ligo.org/science-summaries/gw150914cbc/)."
    - LIGO Scientific Collaboration. (2021). "LIGO Algorithm Library - LALSuite." Available at: https://lscsoft.docs.ligo.org/lalsuite/
    - LIGO Open Science Center. (2024). "LIGO Open Data." Available at: https://www.gw-openscience.org/
 
 3. **Therac-25 Radiation Overdose Disasters (1985-1987)**
-   - Leveson, N.G. & Turner, C.S. (1993). "An Investigation of the Therac-25 Accidents." *IEEE Computer*, 26(7), 18-41.
-   - "Therac-25." Wikipedia, The Free Encyclopedia. Wikimedia Foundation, Inc. Retrieved from: https://en.wikipedia.org/wiki/Therac-25
+   - Leveson, N.G. & Turner, C.S. (1993). "[An Investigation of the Therac-25 Accidents](https://escholarship.org/uc/item/5dr206s3)." *IEEE Computer*, 26(7), 18-41.
 
 4. **Mars Climate Orbiter Loss (1999)**
-   - Stephenson, A. G. et al. (1999). "Mars Climate Orbiter Mishap Investigation Board Report." NASA.
+   - Stephenson, A. G. et al. (1999). "[Mars Climate Orbiter Mishap Investigation Board Report](https://discovery.larc.nasa.gov/pdf_files/MCO_report_2.pdf)." NASA.
    - Oberg, J. (1999). "Why the Mars Probe Went Off Course." *IEEE Spectrum*, 36(12), 34-39.
 
 ### Python Documentation

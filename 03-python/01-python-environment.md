@@ -5,77 +5,82 @@ author: "Anna Rosen"
 kernelspec:
   name: python3
   display_name: Python 3
+site:
+  hide_outline: true
 ---
 
 ## Learning objectives
 
 By the end of this chapter, you will be able to:
 
-- [ ] **(1) Use an interactive Python session, including optional IPython, for focused scientific exploration and debugging.**
-- [ ] **(2) Diagnose and fix** three common causes of environment-dependent behavior in scientific code.
-- [ ] **(3) Explain step-by-step how Python's import system** locates and loads modules when you type `import module`.
-- [ ] **(4) Identify** five specific dangers of Jupyter notebooks that can corrupt scientific results.
-- [ ] **(5) Create** fully reproducible computational environments using `conda` with proper version pinning.
-- [ ] **(6) Debug environment problems systematically** using a four-stage diagnostic protocol.
-- [ ] **(7) Transform notebook explorations into reproducible Python scripts** following best practices.
-- [ ] **(8) Execute Python code effectively** from both terminal and IPython environments.
+- [ ] **(1) Identify the Python interpreter and key package versions** that produced a result.
+- [ ] **(2) Use an interactive Python session, including optional IPython,** for focused scientific exploration and debugging.
+- [ ] **(3) Diagnose** common environment-dependent behavior using a bounded, reproducible protocol.
+- [ ] **(4) Explain why notebook execution order can invalidate a result** and perform a clean-kernel check.
+- [ ] **(5) Distinguish a notebook's role in exploration and communication from a module's role in reusable computation.**
+- [ ] **(6) Record the inputs, command, and environment context** another reader needs to investigate a disagreement.
 
 ## Prerequisites
 
-:::{important} Prerequisites Self-Assessment
+:::{important} Before starting
 
-Before starting this chapter, verify you have completed these items:
+You need a way to start Python and, for the terminal examples, a terminal or
+command prompt. You do **not** need prior Git fluency, a particular editor, or
+a completed Conda setup in order to understand this chapter.
 
-- [ ] You can open a terminal/command prompt and navigate directories (via `cd`, `ls`, and `pwd`).
-- [ ] You have a Python environment available for experiments; an isolated Conda, Mamba, or `venv` environment is recommended.
-- [ ] You have a text editor (e.g., Vim) or IDE (e.g., VS Code) installed.
-- [ ] You have `git` installed and can you use basic `git` commands (e.g.,`clone`, `add`, `commit`, `pull`).
-
-If you checked “no” to an item, consult a current Python setup guide for your
-operating system before continuing.
+If you do not yet have a usable Python installation, pause here and use an
+up-to-date setup companion for your operating system. Return once you can run
+`python --version` (or the equivalent command supplied by that companion).
 :::
 
 ## Why this chapter matters
 
 Picture this: You download code from a groundbreaking scientific paper, eager to reproduce their analysis. You run it exactly as instructed. Instead of the published results, you get error messages, or worse — completely different values with no indication why. This frustrating scenario happens to nearly every computational scientist, from graduate students to professors. The problem isn't bad code or user error; it's that scientific computing happens in complex **environments** where tiny differences can cascade into complete failures.
 
-This chapter reveals the hidden machinery that makes Python work (or not work) on your computer. You'll discover why the same analysis code produces different results on different machines, master **IPython** as your computational laboratory for rapid prototyping, understand the dangers of **Jupyter notebooks** in scientific computing, and learn to create truly reproducible computational environments for your research. These aren't just technical skills — they're the foundation of trustworthy scientific research.
+This chapter reveals the hidden machinery that makes Python work (or not work) on your computer. You'll learn how to identify the Python that actually ran your code, use **IPython** for focused exploration, recognize the risks of **Jupyter notebook** state, and record enough context for a collaborator to investigate a disagreement. These aren't just technical skills — they're part of trustworthy scientific research.
 
 By chapter's end, you'll have a practical way to diagnose common environment
 problems, describe the difference between exploration and reproducible science,
 and record enough environment information for another reader to investigate a
 disagreement. Let's begin with interactive exploration.
 
-:::{important} Use notebooks deliberately
+:::{note} How to Use This Chapter
 
-Notebooks support exploration, figures, and narrative. Reusable computation is
-easier to test and review in functions and modules. Before relying on notebook
-output, restart the kernel and run the notebook from top to bottom; record the
-inputs and environment that produced the visible result.
+This chapter is a reference as well as a first reading. For a first pass, take
+this route:
+
+1. [Explore interactively](#interactive-exploration).
+2. [Diagnose notebook state](#notebook-state).
+3. [Move a useful calculation into reusable computation](#reusable-computation).
+4. [Work through the discrepant-run case file](#discrepant-run).
+
+The import algorithm, cluster modules, environment-file mechanics, and detailed
+debugging are separately marked **Deep Dive** or **Reference** routes. Return
+to them when a concrete failure gives you a reason to need them. Use this page
+as a *toolbox*, not a checklist.
+
+Mastery comes from **using** these ideas in code — not from memorizing every
+command.
 :::
 
-:::{note} How to Use These Readings
+## Try this chapter
 
-These chapters are written as **references**, not as material you are expected to memorize or read linearly.
+- [**Browser Python lab · Notebook State Detective**](jupyterlite/ch01-notebook-state.html): deliberately run a notebook out of order, inspect the stale result it leaves behind, then restart and run cleanly. The activity is optional; the static explanation below remains complete if browser Python is unavailable.
 
-You should:
-
-- Read sections when you need them
-- Return to examples while debugging
-- Use this chapter as a *toolbox*, not a checklist
-
-Mastery comes from **using** these ideas in code — not from memorizing definitions.
-:::
+[Return to the Part I guide](index.md) if you are choosing a first reading route.
 
 ---
 
-## 1.1 IPython: Your Computational Laboratory
+(interactive-exploration)=
+## 1.1 Interactive exploration: your computational laboratory
 
 While you could use the basic Python interpreter by typing `python`, **IPython** (type `ipython` at the terminal instead) transforms your terminal into a powerful environment for scientific computing and **exploratory data analysis** (EDA). Think of it as the difference between a basic calculator and one with advanced scientific functions — both compute, but one is designed for serious scientific work. In most scientific workflows, IPython becomes the default interactive “scratchpad” because it makes exploration faster and debugging more transparent.
 
-### Launching Your Laboratory
+**Launching your laboratory.**
 
-First, ensure you're in the right environment, then launch IPython. Here's how to do it properly:
+First, ensure you're in the right environment, then launch IPython. If it is
+not installed yet, use the ordinary `python` prompt for now; the core reasoning
+in this chapter does not depend on Conda or IPython.
 
 :::{note} Terminal Commands vs Python Code
 
@@ -87,8 +92,9 @@ Throughout this book:
 :::
 
 ```bash
-# Terminal commands (type these in your terminal, not in Python!)
-$ conda activate scientific-python
+# Terminal commands (type these in your terminal, not in Python!).
+# If your project setup uses Conda, activate its named environment first:
+$ conda activate scientific-python  # Otherwise use your setup guide's Python.
 $ ipython
 
 # You'll see something like this appear:
@@ -99,13 +105,12 @@ In [1]:
 
 Notice the prompt says `In [1]:` instead of `>>>` (which is what basic Python shows). This numbering system is your first hint that IPython is different — it remembers everything. Each command you type gets a number, making it easy to reference previous work.
 
-### The Power of Memory
+**The power of memory.**
 
 IPython maintains a complete history of your session, accessible through special variables:
 
 ```python
 # Type these commands one at a time in IPython
-import numpy as np
 
 # Example: Calculate something useful
 H0 = 70.0  # Hubble constant in km/s/Mpc
@@ -140,9 +145,12 @@ For example:
 This history system lets you reference and reuse previous computations without retyping — crucial when analyzing large datasets or iterating on algorithms.
 :::
 
-### Tab Completion: Your Exploration Tool
+**Tab completion: your exploration tool.**
 
-Tab completion helps you discover libraries without memorizing everything:
+Tab completion helps you discover libraries without memorizing everything. In
+an actual IPython session, type `np.` and press Tab; the page cannot reproduce
+that interaction. The code below answers a different question: what names does
+this installed NumPy expose?
 
 ```{code-cell} python
 import numpy as np
@@ -159,37 +167,22 @@ fft_functions = [item for item in dir(np) if 'fft' in item.lower()]
 print("\nFFT-related functions:", fft_functions)
 ```
 
-### Magic Commands: IPython's Superpowers
+**Reference: a few high-value IPython commands.**
 
-IPython's **magic commands** give you capabilities far beyond standard Python. Here's a practical example comparing different approaches:
+IPython's **magic commands** give you capabilities beyond standard Python. Use
+them to inspect a concrete question, not to manufacture a universal
+performance claim.
 
-```{code-cell} python
-# In IPython, you would use: %timeit
-# Here we simulate timing different approaches
-
-import timeit
-import numpy as np
-
-# Method 1: List comprehension
-def calc_list_comp(values):
-    return [x**2 for x in values if x > 0]
-
-# Method 2: NumPy vectorized
-def calc_numpy(values):
-    return values[values > 0]**2
-
-# Generate test data
-rng = np.random.default_rng(42)
-test_values = rng.standard_normal(1000)
-
-# Time both methods
-time1 = timeit.timeit(lambda: calc_list_comp(test_values), number=100)
-time2 = timeit.timeit(lambda: calc_numpy(test_values), number=100)
-
-print(f"List comprehension: {time1*10:.4f} ms per call")
-print(f"NumPy vectorized:   {time2*10:.4f} ms per call")
-print(f"\nNumPy is {time1/time2:.1f}x faster!")
+```text
+In [7]: %timeit values[values > 0]**2
+In [8]: %debug
+In [9]: np.fft.fft?
 ```
+
+`%timeit` measures the particular operation, data size, array dtype, machine,
+and installed numerical libraries in front of you. Chapter 7 returns to arrays;
+the performance-reference material later in the book explains how to make a
+fair comparison.
 
 :::{warning} Common Bug Alert: Platform-Specific Timing
 :class: dropdown
@@ -201,22 +194,20 @@ Timing results vary significantly between machines due to:
 - System load and background processes
 - Python version and compilation options
 
-**Best Practice**: Always benchmark on your target system (laptop vs cluster)
+**Best practice**: Measure the workload you actually intend to run, record the
+machine and software context, and compare implementations that produce the
+same result.
 :::
 
-### Getting Help Instantly
+**Getting help instantly.**
 
-IPython makes documentation accessible without leaving your workflow:
+IPython makes documentation accessible without leaving your workflow. These
+are commands to type at an IPython prompt, not Python statements to copy into a
+script:
 
-```{code-cell} python
-# Demonstrating IPython's help system
-print("In IPython, use ? for quick help:")
-print("  np.fft.fft?  - shows documentation")
-print("  np.fft.fft?? - shows source code (if available)")
-print("\nExample documentation for np.fft.fft:")
-print("  Compute the one-dimensional discrete Fourier Transform.")
-print("  Used for: spectral analysis, period finding, filtering")
-print("  Returns: complex array of Fourier coefficients")
+```text
+In [10]: np.fft.fft?   # documentation
+In [11]: np.fft.fft??  # source, when installed source is available
 ```
 
 :::{important} Computational Thinking: Interactive Exploration
@@ -235,44 +226,29 @@ This rapid iteration cycle is how algorithms are born and bugs are discovered. Y
 This pattern appears everywhere: from testing simulations to debugging data processing software.
 :::
 
-### Managing Your Workspace
+**Reference: managing your workspace.**
 
-```{code-cell} python
-import sys
-import numpy as np
-
-# Create some variables for demonstration
-redshift = 0.5
-distance = 2590.3  # Mpc
-magnitude = 18.5
-filters = ['u', 'g', 'r', 'i', 'z']
-
-# Show variables (simulating %who in IPython)
-current_vars = [var for var in dir()
-                if not var.startswith('_') and not var.startswith('__')]
-print("Variables in workspace (%who in IPython):")
-print(", ".join(current_vars[:8]))
-
-# Detailed info (simulating %whos in IPython)
-print("\nDetailed variable info (%whos in IPython):")
-print(f"{'Variable':<20} {'Type':<15} {'Value/Info'}")
-print("-"*55)
-print(f"{'redshift':<20} {'float':<15} {redshift}")
-print(f"{'distance':<20} {'float':<15} {distance:.1f} Mpc")
-print(f"{'filters':<20} {'list':<15} {len(filters)} items")
+```text
+In [12]: %who
+In [13]: %whos
 ```
+
+Use these as a quick reminder of what is currently in an interactive session;
+they are not a durable record of an analysis. A saved command, declared input,
+and clean re-execution are stronger evidence.
 
 :::{important} Why This Matters: Your First Day of Research
 :class: dropdown
 
-When your advisor hands you a data file and says "can you check if this is interesting?", you'll open IPython and in 5 minutes:
+When your advisor hands you a data file and says "can you check if this is interesting?", an interactive session can help you:
 
 - Load the data
 - Check the structure with tab completion
 - Plot a quick visualization
 - Test a hypothesis
 
-Without IPython, this becomes a 30-minute script-writing exercise. With IPython, you'll have an answer before your advisor finishes their coffee.
+The purpose is not to avoid writing a script forever. It is to learn enough
+about the data and question to decide what reusable computation is warranted.
 :::
 
 :::{tip} The More You Know: The Reproducibility Crisis in Science
@@ -294,15 +270,15 @@ Tools like IPython's `%history` and `%save` commands create an audit trail that 
 
 ---
 
-## Section 1.2: Understanding Python's Hidden Machinery
+## 1.2 Deep Dive: How Python finds an import
 
 When you type `import numpy`, a complex process unfolds behind the scenes. Understanding this machinery is the difference between guessing why `ImportError: No module named 'scipy'` fails and knowing exactly how to fix it.
 
 **Why Import Systems Matter:** Modern scientific analysis relies on dozens of specialized packages. A typical data processing pipeline might import `numpy` for arrays, `scipy` for algorithms, and `matplotlib` for visualization. When you're running code on a deadline, understanding how Python finds and loads these packages can save your project.
 
-### The Import System Exposed
+**The import system, in outline.**
 
-Python's **import system** is like a librarian searching through a card catalog. When you request a book (module), the librarian (Python) has a specific search order (`sys.path`) and won't randomly guess where to look. This systematic approach ensures consistency but can cause confusion when multiple versions exist.
+Python's **import system** is like a librarian searching through a card catalog. When you request a book (module), Python uses a defined set of import finders; ordinary file-based imports commonly consult `sys.path`. This systematic process ensures consistency but can cause confusion when multiple versions or local names exist.
 
 Let's peek behind the curtain to understand this process. Every time Python starts, it builds a search path based on your environment, installation method, and current directory. This path determines everything about which code gets loaded:
 
@@ -335,30 +311,33 @@ for pkg in ['numpy', 'scipy', 'matplotlib']:
         print(f"  ✗ {pkg:12} NOT INSTALLED")
 ```
 
-The search path (`sys.path`) acts as Python's roadmap for finding modules. Python follows `sys.path` in order, using the first matching module it finds. This is why having multiple versions of the same package can cause confusion—Python doesn't look for the "best" version, just the first one.
+The search path (`sys.path`) is one important part of Python's roadmap for finding ordinary file-based modules. Those finders usually consider its entries in order, which is why multiple versions of a package can cause confusion—Python does not select a package because it seems "best." Other finders can resolve built-in modules, namespace packages, zip imports, or custom locations without using that simple path search.
 
 This ordered search has important implications for software development. If you have a file named `numpy.py` in your current directory, Python will import that instead of the real numpy package. This is a common source of mysterious errors when students name their test scripts after the packages they're learning.
 
-:::{important} Computational Thinking: The Import Resolution Algorithm
+:::{important} Computational Thinking: An import-resolution outline
 
-When Python executes `import numpy`, it follows this algorithm:
+For an ordinary installed package, `import numpy` has this useful outline:
 
-1. **Check cache**: Is `numpy` already in `sys.modules`?
-2. **Search paths**: For each directory in `sys.path`:
-   - Look for `numpy/` directory with `__init__.py`
-   - Look for `numpy.py` file
-   - Look for compiled extension `numpy.so/.pyd`
-3. **Load module**: Execute the module code once
-4. **Cache result**: Store in `sys.modules` to avoid reloading
-5. **Access submodule**: Repeat for submodules within `numpy`
+1. **Check the cache**: Python may reuse an entry in `sys.modules`.
+2. **Ask import finders**: Python's import machinery consults registered
+   finders, including those that use `sys.path`.
+3. **Find a module specification and loader**: a loader may handle a source
+   file, compiled extension, built-in module, namespace package, or another
+   supported source.
+4. **Initialize and cache**: the module is initialized and recorded so later
+   imports can reuse it.
 
-Understanding this algorithm helps you debug why `import numpy` works but `from numpy import linalg` might fail (missing subpackage installation).
+`sys.path` order is still a high-value diagnostic, especially when a local file
+shadows a package. It is not the whole import system: namespace packages,
+built-in modules, zip imports, and custom finders are real cases that this
+outline deliberately leaves out.
 :::
 
 :::{tip} Check Your Understanding: Import System Diagnostics
 :class: dropdown
 
-You run `import mypackage` and get `ModuleNotFoundError`. Your colleague runs the same command and it works. Both of you have the package installed according to `pip list`.
+You run `import mypackage` and get `ModuleNotFoundError`. Your colleague runs the same command and it works. Each of you can find the package with the package manager you happened to invoke.
 
 Before reading the solution, write down:
 
@@ -371,16 +350,19 @@ Before reading the solution, write down:
 **Possible causes and diagnostics:**
 
 1. **Different Python interpreters**
-   - Diagnostic: `which python` and `sys.executable`
+   - Diagnostic: `python -c "import sys; print(sys.executable)"`
    - Fix: Activate the correct environment
 
-2. **Different sys.path**
-   - Diagnostic: Compare `sys.path` between systems
-   - Fix: Add missing directory with `sys.path.append()` or PYTHONPATH
+2. **Different project or package location**
+   - Diagnostic: Compare `sys.executable`, `sys.path`, and the package origin
+   - Fix: Install the package into the intended interpreter or use the
+     project's documented install route; do not permanently patch `sys.path`
+     to hide the disagreement
 
-3. **Package installed in different location**
-   - Diagnostic: `pip show mypackage` for installation path
-   - Fix: Reinstall in correct environment with `pip install --user` or `conda install`
+3. **Package installed by a different Python**
+   - Diagnostic: `python -m pip show mypackage` for the active interpreter
+   - Fix: activate the intended environment, then use its `python -m pip` (or
+     the environment's documented package manager)
 
 **The systematic debugging approach:**
 
@@ -393,29 +375,26 @@ print(sys.executable)
 for i, path in enumerate(sys.path):
     print(f"{i}: {path}")
 
-# Step 3: Where is package actually installed?
-# Run in terminal: pip show mypackage
+# Step 3: Where is the package for *this* Python?
+# Run in terminal: python -m pip show mypackage
 
 # Step 4: Is there a name conflict?
 import os
 print(os.listdir('.'))  # Check for local mypackage.py
 ```
 
-The key insight: Import problems are usually environment problems, not code problems!
+The key insight: many import failures arise at the boundary between the interpreter you expected and the interpreter or import path actually in use. Diagnose that boundary before rewriting the analysis code.
 :::
 
 ```{mermaid}
 flowchart TD
     A[import numpy] --> B{Is 'numpy' in<br/>sys.modules cache?}
     B -->|Yes| H[Use cached module]
-    B -->|No| C[Search sys.path directories]
-    C --> D{Found<br/>numpy/?}
-    D -->|No| E{Found<br/>numpy.py?}
-    E -->|No| F{Found<br/>numpy.so?}
-    F -->|No| G[ImportError!]
-    D -->|Yes| I[Load & execute module]
-    E -->|Yes| I
-    F -->|Yes| I
+    B -->|No| C[Ask registered import finders]
+    C --> D[Path-based finder may consult sys.path]
+    D --> E{Module specification found?}
+    E -->|No| G[ModuleNotFoundError]
+    E -->|Yes| I[Loader initializes module]
     I --> J[Store in sys.modules]
     J --> K[Look for submodules]
     H --> K
@@ -425,38 +404,52 @@ flowchart TD
     style J fill:#339af0
 ```
 
-### Debugging Import Problems
+The payoff of this Deep Dive is not memorizing every import mechanism. It is
+knowing why `sys.executable`, a package origin, and a local name conflict are
+better evidence than guessing which installation Python happened to use.
+
+---
+
+(import-diagnostics)=
+## Reference: diagnosing imports and interpreter mismatches
+
+**Debugging import problems.**
 
 :::{tip} Check Your Understanding
 :class: dropdown
 
-You get `ModuleNotFoundError: No module named 'scipy.optimize'`. What are three possible causes and their solutions?
+You get `ModuleNotFoundError: No module named 'scipy.optimize'`. What are three
+possible causes and their solutions?
 
 **Solution:**
 
 Three possible causes and solutions:
 
-1. **Incomplete scipy installation**: Some distributions split scipy
-   - Solution: `conda install -c conda-forge scipy` (get complete package)
+1. **The active interpreter has no SciPy installation**
+   - Check: `python -c "import sys; print(sys.executable)"` followed by
+     `python -m pip show scipy`
+   - Solution: install SciPy using the package manager associated with that
+     interpreter or activate the project environment
 
-2. **Old scipy version**: Older versions had different structure
+2. **A local file or directory shadows `scipy`**
+   - Check: `python -c "import scipy; print(scipy.__file__)"`
+   - Solution: rename the conflicting local file/directory and restart Python
+
+3. **An old or damaged installation**
    - Check: `python -c "import scipy; print(scipy.__version__)"`
-   - Solution: `conda update scipy`
-
-3. **Mixed pip/conda installation**: Conflicting installations
-   - Check: `conda list scipy` vs `pip list | grep scipy`
-   - Solution: Stick to conda for scientific packages
+   - Solution: recreate the project environment from its recorded
+     specification rather than layering ad-hoc repairs into an unknown one
 
 The most robust fix:
 
 ```bash
-conda create -n clean_env python=3.11
+# One possible Conda-based recovery route; use your project's documented tool.
+conda create -n clean_env python=3.11 numpy scipy matplotlib
 conda activate clean_env
-conda install -c conda-forge numpy scipy matplotlib
 ```
 :::
 
-### Multiple Pythons: A Common Disaster
+**Multiple Pythons: a common failure mode.**
 
 Most systems have multiple Python installations, especially on shared computing clusters:
 
@@ -469,7 +462,7 @@ common_pythons = {
     'System Python': '/usr/bin/python3',
     'Conda (base)': '~/miniforge3/bin/python',
     'Conda (env)': '~/miniforge3/envs/scientific-python/bin/python',
-    'Homebrew (Mac)': '/usr/local/bin/python3',
+    'Homebrew (Mac)': '/opt/homebrew/bin/python3',
     'Module system': '/software/python/bin/python'
 }
 
@@ -481,11 +474,11 @@ for name, path in common_pythons.items():
     current = "<- CURRENT" if str(expanded_path) in sys.executable else ""
     print(f"  {exists} {name:20} {path:30} {current}")
 
-print("\n⚠️  This is why 'conda activate' is crucial!")
-print("📚 Each Python has its own packages - they don't share!")
+print("\nEach interpreter has its own package set.")
+print("Record the executable instead of assuming an activation command worked.")
 ```
 
-:::{warning} Common Bug Alert: The Cluster Python Confusion
+:::{warning} Common Bug Alert: Cluster Python confusion
 :class: dropdown
 
 **Symptom**: Code works on laptop but fails on computing cluster
@@ -496,10 +489,11 @@ print("📚 Each Python has its own packages - they don't share!")
 
 ```bash
 $ module load python  # Loads system Python
-$ python script.py    # Uses wrong Python!
+$ python script.py    # May use a Python different from the project environment.
 ```
 
-**Fix**: Always use explicit paths or conda:
+**Fix**: activate the project environment and record the interpreter that will
+run the job:
 
 ```bash
 $ conda activate scientific-python
@@ -513,8 +507,9 @@ $ python script.py
 #!/bin/bash
 #SBATCH --job-name=analysis
 
-# Always activate your environment first!
-source ~/miniforge3/etc/profile.d/conda.sh
+# The initialization path is installation-specific; use your cluster's
+# documented path.
+source /path/to/miniforge3/etc/profile.d/conda.sh
 conda activate scientific-python
 python your_script.py
 ```
@@ -522,6 +517,7 @@ python your_script.py
 
 ---
 
+(notebook-state)=
 ## 1.3 Jupyter Notebooks: Powerful, Stateful, and Easy to Misuse
 
 **Jupyter notebooks** seem perfect for scientific computing and data analysis - you can mix code, plots, and explanations in one streamlined document. You'll see them in tutorials and even published papers. If you're like most students, notebooks are probably how you learned Python, and there's good reason for that - they're excellent for learning concepts and exploring data interactively.
@@ -537,12 +533,20 @@ put functions in importable modules and let the notebook document the analysis,
 figures, and interpretation. That separation supports testing, review, version
 control, and a readable scientific record.
 
-### The Seductive Power of Notebooks
+:::{important} Research Practice: Use notebooks deliberately
 
-To start Jupyter (after activating your environment):
+Notebooks support exploration, figures, and narrative. Reusable computation is
+easier to test and review in functions and modules. Before relying on notebook
+output, restart the kernel and run the notebook from top to bottom; record the
+inputs, command, and environment that produced the visible result.
+:::
+
+**The seductive power of notebooks.**
+
+To start Jupyter after selecting the environment your project uses:
 
 ```bash
-# Terminal commands:
+# Terminal commands; activate only if your project uses Conda.
 $ conda activate scientific-python
 $ jupyter lab
 
@@ -550,39 +554,84 @@ $ jupyter lab
 # You can create notebooks, write code, see plots inline
 ```
 
-### The Hidden State Monster
+**The hidden-state monster.**
 
-The most insidious problem: notebooks maintain hidden state between cell executions. Here's a subtle Python gotcha that can make notebook state bugs *feel* like “the function captured old variables.”
+The most insidious problem is not that a notebook contains cells; it is that a
+later cell can leave an earlier *derived result* in memory after its inputs have
+changed. A clean, top-to-bottom run has a defined order. A hand-picked sequence
+does not.
 
-In Python, **global variables are looked up at call time**. But **default argument values are evaluated once, when the function is defined**. In a notebook, it’s easy to redefine a function in one cell, then change parameters in another, and accidentally keep using frozen defaults.
+:::{tip} Predict before running
 
-```{code-cell} python
-# Simulating notebook cells with execution order problems
+Run Cells 1, 3, 2, and 4 in that deliberately wrong order. Predict whether the
+stored `result` will agree with the current `param_a`. Then restart the kernel
+and run Cells 1 through 4 in order. What evidence would tell a collaborator
+which parameter actually produced a saved figure?
+:::
 
-# Cell 1: Set parameters
+The page keeps the four cells together so you can read their intended source
+order. The browser lab below exposes them as separate executable cells.
+
+```python
+# Cell 1: establish the original configuration
 param_a = 70.0
 param_b = 0.3
-print(f"Cell 1: Set param_a = {param_a}, param_b = {param_b}")
 
-# Cell 2: Define calculation
-def calculate_result(x, param_a=param_a, param_b=param_b):
-    """Calculate result using parameters."""
-    # Default arguments freeze values at *definition* time.
-    return (x / param_a) * (1 + param_b)
-
-print(f"Cell 2: Defined function with param_a = {param_a}")
-
-# Cell 3: User updates parameters
+# Cell 2: revise the configuration before calculating
 param_a = 67.4  # Updated value
 param_b = 0.315  # Updated value
-print(f"Cell 3: Updated to param_a = {param_a}")
 
-# Cell 4: Calculate - which param_a does this use?
+# Cell 3: calculate and record the inputs used *at this moment*
+def calculate_result(x):
+    return (x / param_a) * (1 + param_b)
+
 x_value = 1000
 result = calculate_result(x_value)
-print(f"Cell 4: Result = {result:.2f}")
-print(f"  But function still uses OLD param_a = 70!")
-print(f"  This gives WRONG result by {(70/67.4-1)*100:.1f}%!")
+recorded_param_a = param_a
+
+# Cell 4: compare the stored result with the current configuration
+print(f"Current param_a: {param_a}")
+print(f"param_a recorded with result: {recorded_param_a}")
+print(f"Stored result: {result:.3f}")
+print(f"Result if recomputed now: {calculate_result(x_value):.3f}")
+```
+
+::::{admonition} Browser Python lab · Notebook State Detective
+:class: tip
+
+**Predict before you run anything.** What will remain stale if you calculate
+before applying the revised configuration?
+
+1. Run Cells 1, 3, 2, and 4. Compare the value recorded with `result` to the
+   current `param_a`.
+2. Use **Run → Restart Kernel and Run All Cells**, then compare the four lines
+   of output again.
+3. Revise the calculation so its configuration is passed explicitly and explain
+   which provenance record must accompany a saved figure.
+
+**Success condition:** the out-of-order run records `param_a = 70.0` while the
+current value is `67.4`; the clean run records and uses `67.4` consistently.
+
+[Open the Notebook State Detective →](jupyterlite/ch01-notebook-state.html)
+
+No account or installation is required. The activity source is Markdown in
+`tools/jupyterlite/activities/ch01-notebook-state.md`; its executable notebook
+is generated only when JupyterLite is built.
+::::
+
+**A related Python behavior, not the notebook failure above.** Default argument
+values are evaluated when a function is defined, whereas global variables are
+looked up when the function is called. That distinction can surprise you in a
+notebook, but restarting a kernel does not change a deliberately frozen default:
+
+```python
+param_a = 70.0
+
+def frozen_default(x, scale=param_a):
+    return x / scale
+
+param_a = 67.4
+# frozen_default(1000) still uses scale=70.0 by design.
 ```
 
 :::{important} Debug This!
@@ -623,22 +672,28 @@ They run cells: 1, 2, 3, 4, 2, 4, 5. What's the classification? Is it correct?
 6. Cell 4 again: Prints "Average: 2.35"
 7. Cell 5: Classifies as "Medium values" (1 < 2.35 < 3)
 
-**Problems:**
+**What this trace establishes:**
 
-- Classification uses updated mean (2.35) but that includes the new data point
-- This is circular reasoning - using the data to classify the data
-- The correct mean without the new point is 1.33
+- The printed output is only interpretable if the reader knows whether Cell 2
+  ran before or after the data changed.
+- `2.35` is a valid mean for the *updated* four-value dataset, while `1.33` is
+  a valid mean for the original three-value dataset. The notebook makes it too
+  easy to lose that distinction.
+- A reported classification is therefore not auditable until the input dataset,
+  cell order, and derived values are recorded together.
 
-**This demonstrates how notebook state corruption leads to incorrect scientific conclusions!**
+**Scientific consequence:** hidden state can attach a defensible computation to
+the wrong version of the data, even when every individual line of code is
+correct.
 :::
 
-### Memory Accumulation in Data Analysis
+**Memory accumulation in data analysis.**
 
 ```{code-cell} python
-import sys
 import numpy as np
 
 # Simulating repeated cell execution with data
+rng = np.random.default_rng(0)
 data_list = []
 
 print("Initial memory state")
@@ -646,7 +701,7 @@ print("Initial memory state")
 # First run: Load batch 1
 for i in range(100):
     # Simulate 100 data points, 4000 features each
-    data_point = np.random.randn(4000)
+    data_point = rng.standard_normal(4000)
     data_list.append(data_point)
 
 # Calculate memory usage
@@ -657,7 +712,7 @@ print(f"After batch 1: {n_points} points, ~{memory_mb:.1f} MB")
 
 # Second run (cell executed again) - adds MORE data!
 for i in range(100):
-    data_point = np.random.randn(4000)
+    data_point = rng.standard_normal(4000)
     data_list.append(data_point)
 
 n_points = len(data_list)
@@ -680,7 +735,7 @@ When Herndon finally obtained the original Excel spreadsheet, he discovered a co
 Just like hidden state in Jupyter notebooks, the error was invisible in the final spreadsheet. The lesson? Computational transparency and reproducibility aren't just academic exercises — they have real-world consequences. Always make your computational process visible and reproducible!
 :::
 
-### The Notebook-to-Module Transition
+**Design decision: notebook narrative, module computation.**
 
 Notebooks and scripts have different jobs. Keep reusable implementation in
 **modules and scripts** while notebooks document exploration and interpretation:
@@ -720,7 +775,8 @@ graph TD
 :::{important} Why This Matters: Your Analysis Must Be Bulletproof
 :class: dropdown
 
-When you submit your first paper. The referee may ask: "Can you verify that your algorithm consistently identifies the pattern in your data sample?"
+When you submit your first paper, a referee may ask: "Can you verify that your
+algorithm consistently identifies the pattern in your data sample?"
 
 With an **out-of-order notebook**, you'll panic:
 
@@ -728,12 +784,12 @@ With an **out-of-order notebook**, you'll panic:
 - Did you update the preprocessing before or after running the analysis?
 - Your memory says one thing, but re-running gives different results
 
-With **tested modules and a cleanly executed analysis notebook**, you'll
-confidently respond:
+With **tested modules and a cleanly executed analysis notebook**, you can give
+the referee an auditable starting point:
 
 - "Run `python analyze.py --input data/sample.csv --method algorithm1`"
-- "Results are identical: value = 0.5673 $\pm$ 0.0002"
-- "See our GitHub repository for version-controlled analysis code"
+- "Here are the input, configuration, seed, and software records for this run"
+- "See the version-controlled analysis code and the validation evidence"
 
 Real example: Major scientific collaborations require discoveries to be verified
 with independent analysis pipelines. In practice, those checks are run as
@@ -741,8 +797,8 @@ with independent analysis pipelines. In practice, those checks are run as
 boundary matters: reusable computation must not depend on hidden interactive
 state.
 
-Remember: **Modules and scripts own reusable computation; restartable notebooks
-can communicate the analysis.**
+For sustained projects, **modules and scripts are the usual home for reusable
+computation; restartable notebooks can communicate the analysis.**
 :::
 
 :::{important} Computational Thinking: Reproducible Analysis Pipelines
@@ -764,19 +820,30 @@ managers (Snakemake, Pegasus) to orchestrate Python scripts rather than depend o
 manual cell execution. A reproducible notebook should use **Restart Kernel and Run All Cells** as the
 minimum notebook check, not a replacement for modular code and tests.
 
-Remember: *"If it's not reproducible, it's not science."*
+Remember: a computation is not an auditable scientific result until another
+reader can inspect the inputs, method, and evidence needed to challenge it.
 :::
 
 ---
 
-## 1.4 Scripts: Write Once, Run Anywhere (Correctly)
+(reusable-computation)=
+## 1.4 From exploration to reusable computation
 
 Python scripts execute in a fresh process from top to bottom, which avoids a
 notebook's hidden cell history. That alone does not make a result reproducible:
 inputs, dependencies, configuration, random seeds, and the execution command
 must still be controlled and recorded.
 
-### From IPython to Scripting
+:::{important} Design decision: notebooks narrate; modules own reusable computation
+
+Use a notebook when the scientific work needs explanation, figures, and
+exploration. Put reusable calculations in named functions and modules so they
+can be imported, tested, reviewed, and run without inheriting a notebook's
+history. This is a division of responsibility, not a claim that one format is
+always better than the other.
+:::
+
+**A first script, before the function details.**
 
 Start by experimenting in IPython with a real scientific calculation:
 
@@ -796,7 +863,10 @@ r_s = 2 * G * M_bh / c**2
 print(f"Schwarzschild radius for 10 M_sun: {r_s/1e3:.1f} km")
 ```
 
-Now create a proper script. Save this as `calculation.py`:
+The complete example below is a **Reference preview**. It makes the
+notebook-to-module boundary concrete; Chapter 5 develops the function and
+module mechanics it uses. Save it as `calculation.py` only after reading its
+structure, rather than treating it as a new syntax checklist.
 
 :::{note} Complete calculation.py Script
 :class: dropdown
@@ -903,11 +973,17 @@ if __name__ == "__main__":
 ```
 :::
 
-### The `if __name__ == "__main__"` Pattern for Python Scripts
+This is a structural example, not a defensible black-hole classification
+scheme: its mass categories are simplified labels chosen only to make the
+script's control flow visible. A scientific classification would need a stated
+domain definition and evidence for its thresholds.
+
+**Reference: the `if __name__ == "__main__"` pattern.**
 
 This crucial pattern makes your code both runnable and importable:
 
-```{code-cell} python
+```python
+# Reference preview: Chapter 5 develops function contracts and module design.
 # Understanding __name__ in scientific context
 def planck_function(wavelength_nm, temperature_K):
     """
@@ -954,13 +1030,15 @@ if __name__ == "__main__":
 :::{tip} Check Your Understanding
 :class: dropdown
 
-Why is the `if __name__ == "__main__"` pattern crucial for scientific instrument control software?
+Why is the `if __name__ == "__main__"` pattern useful—but not sufficient—for
+scientific instrument control software?
 
 **Solution:**
 
 In scientific instrument control and data acquisition:
 
-1. **Safety**: Test functions without activating equipment
+1. **Import safety**: importing a support module should not accidentally start
+   an acquisition or move hardware.
 
    ```python
    def move_to_position(x, y, z):
@@ -968,7 +1046,7 @@ In scientific instrument control and data acquisition:
        pass
 
    if __name__ == "__main__":
-       # Safe testing with simulated coordinates
+       # A local demonstration; it does not provide a hardware safety system.
        print("Testing movement (not really moving):")
        # move_to_position(10.0, 20.0, 5.0)  # Commented for safety
    ```
@@ -976,6 +1054,10 @@ In scientific instrument control and data acquisition:
 2. **Module Testing**: Test detector readout without taking real data
 3. **Pipeline Components**: Each script works standalone or in pipeline
 4. **Calibration Scripts**: Can process test data or real observations
+
+Actual instrument safety also requires hardware interlocks, permissions,
+operational procedures, and tests. The `__name__` pattern only controls whether
+a Python file runs its demonstration block when imported.
 :::
 
 ---
@@ -984,7 +1066,64 @@ In scientific instrument control and data acquisition:
 
 Your scientific analysis depends on its **environment** — Python version, numpy version, even the linear algebra backend. Capturing an environment reduces avoidable differences between systems. It does not by itself guarantee identical results across operating systems, hardware, or time; inputs, numerical libraries, configuration, and random seeds also matter.
 
-### The Conda Solution
+:::{important} Modeling boundary: an environment file is necessary, not sufficient
+
+An environment record can identify the interpreter and package set used for an
+analysis. It does not establish that two machines received the same input data,
+used the same configuration, produced identical floating-point behavior, or
+implemented an adequate scientific model. Treat it as one inspectable part of a
+larger evidence record.
+:::
+
+**A minimal run record.** For a result worth sharing, record the command, the
+interpreter (`sys.executable`), relevant package versions or origins, the input
+identifier or checksum, configuration, and random seed when one is used. This
+is enough to begin a disagreement without pretending that it proves the result.
+
+---
+
+(discrepant-run)=
+## Core check: investigate a discrepant run
+
+Two collaborators run the same analysis. They have recorded:
+
+```text
+                         Run A                         Run B
+command      python analyze.py --config run.yml --seed 19   same
+input hash   71d0...ac9                                  71d0...ac9
+config hash  2f31...be7                                  2f31...be7
+interpreter  .../envs/analysis/bin/python                 /software/python/bin/python
+NumPy        1.26.4                                       2.0.1
+reported value 0.436                                      0.439
+```
+
+Before reading the answer, decide:
+
+1. Which facts are already controlled, and which are not?
+2. What is the next smallest diagnostic you would run?
+3. What claim would be unwarranted at this point?
+
+:::{tip} Answer
+:class: dropdown
+
+The input, configuration, command, and seed are already useful controlled
+facts. The Python executable and NumPy version differ, so the environment is a
+plausible source of the discrepancy—but it is not yet a demonstrated cause.
+
+First compare package origins and run a tiny, relevant reproducer in both
+environments, such as the numerical operation that feeds the reported value.
+Then inspect the algorithm, assumptions, and tolerances if the reproducer does
+not explain the difference. It would be unwarranted to claim that either
+reported value is scientifically correct merely because one run is recorded
+more completely.
+:::
+
+---
+
+(environment-reference)=
+## Reference: environments, paths, and random generators
+
+**Reference: an isolated environment with Conda.**
 
 **Conda** creates isolated environments — separate Python installations with their own packages. This is essential for research where different projects need different package versions:
 
@@ -1009,19 +1148,23 @@ $ conda deactivate
 $ conda activate project_a
 ```
 
-:::{important} Why This Matters: Cluster Time = Money
+:::{important} Why This Matters: failed runs have scientific and human costs
 :class: dropdown
 
-Your university pays ~$0.10 per CPU-hour on the cluster. A typical research project uses 10,000+ hours. If your code crashes after 8 hours because of environment issues, you've wasted:
+Cluster pricing, allocation policy, and queue rules vary widely. A failed run
+can still cost scarce allocation, queue time, energy, and a collaborator's
+attention. If a long run crashes because it used an unexpected environment,
+you may have to repeat:
 
-- $80 in compute time
-- 8 hours of waiting
-- Your queue priority (back to the end of the line!)
+- the time spent waiting for the job;
+- the computation needed to recreate its output; and
+- the work needed to determine which software stack actually ran.
 
-Get your environment right ONCE, and every subsequent run just works. This chapter will literally save you hundreds of dollars and weeks of time.
+An environment check before an expensive run does not guarantee success, but it
+turns one avoidable ambiguity into evidence you can inspect later.
 :::
 
-### Environment Files: Share Your Exact Setup
+**Reference: environment files and lockfiles.**
 
 Create an `environment.yml` file for your research project:
 
@@ -1063,16 +1206,18 @@ $ conda activate data_analysis
 ```
 :::
 
-### environment.yml vs lockfiles (what “reproducible” really means)
+**`environment.yml` versus lockfiles.**
 
 An `environment.yml` is a great **sharing format**, but it is not a true lockfile: the exact solved set of packages can vary across OSes and across time. In practice you often want two levels:
 
 - **Level 1 (portable-ish):** `environment.yml` with major/minor pins and `conda env export --from-history` to avoid freezing every transient dependency.
 - **Level 2 (as deterministic as possible):** a lockfile (e.g., via `conda-lock`) or an explicit spec export for the platform you will run on.
 
-### Proper Path Management
+**Reference: paths and random generators.**
 
-Stop hardcoding paths that break when moving between laptop and cluster:
+Do not hardcode paths that break when moving between laptop and cluster. This
+is static script code: `__file__` is intentionally unavailable in most
+notebook kernels.
 
 ```python
 from pathlib import Path
@@ -1127,7 +1272,7 @@ else:
     print(f"    Expected location: {data_path}")
 ```
 
-### Random Seed Control for Monte Carlo
+**Random seed control for Monte Carlo.**
 
 Make Monte Carlo simulations reproducible by using a default random number generator seed value:
 
@@ -1174,7 +1319,7 @@ print("\n⚠️  Different seed = different results:")
 true2, obs2, err2 = simulate_with_errors(n_samples=5, seed=137)
 print(f"Seed 137: First obs = {obs2[0]:.3f} +/- {err2[0]:.3f}")
 
-print("\n🔍 Always document seeds in papers for reproducibility!")
+print("\nRecord the seed in the run configuration or analysis record.")
 ```
 
 :::{tip} The More You Know: When Code Sharing Isn't Enough
@@ -1203,15 +1348,23 @@ This echoes our discussion about environments: sharing code without documenting 
 
 ---
 
-## Section 1.6: Essential Debugging Strategies
+## 1.6 Reference: detailed environment debugging
 
 When your simulation produces unphysical results after running for 12 hours, or if your data processing pipeline crashes during a critical analysis, **systematic debugging** saves the day. Debugging isn't just about fixing errors—**it's about understanding why they occurred and preventing them in the future**. Here are battle-tested strategies from computational laboratories that will serve you throughout your research career.
 
-**The Psychology of Debugging:** When code fails, especially if you're new to Python or transitioning from Jupyter notebooks, the problem is often a bug in your code—a typo, incorrect indentation, wrong variable name, or logical error. These are normal and expected! However, before diving into line-by-line debugging, a quick environment check can save you hours if the problem is actually a missing package or wrong Python version. Think of it as triage: the environment check takes 5 seconds and catches ~30% of problems immediately. The other 70%? Those are real bugs that require careful debugging.
+**The psychology of debugging:** A failure may be a typo, a wrong variable,
+an incorrect algorithm, an invalid input, or an unexpected environment. These
+are normal and expected. Before diving into line-by-line debugging, make a
+short environment check when the symptom involves imports, versions, paths, or
+machine-to-machine disagreement. That is triage, not a substitute for testing
+the scientific logic.
 
-### The Universal First Check
+**A bounded first check.**
 
-Before examining your algorithm, before questioning whether your integrator is correctly implemented, before doubting your understanding of the equations—always, *always* verify your environment first. This simple discipline will save you hours of frustration:
+Before examining a computation, identify which failure class you are facing.
+For an import, version, path, or cross-machine disagreement, start with the
+environment. For a wrong but repeatable scientific result, inspect inputs,
+assumptions, and the algorithm instead.
 
 **Why Environment Checks Matter:** Your code doesn't exist in isolation. It runs within a complex ecosystem of Python interpreters, installed packages, system libraries, and configuration files. A mismatch in any of these layers can cause mysterious failures. This is especially critical when moving code between laptops, workstations, and high-performance computing clusters.
 
@@ -1219,7 +1372,7 @@ Before examining your algorithm, before questioning whether your integrator is c
 :class: dropdown
 
 ```python
-def check_python_location():
+def report_python_location():
     """
     Step 1: Verify Python interpreter location.
     Build on this: Add your project-specific checks!
@@ -1227,7 +1380,7 @@ def check_python_location():
     Returns
     -------
     tuple
-        (is_conda, environment_name)
+        Interpreter facts for an environment record
     """
     import sys
     import os
@@ -1243,14 +1396,14 @@ def check_python_location():
     # Detect conda environment
     if 'conda' in exe_path or 'miniforge' in exe_path:
         env_name = exe_path.split(os.sep)[-3] if 'envs' in exe_path else "base"
-        print(f"✓ Conda environment: {env_name}")
-        return True, env_name
+        print(f"Conda environment: {env_name}")
     else:
-        print("✗ Not in conda environment")
-        return False, None
+        print("No Conda path detected (that is not itself an error).")
+
+    return {"executable": exe_path, "version": sys.version.split()[0]}
 
 # Example usage
-is_conda, env = check_python_location()
+python_context = report_python_location()
 ```
 
 ```python
@@ -1291,15 +1444,15 @@ package_status = check_critical_packages()
 ```
 
 ```python
-def validate_computation_environment():
+def report_numerical_context():
     """
-    Step 3: Validate numerical computation settings.
-    Extend this: Add checks for your specific calculations!
+    Step 3: Report numerical context.
+    Add model-specific validation separately.
 
     Returns
     -------
-    bool
-        True if environment suitable for scientific computing
+    dict
+        Facts that help interpret numerical behavior
     """
     import numpy as np
 
@@ -1313,14 +1466,17 @@ def validate_computation_environment():
     arr = np.asarray([1.0])
     print("Example array dtype:", arr.dtype)
 
-    print("✓ Environment suitable for numerical work")
-    return True
+    return {
+        "float64_eps": np.finfo(np.float64).eps,
+        "float32_eps": np.finfo(np.float32).eps,
+        "example_dtype": str(arr.dtype),
+    }
 
-# Combine all checks for complete validation
-validated = validate_computation_environment()
+# This is a context report, not validation of a scientific calculation.
+numerical_context = report_numerical_context()
 ```
 
-These functions are starting points! For your research:
+These reports are starting points, not a pass/fail validation. For your research:
 
 - Add checks for GPU libraries if doing simulations
 - Include MPI validation for parallel codes
@@ -1331,7 +1487,7 @@ Adapt these functions to your computational needs throughout your work. The few
 seconds it takes to run them can save hours of misguided debugging.
 :::
 
-### Using IPython's Debugger
+**Using IPython's debugger.**
 
 When your code does crash — *and it will* — IPython's `%debug` magic command lets you perform a post-mortem examination. Think of it as having a time machine that takes you back to the moment of failure, letting you inspect all variables and understand exactly what went wrong:
 
@@ -1398,7 +1554,8 @@ ipdb> q  # Quit debugger
 
 ---
 
-## Section 1.7: Defensive Programming
+(defensive-programming)=
+## Reference preview: defensive scientific programming
 
 You've spent the entire afternoon coding a complex calculation from scratch for tomorrow's homework. Every equation matches the textbook. You've triple-checked the math. This is it - your code will generate beautiful results.
 
@@ -1416,134 +1573,43 @@ Your heart sinks. But the equation is *right there* in the textbook, you *triple
 
 **Welcome to the reality of scientific computing.** Your code will crash - not because you're bad at programming, but because tiny bugs are *invisible*. Maybe you typed `a + b` instead of `a * b`. Maybe there's a minus sign where there should be a plus. You can check it five times against the textbook and your brain will still autocorrect what you're reading to what you *meant* to write.
 
-This is why we practice **defensive programming** - not because we're paranoid, but because *we're realistic*. The following strategies will transform your code from "works on my test case" to "works everywhere with any reasonable input." Every infinity you catch before it propagates, every convergence failure you detect early - these are the hallmarks of professional scientific software.
+This is why we practice **defensive programming**—not because we're paranoid,
+but because *we're realistic*. A defensive check is scientifically meaningful
+only when the model tells us what should be true. Generic bounds such as
+`0 < param_a < 100`, or an arbitrary overflow threshold, can create false
+confidence rather than prevent an error.
 
-**Stage 1: Validate Physical Parameters**
+**Three questions before writing the guard.**
 
-```{code-cell} python
-def validate_parameters(param_a, param_b, param_c):
-    """Ensure parameters are in valid range."""
-    # param_a reasonable range
-    if not 0 < param_a < 100:
-        raise ValueError(f"param_a={param_a} outside reasonable range (0,100)")
-
-    # param_b must be positive
-    if param_b < 0:
-        raise ValueError("param_b must be positive")
-
-    # Check constraint
-    total = param_b + param_c
-    if abs(total - 1.0) > 0.01:  # Allow 1% deviation
-        print(f"Warning: Constraint violated (total = {total:.3f})")
-
-    return True
-```
-
-**Stage 2: Protect Against Numerical Hazards**
-
-```{code-cell} python
-def safe_calculation(x, param_a, param_b):
-    """
-    Compute result with overflow protection.
-    """
-    import math
-
-    # Validate input
-    if x < 0:
-        raise ValueError(f"x must be non-negative: {x}")
-    if x > 1000:
-        raise ValueError(f"x {x} exceeds maximum")
-
-    # Protect against overflow for large x
-    term1 = param_a * (1 + x)**3
-
-    if term1 > 1e100:  # Would cause overflow
-        # Use log space for extreme values
-        log_result = 0.5 * (math.log10(param_a) + 3*math.log10(1+x))
-        return 10**log_result
-
-    result = math.sqrt(term1 + param_b)
-    return result
-```
-
-**Stage 3: Monitor Convergence in Iterative Calculations**
-
-```{code-cell} python
-def iterative_calculation(x, param_a=0.3, param_b=0.7, tol=1e-6):
-    """
-    Calculate result with adaptive iteration.
-    Shows defensive practices for iterative algorithms.
-    """
-    import math
-
-    # Start with coarse iteration
-    n_steps = 100
-    converged = False
-    max_iterations = 10
-
-    for iteration in range(max_iterations):
-        # Numerical integration
-        dx = x / n_steps
-        integral = 0.0
-
-        for i in range(n_steps):
-            x_i = i * dx
-            x_next = (i + 1) * dx
-            # Integrand
-            f_i = safe_calculation(x_i, param_a, param_b)
-            f_next = safe_calculation(x_next, param_a, param_b)
-            integral += 0.5 * (1/f_i + 1/f_next) * dx
-
-        # Check convergence (compare with previous iteration)
-        if iteration > 0:
-            rel_change = abs(integral - prev_integral) / abs(integral)
-            if rel_change < tol:
-                converged = True
-                break
-
-        prev_integral = integral
-        n_steps *= 2  # Double resolution
-
-    if not converged:
-        print(f"Warning: Not converged after {iteration+1} iterations")
-
-    result = (1 + x) * integral
-    return result
-```
-
-Notice how most of this code isn't implementing the algorithm - it's protecting the algorithm from numerical disasters.
+1. **What quantity is constrained, in what units, and why?** A positive mass,
+   a probability in $[0, 1]$, and a detector count each need a different
+   domain statement. The constraint comes from the model or instrument, not a
+   reusable number copied from another program.
+2. **What numerical failure is possible?** Record whether the calculation can
+   divide by zero, take a logarithm of a non-positive value, overflow, or lose
+   precision. Choose a representation or test that addresses that identified
+   failure.
+3. **What evidence would show adequate accuracy?** An iterative result needs a
+   known solution, a conservation law, a refinement comparison, or an external
+   benchmark. A loop reaching a maximum number of iterations is not evidence of
+   convergence.
 
 :::{important} Computational Thinking: Building Robust Code
 
-These **defensive programming** patterns apply to ANY numerical work you'll implement:
-
-**Parameter Validation**: Always check physical bounds
-
-- Values must be in valid ranges
-- Parameters must satisfy constraints
-- Inputs must be appropriate types
-
-**Overflow Protection**: Use appropriate representations
-
-- Log space for products of large numbers
-- Scaled units to keep numbers reasonable
-- Early detection of problematic values
-
-**Convergence Monitoring**: Don't trust, verify
-
-- Compare successive iterations
-- Set maximum iteration limits
-- Warn when convergence fails
-- Adaptive step sizes for efficiency
+The transferable pattern is **state a model-specific expectation → test it →
+record what happened → decide whether the result is usable**. Chapters 2, 3,
+and 9 develop numerical domains, bounded iteration, and tests with concrete
+models. This chapter establishes the standard they must meet: a guard clause or
+warning is evidence only when its threshold and consequence are justified.
 :::
 
 ---
 
-## Main Takeaways
+## Closing reflection
 
-This chapter has revealed the hidden complexity underlying every Python analysis you'll perform. You've learned that when your code fails or produces different results on different systems, it's often the **environment** surrounding that code. Understanding this distinction transforms you from someone frustrated by `ImportError` to someone who systematically diagnoses and fixes environment issues in seconds.
+This chapter has revealed the hidden complexity surrounding every Python analysis. When code fails or produces different results on different systems, the environment is one plausible cause—not a reason to skip inspection of the data, assumptions, and algorithm. Understanding that distinction turns an `ImportError` or a changed result into a bounded investigation.
 
-**IPython** is more than an enhanced prompt - it's your scientific computing and data exploration laboratory. The ability to quickly test algorithms, explore new libraries, and time different approaches is fundamental to computational science. The **magic commands** like `%timeit` for benchmarking and `%debug` for post-mortem analysis aren't conveniences; they're essential tools for developing robust pipelines. Master IPython now, because you'll use it every day.
+**IPython** is more than an enhanced prompt: it is a useful laboratory for testing an idea, asking for documentation, and examining a failure. Its commands are useful when they answer a specific question; they are not a replacement for a recorded, restartable analysis.
 
 The **Jupyter notebook** trap is particularly dangerous in scientific computing
 because hidden state can make serious analysis fragile. A polished notebook may
@@ -1551,42 +1617,44 @@ still produce different values when run out of order. Prevent that failure by
 restarting the kernel, running every cell in order, documenting the analysis,
 and moving reusable implementation into `.py` modules.
 
-Scripts enforce **reproducibility** through predictable execution. The `if __name__ == "__main__"` pattern enables you to build modular analysis tools that work both standalone and as part of larger pipelines — crucial for large projects where individual components must integrate into massive data processing systems.
+Scripts provide predictable top-to-bottom execution. The `if __name__ == "__main__"` pattern can help a module work both as a standalone tool and as an importable component; reproducibility still depends on controlled inputs, dependencies, configuration, and randomness.
 
-Creating reproducible environments is about scientific integrity, not just convenience. When you can't reproduce your own results from six months ago because NumPy updated and changed its random number generator, you've lost crucial research continuity. The tools you've learned — **conda** environments with version pinning, `environment.yml` files for exact reproduction, proper path handling for cluster compatibility — are the foundation of trustworthy computational science.
+Creating and recording environments is about scientific integrity, not just convenience. An isolated environment, a manifest or lockfile suited to the platform, portable paths, fixed inputs, and recorded seeds make a disagreement more inspectable. None of those practices alone proves a result correct.
 
 ---
 
-## Key Takeaways
+## Reference: quick return checklist
 
-✓ **IPython is your primary scientific computing tool**: Use it for testing algorithms, exploring data, and rapid prototyping — not the basic Python REPL
+✓ **Record the interpreter first**: `sys.executable` and a package version or origin turn “works on my machine” into an inspectable claim.
 
-✓ **Environment problems cause most "broken" analysis code**: When imports fail, check your environment first with `sys.executable` and `conda list`
+✓ **Environment checks are targeted triage**: use them first for imports, versions, paths, and cross-machine disagreements.
 
 ✓ **Notebooks require a reproducibility discipline**: Document the analysis,
 run it from a clean kernel, and keep reusable implementation in `.py` modules
 
-✓ **Scripts support reproducibility**: Top-to-bottom execution eliminates a major source of ambiguity; reproducibility still requires pinned deps, fixed inputs, and controlled randomness
+✓ **Scripts reduce one ambiguity**: top-to-bottom execution avoids notebook history; reproducibility still requires controlled inputs and dependencies.
 
 ✓ **The `__name__` pattern enables pipeline integration**: Code can be both a standalone tool and an importable module
 
 ✓ **Conda environments isolate projects**: Each project can have its own package versions without conflicts
 
-✓ **Always version-pin packages**: Use `environment.yml` files to ensure collaborators can reproduce your exact analysis
+✓ **Choose the right environment record**: `environment.yml` is a useful sharing format; a platform-specific lockfile or explicit specification can be needed for tighter reproduction.
 
 ✓ **Paths must be configurable**: Use environment variables and Path objects for code that works on both laptops and clusters
 
-✓ **Control randomness with seeds**: Always set and document random seeds for Monte Carlo simulations
+✓ **Control randomness deliberately**: use a local generator and record the seed whenever a stochastic result must be reproduced.
 
-✓ **Systematic debugging saves time**: Environment check $\to$ verify imports $\to$ test with known data
+✓ **Systematic debugging saves time**: identify the failure class $\to$ record the environment when relevant $\to$ isolate a small reproducer $\to$ test the scientific behavior.
 
-✓ **Defensive programming handles messy data**: Assume bad values, missing data, and edge cases
+✓ **Defensive checks need a model-specific reason**: state the domain,
+numerical failure, and evidence for adequate accuracy before trusting a guard
+or convergence warning.
 
 ---
 
 ## Quick Reference Tables
 
-### Essential IPython Commands
+**Essential IPython commands.**
 
 | Command | Purpose | Example |
 |---------|---------|---------|
@@ -1601,14 +1669,14 @@ run it from a clean kernel, and keep reusable implementation in `.py` modules
 | `?` | Quick help | `np.fft.fft?` |
 | `??` | Show source | `function??` |
 
-### Environment Debugging
+**Environment debugging.**
 
 | Check | Command | What to Look For |
 |-------|---------|------------------|
-| Python location | `which python` | Should show conda environment |
-| Package version | `python -c "import pkg; print(pkg.__version__)"` | Correct version |
-| Environment name | `conda info --envs` | Asterisk marks active |
-| Packages | `conda list | grep pkg` | Package present |
+| Python location | `python -c "import sys; print(sys.executable)"` | Intended interpreter |
+| Package version | `python -c "import pkg; print(pkg.__version__)"` | Intended version |
+| Package origin | `python -c "import pkg; print(pkg.__file__)"` | Expected install location |
+| Packages | `python -m pip show pkg` | Package belongs to this Python |
 | Import works | `python -c "from pkg import mod"` | Should import without error |
 | Data paths | `echo $PROJECT_DATA` | Your data directory |
 
@@ -1616,4 +1684,8 @@ run it from a clean kernel, and keep reusable implementation in `.py` modules
 
 ## Next Chapter Preview
 
-Now that you've mastered your computational environment, Chapter 2 will transform Python into a powerful scientific calculator. You'll discover why $0.1 + 0.2 \neq 0.3$ matters when doing numerical calculations, learn how floating-point errors compound during numerical integration, and understand why some calculations require extra precision. You'll implement algorithms for transformations, conversions, and computations — all while managing the numerical precision that separates successful results from incorrect ones. Get ready to understand why numerical errors happen and how to prevent similar problems in your computations!
+Now that you can identify the context in which a computation ran,
+[continue to Chapter 2: Python as Your Scientific Calculator](02-python-calculator.md).
+There you will discover why $0.1 + 0.2 \neq 0.3$ matters for numerical work,
+how floating-point errors compound, and how to make a numerical claim with an
+appropriate precision and check.
