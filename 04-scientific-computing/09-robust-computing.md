@@ -14,7 +14,7 @@ By the end of this chapter, you will be able to:
 - [ ] **4. Apply** assertions to document assumptions, verify mathematical properties, and catch numerical instabilities
 - [ ] **5. Transform** print-based debugging into structured logging with timestamps, severity levels, and persistent records
 - [ ] **6. Create** comprehensive test suites that verify known values, mathematical properties, edge cases, and regression scenarios
-- [ ] **7. Debug** code systematically using scientific method, binary search, and hypothesis-testing approaches
+- [ ] **7. Debug** code systematically using scientific method, diagnostic checkpoints, and hypothesis-testing approaches
 - [ ] **8. Evaluate** how errors propagate through scientific calculations and implement appropriate safeguards for numerical stability
 
 ## Prerequisites
@@ -37,11 +37,10 @@ Test your readiness by predicting what happens in each case:
 data = [1, 2, 3]
 print(data[3])
 
-# Question 2: What's wrong with this calculation?
+# Question 2: What result do you expect, and what does the computer store?
 import numpy as np
-values = np.array([1e20, 1, 2, 3])
-mean = np.mean(values)
-variance = np.mean((values - mean)**2)
+values = np.array([1e16, 1.0, -1e16])
+computed_sum = np.sum(values)
 
 # Question 3: Will this file operation work?
 with open('nonexistent.txt', 'r') as f:
@@ -58,23 +57,29 @@ distance = parsecs_to_lightyears("10")  # String instead of number
 :class: dropdown
 
 1. **IndexError**: list index out of range (lists are 0-indexed, so valid indices are 0, 1, 2)
-2. **Numerical instability**: The huge value (1e20) dominates, causing catastrophic cancellation
+2. **Loss of significance**: Mathematically, the sum is 1.0. In ordinary
+   float64 arithmetic the middle `1.0` can be lost when it is added to
+   `1e16`, so this ordering commonly produces 0.0. The result is finite, but
+   it does not preserve the small contribution. This is a precision question,
+   not evidence that every large-dynamic-range calculation is unstable.
 3. **FileNotFoundError**: The file doesn't exist
 4. **TypeError**: Can't multiply string by float
 
 If you struggled with these, review the prerequisite chapters first!
 :::
 
-### Debugging and failure-handling reference
+### Why failures are evidence
 
 Programs fail, and a useful failure exposes enough context to diagnose the
 problem. In scientific computing, validation and tests are ways to preserve a
 claim about behavior—not markers that someone has reached a more professional
 identity.
 
-Think back to the simple functions we wrote in earlier chapters. In Chapter 5, we created `calculate_mean(values)` without checking if values was empty. In Chapter 7, we processed NumPy arrays without verifying they contained valid numbers. In Chapter 8, we plotted data assuming it was always plottable. Real scientific data breaks all these assumptions: sensors have failures producing NaN values, instruments have glitches creating outliers, and experiments can be interrupted leaving incomplete datasets. The Mars Climate Orbiter crashed into Mars because of uncaught unit conversion errors. The Hubble Space Telescope initially produced blurry images due to a mirror specification error that proper validation would have caught. The Ariane 5 rocket exploded because of an integer overflow in reused code that was never tested with the new rocket's parameters. These disasters, costing hundreds of millions of dollars, were preventable with the techniques you'll learn in this chapter.
+Think back to the simple functions we wrote in earlier chapters. In Chapter 5, we created `calculate_mean(values)` without checking if values was empty. In Chapter 7, we processed NumPy arrays without verifying they contained valid numbers. In Chapter 8, we plotted data assuming it was always plottable. Real scientific data breaks all these assumptions: sensors have failures producing NaN values, instruments have glitches creating outliers, and experiments can be interrupted leaving incomplete datasets.
 
-This chapter teaches you **defensive programming**—writing code that anticipates problems and handles them gracefully. You'll learn to read error messages like a detective reading clues, understanding not just what went wrong but why and where. You'll implement try/except blocks that catch expected errors like missing files or network timeouts without crashing your entire pipeline. You'll validate inputs at function boundaries, checking that values are reasonable and arrays contain actual numbers. You'll use assertions to verify that your numerical algorithms maintain mathematical properties despite floating-point limitations. You'll replace amateur print statements with professional logging that creates permanent, searchable records of your program's execution. Finally, you'll write tests that catch bugs before they waste computational resources. By chapter's end, you'll write code that doesn't just work—it works reliably, fails informatively, and helps you fix problems quickly when they arise.
+Real failures make the stakes concrete, but they also resist single-cause morals. NASA's Mars Climate Orbiter was lost after a failure to translate English and metric units; the Hubble mirror's spherical aberration was traced to a lens-spacing error in a test device; and Ariane 501 failed shortly after launch and prompted an independent inquiry. Each case involved technical details, interfaces, review practices, and organizational decisions—not merely one missing `if` statement. This chapter gives you small, inspectable habits that contribute to those larger systems of evidence.
+
+This chapter teaches you **defensive programming**—writing code that anticipates problems and handles them gracefully. You'll learn to read error messages like a detective reading clues, understanding not just what went wrong but why and where. You'll implement try/except blocks that catch expected errors like missing files or network timeouts without crashing your entire pipeline. You'll validate inputs at function boundaries, checking that values are reasonable and arrays contain actual numbers. You'll use assertions to verify internal invariants during development. When execution records and severity levels matter, you'll use logging rather than scattered diagnostic prints. Finally, you'll write tests that make stated behavior reproducible. A passing test demonstrates that stated behavior under stated conditions; it does not by itself establish physical adequacy, calibration, or scientific validity.
 
 ## 9.1 Understanding Error Messages
 
@@ -173,7 +178,7 @@ In scientific data pipelines, one error can corrupt everything downstream:
 def process_spectrum(wavelength, flux):
     """Complete spectroscopic reduction pipeline."""
 
-    # Step 1: Calibration - fails if wavelength has NaN
+    # Step 1: Calibration - a NaN wavelength propagates through the arithmetic.
     calibrated_wave = wavelength - 0.5  # Wavelength calibration offset
 
     # Step 2: Normalize - fails if flux has zeros or negative
@@ -274,7 +279,9 @@ def read_magnitude(star_id, catalog):
 
 ### Building Robust File Readers
 
-Data files are fundamental in scientific computing. Let's build a robust reader:
+Data files are fundamental in scientific computing. The following static example
+requires Astropy; it illustrates a boundary contract rather than a complete FITS
+quality-control pipeline.
 
 ```python
 from astropy.io import fits
@@ -304,14 +311,16 @@ def read_fits_image(filename, extension=0):
             data = hdul[extension].data
             header = hdul[extension].header
 
-            # Validate data
+            # Validate the boundary contract before numerical inspection.
             if data is None:
                 raise ValueError("No data in FITS extension")
+            data = np.asarray(data)
+            if not np.issubdtype(data.dtype, np.number):
+                raise ValueError(f"Expected numeric image data, got {data.dtype}")
 
-            # Check for common issues
-            n_nan = np.count_nonzero(np.isnan(data))
-            if n_nan > 0:
-                print(f"Warning: {n_nan} NaN pixels found")
+            n_nonfinite = np.count_nonzero(~np.isfinite(data))
+            if n_nonfinite > 0:
+                print(f"Warning: {n_nonfinite} non-finite pixels found")
 
             # Check if image is saturated
             if 'SATURATE' in header:
@@ -331,6 +340,10 @@ def read_fits_image(filename, extension=0):
         print(f"Details: {e}")
         return None, None
 
+    except ValueError as e:
+        print(f"Error: {filename} violates this reader's data contract: {e}")
+        return None, None
+
     except (KeyError, IndexError) as e:
         print(f"Error: Extension {extension} not found in {filename}")
         return None, None
@@ -343,7 +356,7 @@ When downloading data or accessing remote resources, network issues are common:
 ```python
 import time
 
-def download_data(data_id, max_retries=3):
+def download_data(data_id, max_retries=3, sleep=time.sleep):
     """
     Download data with automatic retry.
 
@@ -365,7 +378,7 @@ def download_data(data_id, max_retries=3):
 
             if attempt < max_retries - 1:
                 print(f"Retrying in {wait_time} seconds...")
-                time.sleep(wait_time)
+                sleep(wait_time)
             else:
                 print(f"Failed after {max_retries} attempts")
                 raise  # Re-raise the exception
@@ -374,47 +387,53 @@ def download_data(data_id, max_retries=3):
 
 # Test the retry mechanism
 try:
-    data = download_data("sample_001")
+    # Inject a no-op sleeper for this deterministic demonstration. A real caller
+    # uses the default time.sleep or a project-specific retry policy.
+    data = download_data("sample_001", sleep=lambda seconds: None)
     print(f"Successfully downloaded: {data}")
 except ConnectionError:
     print("Download failed - check network connection")
 ```
 
-:::{important} Why This Matters: The Mars Climate Orbiter Disaster
+::::{important} Why This Matters: The Mars Climate Orbiter Disaster
 
-In 1999, NASA lost the $125 million Mars Climate Orbiter because one team used metric units (Newton-seconds) while another used imperial units (pound-force seconds). The navigation software didn't validate or handle unit mismatches:
+In 1999, NASA lost the Mars Climate Orbiter after one interface supplied
+impulse data in pound-force seconds while the receiving navigation system
+expected Newton-seconds. The immediate unit mismatch mattered, but NASA's
+investigation also identified a failure of systems-engineering checks to detect
+and correct it. A small program cannot reproduce the mission; this toy shows
+one boundary where units and dimensions must be explicit:
 
 ```python
-def combine_trajectory_corrections(delta_v1, unit1, delta_v2, unit2):
-    """What the Mars software should have done."""
+def combine_impulses_to_delta_v(impulse1, unit1, impulse2, unit2, mass_kg):
+    """Convert two scalar impulses to a scalar velocity change in m/s."""
 
-    # Convert to standard units (m/s)
-    conversions = {
-        'metric': 1.0,
-        'imperial': 4.448  # pounds to newtons
+    # Values are impulses, not velocities: N s = kg m/s.
+    impulse_to_newton_seconds = {
+        'N s': 1.0,
+        'lbf s': 4.4482216152605,
     }
 
-    try:
-        if unit1 not in conversions or unit2 not in conversions:
-            raise ValueError(f"Unknown units: {unit1}, {unit2}")
+    if mass_kg <= 0:
+        raise ValueError("Spacecraft mass must be positive in kg")
+    if unit1 not in impulse_to_newton_seconds or unit2 not in impulse_to_newton_seconds:
+        raise ValueError(f"Unknown impulse unit: {unit1!r}, {unit2!r}")
 
-        # Convert to metric
-        dv1_metric = delta_v1 * conversions[unit1]
-        dv2_metric = delta_v2 * conversions[unit2]
-
-        # Log the conversion for verification
-        print(f"Converted: {delta_v1} {unit1} = {dv1_metric} m/s")
-        print(f"Converted: {delta_v2} {unit2} = {dv2_metric} m/s")
-
-        return dv1_metric + dv2_metric
-
-    except ValueError as e:
-        print(f"CRITICAL ERROR: {e}")
-        print("Halting operation for safety review")
-        return None
+    total_impulse_ns = (
+        impulse1 * impulse_to_newton_seconds[unit1]
+        + impulse2 * impulse_to_newton_seconds[unit2]
+    )
+    return total_impulse_ns / mass_kg
 ```
 
-A simple validation check could have saved the mission!
+::::
+
+:::{tip} Modeling boundary: a unit-checked toy is not a navigation system
+
+This scalar calculation ignores vector direction, time, coordinate frames,
+mass changes, uncertainty, and mission operations. Its lesson is narrower:
+the program should make its quantity contract inspectable and reject a value
+whose units it cannot interpret.
 :::
 
 ### When NOT to Use Try/Except
@@ -489,22 +508,26 @@ def validate_magnitude(mag, band='V', object_type='star'):
     object_type : str
         Type of object (star, galaxy, quasar)
     """
-    # Check for NaN or infinity
-    if np.isnan(mag) or np.isinf(mag):
+    if not np.isscalar(mag):
+        raise TypeError("Magnitude must be one scalar measurement")
+    mag = float(mag)
+    if not np.isfinite(mag):
         raise ValueError(f"Invalid magnitude: {mag}")
 
-    # Physical limits by band and object type
-    limits = {
-        'star': {'V': (-1.5, 30)},  # Sirius to faintest detectable
-        'galaxy': {'V': (8, 25)},   # Bright galaxy to ultra-deep field
-        'quasar': {'V': (12, 30)}   # Brightest to most distant
+    # These are survey-screening limits for this classroom example, not
+    # universal physical limits. A real pipeline reads them from its survey
+    # configuration and preserves a flag rather than silently discarding data.
+    screening_limits = {
+        'star': {'V': (-2, 35)},
+        'galaxy': {'V': (5, 35)},
+        'quasar': {'V': (5, 35)},
     }
 
-    if object_type in limits and band in limits[object_type]:
-        min_mag, max_mag = limits[object_type][band]
+    if object_type in screening_limits and band in screening_limits[object_type]:
+        min_mag, max_mag = screening_limits[object_type][band]
         if not min_mag <= mag <= max_mag:
             raise ValueError(
-                f"{object_type} {band}={mag} outside range "
+                f"{object_type} {band}={mag} outside configured screening range "
                 f"[{min_mag}, {max_mag}]"
             )
 
@@ -523,6 +546,8 @@ def validate_coordinates(ra, dec, system='icrs'):
     system : str
         Coordinate system (icrs, fk5, galactic)
     """
+    if not (np.isscalar(ra) and np.isscalar(dec) and np.isfinite(ra) and np.isfinite(dec)):
+        raise ValueError("Coordinates must be finite scalar values in degrees")
     if system in ['icrs', 'fk5']:
         if not 0 <= ra < 360:
             raise ValueError(f"RA={ra} outside range [0, 360)")
@@ -534,6 +559,8 @@ def validate_coordinates(ra, dec, system='icrs'):
             raise ValueError(f"Gal. longitude={ra} outside range")
         if not -90 <= dec <= 90:  # b
             raise ValueError(f"Gal. latitude={dec} outside range")
+    else:
+        raise ValueError(f"Unsupported coordinate system: {system}")
 
     return True
 ```
@@ -555,21 +582,35 @@ def process_spectrum(wavelength, flux, z=None):
     flux = np.asarray(flux)
     if wavelength.shape != flux.shape:
         raise ValueError(f"Shape mismatch: {wavelength.shape} vs {flux.shape}")
+    if wavelength.size == 0:
+        raise ValueError("Spectrum must contain at least one sample")
 
     # Layer 3: Content (medium cost)
-    if np.any(np.isnan(flux)) or np.any(np.isinf(flux)):
+    if not np.all(np.isfinite(wavelength)):
+        raise ValueError("Wavelength contains non-finite values")
+    if not np.all(np.isfinite(flux)):
         n_bad = np.sum(~np.isfinite(flux))
         raise ValueError(f"{n_bad} non-finite flux values")
 
     # Layer 4: Domain-specific (expensive)
-    if wavelength[0] > wavelength[-1]:
-        raise ValueError("Wavelength must be monotonically increasing")
+    if not np.all(np.diff(wavelength) > 0):
+        raise ValueError("Wavelength must be strictly increasing")
 
-    if z is not None and z < -0.01:  # Small blueshift ok
-        raise ValueError(f"Unphysical redshift z={z}")
+    if z is not None:
+        # This example accepts one finite scalar redshift; array support is a
+        # separate design choice rather than an accidental side effect.
+        if not np.isscalar(z):
+            raise ValueError(f"Invalid redshift z={z}")
+        try:
+            z = float(z)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"Invalid redshift z={z}") from exc
+        if not np.isfinite(z) or z < -0.01:
+            raise ValueError(f"Invalid redshift z={z}")  # Small blueshift is OK
 
-    # Main processing here...
-    return processed_spectrum
+    # The processing stage is deliberately omitted. Returning the validated
+    # arrays makes this example executable without pretending to reduce data.
+    return wavelength, flux
 ```
 
 Each layer catches different problems, from cheap checks to expensive domain validation.
@@ -580,7 +621,10 @@ Each layer catches different problems, from cheap checks to expensive domain val
 For computational physics, validate physical constraints:
 
 ```python
-def validate_nbody_initial_conditions(positions, velocities, masses):
+def validate_nbody_initial_conditions(
+    positions, velocities, masses, min_separation_m=1e-3,
+    newtonian_speed_limit_fraction=0.01,
+):
     """
     Validate N-body simulation initial conditions.
 
@@ -591,14 +635,19 @@ def validate_nbody_initial_conditions(positions, velocities, masses):
     vel = np.asarray(velocities)
     m = np.asarray(masses)
 
-    # Check shapes
+    # Check shapes and finite values.
     n_bodies = len(m)
+    if n_bodies < 2:
+        raise ValueError("At least two bodies are required")
     if pos.shape != (n_bodies, 3):
         raise ValueError(f"Position shape {pos.shape} != ({n_bodies}, 3)")
     if vel.shape != (n_bodies, 3):
         raise ValueError(f"Velocity shape {vel.shape} != ({n_bodies}, 3)")
 
-    # Check masses are positive
+    if not (np.all(np.isfinite(pos)) and np.all(np.isfinite(vel)) and np.all(np.isfinite(m))):
+        raise ValueError("Positions, velocities, and masses must be finite")
+
+    # Check masses are positive.
     if np.any(m <= 0):
         raise ValueError(f"Negative or zero masses found")
 
@@ -606,39 +655,32 @@ def validate_nbody_initial_conditions(positions, velocities, masses):
     for i in range(n_bodies):
         for j in range(i+1, n_bodies):
             separation = np.linalg.norm(pos[i] - pos[j])
-            if separation < 1e-10:  # Numerical tolerance
+            if separation < min_separation_m:
                 raise ValueError(
                     f"Particles {i} and {j} are coincident "
-                    f"(separation={separation})"
+                    f"or closer than {min_separation_m} m (separation={separation} m)"
                 )
 
-    # Check for extreme velocities (numerical stability)
+    # This is a modeling boundary, not a numerical-stability threshold.
     speeds = np.linalg.norm(vel, axis=1)
     c = 299792458  # m/s
-    if np.any(speeds > 0.1 * c):
-        fast_particles = np.where(speeds > 0.1 * c)[0]
+    if np.any(speeds > newtonian_speed_limit_fraction * c):
+        fast_particles = np.where(speeds > newtonian_speed_limit_fraction * c)[0]
         raise ValueError(
-            f"Particles {fast_particles} have relativistic speeds"
+            f"Particles {fast_particles} exceed this Newtonian model's "
+            f"speed boundary ({newtonian_speed_limit_fraction} c)"
         )
-
-    # Check total energy isn't catastrophic
-    kinetic = 0.5 * np.sum(m * speeds**2)
-
-    # Simplified potential energy check
-    typical_separation = np.median([
-        np.linalg.norm(pos[i] - pos[j])
-        for i in range(min(10, n_bodies))
-        for j in range(i+1, min(10, n_bodies))
-    ])
-
-    G = 6.67430e-11
-    potential_scale = G * np.sum(m)**2 / typical_separation
-
-    if kinetic > 100 * abs(potential_scale):
-        raise ValueError("System appears unbound - will disperse immediately")
 
     return True
 ```
+
+:::{tip} Design decision: validate a contract, not a guess about the outcome
+
+The validator checks array shape, finiteness, declared SI units, a chosen
+collision scale, and the Newtonian model boundary. It does **not** declare an
+initial condition "bad" merely because a rough energy estimate looks unbound:
+that conclusion depends on the full system and scientific question.
+:::
 
 ## 9.4 Using Assertions
 
@@ -648,6 +690,10 @@ A debugging aid that verifies assumptions about program state.
 :::
 
 **Assertions** verify that your code's internal logic is correct. Think of them as automated sanity checks that catch bugs during development.
+
+Python can disable assertions with optimization flags, so use `ValueError` (or
+another explicit exception) for inputs supplied by a caller. Reserve `assert`
+for an internal invariant whose failure means the program itself is wrong.
 
 ### Assertions vs Validation
 
@@ -675,8 +721,7 @@ def calculate_orbital_period(semi_major_axis, total_mass):
 
     # ASSERTION: Verify our calculation is sensible
     assert period > 0, "Period calculation gave negative result!"
-    assert not np.isnan(period), "Period calculation gave NaN!"
-    assert not np.isinf(period), "Period calculation gave infinity!"
+    assert np.isfinite(period), "Period calculation gave a non-finite result!"
 
     # For Earth-Sun system, should be ~365 days
     if abs(semi_major_axis - 1.496e11) < 1e10 and abs(total_mass - 1.989e30) < 1e29:
@@ -690,22 +735,41 @@ def calculate_orbital_period(semi_major_axis, total_mass):
 Assertions are crucial for catching numerical instabilities in scientific algorithms:
 
 ```python
-def integrate_orbit_leapfrog(r0, v0, m1, m2, dt, n_steps):
+def integrate_relative_orbit_leapfrog(
+    r0, v0, m1, m2, dt, n_steps, min_separation_m=1e3,
+    max_relative_energy_error=1e-6,
+):
     """
-    Integrate two-body orbit using leapfrog algorithm.
+    Integrate relative two-body motion using leapfrog.
 
-    Uses assertions to verify conservation laws.
+    `r0` and `v0` are relative separation and relative velocity in SI units.
+    The energy tolerance is a diagnostic contract chosen from a timestep
+    refinement study; it is not a universal accuracy threshold.
     """
     G = 6.67430e-11
 
-    # Initial conditions
+    if m1 <= 0 or m2 <= 0 or dt <= 0 or n_steps < 1:
+        raise ValueError("Masses, timestep, and number of steps must be positive")
+    if min_separation_m <= 0 or max_relative_energy_error <= 0:
+        raise ValueError("Separation and energy-error thresholds must be positive")
+
+    # Initial conditions for the relative-coordinate problem.
     r = np.array(r0, dtype=np.float64)
     v = np.array(v0, dtype=np.float64)
+    if r.shape != (3,) or v.shape != (3,):
+        raise ValueError("r0 and v0 must each have three components")
 
-    # Initial energy (for conservation check)
-    kinetic_initial = 0.5 * m1 * np.linalg.norm(v)**2
-    potential_initial = -G * m1 * m2 / np.linalg.norm(r)
+    initial_separation = np.linalg.norm(r)
+    if initial_separation <= min_separation_m:
+        raise ValueError("Initial separation is below the collision boundary")
+
+    # The kinetic term for relative motion uses the reduced mass.
+    reduced_mass = m1 * m2 / (m1 + m2)
+    kinetic_initial = 0.5 * reduced_mass * np.linalg.norm(v)**2
+    potential_initial = -G * m1 * m2 / initial_separation
     energy_initial = kinetic_initial + potential_initial
+    if energy_initial == 0:
+        raise ValueError("Use an absolute energy diagnostic for a zero-energy orbit")
 
     positions = [r.copy()]
 
@@ -713,11 +777,11 @@ def integrate_orbit_leapfrog(r0, v0, m1, m2, dt, n_steps):
         # Leapfrog integration
         r_mag = np.linalg.norm(r)
 
-        # Assert we haven't hit singularity
-        assert r_mag > 1e-6, f"Collision at step {step}!"
+        if r_mag <= min_separation_m:
+            raise ValueError(f"Separation below {min_separation_m} m at step {step}")
 
         # Update velocity (half step)
-        a = -G * m2 * r / r_mag**3
+        a = -G * (m1 + m2) * r / r_mag**3
         v += a * dt/2
 
         # Update position (full step)
@@ -725,74 +789,61 @@ def integrate_orbit_leapfrog(r0, v0, m1, m2, dt, n_steps):
 
         # Update velocity (half step)
         r_mag = np.linalg.norm(r)
-        a = -G * m2 * r / r_mag**3
+        a = -G * (m1 + m2) * r / r_mag**3
         v += a * dt/2
 
         positions.append(r.copy())
 
-        # Periodic energy conservation check
+        # Periodic invariant check. A non-finite energy is a programming or
+        # numerical failure; the tolerance is supplied by the caller.
         if step % 100 == 0:
-            kinetic = 0.5 * m1 * np.linalg.norm(v)**2
+            kinetic = 0.5 * reduced_mass * np.linalg.norm(v)**2
             potential = -G * m1 * m2 / np.linalg.norm(r)
             energy = kinetic + potential
 
-            # Energy should be conserved (within numerical precision)
             energy_error = abs((energy - energy_initial) / energy_initial)
-            assert energy_error < 1e-6, \
-                f"Energy not conserved! Relative error: {energy_error:.2e}"
+            assert np.isfinite(energy_error), "Energy diagnostic became non-finite"
+            assert energy_error < max_relative_energy_error, (
+                f"Energy diagnostic exceeds {max_relative_energy_error:.1e}: "
+                f"{energy_error:.2e}"
+            )
 
     return np.array(positions)
 ```
 
-:::{note} The More You Know: How Debugging Saved Voyager 2
+:::{note} The More You Know: Remote Diagnosis on Voyager 2
 :class: dropdown
 
-In 1989, as Voyager 2 approached Neptune, the spacecraft suddenly started sending gibberish data. With the probe 2.7 billion miles away and only hours until the crucial Neptune encounter, JPL engineers faced a debugging nightmare with 4-hour round-trip communication delays.
+In 2010, Voyager 2 began returning corrupted science data. NASA/JPL engineers
+compared the changed data pattern with expected behavior, isolated one changed
+bit in onboard memory, and reproduced the effect on an Earth-based computer.
+The episode was not a classroom `assert` story: it was remote diagnosis using
+telemetry, a testable hypothesis, and a controlled comparison before a fix.
 
-The team implemented what we now call "remote debugging with logging assertions":
-
-```python
-# Simplified version of Voyager's diagnostic approach
-def spacecraft_navigation_diagnostic():
-    """Emergency diagnostic mode."""
-
-    # Add assertions at every critical step
-    memory_test = read_memory_bank(0x4000)
-    assert memory_test == expected_pattern, f"Memory corrupted at 0x4000"
-
-    # Test each subsystem
-    gyro_reading = read_gyroscope()
-    assert -180 <= gyro_reading <= 180, f"Gyro reading {gyro_reading} invalid"
-
-    # Check calculation paths
-    position = calculate_position()
-    assert np.linalg.norm(position) < 5e9, "Position calculation overflow"
-
-    # Log everything for Earth analysis
-    telemetry_log(f"MEM_OK:0x4000,GYRO:{gyro_reading},POS:{position}")
-```
-
-Through systematic assertion checking, they isolated the problem to a single bit flip in memory address 0x5B47, caused by a cosmic ray. The solution was elegant: they uploaded a patch that rerouted calculations around the damaged memory location. Without these diagnostic assertions creating a trail of breadcrumbs through the code, finding one flipped bit among millions would have been impossible. Voyager 2 successfully captured stunning images of Neptune and Triton, all thanks to assertions that could be analyzed on Earth!
+The transferable lesson is modest but powerful. A useful diagnostic record lets
+you ask *what changed, relative to which expectation, under which
+configuration?* It does not eliminate uncertainty; it makes a failure
+investigable.
 :::
 
 ### Debug This!
 
-This function has a subtle numerical bug that assertions will catch:
+This function is numerically finite at high redshift. What scientific boundary
+does it cross instead?
 
 ```python
-def calculate_luminosity_distance(z, H0=70, OmegaM=0.3, OmegaL=0.7):
+def luminosity_distance_matter_lambda(z, H0=70, OmegaM=0.3, OmegaL=0.7):
     """
     Calculate luminosity distance for given redshift.
 
-    Has a numerical stability issue - can you find it?
+    Flat matter-plus-dark-energy classroom model; distances are in Mpc.
     """
     from scipy import integrate
 
-    # Validate inputs
-    assert z >= 0, "Redshift must be non-negative"
-    assert H0 > 0, "Hubble constant must be positive"
-    assert 0 <= OmegaM <= 1, "Matter density out of range"
-    assert 0 <= OmegaL <= 1, "Dark energy density out of range"
+    if z < 0 or H0 <= 0 or OmegaM < 0 or OmegaL < 0:
+        raise ValueError("Require z >= 0, H0 > 0, and non-negative densities")
+    if not np.isclose(OmegaM + OmegaL, 1.0):
+        raise ValueError("This flat model requires OmegaM + OmegaL = 1")
 
     # Hubble distance
     c = 299792.458  # km/s
@@ -802,60 +853,65 @@ def calculate_luminosity_distance(z, H0=70, OmegaM=0.3, OmegaL=0.7):
     def E(z_prime):
         return np.sqrt(OmegaM * (1 + z_prime)**3 + OmegaL)
 
-    # Integrate (potential numerical issue here!)
+    # This integral is well behaved at z=1100 in float64.
     DC, error = integrate.quad(lambda zp: 1/E(zp), 0, z)
     DC *= DH
 
     # Luminosity distance
     DL = (1 + z) * DC
 
-    # This assertion sometimes fails - why?
     assert DL > 0, f"Luminosity distance {DL} is negative!"
-    assert not np.isnan(DL), f"Luminosity distance is NaN!"
+    assert np.isfinite(DL), f"Luminosity distance {DL} is non-finite!"
 
     return DL
 
-# Test with extreme redshift
-# result = calculate_luminosity_distance(1100)  # CMB redshift
+# This produces a finite number at z=1100, but that does not make the model
+# adequate for the CMB epoch.
+# result = luminosity_distance_matter_lambda(1100)
 ```
 
-:::{note} Bug Explanation
+::::{note} Bug Explanation
 :class: dropdown
 
-The bug is **numerical overflow** in the integrand at high redshift. When z is very large (like z=1100 for the CMB), the term $(1+z)^3$ becomes huge (~$10^{9}$), causing numerical instabilities.
+There is no float64 overflow at $z=1100$: $(1+z)^3$ is only about $10^9$.
+The boundary is physical. Radiation contributes materially near recombination,
+so a matter-plus-dark-energy model is not an adequate CMB-era distance model.
+The finite result only shows that this implementation evaluated its stated toy
+equation.
 
-Fix using logarithmic formulation:
-```python
-def E_stable(z_prime):
-    # Use logarithms to avoid overflow
-    log_term = 3 * np.log(1 + z_prime)
-    return np.exp(0.5 * np.logaddexp(
-        log_term + np.log(OmegaM),
-        np.log(OmegaL)
-    ))
-```
+::::
 
-This demonstrates why assertions are crucial for catching numerical edge cases!
+:::{tip} Modeling boundary: a passing calculation is not a validated cosmology
+
+For a CMB-era question, choose and document an expansion-history model that
+includes radiation (and any other required components), then compare against a
+known implementation or reference result. Tests can establish agreement with
+that chosen contract; they cannot choose the physical model for you.
 :::
 
-## 9.5 Logging Instead of Print
+## 9.5 Logging as Diagnosis
 
 :::{margin}
 **Logging**
 Systematic recording of program events with timestamps, severity levels, and structured output.
 :::
 
-Professional code uses **logging** instead of print statements. It's the difference between scribbled notes and a proper lab notebook—essential when debugging long-running simulations or automated operations.
+Use **logging** when an execution record, severity level, or machine-readable
+diagnostic matters. `print()` remains useful for a short interactive
+exploration; logging is the better tool for a pipeline, service, or
+long-running simulation whose history someone must inspect later.
 
-### From Print to Professional Logging
+### From Local Messages to a Diagnostic Record
 
-Transform amateur debugging into professional practice:
+Configure handlers at an application entry point, not inside an importable
+library function. This static example uses a named logger and a deterministic
+synthetic image so its diagnostics can be reproduced:
 
 ```python
 import logging
 import numpy as np
 
-# Configure logging for data pipeline
+# Configure logging once at an application entry point.
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -873,30 +929,39 @@ def process_image(image, dark_frame, flat_frame):
 
     Demonstrates logging at different severity levels.
     """
+    image = np.asarray(image, dtype=float)
+    dark_frame = np.asarray(dark_frame, dtype=float)
+    flat_frame = np.asarray(flat_frame, dtype=float)
+    if not (image.shape == dark_frame.shape == flat_frame.shape):
+        logger.error("Image, dark frame, and flat frame must have the same shape")
+        return None
+    if not (np.all(np.isfinite(image)) and np.all(np.isfinite(dark_frame))):
+        logger.error("Image and dark frame must contain only finite values")
+        return None
+    if not (np.all(np.isfinite(flat_frame)) and np.all(flat_frame > 0)):
+        logger.error("Flat frame must be finite and strictly positive")
+        return None
+
     logger.info(f"Starting image reduction: shape {image.shape}")
+
+    # Saturation belongs to the detector's raw-count space, before calibration.
+    saturation_level = 65535  # 16-bit detector counts
+    n_raw_saturated = np.sum(image >= saturation_level)
+    if n_raw_saturated > 0:
+        logger.warning(f"{n_raw_saturated} saturated raw pixels detected")
 
     # Dark subtraction
     logger.debug(f"Dark frame statistics: mean={np.mean(dark_frame):.2f}")
     dark_subtracted = image - dark_frame
 
-    # Check for negative pixels (shouldn't happen)
+    # Negative values after dark subtraction can be ordinary measurement noise.
+    # Preserve them; log the fact rather than silently changing the data.
     n_negative = np.sum(dark_subtracted < 0)
     if n_negative > 0:
-        logger.warning(f"Found {n_negative} negative pixels after dark subtraction")
-        dark_subtracted = np.maximum(dark_subtracted, 0)
+        logger.info(f"Found {n_negative} negative pixels after dark subtraction")
 
     # Flat fielding
-    if np.any(flat_frame <= 0):
-        logger.error("Flat frame contains zeros or negative values!")
-        return None
-
     flat_corrected = dark_subtracted / flat_frame
-
-    # Check for saturation
-    saturation_level = 65535  # 16-bit detector
-    n_saturated = np.sum(flat_corrected >= saturation_level)
-    if n_saturated > 0:
-        logger.warning(f"{n_saturated} saturated pixels detected")
 
     # Outlier detection (simplified)
     median = np.median(flat_corrected)
@@ -908,22 +973,26 @@ def process_image(image, dark_frame, flat_frame):
     logger.info("Image reduction complete")
     return flat_corrected
 
-# Example usage with simulated data
-image = np.random.poisson(1000, (1024, 1024)).astype(float)
-dark = np.random.poisson(100, (1024, 1024)).astype(float)
-flat = np.ones((1024, 1024)) + np.random.normal(0, 0.1, (1024, 1024))
+# Example usage with deterministic simulated data.
+rng = np.random.default_rng(20260821)
+image = rng.poisson(1000, (128, 128)).astype(float)
+dark = rng.poisson(100, (128, 128)).astype(float)
+flat = np.ones((128, 128)) + rng.normal(0, 0.1, (128, 128))
 
 result = process_image(image, dark, flat)
 ```
 
 ### Logging Long-Running Simulations
 
-For simulations that run for days, logging provides crucial diagnostics:
+For simulations that run for days, logging provides crucial diagnostics. The
+following is **pseudocode**: it requires a simulation-specific timestep,
+energy diagnostic, and checkpoint writer. It deliberately does not invent a
+random "energy" to make a log look realistic.
 
 ```python
 import time
 
-def run_simulation(n_particles, n_steps):
+def run_simulation(n_particles, n_steps, evolve_one_timestep, total_energy, save_checkpoint):
     """
     Run N-body simulation with progress logging.
     """
@@ -935,16 +1004,16 @@ def run_simulation(n_particles, n_steps):
 
     # Simulation loop
     checkpoint_interval = max(1, n_steps // 10)
-    energy_initial = calculate_total_energy()  # Placeholder
+    energy_initial = total_energy()
 
     for step in range(n_steps):
         # Evolve system
-        evolve_one_timestep()  # Placeholder
+        evolve_one_timestep()
 
         # Periodic logging
         if step % checkpoint_interval == 0:
             progress = 100 * step / n_steps
-            energy_current = calculate_total_energy()
+            energy_current = total_energy()
             energy_drift = abs((energy_current - energy_initial) / energy_initial)
 
             sim_logger.info(
@@ -962,47 +1031,36 @@ def run_simulation(n_particles, n_steps):
                 sim_logger.info(f"Checkpoint saved at step {step}")
 
     sim_logger.info("Simulation complete")
-
-def calculate_total_energy():
-    """Placeholder for energy calculation."""
-    return np.random.random()
-
-def evolve_one_timestep():
-    """Placeholder for evolution."""
-    time.sleep(0.001)  # Simulate computation
-
-def save_checkpoint(filename):
-    """Placeholder for checkpoint saving."""
-    pass
 ```
 
-:::{tip} Computational Thinking Box: Structured Logging for Data Provenance
+:::{tip} Research practice: structured logging for data provenance
 
 Use structured logging to maintain data provenance—the complete history of how your data was processed:
 
 ```python
 import json
-from datetime import datetime
+import logging
+from datetime import datetime, timezone
 
 class DataProvenanceLogger:
     """Track complete history of data processing."""
 
-    def __init__(self, data_id):
+    def __init__(self, data_id, logger):
         self.data_id = data_id
+        self.logger = logger
         self.history = []
 
     def log_step(self, operation, parameters, metrics):
         """Log a processing step with full details."""
         step = {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'operation': operation,
             'parameters': parameters,
             'metrics': metrics
         }
         self.history.append(step)
 
-        # Also log to file
-        logger.info(f"Provenance: {json.dumps(step)}")
+        self.logger.info("provenance=%s", json.dumps(step, sort_keys=True))
 
     def save_provenance(self, filename):
         """Save complete processing history."""
@@ -1014,7 +1072,8 @@ class DataProvenanceLogger:
             json.dump(provenance, f, indent=2)
 
 # Usage example
-prov = DataProvenanceLogger("sample_001")
+provenance_logger = logging.getLogger("DataPipeline.provenance")
+prov = DataProvenanceLogger("sample_001", provenance_logger)
 
 prov.log_step(
     operation='dark_subtraction',
@@ -1031,7 +1090,9 @@ prov.log_step(
 prov.save_provenance('sample_001_provenance.json')
 ```
 
-This creates an audit trail essential for reproducible science!
+This records selected processing decisions. Reproducibility additionally
+requires the inputs, software/environment versions, random seeds, configuration,
+and a way to identify the produced outputs.
 :::
 
 ## 9.6 Writing Simple Tests
@@ -1041,60 +1102,69 @@ This creates an audit trail essential for reproducible science!
 Code that verifies other code works correctly.
 :::
 
-**Testing** isn't about proving perfection—it's about catching obvious bugs before they waste computational resources. Think of tests as experimental verification of your code.
+**Testing** isn't about proving perfection—it's about checking a stated
+behavior before it quietly becomes an assumption in later work. Put test files
+named `test_*.py` beside your code and run them with `python -m pytest`.
+`pytest` discovers functions named `test_*`; each test should arrange a known
+state, act once, and assert the observable contract.
+
+:::{tip} Modeling boundary: tested behavior is not scientific validation
+
+A passing test can show that your implementation matches a known value,
+invariant, or explicitly chosen approximation. It cannot establish that a
+calibrated instrument, a physical model, or an inference procedure is adequate
+for a scientific claim. Record both kinds of evidence.
+:::
 
 ### Testing Scientific Calculations
 
 ```python
-def magnitude_to_flux(magnitude, zero_point=0):
-    """Convert magnitude to flux using Pogson's law."""
+import numpy as np
+import pytest
+
+def magnitude_to_relative_flux(magnitude, zero_point=0):
+    """Return flux relative to the supplied zero point, not physical flux units."""
     return 10**(-0.4 * (magnitude - zero_point))
 
-def flux_to_magnitude(flux, zero_point=0):
-    """Convert flux to magnitude."""
-    if flux <= 0:
-        raise ValueError(f"Flux must be positive, got {flux}")
-    return -2.5 * np.log10(flux) + zero_point
+def relative_flux_to_magnitude(relative_flux, zero_point=0):
+    """Invert the relative-flux convention used above."""
+    if relative_flux <= 0:
+        raise ValueError(f"Relative flux must be positive, got {relative_flux}")
+    return -2.5 * np.log10(relative_flux) + zero_point
 
 def test_magnitude_conversions():
     """Test magnitude-flux conversions."""
 
-    # Test 1: Known values
-    # Vega has magnitude 0 by definition
-    assert abs(magnitude_to_flux(0) - 1.0) < 1e-10, "Vega flux wrong"
+    # Arrange / act / assert: zero magnitude maps to unit relative flux.
+    assert magnitude_to_relative_flux(0) == pytest.approx(1.0)
 
     # 5 magnitudes = factor of 100 in flux
-    assert abs(magnitude_to_flux(5) - 0.01) < 1e-10, "5 mag difference wrong"
+    assert magnitude_to_relative_flux(5) == pytest.approx(0.01)
 
     # Test 2: Round trip
     original_mag = 15.5
-    flux = magnitude_to_flux(original_mag)
-    recovered_mag = flux_to_magnitude(flux)
-    assert abs(recovered_mag - original_mag) < 1e-10, "Round trip failed"
+    relative_flux = magnitude_to_relative_flux(original_mag)
+    recovered_mag = relative_flux_to_magnitude(relative_flux)
+    assert recovered_mag == pytest.approx(original_mag)
 
     # Test 3: Mathematical properties
     mag1, mag2 = 10, 12
-    flux1 = magnitude_to_flux(mag1)
-    flux2 = magnitude_to_flux(mag2)
+    flux1 = magnitude_to_relative_flux(mag1)
+    flux2 = magnitude_to_relative_flux(mag2)
     flux_ratio = flux1 / flux2
     expected_ratio = 10**(0.4 * (mag2 - mag1))
-    assert abs(flux_ratio - expected_ratio) < 1e-10, "Flux ratio wrong"
+    assert flux_ratio == pytest.approx(expected_ratio)
 
     # Test 4: Edge cases
-    try:
-        flux_to_magnitude(-1)  # Negative flux
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass  # Expected
-
-    print("✓ All magnitude tests passed!")
-
-test_magnitude_conversions()
+    with pytest.raises(ValueError, match="positive"):
+        relative_flux_to_magnitude(-1)
 ```
 
 ### Testing Coordinate Transformations
 
 ```python
+import numpy as np
+
 def test_coordinate_transformations():
     """Test coordinate transformations."""
 
@@ -1135,11 +1205,53 @@ def test_coordinate_transformations():
 test_coordinate_transformations()
 ```
 
+### Parameterized Boundaries, Determinism, and Convergence
+
+Use parametrization when the same contract must hold at several boundaries.
+Use a local random generator when a test needs randomness, so a failure can be
+reproduced exactly. A convergence check supplies stronger numerical evidence
+than a single plausible-looking value.
+
+```python
+import numpy as np
+import pytest
+
+@pytest.mark.parametrize("ra, dec", [(0, 0), (359.999, 90), (180, -90)])
+def test_coordinate_bounds(ra, dec):
+    assert 0 <= ra < 360
+    assert -90 <= dec <= 90
+
+def test_seeded_noise_is_reproducible():
+    first = np.random.default_rng(20260821).normal(size=4)
+    second = np.random.default_rng(20260821).normal(size=4)
+    assert np.array_equal(first, second)
+
+def euler_exponential(dt, final_time=1.0):
+    """Solve y' = y, y(0) = 1 with a timestep that reaches final_time."""
+    n_steps = round(final_time / dt)
+    if not np.isclose(n_steps * dt, final_time):
+        raise ValueError("dt must divide final_time for this classroom example")
+    y = 1.0
+    for _ in range(n_steps):
+        y += dt * y
+    return y
+
+def test_euler_refinement_reduces_error():
+    exact = np.exp(1.0)
+    coarse_error = abs(euler_exponential(0.1) - exact)
+    fine_error = abs(euler_exponential(0.05) - exact)
+    assert fine_error < coarse_error
+```
+
 ### Testing Edge Cases in Physics Calculations
 
 ```python
-def redshift_to_velocity(z, relativistic=True):
-    """Convert redshift to recession velocity."""
+import pytest
+
+def doppler_redshift_to_velocity(z, relativistic=True):
+    """Convert a special-relativistic Doppler redshift to velocity in km/s."""
+    if z <= -1:
+        raise ValueError("Doppler redshift must be greater than -1")
     if relativistic:
         # Special relativistic formula
         c = 299792.458  # km/s
@@ -1154,29 +1266,29 @@ def test_redshift_velocity():
 
     c = 299792.458  # km/s
 
-    # Test 1: Zero redshift = zero velocity
-    assert redshift_to_velocity(0) == 0, "z=0 should give v=0"
+    # Test 1: Zero redshift = zero velocity.
+    assert doppler_redshift_to_velocity(0) == pytest.approx(0)
 
     # Test 2: Small redshift - relativistic and non-relativistic agree
     z_small = 0.001
-    v_rel = redshift_to_velocity(z_small, relativistic=True)
-    v_nonrel = redshift_to_velocity(z_small, relativistic=False)
-    assert abs(v_rel - v_nonrel) / v_nonrel < 0.001, "Small z approximation fails"
+    v_rel = doppler_redshift_to_velocity(z_small, relativistic=True)
+    v_nonrel = doppler_redshift_to_velocity(z_small, relativistic=False)
+    assert v_rel == pytest.approx(v_nonrel, rel=1e-3)
 
     # Test 3: Speed of light limit
     z_large = 1000  # Very high redshift
-    v = redshift_to_velocity(z_large)
+    v = doppler_redshift_to_velocity(z_large)
     assert v < c, f"Velocity {v} exceeds speed of light!"
 
     # Test 4: Known values
     # z=1 should give v = 3c/5
-    v_z1 = redshift_to_velocity(1)
+    v_z1 = doppler_redshift_to_velocity(1)
     expected = 3 * c / 5
-    assert abs(v_z1 - expected) < 1, "z=1 velocity wrong"
+    assert v_z1 == pytest.approx(expected)
 
     # Test 5: Negative redshift (blueshift)
     z_blue = -0.001  # Small blueshift (like Andromeda)
-    v_blue = redshift_to_velocity(z_blue)
+    v_blue = doppler_redshift_to_velocity(z_blue)
     assert v_blue < 0, "Blueshift should give negative velocity"
 
     print("✓ Redshift velocity tests passed!")
@@ -1184,9 +1296,14 @@ def test_redshift_velocity():
 test_redshift_velocity()
 ```
 
+This is a Doppler-equivalent velocity convention. Do **not** use it as a
+general conversion from cosmological redshift to a unique recession velocity;
+that interpretation depends on the cosmological model and coordinates.
+
 :::{warning} Common Bug Alert: Floating Point Comparison
 
-Never use `==` to compare floating point numbers!
+Avoid `==` when assessing the result of a floating-point calculation unless
+exactness is part of the documented contract.
 
 ```python
 # BAD: Will often fail due to rounding
@@ -1202,7 +1319,8 @@ actual = calculate_values()
 assert np.allclose(actual, expected, rtol=1e-7, atol=1e-10)
 ```
 
-Floating point arithmetic isn't exact—always allow for small differences!
+Choose `rtol` and `atol` from the scale of the measurement, numerical method,
+or known solution—not as ritual constants.
 :::
 
 ## 9.7 Debugging Strategies
@@ -1216,7 +1334,17 @@ The systematic process of finding and fixing errors in code.
 
 ### The Scientific Method of Debugging
 
+:::{tip} Predict before running
+
+At $z=0$, both the buggy and correct expressions return $H_0$. Predict which
+nonzero redshift will make the mistaken dark-energy factor visible, and whether
+the buggy value is too high or too low.
+:::
+
 ```python
+import numpy as np
+import pytest
+
 def demonstrate_debugging_process():
     """Show systematic debugging of a cosmological calculation."""
 
@@ -1227,11 +1355,11 @@ def demonstrate_debugging_process():
         E_z = np.sqrt(OmegaM * (1+z)**3 + OmegaL * (1+z)**2)  # Bug here!
         return H0 * E_z
 
-    # STEP 1: OBSERVE - Identify the symptom
-    z_test = 0  # At z=0, should return H0
+    # STEP 1: OBSERVE - use a nonzero case that distinguishes the models.
+    z_test = 1
     result = buggy_hubble_parameter(z_test)
-    expected = 70
-    print(f"Expected H(0) = {expected}, got {result}")  # Wrong!
+    expected = H0_expected = 70 * np.sqrt(0.3 * (1 + z_test)**3 + 0.7)
+    print(f"Expected H({z_test}) = {expected:.2f}, got {result:.2f}")
 
     # STEP 2: HYPOTHESIZE - Form theories
     print("\nHypotheses:")
@@ -1240,17 +1368,17 @@ def demonstrate_debugging_process():
     print("3. OmegaL term wrong?")
 
     # STEP 3: EXPERIMENT - Test each component
-    print("\nTesting components at z=0:")
+    print(f"\nTesting components at z={z_test}:")
 
-    z = 0
+    z = z_test
     OmegaM, OmegaL = 0.3, 0.7
 
     # Test each term separately
     matter_term = OmegaM * (1+z)**3
-    print(f"Matter term: {matter_term} (should be {OmegaM})")
+    print(f"Matter term: {matter_term:.2f}")
 
     dark_energy_term = OmegaL * (1+z)**2  # Bug found!
-    print(f"Dark energy term: {dark_energy_term} (should be {OmegaL})")
+    print(f"Dark-energy term: {dark_energy_term:.2f} (should be {OmegaL:.2f})")
     print(f"ERROR: Dark energy shouldn't have (1+z) dependence!")
 
     # STEP 4: FIX - Correct the bug
@@ -1260,23 +1388,27 @@ def demonstrate_debugging_process():
         return H0 * E_z
 
     # Verify fix
-    result_fixed = hubble_parameter_fixed(0)
-    print(f"\nFixed: H(0) = {result_fixed} ✓")
+    result_fixed = hubble_parameter_fixed(z_test)
+    assert result_fixed == pytest.approx(H0_expected)
+    print(f"\nFixed: H({z_test}) = {result_fixed:.2f} ✓")
 
 demonstrate_debugging_process()
 ```
 
-### Binary Search Debugging for Complex Pipelines
+### Diagnostic Checkpoints for Complex Pipelines
 
-When debugging long processing pipelines, use binary search to isolate problems:
+When debugging a long processing pipeline, record a small number of diagnostic
+checkpoints at meaningful boundaries. This is not literal binary search: it
+preserves evidence at each stage so a failing contract can be located and then
+investigated.
 
 ```python
 def debug_spectroscopy_pipeline(spectrum_file):
     """
-    Debug a complex spectroscopy pipeline using binary search.
+    Debug a complex spectroscopy pipeline with diagnostic checkpoints.
     """
 
-    # Add checkpoints to bisect the problem
+    # Add checkpoints at meaningful scientific boundaries.
     checkpoints = []
 
     # === FIRST HALF ===
@@ -1292,7 +1424,7 @@ def debug_spectroscopy_pipeline(spectrum_file):
     flux_cal = flux_calibrate(calibrated)
     checkpoints.append(("Flux cal", validate_spectrum(flux_cal)))
 
-    # === CHECKPOINT: If error before here, problem in first half ===
+    # === MIDPOINT CHECKPOINT ===
     print("=== MIDPOINT CHECK ===")
     for name, valid in checkpoints:
         print(f"{name}: {'✓' if valid else '✗'}")
@@ -1326,7 +1458,7 @@ def validate_spectrum(spectrum):
     if spectrum is None:
         return False
     if hasattr(spectrum, 'flux'):
-        return not np.any(np.isnan(spectrum.flux))
+        return np.all(np.isfinite(spectrum.flux))
     return True
 
 # Placeholder functions
@@ -1373,7 +1505,7 @@ def buggy_find_peak(image):
 def fixed_find_peak(image, pixel_scale=1.0):
     """Fixed: Clear about indices vs coordinates."""
     y_idx, x_idx = np.unravel_index(np.argmax(image), image.shape)
-    # Convert to standard (x, y) coordinates
+    # Convert to standard (x, y) coordinates; document pixel_scale units.
     x_coord = x_idx * pixel_scale
     y_coord = y_idx * pixel_scale
     return {'indices': (y_idx, x_idx),
@@ -1500,11 +1632,14 @@ def calculate_distances(z, H0=70, OmegaM=0.3, OmegaL=0.7):
 
     Should:
     - Validate all inputs are in valid ranges
-    - Check OmegaM + OmegaL approx 1 (flat universe)
+    - State that this classroom model is spatially flat and check
+      `OmegaM + OmegaL` accordingly
     - Handle both scalar and array inputs for z
-    - Use assertions to verify results are positive
+    - Use explicit validation for caller inputs and assertions only for an
+      internal invariant
     - Return dict with luminosity_distance, angular_diameter_distance
-    - Catch numerical instabilities for very high z
+    - Flag that a matter-plus-dark-energy model is not adequate for CMB-era
+      redshift without radiation
     """
     # Your implementation here
     pass
@@ -1513,7 +1648,7 @@ def calculate_distances(z, H0=70, OmegaM=0.3, OmegaL=0.7):
 test_cases = [
     {'z': 0.1},                    # Nearby
     {'z': 1.0},                    # Typical
-    {'z': 1100},                   # CMB
+    {'z': 1100},                   # Require a model-boundary response
     {'z': -0.001},                 # Invalid (should raise error)
     {'z': [0.1, 0.5, 1.0]},       # Array input
 ]
@@ -1524,6 +1659,8 @@ test_cases = [
 Write comprehensive tests for this gravitational N-body integrator:
 
 ```python
+import numpy as np
+
 def nbody_step(positions, velocities, masses, dt, G=6.67e-11):
     """
     Single step of N-body integration using leapfrog.
@@ -1536,8 +1673,11 @@ def nbody_step(positions, velocities, masses, dt, G=6.67e-11):
     dt : float
         Timestep
     """
+    positions = np.asarray(positions, dtype=float).copy()
+    velocities = np.asarray(velocities, dtype=float).copy()
+    masses = np.asarray(masses, dtype=float)
     n = len(masses)
-    accelerations = np.zeros_like(positions)
+    accelerations = np.zeros_like(positions, dtype=float)
 
     # Calculate accelerations
     for i in range(n):
@@ -1545,6 +1685,8 @@ def nbody_step(positions, velocities, masses, dt, G=6.67e-11):
             if i != j:
                 r = positions[j] - positions[i]
                 r_mag = np.linalg.norm(r)
+                if r_mag == 0:
+                    raise ValueError("Collision: pairwise force is singular")
                 accelerations[i] += G * masses[j] * r / r_mag**3
 
     # Leapfrog integration
@@ -1552,12 +1694,14 @@ def nbody_step(positions, velocities, masses, dt, G=6.67e-11):
     positions += velocities * dt
 
     # Recalculate accelerations at new positions
-    accelerations = np.zeros_like(positions)
+    accelerations = np.zeros_like(positions, dtype=float)
     for i in range(n):
         for j in range(n):
             if i != j:
                 r = positions[j] - positions[i]
                 r_mag = np.linalg.norm(r)
+                if r_mag == 0:
+                    raise ValueError("Collision: pairwise force is singular")
                 accelerations[i] += G * masses[j] * r / r_mag**3
 
     velocities += accelerations * dt/2
@@ -1573,7 +1717,9 @@ def test_nbody_integrator():
     - Energy conservation over many steps
     - Momentum conservation
     - Handle collision (r -> 0)
-    - Performance with different numbers of bodies
+    - Input arrays are not unexpectedly mutated
+    - Benchmark separately on a declared workload; do not make runtime a
+      machine-dependent unit-test assertion
     """
     # Your tests here
     pass
@@ -1584,6 +1730,8 @@ def test_nbody_integrator():
 This spectroscopic analysis code has multiple bugs. Find and fix them:
 
 ```python
+import numpy as np
+
 def analyze_spectrum_buggy(wavelength, flux, z_guess=0):
     """
     Analyze spectrum - contains 3 bugs.
@@ -1606,8 +1754,8 @@ def analyze_spectrum_buggy(wavelength, flux, z_guess=0):
     if not np.any(ha_region):
         return None
 
-    # Integrate using wrong array
-    ew = np.trapz(1 - normalized[ha_region], wavelength[ha_region])  # Index mismatch!
+    # Integrate over observed wavelengths although the selected region is rest-frame.
+    ew = np.trapz(1 - normalized[ha_region], wavelength[ha_region])
 
     return {
         'continuum': continuum,
@@ -1616,33 +1764,37 @@ def analyze_spectrum_buggy(wavelength, flux, z_guess=0):
     }
 
 # Debug using these test cases:
-wave_test = np.linspace(6000, 7000, 1000)
+# Observed wavelengths for an H-alpha feature at z = 0.1.
+wave_test = np.linspace(6500, 6600, 1000) * 1.1
 flux_test = np.ones_like(wave_test)
-flux_test[(wave_test > 6560) & (wave_test < 6565)] = 0.7  # H-alpha absorption
+flux_test[(wave_test > 6560 * 1.1) & (wave_test < 6565 * 1.1)] = 0.7
 
-# Should work but gives wrong results
+# The corrected implementation should recover a non-empty rest-frame H-alpha region.
 result = analyze_spectrum_buggy(wave_test, flux_test, z_guess=0.1)
 ```
 
-## Main Takeaways
+## Closing: Evidence for Behavior
 
-This chapter transformed you from writing hopeful code to creating robust, professional software for scientific research. You've learned that the difference between amateur and professional code isn't perfection—it's how code handles imperfection. Your scripts can now detect problems early, handle them gracefully, and help you fix issues quickly when they arise.
+This chapter has built a chain of evidence for program behavior. Robust code is
+not code that never fails; it exposes enough context to identify an unexpected
+failure, distinguishes caller data from internal invariants, and leaves a
+record another person can inspect.
 
 **Error Understanding**: You now read error messages systematically from bottom to top, recognizing that **exceptions** are Python's structured way of communicating problems. Each error type tells a specific story: TypeError means wrong type, ValueError means right type but wrong value, IndexError means array access beyond bounds, and KeyError means missing dictionary entry. More importantly, you understand how errors **propagate** through scientific pipelines, potentially corrupting entire analyses if not caught early.
 
-**Exception Handling**: You've learned to use **try/except blocks** strategically, catching only expected errors like missing files or network timeouts while letting programming errors crash loudly for debugging. The key principle is **selective exception handling**—catch what you expect and can handle, let everything else fail fast. You've seen how this could have prevented disasters like the Mars Climate Orbiter loss.
+**Exception Handling**: You've learned to use **try/except blocks** strategically, catching only expected errors like missing files or network timeouts while letting programming errors crash loudly for debugging. The key principle is **selective exception handling**—catch what you expect and can handle, let everything else fail fast.
 
 **Input Validation**: You implement the **fail-fast principle** using **guard clauses** that validate inputs at function boundaries. For scientific data, this means checking that values are physically reasonable, coordinates are valid, and arrays contain actual numbers rather than NaN or infinity. Validation happens in layers, from cheap existence checks to expensive domain-specific constraints.
 
-**Assertions as Safety Nets**: You use **assertions** to verify internal logic and document assumptions. They're particularly crucial for numerical algorithms, catching issues like energy non-conservation in N-body simulations or negative variances from catastrophic cancellation. Unlike validation, assertions verify your code's correctness during development.
+**Assertions as Safety Nets**: You use **assertions** to verify internal logic and document assumptions during development. Unlike validation, assertions do not check caller data and can be disabled; numerical tolerances need a stated basis such as a known solution or refinement study.
 
-**Professional Logging**: You've replaced amateur print statements with structured **logging** that provides timestamps, severity levels, and permanent records. This creates an **audit trail** essential for debugging long-running simulations or understanding what happened during automated operations. Different severity levels (DEBUG, INFO, WARNING, ERROR, CRITICAL) help filter noise from signal.
+**Logging as Diagnosis**: You use structured **logging** when timestamps, severity levels, and persistent records matter. A log contributes to an audit trail, but reproducibility also requires inputs, versions, configuration, seeds, and identifiable outputs.
 
-**Systematic Testing**: You write **test functions** that verify known values, mathematical properties, and edge cases. Good tests catch bugs before they waste computational resources, preventing **regression** where old bugs reappear. You test not just specific values but properties that must hold regardless of input.
+**Systematic Testing**: You write `pytest` tests that verify known values, mathematical properties, parameterized boundaries, deterministic random behavior, and refinement trends. These checks demonstrate stated behavior—not the physical adequacy of the model behind it.
 
-**Scientific Debugging**: You approach debugging like a scientist—observing symptoms, forming hypotheses, designing experiments to test them, and analyzing results. **Binary search debugging** helps isolate problems in complex pipelines by systematically narrowing down the location of bugs. You recognize common patterns like unit mismatches, array index confusion, and floating-point comparison issues.
+**Scientific Debugging**: You approach debugging like a scientist—observing symptoms, forming hypotheses, designing experiments to test them, and analyzing results. **Diagnostic checkpoints** preserve evidence across complex pipelines. You recognize common patterns like unit mismatches, array index confusion, and floating-point comparison issues.
 
-The overarching theme is **defensive programming**—anticipating what can go wrong and handling it gracefully. Every technique builds toward writing code that doesn't just work on your machine with your test data, but works reliably in production with real-world messiness. This robustness is essential in scientific computing where simulations run for weeks, and errors can invalidate years of work. Your code now helps rather than hinders your research, turning frustrating debugging sessions into systematic problem-solving.
+The overarching theme is **defensive programming**—anticipating what can go wrong and making each safeguard inspectable. This work supports reliable research computing, but it does not replace scientific validation, calibration, or review.
 
 ## Definitions
 
@@ -1654,7 +1806,7 @@ The overarching theme is **defensive programming**—anticipating what can go wr
 
 **Bare except**: An except clause without specifying exception type; dangerous as it catches all errors.
 
-**Binary search debugging**: Debugging technique that isolates problems by repeatedly dividing code in half.
+**Diagnostic checkpoint**: A recorded intermediate contract used to localize a failure in a larger workflow.
 
 **Call stack**: The sequence of function calls that led to the current point in execution.
 
@@ -1712,6 +1864,8 @@ The overarching theme is **defensive programming**—anticipating what can go wr
 
 **Test function**: Code that verifies other code works correctly.
 
+**Test discovery**: A test runner's convention for finding test files and test functions automatically.
+
 **Traceback**: Report showing the sequence of function calls leading to an error.
 
 **Try/except block**: Control structure for handling exceptions gracefully.
@@ -1726,29 +1880,7 @@ The overarching theme is **defensive programming**—anticipating what can go wr
 
 **Zero-based indexing**: Python's numbering system where first element is at index 0.
 
-## Key Takeaways
-
-✓ **Error messages are roadmaps** – Read from bottom (what) to top (where) to quickly diagnose problems
-
-✓ **Try/except for expected failures** – Catch specific exceptions for files, network, and data issues; let bugs crash
-
-✓ **Validate at boundaries** – Check inputs at function entry using guard clauses, failing fast with clear messages
-
-✓ **Assert internal correctness** – Use assertions to verify mathematical properties and catch numerical instabilities
-
-✓ **Log, don't print** – Professional logging provides timestamps, severity levels, and permanent debugging records
-
-✓ **Test properties, not just values** – Verify mathematical relationships and edge cases, not just known answers
-
-✓ **Debug scientifically** – Observe, hypothesize, experiment, analyze—use binary search to isolate complex bugs
-
-✓ **Common bugs** – Watch for unit mismatches, coordinate system confusion, and numerical overflow
-
-✓ **Defensive programming saves missions** – Mars Climate Orbiter, Ariane 5, and other disasters were preventable
-
-✓ **Robustness enables research** – Code that fails gracefully saves time and computational resources
-
-## Quick Reference Tables
+## Reference: definitions and quick checks
 
 ### Common Exceptions and Fixes
 
@@ -1760,20 +1892,20 @@ The overarching theme is **defensive programming**—anticipating what can go wr
 | `IndexError` | Array access beyond bounds | Check array length first |
 | `KeyError` | Missing header keyword | Use `.get(key, default)` |
 | `ZeroDivisionError` | Empty array mean | Check length > 0 |
-| `FileNotFoundError` | Wrong path or filename | Try/except with retry |
-| `OverflowError` | Number too large | Use log-space arithmetic |
+| `FileNotFoundError` | Wrong path or filename | Correct the path, select an alternate input, or stop with context; retry only transient I/O. |
+| `OverflowError` | Number too large | Inspect scale and units; use a stable formulation such as log space when warranted. |
 
 ### Validation Order for Scientific Data
 
 | Check Level | What to Validate | Example | Cost |
 |-------------|------------------|---------|------|
 | Existence | Data not None/empty | `if data is None` | O(1) |
-| Type | Correct data type | `isinstance(ra, float)` | O(1) |
+| Type | Scalar or numeric array contract | `np.isscalar(ra)` / `np.asarray(data)` | O(1) |
 | Shape | Array dimensions | `flux.shape == wave.shape` | O(1) |
 | Range | Physical bounds | `0 <= ra < 360` | O(1) |
 | Content | NaN/Inf values | `np.any(np.isnan(data))` | O(n) |
-| Consistency | Related values | `z >= 0` for redshift | O(1) |
-| Domain | Scientific validity | `mag < 30` for stars | O(1) |
+| Consistency | Related values | Flat classroom model: `OmegaM + OmegaL == 1` | O(1) |
+| Domain | Scientific validity | Survey-configured magnitude screening range | O(1) |
 
 ### Logging Best Practices
 
@@ -1789,12 +1921,13 @@ The overarching theme is **defensive programming**—anticipating what can go wr
 
 | Test Type | What to Test | Example |
 |-----------|--------------|---------|
-| Known values | Standard results | Vega magnitude = 0 |
+| Known values | Standard results | Zero magnitude = unit **relative** flux |
 | Round trips | Inverse operations | mag$\to$flux$\to$mag |
 | Properties | Mathematical invariants | Energy conservation |
 | Edge cases | Boundaries | z=0, single particle |
 | Error cases | Invalid input | Negative mass |
-| Performance | Large datasets | 10^6 particles |
+| Convergence | Refinement improves a known solution | Euler step 0.05 beats 0.1 |
+| Performance | Declared workload | Benchmark separately on a stated machine/data size |
 | Units | Dimensional analysis | SI vs CGS consistency |
 
 ### Further reference connection
@@ -1803,3 +1936,18 @@ The next core chapter, [Chapter 10](10-advanced-oop.md), applies validation and
 tests to one deliberately small stateful scientific type. More advanced
 architecture and performance topics belong to later reference material and
 should be introduced only when a concrete maintenance problem requires them.
+
+### Tooling feedback loops
+
+Use a formatter/linter such as Ruff as readable feedback on a small codebase,
+for example `ruff check .` and `ruff format --check .`. Add type annotations at
+important function boundaries; an optional type checker can then report where
+the stated contract is incomplete. Neither tool proves numerical or scientific
+correctness.
+
+### Sources for historical cases
+
+- [NASA/JPL: Mars Climate Orbiter](https://www.jpl.nasa.gov/missions/mars-climate-orbiter/)
+- [NASA: Hubble's mirror flaw](https://science.nasa.gov/mission/hubble/observatory/design/optics/hubbles-mirror-flaw/)
+- [ESA: Ariane 501 Board of Inquiry](https://sci.esa.int/s/wRdpjv8)
+- [NASA/JPL: Voyager 2 data-system diagnosis](https://www.jpl.nasa.gov/news/engineers-diagnosing-voyager-2-data-system-update/)

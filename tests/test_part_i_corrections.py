@@ -713,3 +713,72 @@ def test_chapter_8_scales_uncertainty_and_pixel_examples_state_valid_contracts()
     assert "statistically quantified discrepancy" in chapter
     assert "# `df` is a table with numeric 'ra' and 'dec' columns" in chapter
     plt.close("all")
+
+
+def test_chapter_9_tests_behavior_without_claiming_scientific_validation():
+    chapter_path = "04-scientific-computing/09-robust-computing.md"
+    chapter = (ROOT / chapter_path).read_text()
+
+    mars_code = code_block_after(chapter_path, "The immediate unit mismatch")
+    mars_namespace: dict[str, object] = {}
+    exec(mars_code, mars_namespace)
+    combine_impulses = mars_namespace["combine_impulses_to_delta_v"]
+    assert combine_impulses(4.4482216152605, "N s", 1.0, "lbf s", 2.0) == pytest.approx(4.4482216152605)
+    with pytest.raises(ValueError, match="Unknown impulse unit"):
+        combine_impulses(1.0, "m/s", 1.0, "N s", 1.0)
+
+    validation_code = code_block_containing(chapter_path, "return wavelength, flux")
+    validation_namespace = {"np": np}
+    exec(validation_code, validation_namespace)
+    process_spectrum = validation_namespace["process_spectrum"]
+    wavelength, flux = process_spectrum([6500.0, 6501.0], [1.0, 0.9])
+    assert np.array_equal(wavelength, [6500.0, 6501.0])
+    assert np.array_equal(flux, [1.0, 0.9])
+    with pytest.raises(ValueError, match="strictly increasing"):
+        process_spectrum([6501.0, 6500.0], [1.0, 0.9])
+    with pytest.raises(ValueError, match="Invalid redshift"):
+        process_spectrum([6500.0, 6501.0], [1.0, 0.9], z=np.nan)
+
+    orbit_code = code_block_containing(chapter_path, "def integrate_relative_orbit_leapfrog")
+    orbit_namespace = {"np": np}
+    exec(orbit_code, orbit_namespace)
+    gravitational_constant = 6.67430e-11
+    solar_mass_kg = 1.989e30
+    earth_mass_kg = 5.972e24
+    orbital_radius_m = 1.496e11
+    circular_speed_m_s = math.sqrt(
+        gravitational_constant * (solar_mass_kg + earth_mass_kg) / orbital_radius_m
+    )
+    orbit = orbit_namespace["integrate_relative_orbit_leapfrog"](
+        [orbital_radius_m, 0.0, 0.0],
+        [0.0, circular_speed_m_s, 0.0],
+        solar_mass_kg,
+        earth_mass_kg,
+        86_400.0,
+        101,
+        max_relative_energy_error=1e-5,
+    )
+    assert orbit.shape == (102, 3)
+    assert np.isfinite(orbit).all()
+
+    cosmology_code = code_block_containing(chapter_path, "luminosity_distance_matter_lambda")
+    cosmology_namespace = {"np": np}
+    exec(cosmology_code, cosmology_namespace)
+    distance = cosmology_namespace["luminosity_distance_matter_lambda"](1100)
+    assert np.isfinite(distance) and distance > 0
+
+    refinement_code = code_block_containing(chapter_path, "def euler_exponential")
+    refinement_namespace: dict[str, object] = {}
+    exec(refinement_code, refinement_namespace)
+    assert abs(refinement_namespace["euler_exponential"](0.05) - math.e) < abs(
+        refinement_namespace["euler_exponential"](0.1) - math.e
+    )
+
+    assert "## Reference: definitions and quick checks" in chapter
+    assert "passive numerical stability issue" not in chapter
+    assert "This scalar calculation ignores vector direction" in chapter
+    assert "not a validated cosmology" in chapter
+    assert "deterministic random behavior" in chapter
+    assert "Binary search debugging" not in chapter
+    assert "n_raw_saturated = np.sum(image >= saturation_level)" in chapter
+    assert "Flat frame must be finite and strictly positive" in chapter
