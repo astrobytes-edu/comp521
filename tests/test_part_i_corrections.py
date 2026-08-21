@@ -98,3 +98,11 @@ def test_chapter_6_temperature_microexperiment_is_markdown_authored_with_lite_ex
     assert "07-numpy-fundamentals.md" in chapter
     assert "__array_ufunc__" in chapter
     assert "# PSEUDOCODE: this deliberately omits the device's real state model" in chapter
+
+
+def test_chapter_6_nested_check_closes_before_method_types_section():
+    chapter = (ROOT / "03-python/06-oop-fundamentals.md").read_text()
+    before, after = chapter.split("### Method Types: Instance, Class, and Static", maxsplit=1)
+    assert before.rstrip().endswith("::::")
+    assert "::::{note} 🔍 Check Your Understanding" in before[-1_500:]
+    assert after.lstrip().startswith("```{code-cell} python")

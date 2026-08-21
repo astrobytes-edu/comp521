@@ -541,7 +541,7 @@ print(f"After normalization: ({v1.x:.2f}, {v1.y:.2f})")
 print(f"New magnitude: {v1.magnitude():.2f}")
 ```
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 Why does `normalize()` modify the vector in place while `magnitude()` returns a value?
 
@@ -559,7 +559,7 @@ The names hint at intent: *verbs* ("normalize", "update", "add") suggest mutatio
 
 Some libraries return `self` from mutation methods to enable chaining (`v.normalize().scale(2)`). This breaks the "mutate $\to$ None" convention but is consistent within those libraries. Pick one convention and be consistent.
 :::
-:::
+::::
 
 ### Method Types: Instance, Class, and Static
 
