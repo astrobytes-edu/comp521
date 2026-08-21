@@ -7,85 +7,7 @@ kernelspec:
   display_name: Python 3
 ---
 
-## Scientific question
-
-What decisions, invariants, and termination conditions make an algorithm's
-result interpretable?
-
-## Core ideas
-
-- Pseudocode exposes the algorithm before syntax obscures it.
-- Branches and loops should make their valid states and failure paths explicit.
-- Iterative scientific calculations need both a convergence criterion and a
-  finite iteration guard.
-
-## Prerequisites
-
-Complete [Chapter 2](02-python-calculator.md), including tolerance-based
-comparison, and be able to run short Python programs.
-
 ## Learning objectives
-
-By the end of this chapter, you can translate a scientific procedure into
-pseudocode, write explicit branches and loops, and state why an iterative result
-stopped.
-
-## Worked scientific example
-
-The following bounded loop approximates the square root of a positive number by
-successive refinement. Its convergence condition and `max_iter` limit are both
-part of the model of trustworthy execution.
-
-```{code-cell} python
-import math
-
-target = 2.0
-estimate = 1.0
-tolerance = 1e-12
-max_iter = 20
-
-for iteration in range(max_iter):
-    next_estimate = 0.5 * (estimate + target / estimate)
-    if math.isclose(next_estimate, estimate, rel_tol=0.0, abs_tol=tolerance):
-        estimate = next_estimate
-        break
-    estimate = next_estimate
-else:
-    raise RuntimeError("did not converge within max_iter")
-
-print(iteration + 1, estimate)
-```
-
-This is a deliberately simple solver. Its output supports the claim that this
-particular update met the stated criterion within the stated bound.
-
-## Predict → run → explain → revise
-
-Predict what happens if `max_iter = 0`, then run the example with that change.
-Explain why the resulting failure is evidence about the algorithm's execution,
-not a workaround to hide. Revise the experiment by choosing a looser tolerance
-and comparing the iteration count and final estimate.
-
-## Apply or extend
-
-Write pseudocode for one repeated scientific procedure in your field. State a
-progress quantity, stopping rule, maximum number of iterations, and the action
-to take if it does not converge. Then identify one input that should be rejected
-before the loop begins.
-
-## Recap and next connection
-
-Explicit conditions and bounds make control flow inspectable. [Chapter
-4](04-python-data-structures.md) next considers how the data an algorithm moves
-through should be represented.
-
-## Deep dive / reference
-
-The sections below preserve detailed syntax, algorithm-pattern, and debugging
-reference material. They are optional after the core route above; return when a
-specific control-flow design or failure needs more detail.
-
-### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -98,6 +20,8 @@ By the end of this chapter, you will be able to:
 - [ ] (7) **Write efficient list comprehensions** for simple transformations while recognizing when explicit loops are clearer.
 - [ ] (8) **Recognize and apply five universal algorithmic patterns**: accumulation, filtering, mapping, searching, and convergence.
 - [ ] (9) **Build defensive code with guard clauses** that validate inputs and fail fast with clear error messages.
+
+## Prerequisites
 
 :::{note} ✅ Before Starting This Chapter
 
@@ -112,7 +36,7 @@ If any boxes are unchecked, review the indicated chapters first.
 
 ---
 
-### Reference overview
+## Why this chapter matters
 
 Programming is fundamentally about teaching computers to make decisions and repeat tasks. When you write an **if** statement or a loop, you're translating human logic into instructions a machine can follow. But here's the critical insight that separates computational thinkers from mere coders: the logic must be designed before it's implemented. This chapter transforms you from someone who writes code to someone who designs algorithms.
 
@@ -773,11 +697,13 @@ The **elif** (else if) statement allows multiple conditions to be checked in seq
 ```{code-cell} python
 import math
 
-def classify_stellar_remnant(mass_solar):
+def classify_stellar_fate_toy(mass_solar):
     """
-    Determine stellar remnant type based on initial mass.
+    Deliberately coarse teaching classifier based only on initial mass.
     Demonstrates guard clauses and elif chains.
-    Based on Chandrasekhar limit and stellar evolution theory.
+
+    This is not a stellar-evolution prediction: real outcomes also depend on
+    metallicity, mass loss, rotation, and binary interaction.
     """
     # Guard clauses - validate input FIRST
     if mass_solar <= 0:
@@ -788,27 +714,27 @@ def classify_stellar_remnant(mass_solar):
 
     # Main classification logic with elif chain
     if mass_solar < 0.08:
-        remnant = "brown dwarf (failed star)"
+        outcome = "brown dwarf (substellar object; not a remnant)"
     elif mass_solar < 8:
-        remnant = "white dwarf"
+        outcome = "white-dwarf outcome (toy model)"
     elif mass_solar < 25:
-        remnant = "neutron star"
+        outcome = "neutron-star outcome (toy model)"
     else:  # Final catch-all
-        remnant = "black hole"
+        outcome = "black-hole outcome (toy model)"
 
     # Add uncertainty near boundaries (real issue in astronomy!)
     boundaries = [0.08, 8, 25]
     min_distance = min(abs(mass_solar - b) for b in boundaries)
 
     if min_distance < 0.5:
-        remnant += " (near boundary - uncertain)"
+        outcome += " (near toy threshold)"
 
-    return remnant
+    return outcome
 
 # Test our classifier
-print(classify_stellar_remnant(1.0))   # Our Sun's fate
-print(classify_stellar_remnant(7.8))   # Near boundary!
-print(classify_stellar_remnant(30))    # Massive star fate
+print(classify_stellar_fate_toy(1.0))   # Sun-like initial mass
+print(classify_stellar_fate_toy(7.8))   # Near toy threshold
+print(classify_stellar_fate_toy(30))    # Massive initial mass
 ```
 
 *Scientific note:* This toy classifier uses coarse mass thresholds for pedagogy. Real stellar endpoints depend on additional physics (metallicity, rotation, binarity, mass loss).
@@ -838,7 +764,7 @@ def calculate_orbital_period(a, M, validate=True):
             raise ValueError(f"Mass must be positive: {M} Msun")
 
         # Check for orbit inside Schwarzschild radius!
-        rs_au = 2.95e-8 * M  # Schwarzschild radius in AU
+        rs_au = 1.97e-8 * M  # Schwarzschild radius in AU
         if a < rs_au:
             raise ValueError(f"Orbit inside black hole event horizon: a={a} AU, Rs={rs_au} AU")
 
@@ -1284,17 +1210,16 @@ print(f"Naive std (after clipping at 0 for display): {naive_std:.2f}")
 
 **Why is Welford's algorithm numerically stable?**
 
-The naive approach (sum all values, then divide) accumulates large sums that can lose precision. For values like [1e8, 1e8+1, 1e8+2], the sum becomes ~3e8, and the tiny variations (1, 2) get lost in floating-point representation.
+The risky one-pass variance formula is
+`mean(x**2) - mean(x)**2`: when a large baseline has a small spread, it
+subtracts two large, nearby quantities. That cancellation can erase the small
+variance or even produce a negative result from roundoff.
 
-Welford's algorithm maintains a running mean and updates it incrementally with small deltas. Instead of computing (1e8 + 1e8 + 1e8)/3, it computes:
-
-- mean = 1e8
-- mean += (1e8 - 1e8)/2 = 0
-- mean += (1e8 - 1e8)/3 = 0
-This keeps all arithmetic operations on similar scales, preserving precision.
-
-The variance calculation similarly avoids subtracting large nearly-equal numbers
-(catastrophic cancellation) by accumulating squared deviations incrementally.
+Welford's algorithm updates the mean from the deviation of each new value from
+the current mean, then accumulates the corresponding squared deviation. Its
+advantage is not that floating point cannot represent differences of order one
+near $10^8$—it generally can—but that it avoids forming variance as a
+difference of two large aggregate terms.
 
 :::{note}
 :class: dropdown

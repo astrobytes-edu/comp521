@@ -7,69 +7,7 @@ kernelspec:
   display_name: Python 3
 ---
 
-## Scientific question
-
-How should a program represent measurements, identifiers, and configuration so
-that its operations are both correct and feasible at the scale of the question?
-
-## Core ideas
-
-- A `list` preserves ordered, repeatable observations; a `tuple` is useful for
-  an immutable record; a `dict` maps a stable key to a value; and a `set`
-  represents unique membership.
-- Select a structure from the access pattern you need, then measure a
-  performance claim on representative data rather than assuming it.
-- Assignment can create aliases. Copy deliberately when two evolving states
-  must be independent.
-
-## Prerequisites
-
-You should be comfortable with variables, comparisons, loops, and conditionals
-from Chapters 1–3.
-
 ## Learning objectives
-
-By the end of the core route, you can choose among lists, tuples, dictionaries,
-and sets from an access pattern; explain mutability and aliasing; and check a
-basic complexity or memory claim with a small experiment.
-
-## Predict → run → explain → revise
-
-Suppose repeated sample identifiers must be removed before a calibration step.
-Predict which collection preserves the first-seen order and which only answers
-membership quickly. Then run:
-
-```python
-sample_ids = ["b17", "a02", "b17", "c04"]
-print(list(dict.fromkeys(sample_ids)))
-print("a02" in set(sample_ids))
-```
-
-Explain why the two lines answer different questions. Revise the representation
-if downstream work needs both ordered unique identifiers *and* fast membership:
-keep the ordered sequence and construct a set only where that lookup is needed.
-
-## Apply or extend
-
-Choose representations for one scientific workflow you know: an ordered time
-series, a configuration record, a lookup from sensor ID to calibration, and a
-collection of invalid observations. State the operation each choice makes easy
-and one assumption it encodes.
-
-## Recap and next connection
-
-Data structures make assumptions about order, identity, mutation, and access
-visible. In [Chapter 5](05-python-functions-modules.md), turn those choices
-into functions with explicit input, output, unit, and failure contracts.
-
-## Deep dive / reference
-
-The core route above is enough to start choosing and checking structures. The
-legacy detailed material below covers implementation details, specialized
-containers, and performance experiments to consult when a concrete design or
-measurement question requires them.
-
-### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -83,6 +21,8 @@ By the end of this chapter, you will be able to:
 - [ ] (8) **Debug three common bugs**: mutable defaults, aliasing during grid updates, and iteration modification.
 - [ ] (9) **Design hybrid data structures** combining lists, dicts, and sets for real physics simulations.
 
+## Prerequisites
+
 :::{note} ✅ Before Starting This Chapter
 
 - [ ] You can write loops and conditional statements fluently (Chapter 3)
@@ -94,7 +34,7 @@ By the end of this chapter, you will be able to:
 If any boxes are unchecked, review the indicated chapters first.
 :::
 
-### Reference overview
+## Why this chapter matters
 
 Imagine you're simulating the interactions between a million particles - whether they're dark matter particles in a galaxy, molecules in a gas, or nodes in a network. Each timestep, you need to find which particles are close enough to interact strongly. With the wrong data structure, this neighbor search could take hours per timestep. With the right one - a spatial hash table or tree structure - it takes seconds. That's the difference between a simulation finishing in a day versus running for months. This chapter teaches you to make these critical choices that determine whether your code scales to research problems or remains stuck with toy models.
 
@@ -249,7 +189,7 @@ def benchmark_membership(n, trials=1000):
 
     return list_time, set_time
 
-print("Membership testing: list (O(n)) vs set (O(1))")
+print("Membership testing: list (linear scan) vs set (average-case hash lookup)")
 print("=" * 55)
 print(f"{'Size':>10} {'List (mus)':>12} {'Set (mus)':>12} {'Speedup':>10}")
 print("-" * 55)
@@ -259,13 +199,14 @@ for n in [100, 1_000, 10_000, 100_000]:
     speedup = list_time / set_time if set_time > 0 else float('inf')
     print(f"{n:>10,} {list_time*1e6:>12.2f} {set_time*1e6:>12.2f} {speedup:>10,.0f}x")
 
-print("\nAs n grows, list time grows proportionally (O(n))")
-print("while set time stays nearly constant (O(1)).")
-print("\nFor simulations with many membership checks,")
-print("this can mean the difference between minutes and hours!")
+print("\nOn this machine and workload, list search should grow with n,")
+print("while set lookup is usually average-case O(1). Measure your own")
+print("data: constants, hashing cost, memory, and access patterns matter.")
 ```
 
-This performance difference isn't just academic - it determines whether your galaxy simulation can evolve for billions of years or gets stuck after a few million. The secret behind this magic is the hash table, which you're about to understand completely.
+This difference can matter when membership testing is a measured bottleneck, but
+it is not a substitute for profiling the real workload. The mechanism is a hash
+table, which you will examine next.
 
 ### Understanding Big-O Notation
 
@@ -636,8 +577,9 @@ only when the model explicitly defines that grid or resolution:
 :::
 
 ```{code-cell} python
-# Equation of State lookup table with discrete grid indices
-# This is how real stellar evolution codes work!
+# A teaching cache for a discretized equation-of-state-like calculation.
+# Production stellar-evolution codes use carefully validated table
+# interpolation, not ordinary Python-dictionary lookup as a physical model.
 
 eos_cache = {}
 calculation_count = 0
@@ -658,8 +600,8 @@ def get_pressure(T_index, rho_index, composition_id):
         return eos_cache[cache_key]
 
     calculation_count += 1
-    # Simulate expensive EOS calculation
-    # Real codes interpolate from pre-computed tables
+    # Simulate an expensive calculation on a declared discrete grid.
+    # Real EOS tables require validated interpolation and physical assumptions.
     T = 1e6 * (1.1 ** T_index)      # Temperature grid
     rho = 1e-3 * (1.2 ** rho_index)  # Density grid
 

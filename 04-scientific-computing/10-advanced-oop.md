@@ -4,38 +4,7 @@ subtitle: "Scientific Computing with Python"
 author: "Anna Rosen"
 ---
 
-## Scientific question
-
-When does a scientific value need to carry state, validation, and behavior as
-one named object—and when is a function plus ordinary data clearer? A useful
-type makes an invariant visible; it does not make a small calculation more
-serious by adding ceremony.
-
-## Core ideas
-
-- Use a small type when values and their valid relationships belong together.
-- Put physical or numerical invariants at construction boundaries.
-- Prefer composition and ordinary functions over inheritance unless a real
-  interface requirement has appeared.
-- Give the type a readable representation and tests that state its contract.
-
-## Prerequisites
-
-- [Functions and contracts](../03-python/05-python-functions-modules.md)
-- [Testing behavioral and numerical claims](09-robust-computing.md)
-- [Data structures and mutability](../03-python/04-python-data-structures.md)
-
-## Learning objectives
-
-By the end of this chapter, you can:
-
-- decide whether a scientific problem benefits from a small stateful type;
-- create a dataclass with explicit units and validation;
-- state and test an invariant at a type boundary;
-- compose a small type with ordinary functions; and
-- explain why an advanced OOP pattern is unnecessary for a given model.
-
-## Worked scientific example
+### Introductory example
 
 This type records one observation with a positive flux in a declared unit. It
 does not model a detector, uncertainty distribution, or calibration pipeline;
@@ -65,40 +34,40 @@ def fractional_change(before: FluxMeasurement, after: FluxMeasurement) -> float:
     return (after.value - before.value) / before.value
 ```
 
-## Predict → run → explain → revise
+### Preview activity
 
 Predict what happens when you construct `FluxMeasurement(-0.01)`, then run the
 construction. Explain which assumption the error exposes. Next, predict what
 the comparison function should do for unequal units; revise the type or
 function only after deciding whether conversion belongs in this model's scope.
 
-## Apply or extend
+### Transfer prompt
 
 Define a small type from your field with one invariant: a positive scale,
 ordered bounds, a normalized fraction, or a stated unit. Write one valid case,
 one invalid case, and one sentence explaining why a dictionary or function
 would be preferable if that invariant did not exist.
 
-## Recap and next connection
+### Chapter connection
 
 Small types make meaningful state and constraints inspectable. The next
 textbook part, [Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md),
 is in development; it will move from one validated entity to collections of
 measurements and their provenance.
 
-## Deep dive / reference
+### Advanced-reference orientation
 
 The material below is optional reference for situations that genuinely require
 larger interfaces, advanced inheritance, metaprogramming, asynchronous
 execution, or measurement. Measure a real workload before adopting a
 performance-oriented pattern.
 
-### Detailed reference
+#### Detailed reference
 
 The following reference preserves advanced patterns and examples. It is not a
 second required route through the chapter.
 
-### Legacy learning objectives
+## Learning objectives
 
 By the end of this chapter, you will be able to:
 
@@ -111,7 +80,7 @@ By the end of this chapter, you will be able to:
 - Optimize memory and performance using `__slots__`, caching, and profiling techniques
 - Recognize these patterns in NumPy, SciPy, Matplotlib, and other scientific libraries
 
-### Reference prerequisites
+## Prerequisites
 
 Before starting this chapter, verify you can:
 
@@ -141,7 +110,7 @@ result = arr.reshape(3, 1).mean(axis=0)  # What pattern?
 
 If you recognized factory, context manager, factory again, and fluent interface patterns, you're ready to understand how they work internally!
 
-### Reference overview
+## Why this chapter matters
 
 The following sections are a catalogue of advanced Python techniques. They are
 not prerequisites for writing a useful scientific type, and they do not imply

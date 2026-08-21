@@ -25,15 +25,12 @@ PART_I_II_CHAPTERS = (
 def test_completed_chapter_exposes_reader_contract(path):
     text = (ROOT / path).read_text()
     for heading in (
-        "## Scientific question",
-        "## Core ideas",
         "## Prerequisites",
         "## Learning objectives",
-        "## Predict → run → explain → revise",
-        "## Apply or extend",
-        "## Recap and next connection",
     ):
         assert heading in text
+    assert text.count("## Learning objectives") == 1
+    assert text.count("## Prerequisites") == 1
 
 
 def test_part_i_and_ii_guides_are_course_agnostic_and_truthful():

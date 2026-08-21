@@ -7,73 +7,7 @@ kernelspec:
   display_name: Python 3
 ---
 
-## Scientific question
-
-How can a calculation state its inputs, units, assumptions, output, and failure
-conditions clearly enough to be reused and checked?
-
-## Core ideas
-
-- A function is a contract: its name, parameters, return value, validation,
-  and documentation communicate what result it promises.
-- Prefer explicit inputs and outputs over hidden global state; make optional
-  behavior visible with named keyword arguments.
-- A module groups related, importable definitions so a calculation can be
-  tested independently of the narrative or interface that uses it.
-
-## Prerequisites
-
-You should be comfortable with expressions and floating-point comparison
-(Chapter 2), control flow (Chapter 3), and the basic collection types
-(Chapter 4).
-
 ## Learning objectives
-
-By the end of the core route, you can write a small unit-bearing function,
-document its contract, reject an invalid input, and test a limiting or known
-case.
-
-## Predict → run → explain → revise
-
-Predict what happens when a distance in metres is paired with a time of zero,
-then run the function below.
-
-```python
-def mean_speed(distance_m, elapsed_s):
-    """Return mean speed in m/s for a positive elapsed time."""
-    if elapsed_s <= 0:
-        raise ValueError("elapsed_s must be positive")
-    return distance_m / elapsed_s
-
-print(mean_speed(120.0, 30.0))
-# mean_speed(120.0, 0.0)  # predict the exception before uncommenting
-```
-
-Explain how the parameter names, docstring, validation, and return unit make
-the contract inspectable. Revise it for your own calculation by naming its
-units and adding one boundary or limiting-case check.
-
-## Apply or extend
-
-Extract a repeated calculation from a notebook, script, or analysis into one
-function. Write one sentence each for its valid inputs, output units, and one
-condition it should reject. Put it in a small module once another calculation
-needs to import it.
-
-## Recap and next connection
-
-Functions localize assumptions and tests; modules make those contracts usable
-across a larger program. [Chapter 6](06-oop-fundamentals.md) considers the
-different case where a measured entity has state and behavior that must remain
-synchronized.
-
-## Deep dive / reference
-
-The core route is about explicit scientific contracts. The detailed material
-below is reference material for parameter edge cases, scope, packages,
-documentation, testing, and performance once a concrete codebase needs them.
-
-### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -86,7 +20,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Apply optimization strategies** through memoization and vectorization for large-scale computations.
 - [ ] **(8) Build modular, reusable code** that forms the foundation for object-oriented scientific applications.
 
-### Reference prerequisites
+## Prerequisites
 
 Before starting this chapter, verify you can:
 
@@ -98,7 +32,7 @@ Before starting this chapter, verify you can:
 
 ---
 
-### Reference overview
+## Why this chapter matters
 
 :::{margin}
 **Function**
@@ -378,12 +312,20 @@ print(f"Valid (in range)? {validate_result(energy, 0, 10000)}")
 :::{important} 🌟 Why This Matters: The Therac-25 Radiation Overdose Disasters
 :class: dropdown
 
-Between 1985 and 1987, the Therac-25 radiation therapy machine caused at least six accidents where patients received massive radiation overdoses — up to 100 times the intended dose. Three patients died directly from the overdoses, and three others suffered serious injuries including paralysis.
+Between 1985 and 1987, the Therac-25 radiation therapy machine caused at least
+six accidents involving massive radiation overdoses. Three patients died
+directly from the overdoses, and three others suffered serious injuries.
 
-The root cause was a software function that lacked proper validation. The machine could be configured in two modes: low-power electron beam (direct) or high-power X-ray mode (with a metal target to convert electrons to X-rays). A race condition in the control software meant that if an operator typed too quickly when changing modes, the validation function would pass but leave the machine in a lethal state: high power WITHOUT the metal target in place, delivering concentrated electron beams directly to patients.
+The investigation identified race conditions, unsafe state transitions, poor
+error reporting, and inadequate system engineering. The machine could be
+configured in low-power electron-beam mode or high-power X-ray mode with a
+metal target; rapid operator edits could leave the software and hardware state
+inconsistent. The pseudocode below is a classroom sketch of an incompatible
+state, not a reconstruction of the device software.
 
 ```python
-# Simplified illustration of the type of bug:
+# PSEUDOCODE: set_mode, set_power, target_in_place, and ELECTRON_MAX are
+# placeholders. This is intentionally not runnable Python.
 def configure_beam(mode, power_level):
     # FATAL FLAW: No validation that configuration is complete
     # Race condition: if operator types fast, these can be inconsistent
@@ -403,7 +345,11 @@ def configure_beam_safe(mode, power_level):
     set_power(power_level)
 ```
 
-The tragedy led to fundamental changes in medical device software. Today, every critical function must validate inputs, check system state, and verify outputs. The few lines of validation code you write aren't bureaucratic overhead—they're the difference between healing and harm. Every time you add validation to your functions, you're following safety practices written in the aftermath of preventable deaths.
+The lesson is narrower than “a single validator prevents disasters.” Local input checks are
+useful, but they do not establish concurrency safety, hardware interlocks,
+system-level requirements, or safe operation. In safety-critical systems those
+concerns require independent engineering and verification beyond a single
+function contract.
 
 [Source: Leveson, N.G. & Turner, C.S. (1993). "An Investigation of the Therac-25 Accidents". IEEE Computer, 26(7), 18-41.]
 :::
@@ -1709,7 +1655,11 @@ The investigation revealed four critical lessons about function design:
 3. **Design for graceful degradation** rather than complete failure
 4. **Test with realistic data ranges** that match actual operating conditions
 
-Every validation function you write, every bounds check you add, every type conversion you verify—these aren't bureaucratic overhead. They're the difference between mission success and catastrophic failure. This disaster led directly to modern software engineering practices that require explicit contracts for all functions, comprehensive range checking, and formal verification of critical code paths.
+The lesson is narrower than “a single validator prevents disasters.” Local input checks are
+useful, but they do not establish concurrency safety, hardware interlocks,
+system-level requirements, or safe operation. In safety-critical systems those
+concerns require independent engineering and verification beyond a single
+function contract.
 :::
 
 ## 5.6 Documentation and Testing
@@ -1740,7 +1690,10 @@ def integrate_trapezoid(x_values, y_values):
     >>> x = [0, 1, 2]
     >>> y = [0, 1, 4]  # y = x^2
     >>> integrate_trapezoid(x, y)
-    3.0  # Exact integral from 0 to 2 of x^2 dx = 8/3 approx 2.667
+    3.0
+
+    With only these two intervals, `3.0` is the trapezoidal *approximation*.
+    The exact integral of $x^2$ from 0 to 2 is $8/3 \approx 2.667$.
 
     Notes
     -----

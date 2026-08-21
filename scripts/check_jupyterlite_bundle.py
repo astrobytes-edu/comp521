@@ -9,9 +9,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_PACKAGES = ("xeus-python", "numpy", "matplotlib", "scipy", "pandas", "ipywidgets")
 REQUIRED_RUNTIME_ARTIFACTS = (
+    "xeus/kernels.json",
     "xeus/comp521-xeus/bin/xpython.js",
     "xeus/comp521-xeus/bin/xpython.wasm",
     "files/transit-depth.ipynb",
+    "files/ch06-temperature-invariant.ipynb",
 )
 
 
@@ -30,6 +32,9 @@ def required_bundle_files(bundle: Path) -> list[str]:
     for artifact in REQUIRED_RUNTIME_ARTIFACTS:
         if not (bundle / artifact).is_file():
             errors.append(f"{bundle}: missing required runtime artifact '{artifact}'")
+    kernels_index = bundle / "xeus" / "kernels.json"
+    if kernels_index.is_file() and '"kernel": "xpython"' not in kernels_index.read_text(errors="ignore"):
+        errors.append(f"{bundle}: xeus kernel registry does not declare xpython")
     return errors
 
 

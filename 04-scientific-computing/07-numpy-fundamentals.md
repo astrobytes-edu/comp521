@@ -7,84 +7,7 @@ kernelspec:
   display_name: Python 3
 ---
 
-## Scientific question
-
-How can an array make the structure of a numerical calculation visible—rather
-than hiding assumptions about units, dimensions, and which observations are
-included?
-
-## Core ideas
-
-- An array has a **shape**, a **dtype**, and values. Inspect all three before
-  interpreting a result.
-- Vectorized operations express one operation over many values; they are not a
-  promise of a particular speedup.
-- Boolean masks make inclusion rules explicit. Broadcasting aligns compatible
-  trailing dimensions; it does not guess your intended axis.
-- Slices can be views, while advanced indexing commonly makes copies. Check
-  before mutating an array you did not create.
-- Use a named `np.random.Generator` with a recorded seed when simulated data
-  must be reproducible.
-
-## Prerequisites
-
-You should be comfortable with Python variables, lists, functions, imports,
-and basic numerical expressions. This chapter introduces array storage and
-array operations directly; it does not assume prior file-I/O instruction.
-
 ## Learning objectives
-
-By the end of the core route, you can create arrays with deliberate dtypes,
-inspect their shapes, vectorize and mask a calculation, reason about a
-broadcast, distinguish a view from a copy, and reproduce a simple random
-simulation.
-
-## Predict → run → explain → revise
-
-Suppose each row is one sensor and each column is one measurement time. Predict
-the shape of `readings - baseline[:, None]` before running it. Then inspect the
-shape and explain why `baseline` must be reshaped to `(n_sensors, 1)` rather
-than `(n_sensors,)`. Change the baseline to one value per time and revise your
-prediction.
-
-```python
-import numpy as np
-
-readings = np.array([[10.0, 11.0, 12.0], [20.0, 21.0, 22.0]])
-baseline = np.array([10.0, 20.0])
-corrected = readings - baseline[:, None]
-print(readings.shape, baseline[:, None].shape, corrected.shape)
-print(corrected)
-```
-
-The reshape makes the intended alignment inspectable: subtract one baseline
-from every time measurement in its corresponding row.
-
-## Apply or extend
-
-Choose a measurement matrix from your field. State in a comment what each axis
-means, write a mask for observations that meet one declared quality rule, and
-report how many observations the rule excludes. If you simulate measurements,
-record the generator seed and the distributional assumption.
-
-## Recap and next connection
-
-Arrays provide a compact, inspectable representation of numerical data.
-Chapter 8 turns those arrays into visual evidence: a figure should reveal its
-units, uncertainty, and limits as clearly as an array reveals its shape.
-
-## Deep dive / reference
-
-The remainder preserves extended examples, API reference, and specialized
-methods. Start with the core route above; return here when a concrete
-calculation needs more detail.
-
-### Detailed reference
-
-The following reference preserves extended explanations, API details, and
-examples. It is not a second required route through the chapter.
-
-### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -97,7 +20,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Apply NumPy to real scientific calculations** with proper unit conversions and unit-aware variable names
 - [ ] **(8) Recognize when and why to use NumPy** instead of pure Python for numerical tasks
 
-### Reference prerequisites and self-check
+## Prerequisites
 
 Before starting this chapter, verify you can:
 
@@ -145,7 +68,7 @@ If you got all four correct, you're ready for NumPy! If not, review the indicate
 
 ---
 
-### Reference overview
+## Why this chapter matters
 
 You've been using Python lists to store collections of numbers, and the math module to perform calculations. But what happens when you need to analyze a million stellar spectra, each with thousands of wavelength points? Or when you need to perform the same calculation on every pixel in a telescope image? Try using a list comprehension on a million-element list, and you'll be waiting a while. This is where NumPy transforms Python from a general-purpose language into a powerhouse for scientific computing, providing the speed and tools necessary for research-grade computational science.
 

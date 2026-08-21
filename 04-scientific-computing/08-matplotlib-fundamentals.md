@@ -7,85 +7,7 @@ kernelspec:
   display_name: Python 3
 ---
 
-## Scientific question
-
-What does a figure allow a reader to infer from measurements, and what does it
-leave uncertain or unsupported?
-
-## Core ideas
-
-- A `Figure` is the whole visual artifact; an `Axes` is a plotting region with
-  its own scales, labels, and data artists.
-- Labels name quantities and units. A caption states the data, transformation,
-  and limited claim the figure supports.
-- Linear, logarithmic, and other scales are analytic choices: each can reveal
-  one relationship while obscuring another.
-- Show uncertainty when it materially affects interpretation; do not let a
-  visual encoding imply precision the data do not have.
-- Use encodings that remain distinguishable without color alone, and export at
-  a size and format appropriate to the destination.
-
-## Prerequisites
-
-You should be able to create NumPy arrays, inspect their shapes, and use simple
-indexing and masks. This chapter introduces plotting directly; it does not
-assume prior file-I/O instruction.
-
 ## Learning objectives
-
-By the end of the core route, you can create a `Figure` and `Axes`, label a
-plot with units, select and justify a scale, display uncertainty, audit an
-encoding for accessibility, and save a reproducible figure.
-
-## Predict → run → explain → revise
-
-Two plots can show the same measurements but support different claims. Predict
-which plot makes a power-law relation easier to assess, then explain what a
-logarithmic axis changes and what it does *not* prove. Revise the figure by
-adding labels with units, an uncertainty encoding, and a caption that limits
-the claim.
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-
-x_m = np.array([1., 2., 4., 8.])
-y_pa = np.array([3., 12., 48., 192.])
-y_sigma_pa = 0.1 * y_pa
-fig, ax = plt.subplots()
-ax.errorbar(x_m, y_pa, yerr=y_sigma_pa, fmt="o", label="measurements")
-ax.set(xscale="log", yscale="log", xlabel="Length (m)", ylabel="Response (Pa)")
-ax.legend()
-fig.savefig("response.png", dpi=200, bbox_inches="tight")
-```
-
-The log-log view makes a possible power-law pattern easier to inspect; it does
-not establish a physical mechanism or justify extrapolation beyond the data.
-
-## Apply or extend
-
-Take one figure from your field and write: (1) its intended claim, (2) the
-quantity and unit on every axis, (3) how uncertainty or data quality is shown,
-and (4) one plausible misreading. Produce a revised version that addresses the
-misreading without adding decorative complexity.
-
-## Recap and next connection
-
-A good figure is an auditable scientific argument, not merely an attractive
-image. Chapter 9 develops the corresponding code-level evidence: tests,
-tolerances, and failure modes.
-
-## Deep dive / reference
-
-The remainder preserves extended examples, specialized plotting approaches,
-and library pointers. Treat them as reference material after the core route.
-
-### Detailed reference
-
-The following reference preserves extended explanations, API details, and
-examples. It is not a second required route through the chapter.
-
-### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -98,7 +20,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Apply** perceptually uniform colormaps and appropriate normalizations to honestly represent 2D data and avoid creating visual artifacts
 - [ ] **(8) Configure** export settings (DPI, format, size) to meet publication requirements for journals, presentations, and web display
 
-### Reference prerequisites and self-check
+## Prerequisites
 
 Before starting this chapter, verify you can:
 
@@ -149,7 +71,7 @@ If you got all four correct, you're ready for Matplotlib! If not, review Chapter
 
 ---
 
-### Reference overview
+## Why this chapter matters
 
 Data without visualization is like a telescope without an eyepiece – you might have collected photons from distant galaxies, but you can't see the universe they reveal. Every major scientific discovery of the past century has been communicated through carefully crafted visualizations: Hubble's plot showing the expanding universe (Hubble 1929), Hertzsprung and Russell's diagram revealing stellar evolution, the power spectrum of the cosmic microwave background proving inflation theory. These weren't just pretty pictures; they were visual arguments that changed our understanding of the cosmos. **Matplotlib** (Hunter 2007), the foundational plotting library for scientific Python, gives you the power to create these kinds of transformative visualizations, turning your NumPy arrays into insights that can be shared, published, and understood.
 

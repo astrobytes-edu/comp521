@@ -7,83 +7,7 @@ kernelspec:
   display_name: Python 3
 ---
 
-## Scientific question
-
-How can another reader identify the interpreter and dependency set that produced
-a scientific result?
-
-## Core ideas
-
-- An environment is the Python executable, import paths, and package versions
-  available to a computation.
-- Record the executable and relevant versions alongside evidence from a run.
-- Interactive notebooks are useful for exploration, but their hidden state must
-  not become an unrecorded assumption.
-
-## Prerequisites
-
-Open a terminal and a Python session. A generic Python environment manager such
-as Conda, Mamba, or `venv` is useful but not required for the core examples.
-
 ## Learning objectives
-
-By the end of this chapter, you can identify the active interpreter, diagnose a
-common import mismatch, record a minimal environment fingerprint, and distinguish
-exploration from a reproducible execution path.
-
-## Worked scientific example
-
-A numerical result is only interpretable if a reader can recover the software
-context that produced it. This minimal fingerprint records the executable,
-language version, and one dependency version:
-
-```{code-cell} python
-import importlib.metadata
-import platform
-import sys
-
-try:
-    numpy_version = importlib.metadata.version("numpy")
-except importlib.metadata.PackageNotFoundError:
-    numpy_version = "not installed"
-
-print("executable:", sys.executable)
-print("python:", platform.python_version())
-print("numpy:", numpy_version)
-```
-
-The values are not universal targets. They are evidence: a later import or
-numerical discrepancy can be compared with this record.
-
-## Predict → run → explain → revise
-
-Predict: if two terminals use different values of `sys.executable`, will they
-necessarily import the same installed packages? Run the fingerprint above in two
-available Python sessions. Explain the observed executable and version lines in
-one or two sentences. Revise the record by adding the version of one package your
-own calculation uses.
-
-## Apply or extend
-
-For a computation in your field, write a short run record containing the
-interpreter, package versions, input-data identifier, and random seed when one
-is used. Identify which difference would make two results not directly
-comparable.
-
-## Recap and next connection
-
-An environment record makes software context inspectable; it does not prove the
-numerical claim itself. [Chapter 2](02-python-calculator.md) addresses that next:
-how number representation and tolerance choices constrain what a computation can
-support.
-
-## Deep dive / reference
-
-The sections below preserve detailed environment, import, notebook, and script
-reference material. They are optional after the core route above; consult them
-when a concrete workflow or failure requires the additional detail.
-
-### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -96,7 +20,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Transform notebook explorations into reproducible Python scripts** following best practices.
 - [ ] **(8) Execute Python code effectively** from both terminal and IPython environments.
 
-### Reference prerequisites
+## Prerequisites
 
 :::{important} Prerequisites Self-Assessment
 
@@ -111,7 +35,7 @@ If you checked “no” to an item, consult a current Python setup guide for you
 operating system before continuing.
 :::
 
-### Reference overview
+## Why this chapter matters
 
 Picture this: You download code from a groundbreaking scientific paper, eager to reproduce their analysis. You run it exactly as instructed. Instead of the published results, you get error messages, or worse — completely different values with no indication why. This frustrating scenario happens to nearly every computational scientist, from graduate students to professors. The problem isn't bad code or user error; it's that scientific computing happens in complex **environments** where tiny differences can cascade into complete failures.
 
@@ -885,8 +809,6 @@ Calculate Schwarzschild radii for various objects.
 This module provides functions to calculate the Schwarzschild radius
 (event horizon) for black holes of different masses.
 """
-
-	import numpy as np
 
 # Physical constants (SI units)
 G = 6.67430e-11     # Gravitational constant [m^3 kg^-1 s^-2]

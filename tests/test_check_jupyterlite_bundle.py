@@ -34,9 +34,11 @@ class JupyterLiteBundleTests(unittest.TestCase):
 
             errors = required_bundle_files(bundle)
 
+            self.assertIn(f"{bundle}: missing required runtime artifact 'xeus/kernels.json'", errors)
             self.assertIn(f"{bundle}: missing required runtime artifact 'xeus/comp521-xeus/bin/xpython.js'", errors)
             self.assertIn(f"{bundle}: missing required runtime artifact 'xeus/comp521-xeus/bin/xpython.wasm'", errors)
             self.assertIn(f"{bundle}: missing required runtime artifact 'files/transit-depth.ipynb'", errors)
+            self.assertIn(f"{bundle}: missing required runtime artifact 'files/ch06-temperature-invariant.ipynb'", errors)
 
 
 if __name__ == "__main__":

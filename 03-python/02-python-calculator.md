@@ -7,81 +7,7 @@ kernelspec:
   display_name: Python 3
 ---
 
-## Scientific question
-
-What numerical claim can a computation support when its inputs and arithmetic
-are represented with finite precision?
-
-## Core ideas
-
-- Name quantities and units before combining them.
-- Floating-point values approximate real numbers; exact equality is rarely the
-  right test for a computed measurement.
-- A tolerance is part of a scientific claim, not merely a programming setting.
-
-## Prerequisites
-
-Complete [Chapter 1](01-python-environment.md) or be able to run a Python cell
-or script and identify the interpreter used.
-
 ## Learning objectives
-
-By the end of this chapter, you can express a calculation with named units,
-choose an appropriate numerical comparison, recognize basic precision hazards,
-and communicate the limits of a computed value.
-
-## Worked scientific example
-
-Suppose a detector reports an exposure of 2.5 seconds at a count rate of 12.0
-counts per second. The expected count is 30.0 counts. The units make the
-calculation inspectable:
-
-```{code-cell} python
-exposure_s = 2.5
-rate_counts_per_s = 12.0
-expected_counts = exposure_s * rate_counts_per_s
-
-print(f"expected count: {expected_counts:.1f} counts")
-```
-
-The multiplication is simple, but naming the variables prevents an unlabelled
-quantity from being treated as evidence.
-
-## Predict → run → explain → revise
-
-Predict whether `0.1 + 0.2 == 0.3` is `True`. Run the following check and
-explain why exact equality fails even though the printed values may look the
-same. Revise the comparison by selecting tolerances appropriate to the scale of
-the calculation.
-
-```{code-cell} python
-import math
-
-computed = 0.1 + 0.2
-expected = 0.3
-print(computed == expected)
-print(math.isclose(computed, expected, rel_tol=1e-12, abs_tol=0.0))
-```
-
-## Apply or extend
-
-Choose a quantity from another field—energy, concentration, pressure, or a
-model residual. State its units, a reference value, and why an absolute,
-relative, or combined tolerance is the relevant comparison.
-
-## Recap and next connection
-
-Numerical honesty means matching a comparison to the claim and the scale. In
-[Chapter 3](03-python-control-flow.md), those comparisons become guard clauses
-and stopping conditions for algorithms.
-
-## Deep dive / reference
-
-The sections below preserve detailed numerical reference material. They are
-optional after the core route above; use them when a calculation presents a
-specific representation, stability, or formatting question.
-
-### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -96,7 +22,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(9) Use essential `math` module functions** for scientific computing: `sqrt()`, `log()`, `sin()`, `cos()`, `isfinite()`, `isnan()`.
 - [ ] **(10) Work with complex numbers** using Python's `j` notation for wave physics and Fourier analysis.
 
-### Reference prerequisites
+## Prerequisites
 
 :::{note} Before Starting This Chapter
 
@@ -110,7 +36,7 @@ If any boxes are unchecked, review Chapter 1 first.
 
 ---
 
-### Reference overview
+## Why this chapter matters
 
 Now that you've mastered setting up your computational environment and understand how Python finds and loads code, it's time to transform IPython into your personal calculator. But this chapter goes far beyond simple arithmetic - you're about to discover the hidden complexity of numerical computation that can make the difference between correct results and completely wrong ones due to rounding errors.
 
@@ -517,6 +443,11 @@ else:
 # Why does verification always fail even when values look identical?
 ```
 
+This reciprocal is a useful **high-signal-to-noise geometric point estimate**,
+not a general distance-inference procedure. Parallax uncertainties, selection
+effects, and negative measured parallaxes require an uncertainty-aware model;
+do not silently invert every catalogued parallax.
+
 **Find and fix the three bugs!** Think about:
 
 1. The verification method
@@ -648,11 +579,20 @@ When $b^2 \gg 4ac$, the naive quadratic formula can lose many digits in $-b \pm 
 import math
 
 def quadratic_roots_stable(a, b, c):
-    disc = math.sqrt(b*b - 4*a*c)
-    q = -0.5 * (b + math.copysign(disc, b))
-    x1 = q / a
-    x2 = c / q
-    return x1, x2
+    """Return real roots of ax**2 + bx + c = 0 with reduced cancellation."""
+    if a == 0:
+        raise ValueError("a must be nonzero for a quadratic")
+    discriminant = b * b - 4 * a * c
+    if discriminant < 0:
+        return None, None
+
+    sqrt_discriminant = math.sqrt(discriminant)
+    # copysign makes q use the larger-magnitude numerator. When b is zero,
+    # use +sqrt(discriminant) rather than creating q = 0.
+    q = -0.5 * (b + math.copysign(sqrt_discriminant, b or 1.0))
+    if q == 0:  # repeated root at zero: x**2 = 0
+        return 0.0, 0.0
+    return q / a, c / q
 ```
 
 The take-home: if you see subtraction of nearly equal numbers, look for a mathematically equivalent form that avoids it.
@@ -736,7 +676,23 @@ if tinier == 0:
     print("Warning: Underflow detected!")
 ```
 
-For probability calculations, always work in log space to avoid underflow.
+For products of many positive factors—such as tiny likelihoods—log space is
+often the right representation. It is not a universal replacement: addition
+in ordinary space becomes `logsumexp` in log space, and quantities that can be
+zero or negative require a different treatment.
+
+```{code-cell} python
+import math
+
+def logsumexp(log_values):
+    """Compute log(sum(exp(value) for value in log_values)) stably."""
+    if not log_values:
+        raise ValueError("need at least one log value")
+    largest = max(log_values)
+    return largest + math.log(sum(math.exp(value - largest) for value in log_values))
+
+print(logsumexp([-1000.0, -1001.0]))  # finite, despite exp(-1000) underflowing
+```
 :::
 
 ### Defensive Programming with Numerical Checks

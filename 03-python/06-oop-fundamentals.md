@@ -7,80 +7,7 @@ kernelspec:
   display_name: Python 3
 ---
 
-## Scientific question
-
-When does a scientific entity have state and behavior that should be kept
-together, and how can a small class make its valid states explicit?
-
-## Core ideas
-
-- Use a class when data and operations that change or interpret that data form
-  one coherent, stateful entity; use a function for a simple transformation.
-- `__init__` establishes state, methods act on it, and properties can expose a
-  derived value or validate a controlled update.
-- A class documents an invariant but does not prove scientific correctness:
-  validate relevant inputs and test behavior independently.
-
-## Prerequisites
-
-You should be able to write functions with explicit inputs and outputs
-(Chapter 5), use dictionaries (Chapter 4), and reason about mutation and
-aliasing (Chapter 4).
-
 ## Learning objectives
-
-By the end of the core route, you can decide whether a class is warranted,
-write a small class with one invariant, and distinguish an instance attribute
-from a class attribute.
-
-## Predict → run → explain → revise
-
-Predict which construction succeeds and why before running it.
-
-```python
-class Measurement:
-    def __init__(self, value, unit):
-        if unit not in {"K", "m"}:
-            raise ValueError("unit must be declared")
-        self.value = value
-        self.unit = unit
-
-print(Measurement(273.15, "K").unit)
-# Measurement(273.15, "kelvin")  # predict the exception before uncommenting
-```
-
-Explain the invariant this class enforces and one limitation: the accepted
-strings alone do not convert units or establish that the measurement is valid.
-Revise the class for a stateful entity in your own work, or choose a function
-instead if it has no state to preserve.
-
-## Apply or extend
-
-Sketch either a function or a class for a measured entity such as a sensor,
-sample, particle, or experiment configuration. State why it should retain
-state—or why a plain function and a data record would be clearer—and name one
-invariant that a test should check.
-
-## Recap and next connection
-
-Small classes can make selected states and operations explicit; they are not a
-replacement for evidence about a model or its data. [Part II: Arrays,
-Visualization, and Reliable Computing](../04-scientific-computing/index.md)
-next applies these programming habits to array calculations, figures, and
-numerical evidence.
-
-## Deep dive / reference
-
-The core route gives a deliberate, small use of classes. The detailed material
-below covers inheritance, method catalogues, debugging tools, and other
-features to consult when an actual design requires them.
-
-### Detailed reference
-
-The following reference preserves the original extended explanations and
-examples. It is not a second required route through the chapter.
-
-### Reference objectives
 
 By the end of this chapter, you will be able to:
 
@@ -93,7 +20,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(7) Recognize when OOP improves** code organization versus when functions suffice
 - [ ] **(8) Connect the transition** from procedural to object-oriented thinking in scientific computing
 
-### Reference prerequisites and self-check
+## Prerequisites
 
 Before starting this chapter, verify you can:
 
@@ -121,7 +48,7 @@ If you said both print "200", you're ready! Python uses **call-by-sharing**:
 the function receives a reference to the same object, so mutating a mutable
 object is visible to the caller; rebinding the local parameter is not.
 
-### Reference overview
+## Why this chapter matters
 
 You've mastered functions to organize behavior and modules to organize related functions. But what happens when data and the functions that operate on it are inseparable? When tracking particles in a simulation, each particle has position, velocity, and mass, along with methods to update position, calculate kinetic energy, and check collisions. Passing all this data between separate functions becomes error-prone and verbose. This is where Object-Oriented Programming transforms your code from a collection of functions to a model of your problem domain.
 
@@ -749,9 +676,13 @@ Properties are Python's mechanism for **enforcing invariants** — conditions th
 1. **Validation on assignment** — Reject invalid values immediately, not when they cause cryptic errors downstream
 2. **Computed attributes** — Derive area from radius automatically, guaranteeing consistency
 3. **Encapsulation** — Hide internal storage (`_radius`) while exposing a clean interface (`radius`)
-4. **Invariant enforcement** — Make it *structurally impossible* to create invalid object states
+4. **Invariant enforcement through the public interface** — Reject invalid
+   assignments where the class controls updates; this is not a proof that every
+   scientific assumption or internal mutation is valid
 
 ```{code-cell} python
+import math
+
 class Circle:
     """Circle with computed properties."""
 
@@ -807,7 +738,7 @@ class Temperature:
 
     def __init__(self, kelvin):
         """Initialize with temperature in Kelvin."""
-        self._kelvin = kelvin
+        self.kelvin = kelvin  # Route construction through the same validation.
 
     @property
     def kelvin(self):
@@ -854,9 +785,45 @@ temp.celsius = 100
 print(f"Boiling: {temp.kelvin:.1f} K")
 ```
 
+:::{note} Predict → run → explain → revise: constructor validation
+
+**Predict.** Should `Temperature(-1)` construct an object, or raise a
+`ValueError`? Why must `__init__` assign through `self.kelvin` rather than
+directly to `self._kelvin`?
+
+**Static check.** Run this immediately after the `Temperature` definition
+above; it should print the expected exception:
+
+```python
+try:
+    Temperature(-1)
+except ValueError as error:
+    print(type(error).__name__, error)
+```
+
+**Explain.** The setter establishes the local invariant for construction and
+later assignments. It does not validate a thermometer, its calibration, or the
+meaning of a measurement.
+
+**Revise.** Change `-1` to `0`, predict the result, then test it in the
+browser notebook below.
+:::
+
+:::{lecture-code}
+:id: ch6-temperature-invariant
+:starter: ch06-temperature-invariant.ipynb
+:fallback: Predict whether `Temperature(-1)` is rejected, use the static check above, then open the browser-local xeus-python notebook to change the input and test your prediction.
+:::
+
+If the embedded launcher does not appear, open the [Temperature invariant
+experiment](jupyterlite/lab/index.html?path=ch06-temperature-invariant.ipynb)
+directly in browser Python.
+
 ### Astronomy-Specific Properties Example
 
 ```{code-cell} python
+import math
+
 class Observation:
     """Astronomical observation with computed conditions."""
 
@@ -873,15 +840,17 @@ class Observation:
         Note: This simplified sec(z) formula diverges at low altitudes.
         Production code should use Pickering (2002) or similar.
         """
-        if self.altitude_deg <= 0:
-            return float('inf')
+        if not 10 <= self.altitude_deg <= 90:
+            raise ValueError(
+                "This plane-parallel toy model is only used here for "
+                "10 <= altitude_deg <= 90; choose a validated airmass model outside that range."
+            )
         # Convert to zenith angle
         zenith_deg = 90 - self.altitude_deg
         zenith_rad = math.radians(zenith_deg)
-        # Plane-parallel approximation: X = sec(z)
-        # Breaks down below ~10 deg altitude
-        if zenith_deg >= 85:
-            return 38.0  # Clamp to avoid division issues
+        # Plane-parallel approximation: X = sec(z).
+        # Its stated domain guard above avoids presenting a low-altitude clamp
+        # as a physical result.
         return 1.0 / math.cos(zenith_rad)
 
     @property
@@ -919,13 +888,20 @@ The `airmass` and `moon_phase` properties above are toy models for teaching purp
 :::{important} 🌟 Why This Matters: The Therac-25 and the Importance of Validation
 :class: dropdown
 
-Properties with validation could have prevented one of medical history's worst software disasters. Between 1985 and 1987, the Therac-25 radiation therapy machine caused at least six accidents where patients received massive radiation overdoses—up to 100 times the intended dose. Three patients died directly from the overdoses.
+The Therac-25 accidents show why a local validation rule is not enough for a
+safety-critical system. Between 1985 and 1987, the machine caused at least six
+accidents involving massive radiation overdoses; three patients died directly
+from the overdoses.
 
 The root cause was a lack of validation in the software's state management. The machine could operate in electron-beam mode (low power) or X-ray mode (high power with metal target). A race condition meant the machine could be left in a lethal state: high power WITHOUT the metal target.
 
-With proper validation using properties:
+The class below is a **fictional local-invariant illustration**, not a
+reconstruction of Therac-25 software and not a claim that Python properties
+would have prevented the accidents:
 
 ```python
+# PSEUDOCODE: this deliberately omits the device's real state model and the
+# value of ELECTRON_MAX. It is not runnable Python or a Therac reconstruction.
 class RadiationTherapyMachine:
     def __init__(self):
         self._mode = None
@@ -946,7 +922,10 @@ class RadiationTherapyMachine:
         self._power_level = value
 ```
 
-Today, medical device software uses extensive validation at every state change. Properties ensure that impossible values trigger immediate alerts, not patient deaths. Every validation in your setters follows safety practices written in the aftermath of preventable tragedies.
+Setter validation can make one local state transition explicit. It cannot by
+itself establish concurrency safety, hardware interlocks, requirements
+traceability, or independent system verification—the broader controls that
+safety-critical software needs.
 
 [Source: Leveson, N.G. & Turner, C.S. (1993). "An Investigation of the Therac-25 Accidents". IEEE Computer, 26(7), 18-41.]
 :::
@@ -1301,13 +1280,18 @@ Python doesn't check types - it checks capabilities. Any object implementing the
 
 - `__enter__()` and `__exit__()` $\to$ works with 'with' statement
 
-**Array Protocol (NumPy):**
+**NumPy interoperability:**
 
-- `.shape`, `.dtype`, `__getitem__` $\to$ works where NumPy expects array-like
+- `__array__()` can provide an explicit conversion to a NumPy array
+- `__array_ufunc__()` and `__array_function__()` can define selected NumPy
+  operations for a custom array type
 
 This is why your custom objects can work with built-in functions! A DataSet with `__len__` works with `len()`. A Vector with `__add__` works with `+`. This protocol-based design is central to Python's flexibility and why scientific libraries integrate so well.
 
-**Real-world example:** Any object with `.shape`, `.dtype`, and `__getitem__` can be used where NumPy expects an array-like object. This is how libraries like PyTorch tensors work seamlessly with NumPy functions.
+**Real-world example:** A sequence may be accepted by `np.asarray`, but merely
+adding `.shape`, `.dtype`, and `__getitem__` does not make a custom object
+compatible with every NumPy function. Libraries such as PyTorch implement
+their own documented interoperability protocols.
 :::
 
 ---
@@ -1792,7 +1776,7 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 
 ## Recap and next connection
 
-Part II begins with [Chapter 7: NumPy Fundamentals](../04-scientific-computing/01-numpy-fundamentals.md).
+Part II begins with [Chapter 7: NumPy Fundamentals](../04-scientific-computing/07-numpy-fundamentals.md).
 There, arrays provide a different kind of abstraction: many numerical values,
 their shape, and operations over them. Carry forward the same habits—name
 assumptions, protect invariants, and test a known case.

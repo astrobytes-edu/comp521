@@ -28,12 +28,14 @@ correctness.
 
 ## Interactive reading experiments
 
-Long readings remain static, build-executed references. Short, dedicated
-experiment pages may use the local `interactive-python` directive for
-browser-local Pyodide/WebAssembly execution. This is a low-barrier rehearsal
-space, not the authoritative environment for submitted work. The installed
-MyST release's native Thebe/JupyterLite capability is site-wide, so it remains
-disabled until it gains trustworthy page-level scoping.
+Long readings remain static, build-executed references. A short, structured
+`lecture-code` activity opens a course-built xeus-python JupyterLite notebook
+in an inline browser frame: it is WebAssembly-based, requires neither Binder
+nor a server, and has a visible static fallback in the reading. The installed
+MyST release's *native* Thebe/JupyterLite switch remains disabled because it is
+site-wide; the scoped activity route deliberately uses the deployed course Lite
+bundle instead. The local `interactive-python` directive remains available for
+small Pyodide/WebAssembly experiments that do not need the curated xeus stack.
 
 For high-value linked controls, figures, and dashboards, use the local
 `panel-pyodide` directive. It loads Panel and Bokeh in an isolated browser
