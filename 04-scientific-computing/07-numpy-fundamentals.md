@@ -7,18 +7,29 @@ kernelspec:
   display_name: Python 3
 ---
 
+## Why this chapter matters
+
+You've been using Python lists to store collections of numbers, and the math module to perform calculations. But what happens when you need to analyze a million stellar spectra, each with thousands of wavelength points? Or when you need to perform the same calculation on every pixel in a telescope image? Try using a list comprehension on a million-element list, and you'll be waiting a while. This is where NumPy transforms Python from a general-purpose language into a powerhouse for scientific computing, providing the speed and tools necessary for research-grade computational science.
+
+**NumPy**, short for Numerical Python, is the foundation upon which the entire scientific Python ecosystem is built. Every plot you'll make with Matplotlib, every optimization you'll run with SciPy, every dataframe you'll analyze with Pandas – they all build on NumPy arrays. But NumPy isn't just about speed; it's about expressing mathematical operations naturally. Instead of writing loops to add corresponding elements of two lists, you simply write `a + b`. Instead of nested loops for matrix multiplication, you write `a @ b`. This isn't just convenience – it's a fundamental shift in how you think about numerical computation, from operating on individual elements to operating on entire arrays at once.
+
+This chapter introduces you to NumPy's ndarray (n-dimensional array), the object that makes scientific Python possible. You'll discover why NumPy arrays are often much faster than Python lists for numerical operations, and how **vectorization** eliminates the need for most explicit loops. You'll master **broadcasting**, NumPy's powerful mechanism for operating on arrays of different shapes, which enables elegant solutions to complex problems. Most importantly, you'll learn to think in arrays – a skill that transforms you from someone who writes code that processes data to someone who writes code that expresses mathematical ideas directly. The examples lean astro‑flavored, but the patterns apply just as well to climate, biology, imaging, and signal processing.
+
+For a first reading, follow Sections 7.1–7.7 in order. Return to the Deep Dives when a project needs random sampling, grids, sampled signals, or a measured performance decision; use the Reference when you need an operation or creation function quickly.
+
+## Try this chapter
+
+- [**Browser Python lab · Shape, Mask, and View Inspector**](jupyterlite/ch07-shape-mask-view-inspector.html): predict an output shape, then test broadcasting and distinguish a memory-sharing slice from a fancy-indexed copy. This activity is optional; its source is Markdown and opens in the browser.
+
 ## Learning objectives
 
 By the end of this chapter, you will be able to:
 
-- [ ] **(1) Create and manipulate NumPy arrays** for efficient numerical computation
-- [ ] **(2) Apply vectorized operations** to express repeated numerical operations clearly
-- [ ] **(3) Master array indexing, slicing, boolean masking, and broadcasting** for sophisticated data manipulation
-- [ ] **(4) Use essential NumPy functions** for scientific computing (`linspace`, `logspace`, `where`, `meshgrid`)
-- [ ] **(5) Perform array transformations** including reshaping, stacking, and splitting for data analysis
-- [ ] **(6) Generate and apply random numbers** from various distributions for Monte Carlo simulations
-- [ ] **(7) Apply NumPy to real scientific calculations** with proper unit conversions and unit-aware variable names
-- [ ] **(8) Recognize when and why to use NumPy** instead of pure Python for numerical tasks
+- [ ] **(1) Inspect an array's shape, axes, and dtype** and choose an appropriate construction method
+- [ ] **(2) Apply vectorized, masked, and broadcast operations** while predicting the resulting shape
+- [ ] **(3) Distinguish views from copies** and diagnose an unintended array mutation
+- [ ] **(4) Generate reproducible synthetic arrays** with a local random generator and stated distributional assumptions
+- [ ] **(5) Use selected numerical tools** only with their sampling, grid, or missing-data boundaries made explicit
 
 ## Prerequisites
 
@@ -65,16 +76,6 @@ flattened = [item for row in matrix for item in row]
 
 If you got all four correct, you're ready for NumPy! If not, review the indicated chapters.
 :::
-
----
-
-## Why this chapter matters
-
-You've been using Python lists to store collections of numbers, and the math module to perform calculations. But what happens when you need to analyze a million stellar spectra, each with thousands of wavelength points? Or when you need to perform the same calculation on every pixel in a telescope image? Try using a list comprehension on a million-element list, and you'll be waiting a while. This is where NumPy transforms Python from a general-purpose language into a powerhouse for scientific computing, providing the speed and tools necessary for research-grade computational science.
-
-**NumPy**, short for Numerical Python, is the foundation upon which the entire scientific Python ecosystem is built. Every plot you'll make with Matplotlib, every optimization you'll run with SciPy, every dataframe you'll analyze with Pandas – they all build on NumPy arrays. But NumPy isn't just about speed; it's about expressing mathematical operations naturally. Instead of writing loops to add corresponding elements of two lists, you simply write `a + b`. Instead of nested loops for matrix multiplication, you write `a @ b`. This isn't just convenience – it's a fundamental shift in how you think about numerical computation, from operating on individual elements to operating on entire arrays at once.
-
-This chapter introduces you to NumPy's ndarray (n-dimensional array), the object that makes scientific Python possible. You'll discover why NumPy arrays are often much faster than Python lists for numerical operations, and how **vectorization** eliminates the need for most explicit loops. You'll master **broadcasting**, NumPy's powerful mechanism for operating on arrays of different shapes, which enables elegant solutions to complex problems. Most importantly, you'll learn to think in arrays – a skill that transforms you from someone who writes code that processes data to someone who writes code that expresses mathematical ideas directly. The examples lean astro‑flavored, but the patterns apply just as well to climate, biology, imaging, and signal processing.
 
 :::{important} 📚 Essential Resource: NumPy Documentation
 
@@ -148,6 +149,11 @@ print(f"First 5 fluxes: {fluxes_np[:5]}")
 ```
 
 The NumPy version is not only faster but also cleaner – no explicit loop needed! This is called **vectorization**, and it's the key to NumPy's power.
+
+:::{important} Design decision: shape and dtype are part of the model
+
+An `ndarray` is not merely a faster list. Its **shape** says which axes exist and its **dtype** says how each value is represented. Decide both from the meaning of the data: integer detector counts, floating-point calibrated fluxes, and boolean quality flags are different quantities with different valid operations.
+:::
 
 ### NumPy vs. the math Module: Arrays vs. Scalars
 
@@ -279,7 +285,9 @@ print("Stellar masses (g):", ", ".join(f"{x:.2e}" for x in masses_g))
 
 ```python
 # arange: Like Python's range but returns array
-times_s = np.arange(0, 10, 0.1)  # 0 to 9.9 in 0.1s steps
+# `arange` is convenient when the step is the contract. Do not rely on it to
+# land exactly on a floating-point endpoint; use `linspace` for a fixed count.
+times_s = np.arange(0, 10, 0.1)  # 0 to 9.9 in nominal 0.1 s steps
 print(f"Time points: {len(times_s)} samples from {times_s[0]} to {times_s[-1]}")
 
 # zeros and ones: Initialize arrays
@@ -301,7 +309,7 @@ print(f"Identity matrix:\n{identity}")
 
 **PATTERN: Memory Layout Matters for Performance**
 
-NumPy stores arrays in row-major order (C-style) by default, meaning elements in the same row are adjacent in memory. This affects performance dramatically:
+NumPy stores arrays in row-major order (C-style) by default, meaning elements in the same row are adjacent in memory. This *can* affect performance, but the size of the effect depends on the operation, array shape, hardware, and linked numerical libraries:
 
 ```python
 # Row-major (NumPy default) - fast row operations
@@ -320,7 +328,7 @@ Why this matters:
 - Processing spectra in columns? Consider Fortran order
 - Matrix multiplication? NumPy optimizes automatically
 
-Real impact: The wrong memory order can make your code noticeably slower for large arrays!
+Measure representative operations before changing layout: an order that helps one traversal can be neutral or harmful for another.
 :::
 
 ::::{note} 🔍 Check Your Understanding
@@ -334,7 +342,7 @@ All three allocate the same amount of memory (8000 bytes for float64), but:
 
 - `np.zeros()`: Allocates AND sets all values to 0 (slower, safe)
 - `np.ones()`: Allocates AND sets all values to 1 (slower, safe)
-- `np.empty()`: Only allocates, doesn't initialize (fastest, dangerous)
+- `np.empty()`: Only allocates, leaving arbitrary pre-existing memory values (often fast, dangerous)
 
 Use cases:
 
@@ -351,7 +359,7 @@ for i in range(1000):
 :::
 ::::
 
-### Saving and Loading Arrays
+## Reference: saving and loading arrays
 
 This section introduces NumPy's array-specific storage operations locally. They
 are useful when a calculation needs to preserve values, shape, and dtype
@@ -480,6 +488,10 @@ print(f"  Variance/Mean: {photon_counts.var()/photon_counts.mean():.2f} (should 
 | **Normal** | Many small effects combine | Measurement errors, thermal noise, stellar velocities |
 | **Poisson** | Counting discrete events | Photon counts, particle detections, cosmic ray hits |
 :::
+
+## Deep Dive: Sampling Models and Their Assumptions
+
+The following distributions are tools for generating *stated synthetic assumptions*. A random draw is not evidence that a phenomenon follows that distribution; the model choice and seed are part of the result.
 
 ### Advanced Distributions for Astrophysics
 
@@ -770,12 +782,13 @@ scale = 2.5  # float
 scaled = counts_int / scale  # Result is float!
 print(f"Int array / float = {scaled}")
 
-# Best practice: Use float arrays for scientific calculations
-counts_safe = np.array([100, 200, 300], dtype=float)
-print(f"Safe float array: {counts_safe / counts_safe.max()}")
+# Choose a dtype that represents the quantity: counts are integers, while this
+# normalized ratio is naturally floating-point.
+counts_as_float = counts.astype(float)
+print(f"Normalized floating-point ratio: {counts_as_float / counts_as_float.max()}")
 ```
 
-Always use float arrays for scientific calculations unless you specifically need integer arithmetic!
+Do not make every scientific array floating-point by reflex. Use an integer dtype for discrete counts, a boolean dtype for flags, and a floating dtype when the quantity or calculation needs fractional values. Check the dtype after operations that may change it.
 :::
 
 :::{tip} 💡 Computational Thinking Box: Algorithmic Complexity and Big-O
@@ -811,11 +824,7 @@ def matrix_multiply_numpy(A, B):
     return A @ B
 ```
 
-**Real impact (varies by hardware):** For a $1000 \times 1000$ matrix:
-
-- Nested loops: seconds
-- NumPy with optimized BLAS: milliseconds
-- That's the difference between waiting and real-time processing!
+**Real impact (measure it):** A naive Python implementation of a $1000 \times 1000$ matrix product performs about a billion scalar multiply-add steps. A compiled array operation can be substantially faster, but the observed time depends on hardware, linked BLAS library, thread settings, memory layout, and competing work on the machine. Treat the benchmark later in this chapter as the evidence for a local decision.
 
 Note: While algorithms like Strassen's achieve $O(n^{2.807})$ complexity theoretically, NumPy uses highly optimized BLAS libraries that, despite being $O(n^3)$, are typically faster in practice due to cache optimization, vectorization, and parallel processing.
 :::
@@ -860,6 +869,12 @@ print(f"Sub-image: \n{image[0:2, 1:3]}")
 :::{note} Shape Checkpoint
 
 What is the shape of `image`? What is the shape of `image[1, :]` and `image[:, 2]`? Which of those is a 1D array, and why?
+:::
+
+:::{note} Answer
+:class: dropdown
+
+`image` has shape `(3, 3)`. Both `image[1, :]` and `image[:, 2]` select one axis while leaving the other, so each has shape `(3,)`: each is a one-dimensional array of three values. The row/column distinction came from the **selection**, not from a retained dimension. Use `image[1:2, :]` or `image[:, 2:3]` when you need to keep a two-dimensional row or column.
 :::
 
 ### Boolean Masking: The Power Tool
@@ -929,7 +944,7 @@ print(f"Finite check: {np.isfinite(test_array)}")
 
 ### Handling Missing Data: NaN Patterns
 
-Real scientific data is messy. Telescope observations have bad pixels, surveys have non-detections, and data pipelines occasionally produce invalid values. NumPy's `np.nan` (Not a Number) represents these missing or invalid values, but working with NaN requires special care.
+Real scientific data is messy. Telescope observations have bad pixels, surveys have non-detections, and data pipelines occasionally produce invalid values. NumPy's `np.nan` (Not a Number) can represent a missing or invalid floating-point value, but it does not record *why* the value is absent. Preserve quality flags and the data product's missingness convention alongside the array.
 
 :::{warning} ⚠️ NaN Propagation Warning
 
@@ -943,7 +958,7 @@ print(f"Sum with NaN: {data.sum()}")  # Returns nan!
 print(f"Mean with NaN: {data.mean()}")  # Returns nan!
 ```
 
-Always check for and handle NaN values before analysis.
+Inspect NaNs before analysis and choose their treatment from the scientific model, not only from what makes a function run.
 :::
 
 #### Detecting NaN Values
@@ -959,7 +974,7 @@ print(f"Any NaN present: {np.any(np.isnan(magnitudes))}")
 
 #### Strategy 1: Filter Out NaN Values
 
-The simplest approach—remove NaN values entirely:
+For a statistic explicitly defined over valid measurements, you can select those measurements. This changes the population being summarized, so do not silently use it when missingness may be informative:
 
 ```{code-cell} python
 # Filter approach: remove NaN values
@@ -978,7 +993,7 @@ print(f"Using compress: {clean_data2}")
 
 #### Strategy 2: Use NaN-Safe Functions
 
-NumPy provides `nan`-prefixed functions that ignore NaN values:
+NumPy provides `nan`-prefixed functions that ignore NaN values. This is concise, but it has the same population-selection consequence as filtering:
 
 ```{code-cell} python
 # NaN-safe functions
@@ -1000,30 +1015,33 @@ print(f"  np.nanmedian(): {np.nanmedian(magnitudes):.2f}")
 
 #### Strategy 3: Replace NaN Values
 
-Sometimes you want to fill NaN with a specific value:
+Filling is a modeling choice, not generic data cleaning. A detection limit, imputation model, or finite sentinel must be compatible with the downstream algorithm and be documented:
 
 ```{code-cell} python
 # Replace NaN with specific values
 magnitudes = np.array([12.5, np.nan, 14.2, np.nan, 11.8, 15.3])
 
-# Replace with a constant (e.g., detection limit)
-filled_constant = np.where(np.isnan(magnitudes), 99.99, magnitudes)
-print(f"Filled with 99.99: {filled_constant}")
+# A *declared* detection limit can be carried as a separate value and flag.
+detection_limit_mag = 99.99
+is_missing = np.isnan(magnitudes)
+filled_for_display = np.where(is_missing, detection_limit_mag, magnitudes)
+print(f"Display values with a declared limit: {filled_for_display}")
 
 # Replace with the mean of valid values
 mean_val = np.nanmean(magnitudes)
 filled_mean = np.where(np.isnan(magnitudes), mean_val, magnitudes)
 print(f"Filled with mean ({mean_val:.2f}): {filled_mean}")
 
-# Using np.nan_to_num for NaN and Inf
+# `nan_to_num` is appropriate only when these finite replacements have a
+# documented meaning for the next computation.
 data_with_inf = np.array([1.0, np.nan, np.inf, -np.inf, 5.0])
-cleaned = np.nan_to_num(data_with_inf, nan=0.0, posinf=1e10, neginf=-1e10)
-print(f"nan_to_num result: {cleaned}")
+finite_for_display = np.nan_to_num(data_with_inf, nan=-999.0, posinf=999.0, neginf=-999.0)
+print(f"Explicit display sentinels: {finite_for_display}")
 ```
 
 #### Strategy 4: Interpolate Over NaN
 
-For time series data, interpolate missing values:
+For a time series, interpolation is defensible only when a stated local continuity model is appropriate for the gap:
 
 ```{code-cell} python
 # Linear interpolation over NaN values
@@ -1043,12 +1061,12 @@ print(f"Interpolated: {interpolated_flux}")
 
 :::{tip} 💡 NaN Handling Best Practices
 
-1. **Check early**: Always check for NaN at the start of analysis
+1. **Check early**: Inspect NaNs and finite values at the start of analysis
 2. **Document the source**: Know why NaN values exist (non-detections vs bad data)
 3. **Choose strategy wisely**:
-   - Filter for statistics (mean, std)
-   - Replace for algorithms that can't handle NaN
-   - Interpolate for time series with small gaps
+   - Filter for a statistic explicitly defined over observed values
+   - Fill only with a declared model or documented sentinel
+   - Interpolate only where a continuity model is defensible
 4. **Use NaN-safe functions** when available (`np.nanmean`, etc.)
 5. **Propagate intentionally**: Sometimes NaN should propagate to flag problematic results
 :::
@@ -1061,7 +1079,7 @@ You have flux measurements where non-detections are marked as NaN. You want to c
 :::{note} Answer
 :class: dropdown
 
-Use `np.nanmean()` or filter first:
+Use `np.nanmean()` or filter first **if** the requested statistic is explicitly the mean of detected sources:
 
 ```python
 # Both approaches work
@@ -1089,9 +1107,9 @@ Both create arrays from 0 to 10, but:
 In this case they're equivalent, but:
 
 - `np.linspace(0, 10, 20)` gives 20 points with fractional spacing
-- `np.arange(0, 10.5, 0.5)` gives points with exact 0.5 steps
+- `np.arange(0, 10.5, 0.5)` requests 0.5-sized steps, but binary floating-point can make endpoint behavior surprising
 
-Use `linspace` when you need a specific number of points, `arange` when you need a specific step size.
+Use `linspace` when you need a specific number of points or endpoints; use `arange` when the step is the controlling quantity and verify the resulting grid when floating-point values matter.
 :::
 ::::
 
@@ -1102,7 +1120,7 @@ The Kepler Space Telescope discovered thousands of exoplanets by monitoring the 
 
 Astro example — the same masking patterns are used in climate data, microscopy, and quality control.
 
-When a planet transits its star, the brightness drops by a small amount, but the data is noisy, with stellar flares, cosmic rays, and instrumental effects. Here's a simplified version of the detection algorithm:
+When a planet transits its star, the brightness drops by a small amount, but the data is noisy, with stellar flares, cosmic rays, and instrumental effects. Here is a simplified **candidate flagger**, not a validated detection pipeline:
 
 ```python
 # Simulated light curve data
@@ -1115,16 +1133,24 @@ period, duration, depth = 3.5, 0.1, 0.01
 in_transit = ((time % period) < duration)
 flux[in_transit] -= depth
 
-# Detection using boolean masking
+# Candidate flagging using boolean masking
 median_flux = np.median(flux)
 threshold = median_flux - 3 * flux.std()  # 3-sigma detection
 transit_candidates = flux < threshold
-n_transits = np.diff(np.where(transit_candidates)[0] > 1).sum()
 
-print(f"Found {n_transits} transit events")
+# Count entries into contiguous candidate runs, not samples below threshold.
+candidate_starts = np.flatnonzero(
+    transit_candidates & np.r_[True, ~transit_candidates[:-1]]
+)
+
+print(f"Flagged {len(candidate_starts)} candidate events")
 ```
 
-This technique, scaled up with more sophisticated statistics, is how we've discovered thousands of worlds orbiting other stars!
+:::
+
+:::{important} Modeling boundary: a boolean threshold is not an exoplanet discovery
+
+This synthetic example injects periodic dips and reports threshold-crossing **candidates**. A real transit search must account for observing gaps, correlated stellar/instrumental noise, false positives, period consistency, and validation. The run count is a property of this simulated threshold rule, not a planet count.
 :::
 
 ---
@@ -1137,6 +1163,17 @@ NumPy's ability to perform operations on arrays of different shapes by automatic
 :::
 
 **Broadcasting** allows NumPy to perform operations on arrays of different shapes, eliminating the need for explicit loops or array duplication:
+
+::::{note} Predict before running
+
+Before running the next cell, predict both the shape and the middle value of `matrix` in `row + col`. Write the two shapes aligned from the right; this catches most broadcasting mistakes before NumPy reports them.
+
+:::{tip} Answer
+:class: dropdown
+
+`row` has shape `(1, 3)` and `col` has shape `(3, 1)`, so the result has shape `(3, 3)`. Its middle value is `22`: the second row's `20` plus the second column's `2`.
+:::
+::::
 
 ```python
 # Simple broadcasting: scalar with array
@@ -1199,6 +1236,12 @@ If you want an operation to broadcast across rows or columns, use `np.newaxis` (
 :::{note} Shape Checkpoint
 
 If `a` has shape `(3,)`, what shapes do `a[np.newaxis, :]` and `a[:, np.newaxis]` have? Which one broadcasts across rows, and which across columns?
+:::
+
+:::{note} Answer
+:class: dropdown
+
+`a[np.newaxis, :]` is a row with shape `(1, 3)`; it broadcasts down rows when combined with a matrix whose final dimension is 3. `a[:, np.newaxis]` is a column with shape `(3, 1)`; it broadcasts across columns. The values are the same, but the axis you add gives them different roles.
 :::
 
 ```python
@@ -1364,15 +1407,16 @@ Many NumPy operations return **views**, not copies, sharing memory with the orig
 
 ```python
 # Real telescope data scenario
-ccd_image = np.zeros((4096, 4096), dtype=np.float32)  # 64 MB
+ccd_image = np.zeros((4096, 4096), dtype=np.float32)  # 64 MiB (about 67 MB)
 
 # Views - no extra memory used
 quadrant1 = ccd_image[:2048, :2048]       # View: shares memory
-reshaped = ccd_image.reshape(16, 1024, 1024)  # View: same data
+reshaped = ccd_image.reshape(16, 1024, 1024)  # Often a view; verify if it matters
 transposed = ccd_image.T                  # View: different ordering
 
 # Debugging tool: confirm whether two arrays share memory
 print(np.shares_memory(quadrant1, ccd_image))  # True for views
+print(np.shares_memory(reshaped, ccd_image))   # Check rather than assume
 
 # Copies - additional memory allocated
 quadrant1_safe = ccd_image[:2048, :2048].copy()  # Copy: +16 MB
@@ -1390,7 +1434,7 @@ quadrant1_calibrated -= 100  # Original ccd_image unchanged
 Operations returning views:
 
 - Basic slicing: `arr[2:8]`
-- Reshaping: `arr.reshape(2, 5)`
+- Reshaping: `arr.reshape(2, 5)` (often a view, but may copy for a non-contiguous input)
 - Transpose: `arr.T`
 
 Operations returning copies:
@@ -1399,12 +1443,12 @@ Operations returning copies:
 - Boolean indexing: `arr[arr > 5]`
 - Arithmetic: `arr + 1`
 
-For observatories processing massive nightly data volumes, understanding views vs copies can mean the difference between feasible and impossible memory requirements!
+For observatories processing massive nightly data volumes, understanding views vs copies can make a material difference to memory use. Use `np.shares_memory` or `np.may_share_memory` when the ownership boundary matters.
 :::
 
 ---
 
-## Deep dive / reference: numerical methods and performance
+## Deep Dive: Numerical Grids and Sampled Signals
 
 The following tools are useful in particular scientific contexts. They are not
 part of the Chapter 7 first-use core; introduce their assumptions explicitly
@@ -1454,8 +1498,8 @@ print(f"\nFunction values:\n{Z}")
 ```
 
 ```python
-# Numerical simulation example: gravitational potential field
-# Simulate potential from multiple point masses
+# Numerical simulation example: a softened gravitational potential field
+# This is a 2D teaching model in normalized units, not an N-body integrator.
 masses = [1.0, 0.5, 0.3]  # Solar masses
 positions = [(0, 0), (3, 2), (-2, 1)]  # AU
 
@@ -1471,19 +1515,29 @@ potential = np.zeros_like(X_field)
 for mass, (px, py) in zip(masses, positions):
     # Distance from each grid point to this mass
     R = np.sqrt((X_field - px)**2 + (Y_field - py)**2)
-    # Avoid singularity at mass position
-    R = np.maximum(R, 0.1)
-    # Add contribution to potential (Phi = -GM/r)
-    potential += -G * mass / R
+    # Plummer-style softening avoids the point-mass singularity.
+    softening_au = 0.1
+    R_soft = np.sqrt(R**2 + softening_au**2)
+    # Add contribution to the softened potential.
+    potential += -G * mass / R_soft
 
 print(f"Potential field shape: {potential.shape}")
 print(f"Min potential: {potential.min():.2f}, Max: {potential.max():.2f}")
 
-# Numerical gradient gives force field
-Fx, Fy = np.gradient(-potential, x_grid[1]-x_grid[0], y_grid[1]-y_grid[0])
+# `meshgrid(x, y)` gives axis 0 = y and axis 1 = x. `gradient` returns
+# derivatives in axis order, so name them before converting to force components.
+dphi_dy, dphi_dx = np.gradient(
+    potential, y_grid[1] - y_grid[0], x_grid[1] - x_grid[0]
+)
+Fy, Fx = -dphi_dy, -dphi_dx
 force_magnitude = np.sqrt(Fx**2 + Fy**2)
 print(f"Max force magnitude: {force_magnitude.max():.2f}")
 ```
+
+::::{important} Modeling boundary: softened grid field
+
+The softening length changes the force near each mass; it is part of the model, not a numerical afterthought. This finite grid also has edges and does not compute trajectories or enforce physical units. It is useful for learning axes and vectorized fields, not for a physical gravitational simulation.
+::::
 
 ```python
 # Common use: creating synthetic star images
@@ -1506,27 +1560,33 @@ print(f"\n3D grid shape: {X_3d.shape}")  # (10, 10, 10)
 
 # Evaluate 3D density field rho(x,y,z) = exp(-r^2)
 density = np.exp(-(X_3d**2 + Y_3d**2 + Z_3d**2))
-print(f"Total mass (integrated density): {density.sum():.2f}")
+cell_volume = (x_3d[1] - x_3d[0]) * (y_3d[1] - y_3d[0]) * (z_3d[1] - z_3d[0])
+print(f"Approximate integrated density: {(density.sum() * cell_volume):.2f}")
 ```
 
 ### Numerical Differentiation and Integration
 
 ```python
-# gradient: numerical differentiation
-# Useful for finding peaks, trends in light curves
-time = np.linspace(0, 10, 100)
-rng = np.random.default_rng(42)
-flux = np.sin(time) + 0.1 * rng.standard_normal(100)
+# Check both approximations first with a smooth signal whose answer is known.
+time_s = np.linspace(0, 10, 100)  # seconds
+flux = np.sin(time_s)  # arbitrary flux units
 
-# Calculate derivative (rate of change)
-flux_gradient = np.gradient(flux, time)
-print(f"Maximum rate of increase: {flux_gradient.max():.3f}")
-print(f"Maximum rate of decrease: {flux_gradient.min():.3f}")
+# `gradient` approximates d(flux)/dt at sampled points.
+flux_gradient = np.gradient(flux, time_s)
+exact_gradient = np.cos(time_s)
+print(f"Maximum derivative error: {np.max(np.abs(flux_gradient - exact_gradient)):.3e}")
 
-# Find turning points (where derivative approx 0)
-turning_points = np.where(np.abs(flux_gradient) < 0.1)[0]
-print(f"Found {len(turning_points)} turning points")
+# `trapezoid` approximates the integral of flux over time.
+integrated_flux = np.trapezoid(flux, x=time_s)
+exact_integral = 1 - np.cos(10)
+print(f"Integrated flux: {integrated_flux:.4f}")
+print(f"Exact integral: {exact_integral:.4f}")
 ```
+
+:::{important} Modeling boundary: numerical derivatives and integrals
+
+Finite differences and trapezoids approximate a sampled function; their errors depend on spacing and smoothness. Differentiation also amplifies measurement noise, so a derivative threshold is not by itself a reliable peak finder or physical event detector. State the grid, units, smoothing model if any, and a refinement or known-solution check before interpreting a result.
+:::
 
 ### Interpolation with interp
 
@@ -1559,7 +1619,7 @@ where:
 
 - x[n] is the input signal at time sample n
 - X[k] is the frequency component at frequency k
-- k ranges from 0 to N-1, representing frequencies from 0 to the sampling frequency
+- k ranges from 0 to N-1; the physical bin ordering depends on the transform helper used
 
 The FFT algorithm computes this in $O(N\log N)$ operations instead of $O(N^2)$, making it practical for large datasets.
 
@@ -1567,9 +1627,9 @@ Units and assumptions: N, n, and k are unitless indices. The physical units of f
 
 **Physical Interpretation:**
 
-- **Magnitude |X[k]|**: The amplitude of oscillation at frequency k
+- **Magnitude |X[k]|**: the unnormalized coefficient magnitude; it scales with the number of samples and is not automatically a physical amplitude
 - **Phase $\arg(X[k])$**: The phase shift of that frequency component
-- **Power $|X[k]|^2$**: The energy at that frequency (power spectrum)
+- **Power $|X[k]|^2$**: an unnormalized spectral-power quantity; its physical units and relation to energy require an explicit normalization convention
 - **Frequency bins**: $k$ corresponds to frequency $f = k \times (\mathrm{sampling\_rate}/N)$
 
 `np.fft.fftfreq` orders bins as zero frequency, positive frequencies, then
@@ -1578,13 +1638,21 @@ negative frequencies. For a real-valued signal, use `np.fft.rfft` with
 matches the transform's Hermitian symmetry. Both choices still require a
 uniform sample spacing and an explicit interpretation of units.
 
+NumPy's forward FFT is unnormalized. For this unwindowed, real, bin-centered
+teaching signal, a single-sided amplitude estimate is `abs(rfft_result) / N`,
+with interior positive-frequency bins doubled. Do **not** double the DC bin or,
+when `N` is even, the Nyquist bin. Windowing, non-bin-centered frequencies,
+and noise change that simple interpretation; record the normalization before
+calling a spectrum an amplitude, energy, or power measurement.
+
 ```{code-cell} python
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Create a signal with multiple frequencies
-t = np.linspace(0, 1, 500)  # 1 second, 500 samples
+# Create a signal with multiple frequencies on a uniform grid.
 sampling_rate = 500  # Hz (samples per second)
+n_samples = 500
+t = np.arange(n_samples) / sampling_rate  # 1 second, endpoint excluded
 
 # Build composite signal
 rng = np.random.default_rng(42)
@@ -1593,31 +1661,25 @@ signal += 0.5 * np.sin(2 * np.pi * 10 * t)  # 10 Hz component
 signal += 0.3 * np.sin(2 * np.pi * 50 * t)  # 50 Hz component
 signal += 0.2 * rng.normal(size=t.shape)  # Noise
 
-# Compute FFT
-fft = np.fft.fft(signal)
+# `rfft` and `rfftfreq` retain the non-negative frequencies for this real signal.
+spectrum = np.fft.rfft(signal)
+freqs = np.fft.rfftfreq(n_samples, d=1 / sampling_rate)
 
-# Get corresponding frequencies
-# fftfreq returns frequencies in cycles per unit of sample spacing
-# Since our sample spacing is 1/500 seconds, frequencies are in Hz
-freqs = np.fft.fftfreq(len(t), d=1/sampling_rate)
+# One-sided amplitudes: double interior bins, but not DC or the Nyquist bin.
+single_sided_amplitude = np.abs(spectrum) / n_samples
+if n_samples % 2 == 0:
+    single_sided_amplitude[1:-1] *= 2  # Nyquist bin is last; leave it alone.
+else:
+    single_sided_amplitude[1:] *= 2
 
-# Power spectrum (squared magnitude)
-power = np.abs(fft)**2
-
-# Due to symmetry, only look at positive frequencies
-pos_mask = freqs > 0
-freqs_pos = freqs[pos_mask]
-power_pos = power[pos_mask]
-
-# Find peaks (simplified - use scipy.signal.find_peaks for real work)
-threshold = power_pos.max() / 10
-peak_indices = np.where(power_pos > threshold)[0]
-peak_freqs = freqs_pos[peak_indices]
+# The three largest non-DC bins are only a controlled-example summary.
+peak_indices = np.argsort(single_sided_amplitude[1:])[-3:] + 1
+peak_freqs = np.sort(freqs[peak_indices])
 
 print(f"Sampling rate: {sampling_rate} Hz")
 print(f"Frequency resolution: {freqs[1]-freqs[0]:.2f} Hz")
 print(f"Nyquist frequency: {sampling_rate/2} Hz")
-print(f"Detected peaks near: 5, 10, and 50 Hz")
+print(f"Three largest non-DC bins: {peak_freqs} Hz")
 ```
 
 *FFT reveals hidden frequencies in a composite signal*
@@ -1630,22 +1692,18 @@ The power of the FFT becomes clear when visualized—patterns invisible in the t
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Recreate the signal
-t = np.linspace(0, 1, 500)
+# Recreate the signal on the same uniform grid.
 sampling_rate = 500
+n_samples = 500
+t = np.arange(n_samples) / sampling_rate
 rng = np.random.default_rng(42)
 signal = np.sin(2 * np.pi * 5 * t) + 0.5 * np.sin(2 * np.pi * 10 * t)
 signal += 0.3 * np.sin(2 * np.pi * 50 * t) + 0.2 * rng.normal(size=t.shape)
 
-# Compute FFT
-fft = np.fft.fft(signal)
-freqs = np.fft.fftfreq(len(t), d=1/sampling_rate)
-power = np.abs(fft)**2
-
-# Positive frequencies only
-pos_mask = freqs > 0
-freqs_pos = freqs[pos_mask]
-power_pos = power[pos_mask]
+# Compute the non-negative-frequency spectrum for the real signal.
+spectrum = np.fft.rfft(signal)
+freqs = np.fft.rfftfreq(n_samples, d=1 / sampling_rate)
+power = np.abs(spectrum)**2
 
 # Create visualization
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
@@ -1659,13 +1717,13 @@ axes[0].set_xlim(0, 0.5)  # Show first half second
 axes[0].grid(True, alpha=0.3)
 
 # Frequency domain
-axes[1].semilogy(freqs_pos, power_pos, 'r-', linewidth=0.8)
+axes[1].semilogy(freqs[1:], power[1:], 'r-', linewidth=0.8)
 axes[1].axvline(x=5, color='green', linestyle='--', alpha=0.7, label='5 Hz')
 axes[1].axvline(x=10, color='green', linestyle='--', alpha=0.7, label='10 Hz')
 axes[1].axvline(x=50, color='green', linestyle='--', alpha=0.7, label='50 Hz')
 axes[1].set_xlabel('Frequency (Hz)', fontsize=11)
-axes[1].set_ylabel('Power (log scale)', fontsize=11)
-axes[1].set_title('Frequency Domain: Three peaks clearly visible!', fontsize=12)
+axes[1].set_ylabel(r'Unnormalized $|X[k]|^2$ (log scale)', fontsize=11)
+axes[1].set_title('Frequency Domain: injected components are visible', fontsize=12)
 axes[1].set_xlim(0, 100)
 axes[1].legend(loc='upper right')
 axes[1].grid(True, alpha=0.3)
@@ -1674,7 +1732,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-*Left: Composite signal looks noisy in time domain. Right: FFT reveals the three frequency components clearly.*
+*Left: Composite signal looks noisy in time domain. Right: the unnormalized spectrum makes the injected frequency components visible; it is not yet a calibrated power measurement.*
 
 ```{code-cell} python
 import numpy as np
@@ -1696,22 +1754,22 @@ flux[in_transit] *= 0.99  # 1% transit depth
 rng = np.random.default_rng(42)
 flux += rng.normal(0, 0.002, len(time))  # 0.2% noise
 
-# FFT to find periodicity
-fft_flux = np.fft.fft(flux - flux.mean())  # Remove DC component
-freqs_flux = np.fft.fftfreq(len(time), time[1] - time[0])  # Frequencies in 1/day
+# FFT as a first-look periodicity diagnostic
+fft_flux = np.fft.rfft(flux - flux.mean())  # Remove DC component
+freqs_flux = np.fft.rfftfreq(len(time), time[1] - time[0])  # Frequencies in 1/day
 
 # Power spectrum
 power_flux = np.abs(fft_flux)**2
 
-# Look for peak in physically reasonable range (periods from 2 to 15 days)
-# Note: We use a narrower frequency range to avoid harmonics from the box-shaped transit
+# Look for a dominant Fourier bin in a stated range (periods from 2 to 15 days).
+# The box-shaped transit also creates harmonics, so this is not a transit search.
 freq_mask = (freqs_flux > 0.07) & (freqs_flux < 0.5)  # Periods ~2-14 days
 peak_freq = freqs_flux[freq_mask][np.argmax(power_flux[freq_mask])]
-detected_period = 1 / peak_freq
+fft_period_estimate = 1 / peak_freq
 
 print(f"True period: {period:.3f} days")
-print(f"Detected period: {detected_period:.3f} days")
-print(f"Error: {abs(detected_period - period)*24*60:.1f} minutes")
+print(f"Nearest dominant Fourier-bin period: {fft_period_estimate:.3f} days")
+print(f"Fourier-bin resolution: {freqs_flux[1]:.3f} cycles/day")
 
 # Visualize the transit detection
 fig, axes = plt.subplots(2, 2, figsize=(12, 8))
@@ -1739,20 +1797,20 @@ axes[0, 1].grid(True, alpha=0.3)
 pos_freq_mask = freqs_flux > 0
 axes[1, 0].semilogy(1/freqs_flux[pos_freq_mask], power_flux[pos_freq_mask], 'b-', linewidth=0.5)
 axes[1, 0].axvline(x=period, color='red', linestyle='--', linewidth=2, label=f'True P = {period:.3f} d')
-axes[1, 0].axvline(x=detected_period, color='green', linestyle=':', linewidth=2, label=f'Detected P = {detected_period:.3f} d')
+axes[1, 0].axvline(x=fft_period_estimate, color='green', linestyle=':', linewidth=2, label=f'FFT-bin P = {fft_period_estimate:.3f} d')
 axes[1, 0].set_xlabel('Period (days)', fontsize=11)
 axes[1, 0].set_ylabel('Power', fontsize=11)
-axes[1, 0].set_title('Power Spectrum: Period Detection', fontsize=12)
+axes[1, 0].set_title('Power Spectrum: first-look Fourier diagnostic', fontsize=12)
 axes[1, 0].set_xlim(0.5, 10)
 axes[1, 0].legend()
 axes[1, 0].grid(True, alpha=0.3)
 
 # Phase-folded light curve
-phase_fold = (time % detected_period) / detected_period
+phase_fold = (time % fft_period_estimate) / fft_period_estimate
 axes[1, 1].plot(phase_fold, flux, 'b.', markersize=1, alpha=0.3)
 axes[1, 1].set_xlabel('Phase', fontsize=11)
 axes[1, 1].set_ylabel('Relative Flux', fontsize=11)
-axes[1, 1].set_title(f'Phase-folded at P = {detected_period:.3f} days', fontsize=12)
+axes[1, 1].set_title(f'Phase-folded at FFT-bin P = {fft_period_estimate:.3f} days', fontsize=12)
 axes[1, 1].set_ylim(0.98, 1.02)
 axes[1, 1].grid(True, alpha=0.3)
 
@@ -1760,7 +1818,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-*FFT detection of exoplanet transit period from noisy light curve data*
+*A first-look FFT period estimate for a synthetic transit-like light curve*
 
 Reality check: FFTs are excellent for sinusoidal signals, but transit light curves are boxy and generate strong harmonics. In practice, astronomers often use Box Least Squares (BLS) for transit searches and Lomb–Scargle periodograms for unevenly sampled data. You do not need those methods yet — just know that FFT is a first look, not the final word.
 
@@ -1792,6 +1850,16 @@ amplitudes.
 If your sampling rate doubles while your number of samples stays the same, what happens to the Nyquist frequency and the frequency resolution?
 :::
 
+:::{note} Answer
+:class: dropdown
+
+The Nyquist frequency doubles because it is half the sampling rate. The frequency-bin spacing also doubles: with fixed `N`, the observation duration halves when samples are taken twice as quickly, and the bin spacing is `sampling_rate / N`. Higher sampling rate extends the frequency range but does not by itself improve the ability to distinguish close frequencies.
+:::
+
+## Deep Dive: Covariance, Correlation, and Synthetic Relationships
+
+Correlation is an exploratory summary, not a causal explanation or a substitute for measurement-error and selection-effect modeling. Chapter 13 returns to these tools in an exploratory-data-analysis setting.
+
 ### Covariance and Correlation
 
 **Covariance** and **correlation** measure how two variables change together – crucial for understanding relationships in astronomical data like the color-magnitude diagram, period-luminosity relations, or Tully-Fisher correlations.
@@ -1816,8 +1884,7 @@ where:
 - Negative covariance: When one increases, the other tends to decrease
 - Zero covariance: No linear relationship (but there could be nonlinear relationships!)
 
-**Problem with covariance:** It depends on the units. Temperature in Kelvin vs Celsius gives different covariances with luminosity!
-The units of covariance are the units of $X$ multiplied by the units of $Y$, which makes raw covariance hard to compare across unit systems.
+**Problem with covariance:** It depends on multiplicative changes of units. Converting Kelvin to Celsius adds a constant and therefore leaves covariance with luminosity unchanged; converting metres to centimetres rescales covariance. The units of covariance are the units of $X$ multiplied by the units of $Y$, which makes raw covariance hard to compare across differently scaled variables.
 For sample covariance, you often divide by $n-1$ instead of $n$; `np.cov` uses the $n-1$ convention by default.
 
 **Correlation coefficient** (Pearson's $r$) solves this by normalizing:
@@ -1832,8 +1899,8 @@ Where $\sigma_X$ and $\sigma_Y$ are the standard deviations. This gives:
 - $r = 1$: Perfect positive linear correlation
 - $r = -1$: Perfect negative linear correlation
 - $r = 0$: No linear correlation
-- $|r| > 0.7$: Generally considered strong correlation
-- $|r| < 0.3$: Generally considered weak correlation
+
+There is no universal cutoff for “strong” or “weak.” Interpret an observed value using the measurement uncertainties, sample size, selection process, scientific context, and the plausible relationship—not a threshold alone.
 
 **Covariance Matrix:**
 
@@ -1850,13 +1917,14 @@ The diagonal contains variances (a variable's covariance with itself), and the m
 
 ```python
 # Calculate covariance and correlation between datasets
-# Simulate correlated stellar properties
+# Simulate a deliberately simplified stellar-property relationship.
 rng = np.random.default_rng(42)
 n_stars = 100
 temperature = rng.normal(5800, 500, n_stars)  # Kelvin
-# Luminosity correlates with temperature (Stefan-Boltzmann: L propto T^4)
-# Add noise to make it realistic
-luminosity_true = (temperature/5800)**4  # Normalized to solar
+# This toy model includes both radius and temperature: L proportional to R^2 T^4.
+# It is not a population model for real stars.
+radius = rng.normal(1.0, 0.12, n_stars)  # Solar radii, synthetic
+luminosity_true = radius**2 * (temperature / 5800)**4
 luminosity = luminosity_true + rng.normal(0, 0.1, n_stars)
 
 # Manual calculation to understand the math
@@ -1865,13 +1933,13 @@ lum_mean = luminosity.mean()
 temp_centered = temperature - temp_mean
 lum_centered = luminosity - lum_mean
 
-# Covariance: average of products of deviations
-covariance_manual = (temp_centered * lum_centered).mean()
+# Sample covariance: divide by n - 1, matching np.cov's default.
+covariance_manual = (temp_centered * lum_centered).sum() / (n_stars - 1)
 print(f"Manual covariance: {covariance_manual:.6f}")
 
 # Standard deviations
-temp_std = temperature.std()
-lum_std = luminosity.std()
+temp_std = temperature.std(ddof=1)
+lum_std = luminosity.std(ddof=1)
 
 # Correlation coefficient
 correlation_manual = covariance_manual / (temp_std * lum_std)
@@ -1890,25 +1958,18 @@ corr_matrix = np.corrcoef(temperature, luminosity)
 print(f"\nCorrelation matrix:\n{corr_matrix}")
 print(f"Correlation coefficient: {corr_matrix[0,1]:.3f}")
 
-# Interpretation
-if abs(corr_matrix[0,1]) > 0.7:
-    strength = "strong"
-elif abs(corr_matrix[0,1]) > 0.3:
-    strength = "moderate"
-else:
-    strength = "weak"
-print(f"This indicates a {strength} correlation between temperature and luminosity")
+print("This correlation is a property of the stated synthetic model and noise draw.")
 ```
 
 ```python
 # Multiple variables: complete covariance analysis
-# Add more stellar properties
+# Add more deliberately synthetic variables.
 rng = np.random.default_rng(42)
 mass = rng.normal(1, 0.3, n_stars)  # Solar masses
 # Radius correlates with mass (mass-radius relation)
 radius = mass**0.8 + rng.normal(0, 0.05, n_stars)
-# Age (uncorrelated with current properties for main sequence)
-age = rng.uniform(1, 10, n_stars)  # Gyr
+# Age is generated independently here; that is a code choice, not an astrophysical claim.
+age = rng.uniform(1, 10, n_stars)  # Gyr, independent in this toy sample
 
 # Stack all variables
 data = np.vstack([temperature, luminosity, mass, radius, age])
@@ -1926,7 +1987,7 @@ print("       ", "  ".join(f"{l:>7}" for l in labels))
 for i, label in enumerate(labels):
     print(f"{label:>7}", "  ".join(f"{full_corr[i,j]:7.3f}" for j in range(5)))
 
-print("\nStrong correlations (|r| > 0.5):")
+print("\nPairs above an illustrative display threshold (|r| > 0.5; not a strength test):")
 for i in range(5):
     for j in range(i+1, 5):
         if abs(full_corr[i,j]) > 0.5:
@@ -1950,22 +2011,29 @@ print(f"Maximum correlation at lag: {lag} samples")
 :::{important} 🌟 Why This Matters: The Vera Rubin Observatory's Data Challenge
 :class: dropdown
 
-The Vera Rubin Observatory (formerly LSST) will produce enormous data volumes every night. Using Python lists instead of NumPy arrays would make this impossible.
+The Vera C. Rubin Observatory's Legacy Survey of Space and Time has [begun issuing alerts from its first survey data](https://rubinobservatory.org/news/first-alerts). Its alert stream can reach [millions of alerts per night](https://rubinobservatory.org/for-scientists/data-products/alerts-and-brokers), processed through an ecosystem of pipelines and brokers—not through NumPy alone.
 
 Astro example — the same memory and throughput issues appear in satellite imaging, genomics, and materials characterization.
 
 **Memory Requirements:** Python lists store objects with large overhead, while NumPy stores contiguous numeric buffers. For large images with millions of pixels, lists can be orders of magnitude larger than arrays.
 
-**Processing Speed:** Detecting moving asteroids requires comparing images pixel-by-pixel. Vectorized NumPy operations make those comparisons fast enough to be practical.
+**Processing Speed:** Detecting moving asteroids requires comparing images pixel-by-pixel. Vectorized array operations are one useful building block, alongside specialized algorithms, databases, distributed services, and hardware-aware systems.
 
-**Real-time Alerts:** NumPy's speed enables rapid detection and alerting for transient events — the core workflow of time-domain astronomy.
+**Real-time Alerts:** Array-oriented numerical work helps make rapid detection and alerting practical within this larger workflow.
 
-Without NumPy's memory efficiency and speed, modern time-domain astronomy would be infeasible. The same library you're learning makes it possible to monitor the sky for changes every night.
+NumPy's memory model and array operations are foundational skills for understanding that workflow, even though a scientific alert system requires much more than one library.
 :::
+
+## Deep Dive: Measuring Array Performance and Memory
 
 ## 7.9 Performance and Memory Considerations
 
 Understanding NumPy's performance characteristics helps write efficient code:
+
+::::{important} Research practice: benchmark a stated workload
+
+The examples below measure one local run; they do not establish a universal speedup. Record the array shape, dtype, operation, NumPy build, hardware, and whether data are already in memory. Repeat timings after a warm-up and check numerical equivalence before choosing an implementation.
+::::
 
 ```python
 import time
@@ -1993,6 +2061,8 @@ print(f"Loop time: {loop_time*1000:.2f} ms")
 print(f"Vector time: {vector_time*1000:.2f} ms")
 print(f"Speedup: {loop_time/vector_time:.1f}x")
 ```
+
+The vectorized expression is usually clearer here and often faster, but its actual timing depends on allocation, memory bandwidth, and your local numerical stack. Treat the printout as a measurement to inspect, not as a promised result.
 
 ```python
 # Memory usage comparison
@@ -2024,15 +2094,24 @@ def benchmark_operation(name, list_func, numpy_func, size=100000):
     list_data = list(range(size))
     numpy_data = np.arange(size, dtype=float)
 
-    # Time list operation
-    start = time.perf_counter()
-    list_result = list_func(list_data)
-    list_time = time.perf_counter() - start
+    # Warm up once, then retain the best of several local timings.
+    list_func(list_data)
+    numpy_func(numpy_data)
+    list_times = []
+    numpy_times = []
+    for _ in range(5):
+        start = time.perf_counter()
+        list_result = list_func(list_data)
+        list_times.append(time.perf_counter() - start)
 
-    # Time NumPy operation
-    start = time.perf_counter()
-    numpy_result = numpy_func(numpy_data)
-    numpy_time = time.perf_counter() - start
+        start = time.perf_counter()
+        numpy_result = numpy_func(numpy_data)
+        numpy_times.append(time.perf_counter() - start)
+
+    # This comparison is meaningful only if both implementations agree.
+    assert np.allclose(list_result, numpy_result)
+    list_time = min(list_times)
+    numpy_time = min(numpy_times)
 
     speedup = list_time / numpy_time
     return list_time * 1000, numpy_time * 1000, speedup
@@ -2114,9 +2193,9 @@ Why is `np.empty()` faster than `np.zeros()` but potentially dangerous?
 `np.empty()` allocates memory without initializing values, while `np.zeros()` allocates and sets all values to 0.
 
 ```python
-# empty is faster but contains garbage
+# empty is faster but contains arbitrary pre-existing memory values
 empty_arr = np.empty(5)
-print(empty_arr)  # Random values from memory!
+print(empty_arr)  # Values are unspecified; never interpret them as data.
 
 # zeros is slower but safe
 zero_arr = np.zeros(5)
@@ -2137,7 +2216,7 @@ Use `np.empty()` only when you'll immediately overwrite all values. Otherwise, y
    arr = np.array([1, 2, 3])
    normalized = arr / arr.max()  # Works but be careful with //
 
-   # Safe: always use floats for science
+   # Choose float when the resulting quantity needs fractional values.
    arr = np.array([1, 2, 3], dtype=float)
    ```
 
@@ -2166,7 +2245,7 @@ Use `np.empty()` only when you'll immediately overwrite all values. Otherwise, y
 
 5. **Assuming `np.empty()` contains zeros**
    ```python
-   # Dangerous: contains random memory
+   # Dangerous: contains arbitrary, uninitialized values
    arr = np.empty(100)
    # arr might contain huge values!
 
@@ -2195,6 +2274,12 @@ Looking ahead, NumPy arrays will be the primary data structure for the rest of y
 :::{note} Quick Check
 
 Suppose you want to compute the mean of each row of a 2D array and subtract it from that row. Which shape should the row means have to broadcast correctly?
+:::
+
+:::{note} Answer
+:class: dropdown
+
+The row means should have shape `(n_rows, 1)`, one value for each row with a length-one column axis. Compute them with `data.mean(axis=1, keepdims=True)`, then `data - row_means` broadcasts that value across every column in its row.
 :::
 
 ## Definitions
@@ -2257,7 +2342,7 @@ Suppose you want to compute the mean of each row of a 2D array and subtract it f
 
 ---
 
-## Quick Reference Tables
+## Reference: Array Operations and Numerical Utilities
 
 ### Array Creation Functions
 
@@ -2354,7 +2439,7 @@ Assume `rng = np.random.default_rng(42)` for the examples below.
 | Basic slicing `arr[2:8]` | ✓ | |
 | Fancy indexing `arr[[1,3,5]]` | | ✓ |
 | Boolean masking `arr[arr>5]` | | ✓ |
-| `.reshape()` | ✓ | |
+| `.reshape()` | When possible | May copy for non-contiguous input |
 | `.flatten()` | | ✓ |
 | `.ravel()` | ✓ (usually) | |
 | `.T` or `.transpose()` | ✓ | |
@@ -2379,4 +2464,4 @@ Assume `rng = np.random.default_rng(42)` for the examples below.
 
 ## Next Chapter Preview
 
-In Chapter 8: Matplotlib - Visualizing Your Universe, you'll discover how to transform the NumPy arrays you've mastered into publication-quality visualizations. You'll learn to create everything from simple line plots to complex multi-panel figures displaying astronomical data. Using the same NumPy arrays you've been working with, you'll visualize spectra with proper wavelength scales, create color-magnitude diagrams from stellar catalogs, display telescope images with world coordinate systems, and generate the kinds of plots that appear in research papers. You'll master customization techniques to control every aspect of your figures, from axis labels with LaTeX formatting to colormaps optimized for astronomical data. The NumPy operations you've learned – slicing for zooming into data, masking for highlighting specific objects, and meshgrid for creating coordinate systems – become the foundation for creating compelling scientific visualizations. Most importantly, you'll understand how NumPy and Matplotlib work together as an integrated system, with NumPy handling the computation and Matplotlib handling the visualization, forming the core workflow that will carry you through your entire career in computational astrophysics!
+In Chapter 8: Matplotlib - Visualizing Scientific Evidence, you'll transform the NumPy arrays you've mastered into publication-quality visualizations. You'll create everything from simple line plots to multi-panel figures, with axis labels, units, uncertainty-aware choices, and color scales that make a claim inspectable. The same array operations you used here—slicing for a focused view, masking to identify a population, and meshgrid for coordinate fields—become foundations for clear scientific graphics. NumPy handles the numerical representation; Matplotlib helps you show what that representation can and cannot support.

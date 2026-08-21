@@ -7,6 +7,7 @@ import math
 import re
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 
@@ -20,6 +21,16 @@ def code_block_after(path: str, marker: str) -> str:
     match = re.search(r"```(?:\{code-cell\} )?python\n(.*?)\n```", remainder, re.DOTALL)
     assert match, f"no Python block after {marker!r} in {path}"
     return match.group(1)
+
+
+def code_block_containing(path: str, marker: str) -> str:
+    """Return the Python fence that contains a distinctive source marker."""
+    text = (ROOT / path).read_text()
+    blocks = re.findall(r"```(?:\{code-cell\} )?python\n(.*?)\n```", text, re.DOTALL)
+    for block in blocks:
+        if marker in block:
+            return block
+    raise AssertionError(f"no Python block containing {marker!r} in {path}")
 
 
 def test_complete_chapter_1_script_compiles_and_imports_cleanly():
@@ -548,3 +559,157 @@ def test_temperature_microexperiment_rejects_nonfinite_values():
     for nonfinite in (math.nan, math.inf, -math.inf):
         with pytest.raises(ValueError, match="finite"):
             namespace["Temperature"](nonfinite)
+
+
+def test_chapter_7_preserves_a_core_route_and_makes_its_lab_discoverable():
+    chapter = (ROOT / "04-scientific-computing/07-numpy-fundamentals.md").read_text()
+    activity = (ROOT / "tools/jupyterlite/activities/ch07-shape-mask-view-inspector.md").read_text()
+    launcher = (ROOT / "tools/jupyterlite/launchers/ch07-shape-mask-view-inspector.html").read_text()
+
+    assert chapter.index("## Why this chapter matters") < chapter.index("## Learning objectives")
+    assert "## Try this chapter" in chapter
+    assert "Browser Python lab · Shape, Mask, and View Inspector" in chapter
+    assert "jupyterlite/ch07-shape-mask-view-inspector.html" in chapter
+    assert "activity is optional" in chapter
+    assert "## Deep Dive: Sampling Models and Their Assumptions" in chapter
+    assert "## Deep Dive: Numerical Grids and Sampled Signals" in chapter
+    assert "## Deep Dive: Measuring Array Performance and Memory" in chapter
+    assert "## Reference: Array Operations and Numerical Utilities" in chapter
+    assert "Deep dive / reference" not in chapter
+
+    assert "name: xpython" in activity
+    assert "Success condition" in activity
+    assert "does\n**not** decide" in activity
+    assert "lab/index.html?path=ch07-shape-mask-view-inspector.ipynb" in launcher
+
+    cells = re.findall(r"```\{code-cell\} python\n(.*?)\n```", activity, re.DOTALL)
+    assert len(cells) == 3
+    namespace: dict[str, object] = {}
+    for index, cell in enumerate(cells, start=1):
+        exec(compile(cell, f"chapter-7-activity-cell-{index}", "exec"), namespace)
+
+    assert namespace["corrected"].shape == (2, 3)
+    assert namespace["bright_values"].shape == (2,)
+    assert np.shares_memory(namespace["basic_slice"], namespace["flux_grid"])
+    assert not np.shares_memory(namespace["fancy_columns"], namespace["flux_grid"])
+    assert namespace["flux_grid"][0, 1] == -99.0
+
+
+def test_chapter_7_signal_grid_and_covariance_examples_state_correct_contracts():
+    chapter = (ROOT / "04-scientific-computing/07-numpy-fundamentals.md").read_text()
+
+    fft_code = code_block_containing(
+        "04-scientific-computing/07-numpy-fundamentals.md",
+        "`rfft` and `rfftfreq` retain the non-negative frequencies",
+    )
+    fft_namespace: dict[str, object] = {}
+    exec(fft_code, fft_namespace)
+    assert fft_namespace["t"][1] - fft_namespace["t"][0] == pytest.approx(1 / 500)
+    assert fft_namespace["peak_freqs"] == pytest.approx([5.0, 10.0, 50.0])
+    assert fft_namespace["single_sided_amplitude"][5] == pytest.approx(1.0, abs=0.04)
+    assert "NumPy's forward FFT is unnormalized" in chapter
+    assert "not automatically a physical amplitude" in chapter
+    assert "not yet a calibrated power measurement" in chapter
+
+    calculus_code = code_block_containing(
+        "04-scientific-computing/07-numpy-fundamentals.md",
+        "Check both approximations first with a smooth signal whose answer is known",
+    )
+    calculus_namespace = {"np": np}
+    exec(calculus_code, calculus_namespace)
+    assert calculus_namespace["integrated_flux"] == pytest.approx(
+        calculus_namespace["exact_integral"], abs=0.01
+    )
+    assert "Differentiation also amplifies measurement noise" in chapter
+
+    grid_code = code_block_containing(
+        "04-scientific-computing/07-numpy-fundamentals.md",
+        "This is a 2D teaching model in normalized units",
+    )
+    grid_namespace = {"np": np}
+    exec(grid_code, grid_namespace)
+    assert grid_namespace["Fx"].shape == (50, 50)
+    assert grid_namespace["Fy"].shape == (50, 50)
+    assert "softening length changes the force" in chapter
+    assert "Approximate integrated density" in chapter
+    assert "density.sum():.2f" not in chapter
+
+    covariance_code = code_block_containing(
+        "04-scientific-computing/07-numpy-fundamentals.md",
+        "Simulate a deliberately simplified stellar-property relationship",
+    )
+    covariance_namespace = {"np": np}
+    exec(covariance_code, covariance_namespace)
+    assert covariance_namespace["covariance_manual"] == pytest.approx(
+        covariance_namespace["cov_matrix"][0, 1]
+    )
+    assert "Kelvin to Celsius adds a constant and therefore leaves covariance" in chapter
+    assert "There is no universal cutoff" in chapter
+    assert "L proportional to R^2 T^4" in chapter
+    assert "illustrative display threshold (|r| > 0.5; not a strength test)" in chapter
+    assert "Strong correlations (|r| > 0.5)" not in chapter
+
+
+def test_chapter_7_handles_dtype_views_missingness_and_candidate_counts_honestly():
+    chapter = (ROOT / "04-scientific-computing/07-numpy-fundamentals.md").read_text()
+    transit_code = code_block_containing(
+        "04-scientific-computing/07-numpy-fundamentals.md",
+        "Candidate flagging using boolean masking",
+    )
+    transit_namespace = {"np": np}
+    exec(transit_code, transit_namespace)
+
+    assert len(transit_namespace["candidate_starts"]) == 9
+    assert "a boolean threshold is not an exoplanet discovery" in chapter
+    assert "Do not make every scientific array floating-point by reflex" in chapter
+    assert "Filling is a modeling choice, not generic data cleaning" in chapter
+    assert "Use `np.shares_memory` or `np.may_share_memory`" in chapter
+    assert "| `.reshape()` | When possible | May copy for non-contiguous input |" in chapter
+    assert "Random values from memory" not in chapter
+    assert "- Nested loops: seconds" not in chapter
+    assert "- NumPy with optimized BLAS: milliseconds" not in chapter
+    assert "Real impact (measure it)" in chapter
+
+
+def test_chapter_8_scales_uncertainty_and_pixel_examples_state_valid_contracts():
+    import matplotlib
+
+    matplotlib.use("Agg", force=True)
+    import matplotlib.pyplot as plt
+
+    plt.show = lambda: None
+
+    chapter_path = "04-scientific-computing/08-matplotlib-fundamentals.md"
+    chapter = (ROOT / chapter_path).read_text()
+
+    scale_code = code_block_containing(chapter_path, "Never take abs(data) to force this")
+    scale_namespace = {"np": np, "plt": plt}
+    exec(scale_code, scale_namespace)
+    assert scale_namespace["axes"][4, 1].get_title() == "Log-Log: not valid"
+    assert "np.abs(data)" not in chapter
+    assert "Modeling boundary: scales and transformations" in chapter
+
+    uncertainty_code = code_block_after(chapter_path, "### Error Bars: Proper Uncertainty Visualization")
+    uncertainty_namespace = {"np": np, "plt": plt}
+    exec(uncertainty_code, uncertainty_namespace)
+    assert uncertainty_namespace["weights"] == pytest.approx(1 / uncertainty_namespace["y_err"])
+    assert uncertainty_namespace["model_sigma"].min() > 0
+    assert "inverse-standard-deviation weights" in chapter
+    assert "1sigma confidence" not in chapter
+
+    pixel_code = code_block_containing(chapter_path, "The 1% dip is deliberately exaggerated")
+    pixel_namespace = {"np": np, "plt": plt}
+    exec(pixel_code, pixel_namespace)
+    assert pixel_namespace["relative_flux"][22] < 1
+    assert "not a Kepler detection pipeline" in chapter
+    assert "Approximate RA/Dec Display (not WCS)" in chapter
+    assert "projection': wcs" in chapter
+
+    assert "good_cmaps = ['viridis', 'plasma', 'cividis', 'magma']" in chapter
+    assert "Deep dive / reference" not in chapter
+    assert "## Reference: installation and scale-aware performance choices" in chapter
+    assert "| PDF | Publication (vector) | `bbox_inches='tight'`" in chapter
+    assert "Synthetic density (arbitrary units)" in chapter
+    assert "statistically quantified discrepancy" in chapter
+    assert "# `df` is a table with numeric 'ra' and 'dec' columns" in chapter
+    plt.close("all")
