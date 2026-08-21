@@ -812,11 +812,14 @@ browser notebook below.
 :::{lecture-code}
 :id: ch6-temperature-invariant
 :starter: ch06-temperature-invariant.ipynb
-:fallback: Predict whether `Temperature(-1)` is rejected, use the static check above, then open the browser-local xeus-python notebook to change the input and test your prediction.
+:fallback: Predict whether `Temperature(-1)` is rejected, use the static check above, then open the browser-local xeus-python experiment to change the input and test your prediction.
 :::
 
-If the embedded launcher does not appear, open the [Temperature invariant
-experiment](jupyterlite/lab/index.html?path=ch06-temperature-invariant.ipynb)
+The experiment's repository source is
+`tools/jupyterlite/activities/ch06-temperature-invariant.md`. The JupyterLite
+build generates its notebook runtime artifact automatically; there is no
+hand-authored `.ipynb` file to maintain. If the embedded launcher does not
+appear, open the [Temperature invariant experiment](jupyterlite/lab/index.html?path=ch06-temperature-invariant.ipynb)
 directly in browser Python.
 
 ### Astronomy-Specific Properties Example

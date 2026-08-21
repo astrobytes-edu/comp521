@@ -2,11 +2,8 @@
 
 from __future__ import annotations
 
-import io
-import json
 import math
 import re
-from contextlib import redirect_stdout
 from pathlib import Path
 
 import pytest
@@ -89,22 +86,15 @@ def test_temperature_class_enforces_construction_and_assignment_invariant():
         temperature.celsius = -274
 
 
-def test_chapter_6_temperature_microexperiment_has_static_and_xeus_paths():
+def test_chapter_6_temperature_microexperiment_is_markdown_authored_with_lite_execution():
     chapter = (ROOT / "03-python/06-oop-fundamentals.md").read_text()
+    activity = (ROOT / "tools/jupyterlite/activities/ch06-temperature-invariant.md").read_text()
     assert "Predict → run → explain → revise: constructor validation" in chapter
     assert ":starter: ch06-temperature-invariant.ipynb" in chapter
-    assert "browser-local xeus-python notebook" in chapter
+    assert "repository source" in chapter
+    assert "jupyter:\n  lite: true" not in chapter
+    assert "```{code-cell} python" in activity
+    assert "name: xpython" in activity
     assert "07-numpy-fundamentals.md" in chapter
     assert "__array_ufunc__" in chapter
     assert "# PSEUDOCODE: this deliberately omits the device's real state model" in chapter
-
-    notebook = json.loads((ROOT / "tools/jupyterlite/content/ch06-temperature-invariant.ipynb").read_text())
-    assert notebook["metadata"]["kernelspec"]["name"] == "xpython"
-    code_cells = ["".join(cell["source"]) for cell in notebook["cells"] if cell["cell_type"] == "code"]
-    output = io.StringIO()
-    namespace: dict[str, object] = {}
-    with redirect_stdout(output):
-        for code in code_cells:
-            exec(code, namespace)
-    assert "ValueError Below absolute zero!" in output.getvalue()
-    assert "0 K = -273.15 degC" in output.getvalue()

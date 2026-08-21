@@ -7,6 +7,8 @@ _build/
 .jupyterlite-build/
 assets/jupyterlite/
 tools/jupyterlite/.jupyterlite.doit.db
+tools/jupyterlite/.generated-content/
+tools/jupyterlite/.jupyter-data/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
