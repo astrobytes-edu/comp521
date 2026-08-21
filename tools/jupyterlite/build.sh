@@ -32,3 +32,9 @@ cd "$root_dir"
   --config "$root_dir/jupyter_lite_config.json" \
   --contents "$stage_dir" \
   --output-dir "$output_dir"
+
+# MyST's development proxy can discard a query string while handing the browser
+# to this static app. A small same-origin launcher restores the notebook path
+# only after JupyterLite has loaded, so local and published links behave alike.
+cp "$root_dir/launchers/ch06-temperature-invariant.html" \
+  "$output_dir/ch06-temperature-invariant.html"

@@ -90,14 +90,22 @@ def test_chapter_6_temperature_microexperiment_is_markdown_authored_with_lite_ex
     chapter = (ROOT / "03-python/06-oop-fundamentals.md").read_text()
     activity = (ROOT / "tools/jupyterlite/activities/ch06-temperature-invariant.md").read_text()
     assert "Predict → run → explain → revise: constructor validation" in chapter
-    assert ":starter: ch06-temperature-invariant.ipynb" in chapter
-    assert "repository source" in chapter
+    assert "Browser Python lab · Temperature invariant" in chapter
+    assert "jupyterlite/ch06-temperature-invariant.html" in chapter
+    assert ":::{lecture-code}" not in chapter
+    assert "activity source is Markdown" in chapter
     assert "jupyter:\n  lite: true" not in chapter
     assert "```{code-cell} python" in activity
     assert "name: xpython" in activity
     assert "07-numpy-fundamentals.md" in chapter
     assert "__array_ufunc__" in chapter
     assert "# PSEUDOCODE: this deliberately omits the device's real state model" in chapter
+
+
+def test_temperature_microexperiment_launcher_preserves_the_notebook_path():
+    launcher = (ROOT / "tools/jupyterlite/launchers/ch06-temperature-invariant.html").read_text()
+    assert "lab/index.html?path=ch06-temperature-invariant.ipynb" in launcher
+    assert "window.location.replace" in launcher
 
 
 def test_chapter_6_nested_check_closes_before_method_types_section():

@@ -23,6 +23,10 @@ project:
   # installed release. Keep it off so long reference readings remain static;
   # selected experiment cards use the scoped local Pyodide directive below.
   thebe: false
+  # Serve the built xeus-python runtime in development as well as the published
+  # site. Activities can therefore use one stable, base-path-aware Lite URL.
+  static_files:
+    - assets/jupyterlite
   plugins:
     - plugins/interactive-python/interactive-python.mjs
     - plugins/panel-pyodide/panel-pyodide.mjs

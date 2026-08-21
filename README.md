@@ -29,14 +29,17 @@ correctness.
 ## Interactive reading experiments
 
 Long readings remain static, build-executed references. A short, structured
-`lecture-code` activity opens a course-built xeus-python JupyterLite notebook
-in an inline browser frame: it is WebAssembly-based, requires neither Binder
-nor a server, and has a visible static fallback in the reading. Activities are
-authored as MyST Markdown in `tools/jupyterlite/activities/`; the build converts
-them into temporary notebook artifacts for Lite. The repository therefore
-tracks no hand-authored `.ipynb` JSON. The local `interactive-python` directive
-remains available for small Pyodide/WebAssembly experiments that do not need
-the curated xeus stack.
+browser-lab card opens a course-built xeus-python JupyterLite notebook: it is
+WebAssembly-based and requires neither Binder nor a server.
+JupyterLite is declared as a MyST static site asset, so the same link works in
+local development and the published site. Each activity card uses a small
+same-origin launcher to open its notebook reliably in both contexts.
+Activities are authored as MyST Markdown in `tools/jupyterlite/activities/`;
+the build converts them into temporary notebook artifacts for Lite. The
+repository therefore tracks no
+hand-authored `.ipynb` JSON. The local `interactive-python` directive remains
+available for small Pyodide/WebAssembly experiments that do not need the
+curated xeus stack.
 
 For high-value linked controls, figures, and dashboards, use the local
 `panel-pyodide` directive. It loads Panel and Bokeh in an isolated browser

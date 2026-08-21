@@ -806,21 +806,27 @@ later assignments. It does not validate a thermometer, its calibration, or the
 meaning of a measurement.
 
 **Revise.** Change `-1` to `0`, predict the result, then test it in the
-browser notebook below.
+browser lab below.
 :::
 
-:::{lecture-code}
-:id: ch6-temperature-invariant
-:starter: ch06-temperature-invariant.ipynb
-:fallback: Predict whether `Temperature(-1)` is rejected, use the static check above, then open the browser-local xeus-python experiment to change the input and test your prediction.
-:::
+::::{admonition} Browser Python lab · Temperature invariant
+:class: tip
 
-The experiment's repository source is
-`tools/jupyterlite/activities/ch06-temperature-invariant.md`. The JupyterLite
-build generates its notebook runtime artifact automatically; there is no
-hand-authored `.ipynb` file to maintain. If the embedded launcher does not
-appear, open the [Temperature invariant experiment](jupyterlite/lab/index.html?path=ch06-temperature-invariant.ipynb)
-directly in browser Python.
+**Make a commitment before you run anything.** Will `Temperature(-1)` raise a
+`ValueError`, and why does construction assign through `self.kelvin` instead of
+directly setting `_kelvin`?
+
+1. Open the short browser-local experiment.
+2. Run the supplied check and compare its output with your prediction.
+3. Change `-1` to `0` or `273.15`, predict again, and explain what the class
+   verifies — and what it cannot, such as sensor calibration.
+
+[Open the temperature-invariant experiment →](jupyterlite/ch06-temperature-invariant.html)
+
+No installation or account is required. The activity source is Markdown in
+`tools/jupyterlite/activities/ch06-temperature-invariant.md`; its executable
+notebook is generated only when JupyterLite is built.
+::::
 
 ### Astronomy-Specific Properties Example
 
