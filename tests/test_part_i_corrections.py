@@ -798,6 +798,31 @@ def test_chapter_7_handles_dtype_views_missingness_and_candidate_counts_honestly
     assert "Real impact (measure it)" in chapter
 
 
+def test_chapter_7_flat_field_and_benchmarks_check_their_stated_contracts():
+    chapter_path = "04-scientific-computing/07-numpy-fundamentals.md"
+    chapter = (ROOT / chapter_path).read_text()
+
+    flat_field_code = code_block_containing(chapter_path, "Flat-field correction for CCD images")
+    flat_field_namespace = {"np": np}
+    exec(flat_field_code, flat_field_namespace)
+    calibrated = flat_field_namespace["calibrated"]
+    scene_level = flat_field_namespace["scene_level_e"]
+    assert calibrated[:, :50].mean() == pytest.approx(scene_level, abs=10)
+    assert calibrated[:, 50:].mean() == pytest.approx(scene_level, abs=10)
+    assert "dark_current_e" in flat_field_code
+
+    benchmark_code = code_block_containing(chapter_path, "Compare performance: loops vs vectorization")
+    benchmark_namespace = {"np": np}
+    exec(benchmark_code, benchmark_namespace)
+    assert np.allclose(benchmark_namespace["result_loop"], benchmark_namespace["result_vector"])
+
+    assert "assert np.allclose(fluxes, fluxes_np)" in chapter
+    assert "assert np.allclose(C_list, C_numpy)" in chapter
+    assert "This is rejection truncation" in chapter
+    assert "not a stellar-population claim" in chapter
+    assert "nearest endpoint value outside that range" in chapter
+
+
 def test_chapter_8_scales_uncertainty_and_pixel_examples_state_valid_contracts():
     import matplotlib
 

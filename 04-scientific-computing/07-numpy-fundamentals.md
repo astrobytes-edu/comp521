@@ -143,6 +143,7 @@ start = time.perf_counter()
 fluxes_np = 10**(-magnitudes/2.5)  # Operates on entire array at once!
 numpy_time = time.perf_counter() - start
 
+assert np.allclose(fluxes, fluxes_np)
 print(f"NumPy approach: {numpy_time*1000:.2f} ms")
 print(f"Speedup: {list_time/numpy_time:.1f}x faster")
 print(f"First 5 fluxes: {fluxes_np[:5]}")
@@ -521,12 +522,13 @@ Use for stellar masses (IMF), galaxy luminosities, and many astrophysical scalin
 rng = np.random.default_rng(42)
 alpha = 2.35  # Salpeter IMF slope (dN/dM ∝ M^-alpha)
 n_stars = 1000
-# Generate masses from 0.1 to 100 solar masses
+# Draw candidates above 0.1 solar masses, then reject the high-mass tail.
+# This is rejection truncation, so the retained sample size is not fixed.
 a = alpha - 1  # np.random.pareto(a) has p(x) ∝ x^-(a+1)
 x = rng.pareto(a, n_stars) + 1  # Pareto starts at 1
 masses = 0.1 * x  # Scale to start at 0.1 solar masses
 masses = masses[masses < 100]  # Truncate at 100 solar masses
-print(f"Generated {len(masses)} stellar masses with power-law distribution")
+print(f"Retained {len(masses)} of {n_stars} stellar-mass candidates")
 ```
 
 This is a classic "parameter name mismatch" moment: NumPy's `pareto(a)` returns a distribution with $p(x) \propto x^{-(a+1)}$, while the Salpeter IMF is $dN/dM \propto M^{-\alpha}$. Matching the exponents means using $a = \alpha - 1$.
@@ -540,7 +542,7 @@ Use for correlated parameters (color-magnitude relationships, correlated measure
 # Simulate color-magnitude relationship
 rng = np.random.default_rng(42)
 mean = [12, 1.0]  # Mean magnitude, mean color (B-V)
-# Covariance matrix: brighter stars tend to be bluer
+# Deliberately synthetic negative covariance, not a stellar-population claim.
 cov = [[1.0, -0.3],   # Variance in mag, covariance
        [-0.3, 0.25]]  # Covariance, variance in color
 
@@ -1266,19 +1268,21 @@ print(f"New row means: {normalized.mean(axis=1)}")  # Should be ~0
 # Flat-field correction for CCD images
 rng = np.random.default_rng(42)
 
-# Simulate CCD data
-raw_image = rng.poisson(1000, size=(100, 100))  # 100x100 pixels
-dark_current = np.full((100, 100), 50)  # Uniform dark current
+# Simulate a scene observed through a non-uniform detector response.
+scene_level_e = 1000  # electrons per pixel before the flat-field response
 flat_field = np.ones((100, 100))
 flat_field[:, :50] = 0.9  # Left half less sensitive
+dark_current_e = np.full((100, 100), 50)  # Uniform dark current in electrons
+scene_signal_e = rng.poisson(scene_level_e * flat_field)
+raw_image = scene_signal_e + dark_current_e
 
-# Calibrate image using broadcasting
-calibrated = (raw_image - dark_current) / flat_field
+# Subtract the measured dark level, then divide by the relative sensitivity.
+calibrated = (raw_image - dark_current_e) / flat_field
 
 print(f"Raw image mean: {raw_image.mean():.1f}")
-print(f"Calibrated mean: {calibrated.mean():.1f}")
-print(f"Left half sensitivity: {calibrated[:, :50].mean():.1f}")
-print(f"Right half sensitivity: {calibrated[:, 50:].mean():.1f}")
+print(f"Input scene level: {scene_level_e:.1f} electrons")
+print(f"Corrected left half: {calibrated[:, :50].mean():.1f} electrons")
+print(f"Corrected right half: {calibrated[:, 50:].mean():.1f} electrons")
 ```
 
 :::{warning} ⚠️ Common Bug Alert: Broadcasting Shape Mismatch
@@ -1589,6 +1593,12 @@ Finite differences and trapezoids approximate a sampled function; their errors d
 :::
 
 ### Interpolation with interp
+
+This example evaluates only within the measured wavelength range, which is the
+usual interpolation case. The input wavelengths must be increasing; by default,
+`np.interp` returns the nearest endpoint value outside that range rather than a
+physical extrapolation. Choose and document an extrapolation model explicitly
+when a calculation needs values beyond the measurements.
 
 ```python
 # Linear interpolation - crucial for spectra, light curves
@@ -2057,6 +2067,7 @@ start = time.perf_counter()
 result_vector = a * b + a**2
 vector_time = time.perf_counter() - start
 
+assert np.allclose(result_loop, result_vector)
 print(f"Loop time: {loop_time*1000:.2f} ms")
 print(f"Vector time: {vector_time*1000:.2f} ms")
 print(f"Speedup: {loop_time/vector_time:.1f}x")
@@ -2177,6 +2188,7 @@ start = time.perf_counter()
 C_numpy = A_numpy @ B_numpy
 numpy_matmul_time = time.perf_counter() - start
 
+assert np.allclose(C_list, C_numpy)
 print(f"\nMatrix Multiplication (100x100):")
 print(f"  Nested loops: {list_matmul_time*1000:.1f} ms")
 print(f"  NumPy (@):    {numpy_matmul_time*1000:.3f} ms")
