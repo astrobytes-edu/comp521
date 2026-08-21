@@ -642,6 +642,42 @@ def test_chapter_6_validation_examples_reject_nonfinite_values_and_state_their_b
     assert "`@staticmethod` + `def validate(data):`" in text
 
 
+def test_chapter_6_measurement_processor_and_fraction_contracts_are_explicit():
+    measurement_code = code_block_containing(
+        "03-python/06-oop-fundamentals.md", "class Measurement:"
+    )
+    measurement_namespace: dict[str, object] = {}
+    exec(measurement_code, measurement_namespace)
+    measurement = measurement_namespace["Measurement"]
+    assert measurement(2.0, 0.1).relative_error() == pytest.approx(5.0)
+    for invalid_value, invalid_error in ((math.nan, 0.1), (2.0, math.nan), (True, 0.1)):
+        with pytest.raises(ValueError, match="finite"):
+            measurement(invalid_value, invalid_error)
+    with pytest.raises(ValueError, match="non-negative"):
+        measurement(2.0, -0.1)
+
+    processor_code = code_block_containing(
+        "03-python/06-oop-fundamentals.md", "class DataProcessor:"
+    )
+    processor_namespace: dict[str, object] = {}
+    exec(processor_code, processor_namespace)
+    processor = processor_namespace["DataProcessor"]
+    assert processor(value for value in [1, 2, 3]).process() == pytest.approx(2.0)
+    with pytest.raises(ValueError, match="iterable"):
+        processor(None)
+
+    fraction_code = code_block_containing("03-python/06-oop-fundamentals.md", "class Fraction:")
+    fraction_namespace: dict[str, object] = {}
+    exec(fraction_code, fraction_namespace)
+    fraction = fraction_namespace["Fraction"]
+    assert str(fraction(1, -2)) == "-1/2"
+    with pytest.raises(ValueError, match="integers"):
+        fraction(1.5, 2)
+
+    chapter = (ROOT / "03-python/06-oop-fundamentals.md").read_text()
+    assert "**A useful prompt, not a rule:**" in chapter
+
+
 def test_temperature_microexperiment_rejects_nonfinite_values():
     activity = (ROOT / "tools/jupyterlite/activities/ch06-temperature-invariant.md").read_text()
     cells = re.findall(r"```\{code-cell\} python\n(.*?)\n```", activity, re.DOTALL)

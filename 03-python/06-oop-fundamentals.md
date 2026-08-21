@@ -262,12 +262,23 @@ The `__init__` method that initializes new objects when they're created.
 A **class** is a blueprint for creating objects. An **object** (or _instance_) is a specific realization of that blueprint. Think of a class as the concept "thermometer" and objects as specific thermometers in your lab.
 
 ```{code-cell} python
+import math
+
 # Define a class (blueprint)
 class Measurement:
     """A scientific measurement with uncertainty."""
 
     def __init__(self, value, error):
-        """Initialize measurement with value and error."""
+        """Initialize a finite numeric value with a non-negative uncertainty."""
+        if (
+            isinstance(value, bool)
+            or isinstance(error, bool)
+            or not isinstance(value, (int, float))
+            or not isinstance(error, (int, float))
+            or not math.isfinite(value)
+            or not math.isfinite(error)
+        ):
+            raise ValueError("value and error must be finite numbers")
         if error < 0:
             raise ValueError(f"Error must be non-negative, got {error}")
         self.value = value
@@ -630,10 +641,14 @@ class DataProcessor:
     version = "1.0"
 
     def __init__(self, data):
-        """Initialize with data to process."""
-        if not self.validate_data(data):
+        """Materialize and validate one finite numeric input sequence."""
+        try:
+            values = list(data)
+        except TypeError as error:
+            raise ValueError("data must be an iterable of finite numbers") from error
+        if not self.validate_data(values):
             raise ValueError("data must be a non-empty sequence of finite numbers")
-        self.data = list(data)
+        self.data = values
 
     # Instance method - needs self
     def process(self):
@@ -643,18 +658,18 @@ class DataProcessor:
     # Class method - gets class, not instance
     @classmethod
     def from_values(cls, values):
-        """Create an instance from an already-loaded sequence of values."""
+        """Create an instance from an iterable of values."""
         return cls(values)
 
     # Static method - doesn't need self or cls
     @staticmethod
-    def validate_data(data):
-        """Check for a non-empty sequence of finite, non-Boolean numbers."""
-        return bool(data) and all(
+    def validate_data(values):
+        """Check a materialized sequence of finite, non-Boolean numbers."""
+        return len(values) > 0 and all(
             isinstance(x, (int, float))
             and not isinstance(x, bool)
             and math.isfinite(x)
-            for x in data
+            for x in values
         )
 
     # Static method with physics example
@@ -1256,12 +1271,22 @@ and Van Rossum (1996), foreword to *Programming Python*.
 
 ```{code-cell} python
 class Fraction:
-    """A fraction with arithmetic operations."""
+    """A reduced fraction of two integers with arithmetic operations."""
 
     def __init__(self, numerator, denominator):
-        """Initialize and reduce fraction."""
+        """Initialize an integer fraction with a positive denominator."""
+        if (
+            isinstance(numerator, bool)
+            or isinstance(denominator, bool)
+            or not isinstance(numerator, int)
+            or not isinstance(denominator, int)
+        ):
+            raise ValueError("numerator and denominator must be integers")
         if denominator == 0:
             raise ValueError("Denominator cannot be zero")
+        if denominator < 0:
+            numerator = -numerator
+            denominator = -denominator
         self.num = numerator
         self.den = denominator
         self._reduce()
@@ -1460,7 +1485,11 @@ Learning OOP does **not** mean you should use classes everywhere. Many scientifi
 - The logic is **generic** (works on any data, not tied to an entity)
 - A class would just wrap a single method
 
-**The test:** If your class has only `__init__` and one method, it's probably just a function in disguise. If you're passing the same 5 variables to every function, they might want to be an object.
+**A useful prompt, not a rule:** If your class has only `__init__` and one
+method, ask whether a function would make the purpose clearer. Small value
+objects and adapters can still be worthwhile when they give data a stable,
+tested interface. Conversely, if you're passing the same five variables to
+every function, they might want to be an object.
 :::
 
 Here's how to decide. Note: In Chapter 10, we'll explore the "is-a" relationship (inheritance) versus "has-a" relationship (composition) in detail. For now, focus on single classes.
