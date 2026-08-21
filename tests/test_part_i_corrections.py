@@ -782,3 +782,110 @@ def test_chapter_9_tests_behavior_without_claiming_scientific_validation():
     assert "Binary search debugging" not in chapter
     assert "n_raw_saturated = np.sum(image >= saturation_level)" in chapter
     assert "Flat frame must be finite and strictly positive" in chapter
+
+
+def test_chapter_10_builds_and_tests_one_bounded_scientific_type():
+    chapter_path = "04-scientific-computing/10-advanced-oop.md"
+    chapter = (ROOT / chapter_path).read_text()
+
+    introductory_code = code_block_after(chapter_path, "### Introductory example")
+    namespace: dict[str, object] = {}
+    exec(introductory_code, namespace)
+    flux_measurement = namespace["FluxMeasurement"]
+    fractional_change = namespace["fractional_change"]
+
+    finite = flux_measurement(2.0, "W m^-2")
+    assert finite.value == 2.0
+    for invalid in (-0.01, float("nan"), float("inf")):
+        with pytest.raises(ValueError):
+            flux_measurement(invalid, "W m^-2")
+    with pytest.raises(TypeError):
+        flux_measurement("2.0", "W m^-2")
+    with pytest.raises(ValueError, match="common unit"):
+        fractional_change(finite, flux_measurement(1.0, "erg s^-1 cm^-2"))
+    with pytest.raises(ValueError, match="zero baseline"):
+        fractional_change(flux_measurement(0.0), finite)
+
+    observation_code = code_block_after(chapter_path, "## 10.2 Dataclasses make state legible")
+    exec(observation_code, namespace)
+    observation = namespace["Observation"]
+    assert observation("target", finite, "camera-17").measurement == finite
+    with pytest.raises(ValueError, match="target"):
+        observation("", finite, "camera-17")
+    with pytest.raises(TypeError, match="validated FluxMeasurement"):
+        observation("target", "2.0", "camera-17")
+
+    test_code = code_block_after(chapter_path, "## 10.4 Test the type's contract")
+    exec(compile(test_code, "chapter-10-tests.py", "exec"), {**namespace, "pytest": pytest})
+
+    assert "## Deep Dive: when a small type becomes a larger software boundary" in chapter
+    assert "## Reference: dataclass choices and escalation cues" in chapter
+    assert "## A measurement with a contract" in chapter
+    assert "Core route through this chapter" in chapter
+    assert "Why This Matters: a type turns an assumption into a visible boundary" in chapter
+    assert "The More You Know: growing experimental systems change the design question" in chapter
+    assert "class ma.MaskedArray" not in chapter
+    assert "does not make\nCPU-bound work parallel" in chapter
+
+
+def test_chapter_11_treats_schema_and_join_cardinality_as_evidence():
+    chapter_path = "04-scientific-computing/11-pandas-fundamentals.md"
+    chapter = (ROOT / chapter_path).read_text()
+
+    introductory_code = code_block_after(chapter_path, "### Introductory example")
+    namespace: dict[str, object] = {}
+    exec(introductory_code, namespace)
+    pd = namespace["pd"]
+    validate = namespace["validate_observation_table"]
+    valid = namespace["observations"]
+    assert list(valid.columns) == [
+        "source_id", "time_mjd", "band", "flux_w_m2", "flux_uncertainty_w_m2", "quality"
+    ]
+
+    negative_uncertainty = valid.copy()
+    negative_uncertainty.loc[0, "flux_uncertainty_w_m2"] = -1.0
+    with pytest.raises(ValueError, match="uncertainty"):
+        validate(negative_uncertainty)
+
+    duplicated = pd.concat([valid, valid.iloc[[0]]], ignore_index=True)
+    with pytest.raises(ValueError, match="unique source/time/band"):
+        validate(duplicated)
+
+    selection_code = code_block_after(chapter_path, "## 11.2 Select rows while keeping the rule visible")
+    exec(selection_code, namespace)
+    assert set(namespace["usable"]["quality"]) == {"good"}
+
+    aggregation_code = code_block_after(chapter_path, "## 11.3 Aggregate groups without hiding variation")
+    exec(aggregation_code, namespace)
+    assert set(namespace["by_band"]["band"]) == {"g", "r"}
+    assert namespace["by_band"]["n_measurements"].sum() == len(valid)
+
+    time_code = code_block_after(
+        chapter_path,
+        "## 11.4 Time-indexed records need an explicit order and an honest figure",
+    )
+    exec(time_code, namespace)
+    chronological = namespace["chronological"]
+    assert chronological["time_mjd"].tolist() == sorted(chronological["time_mjd"])
+    assert chronological["days_since_first"].iloc[0] == pytest.approx(0.0)
+
+    merge_code = code_block_after(chapter_path, "## 11.5 Join tables with a declared relationship")
+    exec(merge_code, namespace)
+    assert set(namespace["joined"]["_merge"]) == {"both"}
+
+    missingness_code = code_block_after(chapter_path, "## 11.6 Preserve missingness and failed runs as evidence")
+    exec(missingness_code, namespace)
+    assert set(namespace["completed"]["status"]) == {"completed"}
+    assert set(namespace["excluded"]["failure_reason"]) == {"nonlinear solve", "wall-time limit"}
+
+    chunk_code = code_block_after(chapter_path, "### Chunked CSV processing")
+    exec(compile(chunk_code, "chapter-11-chunking.py", "exec"), namespace)
+
+    assert "validate=\"many_to_one\"" in chapter
+    assert "## An observation table with a contract" in chapter
+    assert "A DataFrame improves organization; it does not make an analysis correct." in chapter
+    assert "interpolation is a model choice" in chapter
+    assert "The line makes the measured time order legible" in chapter
+    assert "never load untrusted Pickle data" in chapter
+    assert "O(1) lookup" not in chapter
+    assert "This pattern scales to arbitrarily large files" not in chapter
