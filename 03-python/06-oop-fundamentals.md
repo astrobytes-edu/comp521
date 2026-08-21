@@ -401,7 +401,7 @@ print(f"Speed of light: {Simulation.speed_of_light:.2e} cm/s")
 print(f"Box size: {sim1.box_size_cm:.2e} cm")
 ```
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 What's the output of this code? Why?
 
@@ -433,7 +433,7 @@ Output:
 
 When you write `p1.count = 100`, you create a new instance attribute that shadows the class attribute for `p1` only. The class attribute remains unchanged at 2, and `p2` still sees the class attribute. This is a common source of confusion - instance attributes can hide class attributes with the same name!
 :::
-:::
+::::
 
 :::{tip} 💡 Attribute Lookup Order
 
@@ -1028,7 +1028,7 @@ path is validated and the interface is tested; a Python property does not itself
 guarantee unit consistency or prevent a system-level interface error.
 :::
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 What happens if you create a property without a setter but try to assign to it?
 
@@ -1047,7 +1047,7 @@ obj.value = 100  # What happens?
 
 You get an `AttributeError: can't set attribute`. Properties without setters are read-only. This is actually useful for computed values that should never be directly modified, like the area of a circle (which should only change when the radius changes). This pattern enforces data consistency by preventing invalid states.
 :::
-:::
+::::
 
 :::{warning} Common Bug Alert: Property Recursion
 
@@ -1239,7 +1239,7 @@ for value in data:
     print(value, end=" ")
 ```
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 Which special method would you implement to make your object work with the `abs()` function?
 
@@ -1264,7 +1264,7 @@ print(abs(v))  # Prints 5.0
 
 This pattern extends to many built-ins: `len()` calls `__len__()`, `str()` calls `__str__()`, etc. Understanding this connection helps you make objects that feel native to Python.
 :::
-:::
+::::
 
 :::{tip} 💡 Computational Thinking Box: Protocol-Based Design
 
@@ -1611,7 +1611,7 @@ print(f"Entries: {log.get_entry_count()}")
 print(f"Duration: {log.completion_time} hours")
 ```
 
-:::{note} 🛠️ Debug This!
+::::{note} 🛠️ Debug This!
 
 This code has a subtle but critical bug. Can you find it?
 
@@ -1650,7 +1650,7 @@ def __init__(self, name, telescopes=None):
 
 This bug has caused real problems in production systems. Always use `None` as default for mutable arguments, then create a new object in the method.
 :::
-:::
+::::
 
 ## Main Takeaways
 

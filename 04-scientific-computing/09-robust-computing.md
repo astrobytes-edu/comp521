@@ -212,7 +212,7 @@ Step 4: Integration -> Result is NaN
 Final output: NaN (useless!)
 ```
 
-:::{note} Check Your Understanding
+::::{note} Check Your Understanding
 
 What error would this code produce and why?
 
@@ -242,7 +242,7 @@ total_z = total_z + float(z)  # Convert string to float
 
 Or better, validate all data first!
 :::
-:::
+::::
 
 ## 9.2 Handling Errors with Try/Except
 
@@ -1394,7 +1394,7 @@ def fixed_comoving_distance(z, H0=70):
     return c_km_s * z / H0  # Simple approximation for small z
 ```
 
-:::{note} Check Your Understanding
+::::{note} Check Your Understanding
 
 This orbital mechanics code sometimes gives wrong results. What's the bug?
 
@@ -1435,7 +1435,7 @@ earth_radius_km = 6371
 v_escape = calculate_escape_velocity(earth_mass, earth_radius_km * 1000)
 ```
 :::
-:::
+::::
 
 ## Practice Exercises
 

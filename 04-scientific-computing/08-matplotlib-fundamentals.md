@@ -704,7 +704,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-:::{note} Check Your Understanding
+::::{note} Check Your Understanding
 
 You have data showing radioactive decay: counts versus time. Which scale would best reveal the half-life?
 
@@ -739,7 +739,7 @@ ax2.legend()
 ```
 
 :::
-:::
+::::
 
 ---
 
@@ -1199,7 +1199,7 @@ plt.show()
 Always experiment with bin sizes or use automatic binning algorithms!
 :::
 
-:::{note} Check Your Understanding
+::::{note} Check Your Understanding
 
 What's the difference between `plt.plot()` and `ax.plot()`? When would you use each?
 
@@ -1222,7 +1222,7 @@ Use `ax.plot()` for:
 
 In research, always prefer `ax.plot()` for reproducibility and control!
 :::
-:::
+::::
 
 ## 8.6 Images and 2D Data Visualization
 
@@ -1518,7 +1518,7 @@ plt.show()
 
 :::
 
-:::{note} Check Your Understanding
+::::{note} Check Your Understanding
 
 Why is the 'jet' colormap problematic for scientific visualization?
 
@@ -1547,7 +1547,7 @@ ax2.set_title('Viridis: Smooth gradient')
 
 Always use perceptually uniform colormaps like viridis, plasma, or cividis for scientific data!
 :::
-:::
+::::
 
 ---
 

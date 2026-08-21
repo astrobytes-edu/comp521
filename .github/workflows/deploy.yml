@@ -61,6 +61,9 @@ jobs:
       - name: Check public repository boundary
         run: python3 scripts/check_public_boundary.py
 
+      - name: Check MyST textbook directive fences
+        run: python3 scripts/check_myst_directive_fences.py
+
       - name: Build site
         run: |
           source .venv/bin/activate

@@ -323,7 +323,7 @@ Why this matters:
 Real impact: The wrong memory order can make your code noticeably slower for large arrays!
 :::
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 What's the memory difference between `np.zeros(1000)`, `np.ones(1000)`, and `np.empty(1000)`? When would you use each?
 
@@ -349,7 +349,7 @@ for i in range(1000):
     result[i] = expensive_calculation(i)  # Overwrites immediately
 ```
 :::
-:::
+::::
 
 ### Saving and Loading Arrays
 
@@ -1074,7 +1074,7 @@ mean_flux = detected.mean()
 The first is more concise; the second is clearer about intent and lets you reuse the filtered array.
 :::
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 What's the difference between `np.linspace(0, 10, 11)` and `np.arange(0, 11, 1)`?
 
@@ -1093,7 +1093,7 @@ In this case they're equivalent, but:
 
 Use `linspace` when you need a specific number of points, `arange` when you need a specific step size.
 :::
-:::
+::::
 
 :::{important} 🌟 Why This Matters: Finding Exoplanets with Boolean Masking
 :class: dropdown
@@ -2104,7 +2104,7 @@ print(f"  NumPy (@):    {numpy_matmul_time*1000:.3f} ms")
 print(f"  Speedup:      {list_matmul_time/numpy_matmul_time:.0f}x")
 ```
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 Why is `np.empty()` faster than `np.zeros()` but potentially dangerous?
 
@@ -2125,7 +2125,7 @@ print(zero_arr)  # Guaranteed [0. 0. 0. 0. 0.]
 
 Use `np.empty()` only when you'll immediately overwrite all values. Otherwise, you might accidentally use uninitialized data, leading to non-reproducible bugs!
 :::
-:::
+::::
 
 ### NumPy Gotchas: Top 5 Student Mistakes
 

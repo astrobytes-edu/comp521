@@ -139,7 +139,7 @@ Let's break down exactly how this works:
 
 When Python executes `calculate_mean(measurements)`, it creates a temporary namespace where `values = [23.5, 24.1, ...]`, runs the function body, and returns the result.
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 What will this code print?
 
@@ -165,7 +165,7 @@ def calculate_product(x, y):
     return product  # Now it returns the value
 ```
 :::
-:::
+::::
 
 ### Functions Without Return Values
 
@@ -842,7 +842,7 @@ configure("MyApp", debug=True)  # Must name debug
 # configure("MyApp", True)  # ERROR! Can't pass debug positionally
 ```
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 Which of these function definitions are valid, and how would you call each?
 
@@ -910,7 +910,7 @@ func_d(1, 2, 3)          # ERROR: z must be keyword (not positional)
 - Parameters before `/` are positional-only (Python 3.8+)
 - Required parameters must come before optional ones in each section
 :::
-:::
+::::
 
 ## 5.3 Scope and Namespaces
 
@@ -1078,7 +1078,7 @@ print(f"Rectangle error: {abs(rect_result-exact):.6f}")
 print(f"Midpoint error:  {abs(mid_result-exact):.6f}")
 ```
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 What happens if both inner and outer functions define the same variable name?
 
@@ -1110,7 +1110,7 @@ Outer sees: outer
 
 If the inner function didn't define its own `x`, it would see the outer's `x` due to the LEGB rule (finding it in the Enclosing scope).
 :::
-:::
+::::
 
 :::{tip} 💡 Computational Thinking: Why Global Variables Are Dangerous
 
@@ -1244,7 +1244,7 @@ print(f"Final mean: {mean:.1f} cm/s^2")
 # Immutable data prevents side effects
 ```
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 Rewrite this loop using functional programming:
 
@@ -1274,7 +1274,7 @@ results = [x**2 for x in data if x > 0]
 
 The list comprehension is generally preferred in Python for readability, but understanding the functional approach prepares you for libraries like JAX.
 :::
-:::
+::::
 
 ### Functions as First-Class Objects
 
@@ -1551,7 +1551,7 @@ print(f"cmath.log(-1) = {complex_log}")  # Returns complex number
 # log(10)  # Which log? math or cmath? Unclear!
 ```
 
-:::{note} 🔍 Check Your Understanding
+::::{note} 🔍 Check Your Understanding
 
 Why is `from module import *` dangerous in scientific code?
 
@@ -1577,7 +1577,7 @@ result = log(data)  # Could be any of the three!
 
 Always use explicit imports for clarity and safety!
 :::
-:::
+::::
 
 :::{note} 🌟 The More You Know: How Modular Code Detected Gravitational Waves
 :class: dropdown
@@ -1851,7 +1851,7 @@ mean_val, std_val, median_val = analyze_data_typed([1.0, 2.0, 3.0, 4.0, 5.0])
 print(f"Mean: {mean_val:.1f}, Std: {std_val:.2f}, Median: {median_val:.1f}")
 ```
 
-:::{note} 🛠️ Debug This!
+::::{note} 🛠️ Debug This!
 
 This function has a subtle bug. Can you spot it?
 
@@ -1918,7 +1918,7 @@ def find_peaks_fixed(data, threshold):
 
 Peak definitions are domain-specific. This heuristic is a reasonable default, and it avoids marking *every* plateau point as a separate peak.
 :::
-:::
+::::
 
 ## 5.7 Performance Considerations — Deep dive / reference
 
