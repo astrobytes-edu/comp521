@@ -392,6 +392,24 @@ def test_chapter_5_exposes_a_contract_first_route_and_calibrated_extensions():
     assert "Python's built-in\n# map() does not itself promise GPU execution" in text
     assert "Loop ({repetitions} equivalent calls)" in text
     assert "Function Call Overhead" in text
+    assert "module-organization sketch" in text
+
+    closure_code = code_block_containing("03-python/05-python-functions-modules.md", "def create_integrator")
+    closure_namespace: dict[str, object] = {}
+    exec(compile(closure_code, "integrator_factory.py", "exec"), closure_namespace)
+    create_integrator = closure_namespace["create_integrator"]
+    midpoint = create_integrator("midpoint")
+    assert midpoint(lambda value: value**2, 0.0, 1.0, 100) == pytest.approx(1 / 3, abs=1e-4)
+    with pytest.raises(ValueError, match="method"):
+        create_integrator("unsupported")
+    with pytest.raises(ValueError, match="positive integer"):
+        midpoint(lambda value: value, 0.0, 1.0, 0)
+
+    report_code = code_block_containing("03-python/05-python-functions-modules.md", "def report_statistics")
+    report_namespace: dict[str, object] = {}
+    exec(compile(report_code, "report_statistics.py", "exec"), report_namespace)
+    with pytest.raises(ValueError, match="at least one"):
+        report_namespace["report_statistics"]([], "Empty")
 
 
 def test_chapter_5_historical_stories_are_sourced_and_calibrated():
@@ -440,6 +458,8 @@ def test_chapter_5_function_contract_activity_is_markdown_authored_and_discrimin
     assert "name: xpython" in activity
     assert "Success condition" in activity
     assert "does **not**" in activity
+    assert "document it in `kinetic_energy_cgs` in Cell\n1" in activity
+    assert "an\nexecutable postcondition to Cell 3" in activity
     assert "lab/index.html?path=ch05-function-contract-inspector.ipynb" in launcher
 
     cells = re.findall(r"```\{code-cell\} python\n(.*?)\n```", activity, re.DOTALL)

@@ -89,9 +89,13 @@ print("Contract checks passed: validation and fresh-state ownership agree with t
 
 ## Revise the design
 
-Add one new invalid input to Cell 2 and make the contract reject it. Then make
-an explicit history list, pass it to `record_checked` twice, and explain why
-that shared state is now intentional rather than hidden.
+Choose one new domain constraint, document it in `kinetic_energy_cgs` in Cell
+1, and add the matching guard there. Then add a call to Cell 2 and an
+executable postcondition to Cell 3 that show the new rejected input. For
+example, a particle-only analysis could require `mass_g > 0` rather than this
+activity's current `mass_g >= 0`; explain why that stricter rule fits the
+domain. Then make an explicit history list, pass it to `record_checked` twice,
+and explain why that shared state is now intentional rather than hidden.
 
 **Success condition.** You can turn a function's input, output, failure, and
 ownership promises into executable checks, and you can distinguish intentional

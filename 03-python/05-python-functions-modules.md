@@ -197,6 +197,8 @@ Not all functions return values. Some perform actions like printing results or s
 ```{code-cell} python
 def report_statistics(data, name="Dataset"):
     """Report basic statistics without returning values."""
+    if len(data) == 0:
+        raise ValueError("report_statistics() requires at least one value")
     mean = sum(data) / len(data)
     minimum = min(data)
     maximum = max(data)
@@ -1107,10 +1109,16 @@ def create_integrator(method='rectangle'):
     """
     Factory function that creates specialized integrators.
 
-    The returned function 'remembers' the method.
+    The returned function 'remembers' either the ``rectangle`` or ``midpoint``
+    method.
     """
+    if method not in {'rectangle', 'midpoint'}:
+        raise ValueError("method must be 'rectangle' or 'midpoint'")
+
     def integrate(func, a, b, n=100):
-        """Numerically integrate func from a to b."""
+        """Numerically integrate func from a to b using a positive integer n."""
+        if not isinstance(n, int) or isinstance(n, bool) or n < 1:
+            raise ValueError("n must be a positive integer")
         dx = (b - a) / n
         total = 0
 
@@ -1534,7 +1542,11 @@ importlib.reload(statistics_tools)
 
 ### Building a Physics Module
 
-Let's create a comprehensive module for physics calculations:
+Let's create a small module-organization sketch for physics calculations. Its
+named CGS quantities and import boundary are the lesson here; it intentionally
+does not add complete finite-value and physical-domain checks to every public
+function. Use `kinetic_energy_cgs` above as the contract pattern to apply
+before relying on a calculation in an analysis.
 
 ```python
 """
@@ -2112,7 +2124,7 @@ print(f"Vector ({repetitions} equivalent calls): {vector_time:.3f} s")
 print("This compares one array operation on this machine; it does not predict every NumPy workload.")
 ```
 
-### Memoization for Expensive Calculations
+### Memoization and Cache Keys
 
 :::{margin}
 **Memoization**
@@ -2293,7 +2305,7 @@ failure behavior.
 | Combined | `def func(a, *args, x=1, **kwargs):` | Maximum flexibility |
 | Lambda | `lambda x: x**2` | Simple inline functions |
 
-### When to Use Different Argument Types
+### Choosing Argument Types
 
 | Argument Type | When to Use | Example |
 |--------------|-------------|---------|
@@ -2332,7 +2344,7 @@ only for entities whose changing state and behavior must remain synchronized.
 
 ## References
 
-### Historical Events and Technical Details
+### Historical and Technical Sources
 
 1. **Ariane 5 Flight 501 Failure (1996)**
    - Lions, J. L. et al. (1996). "ARIANE 5 Flight 501 Failure: Report by the Inquiry Board." European Space Agency. Paris: ESA.
