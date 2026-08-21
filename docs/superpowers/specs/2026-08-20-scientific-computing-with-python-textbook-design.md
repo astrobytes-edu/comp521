@@ -4,6 +4,16 @@
 
 **Status:** Approved direction; living design, revision 1.
 
+:::{important} Pedagogy and formatting authority
+
+This document governs textbook scope, information architecture, and the
+chapter roadmap. The instructor-facing
+`_instructor/teaching/scientific-computing-with-python-pedagogy.md` is the
+single authority for textbook voice, callout purpose, code/figure presentation,
+interactivity, and MyST formatting. If the two documents appear to conflict on
+those matters, the instructor pedagogy document governs.
+:::
+
 This document defines the independent textbook identity of *Scientific
 Computing with Python*. It is deliberately separate from COMP 521's weekly
 schedule, projects, grading, and classroom logistics. The course may provide
