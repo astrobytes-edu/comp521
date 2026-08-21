@@ -196,17 +196,19 @@ FUNCTION adaptive_integrate(initial_state, end_time):  # FUNCTION groups reusabl
     state <- initial_state                              # <- means "assign value to variable"
     dt <- estimate_initial_timestep(state)
 
-    WHILE time < end_time:                             # Loop continues while time hasn't reached end
+    WHILE state.time < end_time:                       # Loop continues while time hasn't reached end
         DO:                                             # DO-UNTIL creates a loop that runs at least once
-            trial_step = integrate(state, dt)
-            error = compute_error(trial_step)
-        UNTIL error < tolerance OR dt < dt_min         # OR means "either condition can be true"
+            trial_state = integrate(state, dt)
+            error = compute_error(trial_state)
+            IF error >= tolerance:
+                dt <- max(dt * 0.5, dt_min)            # A rejected step changes the next trial
+        UNTIL error < tolerance OR dt <= dt_min        # OR means "either condition can be true"
 
-    state = trial_step
-    dt = adjust_timestep(error, dt)
+        IF error >= tolerance:
+            RETURN failure("minimum timestep reached before an acceptable step")
 
-    IF error >= tolerance:
-        RETURN failure("minimum timestep reached before an acceptable step")
+        state <- trial_state
+        dt <- adjust_timestep(error, dt)
 
     RETURN state                                        # RETURN sends value back to caller
 ```
@@ -257,6 +259,10 @@ FUNCTION adaptive_integrate(initial_state, end_time, tolerance):
 
         IF NOT step_accepted:
             RETURN failure("no acceptable step within MAX_ATTEMPTS")
+
+        dt <- min(dt * 1.5, dt_max)                    # Grow only after an accepted step
+
+    RETURN state
 ```
 
 Each refinement level reveals new issues and solutions. The **NOT** operator inverts a boolean value (True becomes False, False becomes True). The **AND** operator requires both conditions to be true. This is computational thinking in action!
@@ -617,7 +623,7 @@ def check_collision_risk(satellite1, satellite2):
 
     # Check cheap calculations first
     if distance > screening_threshold:
-        return "No risk"
+        return "Outside this illustrative screening threshold"
 
     # Only if close, calculate relative velocity
     if closing_velocity < 0:
@@ -630,7 +636,11 @@ def check_collision_risk(satellite1, satellite2):
     return "Monitor"
 ```
 
-Checking distance first avoids millions of expensive velocity calculations per day. A single wrong comparison can mean missed warnings or wasted compute. As a secondary overview example, see the Wikipedia article on the 2009 Iridium 33 / Cosmos 2251 collision: <https://en.wikipedia.org/wiki/2009_satellite_collision>.
+An initial screen can avoid applying more detailed analysis to every possible
+pairing, but it does not itself establish collision risk. A single wrong
+comparison can mean missed warnings or wasted compute. For an operational
+overview, NASA distinguishes conjunction screening from close-approach risk
+assessment: <https://www.nasa.gov/cara/step-2-close-approach-risk-assessment/>.
 
 *Note: This example simplifies the actual collision avoidance algorithms for pedagogical clarity. Real systems use complex orbital mechanics and probability distributions, but the core principle of ordered boolean evaluation remains crucial.*
 :::
@@ -1191,7 +1201,7 @@ print(f"Comprehension: {squares_comp}")
 # Filter and transform magnitude data from a survey
 magnitudes = [12.3, 15.1, 13.7, 16.2, 14.5, 17.1, 11.8, 18.5, 13.2]
 
-# Get fluxes for observable stars (mag < 16, typical small telescope limit)
+# Get fluxes for stars passing this illustrative magnitude screen (mag < 16)
 observable_fluxes = [10**(-0.4 * mag)
                      for mag in magnitudes
                      if mag < 16.0]
@@ -1340,11 +1350,20 @@ Logic errors are the hardest bugs because the code runs without crashing but pro
 ### Strategic Print Debugging
 
 ```{code-cell} python
-def debug_convergence(initial, target, rate, max_iter=20):
+def debug_convergence(initial, target, rate, abs_tol=1e-6, max_iter=20):
     """
     Example of strategic debug output.
-    Shows exactly where and why algorithms succeed or fail.
+    Returns a value, a stopping status, and an iteration count.
+
+    The inputs and absolute tolerance are dimensionless in this toy example.
     """
+
+    if not 0 < rate <= 1:
+        raise ValueError("rate must be in (0, 1]")
+    if abs_tol <= 0:
+        raise ValueError("abs_tol must be positive")
+    if max_iter < 1:
+        raise ValueError("max_iter must be at least 1")
 
     current = initial
     history = []
@@ -1360,9 +1379,9 @@ def debug_convergence(initial, target, rate, max_iter=20):
             print(f"Iter {iteration:2d}: {old:.4f} -> {current:.4f} (delta={change:+.5f})")
 
         # Convergence check
-        if abs(current - target) < 1e-6:
-            print(f"CONVERGED at iteration {iteration}")
-            return current
+        if abs(current - target) < abs_tol:
+            print(f"CONVERGED after {iteration + 1} iterations")
+            return current, "converged", iteration + 1
 
         # Detect problems early
         if len(history) > 3:
@@ -1370,11 +1389,12 @@ def debug_convergence(initial, target, rate, max_iter=20):
                 print(f"OSCILLATION detected")
 
     print(f"FAILED after {max_iter} iterations")
-    return current
+    return current, "max_iterations_reached", max_iter
 
 # Test the algorithm
 print("Testing convergence:")
-result = debug_convergence(0, 100, 0.1)
+result, status, iterations = debug_convergence(0, 100, 0.1)
+print(f"Caller receives {status} after {iterations} iterations")
 ```
 
 ### Using Assertions for Validation
@@ -1464,6 +1484,7 @@ def kepler_planet_search(star_id, light_curve):
     # Search for periodic dips
     best_period = None
     best_depth = 0
+    best_folded = None
 
     for trial_period in range(1, 365):  # Days
         folded = fold_light_curve(cleaned, trial_period)
@@ -1472,12 +1493,13 @@ def kepler_planet_search(star_id, light_curve):
         if depth > best_depth and depth > 3 * noise_level:
             best_period = trial_period
             best_depth = depth
+            best_folded = folded
 
     # Validate as planet (not eclipsing binary)
     if best_period:
-        if is_v_shaped(folded):  # Binary check
+        if is_v_shaped(best_folded):  # Binary check the selected candidate
             return None
-        if depth > 0.5:  # Too deep
+        if best_depth > 0.5:  # Too deep
             return None
 
         return {'period': best_period, 'depth': best_depth}

@@ -754,50 +754,68 @@ entry of `next_step` is overwritten before the next swap.
 A student's particle simulation is producing inconsistent results. Here's their code:
 
 ```python
-def update_particles(particles, forces=[]):
+# A deliberately oversimplified one-dimensional force model for this example.
+def calculate_force_N(particle):
+    return 1.0
+
+def update_particles(particles, dt_s, forces_N=[]):
     """Update particle positions based on forces."""
     for i, particle in enumerate(particles):
-        if i >= len(forces):
-            forces.append(calculate_force(particle))
-        particle['velocity'] += forces[i] * dt
-        particle['position'] += particle['velocity'] * dt
-    return particles, forces
+        if i >= len(forces_N):
+            forces_N.append(calculate_force_N(particle))
+        acceleration_m_s2 = forces_N[i] / particle['mass_kg']
+        particle['velocity_m_s'] += acceleration_m_s2 * dt_s
+        particle['position_m'] += particle['velocity_m_s'] * dt_s
+    return particles, forces_N
 
 # Simulation loop
-particles = [{'position': [0,0,0], 'velocity': [1,0,0]} for _ in range(10)]
+particles = [
+    {'mass_kg': 2.0, 'position_m': 0.0, 'velocity_m_s': 1.0}
+    for _ in range(10)
+]
 for timestep in range(100):
-    particles, forces = update_particles(particles)
+    particles, forces_N = update_particles(particles, dt_s=0.1)
 ```
 
 Find and fix THREE risks related to mutable defaults and aliasing:
-1. The `forces=[]` default is created once and shared between calls
+1. The `forces_N=[]` default is created once and shared between calls
 2. The function mutates the caller's particle records without documenting that ownership contract
 3. The forces list grows unbounded, carrying over between timesteps
 
 **Solution:**
 ```python
-def update_particles(particles, dt):
-    """Return a fresh next state and forces; do not mutate ``particles``."""
+def update_particles(particles, dt_s, force_model):
+    """Return a fresh one-dimensional next state and per-step forces.
+
+    ``force_model`` must return a force in newtons for each particle.
+    This function does not mutate ``particles``.
+    """
     next_particles = []
-    forces = []
+    forces_N = []
 
     for particle in particles:
-        force = calculate_force(particle)
-        next_velocity = particle['velocity'] + force * dt
-        next_position = particle['position'] + next_velocity * dt
+        mass_kg = particle['mass_kg']
+        if mass_kg <= 0:
+            raise ValueError("particle mass must be positive")
+        force_N = force_model(particle)
+        acceleration_m_s2 = force_N / mass_kg
+        next_velocity_m_s = particle['velocity_m_s'] + acceleration_m_s2 * dt_s
+        next_position_m = particle['position_m'] + next_velocity_m_s * dt_s
         next_particles.append({
             **particle,
-            'velocity': next_velocity,
-            'position': next_position,
+            'velocity_m_s': next_velocity_m_s,
+            'position_m': next_position_m,
         })
-        forces.append(force)
-    return next_particles, forces
+        forces_N.append(force_N)
+    return next_particles, forces_N
 ```
 
 The repair chooses a **functional ownership contract**: `particles` remains the
-old state and the return value is a separate next state. In-place mutation can
-also be valid, but then the function name, documentation, tests, and caller
-must all make that contract explicit.
+old state and the return value is a separate next state. It also makes the
+one-dimensional units explicit and asks the caller to supply the force model,
+rather than hiding an unspecified calculation. In-place mutation can also be
+valid, but then the function name, documentation, tests, and caller must all
+make that contract explicit.
 :::
 
 (keyed-lookup-and-sets)=
@@ -1203,6 +1221,7 @@ cache hit means for the calculation.
 Never modify a collection while iterating - a common bug in particle removal:
 
 ```python
+# PSEUDOCODE: particle records and escaped_boundary() stand in for your model.
 # THE BUG - Skips particles!
 particles = [p1, p2, p3, p4, p5]
 for p in particles:
@@ -1231,7 +1250,7 @@ often easier to inspect than mutation during iteration.
 :::
 
 (choose-a-structure)=
-## 4.8 Choosing the Right Structure for Physics
+## 4.7 Choosing the Right Structure for Physics
 
 After exploring all options, how do you choose? Here's your decision framework for computational physics:
 
@@ -1603,6 +1622,9 @@ def expensive_calculation(T, rho):
 \* Dict searches by key, not value
 † Amortized - occasionally O(n) during resize
 ‡ Average-case; worst-case can degrade with collisions
+
+The † and ‡ markers qualify every marked `O(1)` entry: they describe the named
+container operation, not the cost of a whole scientific workload.
 
 ### Common Methods for Physics
 

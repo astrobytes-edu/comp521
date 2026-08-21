@@ -41,6 +41,13 @@ def test_complete_chapter_1_script_compiles_and_imports_cleanly():
     assert namespace["schwarzschild_radius"](10 * namespace["M_sun"]) == pytest.approx(29_533.39, rel=1e-5)
 
 
+def test_chapter_1_hubble_time_example_uses_a_consistent_unit_conversion():
+    code = code_block_containing("03-python/01-python-environment.md", "Hubble time:")
+    namespace: dict[str, object] = {}
+    exec(code, namespace)
+    assert namespace["t_hubble_gyr"] == pytest.approx(978 / 70.0)
+
+
 def test_chapter_1_notebook_state_activity_is_markdown_authored_with_lite_execution():
     chapter = (ROOT / "03-python/01-python-environment.md").read_text()
     activity = (ROOT / "tools/jupyterlite/activities/ch01-notebook-state.md").read_text()
@@ -125,6 +132,10 @@ def test_chapter_2_calibrates_comparisons_and_avoids_generic_validation_claims()
     assert "m^(5/2)/s^2 (not a velocity)" in chapter
     assert "Small-angle approximation" in chapter
     assert "Modeling boundary: a Fourier peak is not a discovery" in chapter
+    assert "3,600,000 tenth-second increments" in chapter
+    assert "360,000 tenth-second increments" not in chapter
+    assert "Hardware- and workload-dependent" in chapter
+    assert "Faster on GPU" not in chapter
 
 
 def test_chapter_2_stable_function_examples_make_the_difference_visible():
@@ -145,6 +156,8 @@ def test_chapter_2_checked_schwarzschild_script_uses_a_meaningful_scaling_check(
     namespace = {"__name__": "imported_example"}
     exec(compile(code, "schwarzschild_radius.py", "exec"), namespace)
     radius = namespace["schwarzschild_radius_checked"]
+    assert "schwarzschild_radius_simple" not in namespace
+    assert "schwarzschild_radius_validated" not in namespace
     solar_mass_kg = 1.989e30
     assert radius(solar_mass_kg) == pytest.approx(2_952.075, rel=1e-5)
     assert radius(2 * solar_mass_kg) == pytest.approx(2 * radius(solar_mass_kg), rel=1e-15)
@@ -184,6 +197,9 @@ def test_chapter_3_calibrates_toy_stellar_and_schwarzschild_examples():
     assert "not a remnant" in text
     assert "rs_au = 1.97e-8 * M" in text
     assert "difference of two large aggregate terms" in text
+    assert "illustrative magnitude screen" in text
+    assert 'return "Outside this illustrative screening threshold"' in text
+    assert "but it does not itself establish collision risk" in text
 
 
 def test_chapter_3_bounded_convergence_reports_its_stopping_contract():
@@ -203,6 +219,27 @@ def test_chapter_3_bounded_convergence_reports_its_stopping_contract():
         bounded_relaxation(100.0, 1.0, 0.0, 0.01, 5)
     with pytest.raises(ValueError):
         bounded_relaxation(100.0, 1.0, 0.1, 0.0, 5)
+
+
+def test_chapter_3_debugging_and_pseudocode_preserve_stopping_and_candidate_state():
+    code = code_block_containing("03-python/03-python-control-flow.md", "def debug_convergence")
+    namespace: dict[str, object] = {}
+    exec(compile(code, "debug_convergence.py", "exec"), namespace)
+    debug_convergence = namespace["debug_convergence"]
+
+    _, status, iterations = debug_convergence(0.0, 100.0, 0.1, max_iter=20)
+    assert (status, iterations) == ("max_iterations_reached", 20)
+    _, status, iterations = debug_convergence(0.0, 1.0, 0.5, abs_tol=1e-4, max_iter=20)
+    assert status == "converged"
+    assert iterations < 20
+    with pytest.raises(ValueError):
+        debug_convergence(0.0, 1.0, 0.5, max_iter=0)
+
+    chapter = (ROOT / "03-python/03-python-control-flow.md").read_text()
+    assert "UNTIL error < tolerance OR dt <= dt_min" in chapter
+    assert "best_folded = folded" in chapter
+    assert "is_v_shaped(best_folded)" in chapter
+    assert "if best_depth > 0.5" in chapter
 
 
 def test_chapter_3_keeps_advanced_syntax_and_reference_with_explicit_limits():
@@ -259,6 +296,40 @@ def test_chapter_4_calibrates_collection_performance_and_eos_analogy():
     assert "## Reference: Structures, Operations, and Modules" in text
     assert "## Try this chapter" in text
     assert "Browser Python lab · Aliasing and Lookup Inspector" in text
+    assert "## 4.7 Choosing the Right Structure for Physics" in text
+    assert "## 4.8 Choosing the Right Structure for Physics" not in text
+    assert "# PSEUDOCODE: particle records and escaped_boundary()" in text
+    assert "they describe the named\ncontainer operation, not the cost of a whole scientific workload" in text
+
+
+def test_chapter_4_particle_update_solution_has_units_and_preserves_input_state():
+    code = code_block_containing(
+        "03-python/04-python-data-structures.md",
+        "def update_particles(particles, dt_s, force_model):",
+    )
+    namespace: dict[str, object] = {}
+    exec(compile(code, "particle_update.py", "exec"), namespace)
+    update_particles = namespace["update_particles"]
+    particles = [
+        {"mass_kg": 2.0, "position_m": 0.0, "velocity_m_s": 1.0},
+        {"mass_kg": 4.0, "position_m": 10.0, "velocity_m_s": -2.0},
+    ]
+    original = copy.deepcopy(particles)
+
+    next_particles, forces_N = update_particles(particles, 0.5, lambda particle: 4.0)
+
+    assert particles == original
+    assert forces_N == [4.0, 4.0]
+    assert next_particles == [
+        {"mass_kg": 2.0, "position_m": 1.0, "velocity_m_s": 2.0},
+        {"mass_kg": 4.0, "position_m": 9.25, "velocity_m_s": -1.5},
+    ]
+    with pytest.raises(ValueError, match="mass"):
+        update_particles(
+            [{"mass_kg": 0.0, "position_m": 0.0, "velocity_m_s": 0.0}],
+            0.5,
+            lambda particle: 4.0,
+        )
 
 
 def test_chapter_4_aliasing_activity_is_markdown_authored_and_discriminating():

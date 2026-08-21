@@ -116,7 +116,8 @@ IPython maintains a complete history of your session, accessible through special
 H0 = 70.0  # Hubble constant in km/s/Mpc
 
 # H0 has units (km/s)/Mpc, so 1/H0 is a time.
-# Approx conversion: 1 (km/s/Mpc)^-1 approx 9.78 Gyr, so multiply by ~978 to get Gyr.
+# 1 (km/s/Mpc)^-1 is about 978 Gyr, so t_H is about 978/H0 Gyr.
+# Equivalently, t_H is about 9.78 * (100/H0) Gyr.
 t_hubble = 1.0 / H0
 t_hubble_gyr = t_hubble * 978  # Approx: 9.78 * (100/H0) Gyr
 
@@ -254,14 +255,17 @@ about the data and question to decide what reusable computation is warranted.
 :::{tip} The More You Know: The Reproducibility Crisis in Science
 :class: dropdown
 
-A 2018 study attempted to obtain data and code from 204 computational papers in *Science* magazine, finding that materials were available for only 26% of articles, with many of those still having reproducibility issues ([Stodden et al., 2018](https://doi.org/10.1073/pnas.1708290115)). Common reproducibility barriers included:
+A 2018 study attempted to obtain data and code from 204 computational papers in *Science* magazine. The researchers obtained artifacts for 44% of the papers and estimated that 26% could reproduce their computational findings ([Stodden et al., 2018](https://doi.org/10.1073/pnas.1708290115)). Problems that often block reproduction include:
 
 - Missing dependencies and software versions
 - Hardcoded file paths to data
 - Undocumented parameter choices
 - Missing random seeds for simulations
 
-Tools like IPython's `%history` and `%save` commands create an audit trail that helps ensure your future self (and others) can reproduce your analysis.
+Tools like IPython's `%history` and `%save` commands can preserve part of an
+audit trail. They need to be paired with recorded inputs, dependencies,
+parameters, and a clean re-execution before another person can investigate the
+analysis.
 
 **Additional Resources:**
 
@@ -725,14 +729,23 @@ print("📈 With real datasets (millions of points),")
 print("   this crashes your kernel and loses all work!")
 ```
 
-:::{tip} The More You Know: The $125 Billion Excel Error
+:::{tip} The More You Know: What a Replication Revealed About Debt and Growth
 :class: dropdown
 
-In 2013, graduate student Thomas Herndon couldn't reproduce the results from a highly influential economics paper by Carmen Reinhart and Kenneth Rogoff. This paper, ["Growth in a Time of Debt,"](https://www.aeaweb.org/articles?id=10.1257/aer.100.2.573) had been cited by politicians worldwide to justify austerity policies affecting millions of people.
+In 2013, graduate student Thomas Herndon could not reproduce the results from a
+highly influential economics paper by Carmen Reinhart and Kenneth Rogoff. Their
+paper, ["Growth in a Time of Debt,"](https://www.aeaweb.org/articles?id=10.1257/aer.100.2.573), featured prominently in public debates about debt and austerity.
 
-When Herndon finally obtained the original Excel spreadsheet, he discovered a coding error: five countries were accidentally excluded from a calculation due to an Excel formula that didn't include all rows. This simple mistake skewed the results, showing that high debt caused negative growth when the corrected analysis showed much weaker effects ([Herndon, Ash, and Pollin, 2014](https://doi.org/10.1093/cje/bet075)). The implications were staggering — this spreadsheet error influenced global economic policy.
+When Herndon, Michael Ash, and Robert Pollin obtained the original spreadsheet,
+they identified three issues: a formula range that excluded five countries from
+one calculation, selective exclusions of available data, and unconventional
+weighting of summary statistics. Together, those choices changed the reported
+debt-growth relationship ([Herndon, Ash, and Pollin, 2014](https://doi.org/10.1093/cje/bet075)). A spreadsheet error alone does not establish a single economic conclusion or prove that it caused a policy outcome.
 
-Just like hidden state in Jupyter notebooks, the error was invisible in the final spreadsheet. The lesson? Computational transparency and reproducibility aren't just academic exercises — they have real-world consequences. Always make your computational process visible and reproducible!
+Like hidden state in Jupyter notebooks, the calculation path was invisible in
+the final spreadsheet. The lesson is not that one formula explains a policy
+debate. It is that computational transparency lets readers inspect the data,
+choices, and calculations behind a consequential claim.
 :::
 
 **Design decision: notebook narrative, module computation.**

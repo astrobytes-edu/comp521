@@ -277,8 +277,8 @@ The trade-offs are crucial for scientific computing:
 | **Precision** | ~7 decimal digits | ~15 decimal digits |
 | **Largest finite magnitude** | about $3.4\times10^{38}$ | about $1.8\times10^{308}$ |
 | **Memory** | 4 bytes | 8 bytes |
-| **Speed** | Faster on GPU | Standard on CPU |
-| **Use case** | Graphics, ML training | Scientific computing |
+| **Performance** | Hardware- and workload-dependent; may reduce memory use and help on supported accelerators | Hardware- and workload-dependent; often chosen when its additional precision is required |
+| **Common use** | Graphics and some machine-learning workloads | Many scientific calculations with a demanding error budget |
 
 If you want the actual limits (min/max/eps) instead of memorizing them, use `numpy.finfo`:
 
@@ -291,7 +291,9 @@ print(np.finfo(np.float64))
 Python's ordinary `float` is typically binary64. Array libraries may offer—or
 default to—other dtypes; for example, JAX commonly runs with 64-bit values
 disabled unless its configuration enables them. *Always inspect the precision
-your calculation is actually using.*
+your calculation is actually using.* Choose a dtype from the error and range
+your calculation can tolerate, then measure performance on the hardware and
+workload you actually plan to use.
 
 ### Why 0.1 + 0.2 $\neq$ 0.3
 
@@ -397,7 +399,7 @@ On February 25, 1991, an American Patriot missile battery in Dhahran, Saudi Arab
 
 The Patriot's targeting system tracked time using a 24-bit fixed point register, counting in tenths of seconds. However, 1/10 has no exact binary representation—in 24-bit precision, the stored value was actually 0.099999904632568359375, creating an error of approximately 0.000000095 seconds per tenth of a second.
 
-After running continuously for 100 hours (360,000 tenth-second increments), this microscopic error had grown to:
+After running continuously for 100 hours (3,600,000 tenth-second increments), this microscopic error had grown to:
 
 - **Timing error**: 0.34 seconds
 - **Range gate error**: ~687 meters (Scud velocity $\approx$ 2,000 m/s)
@@ -1128,6 +1130,10 @@ print(f"math.fsum(vals) = {math.fsum(vals)}")
 
 Congratulations! You've been exploring Python interactively, testing ideas and learning how numbers behave. Now let's transform your interactive explorations into a reusable script:
 
+The function below names its input unit, rejects an unphysical mass, and keeps
+one analytic scaling check beside the calculation. Those are the parts worth
+carrying from an interactive calculation into a reusable reference.
+
 ```python
 #!/usr/bin/env python
 """
@@ -1139,25 +1145,6 @@ consistent constants set (e.g., CODATA via astropy.constants).
 """
 
 import math
-
-def schwarzschild_radius_simple(mass_kg):
-    """Calculate Schwarzschild radius in m."""
-    G = 6.67e-11   # m^3/kg/s^2
-    c = 2.998e8    # m/s
-
-    rs = 2 * G * mass_kg / c**2
-    return rs
-
-def schwarzschild_radius_validated(mass_kg):
-    """Calculate with input validation."""
-    G = 6.67e-11
-    c = 2.998e8
-
-    if mass_kg <= 0:
-        raise ValueError(f"Mass must be positive: {mass_kg}")
-
-    rs = 2 * G * mass_kg / c**2
-    return rs
 
 def schwarzschild_radius_checked(mass_kg):
     """Calculate a Schwarzschild radius for a positive mass in kg."""
