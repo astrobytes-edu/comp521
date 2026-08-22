@@ -51,6 +51,12 @@ FOUNDATION_FIGURES = (
 )
 
 
+PYTHON_GENERATED_PLOTS = (
+    ("03-python/02-python-calculator.md", "ch02-cancellation-stability.svg"),
+    ("03-python/04-python-data-structures.md", "ch04-representation-scaling.svg"),
+)
+
+
 @pytest.mark.parametrize(("chapter_path", "asset_name"), FOUNDATION_FIGURES)
 def test_foundation_figure_spine_is_accessible_and_linked(chapter_path, asset_name):
     chapter = (ROOT / chapter_path).read_text()
@@ -66,7 +72,25 @@ def test_foundation_figure_spine_is_accessible_and_linked(chapter_path, asset_na
     assert "<desc" in svg
 
 
-def test_chapter_four_uses_a_static_scaling_figure_before_matplotlib():
+@pytest.mark.parametrize(("chapter_path", "asset_name"), PYTHON_GENERATED_PLOTS)
+def test_python_generated_plots_are_accessible_and_linked(chapter_path, asset_name):
+    chapter = (ROOT / chapter_path).read_text()
+    asset = ROOT / "assets" / "textbook-figures" / asset_name
+    figure_path = f"../assets/textbook-figures/{asset_name}"
+
+    assert f"```{{figure}} {figure_path}" in chapter
+    assert ":alt:" in chapter
+    assert asset.is_file()
+
+    svg = asset.read_text()
+    assert "<title" in svg
+    assert "<desc" in svg
+
+    generator = (ROOT / "scripts" / "generate_textbook_plots.py").read_text()
+    assert asset_name in generator
+
+
+def test_chapter_four_uses_a_finished_scaling_figure_before_matplotlib():
     chapter = (ROOT / "03-python/04-python-data-structures.md").read_text()
 
     assert "ch04-representation-scaling.svg" in chapter

@@ -630,6 +630,19 @@ print("The identity is algebraically equivalent to 1 - cos(x), but avoids the su
 # This preserves precision for small angles
 ```
 
+```{figure} ../assets/textbook-figures/ch02-cancellation-stability.svg
+:name: ch02-cancellation-stability
+:alt: A logarithmic plot shows the relative disagreement between direct computation of one minus cosine of x and the algebraically equivalent stable identity two sine squared of x over two. At x equal to ten to the minus eight radians, direct subtraction rounds to zero while the stable form retains the result's scale.
+:width: 100%
+
+The direct and stable expressions are algebraically equivalent, but their finite-precision computations disagree sharply for very small angles.
+```
+
+What to notice: this is a Python-produced plot, not a new plotting interface to
+learn yet. Its vertical axis is disagreement with the stable identity—not an
+external measure of physical correctness. Chapter 8 returns to the craft of
+making, labeling, and evaluating plots like this one.
+
 :::{tip} Two stability power tools: `expm1` and `log1p`
 
 When you see patterns like “something very close to 1” or “`exp(x) - 1` for tiny `x`”, look for functions designed to preserve precision:

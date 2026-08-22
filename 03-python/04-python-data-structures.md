@@ -42,14 +42,15 @@ In Chapter 3, you learned how algorithms *flow* through decisions and loops. In 
 
 ```{figure} ../assets/textbook-figures/ch04-representation-scaling.svg
 :name: ch04-representation-scaling
-:alt: Two names refer to one mutable list, and adjacent illustrative curves compare constant, logarithmic, linear, n log n, and quadratic operation-count growth.
+:alt: A logarithmic plot compares illustrative constant, logarithmic, linear, n log n, and quadratic operation-count models as input size grows. An annotation notes that quadratic all-pairs work reaches one trillion pair checks at one million inputs.
 :width: 100%
 
-Representation choices affect both correctness and feasibility: shared mutable state changes through every alias, while algorithmic growth can dominate a workload as its input grows.
+Scaling is a model of computational work, not a timing result from one machine: the operation count can become infeasible long before a calculation runs.
 ```
 
-What to notice: neither panel is a performance benchmark. The growth curves are
-illustrative operation counts; actual runtime also depends on the workload,
+What to notice: this is a Python-produced plot, but not a new plotting API to
+learn yet. Read it as a model of operation counts; Chapter 8 teaches how to
+construct and scrutinize a plot. Actual runtime also depends on the workload,
 implementation, data layout, hardware, and measurement method.
 
 :::{important} TL;DR — Why This Chapter Is a Turning Point
