@@ -1849,6 +1849,15 @@ record another person can inspect.
 
 The overarching theme is **defensive programming**—anticipating what can go wrong and making each safeguard inspectable. This work supports reliable research computing, but it does not replace scientific validation, calibration, or review.
 
+## Recap and next connection
+
+[Chapter 10: Designing Small Scientific Types](10-advanced-oop.md) applies
+validation and tests to one deliberately small stateful scientific type. It
+makes a recurring invariant or unit boundary visible where values enter a
+program. More advanced architecture and performance topics belong to later
+reference material and should be introduced only when a concrete maintenance
+problem requires them.
+
 ## Definitions
 
 **Anti-pattern**: A common but harmful coding pattern that should be avoided (e.g., bare except clauses).
@@ -1982,13 +1991,6 @@ The overarching theme is **defensive programming**—anticipating what can go wr
 | Convergence | Refinement improves a known solution | Euler step 0.05 beats 0.1 |
 | Performance | Declared workload | Benchmark separately on a stated machine/data size |
 | Units | Dimensional analysis | SI vs CGS consistency |
-
-### Further reference connection
-
-The next core chapter, [Chapter 10](10-advanced-oop.md), applies validation and
-tests to one deliberately small stateful scientific type. More advanced
-architecture and performance topics belong to later reference material and
-should be introduced only when a concrete maintenance problem requires them.
 
 ### Tooling feedback loops
 

@@ -140,6 +140,20 @@ def test_part_boundaries_send_readers_to_the_recap_before_the_next_part():
     assert "[Part II Recap — Inspectable Scientific Evidence](synthesis.md)" in chapter_ten
 
 
+def test_chapter_previews_link_to_the_named_successor():
+    chapter_successors = (
+        ("03-python/02-python-calculator.md", "03-python-control-flow.md"),
+        ("03-python/03-python-control-flow.md", "04-python-data-structures.md"),
+        ("03-python/04-python-data-structures.md", "05-python-functions-modules.md"),
+        ("04-scientific-computing/07-numpy-fundamentals.md", "08-matplotlib-fundamentals.md"),
+        ("04-scientific-computing/08-matplotlib-fundamentals.md", "09-robust-computing.md"),
+        ("04-scientific-computing/09-robust-computing.md", "10-advanced-oop.md"),
+    )
+
+    for chapter_path, successor in chapter_successors:
+        assert f"]({successor})" in (ROOT / chapter_path).read_text()
+
+
 def test_part_recaps_and_tentative_part_iii_navigation_are_explicit():
     part_i_recap = (ROOT / "03-python/synthesis.md").read_text()
     part_ii_recap = (ROOT / "04-scientific-computing/synthesis.md").read_text()

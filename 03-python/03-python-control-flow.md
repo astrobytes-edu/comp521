@@ -1893,7 +1893,7 @@ import math
 
 ## Next Chapter Preview
 
-You've conquered control flow — now get ready for the next level! Chapter 4 will reveal how to organize data deliberately using Python's lists, dictionaries, sets, and tuples. You will connect each choice to an access pattern, mutability question, and measured workload rather than assuming a universal speedup.
+You've conquered control flow — now get ready for the next level! [Chapter 4](04-python-data-structures.md) will reveal how to organize data deliberately using Python's lists, dictionaries, sets, and tuples. You will connect each choice to an access pattern, mutability question, and measured workload rather than assuming a universal speedup.
 
 Imagine trying to find a specific star in a catalog of millions. A list search and a dictionary lookup make different promises, and their actual costs depend on the operation, data size, hardware, and implementation. Chapter 4 will give you the vocabulary to reason about that tradeoff and measure it honestly.
 

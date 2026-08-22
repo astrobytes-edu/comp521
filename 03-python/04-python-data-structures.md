@@ -1631,7 +1631,7 @@ container operation, not the cost of a whole scientific workload.
 
 ## Recap and next connection
 
-With data structures mastered, Chapter 5 will explore functions and modules—how
+With data structures mastered, [Chapter 5](05-python-functions-modules.md) will explore functions and modules—how
 to make data representations and scientific assumptions explicit, reusable, and
 testable. Begin with its core function-contract example; return to the advanced
 function patterns when a real interface needs them.

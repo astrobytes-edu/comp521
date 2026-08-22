@@ -39,7 +39,8 @@ Use the chapters diagnostically rather than memorizing them. A result that
 changes across machines belongs in Chapter 1; an uncertain tolerance belongs in
 Chapter 2; a non-terminating loop belongs in Chapter 3; an unexpectedly slow
 lookup belongs in Chapter 4; and a computation with unclear assumptions belongs
-in Chapter 5.
+in Chapter 5. Related values whose meaning or invariants drift apart belong in
+Chapter 6.
 
 ## The throughline: defensive scientific programming
 
