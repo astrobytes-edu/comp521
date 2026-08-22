@@ -34,6 +34,8 @@ class FluxMeasurement:
 
 
 def fractional_change(before: FluxMeasurement, after: FluxMeasurement) -> float:
+    if not isinstance(before, FluxMeasurement) or not isinstance(after, FluxMeasurement):
+        raise TypeError("fractional change requires FluxMeasurement instances")
     if before.unit != after.unit:
         raise ValueError("convert to a common unit before comparison")
     if before.value == 0.0:
@@ -241,8 +243,10 @@ example, `pytest.approx` when its tolerance is warranted.
 Methods should express behavior that is meaningful for every valid instance of
 the type. `fractional_change` belongs near `FluxMeasurement` because both its
 unit agreement and zero-baseline limit are part of the calculation's contract.
-A detector calibration method does not: calibration needs information that this
-type deliberately does not carry.
+It is deliberately a standalone function: the calculation compares two
+measurements, so neither instance owns the other. A detector calibration method
+does not belong here: calibration needs information that this type deliberately
+does not carry.
 
 ```python
 reference = FluxMeasurement(4.0e-12, "W m^-2")

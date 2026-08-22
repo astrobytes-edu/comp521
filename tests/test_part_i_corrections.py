@@ -1037,6 +1037,8 @@ def test_chapter_10_builds_and_tests_one_bounded_scientific_type():
             flux_measurement(invalid, "W m^-2")
     with pytest.raises(TypeError):
         flux_measurement("2.0", "W m^-2")
+    with pytest.raises(TypeError, match="FluxMeasurement instances"):
+        fractional_change(finite, {"value": 1.0, "unit": "W m^-2"})
     with pytest.raises(ValueError, match="common unit"):
         fractional_change(finite, flux_measurement(1.0, "erg s^-1 cm^-2"))
     with pytest.raises(ValueError, match="zero baseline"):
