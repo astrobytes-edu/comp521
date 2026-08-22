@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import logging
 import math
 import re
 from pathlib import Path
@@ -917,6 +918,40 @@ def test_chapter_9_tests_behavior_without_claiming_scientific_validation():
     with pytest.raises(ValueError, match="Invalid redshift"):
         process_spectrum([6500.0, 6501.0], [1.0, 0.9], z=np.nan)
 
+    reader_code = code_block_containing(chapter_path, "def read_magnitude")
+    reader_namespace: dict[str, object] = {}
+    exec(reader_code, reader_namespace)
+    read_magnitude = reader_namespace["read_magnitude"]
+    assert read_magnitude("A", {"A": {"mag": "12.3"}}) == pytest.approx(12.3)
+    assert read_magnitude("A", {"A": {"mag": "variable"}}) is None
+    assert read_magnitude("A", {"A": {"mag": np.nan}}) is None
+
+    coordinates_code = code_block_containing(chapter_path, "def validate_coordinates")
+    coordinates_namespace = {"np": np}
+    exec(coordinates_code, coordinates_namespace)
+    validate_coordinates = coordinates_namespace["validate_coordinates"]
+    assert validate_coordinates("15.0", "-30.0") is True
+    with pytest.raises(ValueError, match="finite scalar"):
+        validate_coordinates("not-a-number", 0)
+
+    nbody_validation_code = code_block_containing(
+        chapter_path, "def validate_nbody_initial_conditions"
+    )
+    nbody_validation_namespace = {"np": np}
+    exec(nbody_validation_code, nbody_validation_namespace)
+    validate_nbody = nbody_validation_namespace["validate_nbody_initial_conditions"]
+    initial_positions = [[0, 0, 0], [1, 0, 0]]
+    stationary_velocities = [[0, 0, 0], [0, 0, 0]]
+    with pytest.raises(ValueError, match="Collision threshold"):
+        validate_nbody(initial_positions, stationary_velocities, [1, 1], min_separation_m=np.nan)
+    with pytest.raises(ValueError, match="Newtonian speed boundary"):
+        validate_nbody(
+            initial_positions,
+            stationary_velocities,
+            [1, 1],
+            newtonian_speed_limit_fraction=np.nan,
+        )
+
     orbit_code = code_block_containing(chapter_path, "def integrate_relative_orbit_leapfrog")
     orbit_namespace = {"np": np}
     exec(orbit_code, orbit_namespace)
@@ -951,6 +986,28 @@ def test_chapter_9_tests_behavior_without_claiming_scientific_validation():
     assert abs(refinement_namespace["euler_exponential"](0.05) - math.e) < abs(
         refinement_namespace["euler_exponential"](0.1) - math.e
     )
+    with pytest.raises(ValueError, match="finite and positive"):
+        refinement_namespace["euler_exponential"](0)
+    with pytest.raises(ValueError, match="finite and positive"):
+        refinement_namespace["euler_exponential"]("not-a-timestep")
+
+    doppler_code = code_block_containing(chapter_path, "def doppler_redshift_to_velocity")
+    doppler_namespace: dict[str, object] = {}
+    exec(doppler_code, doppler_namespace)
+    with pytest.raises(ValueError, match="finite"):
+        doppler_namespace["doppler_redshift_to_velocity"](np.nan)
+
+    simulation_code = code_block_containing(chapter_path, "def run_simulation")
+    simulation_namespace = {"logging": logging}
+    exec(simulation_code, simulation_namespace)
+    with pytest.raises(ValueError, match="non-zero initial energy"):
+        simulation_namespace["run_simulation"](
+            2,
+            1,
+            lambda: None,
+            lambda: 0.0,
+            lambda _: None,
+        )
 
     assert "## Reference: definitions and quick checks" in chapter
     assert "passive numerical stability issue" not in chapter
@@ -960,6 +1017,7 @@ def test_chapter_9_tests_behavior_without_claiming_scientific_validation():
     assert "Binary search debugging" not in chapter
     assert "n_raw_saturated = np.sum(image >= saturation_level)" in chapter
     assert "Flat frame must be finite and strictly positive" in chapter
+    assert "Relative energy drift requires a finite, non-zero initial energy" in chapter
 
 
 def test_chapter_10_builds_and_tests_one_bounded_scientific_type():

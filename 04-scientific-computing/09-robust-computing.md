@@ -261,17 +261,21 @@ Sometimes errors are expected: files might be missing, network connections might
 ### Basic Try/Except Structure
 
 ```python
+import math
+
 def read_magnitude(star_id, catalog):
     """Safely read stellar magnitude from catalog."""
     try:
-        # Try to get magnitude
-        magnitude = catalog[star_id]['mag']
+        # Convert at the boundary instead of returning an unchecked string.
+        magnitude = float(catalog[star_id]['mag'])
+        if not math.isfinite(magnitude):
+            raise ValueError("Magnitude must be finite")
         return magnitude
     except KeyError:
         # Star not in catalog
         print(f"Warning: Star {star_id} not in catalog")
         return None
-    except TypeError:
+    except (TypeError, ValueError):
         # Magnitude might be string 'variable' or 'saturated'
         print(f"Warning: Non-numeric magnitude for {star_id}")
         return None
@@ -546,7 +550,14 @@ def validate_coordinates(ra, dec, system='icrs'):
     system : str
         Coordinate system (icrs, fk5, galactic)
     """
-    if not (np.isscalar(ra) and np.isscalar(dec) and np.isfinite(ra) and np.isfinite(dec)):
+    if not (np.isscalar(ra) and np.isscalar(dec)):
+        raise ValueError("Coordinates must be finite scalar values in degrees")
+    try:
+        ra = float(ra)
+        dec = float(dec)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("Coordinates must be finite scalar values in degrees") from exc
+    if not (np.isfinite(ra) and np.isfinite(dec)):
         raise ValueError("Coordinates must be finite scalar values in degrees")
     if system in ['icrs', 'fk5']:
         if not 0 <= ra < 360:
@@ -634,6 +645,17 @@ def validate_nbody_initial_conditions(
     pos = np.asarray(positions)
     vel = np.asarray(velocities)
     m = np.asarray(masses)
+
+    try:
+        min_separation_m = float(min_separation_m)
+        newtonian_speed_limit_fraction = float(newtonian_speed_limit_fraction)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("Model thresholds must be finite scalar values") from exc
+    if not (np.isfinite(min_separation_m) and min_separation_m > 0):
+        raise ValueError("Collision threshold must be finite and positive")
+    if not (np.isfinite(newtonian_speed_limit_fraction)
+            and 0 < newtonian_speed_limit_fraction < 1):
+        raise ValueError("Newtonian speed boundary must be between 0 and 1")
 
     # Check shapes and finite values.
     n_bodies = len(m)
@@ -991,6 +1013,7 @@ random "energy" to make a log look realistic.
 
 ```python
 import time
+import math
 
 def run_simulation(n_particles, n_steps, evolve_one_timestep, total_energy, save_checkpoint):
     """
@@ -1003,8 +1026,15 @@ def run_simulation(n_particles, n_steps, evolve_one_timestep, total_energy, save
     sim_logger.info(f"Memory estimate: {n_particles * 6 * 8 / 1e9:.2f} GB")
 
     # Simulation loop
+    if n_steps < 1:
+        raise ValueError("n_steps must be positive")
     checkpoint_interval = max(1, n_steps // 10)
-    energy_initial = total_energy()
+    energy_initial = float(total_energy())
+    if not math.isfinite(energy_initial) or energy_initial == 0:
+        raise ValueError(
+            "Relative energy drift requires a finite, non-zero initial energy; "
+            "use an absolute diagnostic otherwise"
+        )
 
     for step in range(n_steps):
         # Evolve system
@@ -1013,7 +1043,9 @@ def run_simulation(n_particles, n_steps, evolve_one_timestep, total_energy, save
         # Periodic logging
         if step % checkpoint_interval == 0:
             progress = 100 * step / n_steps
-            energy_current = total_energy()
+            energy_current = float(total_energy())
+            if not math.isfinite(energy_current):
+                raise ValueError("Energy diagnostic became non-finite")
             energy_drift = abs((energy_current - energy_initial) / energy_initial)
 
             sim_logger.info(
@@ -1228,6 +1260,13 @@ def test_seeded_noise_is_reproducible():
 
 def euler_exponential(dt, final_time=1.0):
     """Solve y' = y, y(0) = 1 with a timestep that reaches final_time."""
+    try:
+        dt = float(dt)
+        final_time = float(final_time)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("dt and final_time must be finite and positive") from exc
+    if not (np.isfinite(dt) and np.isfinite(final_time) and dt > 0 and final_time > 0):
+        raise ValueError("dt and final_time must be finite and positive")
     n_steps = round(final_time / dt)
     if not np.isclose(n_steps * dt, final_time):
         raise ValueError("dt must divide final_time for this classroom example")
@@ -1246,12 +1285,17 @@ def test_euler_refinement_reduces_error():
 ### Testing Edge Cases in Physics Calculations
 
 ```python
+import math
 import pytest
 
 def doppler_redshift_to_velocity(z, relativistic=True):
     """Convert a special-relativistic Doppler redshift to velocity in km/s."""
-    if z <= -1:
-        raise ValueError("Doppler redshift must be greater than -1")
+    try:
+        z = float(z)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("Doppler redshift must be a finite scalar") from exc
+    if not math.isfinite(z) or z <= -1:
+        raise ValueError("Doppler redshift must be finite and greater than -1")
     if relativistic:
         # Special relativistic formula
         c = 299792.458  # km/s
