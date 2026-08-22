@@ -67,11 +67,14 @@ project:
             - file: 04-scientific-computing/08-matplotlib-fundamentals.md
             - file: 04-scientific-computing/09-robust-computing.md
             - file: 04-scientific-computing/10-advanced-oop.md
-        - title: Part III · Real Data Workflows
+            - file: 04-scientific-computing/synthesis.md
+        - title: Part III · Real Data Workflows (in development)
           children:
             - file: 04-scientific-computing/part-3-data-workflows.md
-            - file: 04-scientific-computing/11-pandas-fundamentals.md
-            - file: 04-scientific-computing/12-data-acquisition-cleaning.md
+            - title: Early reference · Chapter 11
+              file: 04-scientific-computing/11-pandas-fundamentals.md
+            - title: Scope note · Chapter 12
+              file: 04-scientific-computing/12-data-acquisition-cleaning.md
 
     - title: Readings
       children:

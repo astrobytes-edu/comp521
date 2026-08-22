@@ -39,6 +39,26 @@ def test_part_i_and_ii_guides_are_course_agnostic_and_truthful():
     assert "Project 1" not in part_i
     assert "assignments and projects" not in part_ii
     assert "11-pandas-fundamentals.md" not in part_ii
+    assert "Chapter 6 completes the first\npass" in part_i
+    assert "[Part I Recap — Trustworthy Scientific Programming](synthesis.md)" in part_i
+    assert "[Part II Recap — Inspectable Scientific Evidence](synthesis.md)" in part_ii
+
+
+def test_part_recaps_and_tentative_part_iii_navigation_are_explicit():
+    part_i_recap = (ROOT / "03-python/synthesis.md").read_text()
+    part_ii_recap = (ROOT / "04-scientific-computing/synthesis.md").read_text()
+    part_iii = (ROOT / "04-scientific-computing/part-3-data-workflows.md").read_text()
+    navigation = (ROOT / "myst.yml").read_text()
+
+    assert 'title: "Part I Recap — Trustworthy Scientific Programming"' in part_i_recap
+    assert 'title: "Part II Recap — Inspectable Scientific Evidence"' in part_ii_recap
+    assert "A return route, not another chapter" in part_i_recap
+    assert "A return route, not another chapter" in part_ii_recap
+    assert "not a completed reading route" in part_iii
+    assert "Part III · Real Data Workflows (in development)" in navigation
+    assert "Early reference · Chapter 11" in navigation
+    assert "Scope note · Chapter 12" in navigation
+    assert "04-scientific-computing/synthesis.md" in navigation
 
 
 def test_deferred_part_iii_is_honest_about_its_status():

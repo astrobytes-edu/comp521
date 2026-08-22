@@ -1,14 +1,20 @@
 ---
-title: "Part III Guide — Tabular Data and Reproducible Workflows (in development)"
+title: "Start Here: Part III Guide — Tabular Data and Reproducible Workflows (tentative)"
 subtitle: "Scientific Computing with Python"
 ---
 
-:::{important} In development
-Part III is planned, but it is not part of the completed Parts I–II textbook
-release. Its eventual chapters will be published only after their examples,
-data-provenance claims, exercises, and navigation satisfy the same reader
-contract as the completed parts.
+:::{important} Tentative preview — in development
+Part III is planned, but it is not a completed reading route. Its eventual
+chapters will be published only after their examples, data-provenance claims,
+exercises, and navigation satisfy the same reader contract as Parts I–II.
 :::
+
+## What this placeholder does—and does not promise
+
+This page names the direction of later work so that a reader can see how tables
+and provenance connect to the completed foundations. It does not promise a
+schedule, imply that the preview pages below form a sequence, or make Chapter
+12 a prerequisite. Use Parts I–II for the current textbook route.
 
 ## Intended scope
 
@@ -26,10 +32,13 @@ another reader can inspect.
 
 [Chapter 11](11-pandas-fundamentals.md) is available as an early reference on
 labeled tables and operations. [Chapter 12](12-data-acquisition-cleaning.md)
-is an outline only. Neither is part of the completed Release 1 reading route.
+is a scope note only. Neither is part of the completed Parts I–II reading route
+or a substitute for a completed Part III sequence.
 
 ## What to use now
 
 For current independent foundations, use [Part II](index.md): arrays,
-visualization, tests, and small scientific types. This guide will link to a
-complete Part III sequence when that sequence exists.
+visualization, tests, and small scientific types. Its [recap](synthesis.md)
+helps trace a claim from representation through evidence before later data
+work adds records and provenance. This guide will link to a complete Part III
+sequence when that sequence exists.

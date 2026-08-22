@@ -11,6 +11,14 @@ that runs is therefore not enough: another reader must be able to identify its
 environment, numerical assumptions, algorithmic decisions, and interpretation.
 Part I supplies the first tools for that work.
 
+## A return route, not another chapter
+
+Use this page after a first pass through Chapters 1–6, or return when a result
+is difficult to trust. It does not introduce a second set of techniques to
+memorize. Instead, it helps you identify the first assumption worth inspecting:
+the environment, the numerical representation, the control logic, the data
+representation, the function contract, or the boundary around shared state.
+
 ## Six chapters, one architecture
 
 | Chapter | What it helps you establish |
@@ -46,5 +54,7 @@ reader outside the original domain.
 Part I is not a checklist to finish once. Return when a computation is hard to
 trust, then use the relevant chapter as a diagnostic reference. Next, continue
 to [Part II: Arrays, Visualization, and Reliable Computing](../04-scientific-computing/index.md),
-where these habits become tools for inspecting arrays, figures, and numerical
-behavior.
+where these habits become tools for inspecting arrays, figures, numerical
+behavior, and small scientific types. Part II assumes these foundations; it
+does not replace the environment, numerical, or contract checks established
+here.

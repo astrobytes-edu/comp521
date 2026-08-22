@@ -11,18 +11,18 @@ contract.
 
 ## How to use this part
 
-Each chapter begins with a compact core route: a scientific question, the ideas
-needed to answer it, a worked example, and a **predict → run → explain → revise**
-activity. Read that route first. Sections labelled **Deep dive / reference**
-preserve useful detail for the moment when you have a concrete need; they are not
-a second hidden prerequisite sequence.
+Read the numbered chapters in order on a first pass. Their examples differ, but
+they share one habit: make an assumption visible, inspect what the program
+actually did, and revise the claim when the evidence demands it. **Deep Dive**
+and **Reference** sections preserve useful detail for the moment when you have
+a concrete need; they are not a second hidden prerequisite sequence.
 
 ### First reading
 
 Read [Chapter 1](01-python-environment.md) through
-[Chapter 5](05-python-functions-modules.md) in order. Read
-[Chapter 6](06-oop-fundamentals.md) when a scientific entity genuinely needs
-state and behavior together.
+[Chapter 6](06-oop-fundamentals.md) in order. Chapter 6 completes the first
+pass by asking when shared state and behavior need an explicit boundary; that
+question returns in Part II when Chapter 10 develops small scientific types.
 
 | Chapter | Central question | Return when… |
 |---|---|---|
@@ -73,10 +73,7 @@ code.
 
 ## Next connection
 
-When these foundations feel familiar, continue to
-[Part II: Arrays, Visualization, and Reliable Computing](../04-scientific-computing/index.md).
-Its chapters use arrays and figures to inspect scientific evidence, then extend
-the same reliability habits to numerical behavior and small scientific types.
-
-For a diagnostic recap of Part I, see
-[Part I Recap — Trustworthy Scientific Programming](synthesis.md).
+Finish the first pass with [Part I Recap — Trustworthy Scientific Programming](synthesis.md).
+Then continue to [Part II: Arrays, Visualization, and Reliable Computing](../04-scientific-computing/index.md),
+where the same reliability habits become tools for inspecting arrays, figures,
+numerical behavior, and small scientific types.

@@ -11,11 +11,11 @@ and checks visible enough that another reader can question the result.
 
 ## How to use this part
 
-Read Chapters 7–10 in order on a first pass. Each begins with a compact core:
-a scientific question, the ideas needed to answer it safely, a small worked
-example, and a predict → run/inspect → explain → revise check. The remaining
-material is marked **Deep dive / reference**. It is there when a concrete
-problem demands it; it is not a hidden prerequisite for the core.
+Read Chapters 7–10 in order on a first pass. The route moves from a numerical
+representation, to an evidence-bearing figure, to tests of stated behavior,
+and finally to a small type that protects a recurring contract. **Deep Dive**
+and **Reference** sections remain available when a concrete problem demands
+them; they are not hidden prerequisites for the core.
 
 On a return visit, begin with the question that matches the problem in front of
 you:
@@ -61,9 +61,19 @@ The transferable skill is always the same: inspect the representation, make a
 claim proportionate to the evidence, and add a check that could expose a
 mistake.
 
+## The throughline: an evidence trail
+
+A trustworthy scientific result has more than one checkpoint. Chapter 7 asks
+whether an array has the intended shape, dtype, and values. Chapter 8 asks what
+a figure lets a reader see. Chapter 9 asks what the program's tests establish.
+Chapter 10 asks whether a repeated scientific assumption has a visible boundary.
+Together, those questions trace an evidence trail from stored values to a claim
+another reader can inspect.
+
 ## What comes next
 
-[Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md)
-is in development. It will extend these habits to data provenance, tables,
+Finish this first pass with [Part II Recap — Inspectable Scientific Evidence](synthesis.md).
+[Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md) is
+in development. It will extend these habits to data provenance, tables,
 cleaning decisions, exploratory analysis, and query workflows; it is not part
 of this completed Part II route.
