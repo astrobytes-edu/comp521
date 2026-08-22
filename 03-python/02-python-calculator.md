@@ -187,7 +187,7 @@ print(f"int(-17/3) = {int(-17/3)} (truncates toward zero)")
 print(f"-17 // 3 = {-17 // 3} (floors toward -infinity)")
 ```
 
-:::{warning} Common Bug Alert: Negative Floor Division
+:::{important} Common Bug Alert: Negative Floor Division
 
 Floor division with negative numbers often surprises programmers calculating phases or time intervals before an epoch. When working with values that can be negative, always test your edge cases or use `int(a/b)` for truncation toward zero.
 :::
@@ -723,7 +723,7 @@ The key insight: the same problem can be easy or impossible depending on your re
 Remember: transforming to a different space isn't cheating — it's often the mathematically correct approach that reveals the true structure of your problem.
 :::
 
-:::{warning} Common Bug Alert: Silent Underflow
+:::{important} Common Bug Alert: Silent Underflow
 
 Unlike **overflow**, **underflow** to zero is silent — no error is raised!
 

@@ -378,7 +378,7 @@ The impact was profound but gradual. Simula influenced Smalltalk in the 1970s, t
 *[Sources: Dahl & Nygaard (1978). "The development of the SIMULA languages." ACM SIGPLAN Notices; Kay, A. (2003). Email to Stefan Ram on OOP definition]*
 :::
 
-:::{warning} ⚠️ Common Bug Alert: Forgetting self
+:::{important} Common Bug Alert: Forgetting self
 
 ```python
 # WRONG - Missing self parameter
@@ -1171,7 +1171,7 @@ You get an `AttributeError` because the property has no setter (the exact messag
 :::
 ::::
 
-:::{warning} Common Bug Alert: Property Recursion
+:::{important} Common Bug Alert: Property Recursion
 
 ```python
 # WRONG - Infinite recursion!
@@ -1465,7 +1465,7 @@ their own documented interoperability protocols.
 
 Now that you understand HOW to create classes with all their powerful features - properties for validation, special methods for integration, inheritance for code reuse (Chapter 10) - you need wisdom about WHEN to use them. Not every problem needs objects. Creating unnecessary classes can make code harder to understand, not easier. The art of programming lies in choosing the right tool for the right job.
 
-:::{warning} ⚠️ OOP Is a Tool, Not a Requirement
+:::{important} OOP Is a Tool, Not a Requirement
 
 Learning OOP does **not** mean you should use classes everywhere. Many scientific computations are better expressed as pure functions:
 
@@ -1583,7 +1583,7 @@ example_galaxy = Galaxy("Illustrative low-redshift galaxy", 43.0, 0.01)
 print(f"Lookback estimate: {example_galaxy.lookback_time_gyr():.2f} Gyr")
 ```
 
-:::{warning} Modeling boundary: a small-redshift estimate is not cosmology
+:::{important} Modeling boundary: a small-redshift estimate is not cosmology
 
 The `Galaxy` methods use $v \approx cz$ and $t \approx z/H_0$, which are
 low-redshift approximations with an adopted value of $H_0$. They are useful for

@@ -33,6 +33,13 @@ def test_completed_chapter_exposes_reader_contract(path):
     assert text.count("## Prerequisites") == 1
 
 
+@pytest.mark.parametrize("path", PART_I_II_CHAPTERS)
+def test_completed_chapters_use_no_warning_directives(path):
+    text = (ROOT / path).read_text()
+    assert not re.search(r"^:{3,}\{warning\}", text, flags=re.MULTILINE)
+    assert not re.search(r"^:{3,}\{[^}]+\} .*⚠️", text, flags=re.MULTILINE)
+
+
 def test_part_i_and_ii_guides_are_course_agnostic_and_truthful():
     part_i = (ROOT / "03-python/index.md").read_text()
     part_ii = (ROOT / "04-scientific-computing/index.md").read_text()

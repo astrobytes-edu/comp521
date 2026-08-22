@@ -766,7 +766,7 @@ print(f"  75th: {np.percentile(data, 75):.2f}")
 print(f"  95th: {np.percentile(data, 95):.2f}")
 ```
 
-:::{warning} ⚠️ Common Bug Alert: Integer Division Trap
+:::{important} Common Bug Alert: Integer Division Trap
 
 ```python
 # DANGER: Integer arrays can cause unexpected results!
@@ -948,7 +948,7 @@ print(f"Finite check: {np.isfinite(test_array)}")
 
 Real scientific data is messy. Telescope observations have bad pixels, surveys have non-detections, and data pipelines occasionally produce invalid values. NumPy's `np.nan` (Not a Number) can represent a missing or invalid floating-point value, but it does not record *why* the value is absent. Preserve quality flags and the data product's missingness convention alongside the array.
 
-:::{warning} ⚠️ NaN Propagation Warning
+:::{important} NaN Propagation
 
 NaN values propagate through calculations silently—one NaN can contaminate an entire analysis!
 
@@ -1285,7 +1285,7 @@ print(f"Corrected left half: {calibrated[:, :50].mean():.1f} electrons")
 print(f"Corrected right half: {calibrated[:, 50:].mean():.1f} electrons")
 ```
 
-:::{warning} ⚠️ Common Bug Alert: Broadcasting Shape Mismatch
+:::{important} Common Bug Alert: Broadcasting Shape Mismatch
 
 ```python
 # Common mistake: incompatible shapes
@@ -2220,7 +2220,7 @@ Use `np.empty()` only when you'll immediately overwrite all values. Otherwise, y
 
 ### NumPy Gotchas: Top 5 Student Mistakes
 
-:::{warning} ⚠️ Common NumPy Pitfalls
+:::{important} Common NumPy Pitfalls
 
 1. **Integer division with integer arrays**
    ```python

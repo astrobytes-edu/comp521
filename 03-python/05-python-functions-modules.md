@@ -304,7 +304,7 @@ caller still decides whether the Newtonian approximation is appropriate for the
 physical regime.
 :::
 
-:::{warning} Modeling boundary: Newtonian kinetic energy is not a relativistic model
+:::{important} Modeling boundary: Newtonian kinetic energy is not a relativistic model
 
 The expression $E = \tfrac12 mv^2$ is a useful low-speed approximation. The
 example uses $v = 0.01c$, where that approximation is well controlled; this
@@ -599,7 +599,7 @@ print(f"Day 2: {day2}")  # Contains BOTH days!
 print(f"Same list? {day1 is day2}")  # True - it's the same object!
 ```
 
-:::{warning} ⚠️ Common Bug Alert: The Mutable Default Disaster
+:::{important} Common Bug Alert: The Mutable Default Disaster
 
 **The symptom:** data from earlier calls mysteriously appears in a new
 calculation. In a scientific workflow, that can make independent runs look as
@@ -1077,7 +1077,7 @@ increment_with_global()
 print(f"Global counter: {counter}")
 ```
 
-:::{warning} ⚠️ Common Bug Alert: `UnboundLocalError`
+:::{important} Common Bug Alert: `UnboundLocalError`
 
 The error happens because Python sees you're assigning to `counter`, assumes it's local, but then can't find a local value to increment.
 

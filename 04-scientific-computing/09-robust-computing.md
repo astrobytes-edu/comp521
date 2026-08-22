@@ -468,7 +468,7 @@ def calculate_schwarzschild_radius_correct(mass):
     return r_s
 ```
 
-:::{warning} Common Bug Alert: The Silent Except
+:::{important} Common Bug Alert: The Silent Except
 
 ```python
 # THE WORST ANTI-PATTERN IN PYTHON
@@ -1344,7 +1344,7 @@ This is a Doppler-equivalent velocity convention. Do **not** use it as a
 general conversion from cosmological redshift to a unique recession velocity;
 that interpretation depends on the cosmological model and coordinates.
 
-:::{warning} Common Bug Alert: Floating Point Comparison
+:::{important} Common Bug Alert: Floating Point Comparison
 
 Avoid `==` when assessing the result of a floating-point calculation unless
 exactness is part of the documented contract.

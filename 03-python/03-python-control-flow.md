@@ -534,7 +534,7 @@ print(math.isclose(
 # Chapter 2 develops why these two contracts are not interchangeable.
 ```
 
-:::{warning} ⚠️ Common Bug Alert: The Equality Trap
+:::{important} Common Bug Alert: The Equality Trap
 
 For a computed floating-point quantity, use `==` only when exact equality is the
 stated contract. When the scientific question is “close enough,” state and use
@@ -1112,7 +1112,7 @@ for i in range(len(data_2d)):
             print(f"Peak at ({i},{j}): value={data_2d[i][j]}")
 ```
 
-:::{warning} ⚠️ Common Bug Alert: Off-by-One Errors
+:::{important} Common Bug Alert: Off-by-One Errors
 
 The most common bug in all of programming! Python's zero-indexing catches everyone:
 
@@ -1136,7 +1136,7 @@ for i in range(len(observations) + 1):  # IndexError on last iteration!
 Off-by-one errors show up everywhere. Double-check your ranges!
 :::
 
-:::{warning} ⚠️ Common Bug Alert: Infinite While Loops
+:::{important} Common Bug Alert: Infinite While Loops
 
 Don't worry — everyone writes an infinite loop occasionally! Here are two common causes:
 
@@ -1422,7 +1422,7 @@ print(f"Average magnitude: {avg:.2f}")
 # This means they should NEVER be used for actual validation!
 ```
 
-:::{warning} ⚠️ Critical Warning: Assertions Are Not for Production!
+:::{important} Assertions Are Not Production Input Validation
 
 **Never use assertions for user input validation or critical checks!** Assertions can be completely disabled when Python runs with optimization (`python -O`), causing them to be skipped entirely.
 

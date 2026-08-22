@@ -185,7 +185,7 @@ and installed numerical libraries in front of you. Chapter 7 returns to arrays;
 the performance-reference material later in the book explains how to make a
 fair comparison.
 
-:::{warning} Common Bug Alert: Platform-Specific Timing
+:::{important} Common Bug Alert: Platform-Specific Timing
 :class: dropdown
 
 Timing results vary significantly between machines due to:
@@ -482,7 +482,7 @@ print("\nEach interpreter has its own package set.")
 print("Record the executable instead of assuming an activation command worked.")
 ```
 
-:::{warning} Common Bug Alert: Cluster Python confusion
+:::{important} Common Bug Alert: Cluster Python confusion
 :class: dropdown
 
 **Symptom**: Code works on laptop but fails on computing cluster

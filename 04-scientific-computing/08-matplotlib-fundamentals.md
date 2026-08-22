@@ -1234,7 +1234,7 @@ example knows the simulated measurement uncertainties; a real analysis must
 state where its uncertainty model came from.
 :::
 
-:::{warning} Common Bug Alert: Histogram Binning
+:::{important} Common Bug Alert: Histogram Binning
 
 ```python
 # DANGER: Wrong binning can hide or create features!
@@ -1604,7 +1604,7 @@ plt.show()
 plt.rcParams.update(plt.rcParamsDefault)
 ```
 
-:::{warning} Common Bug Alert: DPI and Figure Sizes
+:::{important} Common Bug Alert: DPI and Figure Sizes
 
 ```python
 # Figure size confusion - physical vs pixel size
@@ -2096,7 +2096,7 @@ img = ds.transfer_functions.shade(agg, cmap='viridis')
 
 Even experienced programmers spend time debugging plots. Here's a quick reference for common issues:
 
-:::{warning} ⚠️ Common Plotting Problems and Solutions
+:::{important} Common Plotting Problems and Solutions
 
 **Problem: Plot appears blank or shows no data**
 ```python

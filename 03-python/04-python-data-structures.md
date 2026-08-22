@@ -309,7 +309,7 @@ tree-shaped container. A tree algorithm needs an approximation policy; a
 spatial hash needs a cell size, occupancy distribution, adjacent-cell search,
 and final distance criterion.
 
-:::{warning} Modeling boundary: a lookup is not a neighbor algorithm
+:::{important} Modeling boundary: a lookup is not a neighbor algorithm
 
 A dictionary can give average-case O(1) access to a **known cell key**. It does
 not guarantee O(1) neighbor finding: a physical query may inspect multiple
@@ -417,7 +417,7 @@ Objects whose state cannot be modified after creation
 
 What if you need to guarantee that initial conditions or physical constants won't change during your simulation? Enter **tuples** - Python's **immutable** sequences. This isn't a limitation - it's protection against an entire category of bugs that plague scientific codes!
 
-:::{warning} ⚠️ Common Bug Alert: The Accidental Modification Disaster
+:::{important} Common Bug Alert: The Accidental Modification Disaster
 
 One of the most insidious bugs in computational physics happens when functions unexpectedly modify their inputs. Remember the defensive programming principles from Chapter 1? Here's why they matter:
 
@@ -876,7 +876,7 @@ print("A mapping lets an application find a record from a known identifier.")
 
 Let's demystify the average-case lookup mechanism used by **dictionaries**:
 
-:::{warning} ⚠️ Average-Case vs Worst-Case Complexity
+:::{important} Average-Case vs Worst-Case Complexity
 
 Dictionary and set operations are **average-case O(1)**, not guaranteed O(1). In pathological cases with many hash collisions, lookups can degrade to **O(n)**. This happens when:
 
@@ -1216,7 +1216,7 @@ cache hit means for the calculation.
 [^mesa]: Paxton et al. (2011). "Modules for Experiments in Stellar Astrophysics (MESA)." *ApJS*, 192, 3.
 :::
 
-:::{warning} ⚠️ Common Bug Alert: The Iteration Modification Trap
+:::{important} Common Bug Alert: The Iteration Modification Trap
 
 Never modify a collection while iterating - a common bug in particle removal:
 
