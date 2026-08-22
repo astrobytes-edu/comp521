@@ -841,6 +841,32 @@ def test_chapter_8_scales_uncertainty_and_pixel_examples_state_valid_contracts()
     assert "np.abs(data)" not in chapter
     assert "Modeling boundary: scales and transformations" in chapter
 
+    experimentation_code = code_block_containing(chapter_path, "pareto_shape = salpeter_slope - 1")
+    experimentation_namespace = {"np": np, "plt": plt}
+    exec(experimentation_code, experimentation_namespace)
+    assert experimentation_namespace["masses"].min() >= experimentation_namespace["minimum_mass_solar"]
+    assert np.all(experimentation_namespace["luminosities"] > 0)
+    assert "Synthetic teaching sample, not a stellar catalog or population model" in chapter
+    assert "rng.pareto(2.35, 1000)" not in chapter
+
+    luminosity_function_code = code_block_containing(chapter_path, "shape-only Schechter-style luminosity-function")
+    luminosity_function_namespace = {"np": np, "plt": plt}
+    exec(luminosity_function_code, luminosity_function_namespace)
+    assert np.all(luminosity_function_namespace["relative_phi"] > 0)
+    assert luminosity_function_namespace["axes"][0, 0].get_ylabel() == (
+        "Relative number density (arbitrary normalization)"
+    )
+    assert "not a calibrated number-density estimate" in chapter
+    assert "Synthetic stellar-spectrum teaching model, not a calibrated observation" in chapter
+    assert "H-alpha, H-beta, and H-gamma" in chapter
+    assert "np.random.seed(123)" not in chapter
+
+    anatomy_code = code_block_containing(chapter_path, "Anatomy of a Matplotlib Figure")
+    anatomy_namespace = {"np": np, "plt": plt}
+    exec(anatomy_code, anatomy_namespace)
+    assert anatomy_namespace["Y3"].shape == anatomy_namespace["X"].shape
+    assert "rng.uniform(np.minimum(Y1, Y2), np.maximum(Y1, Y2))" in chapter
+
     uncertainty_code = code_block_after(chapter_path, "### Error Bars: Proper Uncertainty Visualization")
     uncertainty_namespace = {"np": np, "plt": plt}
     exec(uncertainty_code, uncertainty_namespace)

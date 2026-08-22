@@ -142,8 +142,8 @@ ax1.set_title('Default: Technically Correct')
 ax2.plot(time, signal, color='#2E86AB', linewidth=2, alpha=0.8)
 ax2.fill_between(time, signal, alpha=0.2, color='#2E86AB')
 ax2.axhline(y=0, color='#A23B72', linestyle='-', linewidth=0.5, alpha=0.5)
-ax2.set_xlabel('Time (s)', fontsize=11, fontweight='light')
-ax2.set_ylabel('Amplitude', fontsize=11, fontweight='light')
+ax2.set_xlabel('Time (s)', fontsize=11)
+ax2.set_ylabel('Amplitude', fontsize=11)
 ax2.set_title('Artistic: Same Data, Better Story', fontsize=13, fontweight='bold')
 ax2.grid(True, alpha=0.15, linestyle='-', linewidth=0.5)
 ax2.spines['top'].set_visible(False)
@@ -170,11 +170,14 @@ Creating effective visualizations requires **experimentation**. You rarely get i
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Real data: stellar magnitudes with a power-law distribution
+# Synthetic teaching sample, not a stellar catalog or population model.
+# For dN/dM ∝ M^(-2.35), NumPy's Pareto-II shape is 2.35 - 1.
 rng = np.random.default_rng(42)
-masses = rng.pareto(2.35, 1000) + 0.1  # Stellar IMF (Salpeter 1955)
-luminosities = masses ** 3.5  # Mass-luminosity relation
-luminosities += rng.normal(0, 0.1 * luminosities)  # Add scatter
+salpeter_slope = 2.35
+minimum_mass_solar = 0.1
+pareto_shape = salpeter_slope - 1
+masses = minimum_mass_solar * (rng.pareto(pareto_shape, 1000) + 1)
+luminosities = masses ** 3.5 * np.exp(rng.normal(0, 0.1, len(masses)))
 
 # Try different visualizations to find what reveals the pattern best
 fig, axes = plt.subplots(2, 3, figsize=(12, 8))
@@ -239,6 +242,11 @@ print("easier to inspect than the linear display. Compare representations delibe
 
 *Experimenting with different visualizations reveals hidden patterns*
 
+The sample is deliberately synthetic: its lower mass cutoff, power-law slope,
+mass--luminosity exponent, and multiplicative scatter are teaching choices,
+not a calibrated stellar-population model. The point is to compare displays of
+a positive power-law relationship while keeping the assumptions inspectable.
+
 :::{note} The More You Know: How Residual Plots Clarified Supernova Evidence
 :class: dropdown
 
@@ -294,12 +302,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator, FuncFormatter
 
-np.random.seed(123)
+rng = np.random.default_rng(123)
 
 X = np.linspace(0.5, 3.5, 100)
 Y1 = 3 + np.cos(X)
 Y2 = 1 + np.cos(1 + X/0.75)/2
-Y3 = np.random.uniform(Y1, Y2, len(X))
+# The curves cross, so name valid elementwise lower and upper bounds.
+Y3 = rng.uniform(np.minimum(Y1, Y2), np.maximum(Y1, Y2))
 
 fig = plt.figure(figsize=(8, 8), facecolor="w")
 ax = fig.add_subplot(1, 1, 1, aspect=1)
@@ -681,46 +690,48 @@ a straight line as scientific evidence.
 ### Practical Guidelines for Scale Selection
 
 ```python
-# Real astronomical example: Galaxy luminosity function
+# Synthetic, shape-only Schechter-style luminosity-function example.
+# It illustrates scale choice; it is not a calibrated number-density estimate.
 rng = np.random.default_rng(42)
 
 # Schechter function parameters (Schechter 1976)
 L_star = 1e10  # Characteristic luminosity
 alpha = -1.25  # Faint-end slope
-phi_star = 0.01  # Normalization
 
-# Generate galaxy luminosities
+# Generate a relative luminosity-function shape and multiplicative scatter.
 L = np.logspace(7, 12, 1000)
-phi = phi_star * (L/L_star)**alpha * np.exp(-L/L_star)
+relative_phi = (L/L_star)**alpha * np.exp(-L/L_star)
 
-# Add observational scatter
-observed_phi = phi * rng.lognormal(0, 0.2, len(phi))
+# This is synthetic scatter, not observational uncertainty.
+observed_relative_phi = relative_phi * rng.lognormal(0, 0.2, len(relative_phi))
 
 fig, axes = plt.subplots(2, 2, figsize=(10, 10))
 
 # Linear scale - useless for this data
-axes[0, 0].plot(L, observed_phi, '.', markersize=1, alpha=0.5)
+axes[0, 0].plot(L, observed_relative_phi, '.', markersize=1, alpha=0.5)
 axes[0, 0].set_xlabel(r'Luminosity [$L_\odot$]')
-axes[0, 0].set_ylabel('Phi (Number density)')
+axes[0, 0].set_ylabel('Relative number density (arbitrary normalization)')
 axes[0, 0].set_title('Linear Scale: Cannot See Structure')
 
 # Log-log - reveals power law at faint end
-axes[0, 1].loglog(L, observed_phi, '.', markersize=1, alpha=0.5, label='Data')
-axes[0, 1].loglog(L, phi, 'r-', linewidth=2, label='Schechter Function')
+axes[0, 1].loglog(L, observed_relative_phi, '.', markersize=1, alpha=0.5,
+                  label='Synthetic sample')
+axes[0, 1].loglog(L, relative_phi, 'r-', linewidth=2,
+                  label='Schechter-style shape')
 axes[0, 1].set_xlabel(r'Luminosity [$L_\odot$]')
-axes[0, 1].set_ylabel('Phi (Number density)')
+axes[0, 1].set_ylabel('Relative number density (arbitrary normalization)')
 axes[0, 1].set_title('Log-Log: Reveals Power Law + Exponential Cutoff')
 axes[0, 1].legend()
 
 # Semilog-y - emphasizes exponential cutoff
-axes[1, 0].semilogx(L, observed_phi, '.', markersize=1, alpha=0.5)
-axes[1, 0].semilogx(L, phi, 'r-', linewidth=2)
+axes[1, 0].semilogx(L, observed_relative_phi, '.', markersize=1, alpha=0.5)
+axes[1, 0].semilogx(L, relative_phi, 'r-', linewidth=2)
 axes[1, 0].set_xlabel(r'Luminosity [$L_\odot$]')
-axes[1, 0].set_ylabel('Phi (Number density)')
+axes[1, 0].set_ylabel('Relative number density (arbitrary normalization)')
 axes[1, 0].set_title('Semilog-X: Emphasizes Bright End Cutoff')
 
 # Custom: log-log with ratio to model
-ratio = observed_phi / phi
+ratio = observed_relative_phi / relative_phi
 axes[1, 1].semilogx(L, ratio, '.', markersize=1, alpha=0.5)
 axes[1, 1].axhline(y=1, color='red', linestyle='--', linewidth=2)
 axes[1, 1].set_xlabel(r'Luminosity [$L_\odot$]')
@@ -1063,12 +1074,12 @@ A plot showing intensity as a function of wavelength or frequency.
 **Line plots** are workhorses for scientific data:
 
 ```python
-# Generate realistic stellar spectrum
+# Synthetic stellar-spectrum teaching model, not a calibrated observation.
 rng = np.random.default_rng(42)
 wavelength = np.linspace(4000, 7000, 1000)  # Angstroms
 continuum = 1 - 0.0001 * (wavelength - 5500)**2 / 1e6  # Continuum shape
 
-# Add absorption lines (H-alpha, H-beta, etc.)
+# Add toy absorption features at H-alpha, H-beta, and H-gamma.
 lines = [(6563, 50, 0.3), (4861, 30, 0.25), (4340, 25, 0.2)]  # center, width, depth
 spectrum = continuum.copy()
 for center, width, depth in lines:
@@ -1080,7 +1091,7 @@ spectrum += rng.normal(0, 0.01, len(wavelength))
 # Create publication-quality spectrum plot
 fig, ax = plt.subplots(figsize=(12, 5))
 
-ax.plot(wavelength, spectrum, 'k-', linewidth=0.8, label='Observed')
+ax.plot(wavelength, spectrum, 'k-', linewidth=0.8, label='Synthetic flux')
 ax.axhline(y=1, color='gray', linestyle='--', alpha=0.5, label='Continuum')
 
 # Mark important lines
@@ -1091,7 +1102,7 @@ for center, width, depth in lines:
 
 ax.set_xlabel('Wavelength (Å)', fontsize=12)
 ax.set_ylabel('Normalized Flux', fontsize=12)
-ax.set_title('Stellar Spectrum with Balmer Lines', fontsize=14)
+ax.set_title('Synthetic Stellar Spectrum with Balmer Lines', fontsize=14)
 ax.set_xlim(4000, 7000)
 ax.set_ylim(0.6, 1.1)
 ax.grid(True, alpha=0.2)
