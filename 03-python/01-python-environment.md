@@ -39,6 +39,18 @@ Picture this: You download code from a groundbreaking scientific paper, eager to
 
 This chapter reveals the hidden machinery that makes Python work (or not work) on your computer. You'll learn how to identify the Python that actually ran your code, use **IPython** for focused exploration, recognize the risks of **Jupyter notebook** state, and record enough context for a collaborator to investigate a disagreement. These aren't just technical skills — they're part of trustworthy scientific research.
 
+```{figure} ../assets/textbook-figures/ch01-provenance-chain.svg
+:name: ch01-provenance-chain
+:alt: A chain moves from source values through the computational environment and calculation to an interpreted result, with a provenance record supporting the chain.
+:width: 100%
+
+A scientific result needs a visible provenance chain: the data and assumptions, the environment that ran the work, the calculation, and the interpretation.
+```
+
+What to notice: a discrepancy can originate at any link. Recording the interpreter,
+package versions, inputs, and command does not prove a conclusion; it gives another
+reader somewhere concrete to begin investigating it.
+
 By chapter's end, you'll have a practical way to diagnose common environment
 problems, describe the difference between exploration and reproducible science,
 and record enough environment information for another reader to investigate a

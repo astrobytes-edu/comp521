@@ -56,6 +56,18 @@ You've mastered functions to organize behavior and modules to organize related f
 
 This chapter introduces OOP's essential concepts through practical scientific examples. You'll learn to create classes (blueprints for objects), instantiate objects (specific instances), and define methods (functions attached to objects). We'll explore how properties provide computed attributes and validation, making declared local scientific constraints visible and enforceable along the paths a class controls. Most importantly, you'll develop judgment about when OOP clarifies code (managing stateful systems, modeling entities) versus when it adds unnecessary complexity (simple calculations, stateless transformations). By the end, you'll understand why NumPy arrays are objects with methods, setting the foundation for leveraging Python's scientific ecosystem.
 
+```{figure} ../assets/textbook-figures/ch06-object-state.svg
+:name: ch06-object-state
+:alt: A Particle class blueprint specifies state, an invariant, and methods; an instance holds one particle's mass, position, and velocity and can update its own state.
+:width: 100%
+
+A class can keep related state, behavior, and local invariants together when that makes the model easier to inspect.
+```
+
+What to notice: an invariant enforced by a class is a software promise about the
+paths the class controls. It cannot, by itself, establish that the chosen model
+or measurements are physically adequate.
+
 :::{tip} TL;DR — Why This Chapter Matters
 
 OOP isn't about syntax — it can help manage systems where data and behavior must

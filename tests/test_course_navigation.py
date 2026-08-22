@@ -40,6 +40,40 @@ def test_completed_chapters_use_no_warning_directives(path):
     assert not re.search(r"^:{3,}\{[^}]+\} .*⚠️", text, flags=re.MULTILINE)
 
 
+FOUNDATION_FIGURES = (
+    ("03-python/01-python-environment.md", "ch01-provenance-chain.svg"),
+    ("03-python/02-python-calculator.md", "ch02-finite-precision.svg"),
+    ("03-python/03-python-control-flow.md", "ch03-bounded-convergence.svg"),
+    ("03-python/04-python-data-structures.md", "ch04-representation-scaling.svg"),
+    ("03-python/05-python-functions-modules.md", "ch05-function-contract.svg"),
+    ("03-python/06-oop-fundamentals.md", "ch06-object-state.svg"),
+    ("04-scientific-computing/07-numpy-fundamentals.md", "ch07-array-model.svg"),
+)
+
+
+@pytest.mark.parametrize(("chapter_path", "asset_name"), FOUNDATION_FIGURES)
+def test_foundation_figure_spine_is_accessible_and_linked(chapter_path, asset_name):
+    chapter = (ROOT / chapter_path).read_text()
+    asset = ROOT / "assets" / "textbook-figures" / asset_name
+    figure_path = f"../assets/textbook-figures/{asset_name}"
+
+    assert f"```{{figure}} {figure_path}" in chapter
+    assert ":alt:" in chapter
+    assert asset.is_file()
+
+    svg = asset.read_text()
+    assert "<title" in svg
+    assert "<desc" in svg
+
+
+def test_chapter_four_uses_a_static_scaling_figure_before_matplotlib():
+    chapter = (ROOT / "03-python/04-python-data-structures.md").read_text()
+
+    assert "ch04-representation-scaling.svg" in chapter
+    assert "import matplotlib.pyplot as plt" not in chapter
+    assert "Visualization: Big-O Scaling" not in chapter
+
+
 def test_part_i_and_ii_guides_are_course_agnostic_and_truthful():
     part_i = (ROOT / "03-python/index.md").read_text()
     part_ii = (ROOT / "04-scientific-computing/index.md").read_text()

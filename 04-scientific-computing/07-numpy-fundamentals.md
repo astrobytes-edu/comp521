@@ -15,6 +15,18 @@ You've been using Python lists to store collections of numbers, and the math mod
 
 This chapter introduces you to NumPy's ndarray (n-dimensional array), the object that makes scientific Python possible. You'll discover why NumPy arrays are often much faster than Python lists for numerical operations, and how **vectorization** eliminates the need for most explicit loops. You'll master **broadcasting**, NumPy's powerful mechanism for operating on arrays of different shapes, which enables elegant solutions to complex problems. Most importantly, you'll learn to think in arrays – a skill that transforms you from someone who writes code that processes data to someone who writes code that expresses mathematical ideas directly. The examples lean astro‑flavored, but the patterns apply just as well to climate, biology, imaging, and signal processing.
 
+```{figure} ../assets/textbook-figures/ch07-array-model.svg
+:name: ch07-array-model
+:alt: A two-dimensional photometry array has star and filter axes, a boolean quality mask selects rows, and a reminder explains that slices may share memory while fancy indexing makes a copy.
+:width: 100%
+
+In NumPy, shape, dtype, selection rule, and memory ownership are part of the data model—not incidental implementation detail.
+```
+
+What to notice: a mask preserves the axes it selects from, while a slice and a
+fancy-indexed result can differ in whether later mutation is shared. Inspect
+shape, dtype, and memory ownership before treating an array operation as routine.
+
 For a first reading, follow Sections 7.1–7.7 in order. Return to the Deep Dives when a project needs random sampling, grids, sampled signals, or a measured performance decision; use the Reference when you need an operation or creation function quickly.
 
 ## Try this chapter

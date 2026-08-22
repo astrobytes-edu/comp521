@@ -87,6 +87,18 @@ figures, and interpretation. Restart and run the analysis from a clean kernel
 before relying on its results.
 :::
 
+```{figure} ../assets/textbook-figures/ch05-function-contract.svg
+:name: ch05-function-contract
+:alt: A function contract diagram shows declared inputs entering validation, invalid inputs raising a clear exception, and valid inputs returning a documented result.
+:width: 100%
+
+A scientific function makes its promises inspectable: what inputs it accepts, which failures it rejects, and what the returned value means.
+```
+
+What to notice: validation can establish a local software boundary, such as a
+nonempty sequence or compatible units. It does not certify the scientific model
+that supplied the inputs.
+
 :::{note} How to Use This Chapter
 
 This chapter is a reference. You are not expected to memorize every parameter rule on first read.
@@ -1632,7 +1644,7 @@ print(f"  de Broglie lambda = {wavelength:.2e} cm")
 ```python
 # GOOD: Clear, explicit imports
 import numpy as np
-import matplotlib.pyplot as plt
+from pathlib import Path
 from math import sin, cos, pi
 
 # BAD: Wildcard imports pollute namespace

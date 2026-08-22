@@ -47,6 +47,17 @@ We'll start with the lost art of pseudocode — not as a bureaucratic exercise, 
 5. **Convergence**: iterate until a stopping criterion is met (tolerance, max iterations).
 :::
 
+```{figure} ../assets/textbook-figures/ch03-bounded-convergence.svg
+:name: ch03-bounded-convergence
+:alt: A bounded iterative process begins with declared state, computes a residual, accepts only when the residual meets tolerance, otherwise updates state until either convergence or a maximum-iteration failure outcome.
+:width: 100%
+
+A trustworthy iterative algorithm makes its state, acceptance criterion, and non-convergence outcome explicit.
+```
+
+What to notice: reaching a maximum iteration count is not evidence that a result
+has converged. It is a separate, reportable outcome with a diagnostic trail.
+
 The control flow structures we explore here are where your numerical calculations from Chapter 2 become dynamic algorithms. Every convergence test, every adaptive timestep, every Monte Carlo acceptance criterion depends on mastering these concepts deeply, not just syntactically. By chapter's end, you'll see code not as a sequence of commands, but as a carefully orchestrated flow of decisions and iterations that solve real scientific problems — the same style of thinking used in research pipelines and mission-scale software.
 
 :::{tip} TL;DR — Why This Chapter Matters

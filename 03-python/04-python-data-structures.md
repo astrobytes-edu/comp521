@@ -40,6 +40,18 @@ These concepts prepare you for numerical computing ahead. Typed, contiguous arra
 
 In Chapter 3, you learned how algorithms *flow* through decisions and loops. In Chapter 4, you'll learn how algorithms *scale*—because data structures determine whether your logic runs in seconds or in days.
 
+```{figure} ../assets/textbook-figures/ch04-representation-scaling.svg
+:name: ch04-representation-scaling
+:alt: Two names refer to one mutable list, and adjacent illustrative curves compare constant, logarithmic, linear, n log n, and quadratic operation-count growth.
+:width: 100%
+
+Representation choices affect both correctness and feasibility: shared mutable state changes through every alias, while algorithmic growth can dominate a workload as its input grows.
+```
+
+What to notice: neither panel is a performance benchmark. The growth curves are
+illustrative operation counts; actual runtime also depends on the workload,
+implementation, data layout, hardware, and measurement method.
+
 :::{important} TL;DR — Why This Chapter Is a Turning Point
 
 Most courses teach data structures as a list of methods to memorize. This chapter teaches something more useful: **how to choose a structure that makes your algorithm feasible**.
@@ -252,44 +264,6 @@ Big-O describes how runtime grows with input size—not the exact speed—so con
 | O(n) | 1,000 ops | 1,000,000 ops | One linear scan or reduction |
 | O(n log n) | 10,000 ops | 20,000,000 ops | Sorting or some tree algorithms |
 | O($\mathrm{n}^{2}$) | 1,000,000 ops | 1,000,000,000,000 ops | All-pairs comparison |
-
-:::{note} 📊 Visualization: Big-O Scaling (click to expand)
-:class: dropdown
-
-This is illustrative static code for an environment with Matplotlib. It plots
-normalized operation-count curves, not timing data from a simulation.
-
-```python
-
-import matplotlib.pyplot as plt
-import math
-
-# Illustrative normalized operation-count curves; not measured runtime.
-n = range(1, 101)
-constant = [1 for _ in n]
-logarithmic = [math.log2(x) if x > 0 else 0 for x in n]
-linear = list(n)
-nlogn = [x * math.log2(x) if x > 0 else 0 for x in n]
-quadratic = [x**2 for x in n]
-
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(n, constant, label='O(1) - Hash table lookup', linewidth=2)
-ax.plot(n, logarithmic, label='O(log n) - Binary search', linewidth=2)
-ax.plot(n, linear, label='O(n) - Linear scan', linewidth=2)
-ax.plot(n, nlogn, label='O(n log n) - Tree codes', linewidth=2, linestyle='--')
-ax.plot(n, quadratic, label='O(n^2) - All-pairs', linewidth=2)
-
-ax.set_xlim(0, 100)
-ax.set_ylim(0, 500)
-ax.set_xlabel('Input size n (arbitrary units)', fontsize=12)
-ax.set_ylabel('Normalized operation count', fontsize=12)
-ax.set_title('Asymptotic Scaling Curves', fontsize=14)
-ax.legend(loc='upper left')
-ax.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.show()
-```
-:::
 
 ```{code-cell} python
 import math

@@ -46,6 +46,18 @@ These fundamentals build numerical intuition: the habit of asking what a
 calculation supports before treating its output as evidence. Every simulation,
 dataset, and statistical test later in the course relies on that habit.
 
+```{figure} ../assets/textbook-figures/ch02-finite-precision.svg
+:name: ch02-finite-precision
+:alt: A number line shows a real value lying between adjacent representable floating-point values, and a comparison region defined by an absolute and relative tolerance.
+:width: 100%
+
+Floating-point values are finite representations. A useful comparison states the scale and tolerance that make two values close enough for the claim at hand.
+```
+
+What to notice: a tolerance is part of the question, not a universal repair for
+numbers that differ. The right choice depends on units, measurement resolution,
+and the consequence of calling two results equivalent.
+
 :::{important} Research practice: before trusting a numerical claim
 
 Before trusting a numerical result, quickly ask:
