@@ -132,6 +132,14 @@ def test_part_i_and_ii_guides_are_course_agnostic_and_truthful():
     assert "[Part II Recap — Inspectable Scientific Evidence](synthesis.md)" in part_ii
 
 
+def test_part_boundaries_send_readers_to_the_recap_before_the_next_part():
+    chapter_six = (ROOT / "03-python/06-oop-fundamentals.md").read_text()
+    chapter_ten = (ROOT / "04-scientific-computing/10-advanced-oop.md").read_text()
+
+    assert "[Part I Recap — Trustworthy Scientific Programming](synthesis.md)" in chapter_six
+    assert "[Part II Recap — Inspectable Scientific Evidence](synthesis.md)" in chapter_ten
+
+
 def test_part_recaps_and_tentative_part_iii_navigation_are_explicit():
     part_i_recap = (ROOT / "03-python/synthesis.md").read_text()
     part_ii_recap = (ROOT / "04-scientific-computing/synthesis.md").read_text()

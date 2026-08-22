@@ -81,6 +81,18 @@ Real failures make the stakes concrete, but they also resist single-cause morals
 
 This chapter teaches you **defensive programming**—writing code that anticipates problems and handles them gracefully. You'll learn to read error messages like a detective reading clues, understanding not just what went wrong but why and where. You'll implement try/except blocks that catch expected errors like missing files or network timeouts without crashing your entire pipeline. You'll validate inputs at function boundaries, checking that values are reasonable and arrays contain actual numbers. You'll use assertions to verify internal invariants during development. When execution records and severity levels matter, you'll use logging rather than scattered diagnostic prints. Finally, you'll write tests that make stated behavior reproducible. A passing test demonstrates that stated behavior under stated conditions; it does not by itself establish physical adequacy, calibration, or scientific validity.
 
+:::{note} Core route through this chapter
+
+For a first reading, follow Sections 9.1–9.7 in order. They form one argument:
+a useful scientific program exposes failures, validates a stated input
+boundary, records diagnostic context, and tests behavior under stated
+conditions.
+
+Return to the reference tables when a concrete error, test, or logging choice
+needs diagnosis. A passing test supports the behavior it names; it does not
+alone establish physical adequacy or scientific validity.
+:::
+
 ## 9.1 Understanding Error Messages
 
 :::{margin}

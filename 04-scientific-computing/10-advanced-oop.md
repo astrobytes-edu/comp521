@@ -486,10 +486,13 @@ is distinct from the physical quantity or model the value may describe.
 
 ### Further reference connection
 
-[Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md)
+Finish Part II with the [Part II Recap — Inspectable Scientific Evidence](synthesis.md).
+It turns Chapters 7–10 into a diagnostic return route for a result that needs
+another check. [Part III: Tabular Data and Reproducible Workflows](part-3-data-workflows.md)
 will extend this chapter's single-entity contracts to collections, schemas,
-quality decisions, and provenance. Part IV will treat APIs, parallelism, and
-larger research software as reference material once those pages are available.
+quality decisions, and provenance; it is not a prerequisite for the completed
+Parts I–II route. Part IV will treat APIs, parallelism, and larger research
+software as reference material once those pages are available.
 
 ## References
 

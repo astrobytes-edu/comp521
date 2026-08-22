@@ -2008,7 +2008,10 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 
 ## Recap and next connection
 
-Part II begins with [Chapter 7: NumPy Fundamentals](../04-scientific-computing/07-numpy-fundamentals.md).
+Finish Part I with the [Part I Recap — Trustworthy Scientific Programming](synthesis.md).
+It turns Chapters 1–6 into a diagnostic return route when a computation is
+hard to trust. Then Part II begins with
+[Chapter 7: NumPy Fundamentals](../04-scientific-computing/07-numpy-fundamentals.md).
 There, arrays provide a different kind of abstraction: many numerical values,
 their shape, and operations over them. Carry forward the same habits—name
 assumptions, protect invariants, and test a known case.

@@ -91,6 +91,17 @@ What to notice: the right panel supports a more precise question, not a larger
 conclusion. Error bars and a label make the candidate dip inspectable; they do
 not establish an astrophysical interpretation, calibration, or detection.
 
+:::{note} Core route through this chapter
+
+For a first reading, work through Sections 8.1–8.7 in order. They build the
+central visual argument: choose a representation, label what it means, make
+scale and uncertainty visible, and test what a reader can actually infer.
+
+Return later to the visualization-tool Deep Dives when a real dataset or
+simulation calls for them. Use the troubleshooting and installation reference
+when a concrete plotting problem gives it purpose.
+:::
+
 :::{important} Essential Resource: Matplotlib Documentation
 
 Matplotlib is vast, and this chapter covers the essential ~20% you'll use 80% of the time. The [official Matplotlib documentation](https://matplotlib.org/) is your comprehensive reference for:
