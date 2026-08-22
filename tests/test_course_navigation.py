@@ -50,15 +50,38 @@ FOUNDATION_FIGURES = (
     ("04-scientific-computing/07-numpy-fundamentals.md", "ch07-array-model.svg"),
 )
 
+PART_II_FIGURES = (
+    ("04-scientific-computing/08-matplotlib-fundamentals.md", "ch08-evidence-ready-plot.svg"),
+    ("04-scientific-computing/08-matplotlib-fundamentals.md", "ch08-normalization-comparison.svg"),
+    ("04-scientific-computing/09-robust-computing.md", "ch09-failure-evidence-path.svg"),
+    ("04-scientific-computing/10-advanced-oop.md", "ch10-composition-boundaries.svg"),
+)
 
 PYTHON_GENERATED_PLOTS = (
     ("03-python/02-python-calculator.md", "ch02-cancellation-stability.svg"),
     ("03-python/04-python-data-structures.md", "ch04-representation-scaling.svg"),
+    ("04-scientific-computing/08-matplotlib-fundamentals.md", "ch08-evidence-ready-plot.svg"),
+    ("04-scientific-computing/08-matplotlib-fundamentals.md", "ch08-normalization-comparison.svg"),
 )
 
 
 @pytest.mark.parametrize(("chapter_path", "asset_name"), FOUNDATION_FIGURES)
 def test_foundation_figure_spine_is_accessible_and_linked(chapter_path, asset_name):
+    chapter = (ROOT / chapter_path).read_text()
+    asset = ROOT / "assets" / "textbook-figures" / asset_name
+    figure_path = f"../assets/textbook-figures/{asset_name}"
+
+    assert f"```{{figure}} {figure_path}" in chapter
+    assert ":alt:" in chapter
+    assert asset.is_file()
+
+    svg = asset.read_text()
+    assert "<title" in svg
+    assert "<desc" in svg
+
+
+@pytest.mark.parametrize(("chapter_path", "asset_name"), PART_II_FIGURES)
+def test_part_ii_figure_assets_are_accessible_and_linked(chapter_path, asset_name):
     chapter = (ROOT / chapter_path).read_text()
     asset = ROOT / "assets" / "textbook-figures" / asset_name
     figure_path = f"../assets/textbook-figures/{asset_name}"

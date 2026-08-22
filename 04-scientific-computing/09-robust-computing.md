@@ -202,20 +202,17 @@ flux = np.array([0.8, 0.6, 0.7, 0.9])
 result = process_spectrum(wave, flux)  # Propagates NaN through everything!
 ```
 
-**Visualization of Error Propagation:**
-```
-Input: wavelength with NaN
-   v
-Step 1: Calibration -> NaN propagates
-   v
-Step 2: Normalization -> NaN in calculation
-   v
-Step 3: Array operations -> NaN spreads
-   v
-Step 4: Integration -> Result is NaN
+```{figure} ../assets/textbook-figures/ch09-failure-evidence-path.svg
+:name: ch09-failure-evidence-path
+:alt: Two paths begin with a wavelength array containing a non-finite value. Without an early check, the NaN propagates through calibration to an integration result of NaN. With a finite-value check, an informative failure records the wavelength field, index 2, and the finite-value rule.
+:width: 100%
 
-Final output: NaN (useless!)
+An early boundary turns a corrupting value into a local, reportable diagnostic.
 ```
+
+What to notice: the check establishes a bounded software fact about this input.
+It does not establish calibration quality, physical validity, or adequacy of the
+scientific model.
 
 ::::{note} Check Your Understanding
 

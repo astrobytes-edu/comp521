@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 570" role="img" aria-labelledby="title desc">
+  <title id="title">An early boundary turns a propagated failure into evidence</title>
+  <desc id="desc">Two paths start with a non-finite wavelength value. The unvalidated path passes the value through calibration and integration to a non-finite result. The early-boundary path checks finiteness, stops with an informative error, and records the failing field, index, and rule.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="#2563EB"/></marker>
+    <style>.h{font:700 25px system-ui,sans-serif;fill:#0F172A}.l{font:700 20px system-ui,sans-serif;fill:#172554}.b{font:18px system-ui,sans-serif;fill:#334155}.s{font:16px system-ui,sans-serif;fill:#334155}.box{stroke-width:3;rx:14}.arr{stroke:#2563EB;stroke-width:3;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="600" height="570" fill="#F8FAFC"/>
+  <text class="h" x="35" y="44">A boundary turns failure into evidence</text>
+  <text class="b" x="35" y="74">The same non-finite input can either spread or stop with context.</text>
+  <text class="l" x="55" y="115">Unvalidated path</text>
+  <rect class="box" x="45" y="135" width="220" height="72" fill="#FEE2E2" stroke="#DC2626"/>
+  <text class="b" x="66" y="166">raw wavelength</text><text class="s" x="66" y="191">NaN at index 2</text>
+  <path class="arr" d="M155 209V244"/>
+  <rect class="box" x="45" y="250" width="220" height="66" fill="#FFF7ED" stroke="#D97706"/>
+  <text class="b" x="66" y="280">calibration</text><text class="s" x="66" y="303">NaN propagates</text>
+  <path class="arr" d="M155 318V353"/>
+  <rect class="box" x="45" y="359" width="220" height="76" fill="#FEE2E2" stroke="#DC2626"/>
+  <text class="b" x="66" y="390">integration result</text><text class="l" x="66" y="419">NaN</text>
+  <text class="l" x="335" y="115">Early boundary</text>
+  <rect class="box" x="335" y="135" width="220" height="72" fill="#FEE2E2" stroke="#DC2626"/>
+  <text class="b" x="356" y="166">raw wavelength</text><text class="s" x="356" y="191">NaN at index 2</text>
+  <path class="arr" d="M445 209V244"/>
+  <rect class="box" x="335" y="250" width="220" height="66" fill="#FEF3C7" stroke="#D97706"/>
+  <text class="b" x="356" y="280">finite-value check</text><text class="s" x="356" y="303">reject non-finite input</text>
+  <path class="arr" d="M445 318V353"/>
+  <rect class="box" x="335" y="359" width="220" height="106" fill="#DCFCE7" stroke="#16A34A"/>
+  <text class="b" x="356" y="389">informative failure</text><text class="s" x="356" y="416">field: wavelength</text><text class="s" x="356" y="439">index: 2 · rule: finite</text>
+  <text class="b" x="35" y="515">A local check diagnoses this input.</text>
+  <text class="b" x="35" y="543">It does not validate a scientific model.</text>
+</svg>

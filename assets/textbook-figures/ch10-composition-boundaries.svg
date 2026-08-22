@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 530" role="img" aria-labelledby="title desc">
+  <title id="title">Composition keeps an observation and measurement boundary separate</title>
+  <desc id="desc">An Observation object has a FluxMeasurement. The Observation owns target and instrument identity, while FluxMeasurement owns the local value, unit, and finiteness contract. This is composition, not an inheritance claim that an observation is a flux measurement.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="#2563EB"/></marker>
+    <style>.h{font:700 25px system-ui,sans-serif;fill:#0F172A}.l{font:700 20px system-ui,sans-serif;fill:#172554}.b{font:18px system-ui,sans-serif;fill:#334155}.s{font:16px system-ui,sans-serif;fill:#334155}.box{stroke-width:3;rx:14}.arr{stroke:#2563EB;stroke-width:3;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="600" height="530" fill="#F8FAFC"/>
+  <text class="h" x="35" y="44">Composition keeps concerns separate</text>
+  <text class="b" x="35" y="74">Each type defends the part of the contract it can actually know.</text>
+  <rect class="box" x="65" y="110" width="470" height="134" fill="#DCFCE7" stroke="#16A34A"/>
+  <text class="l" x="98" y="145">Observation</text>
+  <text class="b" x="98" y="180">target: named</text><text class="b" x="98" y="210">instrument_id: stated</text>
+  <text class="s" x="330" y="180">owns one validated</text><text class="s" x="330" y="206">measurement record</text>
+  <path class="arr" d="M300 246V302"/>
+  <text class="b" x="322" y="282">has a</text>
+  <rect class="box" x="125" y="307" width="350" height="130" fill="#DBEAFE" stroke="#2563EB"/>
+  <text class="l" x="158" y="342">FluxMeasurement</text>
+  <text class="b" x="158" y="377">value: finite</text><text class="b" x="158" y="407">unit: stated</text>
+  <text class="b" x="35" y="490">Not “is a”: an Observation is not a FluxMeasurement.</text>
+</svg>

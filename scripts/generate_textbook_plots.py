@@ -1,9 +1,4 @@
-"""Generate the small set of Python-produced plots used before Chapter 8.
-
-The chapters present these as finished artifacts, not as a premature
-Matplotlib lesson. Chapter 8 introduces the plotting API and the judgment
-needed to make and assess plots like these.
-"""
+"""Generate the small set of reproducible Python plots used in the textbook."""
 
 from __future__ import annotations
 
@@ -11,6 +6,7 @@ from html import escape
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
 import numpy as np
 
 
@@ -165,10 +161,151 @@ def make_cancellation_plot() -> None:
     )
 
 
+def make_visual_evidence_plot() -> None:
+    """Contrast the same measurements as marks and as an inspectable claim."""
+    rng = np.random.default_rng(521)
+    hours = np.linspace(0.0, 5.0, 16)
+    uncertainty = np.full_like(hours, 0.0017)
+    transit = 0.010 * np.exp(-0.5 * ((hours - 2.55) / 0.38) ** 2)
+    relative_flux = 1.0 - transit + rng.normal(0.0, uncertainty)
+
+    figure, axes = plt.subplots(2, 1, figsize=(8.4, 8.2), layout="constrained")
+    for axis in axes:
+        configure_axis(axis)
+        axis.set_xlim(-0.15, 5.15)
+        axis.set_ylim(0.984, 1.006)
+
+    axes[0].scatter(hours, relative_flux, color=COLORS["linear"], s=48, zorder=3)
+    axes[0].set_title("Marks without a claim", color=INK, fontsize=18, fontweight="bold", loc="left")
+    axes[0].set_xticks([])
+    axes[0].set_yticks([])
+    axes[0].spines[["left", "bottom"]].set_visible(False)
+    axes[0].grid(False)
+    axes[0].text(
+        0.06,
+        0.08,
+        "What quantity?\nWhat scale?\nHow uncertain?",
+        transform=axes[0].transAxes,
+        color=BODY,
+        fontsize=14,
+        va="bottom",
+    )
+
+    axes[1].errorbar(
+        hours,
+        relative_flux,
+        yerr=uncertainty,
+        fmt="o",
+        color=COLORS["linear"],
+        ecolor="#94A3B8",
+        elinewidth=1.4,
+        capsize=3,
+        markersize=5.5,
+        zorder=3,
+    )
+    axes[1].axhline(1.0, color=BODY, linewidth=1.1, linestyle="--", alpha=0.7)
+    axes[1].set_title("Inspectable measurement", color=INK, fontsize=18, fontweight="bold", loc="left")
+    axes[1].set_xlabel("time since start [h]", fontsize=15)
+    axes[1].set_ylabel("relative flux [normalized]", fontsize=15)
+    axes[1].annotate(
+        "candidate dip",
+        xy=(2.67, relative_flux[8]),
+        xytext=(3.25, 0.9885),
+        color=INK,
+        fontsize=13,
+        arrowprops={"arrowstyle": "-", "color": BODY, "lw": 1.1},
+    )
+    figure.suptitle(
+        "Same data, different evidence",
+        color=INK,
+        fontsize=22,
+        fontweight="bold",
+        x=0.06,
+        ha="left",
+    )
+
+    save_svg(
+        figure,
+        "ch08-evidence-ready-plot.svg",
+        "The same synthetic flux measurements as unlabeled marks and as an inspectable plot",
+        "Two panels show the same synthetic relative-flux measurements. The left panel shows unlabeled blue marks. The right panel supplies time in hours, normalized relative flux, uncertainty bars, a reference level, and an annotation that calls the visible dip a candidate rather than a conclusion.",
+    )
+
+
+def make_normalization_plot() -> None:
+    """Show why normalization is part of the meaning of a 2D figure."""
+    coordinates = np.linspace(-4.0, 4.0, 180)
+    x, y = np.meshgrid(coordinates, coordinates)
+    bright_core = np.exp(-(x**2 + y**2) / 0.55)
+    faint_companion = 0.035 * np.exp(-((x - 2.0) ** 2 + (y + 1.2) ** 2) / 0.18)
+    diffuse_background = 0.004 * np.exp(-(x**2 + y**2) / 8.0)
+    intensity = bright_core + faint_companion + diffuse_background
+
+    figure, axes = plt.subplots(2, 1, figsize=(8.4, 9.0), layout="constrained")
+    for axis in axes:
+        axis.set_facecolor("#F8FAFC")
+        axis.set_xticks([])
+        axis.set_yticks([])
+        for spine in axis.spines.values():
+            spine.set_color(GRID)
+
+    linear_image = axes[0].imshow(intensity, cmap="viridis", origin="lower")
+    axes[0].set_title("Linear normalization", color=INK, fontsize=18, fontweight="bold", loc="left")
+    axes[0].text(
+        0.05,
+        0.06,
+        "bright core dominates",
+        transform=axes[0].transAxes,
+        color="white",
+        fontsize=13,
+        bbox={"boxstyle": "round,pad=0.25", "facecolor": INK, "edgecolor": "none", "alpha": 0.82},
+    )
+    linear_colorbar = figure.colorbar(linear_image, ax=axes[0], fraction=0.046, pad=0.03)
+    linear_colorbar.set_label("synthetic intensity [arbitrary units]", color=BODY, fontsize=13)
+    linear_colorbar.ax.tick_params(labelsize=11, colors=BODY)
+
+    log_image = axes[1].imshow(
+        intensity,
+        cmap="viridis",
+        norm=LogNorm(vmin=intensity.min(), vmax=intensity.max()),
+        origin="lower",
+    )
+    axes[1].set_title("Log normalization", color=INK, fontsize=18, fontweight="bold", loc="left")
+    axes[1].text(
+        0.05,
+        0.06,
+        "faint companion becomes visible",
+        transform=axes[1].transAxes,
+        color="white",
+        fontsize=13,
+        bbox={"boxstyle": "round,pad=0.25", "facecolor": INK, "edgecolor": "none", "alpha": 0.82},
+    )
+    log_colorbar = figure.colorbar(log_image, ax=axes[1], fraction=0.046, pad=0.03)
+    log_colorbar.set_label("synthetic intensity [arbitrary units]", color=BODY, fontsize=13)
+    log_colorbar.ax.tick_params(labelsize=11, colors=BODY)
+    figure.suptitle(
+        "Normalization changes visible structure",
+        color=INK,
+        fontsize=22,
+        fontweight="bold",
+        x=0.06,
+        ha="left",
+    )
+
+    save_svg(
+        figure,
+        "ch08-normalization-comparison.svg",
+        "Linear and logarithmic normalization of the same synthetic two-dimensional intensity field",
+        "Two panels use the same synthetic two-dimensional intensity field and the same perceptually uniform viridis colormap. Linear normalization emphasizes a bright central core, while logarithmic normalization also makes a faint companion feature visible. Both colorbars state that the intensity units are arbitrary.",
+    )
+
+
 def main() -> None:
     """Generate every Python-produced textbook plot deterministically."""
     make_cancellation_plot()
     make_operation_count_plot()
+    make_visual_evidence_plot()
+    make_normalization_plot()
 
 
 if __name__ == "__main__":

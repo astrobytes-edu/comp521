@@ -79,6 +79,18 @@ But here's what many tutorials won't tell you: Matplotlib isn't just a plotting 
 
 This chapter introduces Matplotlib's two main interfaces – **pyplot** for quick exploration and the **object-oriented API** for full control – but focuses on the latter because it's what you'll use for research. You'll master the anatomy of a **figure**, understanding how figures contain **axes**, how axes contain plots, and how every element can be customized. You'll learn the visualization canon: **light curves** that reveal exoplanets, **spectra** that encode stellar chemistry, **color-magnitude diagrams** that map stellar populations, and images that capture the structure of galaxies. Most crucially, you'll develop visualization taste – the ability to choose the right plot type, scale, and layout to honestly and effectively communicate your scientific findings. By the chapter's end, you won't just make plots; you'll craft visual narratives that can stand alongside those historic diagrams that revolutionized science. And you'll have built your own library of plotting functions, turning common visualizations into single function calls that encode your hard-won knowledge about what works.
 
+```{figure} ../assets/textbook-figures/ch08-evidence-ready-plot.svg
+:name: ch08-evidence-ready-plot
+:alt: The same synthetic relative-flux measurements appear first as unlabeled blue marks and then as a plot with time in hours, normalized flux, uncertainty bars, a reference level, and a candidate-dip annotation.
+:width: 100%
+
+The same marks become more inspectable when the quantity, scale, uncertainty, and narrowest warranted language are visible.
+```
+
+What to notice: the right panel supports a more precise question, not a larger
+conclusion. Error bars and a label make the candidate dip inspectable; they do
+not establish an astrophysical interpretation, calibration, or detection.
+
 :::{important} Essential Resource: Matplotlib Documentation
 
 Matplotlib is vast, and this chapter covers the essential ~20% you'll use 80% of the time. The [official Matplotlib documentation](https://matplotlib.org/) is your comprehensive reference for:
@@ -1550,6 +1562,18 @@ plt.show()
 ```
 
 *Comparison of problematic vs perceptually uniform colormaps*
+
+```{figure} ../assets/textbook-figures/ch08-normalization-comparison.svg
+:name: ch08-normalization-comparison
+:alt: The same synthetic two-dimensional intensity field is shown with linear and logarithmic normalization using the viridis colormap. Linear normalization emphasizes a bright core; logarithmic normalization also reveals a faint companion feature.
+:width: 100%
+
+Normalization is a modeling and communication choice: the same field can make different structures inspectable without changing any underlying values.
+```
+
+What to notice: neither normalization is universally more honest. The relevant
+choice depends on the quantity, dynamic range, scientific question, and a
+colorbar that makes the mapping from value to color inspectable.
 
 :::{tip} Design decision: match the colormap to the variable
 

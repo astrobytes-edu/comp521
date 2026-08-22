@@ -214,6 +214,18 @@ kind of flux.” It also lets each type defend its own boundary: the observation
 knows that target and instrument identifiers are stated, while the measurement
 knows about value and unit.
 
+```{figure} ../assets/textbook-figures/ch10-composition-boundaries.svg
+:name: ch10-composition-boundaries
+:alt: An Observation object has a FluxMeasurement. Observation owns the target and instrument identifier; FluxMeasurement owns a finite value and stated unit. The diagram says this is composition, not a claim that an Observation is a FluxMeasurement.
+:width: 100%
+
+Composition gives each type responsibility for the part of the contract it can actually enforce.
+```
+
+What to notice: this local object design makes a boundary inspectable. It does
+not supply detector calibration, an uncertainty model, or a system-level
+provenance record.
+
 ::::{note} Check Your Understanding
 
 Suppose these two constructions have the same values:
