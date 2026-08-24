@@ -48,8 +48,7 @@ SDSU does not award A+ as a final grade, so **the highest course grade is an
 A** — a semester of straight A+ work earns an A.
 
 An A+ is still worth having. Because it counts as 4.3, it lifts your average and
-can offset a weaker piece of work elsewhere. That is the point of it: not a
-higher ceiling, but room to recover from one bad week.
+creates some room to recover from one bad week.
 :::
 
 ### Turning your average into a course grade
@@ -135,8 +134,7 @@ A no matter how many you collect.
 | Component | Weight |
 |:--|--:|
 | Projects (6) | 50% |
-| Final-project proposal pitch | 5% |
-| Final project | 25% |
+| Final project (proposal pitch 5%; finished project 25%) | 30% |
 | Growth Reflections (3) | 10% |
 | Scholarly engagement | 10% |
 
@@ -154,13 +152,6 @@ and could someone else follow it?
 | **C** | It runs, but there is little evidence it is right — tests that would pass for a broken implementation, or results reported without any check that could have caught an error. Or pieces are missing. |
 | **D** | Substantially incomplete, not working, or missing what was asked for. |
 | **F** | Not submitted, or not your own work. |
-
-:::{important} Every project must be submitted
-Submitting all six projects and the final project is a requirement to pass,
-independent of your average — see the
-[Syllabus](syllabus.md#sec-projects). The arithmetic on this page assumes you
-turned everything in.
-:::
 
 :::{important} Validation is where the grade is decided
 Code that runs is the starting point, not the finish line. The difference
@@ -181,7 +172,9 @@ are a communication aid, not a separate written assignment.
 
 ### Growth Reflections
 
-Judged on honesty and specificity, not polish or length.
+Growth Memos 1 and 2 should each be **1–2 pages**, with a minimum of one full
+page. The Growth Synthesis should be **2–3 pages**, with a minimum of two full
+pages. They are judged on honesty and specificity, not literary polish.
 
 | | |
 |:--|:--|
@@ -205,10 +198,10 @@ One grade, at the end of the semester, for the term as a whole.
 
 | | |
 |:--|:--|
-| **A** | Prepared and present. Contributes and asks real questions. Comes to check-ins with work to show. |
-| **B** | Steady and cooperative, with some quiet stretches or occasional unpreparedness. |
-| **C** | Frequently unprepared or disengaged; participates mainly when prompted. |
-| **D / F** | Habitually absent or habitually disengaged. |
+| **A** | Consistently prepared. Contributes through questions, visible reasoning, productive collaboration, or substantive check-ins. |
+| **B** | Steady and cooperative, with occasional unpreparedness or limited visible engagement. |
+| **C** | Frequently unprepared or disengaged; contributes mainly when prompted. |
+| **D / F** | Habitually unprepared or disengaged. |
 
 ## Submission
 

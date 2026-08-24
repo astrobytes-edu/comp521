@@ -4,9 +4,10 @@ subtitle: "San Diego State University | Fall 2026"
 ---
 
 <!-- prep-banner:start -->
-:::{warning} This course site is still being finalized
-This version is provisional through **Thu Sep 24**. Policies, dates, and course
-details may change; Canvas announcements are the authoritative record of updates.
+:::{note} Course materials and updates
+Readings and supporting materials will be added as the semester progresses.
+Required readings will be posted at least one week before they are due. Changes
+will be announced through Canvas and reflected on this site.
 :::
 <!-- prep-banner:end -->
 
@@ -20,9 +21,9 @@ details may change; Canvas announcements are the authoritative record of updates
 
 > **Build methods. Test their limits. Use them on real data.**
 
-You will implement the core algorithms behind scientific software — integrators,
-root-finders, ODE solvers, samplers, and classifiers — then apply them to real
-astronomical data from Gaia and Kepler.
+You will implement the core algorithms behind scientific software, including
+integration, root-finding, ODE solvers, model fitting, and classifiers, then
+apply them to real astronomical data from Gaia and Kepler.
 
 By the end, you will not just *use* `scipy.integrate`; you will know what it is
 doing, when it will fail you, and how to tell the difference.
@@ -32,6 +33,13 @@ doing, when it will fail you, and how to tell the difference.
 **Prerequisites:** MATH 252; MATH 254 or 342A; or equivalent with instructor
 permission, or graduate standing.
 **Instructor:** Anna Rosen · alrosen@sdsu.edu
+:::
+
+:::{note} AI transparency
+I use generative AI to help draft and review some course materials, all of which
+I personally vet. I use my SDSU ChatGPT Edu account to assist with holistic code
+review; I independently verify its output and determine every final grade. See
+the [syllabus](01-course-info/syllabus.md#sec-ai-policy) for details.
 :::
 
 ## How this course is structured

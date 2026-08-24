@@ -15,13 +15,15 @@ evidence matter more than polished prose.
 | **Growth Memo 2** | Mon **Oct 19** | Identify what has changed, what has not, and what you will do next. |
 | **Growth Synthesis** | Mon **Dec 14**, 11:59 pm PT | Trace the whole arc of your learning. |
 
-All three are graded on honesty and specificity rather than polish or length;
-see [Grading](grading.md).
+Growth Memos 1 and 2 should each be **1–2 pages**, with a minimum of one full
+page. The Growth Synthesis should be **2–3 pages**, with a minimum of two full
+pages. All three are graded on honesty and specificity rather than polished
+prose; see [Grading](grading.md).
 
 ## Growth Memo 1 — Baseline
 
-Write about half a page during the first week, before you have done substantial
-course work. Address:
+Write 1–2 pages during the first week, before you have done substantial course
+work. Address:
 
 - how you currently begin a coding task;
 - how you currently decide whether code is correct;
@@ -33,7 +35,7 @@ comparison possible in December.
 
 ## Growth Memo 2 — Mid-semester
 
-By this point, look backward at your actual project work. Include:
+In 1–2 pages, look backward at your actual project work. Include:
 
 - evidence of how your workflow evolved: what you tried, what failed, and what
   changed;
@@ -45,13 +47,11 @@ By this point, look backward at your actual project work. Include:
 - a comparison with Growth Memo 1: where were you right about yourself, and
   where were you wrong?
 
-This memo is returned before the Nov 1 late-withdrawal deadline so that, if
-something is going badly, you learn that while you still have options.
-
 ## Growth Synthesis
 
-At the start of finals week, synthesize how your habits and verification
-strategies matured, and what you can do now that you could not do in August.
+In 2–3 pages, with a minimum of two full pages, synthesize how your habits and
+verification strategies matured, and what you can do now that you could not do
+in August.
 
 Write against your earlier memos: quote yourself, say where you were right and
 wrong, and identify what you did not yet know to worry about. Guidance will be

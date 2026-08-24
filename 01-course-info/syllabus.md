@@ -4,11 +4,6 @@ subtitle: "Introduction to Scientific Computing and Data Science | Fall 2026"
 author: "Dr. Anna Rosen"
 ---
 
-:::{warning} This syllabus is still being finalized
-This version is provisional through **Thu Sep 24**. Policies, dates, and course
-details may change; Canvas announcements are the authoritative record of updates.
-:::
-
 (sec-course-info)=
 ## Course Information
 
@@ -24,16 +19,21 @@ details may change; Canvas announcements are the authoritative record of updates
 | **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[Classroom50](https://github.com/foundation50/classroom50/wiki) *(project submissions)* |
 
 :::{note} Start Here
-- **Due first:** the **P1 Technical Readiness Check** — completed in your actual
-  Project 1 repository and verified automatically on GitHub — **before class
+- **Due first:** the **P1 Technical Readiness Check**, completed in your actual
+  Project 1 repository and verified automatically on GitHub, **before class
   Thu Aug 27**. It is completion-only and does not assess P1 progress. **Growth
   Memo 1** follows on **Mon Aug 31**.
 - **Read the [AI Policy](ai-policy.md) before beginning Project 1.** AI is
   optional, but you must write and be able to explain your own core solution
   code.
-- **Bring your laptop to every class.** Sessions mix instruction with hands-on work — there are no separate lab days, and much of what happens in the room is not posted anywhere.
-- **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**. A new block's readings are for **Thursday**, not the Tuesday it is assigned. See [Important Dates](#sec-important-dates).
-- **Grading is by letter, not points.** One grade for each assignment as a whole, no itemized rubrics — see [Grading](grading.md), which includes a calculator you can run.
+- **Bring your laptop to every class.** Sessions mix instruction with hands-on
+  work. There are no separate lab days, and much of what happens in the room is
+  not posted anywhere.
+- **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**.
+  Come to class prepared to discuss and use the assigned readings. See
+  [Important Dates](#sec-important-dates).
+- **Grading is by letter, not points.** Each assignment receives one holistic
+  grade. See [Grading](grading.md), which includes a calculator you can run.
 - **You will work in rotating pairs** on Projects 1–6 while writing and submitting your own code. The final project is solo.
 - **Getting help:** office hours are **Thursdays 4–5 pm, Physics 239**. Use
   Canvas Inbox for course-related messages; reserve email for genuine emergencies
@@ -42,49 +42,44 @@ details may change; Canvas announcements are the authoritative record of updates
 
 ### Course Description
 
-Introduction to computational methods for scientific problem-solving and data
-analysis using Python. Students implement fundamental algorithms from first
-principles including numerical integrators, root-finders, optimization methods,
-and Monte Carlo samplers before utilizing professional libraries. Emphasizes
-software engineering practices, test-driven development, version control,
-documentation, and reproducible research. Topics include data wrangling with
-pandas, statistical analysis, visualization, regression methods, and performance
-optimization.
+Introduction to computational methods and data science using Python. Numerical
+algorithms, optimization, Monte Carlo methods, data wrangling with pandas,
+exploratory data analysis, regression and classification. Emphasizes software
+engineering practices including object-oriented programming, modular design,
+version control, testing, and documentation.
 
 **Units:** 3
 **Prerequisites:** MATH 252; MATH 254 or 342A; or equivalent with instructor
 permission, or graduate standing.
 
 :::{note} Do I need to already know Python?
-**No.** The course begins with Python from the ground up — environment setup,
-syntax, control flow, data structures, and object-oriented programming — before
-any numerical methods appear. If you have programmed before, the first two weeks
-will be review and you should use them to get ahead.
+**Knowing Python is helpful, but not necessary.** We begin with the Python
+foundations you will need: environment setup, syntax, control flow, data
+structures, functions, and modules. If you have programmed before, the first two
+weeks will be review.
 
 What you *do* need is the mathematics. **MATH 252 is multivariable calculus**,
-and this course leans on it directly: Taylor expansion is where every numerical
-method in the course comes from, derivatives and gradients drive root finding and
-optimization, and integrals are what quadrature approximates. Linear algebra
-(MATH 254 or 342A) carries the second half — solving systems, least squares, and
-everything built on them.
-
-The algorithms here are applied calculus and linear algebra. If those are shaky,
-the programming will not be your problem.
+and this course leans on it directly: Taylor expansions underpin numerical
+methods, derivatives drive root finding, and integrals are what quadrature
+approximates. Linear algebra (**MATH 254 or 342A**) carries the second half:
+solving systems, least squares, and everything built on them.
 :::
 
 ### Course Materials & Technology
 
-**There is no textbook to buy.** All readings are on the
-[course website](https://astrobytes-edu.github.io/comp521) and are free.
+**There is no textbook to buy.** All required readings are free on the
+[**course website**](https://astrobytes-edu.github.io/comp521). Readings will be
+added as the semester progresses and posted at least one week before they are
+due.
 
 **You need a laptop you can bring to every class.** Class sessions interleave
 instruction with hands-on work, so a laptop is not optional equipment here. Any
-machine running macOS, Windows, or Linux that can install Python will do — this
+machine running macOS, Windows, or Linux that can install Python will do. This
 course is not computationally demanding, and nothing we do requires a GPU or a
 large amount of memory.
 
 Software (Python, `git`, and the scientific stack) is free, open-source, and
-installed in Week 1 — see [Getting Started](../02-getting-started/index.md).
+installed in Week 1. See [Getting Started](../02-getting-started/index.md).
 
 :::{note} Course throughline
 **Build methods. Test their limits. Use them on real data.** The goal is
@@ -96,8 +91,8 @@ that survive checks.
 
 This course does not separate lecture days from lab days. Each 75-minute session
 combines short instruction with hands-on work, and the balance shifts depending
-on where we are in a project — heavier on instruction when a new method is
-introduced, heavier on working time as a deadline approaches.
+on where we are in a project: heavier on instruction when a new method is
+introduced and heavier on working time as a deadline approaches.
 
 Bring your laptop. Much of the instruction happens through hands-on work and
 discussion that responds to the class's current questions.
@@ -132,8 +127,8 @@ By the end of this course, students will be able to:
    tests, documentation, figures, notebooks, and presentations; clearly stating
    methods, evidence, limitations, and meaningful collaboration or AI use.
 
-**Where these outcomes are assessed:** Projects 1–6, the final-project proposal
-pitch, the Final Project, and the Growth Reflections.
+**Where these outcomes are assessed:** Projects 1–6, the Final Project (including
+the proposal pitch), and the Growth Reflections.
 
 (sec-grading)=
 ## Grading & Assessments
@@ -141,8 +136,7 @@ pitch, the Final Project, and the Growth Reflections.
 | Component | Weight |
 |---|-:|
 | Projects (6 total; ~8.3% each) | 50% |
-| Final-Project Proposal Pitch | 5% |
-| Final Project | 25% |
+| Final Project (proposal pitch 5%; finished project 25%) | 30% |
 | Growth Reflections (3 total) | 10% |
 | Scholarly Engagement | 10% |
 
@@ -156,25 +150,9 @@ Synthesis** at the start of finals week. See
 
 Projects are assigned on **Tuesdays** and due **Mondays at 11:59 pm PT**. A Monday
 deadline means you arrive at Tuesday class having submitted, rather than
-finishing in the room.
-
-| Project | Assigned | Due |
-|---|---|---|
-| P1 Technical Readiness Check (completion-only) | Tue **Aug 25** | Before class Thu **Aug 27** |
-| Growth Memo 1 (baseline) | Tue **Aug 25** | Mon **Aug 31** |
-| Project 1 — Scientific Programming & the Transit Model | Tue **Aug 25** | Tue **Sep 8** † |
-| Project 2 — Numerical Integration | Tue **Sep 8** | Mon **Sep 21** |
-| Project 3 — Root Finding & Stellar Inference | Tue **Sep 22** | Mon **Oct 5** |
-| Project 4 — ODE Methods & Exoplanet Interiors | Tue **Oct 6** | Mon **Oct 19** |
-| Project 5 — Real Data & Model Fitting | Tue **Oct 20** | Mon **Nov 2** |
-| Project 6 — Machine Learning & Scientific Classification | Tue **Nov 3** | Mon **Nov 16** |
-| Final-Project Proposal Pitch | Tue **Nov 17** | Thu **Nov 19**, in class |
-| Final Project | Tue **Nov 17** | Thu **Dec 17**, end of day |
-
-† **Project 1 is due Tuesday**, not Monday — Mon Sep 7 is Labor Day. It is the
-only project not due on a Monday, and the extra days are deliberate: it is the
-first project and the one where students are least likely to know when they are
-stuck.
+finishing in the room. See the [Course Schedule](schedule.md) for all assignment
+and submission dates, including exceptions, and [Projects](projects.md) for
+deliverables and submission expectations.
 
 **End-of-semester sequence:**
 
@@ -182,7 +160,7 @@ stuck.
 |---|---|---|
 | Final presentation | Thu **Dec 10** | in class |
 | **Growth Synthesis** | Mon **Dec 14** | 11:59 pm PT |
-| **Final report + repository** | Thu **Dec 17** | end of day — our final exam date |
+| **Final report + repository** | Thu **Dec 17** | 11:59 pm PT; our final exam date |
 
 **University dates that affect you:**
 
@@ -190,21 +168,28 @@ stuck.
 |---|---|
 | Tue **Aug 25** | First class meeting |
 | Fri **Sep 4** | Last day to add/drop without penalty |
-| Mon **Sep 7** | **Labor Day** — campus closed |
-| Sun **Nov 1** | Late withdrawal deadline |
-| Thu **Nov 26** | **No class** — Thanksgiving |
-| Thu **Dec 10** | Last class meeting — final presentations |
-| Thu **Dec 17** | Final exam date — final report due, end of day |
+| Mon **Sep 7** | **Labor Day**; campus closed |
+| Thu **Nov 26** | **No class**; Thanksgiving |
+| Thu **Dec 10** | Last class meeting; final presentations |
+| Thu **Dec 17** | Final exam date; final report due, 11:59 pm PT |
 
 Week-by-week topics and readings are on the [Course Schedule](schedule.md).
 Topics are listed by week rather than by day, so that class time can follow
 where the class actually is.
 
+:::{note} Course adjustments
+I may adjust the sequence of topics, readings, or activities in response to class
+progress or unforeseen circumstances. Changes will be announced through Canvas
+and reflected on the course website. Major changes to learning outcomes, major
+due dates, final presentation or report dates, or grading policies will be made
+only for compelling reasons and communicated as early as possible.
+:::
+
 (sec-grade-scale)=
 ### Grading Scale
 
 Work in this course is graded with **letters, not points**. Each assignment
-receives a single letter for the work as a whole — there are no itemized
+receives a single letter for the work as a whole. There are no itemized
 rubrics and no point breakdowns. See [Grading](grading.md) for what each letter
 means for each kind of work.
 
@@ -214,32 +199,28 @@ means for each kind of work.
 
 Your grade in each component is the average of the letters earned in it; your
 course grade is the weighted average of those, using the weights above. Letters
-average as you would expect — an A+ and an A− come out to an A. Grades are
+average as you would expect: an A+ and an A− come out to an A. Grades are
 recorded as these numbers in Canvas.
 
 **SDSU does not award A+ as a final grade**, so the highest course grade is an
-**A**. An A+ on an assignment still counts as 4.3, which lifts your average and
-can offset a weaker piece of work elsewhere.
+**A**. An A+ on an assignment still counts as 4.3, which lifts your average.
 
 See [Grading](grading.md) for the table converting your weighted average into a
 final letter.
 
-The instructor may curve final course grades at their discretion, and reserves
-the right to adjust borderline grades upward based on effort, improvement, and
-engagement.
 [Click here for SDSU's explanation of grades.](https://registrar.sdsu.edu/faculty_staff/courses_grades/explanation-grades)
 
 (sec-late)=
 ### Late Work & Extensions
 
-- **One free extension per semester.** Request it at least **24 hours** before
-  the deadline and you get a **2-day grace period** with no penalty, no reason
-  required. You do not have to justify it — that is the point of having one.
+- **One free extension per semester, for Projects 1–6 only.** Request it at least
+  **24 hours** before the deadline and you get a **2-day grace period** with no
+  penalty and no reason required.
 - **No late submissions beyond that.** If you miss a deadline without having
   arranged your extension in advance, the submission is **not accepted** unless
   there is a documented emergency.
 - **Your last commit before the deadline is your submission.** Commit timestamps
-  are the record — not when you meant to push, and not what is sitting unpushed
+  are the record, not when you meant to push or what is sitting unpushed
   on your laptop. Push early and often.
 
 (sec-regrades)=
@@ -248,7 +229,7 @@ engagement.
 - Submit a request within **7 calendar days** of the grade release.
 - Provide a $\leq$200-word written justification that argues against the
   **grade description** in [Grading](grading.md) and the assignment
-  expectations — that is, make the case that the work meets a higher
+  expectations. Make the case that the work meets a higher
   description than the one I applied.
 - I will re-evaluate the **entire submission**; the grade may go **up, down, or
   remain unchanged**.
@@ -269,20 +250,14 @@ six two-week projects, and a four-week solo final project. See
 [Projects](projects.md) for the checkpoint, project sequence, submissions, and
 collaboration expectations.
 
-:::{important} Every project must be submitted
-**You must submit all six projects and the final project to pass this course.**
-A missing project cannot be averaged away by strong work elsewhere — absent a
-documented emergency, skipping one means you do not pass, whatever your other
-grades look like.
-
-:::
-
 (sec-engagement)=
 ### Scholarly Engagement (10%)
 
 Scholarly engagement means prepared participation, productive collaboration,
 and visible reasoning: questions, tests, debugging, and the ability to explain
-your code. You receive one engagement grade for the term as a whole.
+your code. You can demonstrate it through discussion, written reasoning, pair
+work, and project check-ins; frequent speaking is not required. You receive one
+engagement grade for the term as a whole.
 
 **Classroom norms.** We are all members of a professional academic community.
 Treat classmates and the instructor with respect. Spirited, courteous debate
@@ -290,19 +265,29 @@ about ideas is welcome; disrespectful behavior is not. Because active reasoning
 is the point of being in the room, off-task device use during class is
 distracting and will negatively affect your engagement grade.
 
-I do not take formal attendance, but preparation, participation, and repeated
-absence are reflected in this grade.
+I do not grade attendance itself. Repeated unexcused absences may affect this
+grade when they prevent prepared participation or visible engagement with the
+coursework.
 
 (sec-final-project)=
-### Final-Project Proposal Pitch (5%)
+### Final Project (30% total)
 
-On **Thu Nov 19**, give a five-minute in-class proposal using a short slide deck.
-State your scientific question, data or source, computational approach,
+The final project counts for 30% of your grade: 5% for the proposal pitch and
+25% for the finished project.
+
+| Component | Weight | Due |
+|---|---:|---|
+| Proposal pitch | 5% | Thu **Nov 19**, in class |
+| Finished project: presentation, report, and code | 25% | Presentation: Thu **Dec 10**<br>Report + repository: Thu **Dec 17**, 11:59 pm PT |
+
+The presentation, report, and repository receive one holistic final-project
+grade.
+
+For the proposal pitch, give a five-minute presentation using a short slide
+deck. State your scientific question, data or source, computational approach,
 validation plan, bounded minimum result, and immediate next step. Commit the
-slides to your repository before class. The pitch is graded as one whole for
-clarity, feasibility, and a credible plan to test the result.
-
-### Final Project (25%)
+slides to your repository before class. The pitch is graded for clarity,
+feasibility, and a credible plan to test the result.
 
 The final project is a four-week, solo computational investigation. Choose a
 bounded scientific question and use the course toolkit to produce and defend a
@@ -321,16 +306,9 @@ The final-project brief will define the available project pathways and submissio
 format. **This project is solo.** See
 [Project Pairs & Collaboration](projects.md#sec-pairs).
 
-**Deliverables and dates:**
-
-| Deliverable | Due |
-|---|---|
-| Final presentation (8 minutes + 2 minutes for questions) | Thu **Dec 10** |
-| Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
-| Final report (5–7 pages) + repository | Thu **Dec 17**, end of day |
-
-The final presentation explains what you built, the evidence that it works, and
-its limits. The report covers background, methods, results, and conclusions.
+The final presentation is eight minutes, followed by two minutes for questions.
+Explain what you built, the evidence that it works, and its limits. The report is
+5–7 pages and covers the background, methods, results, and conclusions.
 
 The final project is graded on the same description as the other projects (see
 [Grading](grading.md)), applied to a larger piece of work. You should expect to
@@ -339,7 +317,7 @@ defend your design and verification choices.
 (sec-reflections)=
 ### Growth Reflections (10% total)
 
-Growth Reflections build **metacognition** — thinking about how you learn so you
+Growth Reflections build **metacognition**, or thinking about how you learn so you
 can improve your workflow, debugging habits, and verification discipline over
 time. Write them in an **informal, memo-like voice** (not an essay). Honesty and
 specific evidence matter more than polished prose.
@@ -348,21 +326,37 @@ There are three:
 
 | | Due | Purpose |
 |---|---|---|
-| **Growth Memo 1** | Mon **Aug 31** | **Baseline** — how you work *before* this course changes it |
-| **Growth Memo 2** | Mon **Oct 19** | **Course correction** — what has changed, what has not |
-| **Growth Synthesis** | Mon **Dec 14** | **Synthesis** — the whole arc |
+| **Growth Memo 1** | Mon **Aug 31** | **Baseline:** how you work *before* this course changes it |
+| **Growth Memo 2** | Mon **Oct 19** | **Course correction:** what has changed, what has not |
+| **Growth Synthesis** | Mon **Dec 14** | **Synthesis:** the whole arc |
 
-All three are graded on honesty and specificity rather than polish or length;
-see [Growth Reflections](growth-reflections.md) for the prompts.
+Growth Memos 1 and 2 should each be **1–2 pages**, with a minimum of one full
+page. The Growth Synthesis should be **2–3 pages**, with a minimum of two full
+pages. All three are graded on honesty and specificity rather than polished prose; see
+[Growth Reflections](growth-reflections.md) for the prompts.
 
 (sec-ai-policy)=
-## Academic Integrity & Generative AI Policy
+## Generative AI: Student and Instructor Use
+
+### Student use
 
 All submitted work must reflect your own understanding and reasoning. AI is
 optional; core solution code remains yours in every phase. Disclose meaningful
 use, and do not submit work you cannot explain. Read the full
 [AI Use & Growth Mindset Policy](ai-policy.md) before Project 1; its staged
-rules and documentation requirements are enforced.
+permissions and documentation requirements are enforced.
+
+### How I use generative AI
+
+I use generative AI as a drafting, technical, and pedagogical assistant when
+developing readings, projects, examples, code, and website text. I direct and
+review the process, verify claims and code, and personally vet all course
+materials.
+
+**Use in grading:** I use my SDSU ChatGPT Edu account to assist with holistic
+review of submitted code. I independently verify its output and determine every
+final grade. It does not make academic-integrity decisions. You may challenge a
+grade through [Regrade Requests](#sec-regrades).
 
 (sec-materials)=
 ## Course Materials (Sharing Policy)
@@ -397,10 +391,7 @@ behind, seek help immediately by:
 - collaborating with classmates (while ensuring your submission reflects your
   own understanding).
 
-(sec-getting-help)=
-### Getting Help (Office Hours)
-
-Office hours are for learning — bring what you have tried (notes, attempts,
+Office hours are for learning. Bring what you have tried (notes, attempts,
 questions) and we will work from there. I will often guide you by asking
 questions so you build your own problem-solving skills. You are welcome to come
 even if you are not sure what to ask, or have non-course-related questions.
@@ -421,9 +412,6 @@ you are born with. This mindset is key to succeeding in this course. In COMP 521
 you will encounter challenging concepts that may initially seem overwhelming.
 **This is normal and expected: it means you are learning.**
 
-*Trust the process, embrace the challenge, and discover that you are capable of
-doing hard things.*
-
 (sec-inclusion)=
 ## Diversity and Inclusivity Statement
 
@@ -441,9 +429,11 @@ class.
 For essential information about student academic success, please see the
 [SDSU Student Academic Success Handbook](https://docs.google.com/document/d/1rXNpNGs1K7nIxcS73o6R-fxZqPIWQwS9gHD7XpIqjhM/edit?tab=t.0#heading=h.apbuhr7p11ak).
 
-SDSU provides disability-related accommodations via Student Disability Services:
-<https://sds.sdsu.edu> (email: <sds@sdsu.edu>). Please allow 10–14 business days
-for processing.
+SDSU provides disability-related accommodations through the
+[Student Ability Success Center](https://sdsu.edu/sasc) (SASC). Contact
+<sascinfo@sdsu.edu> as early as possible. Accommodations are not retroactive and
+begin after I receive an authorized accommodation letter. Approval may take
+10–14 business days.
 
 Class rosters are provided to the instructor with the student's legal name.
 Please let me know if you prefer an alternate name and/or gender pronoun.
@@ -457,9 +447,3 @@ necessary arrangements.
 
 San Diego State University sits on Kumeyaay land. The Kumeyaay people have lived
 in this region for over 10,000 years and continue to live here today.
-
-(sec-responsibility)=
-## Your Responsibility
-
-This syllabus constitutes our course contract. You are responsible for reading
-and understanding all policies stated here.

@@ -12,6 +12,8 @@ halves:
 - **Week 1** — method, implementation, and validation against known results
 - **Week 2** — scientific application, diagnosis, or comparison
 
+See the [Course Schedule](schedule.md) for all assignment and submission dates.
+
 ## Before Project 1 — Technical Readiness Check
 
 **Due before class Thu Aug 27.** This is a required, completion-only milestone

@@ -20,10 +20,9 @@ extra session on a hard idea, we take it.
 Projects are assigned **Tuesdays** and due **Mondays at 11:59 pm PT**, so you
 arrive at Tuesday class having submitted rather than finishing in the room.
 
-Complete a week's readings by the start of that week. When a new project block
-begins, its readings are for **Thursday** — you will have been finishing the
-previous project Monday night. Readings marked *(to be posted)* are being
-written and will appear before their week.
+Come to class prepared to discuss and use the assigned readings. The schedule
+and Canvas announcements will identify what to prepare. Readings marked *(to be
+posted)* are being written and will appear before they are needed.
 :::
 
 :::{note} At a glance
@@ -33,12 +32,11 @@ written and will appear before their week.
 | Office hours | Thu **4:00–5:00 pm** (and by appointment) |
 | Add/drop deadline | Fri **Sep 4** |
 | Labor Day — campus closed | Mon **Sep 7** |
-| Late withdrawal deadline | Sun **Nov 1** |
 | No class — Thanksgiving | Thu **Nov 26** |
 | Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
 | Growth Synthesis due | Mon **Dec 14** (start of finals week) |
-| Final report due | Thu **Dec 17**, end of day |
+| Final report due | Thu **Dec 17**, 11:59 pm PT |
 :::
 
 ## Block 1 · Project 1 — Scientific Programming & the Transit Model
@@ -156,12 +154,6 @@ surface, shooting, and diagnosing observed order loss
 Discussion + **Growth Memo 2**
 (mid-semester), Mon **Oct 19**
 
-:::{tip} Check your standing before Nov 1
-Growth Memo 2 is due Oct 19 and returned the following week — before the
-**Nov 1 late withdrawal deadline**. If you are struggling, that feedback is
-meant to reach you while you still have options. Come talk to me.
-:::
-
 ## Block 5 · Project 5 — Real Data & Model Fitting
 
 *Assigned Tue Oct 20 · Due Mon Nov 2*
@@ -202,6 +194,9 @@ notebook Discussion, Mon **Nov 2**
 
 **Topics** — k-NN, decision trees, train/test splits, cross-validation;
 classifying stellar types; final-project pathways and examples
+
+**Assigned** — **Final-Project Proposal Pitch**, Tue **Nov 3**; due Thu **Nov
+19**, in class
 
 ### Week 12 — Nov 10, 12 · Unsupervised learning and evaluation
 
@@ -255,4 +250,4 @@ is the last chance to catch a figure nobody can read from the back of the room.
 | Deliverable | Due |
 |---|---|
 | Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
-| Final report + repository | Thu **Dec 17**, end of day |
+| Final report + repository | Thu **Dec 17**, 11:59 pm PT |
