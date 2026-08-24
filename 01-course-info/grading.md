@@ -1,21 +1,18 @@
 ---
 title: "Grading"
 subtitle: "COMP 521 | Fall 2026"
-kernelspec:
-  name: python3
-  display_name: Python 3
 ---
 
 # Grading
 
 ## How grading works in this course
 
-**Everything is graded with letters, and each assignment gets one letter.**
+**Each graded assignment receives one letter for the work as a whole.**
 
 There are no point breakdowns, no percentage subscores, and no itemized
 rubrics. When I grade your project I read the whole thing — code, validation,
-figures, memo — and judge it as a piece of work, the way a referee assesses a
-paper.
+figures, and written interpretation — and judge it as a piece of work, the way a
+referee assesses a paper.
 
 :::{note} Why it works this way
 An itemized rubric tells you exactly what to optimize, and people optimize what
@@ -66,69 +63,6 @@ up a whole step: consistent A− work earns an A−.
 | 2.50 – 2.79 | **B−** | | 0.50 – 0.79 | **D−** |
 | 2.10 – 2.49 | **C+** | | < 0.50 | **F** |
 
-### Work it out yourself
-
-Nothing here is hidden — you can compute your own grade at any point. The code
-below is live: it runs when this page is built, and the output is what it
-actually produced.
-
-```{code-cell} python
-GRADE_POINTS = {
-    "A+": 4.3, "A": 4.0, "A-": 3.7,
-    "B+": 3.3, "B": 3.0, "B-": 2.7,
-    "C+": 2.3, "C": 2.0, "C-": 1.7,
-    "D+": 1.3, "D": 1.0, "D-": 0.7,
-    "F": 0.0,
-}
-
-WEIGHTS = {
-    "projects": 0.50,
-    "proposal": 0.05,
-    "final": 0.25,
-    "reflections": 0.10,
-    "engagement": 0.10,
-}
-
-# Highest cutoff first, so the first match wins.
-CUTOFFS = [
-    (3.80, "A"),  (3.50, "A-"), (3.10, "B+"), (2.80, "B"),
-    (2.50, "B-"), (2.10, "C+"), (1.80, "C"),  (1.50, "C-"),
-    (1.10, "D+"), (0.80, "D"),  (0.50, "D-"), (0.00, "F"),
-]
-
-
-def average(letters):
-    """Mean grade point of a list of letter grades."""
-    return sum(GRADE_POINTS[letter] for letter in letters) / len(letters)
-
-
-def course_grade(components):
-    """Weighted average across components, and the letter it earns."""
-    total = sum(WEIGHTS[name] * average(letters)
-                for name, letters in components.items())
-    letter = next(grade for cutoff, grade in CUTOFFS if total >= cutoff)
-    return total, letter
-
-
-me = {
-    "projects":      ["B+", "A-", "A", "A", "A+", "A-"],
-    "proposal":      ["A-"],
-    "final":         ["B+"],
-    "reflections":   ["A", "B", "A"],
-    "engagement":    ["A"],
-}
-
-for name, letters in me.items():
-    print(f"{name:>14}: {average(letters):.2f}   {letters}")
-
-total, letter = course_grade(me)
-print(f"\n{'weighted':>14}: {total:.2f}   ->  {letter}")
-```
-
-Notice what an A+ does here and what it does not. It pulls the projects average
-up, which can rescue a weaker component — but the course grade still tops out at
-A no matter how many you collect.
-
 ## Weights
 
 | Component | Weight |
@@ -139,6 +73,9 @@ A no matter how many you collect.
 | Scholarly engagement | 10% |
 
 ## What the grades mean
+
+The descriptions below are anchors. Plus and minus grades indicate work between
+adjacent descriptions; A+ is reserved for the judgment described above.
 
 ### Projects and the final project
 
@@ -182,6 +119,7 @@ polish. Submit each through the corresponding **Canvas assignment** as a
 | **A** | Specific and reflective. Uses concrete evidence to explain how you worked, what you learned, and what changed or stayed the same. |
 | **B** | Relevant but general. Makes reasonable claims without enough specific evidence or reflection to show what they mean for your work. |
 | **C** | Minimal or largely descriptive, with little specific evidence or reflection. |
+| **D** | Substantially incomplete or too vague to demonstrate meaningful reflection. |
 | **F** | Not submitted. |
 
 *"I did not understand why Newton's method diverged until I plotted the
@@ -202,17 +140,24 @@ One grade, at the end of the semester, for the term as a whole.
 | **A** | Consistently prepared. Contributes through questions, visible reasoning, productive collaboration, or substantive check-ins. |
 | **B** | Steady and cooperative, with occasional unpreparedness or limited visible engagement. |
 | **C** | Frequently unprepared or disengaged; contributes mainly when prompted. |
-| **D / F** | Habitually unprepared or disengaged. |
+| **D** | Rarely prepared or engaged, with little visible participation in the work of the course. |
+| **F** | No meaningful evidence of scholarly engagement. |
+
+Attendance itself is not graded. However, excessive absences will affect
+Scholarly Engagement because they limit prepared participation, collaboration,
+substantive check-ins, and other visible engagement with the course.
 
 ## Submission
 
-Submission is via GitHub, using
-[Classroom50](https://github.com/foundation50/classroom50/wiki). Projects are due
-**Mondays at 11:59 PM PT** (Project 1 excepted — see the
-[Schedule](schedule.md)).
+Projects 1–6 are submitted through GitHub using
+[Classroom50](https://github.com/foundation50/classroom50/wiki). Growth
+Reflections are submitted through their corresponding Canvas assignments. The
+final-project brief will specify its submission route. Projects are due
+**Mondays at 11:59 pm PT** unless the [Schedule](schedule.md) states otherwise.
 
-**Your last commit before the deadline is your submission.** Commit timestamps
-are unambiguous, which cuts both ways: there is never a dispute about what you
-turned in and when, and "I finished it but forgot to push" is not recoverable.
-Push early and often — a pushed work-in-progress always beats a perfect
-uncommitted local copy.
+**Your submission is the latest commit pushed to GitHub by the deadline.** Work
+that remains only on your computer has not been submitted. Push early and often:
+a pushed work-in-progress always beats a perfect uncommitted local copy.
+
+See the syllabus for [extensions](syllabus.md#sec-late) and
+[regrade requests](syllabus.md#sec-regrades).

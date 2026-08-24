@@ -231,9 +231,9 @@ final letter.
 - **No late submissions beyond that.** If you miss a deadline without having
   arranged your extension in advance, the submission is **not accepted** unless
   there is a documented emergency.
-- **Your last commit before the deadline is your submission.** Commit timestamps
-  are the record, not when you meant to push or what is sitting unpushed
-  on your laptop. Push early and often.
+- **Your submission is the latest commit pushed to GitHub by the deadline.** Work
+  that remains only on your computer has not been submitted. Push early and
+  often.
 
 (sec-regrades)=
 ### Regrade Requests
@@ -277,9 +277,9 @@ about ideas is welcome; disrespectful behavior is not. Because active reasoning
 is the point of being in the room, off-task device use during class is
 distracting and will negatively affect your engagement grade.
 
-I do not grade attendance itself. Repeated unexcused absences may affect this
-grade when they prevent prepared participation or visible engagement with the
-coursework.
+Attendance itself is not graded. However, excessive absences will affect
+Scholarly Engagement because they limit prepared participation, collaboration,
+substantive check-ins, and other visible engagement with the course.
 
 (sec-final-project)=
 ### Final Project (30% total)
