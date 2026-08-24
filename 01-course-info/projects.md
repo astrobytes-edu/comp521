@@ -50,14 +50,14 @@ Canvas before the checkpoint deadline.
 The six projects build a continuous scientific investigation: detecting and
 characterizing exoplanets in real Kepler data.
 
-| Project | Contribution to the investigation |
-|---|---|
-| 1 | Build and validate a transit model; place 15 real stars on a theoretical HR diagram |
-| 2 | Integrate a limb-darkened transit model and derive the Stefan–Boltzmann constant |
-| 3 | Solve orbital and transit-contact problems; infer habitable zones for those 15 stars |
-| 4 | Build exoplanet interiors and test mass–radius relations against Seager et al. |
-| 5 | Download, clean, and fit a transit model to real Kepler photometry |
-| 6 | Classify a Gaia stellar sample with machine-learning methods |
+| Project | Assigned | Due | Contribution to the investigation |
+|---|---|---|---|
+| 1 | Tue **Aug 25** | Tue **Sep 8** | Build and validate a transit model; place 15 real stars on a theoretical HR diagram |
+| 2 | Tue **Sep 8** | Mon **Sep 21** | Integrate a limb-darkened transit model and derive the Stefan–Boltzmann constant |
+| 3 | Tue **Sep 22** | Mon **Oct 5** | Solve orbital and transit-contact problems; infer habitable zones for those 15 stars |
+| 4 | Tue **Oct 6** | Mon **Oct 19** | Build exoplanet interiors and test mass–radius relations against Seager et al. |
+| 5 | Tue **Oct 20** | Mon **Nov 2** | Download, clean, and fit a transit model to real Kepler photometry |
+| 6 | Tue **Nov 3** | Mon **Nov 16** | Classify a Gaia stellar sample with machine-learning methods |
 
 The [Final Project](syllabus.md#sec-final-project) uses the course toolkit on a
 bounded scientific question.
@@ -69,7 +69,8 @@ Each project submission includes:
 - a code repository with a runnable workflow, README, and reproduction instructions;
 - verification evidence: tests, sanity checks, or convergence diagnostics; and
 - an **analysis notebook** that runs top to bottom, is documented well enough
-  for another scientist to follow, and ends with a written **Discussion**.
+  for another scientist to follow, and answers the project questions with clear
+  written reasoning and interpretation.
 
 ### Notebook and code policy
 
@@ -93,10 +94,10 @@ Use [Markdown for Analysis
 Notebooks](../02-getting-started/06-markdown-analysis-notebooks.md) for the
 submission-focused writing and formatting conventions.
 
-Project 1 places short interpretation next to each part and ends with
-`Looking back`; it has no separate final report. From Project 2 onward, include
-the prose-only `Discussion` required by the current brief, normally 500–800
-words unless that brief says otherwise.
+Each project mixes coding with written questions that ask you to explain choices,
+interpret results, diagnose failures, and defend conclusions. Written
+interpretation may appear throughout the notebook or in a combined discussion
+at the end, depending on the project brief.
 
 :::{important} Run it top to bottom before you submit
 Use **Kernel → Restart Kernel and Run All Cells** before your final commit. I
@@ -111,14 +112,15 @@ running.
 Projects 1–6 are done in rotating pairs. The final project is solo, although you
 may still discuss design and debugging with classmates.
 
-:::{important} You are responsible for your own code
-Working in a pair does **not** mean submitting shared work. Each student writes,
-submits, and must be able to explain their own implementation.
+:::{important} You are responsible for your own work
+Working in a pair does **not** mean submitting shared work. Each student writes
+and submits their own code and written answers and must be able to explain both.
+The [AI policy](ai-policy.md) applies to everything you submit.
 
 - **Encouraged:** designing algorithms together, whiteboarding equations,
   debugging side by side, comparing strategies, and sharing **tests you wrote**.
-- **Not allowed:** sharing or copying solution code — even from your partner,
-  even when you worked out the approach together.
+- **Not allowed:** sharing or copying solution code or written answers — even
+  from your partner, even when you worked out the approach together.
 - **Required:** credit your partner and describe what you worked on together in
   your project `README.md`.
 :::

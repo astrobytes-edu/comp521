@@ -147,7 +147,7 @@ and could someone else follow it?
 
 | | |
 |:--|:--|
-| **A** | It works, you showed that it works, and someone else could pick it up and run it. The validation is real — convergence at the expected order, a limiting case checked, a comparison against something that could have disagreed. The memo says what you did and what it means. |
+| **A** | It works, you showed that it works, and someone else could pick it up and run it. The validation is real — convergence at the expected order, a limiting case checked, a comparison against something that could have disagreed. The written interpretation explains what you did and what it means. |
 | **B** | It works and you checked it, but the evidence is thinner than the claim, or the code takes effort to follow, or the writing leaves me guessing about a choice you made. |
 | **C** | It runs, but there is little evidence it is right — tests that would pass for a broken implementation, or results reported without any check that could have caught an error. Or pieces are missing. |
 | **D** | Substantially incomplete, not working, or missing what was asked for. |
@@ -159,10 +159,9 @@ between a B and an A in this course is almost always whether you can show your
 result is *right* — not whether you produced one.
 :::
 
-Each project's **analysis notebook** ends with a written **Discussion** section
-(prose only, ~500–800 words) where you say what your results mean. It is not
-graded separately — it is part of the work I am reading, and it is usually the
-first thing I read.
+Each project's **analysis notebook** includes written reasoning and
+interpretation in the places required by the project brief. These answers are
+part of the project as a whole, not a separate graded component.
 
 ### Final-project proposal pitch
 
@@ -174,23 +173,25 @@ are a communication aid, not a separate written assignment.
 
 Growth Memos 1 and 2 should each be **1–2 pages**, with a minimum of one full
 page. The Growth Synthesis should be **2–3 pages**, with a minimum of two full
-pages. They are judged on honesty and specificity, not literary polish.
+pages. They are judged on specificity, reflection, and evidence, not literary
+polish. Submit each through the corresponding **Canvas assignment** as a
+**single-spaced PDF** using a readable **12-point font** and **1-inch margins**.
 
 | | |
 |:--|:--|
-| **A** | Specific and honest. Names things you actually got wrong and what you did about them. Someone reading it would learn something real about how you work. |
-| **B** | Genuine but general — true statements that could have been written by anyone in the class. |
-| **C** | Phoned in. |
+| **A** | Specific and reflective. Uses concrete evidence to explain how you worked, what you learned, and what changed or stayed the same. |
+| **B** | Relevant but general. Makes reasonable claims without enough specific evidence or reflection to show what they mean for your work. |
+| **C** | Minimal or largely descriptive, with little specific evidence or reflection. |
 | **F** | Not submitted. |
 
 *"I did not understand why Newton's method diverged until I plotted the
 iterates"* is worth more than a page of general statements about learning a lot.
 
-| | Due |
-|---|---|
-| Growth Memo 1 — baseline | Mon **Aug 31** |
-| Growth Memo 2 — mid-semester | Mon **Oct 19** |
-| Growth Synthesis | Mon **Dec 14** |
+| | Assigned | Due |
+|---|---|---|
+| Growth Memo 1 — baseline | Tue **Aug 25** | Mon **Aug 31**, 11:59 pm PT |
+| Growth Memo 2 — mid-semester | Tue **Oct 6** | Mon **Oct 19**, 11:59 pm PT |
+| Growth Synthesis | Tue **Nov 17** | Mon **Dec 14**, 11:59 pm PT |
 
 ### Scholarly engagement
 

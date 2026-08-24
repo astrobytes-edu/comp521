@@ -24,8 +24,8 @@ author: "Dr. Anna Rosen"
   Thu Aug 27**. It is completion-only and does not assess P1 progress. **Growth
   Memo 1** follows on **Mon Aug 31**.
 - **Read the [AI Policy](ai-policy.md) before beginning Project 1.** AI is
-  optional, but you must write and be able to explain your own core solution
-  code.
+  optional, but you are responsible for your own code and written answers and
+  must be able to explain both.
 - **Bring your laptop to every class.** Sessions mix instruction with hands-on
   work. There are no separate lab days, and much of what happens in the room is
   not posted anywhere.
@@ -80,6 +80,18 @@ large amount of memory.
 
 Software (Python, `git`, and the scientific stack) is free, open-source, and
 installed in Week 1. See [Getting Started](../02-getting-started/index.md).
+
+:::{note} Optional: SDSU JupyterHub
+Using your own computer is preferred, but the class also has access to
+[SDSU JupyterHub](https://jupyterhub.sdsu.edu/). Sign in with your SDSUid. Save
+your work under `/home/jovyan`, which provides 75 GiB of persistent storage, and
+keep your project pushed to GitHub. Access follows the official course roster
+through the schedule adjustment deadline. The server stops after your browser
+has been disconnected for one hour, and changes outside `/home/jovyan`,
+including many software installs, disappear when the container restarts. See the
+[JupyterHub documentation](https://sdsu-research-ci.github.io/instructionalcluster/)
+for login and usage instructions.
+:::
 
 :::{note} Course throughline
 **Build methods. Test their limits. Use them on real data.** The goal is
@@ -324,16 +336,19 @@ specific evidence matter more than polished prose.
 
 There are three:
 
-| | Due | Purpose |
-|---|---|---|
-| **Growth Memo 1** | Mon **Aug 31** | **Baseline:** how you work *before* this course changes it |
-| **Growth Memo 2** | Mon **Oct 19** | **Course correction:** what has changed, what has not |
-| **Growth Synthesis** | Mon **Dec 14** | **Synthesis:** the whole arc |
+| | Assigned | Due | Purpose |
+|---|---|---|---|
+| **Growth Memo 1** | Tue **Aug 25** | Mon **Aug 31**, 11:59 pm PT | **Baseline:** how you work *before* this course changes it |
+| **Growth Memo 2** | Tue **Oct 6** | Mon **Oct 19**, 11:59 pm PT | **Course correction:** what has changed, what has not |
+| **Growth Synthesis** | Tue **Nov 17** | Mon **Dec 14**, 11:59 pm PT | **Synthesis:** the whole arc |
 
 Growth Memos 1 and 2 should each be **1–2 pages**, with a minimum of one full
 page. The Growth Synthesis should be **2–3 pages**, with a minimum of two full
-pages. All three are graded on honesty and specificity rather than polished prose; see
-[Growth Reflections](growth-reflections.md) for the prompts.
+pages. All three are graded on specificity, reflection, and evidence rather than
+polished prose; see [Growth Reflections](growth-reflections.md) for the prompts.
+
+Submit each reflection through the corresponding **Canvas assignment** as a
+**single-spaced PDF** using a readable **12-point font** and **1-inch margins**.
 
 (sec-ai-policy)=
 ## Generative AI: Student and Instructor Use
@@ -341,8 +356,9 @@ pages. All three are graded on honesty and specificity rather than polished pros
 ### Student use
 
 All submitted work must reflect your own understanding and reasoning. AI is
-optional; core solution code remains yours in every phase. Disclose meaningful
-use, and do not submit work you cannot explain. Read the full
+optional; you are responsible for the code and written answers you submit and
+must be able to explain both. Core solution code remains yours in every phase.
+Disclose meaningful use. Read the full
 [AI Use & Growth Mindset Policy](ai-policy.md) before Project 1; its staged
 permissions and documentation requirements are enforced.
 

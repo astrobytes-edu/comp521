@@ -54,8 +54,10 @@ posted)* are being written and will appear before they are needed.
 **Topics** — environment setup, Git/GitHub workflow, Python syntax, floating
 point, control flow, the five algorithmic patterns
 
+**Assigned** — **Growth Memo 1**, Tue **Aug 25**; due Mon **Aug 31**, 11:59 pm PT
+
 **Due** — **P1 Technical Readiness Check** in your Project 1 repository, before
-class Thu **Aug 27** · **Growth Memo 1** (baseline), Mon **Aug 31**
+class Thu **Aug 27**
 
 ### Week 2 — Sep 1, 3 · Data structures, functions, and arrays
 
@@ -68,7 +70,7 @@ class Thu **Aug 27** · **Growth Memo 1** (baseline), Mon **Aug 31**
 functions in P1 notebooks; modules from Project 2 onward. OOP is reference
 material for now and returns when a later project needs it.
 
-**Due** — **Project 1** + **analysis notebook** + Discussion, Tue **Sep 8**
+**Due** — **Project 1** + **analysis notebook**, Tue **Sep 8**
 
 :::{note} Why Project 1 is due Tuesday
 Every other project is due Monday. Project 1 is the exception because Mon Sep 7
@@ -101,8 +103,8 @@ the source of every method in this course
 **Topics** — rectangle, trapezoid, Simpson's rule; adaptive quadrature; error
 estimation and convergence order; verifying you achieve the expected order
 
-**Due** — **Project 2** (integration library + exoplanet transit model) +
-notebook Discussion, Mon **Sep 21**
+**Due** — **Project 2** (integration library + exoplanet transit model +
+analysis notebook), Mon **Sep 21**
 
 ## Block 3 · Project 3 — Root Finding & Stellar Inference
 
@@ -126,8 +128,8 @@ and bracketing; Wien's law and habitable-zone calculation
 **Topics** — Kepler's equation, orbital geometry, root-finding contact points;
 `Star` objects and habitable zones for the 15-star P1 sample
 
-**Due** — **Project 3** (root-finding library + stellar-inference notebook) +
-notebook Discussion, Mon **Oct 5**
+**Due** — **Project 3** (root-finding library + stellar-inference notebook), Mon
+**Oct 5**
 
 ## Block 4 · Project 4 — ODE Methods & Exoplanet Interiors
 
@@ -141,6 +143,8 @@ notebook Discussion, Mon **Oct 5**
 
 **Topics** — Euler, RK2, RK4; local and global error; order verification
 
+**Assigned** — **Growth Memo 2**, Tue **Oct 6**; due Mon **Oct 19**, 11:59 pm PT
+
 ### Week 8 — Oct 13, 15 · Shooting and planetary interiors
 
 **Readings**
@@ -150,9 +154,8 @@ notebook Discussion, Mon **Oct 5**
 **Topics** — hydrostatic equilibrium, equations of state, locating a moving
 surface, shooting, and diagnosing observed order loss
 
-**Due** — **Project 4** (ODE library + exoplanet-interior notebook) + notebook
-Discussion + **Growth Memo 2**
-(mid-semester), Mon **Oct 19**
+**Due** — **Project 4** (ODE library + exoplanet-interior notebook) + **Growth
+Memo 2** (mid-semester), Mon **Oct 19**, 11:59 pm PT
 
 ## Block 5 · Project 5 — Real Data & Model Fitting
 
@@ -179,8 +182,8 @@ exploratory analysis of real Kepler light curves
 **Topics** — design matrices, normal equations, conditioning, $\chi^2$, transit
 model fitting, and bootstrap uncertainty
 
-**Due** — **Project 5** (real Kepler photometry + transit-model fit) +
-notebook Discussion, Mon **Nov 2**
+**Due** — **Project 5** (real Kepler photometry + transit-model fit + analysis
+notebook), Mon **Nov 2**
 
 ## Block 6 · Project 6 — Machine Learning & Scientific Classification
 
@@ -219,6 +222,8 @@ comparing against scikit-learn
 - [Inferential thinking](../06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md)
 
 **Topics** — measurement uncertainty, inference; final-project launch
+
+**Assigned** — **Growth Synthesis**, Tue **Nov 17**; due Mon **Dec 14**, 11:59 pm PT
 
 **Due** — **Final-Project Proposal Pitch** (5 minutes + short slide deck), Thu
 **Nov 19**, in class

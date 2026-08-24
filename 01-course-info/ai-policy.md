@@ -20,7 +20,8 @@ I don’t pretend to know exactly what the future of AI-assisted coding looks li
 ## Non‑Negotiables (Read These First)
 
 1. **AI is optional.** You can earn full credit without using AI at all.
-2. **You must understand what you submit.** If you can’t explain it, you don’t own it.
+2. **You are responsible for your code and written answers.** You must understand
+   and be able to explain everything you submit.
 3. **No AI refactoring / restructuring.** If AI changes the structure of your solution, your work is no longer assessable.
 4. **No AI-written “core solution” code.** AI may support learning and presentation (in later phases), but the algorithmic logic must remain yours.
 5. **Disclosure is required.** Meaningful AI use must be documented.
