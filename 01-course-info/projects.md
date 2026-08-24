@@ -5,44 +5,43 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Projects
 
-Projects are the core of COMP 521: six two-week projects, beginning with a
-required technical-readiness checkpoint inside Project 1. Each project has two
-halves:
+Projects are the core of COMP 521: six two-week projects. Project 1 begins with
+a required check in the actual Project 1 repository. Each project has two halves:
 
 - **Week 1** — method, implementation, and validation against known results
 - **Week 2** — scientific application, diagnosis, or comparison
 
 See the [Course Schedule](schedule.md) for all assignment and submission dates.
 
-## Before Project 1 — Technical Readiness Check
+(sec-p1-repository-check)=
+## Project 1 First Milestone — Repository Check
 
-**Due before class Thu Aug 27.** This is a required, completion-only milestone
+**Due Fri Aug 28 at 11:59 pm PT.** This is a required, completion-only milestone
 inside your **actual Project 1 repository**, not a separate Project 0 and not
-part of the project average. It verifies only the minimum submission path:
+part of the project average. It verifies only the repository submission path:
 
 1. Use the course invitation in Canvas to accept your individual P1 repository
    through Classroom50, then clone that repository to your computer.
-2. Activate your COMP 521 Python environment and open the starter
-   `analysis.ipynb`.
-3. Run the tagged readiness cell and save its printed success message in the
-   notebook.
-4. Commit and push `analysis.ipynb`, then open your P1 repository on GitHub and
-   confirm that the **P1 readiness** GitHub Actions check is green.
+2. In the cloned repository's `README.md`, change the repository-check box from
+   `[ ]` to `[x]`.
+3. Commit that README change locally and push the commit to GitHub.
+4. Open your P1 repository on GitHub and confirm that the commit is visible.
 
-The GitHub check runs automatically after each push. A green check records
-completion; there is no separate upload. You may retry as often as necessary
-before class. This checkpoint does **not** assess effort, code quality, or
-progress on the scientific work in P1.
+That one visible commit records completion; there is no separate upload or
+automated readiness test. This check does **not** assess effort, code quality,
+Python setup, or progress on the scientific work in P1. Complete the separate
+[laptop setup](../02-getting-started/02-software-setup.md) before class Thursday
+so that you can use Python and Jupyter in class.
 
-Work through [Getting Started](../02-getting-started/index.md) as needed.
+Work through [Getting Started](../02-getting-started/getting-started.md) as needed.
 
-:::{important} The P1 deadline does not move
-Completing this checkpoint proves that your environment and submission route
-work; it neither evaluates nor requires P1 progress. A missing checkpoint or a
-technical problem discovered at or after the P1 deadline does not extend that
-deadline. The exceptions are an approved accommodation or a documented outage
-of GitHub/Classroom50; if an outage occurs, contact the instructor through
-Canvas before the checkpoint deadline.
+:::{important} The Project 1 deadline does not move
+Completing this check proves that your Classroom50 and GitHub submission route
+works; it neither evaluates nor requires Project 1 progress. A missing check or
+a repository problem discovered at or after the Project 1 deadline does not
+extend that deadline. The exceptions are an approved accommodation or a
+documented outage of GitHub/Classroom50; if an outage occurs, contact the
+instructor through Canvas before the repository-check deadline.
 :::
 
 ## Project Sequence

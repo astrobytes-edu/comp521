@@ -189,7 +189,7 @@ def test_deferred_part_iii_is_honest_about_its_status():
             "01-course-info/technology-submission.md",
             (
                 'title: "Course Technology & Submission Path"',
-                "02-getting-started/index.md",
+                "02-getting-started/getting-started.md",
                 "projects.md",
             ),
         ),

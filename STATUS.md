@@ -1,6 +1,6 @@
 # COMP 521 — status
 
-next: Run and document the real Project 1 Classroom50 fresh-student rehearsal before the first day of class.
+next: Configure and rehearse the real Project 1 Classroom50 repository-check path before the first day of class.
 blocker: The actual Classroom50 invitation and fresh-account workflow remain unverified.
 due: 2026-08-24
 
@@ -15,5 +15,5 @@ editing Brain pages directly.
 ## Release boundary
 
 Do not mark the course or Project 1 release-ready until the real invitation,
-acceptance, clone, readiness-cell execution, commit/push, and remote-check path
-has been observed with a fresh student account.
+acceptance, clone, local README edit, commit, push, and visible remote commit have
+been observed with a fresh student account.

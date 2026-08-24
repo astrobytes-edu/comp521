@@ -22,24 +22,23 @@ the course terminal described in Chapter 1 and run:
 ```bash
 pwd
 cd ~
-mkdir -p comp521_cli_practice/project-1
-cd comp521_cli_practice/project-1
+mkdir -p comp521_cli_practice/terminal-practice
+cd comp521_cli_practice/terminal-practice
 pwd
 ```
 
 Success means the final command prints a path ending in
-`comp521_cli_practice/project-1`. You have not installed software or changed a
-course repository; you have simply proved that you can navigate a workspace.
+`comp521_cli_practice/terminal-practice`. You have not installed software or
+changed a course repository; you have simply proved that you can navigate a workspace.
 Chapter 1 explains each command and gives you a longer practice task.
 
 ## What to read, and when
 
-### Complete for P1 technical readiness
+### Complete before class Thursday
 
 Set aside **about two hours** for this route. Allow **up to three hours** if you
-are installing software from scratch, creating a GitHub account, or encounter a
-network delay. Start before the readiness deadline so that a technical problem
-does not become a time problem.
+are installing software from scratch or encounter a network delay. Start early
+enough to ask for help before you need Python and Jupyter in class.
 
 ::::{grid} 1 1 3 3
 
@@ -57,14 +56,16 @@ Install Miniforge and VS Code, create the `comp521` environment, and run a
 local notebook check. **About 45–75 minutes from scratch.**
 :::
 
+::::
+
+### Complete by Friday night
+
 :::{card} 3. Git and Classroom50
 :link: 03-git-intro.md
 
-Clone your assigned P1 repository, commit one targeted file, push it, and
-verify the green readiness check. **About 35–50 minutes after setup.**
+Accept and clone your assigned Project 1 repository, then push the required
+README setup commit. **About 35–50 minutes after setup.**
 :::
-
-::::
 
 ### Use while writing Project 1
 
@@ -95,33 +96,30 @@ A phase-aware pre-coding, debugging, and submission checklist. It is a working
 aid, not a grading rubric.
 :::
 
-## The P1 readiness route
+## The Project 1 Repository Check
 
-The readiness checkpoint is intentionally narrow. It verifies access, the
-course environment, notebook execution, and a successful push—not progress on
-the P1 science.
+**Due Fri Aug 28 at 11:59 pm PT.** This completion-only check verifies that you
+can use Classroom50 and push to your assigned repository. It does not assess
+Project 1 progress or Python skill.
 
 1. Follow the Project 1 invitation in Canvas and obtain your assigned
    Classroom50 repository.
 2. Clone that repository and change into its directory.
-3. Activate the `comp521` environment.
-4. Open `analysis.ipynb`, run its tagged readiness cell, and save the notebook
-   with the success message visible.
-5. Stage **that notebook**, inspect the staged change, commit, and push:
+3. In `README.md`, change the repository-check box from `[ ]` to `[x]`.
+4. Stage that README change, inspect it, commit, and push:
 
    ```bash
    git status
-   git add analysis.ipynb
-   git diff --staged --stat
-   git commit -m "Complete P1 technical readiness check"
+   git add README.md
+   git diff --staged
+   git commit -m "Complete Project 1 repository check"
    git push
    ```
 
-6. Open your P1 repository on GitHub. Confirm that the commit is present and
-   the **P1 readiness** check is green.
+5. Open your P1 repository on GitHub and confirm that the commit is visible.
 
-The complete checkpoint contract and due date live on the
-[Projects page](../01-course-info/projects.md#before-project-1-technical-readiness-check).
+The complete repository-check contract and due date live on the
+[Projects page](../01-course-info/projects.md#sec-p1-repository-check).
 
 ## When an error appears
 
@@ -153,15 +151,14 @@ error interpretation.
 
 ## Ready means observable
 
-You are ready to begin P1 when you can demonstrate all of these:
+Your laptop is ready for Thursday when you can demonstrate all of these:
 
-- [ ] I can use `pwd`, `ls`, and `cd` to reach my P1 repository.
+- [ ] I can use `pwd`, `ls`, and `cd` to navigate a practice directory.
 - [ ] `conda activate comp521` selects the course environment.
-- [ ] VS Code opens `analysis.ipynb` with the `comp521` kernel.
-- [ ] I can explain what `status`, `add`, `diff --staged`, `commit`, and `push`
-  do.
-- [ ] My saved readiness output is committed and visible on GitHub.
-- [ ] The **P1 readiness** check is green.
+- [ ] VS Code can run a local notebook with the `comp521` kernel.
+
+Your repository check is complete Friday when your locally created README commit
+is visible in your assigned Project 1 repository on GitHub.
 
 :::{tip} Keep the loop small
 During a project, work in short cycles: make one meaningful change, run the

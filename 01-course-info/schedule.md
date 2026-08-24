@@ -54,10 +54,13 @@ posted)* are being written and will appear before they are needed.
 **Topics** — environment setup, Git/GitHub workflow, Python syntax, floating
 point, control flow, the five algorithmic patterns
 
-**Assigned** — **Growth Memo 1**, Tue **Aug 25**; due Mon **Aug 31**, 11:59 pm PT
+**Before class Thu Aug 27** — complete the laptop setup so that you can use
+Python and Jupyter in class
 
-**Due** — **P1 Technical Readiness Check** in your Project 1 repository, before
-class Thu **Aug 27**
+**Due Fri Aug 28, 11:59 pm PT** — **Project 1 Repository Check** in your assigned
+Classroom50 repository
+
+**Assigned** — **Growth Memo 1**, Tue **Aug 25**; due Mon **Aug 31**, 11:59 pm PT
 
 ### Week 2 — Sep 1, 3 · Data structures, functions, and arrays
 

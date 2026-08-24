@@ -153,7 +153,7 @@ describes GitHub authorization and repository creation. The course-specific
 project brief and Canvas invitation take precedence over a generic service
 example or screenshots from another course.
 
-### Accept and clone P1
+### Accept and clone Project 1
 
 1. Open the **Project 1 Classroom50 invitation** in Canvas.
 2. Follow the Classroom50 acceptance prompts and open the repository assigned to
@@ -171,37 +171,24 @@ example or screenshots from another course.
 Use the actual URL and folder name shown for your repository. Do not create,
 fork, or rename a substitute repository.
 
-### Complete the P1 readiness checkpoint
+### Complete the Project 1 Repository Check
 
-1. Activate the course environment:
-
-   ```bash
-   conda activate comp521
-   ```
-
-2. Open the cloned folder in VS Code, select the `comp521` notebook kernel,
-   open `analysis.ipynb`, run its tagged readiness cell, and save the notebook
-   with the success message visible.
-3. Return to the terminal in that repository and run:
+**Due Fri Aug 28 at 11:59 pm PT.** In the cloned repository's `README.md`,
+change the repository-check box from `[ ]` to `[x]`. Then return to the terminal
+in that repository and run:
 
    ```bash
    git status
-   git add analysis.ipynb
-   git diff --staged --stat
-   git commit -m "Complete P1 technical readiness check"
+   git add README.md
+   git diff --staged
+   git commit -m "Complete Project 1 repository check"
    git push
    ```
 
-4. Open the repository on GitHub. Verify all three observations:
-   - the new commit appears;
-   - `analysis.ipynb` contains the saved success output; and
-   - the **P1 readiness** GitHub Actions check is green.
+Open the repository on GitHub and verify that the new commit appears.
 
-For this checkpoint, a successful push plus the green check records completion;
-there is no separate file upload. For later assignments, follow the exact
-project brief: Classroom50 can also support configurations with an explicit
-submission action, so “last push always equals submission” is not a universal
-rule.
+That one visible commit records completion; there is no separate upload or
+automated readiness test. For later assignments, follow the exact project brief.
 
 ## A daily project workflow
 

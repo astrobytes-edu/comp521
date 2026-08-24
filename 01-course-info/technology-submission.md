@@ -19,6 +19,6 @@ linked reference when something breaks.
 5. Before every final push, use **Restart Kernel and Run All Cells** and then
    commit and push the resulting clean notebook.
 
-The [Getting Started](../02-getting-started/index.md) library explains the
+The [Getting Started](../02-getting-started/getting-started.md) library explains the
 tools in detail. The [Projects](projects.md) page—not this orientation page—owns
 the submission contract.

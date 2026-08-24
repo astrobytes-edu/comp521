@@ -150,7 +150,7 @@ project:
 
     - title: Tools & Workflow
       children:
-        - file: 02-getting-started/index.md
+        - file: 02-getting-started/getting-started.md
         - file: 02-getting-started/01-cli-intro.md
         - file: 02-getting-started/02-software-setup.md
         - file: 02-getting-started/03-git-intro.md

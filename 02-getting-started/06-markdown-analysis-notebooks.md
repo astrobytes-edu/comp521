@@ -11,8 +11,8 @@ you did, what happened, and what the result means.
 :::{important} Follow the current project brief
 Project 1 places interpretation immediately after each part and ends with
 `Looking back`; it does not require a separate final report. From Project 2
-onward, follow the headings and final `Discussion` requirements in that
-project's brief. The brief wins if a generic example on this page differs.
+onward, follow the written-interpretation prompts and headings in that project's
+brief. The brief wins if a generic example on this page differs.
 :::
 
 ## Give Markdown and code different jobs

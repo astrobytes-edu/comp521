@@ -12,12 +12,12 @@ import sys
 
 HOME = Path("index.md")
 REQUIRED = (
-    "provisional through **Thu Sep 24**",
+    "Required readings will be posted at least one week before they are due.",
     "01-course-info/syllabus.md",
     "01-course-info/schedule.md",
     "01-course-info/projects.md",
     "01-course-info/ai-policy.md",
-    "02-getting-started/index.md",
+    "02-getting-started/getting-started.md",
 )
 FORBIDDEN = (
     "| Weeks | Project | Focus | Due |",

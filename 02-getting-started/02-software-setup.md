@@ -196,8 +196,8 @@ plt.show()
 ```
 
 Success means the cell completes and displays one labeled curve. Close the
-untitled notebook without saving; the official readiness evidence must be run
-and saved in your assigned P1 `analysis.ipynb`.
+untitled notebook without saving. This local check establishes that your laptop
+is ready to use Python and Jupyter in Thursday's class.
 
 ## AI completion settings
 
@@ -226,8 +226,9 @@ Before continuing, confirm:
 - [ ] A notebook can select the `comp521` kernel and display the test plot.
 - [ ] Automatic AI code completion is disabled for the Phase 1 projects.
 
-This is the **local setup check**. The recorded P1 technical-readiness check is
-completed after you receive and push your assigned repository in Chapter 3.
+Complete this **local setup check before class Thursday, August 27**. The
+separate Project 1 Repository Check is completed by pushing one setup commit in
+Chapter 3.
 
 ## Troubleshooting from evidence
 

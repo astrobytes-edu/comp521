@@ -19,10 +19,12 @@ author: "Dr. Anna Rosen"
 | **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[Classroom50](https://github.com/foundation50/classroom50/wiki) *(project submissions)* |
 
 :::{note} Start Here
-- **Due first:** the **P1 Technical Readiness Check**, completed in your actual
-  Project 1 repository and verified automatically on GitHub, **before class
-  Thu Aug 27**. It is completion-only and does not assess P1 progress. **Growth
-  Memo 1** follows on **Mon Aug 31**.
+- **Before class Thu Aug 27:** complete the laptop setup so that you can use
+  Python and Jupyter in class.
+- **Due Fri Aug 28 at 11:59 pm PT:** complete the **Project 1 Repository Check**
+  in your actual Classroom50 repository. Push one setup commit; it is
+  completion-only and does not assess Project 1 progress. **Growth Memo 1**
+  follows on **Mon Aug 31**.
 - **Read the [AI Policy](ai-policy.md) before beginning Project 1.** AI is
   optional, but you are responsible for your own code and written answers and
   must be able to explain both.
@@ -79,7 +81,7 @@ course is not computationally demanding, and nothing we do requires a GPU or a
 large amount of memory.
 
 Software (Python, `git`, and the scientific stack) is free, open-source, and
-installed in Week 1. See [Getting Started](../02-getting-started/index.md).
+installed in Week 1. See [Getting Started](../02-getting-started/getting-started.md).
 
 :::{note} Optional: SDSU JupyterHub
 Using your own computer is preferred, but the class also has access to
@@ -257,7 +259,7 @@ including reading, project work, and preparation for class.
 (sec-projects)=
 ### Projects
 
-COMP 521 includes a required technical-readiness checkpoint inside Project 1,
+COMP 521 includes a required repository check at the start of Project 1,
 six two-week projects, and a four-week solo final project. See
 [Projects](projects.md) for the checkpoint, project sequence, submissions, and
 collaboration expectations.

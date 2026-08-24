@@ -48,12 +48,13 @@ The semester has six two-week projects and a four-week solo final project.
 Every class meeting combines instruction and hands-on work, so bring your
 laptop.
 
-The completion-only **P1 Technical Readiness Check** is due **before class Thu
-Aug 27**. You complete it in your actual Project 1 repository to verify access,
-notebook execution, and a successful GitHub push. It does not assess P1
-progress. The [Schedule](01-course-info/schedule.md) is the authoritative source
-for all dates; [Projects](01-course-info/projects.md) explains what you will
-build and submit.
+Complete the laptop setup before class **Thu Aug 27** so that you can use Python
+and Jupyter in class. The completion-only **Project 1 Repository Check** is due
+**Fri Aug 28 at 11:59 pm PT**: accept your Classroom50 assignment, clone the
+repository, and push one setup commit. It does not assess Project 1 progress.
+The [Schedule](01-course-info/schedule.md) is the authoritative source for all
+dates; [Projects](01-course-info/projects.md) explains what you will build and
+submit.
 
 ## Start here
 
@@ -84,9 +85,10 @@ Read this before beginning Project 1.
 :::
 
 :::{grid-item-card} Getting Started
-:link: 02-getting-started/index.md
+:link: 02-getting-started/getting-started.md
 
-Set up your machine and complete the P1 Technical Readiness Check.
+Set up your laptop for Thursday and complete the Project 1 Repository Check by
+Friday.
 :::
 
 ::::
