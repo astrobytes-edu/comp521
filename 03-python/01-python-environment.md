@@ -22,6 +22,13 @@ By the end of this chapter, you will be able to:
 
 ## Prerequisites
 
+:::{important} Course unit convention
+
+COMP 521 uses CGS by default: centimeters, grams, and seconds. When an example
+or an external source uses another system, name the units in variables and make
+the conversion explicit at the documented input or output boundary.
+:::
+
 :::{important} Before starting
 
 You need a way to start Python and, for the terminal examples, a terminal or
@@ -1701,6 +1708,7 @@ or convergence warning.
 | Python location | `python -c "import sys; print(sys.executable)"` | Intended interpreter |
 | Package version | `python -c "import pkg; print(pkg.__version__)"` | Intended version |
 | Package origin | `python -c "import pkg; print(pkg.__file__)"` | Expected install location |
+| Import specification | `python -c "import importlib.util; print(importlib.util.find_spec('pkg').origin)"` | Whether it is built in or where it was found |
 | Packages | `python -m pip show pkg` | Package belongs to this Python |
 | Import works | `python -c "from pkg import mod"` | Should import without error |
 | Data paths | `echo $PROJECT_DATA` | Your data directory |

@@ -1,0 +1,62 @@
+---
+title: "Lecture Library"
+subtitle: "COMP 521 | Course blocks, projects, and live class materials"
+---
+
+# Lecture Library
+
+Each lecture is the canonical record of what we build together in class. It is
+organized by **course block and project**, because a method is easier to learn
+when its scientific question, computational choices, and evidence are visible
+in one place.
+
+Lectures are not replacement textbook chapters. Use the linked reading for a
+slower, more complete treatment; use the lecture page to recover the question,
+worked examples, predictions, and project connection from a specific class.
+
+:::{important} A durable route through the site
+
+- **Lectures** answer: *What did we do in class, and why?*
+- **Scientific Background** answers: *What is this observable, model, or
+  approximation?*
+- **Scientific Computing with Python** and **Readings** answer: *Where can I
+  study this method in depth?*
+- **Practice Labs** provide focused, low-stakes rehearsal.
+- **Projects** establish the required scientific evidence and deliverables.
+:::
+
+## Block 1 · Scientific Programming & Transit Model
+
+**Project connection:** Project 1, a restartable notebook that models the
+fraction of stellar light visible during a transit.
+
+| Lecture | In-class question | Build toward |
+|---|---|---|
+| [Lecture 1: Python Foundations](../03-python/bootcamp-01-run-calculate-inspect.md) | How do mathematics, code, software environments, and finite-precision numbers connect? | vocabulary, legible calculations, numerical judgment |
+
+Useful background: [Exoplanets](../10-scientific-background/exoplanets.md),
+[transits](../10-scientific-background/transits.md),
+[light curves](../10-scientific-background/light-curves.md), and the
+[uniform-source model](../10-scientific-background/uniform-source-model.md).
+
+## Future course blocks
+
+:::{warning} Library expansion in progress
+
+These headings reserve the durable homes for later lecture pages. They are not
+yet a second set of required materials. The course schedule and published
+lecture pages determine what is currently assigned.
+:::
+
+- **Block 2 · Numerical Integration** — discrete approximation, error, and
+  convergence.
+- **Block 3 · Root Finding & Stellar Inference** — solving a model equation
+  and checking whether a solution is trustworthy.
+- **Block 4 · ODE Methods & Dynamical Models** — time stepping, stability, and
+  conservation.
+- **Block 5 · Real Data & Model Fitting** — data provenance, uncertainty, and
+  model criticism.
+- **Block 6 · ML & Scientific Classification** — evaluation, generalization,
+  and scientific limits.
+- **Block 7 · Final Project Studio** — question framing, evidence design, and
+  reproducible communication.

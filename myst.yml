@@ -53,6 +53,7 @@ project:
         - title: Part I · Foundations for Scientific Programming
           children:
             - file: 03-python/index.md
+            - file: 03-python/docs-first.md
             - file: 03-python/01-python-environment.md
             - file: 03-python/02-python-calculator.md
             - file: 03-python/03-python-control-flow.md
@@ -131,20 +132,41 @@ project:
                 - file: 06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md
                 - file: 06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md
 
+    - title: Scientific Background
+      children:
+        - file: 10-scientific-background/index.md
+        - title: Astronomy & observables
+          children:
+            - file: 10-scientific-background/exoplanets.md
+            - file: 10-scientific-background/transits.md
+            - file: 10-scientific-background/light-curves.md
+        - title: Models & approximations
+          children:
+            - file: 10-scientific-background/uniform-source-model.md
+
     - title: Lectures
       children:
+        - file: 09-lectures/index.md
         - title: Block 1 · Scientific Programming & Transit Model
           children:
-            - file: 03-python/interactive-lab-transit-depth.md
+            - title: Python Bootcamp · Weeks 1–2
+              children:
+                - file: 03-python/bootcamp-01-run-calculate-inspect.md
 
     - title: Practice Labs
       children:
         - file: 07-practice-labs/index.md
+        - file: 07-practice-labs/grade-calculator-design.md
+        - file: 07-practice-labs/vectorization-broadcasting.md
 
     - title: Assessments
       children:
         - file: 08-assessments/index.md
-        - file: 01-course-info/projects.md
+        - title: Projects
+          children:
+            - title: Project Overview
+              file: 01-course-info/projects.md
+            - file: 08-assessments/projects/project-1.md
         - file: 01-course-info/growth-reflections.md
         - file: 01-course-info/grading.md
 
@@ -164,3 +186,4 @@ site:
     logo: assets/comp521-logo.png
     logo_alt: COMP 521 home
     favicon: assets/comp521-logo-square.png
+    style: assets/lecture-projector.css

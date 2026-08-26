@@ -5,44 +5,25 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Projects
 
-Projects are the core of COMP 521: six two-week projects. Project 1 begins with
-a required check in the actual Project 1 repository. Each project has two halves:
+Projects are the core of COMP 521: six two-week investigations. Each project
+has two halves:
 
 - **Week 1** — method, implementation, and validation against known results
 - **Week 2** — scientific application, diagnosis, or comparison
 
 See the [Course Schedule](schedule.md) for all assignment and submission dates.
+The [Project 1 brief](../08-assessments/projects/project-1.md) is the
+authoritative source for its repository check, scientific work, deliverables,
+and interpretation prompts.
 
-(sec-p1-repository-check)=
-## Project 1 First Milestone — Repository Check
+## Start with Project 1
 
-**Due Fri Aug 28 at 11:59 pm PT.** This is a required, completion-only milestone
-inside your **actual Project 1 repository**, not a separate Project 0 and not
-part of the project average. It verifies only the repository submission path:
-
-1. Use the course invitation in Canvas to accept your individual P1 repository
-   through Classroom50, then clone that repository to your computer.
-2. In the cloned repository's `README.md`, change the repository-check box from
-   `[ ]` to `[x]`.
-3. Commit that README change locally and push the commit to GitHub.
-4. Open your P1 repository on GitHub and confirm that the commit is visible.
-
-That one visible commit records completion; there is no separate upload or
-automated readiness test. This check does **not** assess effort, code quality,
-Python setup, or progress on the scientific work in P1. Complete the separate
-[laptop setup](../02-getting-started/02-software-setup.md) before class Thursday
-so that you can use Python and Jupyter in class.
-
-Work through [Getting Started](../02-getting-started/getting-started.md) as needed.
-
-:::{important} The Project 1 deadline does not move
-Completing this check proves that your Classroom50 and GitHub submission route
-works; it neither evaluates nor requires Project 1 progress. A missing check or
-a repository problem discovered at or after the Project 1 deadline does not
-extend that deadline. The exceptions are an approved accommodation or a
-documented outage of GitHub/Classroom50; if an outage occurs, contact the
-instructor through Canvas before the repository-check deadline.
-:::
+The [Project 1 brief](../08-assessments/projects/project-1.md) begins with the
+required, completion-only GitHub repository check and then defines the
+scientific model, notebook work, figures, written interpretation, and Canvas
+repository-link submission route. Complete the separate
+[laptop setup](../02-getting-started/02-software-setup.md) before class so that
+you can use Python and Jupyter.
 
 ## Project Sequence
 
@@ -104,6 +85,29 @@ re-execute submitted notebooks from a clean kernel using the repository's
 instructions. If I cannot run yours from top to bottom, it does not count as
 running.
 :::
+
+## How each project is graded
+
+Every project receives **one final letter grade**. I assign a letter in each of
+four broad dimensions, convert those letters using the course grade scale, and
+take the weighted average. The final project letter uses the same cutoff table
+as the rest of the course.
+
+This is a weighted professional judgment, not a point checklist. A student does
+not earn an A by collecting isolated rubric items: evidence must actually
+support the computational and scientific claim.
+
+| Dimension | Weight | A-level evidence |
+|---|---:|---|
+| Correct model and validation | 40% | The method is correct and checks could have exposed a plausible mistake. |
+| Scientific reasoning | 25% | The interpretation connects outputs to the question, assumptions, and limits. |
+| Reproducibility and code design | 20% | A clean run works; functions, inputs, outputs, and repository workflow are inspectable. |
+| Communication and figures | 15% | Figures and prose let another scientist understand the evidence without guessing. |
+
+Use the [Grading](grading.md#project-grade-calculation) page for the letter-to-
+number scale, final-letter cutoffs, and the meaning of A/B/C/D/F work. Written
+feedback identifies the category that most shaped the final grade and the
+highest-leverage next improvement.
 
 (sec-pairs)=
 ## Project Pairs & Collaboration

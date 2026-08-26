@@ -9,8 +9,8 @@ This section collects the pages that govern graded or submission-bearing work.
 Each linked page remains the authoritative source for its own requirements and
 criteria.
 
-- [Projects](../01-course-info/projects.md) — the Project 1 Repository Check and
-  the six-project sequence.
+- [Projects](projects/project-1.md) — the Project 1 brief, repository check,
+  and six-project sequence.
 - [Growth Reflections](../01-course-info/growth-reflections.md) — individual
   reflection prompts and submission expectations.
 - [Grading](../01-course-info/grading.md) — weights, scale, and submission

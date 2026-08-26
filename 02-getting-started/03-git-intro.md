@@ -1,12 +1,13 @@
 ---
-title: "Chapter 3: Git, GitHub, and Classroom50"
+title: "Chapter 3: Git, GitHub, and Project Repositories"
 subtitle: "Record, push, and verify your work"
 author: "Anna Rosen"
 ---
 
 Git records snapshots of a project on your computer. GitHub stores the commits
-you push to a remote repository. Classroom50 gives each student the assigned
-course repository.
+you push to a remote repository. Classroom50 may distribute an individual
+course repository; for Project 1, Canvas accepts the URL of your GitHub
+repository as the submission route.
 
 :::{important} What Git protects
 Committed work is recorded locally; pushed work is also stored on GitHub.
@@ -84,8 +85,8 @@ gh auth status
 Follow the browser or device-code prompt and sign into the GitHub account you
 will use for the course. `gh auth setup-git` configures GitHub CLI as Git's
 credential helper; `gh auth status` confirms the account and reports where
-the credential is stored. The P1 invitation separately asks you to authorize
-Classroom50 with that GitHub account.
+the credential is stored. If Classroom50 is used for a project, its invitation
+will separately ask you to authorize it with that GitHub account.
 
 :::{warning} Do not improvise a broad token
 If a terminal asks for a password or authentication fails, do not create a
@@ -145,21 +146,23 @@ structured JSON, so `git diff --staged --stat` plus a clean restart-and-run
 check is usually more useful. Never stage credentials, excluded datasets, or
 machine-specific files merely because a broad command found them.
 
-## Classroom50 and Project 1
+## Project repositories and Classroom50
 
-Classroom50 is the assignment-distribution service for COMP 521. Its current
+For Project 1, create or use the GitHub repository you will submit through the
+Canvas Project 1 assignment. Classroom50 can also create an individual
+repository when its invitation is available. Its current
 [student web guide](https://github.com/foundation50/classroom50/wiki/Web-Student-Guide)
 describes GitHub authorization and repository creation. The course-specific
-project brief and Canvas invitation take precedence over a generic service
+project brief and Canvas announcement take precedence over a generic service
 example or screenshots from another course.
 
-### Accept and clone Project 1
+### Create or accept, then clone Project 1
 
-1. Open the **Project 1 Classroom50 invitation** in Canvas.
-2. Follow the Classroom50 acceptance prompts and open the repository assigned to
-   your GitHub account.
-3. On that repository's GitHub page, copy its HTTPS clone URL.
-4. In Git Bash or Terminal, go to the parent directory where you keep course
+1. If a Classroom50 invitation is available, follow its prompts and open the
+   repository assigned to your GitHub account. Otherwise, create/use the
+   individual GitHub repository you will link in Canvas.
+2. On that repository's GitHub page, copy its HTTPS clone URL.
+3. In Git Bash or Terminal, go to the parent directory where you keep course
    projects, then clone the URL:
 
    ```bash
@@ -168,10 +171,10 @@ example or screenshots from another course.
    git status
    ```
 
-Use the actual URL and folder name shown for your repository. Do not create,
-fork, or rename a substitute repository.
+Use the actual URL and folder name shown for your repository. The Project 1
+brief and Canvas assignment own the active submission route.
 
-### Complete the Project 1 Repository Check
+### Complete the Project 1 GitHub Repository Check
 
 **Due Fri Aug 28 at 11:59 pm PT.** In the cloned repository's `README.md`,
 change the repository-check box from `[ ]` to `[x]`. Then return to the terminal
@@ -307,7 +310,8 @@ unless a project brief explicitly changes that rule. See the
 - [ ] I can distinguish working, staged, committed, and pushed changes.
 - [ ] I use `git status`, choose an appropriate staging scope (`<path>`, `.`,
       or `-A`), and inspect the staged result before each commit.
-- [ ] I cloned the assigned P1 repository from its actual Classroom50 route.
+- [ ] I cloned the Project 1 repository I will submit through Canvas (or the
+      Classroom50 repository when one was assigned).
 - [ ] My saved readiness notebook is visible on GitHub.
 - [ ] The **P1 readiness** check is green.
 

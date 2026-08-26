@@ -59,16 +59,22 @@ function injectControls(controls) {
 }
 
 async function run(code, controls, packages) {
-  const activeRuntime = await getRuntime(packages);
+  const usesMatplotlib = packages.includes("matplotlib") || /\b(?:matplotlib|pyplot|plt)\b/.test(code);
+  const runtimePackages = usesMatplotlib
+    ? [...new Set([...packages, "matplotlib"])]
+    : packages;
+  const activeRuntime = await getRuntime(runtimePackages);
   const capture = { stdout: "", stderr: "" };
   currentCapture = capture;
   try {
-    // Force the non-interactive backend before student code imports pyplot.
-    // The browser backend otherwise creates a second canvas at document level,
-    // outside this widget and therefore after MyST's page footer.
-    activeRuntime.runPython("import warnings\nwarnings.filterwarnings('ignore', message='FigureCanvasAgg is non-interactive')\nimport matplotlib\nmatplotlib.use('Agg', force=True)\nimport matplotlib.pyplot as plt\nplt.close('all')");
+    if (usesMatplotlib) {
+      // Force the non-interactive backend before student code imports pyplot.
+      // The browser backend otherwise creates a second canvas at document level,
+      // outside this widget and therefore after MyST's page footer.
+      activeRuntime.runPython("import warnings\nwarnings.filterwarnings('ignore', message='FigureCanvasAgg is non-interactive')\nimport matplotlib\nmatplotlib.use('Agg', force=True)\nimport matplotlib.pyplot as plt\nplt.close('all')");
+    }
     await activeRuntime.runPythonAsync(`${injectControls(controls)}\n${code}`);
-    const figures = activeRuntime.runPython(`
+    const figures = usesMatplotlib ? activeRuntime.runPython(`
 import base64, io, json
 import matplotlib.pyplot as plt
 images = []
@@ -77,7 +83,7 @@ for number in plt.get_fignums():
     plt.figure(number).savefig(buffer, format="png", bbox_inches="tight", dpi=120)
     images.append("data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode())
 json.dumps(images)
-`);
+`) : "[]";
     return { ...capture, figures: JSON.parse(figures), error: null };
   } catch (error) {
     return { ...capture, figures: [], error: String(error) };

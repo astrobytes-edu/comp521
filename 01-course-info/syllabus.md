@@ -16,13 +16,13 @@ author: "Dr. Anna Rosen"
 | **Class meetings** | Tue/Thu 5:30–6:45 pm |
 | **Location** | LSN 134 |
 | **Course website** | <https://astrobytes-edu.github.io/comp521> |
-| **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[Classroom50](https://github.com/foundation50/classroom50/wiki) *(project submissions)* |
+| **Platforms:** <br>*(where things happen)* | [Canvas](https://sdsu.instructure.com) *(announcements, gradebook, Project 1 repository link)*<br>[Course website](https://astrobytes-edu.github.io/comp521) *(course materials, handouts, assignments)*<br>[GitHub](https://github.com) *(project repositories; Classroom50 may distribute individual repositories)* |
 
 :::{note} Start Here
 - **Before class Thu Aug 27:** complete the laptop setup so that you can use
   Python and Jupyter in class.
-- **Due Fri Aug 28 at 11:59 pm PT:** complete the **Project 1 Repository Check**
-  in your actual Classroom50 repository. Push one setup commit; it is
+- **Due Fri Aug 28 at 11:59 pm PT:** complete the **Project 1 GitHub Repository
+  Check**. Push one setup commit; it is
   completion-only and does not assess Project 1 progress. **Growth Memo 1**
   follows on **Mon Aug 31**.
 - **Read the [AI Policy](ai-policy.md) before beginning Project 1.** AI is
@@ -34,8 +34,9 @@ author: "Dr. Anna Rosen"
 - **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**.
   Come to class prepared to discuss and use the assigned readings. See
   [Important Dates](#sec-important-dates).
-- **Grading is by letter, not points.** Each assignment receives one holistic
-  grade. See [Grading](grading.md), which includes a calculator you can run.
+- **Grading is by letter, not points.** Projects use four broad weighted letter
+  categories; other assignments receive one holistic letter. See
+  [Grading](grading.md) for the shared scale and calculation.
 - **You will work in rotating pairs** on Projects 1–6 while writing and submitting your own code. The final project is solo.
 - **Getting help:** office hours are **Thursdays 4–5 pm, Physics 239**. Use
   Canvas Inbox for course-related messages; reserve email for genuine emergencies

@@ -7,22 +7,16 @@ subtitle: "COMP 521 | Fall 2026"
 
 ## How grading works in this course
 
-**Each graded assignment receives one letter for the work as a whole.**
-
-There are no point breakdowns, no percentage subscores, and no itemized
-rubrics. When I grade your project I read the whole thing — code, validation,
-figures, and written interpretation — and judge it as a piece of work, the way a
-referee assesses a paper.
+**Each graded assignment receives one final letter grade.** Projects 1–6 use
+four broad letter-graded dimensions; the weighted average becomes the project
+letter. Growth Reflections, the proposal pitch, and the final project remain
+holistically assessed as described below.
 
 :::{note} Why it works this way
-An itemized rubric tells you exactly what to optimize, and people optimize what
-they are shown. That produces submissions assembled to satisfy a checklist
-rather than to be correct, which is the opposite of what this course is for.
-
-What you get instead is a clear description of what each grade *means* — below —
-plus a written comment on every submission explaining the grade you got. If you
-want to know how to do better, that comment is the answer, and it will tell you
-more than a number would.
+The project rubric is deliberately broad. It makes the basis of the grade
+legible without rewarding a notebook assembled as a checklist. Within each
+dimension I still judge the work as a coherent scientific artifact, then give a
+written comment naming the strongest evidence and highest-leverage improvement.
 :::
 
 ## The scale
@@ -77,10 +71,31 @@ up a whole step: consistent A− work earns an A−.
 The descriptions below are anchors. Plus and minus grades indicate work between
 adjacent descriptions; A+ is reserved for the judgment described above.
 
-### Projects and the final project
+### Projects 1–6
 
-Judged as a whole: does the code do the right thing, do you know that it does,
-and could someone else follow it?
+(project-grade-calculation)=
+#### Project grade calculation
+
+The canonical project dimensions and weights live on the [Projects](projects.md#how-each-project-is-graded)
+page. For each dimension, I assign a letter using the course scale above, then
+calculate:
+
+$$
+\text{project score} = 0.40M + 0.25S + 0.20R + 0.15C,
+$$
+
+where $M$ is correct model and validation, $S$ scientific reasoning, $R$
+reproducibility and code design, and $C$ communication and figures. I translate
+the resulting score to a final letter with the cutoff table above.
+
+For example, an A in model/validation, B+ in scientific reasoning, A− in
+reproducibility, and A in communication produces
+$0.40(4.0)+0.25(3.3)+0.20(3.7)+0.15(4.0)=3.765$, which is an A−.
+
+#### Letter anchors for project dimensions
+
+Use these anchors for all four dimensions. Plus and minus grades represent work
+between adjacent anchors; A+ requires judgment beyond what was asked.
 
 | | |
 |:--|:--|
@@ -97,8 +112,15 @@ result is *right* — not whether you produced one.
 :::
 
 Each project's **analysis notebook** includes written reasoning and
-interpretation in the places required by the project brief. These answers are
-part of the project as a whole, not a separate graded component.
+interpretation in the places required by the project brief. Those answers are
+evidence for the scientific-reasoning and communication dimensions; they are
+not a separate points category.
+
+### Final project
+
+The final project is still judged holistically: does the code do the right
+thing, do you know that it does, and could someone else follow it? Its brief
+will define its evidence and communication expectations.
 
 ### Final-project proposal pitch
 
@@ -149,11 +171,12 @@ substantive check-ins, and other visible engagement with the course.
 
 ## Submission
 
-Projects 1–6 are submitted through GitHub using
-[Classroom50](https://github.com/foundation50/classroom50/wiki). Growth
-Reflections are submitted through their corresponding Canvas assignments. The
-final-project brief will specify its submission route. Projects are due
-**Mondays at 11:59 pm PT** unless the [Schedule](schedule.md) states otherwise.
+Project 1 is submitted by linking the GitHub repository in its Canvas
+assignment. Later project briefs will name their submission route, including any
+Classroom50 use. Growth Reflections are submitted through their corresponding
+Canvas assignments. The final-project brief will specify its submission route.
+Projects are due **Mondays at 11:59 pm PT** unless the [Schedule](schedule.md)
+states otherwise.
 
 **Your submission is the latest commit pushed to GitHub by the deadline.** Work
 that remains only on your computer has not been submitted. Push early and often:

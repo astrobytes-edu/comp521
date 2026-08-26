@@ -12,8 +12,9 @@ linked reference when something breaks.
 1. [Install and verify the course software](../02-getting-started/02-software-setup.md).
 2. Learn the small set of [terminal commands](../02-getting-started/01-cli-intro.md)
    needed to navigate, run programs, and inspect files.
-3. Set up [Git and Classroom50](../02-getting-started/03-git-intro.md) so that
-   your course repository is yours and your work is backed up.
+3. Set up [Git and GitHub](../02-getting-started/03-git-intro.md) so that your
+   project repository is yours and your work is backed up. Classroom50 is an
+   optional distribution route while the course workflow is being finalized.
 4. Follow the [Projects](projects.md) page for the repository, notebook,
    evidence, and submission requirements of the current project.
 5. Before every final push, use **Restart Kernel and Run All Cells** and then

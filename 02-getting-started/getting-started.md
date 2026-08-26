@@ -8,10 +8,13 @@ This module gets one complete scientific-computing loop working on your own
 computer: navigate to a project, activate its Python environment, run a
 notebook, and save the result with Git.
 
-:::{note} Classroom50 access
-COMP 521 uses Classroom50, not GitHub Classroom. Use the Project 1 invitation
-posted in Canvas and follow the course-specific directions it provides; do not
-rely on screenshots or instructions from a different course.
+:::{note} Project 1 repository route
+
+Project 1 uses a GitHub repository. Submit that repository's URL through the
+Canvas Project 1 assignment; Classroom50 may also distribute an individual
+repository if its invitation is available. Follow the current Project 1 brief
+and Canvas announcement rather than screenshots or instructions from another
+course.
 :::
 
 ## Your first 10-minute success
@@ -60,7 +63,7 @@ local notebook check. **About 45–75 minutes from scratch.**
 
 ### Complete by Friday night
 
-:::{card} 3. Git and Classroom50
+:::{card} 3. Git and GitHub
 :link: 03-git-intro.md
 
 Accept and clone your assigned Project 1 repository, then push the required
@@ -99,11 +102,11 @@ aid, not a grading rubric.
 ## The Project 1 Repository Check
 
 **Due Fri Aug 28 at 11:59 pm PT.** This completion-only check verifies that you
-can use Classroom50 and push to your assigned repository. It does not assess
-Project 1 progress or Python skill.
+can push to the Project 1 repository you will submit through Canvas. It does
+not assess Project 1 progress or Python skill.
 
-1. Follow the Project 1 invitation in Canvas and obtain your assigned
-   Classroom50 repository.
+1. Use the Project 1 repository assigned through Classroom50, or create/use the
+   individual repository you will link in the Canvas Project 1 assignment.
 2. Clone that repository and change into its directory.
 3. In `README.md`, change the repository-check box from `[ ]` to `[x]`.
 4. Stage that README change, inspect it, commit, and push:
@@ -119,7 +122,7 @@ Project 1 progress or Python skill.
 5. Open your P1 repository on GitHub and confirm that the commit is visible.
 
 The complete repository-check contract and due date live on the
-[Projects page](../01-course-info/projects.md#sec-p1-repository-check).
+[Project 1 brief](../08-assessments/projects/project-1.md#sec-p1-repository-check).
 
 ## When an error appears
 
@@ -158,7 +161,7 @@ Your laptop is ready for Thursday when you can demonstrate all of these:
 - [ ] VS Code can run a local notebook with the `comp521` kernel.
 
 Your repository check is complete Friday when your locally created README commit
-is visible in your assigned Project 1 repository on GitHub.
+is visible in the Project 1 repository you will link through Canvas.
 
 :::{tip} Keep the loop small
 During a project, work in short cycles: make one meaningful change, run the

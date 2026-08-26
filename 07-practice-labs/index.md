@@ -5,11 +5,17 @@ subtitle: "COMP 521 | Short, ungraded practice"
 
 # Practice Labs
 
+Short, low-stakes labs let you rehearse a method before it carries project
+weight. They are not substitutes for a project’s scientific evidence.
+
+- [Design a Trustworthy Grade Calculator](grade-calculator-design.md) — specify,
+  trace, and test an algorithm before implementing it.
+- [Vectorization and Broadcasting](vectorization-broadcasting.md) — make array
+  shapes and axes explicit before combining scientific measurements.
+
 Practice Labs are short, **ungraded**, non-submission activities. We may use
 them during class or as optional preparation when a skill benefits from focused
-rehearsal before it appears in a project.
-
-No standalone Practice Labs are published yet. A future lab will always state:
+rehearsal before it appears in a project. Every lab states:
 
 - its goal;
 - expected time;

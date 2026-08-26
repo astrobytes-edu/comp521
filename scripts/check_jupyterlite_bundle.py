@@ -83,7 +83,7 @@ def main(argv: list[str] | None = None) -> int:
         print("\n".join(errors))
         return 1
     if not args.bundle_only:
-        published_errors = validate_published_site(ROOT / "_build" / "html")
+        published_errors = validate_published_site(ROOT / "_build" / "site" / "public")
         if published_errors:
             print("\n".join(published_errors))
             return 1

@@ -17,6 +17,14 @@ actually did, and revise the claim when the evidence demands it. **Deep Dive**
 and **Reference** sections preserve useful detail for the moment when you have
 a concrete need; they are not a second hidden prerequisite sequence.
 
+:::{important} Docs First
+
+For unfamiliar Python, NumPy, or Matplotlib behavior, start with the
+[Docs First reference](docs-first.md) before copying a search result or asking
+an AI assistant. Documentation establishes what the software promises; your own
+tests establish whether that behavior serves the scientific question.
+:::
+
 ### First reading
 
 Read [Chapter 1](01-python-environment.md) through

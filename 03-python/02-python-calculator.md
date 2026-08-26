@@ -21,6 +21,13 @@ By the end of this chapter, you will be able to:
 
 ## Prerequisites
 
+:::{important} Course unit convention
+
+COMP 521 uses CGS by default: centimeters, grams, and seconds. When an example
+or an external source uses another system, name the units in variables and make
+the conversion explicit at the documented input or output boundary.
+:::
+
 :::{note} Before Starting This Chapter
 
 - [ ] You can start a Python session or run a short script.
@@ -1252,6 +1259,12 @@ an equivalent stable form. These are habits of numerical judgment.
 ## Reference: quick tables
 
 ### Math Module Functions
+
+Read a call as `module.function(arguments)`: the function's documentation
+defines accepted argument types, units or domains, return value, and failure
+behavior. For example, `math.isclose(a, b, *, rel_tol=..., abs_tol=...)` takes
+two values plus explicitly named tolerances and returns a Boolean; it does not
+establish scientific validity on its own.
 
 **Mathematical Constants**
 

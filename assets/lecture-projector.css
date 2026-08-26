@@ -1,0 +1,67 @@
+/* Projector-first lecture pages remain ordinary, accessible MyST documents. */
+.projector-lecture {
+  color: #122b38;
+  font-size: clamp(
+    calc(1.12rem * var(--lecture-font-scale, 1)),
+    calc(1.45vw * var(--lecture-font-scale, 1)),
+    calc(1.45rem * var(--lecture-font-scale, 1))
+  );
+  line-height: 1.42;
+}
+
+.projector-lecture.projector-slide,
+.projector-lecture .projector-slide {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 74vh;
+  padding: clamp(1.25rem, 4vw, 4rem);
+  border-block-end: 2px solid #c8d9df;
+}
+
+/* A projector lecture needs more than the book theme's reading column. */
+article.content:has(.projector-lecture) .projector-lecture.projector-slide {
+  grid-column: page;
+}
+
+.projector-lecture.projector-slide > :first-child,
+.projector-lecture .projector-slide > :first-child { margin-top: 0; }
+.projector-lecture.projector-slide h2,
+.projector-lecture .projector-slide h2 {
+  color: #073447;
+  font-size: clamp(
+    calc(2.1rem * var(--lecture-font-scale, 1)),
+    calc(2.35vw * var(--lecture-font-scale, 1)),
+    calc(3.5rem * var(--lecture-font-scale, 1))
+  );
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+.projector-lecture.projector-slide h3,
+.projector-lecture .projector-slide h3 {
+  color: #0c6f72;
+  font-size: clamp(1.35rem, 2.2vw, 2.2rem);
+}
+.projector-lecture.projector-slide p,
+.projector-lecture.projector-slide li,
+.projector-lecture .projector-slide p,
+.projector-lecture .projector-slide li { max-width: 68rem; }
+.projector-lecture.projector-slide strong,
+.projector-lecture .projector-slide strong { color: #073447; }
+.projector-lecture.projector-slide pre,
+.projector-lecture .projector-slide pre {
+  width: min(100%, 70rem);
+  font-size: clamp(0.95rem, 1.6vw, 1.35rem);
+  line-height: 1.35;
+}
+.projector-lecture.projector-slide table,
+.projector-lecture .projector-slide table { font-size: 0.9em; }
+@media print {
+  .projector-lecture.projector-slide,
+  .projector-lecture .projector-slide {
+    break-after: page;
+    min-height: 0;
+    padding: 1.25rem;
+  }
+}

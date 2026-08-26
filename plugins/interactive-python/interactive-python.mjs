@@ -1,5 +1,7 @@
 const PLUGIN_PATH = new URL(import.meta.url).pathname;
 const WIDGET_PATH = PLUGIN_PATH.replace(/\/[^/]*$/, "/widget.mjs");
+const NOTEBOOK_STATE_WIDGET_PATH = PLUGIN_PATH.replace(/\/[^/]*$/, "/notebook-state.mjs");
+const PROJECTOR_CONTROLS_WIDGET_PATH = PLUGIN_PATH.replace(/\/[^/]*$/, "/projector-controls.mjs");
 
 function relativePath(fromDir, toFile) {
   const from = fromDir.split("/").filter(Boolean);
@@ -48,4 +50,39 @@ const interactivePython = {
   },
 };
 
-export default { name: "COMP 521 interactive Python", directives: [interactivePython] };
+function widgetNode(vfile, widgetPath, model, id) {
+  const fromDir = vfile.path.replace(/\/[^/]*$/, "");
+  return {
+    type: "anywidget",
+    esm: relativePath(fromDir, widgetPath),
+    model,
+    id,
+  };
+}
+
+const notebookState = {
+  name: "notebook-state",
+  doc: "Render a browser-local, multi-cell notebook-state simulator.",
+  body: { type: String, required: false },
+  options: { id: { type: String, doc: "Stable identifier for the simulator." } },
+  run(data, vfile) {
+    const id = data.options?.id?.trim() || "notebook-state";
+    return [widgetNode(vfile, NOTEBOOK_STATE_WIDGET_PATH, { id }, id)];
+  },
+};
+
+const projectorControls = {
+  name: "projector-controls",
+  doc: "Render keyboard and accessibility controls for projector lecture pages.",
+  body: { type: String, required: false },
+  options: { id: { type: String, doc: "Stable identifier for the controls." } },
+  run(data, vfile) {
+    const id = data.options?.id?.trim() || "projector-controls";
+    return [widgetNode(vfile, PROJECTOR_CONTROLS_WIDGET_PATH, { id }, id)];
+  },
+};
+
+export default {
+  name: "COMP 521 interactive Python",
+  directives: [interactivePython, notebookState, projectorControls],
+};

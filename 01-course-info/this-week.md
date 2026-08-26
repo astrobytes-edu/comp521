@@ -18,10 +18,16 @@ The guide explains the textbook's predict → run → explain → revise convent
 the course overlay identifies the preparation that belongs to the current
 class meeting.
 
-In class, we will use the [Transit Depth lecture](../03-python/interactive-lab-transit-depth.md)
-to connect the observable change in flux to a deliberately simple model. The
-interactive figure helps you test predictions; your project notebook remains
-the place where you implement and document your work.
+In class, we will use the Block 1 four-page [Python Bootcamp](../03-python/bootcamp-01-run-calculate-inspect.md):
+[run, calculate, inspect](../03-python/bootcamp-01-run-calculate-inspect.md),
+[procedures and decisions](../03-python/bootcamp-02-procedures-decisions.md),
+[data and functions](../03-python/bootcamp-03-data-functions.md), and
+[arrays, figures, and evidence](../03-python/bootcamp-04-arrays-figures.md).
+The Week 1 [Grade Calculator Design Lab](../07-practice-labs/grade-calculator-design.md)
+is a low-stakes rehearsal in specifying and testing an algorithm before writing
+the complete program. See the [Lecture Library](../09-lectures/index.md) for
+the block and project map; your Project 1 notebook remains the scientific
+record.
 
 Before the readiness milestone, follow the [Projects](projects.md) page exactly.
 For the accompanying reflection, use [Growth Reflections](growth-reflections.md).

@@ -201,7 +201,7 @@ def test_deferred_part_iii_is_honest_about_its_status():
             "08-assessments/index.md",
             (
                 'title: "Assessments"',
-                "projects.md",
+                "projects/project-1.md",
                 "growth-reflections.md",
                 "grading.md",
             ),
@@ -217,15 +217,48 @@ def test_new_course_route_has_its_required_contract(path, required):
 def test_myst_toc_uses_the_approved_top_level_libraries():
     config = (ROOT / "myst.yml").read_text()
     titles = re.findall(r"^    - title: (.+)$", config, flags=re.MULTILINE)
-    assert titles[:7] == [
+    assert titles[:8] == [
         "Course Info & Roadmap",
         "Scientific Computing with Python",
         "Readings",
+        "Scientific Background",
         "Lectures",
         "Practice Labs",
         "Assessments",
         "Tools & Workflow",
     ]
+
+
+def test_project_one_has_a_public_brief_and_a_solutionless_student_scaffold():
+    brief = (ROOT / "08-assessments/projects/project-1.md").read_text()
+    starter = ROOT / "_instructor/projects/project-1-starter"
+    notebook = (starter / "analysis.ipynb").read_text()
+    readme = (starter / "README.md").read_text()
+
+    assert "Project 1 submission route" in brief
+    assert "invalid input:" in brief
+    assert "teff" in brief and "K in both modes" in brief
+    assert "Canvas Project 1 assignment" in readme
+    assert "Git, GitHub, and Project Repositories guide" in readme
+    assert '"cell_type": "code"' in notebook
+    assert "TODO: define luminosity" in notebook
+    assert "TODO: define kappa0" in notebook
+    assert "TODO: define transit_curve_loop" in notebook
+
+
+def test_projects_publish_the_common_weighted_letter_rubric():
+    projects = (ROOT / "01-course-info/projects.md").read_text()
+    grading = (ROOT / "01-course-info/grading.md").read_text()
+
+    for dimension, weight in (
+        ("Correct model and validation", "40%"),
+        ("Scientific reasoning", "25%"),
+        ("Reproducibility and code design", "20%"),
+        ("Communication and figures", "15%"),
+    ):
+        assert dimension in projects
+        assert weight in projects
+    assert "0.40M + 0.25S + 0.20R + 0.15C" in grading
 
 
 def test_myst_toc_uses_the_release_one_textbook_part_labels():
