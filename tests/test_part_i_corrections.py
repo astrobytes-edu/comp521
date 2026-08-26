@@ -99,7 +99,7 @@ def test_chapter_1_separates_core_route_from_reference_and_avoids_false_validati
 
 def test_chapter_1_notebook_state_launcher_preserves_the_notebook_path():
     launcher = (ROOT / "tools/jupyterlite/launchers/ch01-notebook-state.html").read_text()
-    assert "lab/index.html?path=ch01-notebook-state.ipynb" in launcher
+    assert "lab/index.html#/tree/ch01-notebook-state.ipynb" in launcher
     assert "window.location.replace" in launcher
 
 
@@ -177,7 +177,7 @@ def test_chapter_2_numerical_claim_inspector_is_markdown_authored_and_discrimina
     assert "name: xpython" in activity
     assert "Success condition" in activity
     assert "does\n**not** provide" in activity
-    assert "lab/index.html?path=ch02-numerical-claim-inspector.ipynb" in launcher
+    assert "lab/index.html#/tree/ch02-numerical-claim-inspector.ipynb" in launcher
 
     cells = re.findall(r"```\{code-cell\} python\n(.*?)\n```", activity, re.DOTALL)
     assert len(cells) == 3
@@ -270,7 +270,7 @@ def test_chapter_3_bounded_convergence_activity_is_markdown_authored_and_discrim
     assert "name: xpython" in activity
     assert "Success condition" in activity
     assert "does\n**not** select" in activity
-    assert "lab/index.html?path=ch03-bounded-convergence-inspector.ipynb" in launcher
+    assert "lab/index.html#/tree/ch03-bounded-convergence-inspector.ipynb" in launcher
 
     cells = re.findall(r"```\{code-cell\} python\n(.*?)\n```", activity, re.DOTALL)
     assert len(cells) == 3
@@ -342,7 +342,7 @@ def test_chapter_4_aliasing_activity_is_markdown_authored_and_discriminating():
     assert "name: xpython" in activity
     assert "Success condition" in activity
     assert "does **not** select" in activity
-    assert "lab/index.html?path=ch04-aliasing-and-lookup-inspector.ipynb" in launcher
+    assert "lab/index.html#/tree/ch04-aliasing-and-lookup-inspector.ipynb" in launcher
 
     cells = re.findall(r"```\{code-cell\} python\n(.*?)\n```", activity, re.DOTALL)
     assert len(cells) == 3
@@ -461,7 +461,7 @@ def test_chapter_5_function_contract_activity_is_markdown_authored_and_discrimin
     assert "does **not**" in activity
     assert "document it in `kinetic_energy_cgs` in Cell\n1" in activity
     assert "an\nexecutable postcondition to Cell 3" in activity
-    assert "lab/index.html?path=ch05-function-contract-inspector.ipynb" in launcher
+    assert "lab/index.html#/tree/ch05-function-contract-inspector.ipynb" in launcher
 
     cells = re.findall(r"```\{code-cell\} python\n(.*?)\n```", activity, re.DOTALL)
     assert len(cells) == 3
@@ -508,7 +508,7 @@ def test_chapter_6_temperature_microexperiment_is_markdown_authored_with_lite_ex
 
 def test_temperature_microexperiment_launcher_preserves_the_notebook_path():
     launcher = (ROOT / "tools/jupyterlite/launchers/ch06-temperature-invariant.html").read_text()
-    assert "lab/index.html?path=ch06-temperature-invariant.ipynb" in launcher
+    assert "lab/index.html#/tree/ch06-temperature-invariant.ipynb" in launcher
     assert "window.location.replace" in launcher
 
 
@@ -708,7 +708,7 @@ def test_chapter_7_preserves_a_core_route_and_makes_its_lab_discoverable():
     assert "name: xpython" in activity
     assert "Success condition" in activity
     assert "does\n**not** decide" in activity
-    assert "lab/index.html?path=ch07-shape-mask-view-inspector.ipynb" in launcher
+    assert "lab/index.html#/tree/ch07-shape-mask-view-inspector.ipynb" in launcher
 
     cells = re.findall(r"```\{code-cell\} python\n(.*?)\n```", activity, re.DOTALL)
     assert len(cells) == 3
