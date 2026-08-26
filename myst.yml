@@ -152,6 +152,7 @@ project:
             - title: Python Bootcamp · Weeks 1–2
               children:
                 - file: 03-python/bootcamp-01-run-calculate-inspect.md
+                - file: 03-python/bootcamp-02-procedures-decisions.md
 
     - title: Practice Labs
       children:

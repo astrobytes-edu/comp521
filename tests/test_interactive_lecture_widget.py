@@ -4,6 +4,7 @@ from pathlib import Path
 
 WIDGET = Path(__file__).resolve().parents[1] / "plugins" / "interactive-lecture" / "widget.mjs"
 LECTURE_ONE = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-01-run-calculate-inspect.md"
+LECTURE_TWO = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-02-procedures-decisions.md"
 
 
 class InteractiveLectureWidgetTests(unittest.TestCase):
@@ -45,6 +46,45 @@ class InteractiveLectureWidgetTests(unittest.TestCase):
         for module in ("math", "sys", "pathlib", "random", "importlib", "cmath"):
             self.assertIn(f"https://docs.python.org/3/library/{module}.html", lecture)
         self.assertIn("https://docs.python.org/3/library/functions.html", lecture)
+
+    def test_lecture_two_scaffolds_core_python_before_a_bounded_numpy_preview(self):
+        lecture = LECTURE_TWO.read_text()
+
+        for heading in (
+            "## I · Procedures and decisions",
+            "## II · Store related observations deliberately",
+            "## III · Package a calculation as a function",
+            "## IV · First contact with NumPy",
+            "## Exit check",
+        ):
+            self.assertIn(heading, lecture)
+
+        self.assertIn(":::{projector-controls}", lecture)
+        self.assertIn(":::{interactive-python}", lecture)
+        self.assertIn("import numpy as np", lecture)
+        self.assertIn("Week 2", lecture)
+        self.assertIn("not yet learning", lecture)
+        self.assertIn("03-python-control-flow.md", lecture)
+        self.assertIn("04-python-data-structures.md", lecture)
+        self.assertIn("05-python-functions-modules.md", lecture)
+        self.assertIn("07-numpy-fundamentals.md", lecture)
+
+        for heading in (
+            "## More than two outcomes · `elif`",
+            "## Combine conditions deliberately",
+            "## Short-circuiting protects a calculation",
+            "## `while` repeats until a stated condition changes",
+        ):
+            self.assertIn(heading, lecture)
+
+        self.assertLess(
+            lecture.index("## Write the rule before the code"),
+            lecture.index("## A Boolean expression chooses a branch"),
+        )
+        self.assertLess(
+            lecture.index("## `while` repeats until a stated condition changes"),
+            lecture.index("## III · Package a calculation as a function"),
+        )
 
 
 if __name__ == "__main__":

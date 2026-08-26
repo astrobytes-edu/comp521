@@ -33,6 +33,7 @@ fraction of stellar light visible during a transit.
 | Lecture | In-class question | Build toward |
 |---|---|---|
 | [Lecture 1: Python Foundations](../03-python/bootcamp-01-run-calculate-inspect.md) | How do mathematics, code, software environments, and finite-precision numbers connect? | vocabulary, legible calculations, numerical judgment |
+| [Lecture 2: Procedures, Data, and Reusable Calculations](../03-python/bootcamp-02-procedures-decisions.md) | How does a stated scientific rule become a testable procedure for many observations? | Grade Calculator implementation and first NumPy arrays |
 
 Useful background: [Exoplanets](../10-scientific-background/exoplanets.md),
 [transits](../10-scientific-background/transits.md),
