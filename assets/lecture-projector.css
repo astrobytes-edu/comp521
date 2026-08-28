@@ -79,6 +79,64 @@ article.content:has(.projector-lecture) .projector-lecture.projector-slide {
 }
 .projector-lecture .comp521-experiment .comp521-run,
 .projector-lecture .comp521-experiment .comp521-reset { margin-top: 0.5rem; }
+
+.projector-lecture .lecture-through-line ol {
+  display: flex;
+  align-items: stretch;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.projector-lecture .lecture-through-line li {
+  position: relative;
+  flex: 1 1 0;
+  display: grid;
+  place-items: center;
+  min-height: 5.5rem;
+  padding: 0.8rem;
+  border: 2px solid #547da8;
+  border-radius: 0.6rem;
+  background: #eef5ff;
+  color: #122b38;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.projector-lecture .lecture-through-line li:first-child {
+  border-color: #075f63;
+  background: #dff4f1;
+  color: #073447;
+}
+
+.projector-lecture .lecture-through-line li:last-child {
+  border-color: #a46511;
+  background: #fff1d9;
+  color: #4a2b00;
+}
+
+.projector-lecture .lecture-through-line li:not(:last-child)::after {
+  position: absolute;
+  top: 50%;
+  right: -0.7rem;
+  z-index: 1;
+  transform: translateY(-50%);
+  color: #547da8;
+  font-size: 1.5em;
+  font-weight: 700;
+  content: "→";
+}
+
+@media (max-width: 900px) {
+  .projector-lecture .lecture-through-line ol {
+    flex-wrap: wrap;
+  }
+
+  .projector-lecture .lecture-through-line li {
+    flex-basis: 10rem;
+  }
+}
 @media print {
   .projector-lecture.projector-slide,
   .projector-lecture .projector-slide {

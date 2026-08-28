@@ -26,22 +26,17 @@ packages a calculation so we can reuse and test it.
 
 ## The through-line
 
-```{mermaid}
-flowchart LR
-    question[Scientific question] --> rule[Stated rule<br/>and assumptions]
-    rule --> decision[Comparisons<br/>and branches]
-    decision --> data[Related observations<br/>in a data structure]
-    data --> function[Reusable function<br/>with a contract]
-    function --> array[Many values<br/>with an array]
-    array --> evidence[Inspectable result<br/>and a test]
+:::{div}
+:class: lecture-through-line
 
-    classDef start fill:#dff4f1,stroke:#075f63,stroke-width:2px,color:#073447
-    classDef work fill:#eef5ff,stroke:#547da8,stroke-width:2px,color:#122b38
-    classDef outcome fill:#fff1d9,stroke:#a46511,stroke-width:2px,color:#4a2b00
-    class question start
-    class rule,decision,data,function,array work
-    class evidence outcome
-```
+1. **Scientific question**
+2. **Stated rule and assumptions**
+3. **Comparisons and branches**
+4. **Related observations**
+5. **Reusable function with a contract**
+6. **Many values with an array**
+7. **Inspectable result and a test**
+:::
 
 The computer does not infer a missing rule. It repeats exactly the procedure
 we make explicit.

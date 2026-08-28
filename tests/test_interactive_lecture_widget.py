@@ -23,6 +23,21 @@ class InteractiveLectureWidgetTests(unittest.TestCase):
         self.assertNotIn("classDef end", lecture)
         self.assertNotIn("class evidence,claim end", lecture)
 
+    def test_lecture_two_through_line_is_static_and_does_not_require_the_mermaid_runtime(self):
+        lecture = LECTURE_TWO.read_text()
+
+        self.assertNotIn("```{mermaid}", lecture)
+        for label in (
+            "Scientific question",
+            "Stated rule and assumptions",
+            "Comparisons and branches",
+            "Related observations",
+            "Reusable function with a contract",
+            "Many values with an array",
+            "Inspectable result and a test",
+        ):
+            self.assertIn(label, lecture)
+
     def test_lecture_one_examples_are_self_contained_and_standard_library_first(self):
         lecture = LECTURE_ONE.read_text()
 
