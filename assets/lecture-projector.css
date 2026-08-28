@@ -16,7 +16,7 @@
   flex-direction: column;
   justify-content: center;
   min-height: 74vh;
-  padding: clamp(1.25rem, 4vw, 4rem);
+  padding: clamp(1rem, 2.5vw, 2.5rem);
   border-block-end: 2px solid #c8d9df;
 }
 
@@ -47,16 +47,38 @@ article.content:has(.projector-lecture) .projector-lecture.projector-slide {
 .projector-lecture.projector-slide li,
 .projector-lecture .projector-slide p,
 .projector-lecture .projector-slide li { max-width: 68rem; }
+.projector-lecture.projector-slide > :is(p, ul, ol, table, pre, section),
+.projector-lecture .projector-slide > :is(p, ul, ol, table, pre, section) {
+  margin-block: 0.55rem;
+}
 .projector-lecture.projector-slide strong,
 .projector-lecture .projector-slide strong { color: #073447; }
 .projector-lecture.projector-slide pre,
 .projector-lecture .projector-slide pre {
   width: min(100%, 70rem);
-  font-size: clamp(0.95rem, 1.6vw, 1.35rem);
+  font-size: clamp(
+    calc(1.25rem * var(--lecture-font-scale, 1)),
+    calc(2vw * var(--lecture-font-scale, 1)),
+    calc(1.8rem * var(--lecture-font-scale, 1))
+  );
   line-height: 1.35;
 }
 .projector-lecture.projector-slide table,
 .projector-lecture .projector-slide table { font-size: 0.9em; }
+.projector-lecture .comp521-experiment {
+  margin-block: 0.55rem;
+  padding: 0.7rem;
+}
+.projector-lecture .comp521-experiment .comp521-controls {
+  margin-block: 0.55rem;
+}
+.projector-lecture .comp521-experiment .comp521-editor {
+  min-height: 9rem;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+.projector-lecture .comp521-experiment .comp521-run,
+.projector-lecture .comp521-experiment .comp521-reset { margin-top: 0.5rem; }
 @media print {
   .projector-lecture.projector-slide,
   .projector-lecture .projector-slide {
