@@ -153,6 +153,8 @@ project:
               children:
                 - file: 03-python/bootcamp-01-run-calculate-inspect.md
                 - file: 03-python/bootcamp-02-procedures-decisions.md
+                - file: 03-python/bootcamp-03-data-functions.md
+                - file: 03-python/bootcamp-04-arrays-figures.md
 
     - title: Practice Labs
       children:

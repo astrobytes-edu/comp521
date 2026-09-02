@@ -21,7 +21,7 @@ program: a procedure that makes decisions, stores related observations, and
 packages a calculation so we can reuse and test it.
 :::
 
-:::{div}
+:::::{div}
 :class: projector-lecture projector-slide
 
 ## The through-line
@@ -40,7 +40,7 @@ packages a calculation so we can reuse and test it.
 
 The computer does not infer a missing rule. It repeats exactly the procedure
 we make explicit.
-:::
+:::::
 
 :::{div}
 :class: projector-lecture projector-slide
@@ -1102,9 +1102,9 @@ you must still know what every value represents.
 :::{div}
 :class: projector-lecture projector-slide
 
-## The Grade Calculator is this lecture’s design artifact
+## The COMP 521 Grade Calculator is this lecture’s design artifact
 
-Begin or revise the [Grade Calculator Design Lab](../07-practice-labs/grade-calculator-design.md).
+Begin the [COMP 521 Course-Grade Calculator Lab](../07-practice-labs/grade-calculator-design.md).
 
 Your individual packet must make visible:
 

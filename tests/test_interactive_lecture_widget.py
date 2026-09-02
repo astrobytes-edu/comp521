@@ -6,6 +6,9 @@ WIDGET = Path(__file__).resolve().parents[1] / "plugins" / "interactive-lecture"
 LECTURE_STYLES = Path(__file__).resolve().parents[1] / "assets" / "lecture-projector.css"
 LECTURE_ONE = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-01-run-calculate-inspect.md"
 LECTURE_TWO = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-02-procedures-decisions.md"
+LECTURE_THREE = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-03-data-functions.md"
+LECTURE_FOUR = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-04-arrays-figures.md"
+GRADE_CALCULATOR_LAB = Path(__file__).resolve().parents[1] / "07-practice-labs" / "grade-calculator-design.md"
 
 
 class InteractiveLectureWidgetTests(unittest.TestCase):
@@ -228,6 +231,77 @@ class InteractiveLectureWidgetTests(unittest.TestCase):
             lecture.index("## From a function contract to evidence"),
             lecture.index("## Run the definition, then run its tests"),
         )
+
+    def test_week_two_lectures_use_the_projector_structure_and_active_checks(self):
+        for lecture_path, controls_id in (
+            (LECTURE_THREE, "lecture-03-controls"),
+            (LECTURE_FOUR, "lecture-04-controls"),
+        ):
+            lecture = lecture_path.read_text()
+
+            self.assertIn("hide_toc: true", lecture)
+            self.assertIn(":::{projector-controls}", lecture)
+            self.assertIn(controls_id, lecture)
+            self.assertGreaterEqual(lecture.count("projector-lecture projector-slide"), 12)
+            self.assertIn("## The through-line", lecture)
+            self.assertIn("## Today’s question", lecture)
+            self.assertIn("## Predict", lecture)
+            self.assertIn("## Exit check", lecture)
+            self.assertIn(":::{interactive-python}", lecture)
+
+    def test_week_two_extends_function_interfaces_before_array_work(self):
+        lecture_three = LECTURE_THREE.read_text()
+        lecture_four = LECTURE_FOUR.read_text()
+
+        for topic in (
+            "Keyword-only parameters protect consequential options",
+            "Flexible calls need a narrow purpose",
+            "*args",
+            "**kwargs",
+            "Unpacking lets a record meet a matching signature",
+            "Return values should support the next question",
+        ):
+            self.assertIn(topic, lecture_three)
+
+        self.assertIn("synthetic rotating-star brightness", lecture_four)
+        self.assertNotIn("radioactive", lecture_four.lower())
+        self.assertNotIn("Start Project 1", lecture_four)
+        self.assertIn("def describe_series(values, *, label=", lecture_three)
+        self.assertIn("def plot_series(ax, time_days, brightness, **plot_options)", lecture_three)
+        self.assertNotIn("def describe_series(values, **metadata)", lecture_three)
+        self.assertIn("observed_brightness", lecture_four)
+        self.assertIn("model_brightness", lecture_four)
+        self.assertIn(
+            "1.0 - amplitude * (1.0 + np.sin(phase)) / 2.0",
+            lecture_four,
+        )
+        self.assertNotIn("amplitude * np.sin(phase) ** 2", lecture_four)
+
+    def test_week_two_teaches_the_published_grade_policy_with_a_realistic_timebox(self):
+        lecture = LECTURE_THREE.read_text()
+        lab = GRADE_CALCULATOR_LAB.read_text()
+
+        self.assertIn("30 minutes", lecture)
+        self.assertIn("final_course_letter(3.80)", lecture)
+        self.assertIn("practice policy, not a grade system", lecture)
+        self.assertIn("Two phases, two class meetings", lab)
+        self.assertIn("30-minute implementation activity", lab)
+        self.assertIn("| 23–30 min |", lab)
+        self.assertIn("restart the kernel", lab)
+        self.assertIn("checkpoint sentence", lab)
+        self.assertIn("final_course_letter(3.80)", lab)
+        self.assertIn("final_course_letter(3.79)", lab)
+        self.assertIn("final_course_letter(4.30)", lab)
+
+    def test_week_two_figure_design_names_orientation_threshold_and_noncolor_encoding(self):
+        lecture = LECTURE_FOUR.read_text()
+
+        self.assertIn("ax.invert_yaxis()", lecture)
+        self.assertIn("marker=", lecture)
+        self.assertIn("linestyle=", lecture)
+        self.assertIn("illustrative threshold", lecture)
+        self.assertIn("readers who do not distinguish the colors", lecture)
+        self.assertIn("bounded evidence statement", lecture)
 
 
 if __name__ == "__main__":

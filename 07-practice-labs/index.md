@@ -8,8 +8,9 @@ subtitle: "COMP 521 | Short, ungraded practice"
 Short, low-stakes labs let you rehearse a method before it carries project
 weight. They are not substitutes for a project’s scientific evidence.
 
-- [Design a Trustworthy Grade Calculator](grade-calculator-design.md) — specify,
-  trace, and test an algorithm before implementing it.
+- [Design and Build a COMP 521 Course-Grade Calculator](grade-calculator-design.md)
+  — specify, trace, implement, and test the published course-grade policy with a
+  fictional record.
 - [Vectorization and Broadcasting](vectorization-broadcasting.md) — make array
   shapes and axes explicit before combining scientific measurements.
 
