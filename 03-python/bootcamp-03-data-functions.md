@@ -55,7 +55,7 @@ By the end of class, you should be able to:
 
 - distinguish positional, keyword, default, and keyword-only arguments;
 - use `*args` and `**kwargs` deliberately rather than as catch-all syntax;
-- unpack a tuple or dictionary into a function call without hiding meaning;
+- unpack a `tuple` or `dict` into a function call without hiding meaning;
 - choose whether a helper returns a value, a collection, or an error; and
 - use small functions to implement and test a published rule.
 :::
@@ -86,8 +86,10 @@ When is the order of two correct numbers still too ambiguous for a reader?
 
 ```python
 def phase_fraction(time_days, period_days, *, epoch_days=0.0):
-    """Return phase in [0, 1) for times and period in days."""
-    ...
+    """Return phase in [0, 1) for time, period, and epoch in days."""
+    if period_days <= 0:
+        raise ValueError("period_days must be positive")
+    return ((time_days - epoch_days) / period_days) % 1.0
 ```
 
 | In the definition | In this call | Meaning |
@@ -107,7 +109,7 @@ For this toy example, phase means position within one repeating cycle:
 1.5 % 1.0 = 0.5 phase
 ~~~
 
-The modulo operation keeps only the fractional cycle. We use this small
+The `%` operator keeps only the fractional cycle. We use this small
 calculation to practice function interfaces, not to infer a physical period.
 :::
 
@@ -199,15 +201,11 @@ The third changes only when the named epoch differs from zero.
 
 ## A default is a stated common case, not a missing decision
 
-```python
-def phase_fraction(time_days, period_days, *, epoch_days=0.0):
-    ...
-```
-
-The default says: “unless the caller declares a different reference, phase zero
-is at time zero.” That can be a sound convention for a toy model or a local
-analysis. It is not suitable if the reference time is unknown or scientifically
-essential.
+The signature `def phase_fraction(time_days, period_days, *, epoch_days=0.0):`
+says: “unless the caller declares a different reference, phase zero is at time
+zero.” The validated body is on the preceding slide. That can be a sound
+convention for a toy model or a local analysis. It is not suitable if the
+reference time is unknown or scientifically essential.
 
 | Good use of a default | Poor use of a default |
 |---|---|
@@ -281,7 +279,7 @@ clear instead of more useful?
 
 - collect a variable number of same-role positional values with `*args`;
 - collect named options with `**kwargs` only at a deliberate boundary;
-- unpack a tuple with `*` and a mapping with `**`; and
+- unpack a `tuple` with `*` and a `mapping` with `**`; and
 - reject unknown options rather than silently ignoring them.
 
 **Through-line focus:** related inputs $\rightarrow$ a deliberate interface.
@@ -290,7 +288,7 @@ clear instead of more useful?
 :::{div}
 :class: projector-lecture projector-slide
 
-## `*args` gathers extra positional arguments into one tuple
+## `*args` gathers extra positional arguments into one `tuple`
 
 ```python
 def mean_flux(*flux_values):
@@ -303,7 +301,7 @@ def mean_flux(*flux_values):
 print(mean_flux(1.000, 0.993, 0.989, 0.975))
 ```
 
-Inside this function, `flux_values` is the tuple
+Inside this function, `flux_values` is the `tuple`
 `(1.000, 0.993, 0.989, 0.975)`. `*args` is appropriate because every collected
 value has exactly the same role and units.
 
@@ -343,18 +341,31 @@ def plot_series(ax, time_days, brightness, **plot_options):
     return ax.plot(time_days, brightness, **plot_options)
 ```
 
-`plot_options` is a dictionary inside this function. The wrapper forwards a
+`plot_options` is a `dict` inside this function. The wrapper forwards a
 small, documented set of display choices to `ax.plot`. This is the appropriate
 role for `**kwargs`: preserve named options at a boundary rather than hide the
 function’s ordinary input contract.
 
-Try reading this call before running it:
+Run this complete check:
 
 ```python
-plot_series(ax, time_days, brightness, lable="synthetic observations")
+class FakeAxes:
+    def plot(self, time_days, brightness, **options):
+        return options
+
+
+ax = FakeAxes()
+time_days = [0.0, 1.0]
+brightness = [1.000, 0.990]
+
+try:
+    plot_series(ax, time_days, brightness, lable="synthetic observations")
+except TypeError as error:
+    print(error)
 ```
 
-The misspelled `lable` must raise an error. A wrapper that silently accepts it
+The misspelled `lable` raises a `TypeError` before `FakeAxes.plot` is called. A
+wrapper that silently accepts it
 would make a later figure harder to trust.
 
 | Interface choice | What it communicates |
@@ -391,8 +402,8 @@ print("mean normalized flux:", mean_flux(*measurements))
 Change one reading. Why is `mean_flux(*measurements)` not the same syntax as
 `mean_flux(measurements)`? What type would the latter supply as its one argument?
 
-**Worked result:** `*measurements` unpacks the tuple into three arguments;
-without `*`, the function receives one tuple and cannot add it to a float.
+**Worked result:** `*measurements` unpacks the `tuple` into three arguments;
+without `*`, the function receives one `tuple` and cannot add it to a float.
 :::::
 
 :::{div}
@@ -410,18 +421,19 @@ observation = {
 phase = phase_fraction(**observation)
 ```
 
-`**observation` supplies each key-value pair as a named argument. This is
+Using the `phase_fraction` definition above, `**observation` supplies each
+key-value pair as a named argument. This is
 helpful only when the keys exactly match the function’s documented parameter
 names. It does not magically validate a record, convert units, or establish
 that the period is physically meaningful.
 
-For a short ordered pair, tuple unpacking is also useful:
+For a short ordered pair, `tuple` unpacking is also useful:
 
 ```python
 time_days, flux = (3.5, 0.987)
 ```
 
-The left-hand side names the roles; the tuple preserves their order.
+The left-hand side names the roles; the `tuple` preserves their order.
 :::
 
 :::{div}
@@ -457,12 +469,12 @@ part of the analysis logic and should be easy to inspect.
 
 | Syntax | At a definition | At a call |
 |---|---|---|
-| `*values` | collects extra positional arguments into a tuple | unpacks an iterable into positional arguments |
-| `**options` | collects extra keyword arguments into a dictionary | unpacks a mapping into keyword arguments |
+| `*values` | collects extra positional arguments into a `tuple` | unpacks an `iterable` into positional arguments |
+| `**options` | collects extra keyword arguments into a `dict` | unpacks a `mapping` into keyword arguments |
 | `a, b = pair` | — | unpacks an ordered pair into named roles |
 
 Before using `*` or `**`, say the sentence in plain language: “these are many
-values of the same kind,” or “these dictionary keys match this function’s
+values of the same kind,” or “these `dict` keys match this function’s
 documented parameters.” If you cannot say that sentence, choose a clearer
 representation.
 :::
@@ -479,7 +491,7 @@ input record or hiding a failure?
 
 ### You will leave this section able to
 
-- choose between returning one value, a tuple of values, or a new collection;
+- choose between returning one value, a `tuple` of values, or a new collection;
 - distinguish a returned result from printed display text;
 - avoid changing an input collection unexpectedly; and
 - test an interface’s ordinary, boundary, and invalid cases.
@@ -490,11 +502,13 @@ input record or hiding a failure?
 :::{div}
 :class: projector-lecture projector-slide
 
-## Return a result; print it at the human-facing boundary
+## `return` a result; `print` it at the human-facing boundary
 
 ```python
 def centered_fluxes(flux_values):
     """Return a new list centered on the mean flux."""
+    if not flux_values:
+        raise ValueError("flux_values must not be empty")
     mean_flux_value = sum(flux_values) / len(flux_values)
     return [flux - mean_flux_value for flux in flux_values]
 
@@ -516,6 +530,8 @@ choice, not the mathematical result.
 
 ```python
 def centered_fluxes(flux_values):
+    if not flux_values:
+        raise ValueError("flux_values must not be empty")
     mean_flux_value = sum(flux_values) / len(flux_values)
     return [flux - mean_flux_value for flux in flux_values]
 
@@ -527,10 +543,11 @@ print("raw:", raw_fluxes)
 print("residuals:", residual_fluxes)
 ```
 
-The function uses the input list but does not append, remove, sort, or replace
-any of its values. A separate returned list makes it possible to check the raw
-measurements later. If a function *does* change an input in place, its name and
-documentation should say so clearly.
+The function reads the input `list` but does not mutate it with
+`list.append()`, `list.remove()`, `list.sort()`, or item assignment. A separate
+returned `list` makes it possible to check the raw measurements later. If a
+function *does* change an input in place, its name and documentation should say
+so clearly.
 :::
 
 :::{div}
@@ -542,7 +559,9 @@ documentation should say so clearly.
 import math
 
 assert phase_fraction(0.0, 2.0) == 0.0                  # boundary
-assert math.isclose(phase_fraction(3.5, 2.0), 0.75)     # ordinary
+assert math.isclose(
+    phase_fraction(3.5, 2.0), 0.75, rel_tol=0.0, abs_tol=1e-12
+)  # ordinary
 
 try:
     phase_fraction(3.5, 0.0)
@@ -552,7 +571,8 @@ else:
     raise AssertionError("nonpositive period was accepted")
 ```
 
-An interface test checks the behavior the caller relies on: a valid output for
+With `phase_fraction` defined above, an interface test checks the behavior the
+caller relies on: a valid output for
 a stated input and a clear failure outside the stated domain. It does not prove
 that an assumed period describes a real source.
 :::
@@ -585,23 +605,23 @@ Predict the sign of the third residual before changing the slider. Why should
 the residuals sum to approximately zero, rather than exactly zero for every
 floating-point input?
 
-**Worked result:** the return value is a new list; `raw_fluxes` remains the
+**Worked result:** the return value is a new `list`; `raw_fluxes` remains the
 three original readings. Floating-point arithmetic can leave a tiny roundoff.
 :::::
 
 :::{div}
 :class: projector-lecture projector-slide
 
-## Reference · return values and mutation
+## Reference · `return` values and mutation
 
 | Design choice | Use it when… | Caution |
 |---|---|---|
-| return one value | one quantity answers the next question | document its units and domain |
-| return a tuple | a few results always travel together | unpack immediately into named roles |
-| return a dictionary | results have several named roles | make keys part of the contract |
-| return a new list | derived values should not alter raw inputs | state the ordering and length |
+| `return` one value | one quantity answers the next question | document its units and domain |
+| `return` a `tuple` | a few results always travel together | unpack immediately into named roles |
+| `return` a `dict` | results have several named roles | make keys part of the contract |
+| `return` a new `list` | derived values should not alter raw inputs | state the ordering and length |
 | mutate an input | in-place change is the explicit purpose | name and document the mutation |
-| raise an exception | the request violates the contract | explain which condition failed |
+| `raise` an exception | the request violates the contract | explain which condition failed |
 
 **Keep this rule:** a caller should be able to tell whether a function returns,
 mutates, or refuses a request without reading every line of its body.
@@ -658,7 +678,8 @@ assert final_course_letter(3.80) == "A"
 assert final_course_letter(3.79) == "A-"
 ```
 
-The point of these tests is the branch boundary, not the construction of a
+After defining `final_course_letter` in the lab, the point of these tests is
+the branch boundary, not the construction of a
 fictional record that happens to average to 3.80. Test the policy at its own
 interface.
 

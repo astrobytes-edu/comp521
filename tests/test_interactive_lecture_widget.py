@@ -277,6 +277,29 @@ class InteractiveLectureWidgetTests(unittest.TestCase):
         )
         self.assertNotIn("amplitude * np.sin(phase) ** 2", lecture_four)
 
+    def test_lecture_three_function_examples_state_and_enforce_their_contracts(self):
+        lecture = LECTURE_THREE.read_text()
+
+        self.assertIn(
+            '"""Return phase in [0, 1) for time, period, and epoch in days."""',
+            lecture,
+        )
+        self.assertIn('raise ValueError("period_days must be positive")', lecture)
+        self.assertNotIn(
+            "def phase_fraction(time_days, period_days, *, epoch_days=0.0):\n    ...",
+            lecture,
+        )
+        self.assertIn("class FakeAxes:", lecture)
+        self.assertIn('lable="synthetic observations"', lecture)
+        self.assertIn("raises a `TypeError` before `FakeAxes.plot` is called", lecture)
+        self.assertGreaterEqual(
+            lecture.count('raise ValueError("flux_values must not be empty")'),
+            3,
+        )
+        self.assertIn("rel_tol=0.0, abs_tol=1e-12", lecture)
+        self.assertIn("| `return` one value |", lecture)
+        self.assertIn("| `raise` an exception |", lecture)
+
     def test_week_two_teaches_the_published_grade_policy_with_a_realistic_timebox(self):
         lecture = LECTURE_THREE.read_text()
         lab = GRADE_CALCULATOR_LAB.read_text()
