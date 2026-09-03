@@ -19,7 +19,7 @@ kernelspec:
 
 ### Arrays, figures, and executable code
 
-Use one small synthetic brightness table to inspect arrays and figures.
+Use one small synthetic brightness record to inspect arrays and figures.
 
 Run the Python cells in order. They print the arrays and render the figures
 used in this lecture.
@@ -203,7 +203,7 @@ reason to stop and inspect the record.
 :::{div}
 :class: lecture-column
 
-`np.linspace(start, stop, count)` returns `count` evenly spaced values,
+`np.linspace(start, stop, num)` returns `num` evenly spaced values,
 including both endpoints.
 
 The grid is an input to a calculation, not an observation by itself.
@@ -341,12 +341,12 @@ print("normalized values:", normalized_brightness)
 | --- | --- |
 | `np.array(values)` | Creates an array from a sequence. |
 | `np.arange(start, stop, step)` | Creates regularly spaced values; `stop` is excluded. |
-| `np.linspace(start, stop, count)` | Creates an evenly spaced grid. |
-| `np.logspace(start, stop, count)` | Creates powers of `10` from `10**start` through `10**stop`. |
+| `np.linspace(start, stop, num)` | Creates an evenly spaced grid. |
+| `np.logspace(start, stop, num)` | Creates powers of `10` from `10**start` through `10**stop` with the default `base=10`. |
 | `np.zeros(shape)` | Creates an array of zeros with the given shape. |
 | `np.ones(shape)` | Creates an array of ones with the given shape. |
-| `np.full(shape, value)` | Creates an array filled with one value. |
-| `np.eye(size)` | Creates a square array with ones on the main diagonal. |
+| `np.full(shape, fill_value)` | Creates an array filled with one value. |
+| `np.eye(N)` | Creates an `N`-by-`N` array with ones on the main diagonal. |
 | `array.shape` | Reports dimension lengths, such as `(13,)`. |
 | `array.size` | Counts all elements. |
 | `array.dtype` | Reports stored numerical type. |
@@ -1128,7 +1128,7 @@ ax.scatter(
 )
 ax.set(
     xlabel="Observation time (days)",
-    ylabel="Normalized brightness",
+    ylabel="Normalized brightness (dimensionless)",
     title="Synthetic observations",
 )
 ax.grid(alpha=0.25)
@@ -1204,7 +1204,7 @@ comparison_ax.plot(
 )
 comparison_ax.set(
     xlabel="Observation time (days)",
-    ylabel="Normalized brightness",
+    ylabel="Normalized brightness (dimensionless)",
     title="Synthetic observations and a reference calculation",
     xlim=(0.0, 6.0),
 )
@@ -1272,7 +1272,7 @@ ax.axhline(
 )
 ax.set(
     xlabel="Observation time (days)",
-    ylabel="Normalized brightness",
+    ylabel="Normalized brightness (dimensionless)",
     title="Synthetic brightness observations and a reference calculation",
     xlim=(0.0, 6.0),
 )
@@ -1380,7 +1380,7 @@ for ax, title in zip(axes, ("Linear axes", "Log--log axes")):
     ax.plot(distance_pc, relative_signal, marker="o", linestyle="-")
     ax.set(
         xlabel="Distance (pc)",
-        ylabel="Relative signal",
+        ylabel="Relative signal (dimensionless)",
         title=title,
     )
     ax.grid(alpha=0.25)
@@ -1425,7 +1425,7 @@ axes[0].plot(lookback_time_gyr, normalized_quantity, marker="o", linestyle="-")
 axes[0].invert_xaxis()
 axes[0].set(
     xlabel="Lookback time (Gyr; present at right)",
-    ylabel="Normalized quantity",
+    ylabel="Normalized quantity (dimensionless)",
     title="An inverted x-axis",
 )
 axes[0].grid(alpha=0.25)
@@ -1464,8 +1464,8 @@ convention.
 
 Use three parts:
 
-1. **Visible:** Several synthetic observations and the reference curve lie
-   below the `0.985` illustrative threshold.
+1. **Visible:** Several synthetic observations and portions of the reference
+   curve lie below the `0.985` illustrative threshold.
 2. **Evidence:** The labeled axes, circular markers, solid line, and
    dashed threshold distinguish the three visual elements.
 3. **Open:** The reference calculation has no measured uncertainty,
@@ -1542,7 +1542,8 @@ why each matters. Then answer:
 1. Why must one Boolean mask select both `observation_time_days` and
    `observed_brightness`?
 2. What does a threshold line show directly? What does it not establish?
-3. What does `reference_brightness.shape == observation_time_days.shape` check?
+3. What does `reference_brightness.shape == observation_time_days.shape` check,
+   and what does it not prove about the pairing?
 4. `brightness_by_source` has shape `(3, 5)` and `baseline_per_source` has
    shape `(3,)`. Why does their division fail? What does
    `baseline_per_source[:, np.newaxis]` change, and why does `(3, 1)` work?
