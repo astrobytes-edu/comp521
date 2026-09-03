@@ -2,9 +2,9 @@
 .projector-lecture {
   color: #122b38;
   font-size: clamp(
-    calc(1.12rem * var(--lecture-font-scale, 1)),
-    calc(1.45vw * var(--lecture-font-scale, 1)),
-    calc(1.45rem * var(--lecture-font-scale, 1))
+    calc(1.18rem * var(--lecture-font-scale, 1)),
+    calc(1.55vw * var(--lecture-font-scale, 1)),
+    calc(1.55rem * var(--lecture-font-scale, 1))
   );
   line-height: 1.42;
 }
@@ -57,14 +57,91 @@ article.content:has(.projector-lecture) .projector-lecture.projector-slide {
 .projector-lecture .projector-slide pre {
   width: min(100%, 70rem);
   font-size: clamp(
-    calc(1.25rem * var(--lecture-font-scale, 1)),
-    calc(2vw * var(--lecture-font-scale, 1)),
-    calc(1.8rem * var(--lecture-font-scale, 1))
+    calc(1.32rem * var(--lecture-font-scale, 1)),
+    calc(2.1vw * var(--lecture-font-scale, 1)),
+    calc(1.9rem * var(--lecture-font-scale, 1))
   );
   line-height: 1.35;
 }
 .projector-lecture.projector-slide table,
 .projector-lecture .projector-slide table { font-size: 0.9em; }
+
+/*
+ * A scrollable lecture keeps the same visible section blocks and controls as a
+ * projector lecture, but does not force each block into one viewport.
+ */
+.projector-lecture.projector-slide.lecture-scroll,
+.projector-lecture .projector-slide.lecture-scroll {
+  display: block;
+  min-height: 0;
+  scroll-margin-top: 1rem;
+}
+
+.projector-lecture.projector-slide.lecture-scroll h2,
+.projector-lecture .projector-slide.lecture-scroll h2 {
+  font-size: clamp(
+    calc(1.85rem * var(--lecture-font-scale, 1)),
+    calc(2vw * var(--lecture-font-scale, 1)),
+    calc(2.75rem * var(--lecture-font-scale, 1))
+  );
+}
+
+.projector-lecture .lecture-two-column {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.8fr) minmax(22rem, 1.2fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+.projector-lecture .lecture-column {
+  min-width: 0;
+}
+
+.projector-lecture .lecture-matrix {
+  margin: 0;
+  padding: clamp(0.45rem, 1.2vw, 0.9rem);
+  overflow-x: auto;
+  border: 2px solid #547da8;
+  border-radius: 0.55rem;
+  background: #eef5ff;
+  font-variant-numeric: tabular-nums;
+}
+
+.projector-lecture .lecture-matrix table {
+  width: 100%;
+  margin: 0;
+}
+
+.projector-lecture .lecture-matrix th,
+.projector-lecture .lecture-matrix td {
+  white-space: nowrap;
+}
+
+.projector-lecture .lecture-two-column > :is(pre, figure, table) {
+  margin-top: 0;
+}
+
+.projector-lecture .lecture-two-column pre {
+  width: 100%;
+  font-size: clamp(
+    calc(1rem * var(--lecture-font-scale, 1)),
+    calc(1.25vw * var(--lecture-font-scale, 1)),
+    calc(1.3rem * var(--lecture-font-scale, 1))
+  );
+}
+
+.projector-lecture .lecture-prompt {
+  max-width: 68rem;
+  margin-block: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-inline-start: 0.3rem solid #075f63;
+  border-radius: 0.35rem;
+  background: #dff4f1;
+  color: #073447;
+}
+
+.projector-lecture .lecture-prompt > :first-child { margin-top: 0; }
+.projector-lecture .lecture-prompt > :last-child { margin-bottom: 0; }
 .projector-lecture .comp521-experiment {
   margin-block: 0.55rem;
   padding: 0.7rem;
@@ -136,6 +213,10 @@ article.content:has(.projector-lecture) .projector-lecture.projector-slide {
   .projector-lecture .lecture-through-line li {
     flex-basis: 10rem;
   }
+
+  .projector-lecture .lecture-two-column {
+    grid-template-columns: 1fr;
+  }
 }
 @media print {
   .projector-lecture.projector-slide,
@@ -143,5 +224,10 @@ article.content:has(.projector-lecture) .projector-lecture.projector-slide {
     break-after: page;
     min-height: 0;
     padding: 1.25rem;
+  }
+
+  .projector-lecture.projector-slide.lecture-scroll,
+  .projector-lecture .projector-slide.lecture-scroll {
+    break-after: auto;
   }
 }

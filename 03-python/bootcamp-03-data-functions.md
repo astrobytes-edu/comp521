@@ -122,9 +122,7 @@ calculation to practice function interfaces, not to infer a physical period.
 phase_fraction(3.5, 2.0)
 ```
 
-This call is compact, but only works if the reader can reliably remember that
-the first number is a time and the second is a period. Positional arguments are
-usually reasonable when:
+Use positional arguments when their roles are familiar and short:
 
 - there are only one or two required inputs;
 - their order is conventional in this domain; and
@@ -213,7 +211,7 @@ reference time is unknown or scientifically essential.
 | `show_grid=True` for a plotting preference | `flux_unit="normalized"` when units are not known |
 | `epoch_days=0.0` in a declared toy convention | a placeholder that silently changes interpretation |
 
-**Keep this rule:** a default belongs in the documented contract.
+**Rule:** a default belongs in the documented contract.
 :::
 
 :::{div}
@@ -237,14 +235,12 @@ except TypeError as error:
     print(error)
 ```
 
-The `*` says that every parameter after it must be supplied by name. This is
-useful when an optional value could be mistaken for another number with the
-same units. It does **not** mean “all arguments must be keywords”: the required
-time and period remain positional-or-keyword arguments.
+The `*` makes every following parameter keyword-only. Use it when an optional
+value could be mistaken for another number with the same units. Required time
+and period remain positional-or-keyword arguments.
 
-`phase_fraction(3.5, 2.0, 0.5)` now raises `TypeError` rather than letting the
-reference convention disappear into a row of values. This is a deliberate
-signature decision, not a new version of the calculation.
+`phase_fraction(3.5, 2.0, 0.5)` raises `TypeError`; the reference convention
+must be named.
 :::
 
 :::{div}
@@ -260,7 +256,7 @@ signature decision, not a new version of the calculation.
 | `f(x, *, option=True)` | a keyword argument only | the option changes interpretation or is easy to swap |
 | `f(*, unit)` | a required keyword argument | a named choice must never be omitted |
 
-**Keep this rule:** the function signature is part of the documentation. Read
+**Rule:** the function signature is part of the documentation. Read
 it before you call an unfamiliar function and design it before others call
 yours.
 :::
@@ -341,10 +337,9 @@ def plot_series(ax, time_days, brightness, **plot_options):
     return ax.plot(time_days, brightness, **plot_options)
 ```
 
-`plot_options` is a `dict` inside this function. The wrapper forwards a
-small, documented set of display choices to `ax.plot`. This is the appropriate
-role for `**kwargs`: preserve named options at a boundary rather than hide the
-function’s ordinary input contract.
+`plot_options` is a `dict` inside this function. Use `**kwargs` to preserve a
+small, documented set of named options at a boundary; do not hide the ordinary
+input contract.
 
 Run this complete check:
 
@@ -375,8 +370,7 @@ would make a later figure harder to trust.
 | `**kwargs` with checking | named options pass through one defined boundary |
 | unrestricted `**kwargs` | the supported interface is unclear |
 
-**Keep this rule:** flexibility is useful only when the contract stays
-inspectable.
+**Rule:** flexible calls need an explicit contract.
 :::
 
 :::::{div}
@@ -422,10 +416,9 @@ phase = phase_fraction(**observation)
 ```
 
 Using the `phase_fraction` definition above, `**observation` supplies each
-key-value pair as a named argument. This is
-helpful only when the keys exactly match the function’s documented parameter
-names. It does not magically validate a record, convert units, or establish
-that the period is physically meaningful.
+key-value pair as a named argument. Its keys must match the function’s
+documented parameter names. Validation and unit handling remain part of the
+function contract.
 
 For a short ordered pair, `tuple` unpacking is also useful:
 
@@ -496,7 +489,7 @@ input record or hiding a failure?
 - avoid changing an input collection unexpectedly; and
 - test an interface’s ordinary, boundary, and invalid cases.
 
-**Through-line focus:** calculation $\rightarrow$ inspectable result.
+**Through-line focus:** calculation $\rightarrow$ stated result.
 :::
 
 :::{div}
@@ -572,9 +565,8 @@ else:
 ```
 
 With `phase_fraction` defined above, an interface test checks the behavior the
-caller relies on: a valid output for
-a stated input and a clear failure outside the stated domain. It does not prove
-that an assumed period describes a real source.
+caller relies on: a valid output for a stated input and a clear failure outside
+the stated domain.
 :::
 
 :::::{div}
@@ -623,7 +615,7 @@ three original readings. Floating-point arithmetic can leave a tiny roundoff.
 | mutate an input | in-place change is the explicit purpose | name and document the mutation |
 | `raise` an exception | the request violates the contract | explain which condition failed |
 
-**Keep this rule:** a caller should be able to tell whether a function returns,
+**Rule:** a caller should be able to tell whether a function returns,
 mutates, or refuses a request without reading every line of its body.
 :::
 

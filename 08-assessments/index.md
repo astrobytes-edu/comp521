@@ -11,6 +11,9 @@ criteria.
 
 - [Projects](projects/project-1.md) — the Project 1 brief, repository check,
   and six-project sequence.
+- [ND Array Evidence Check](nd-array-evidence-check.md) — individual evidence
+  that you can state axes and shapes, normalize an ND record, validate the
+  result, and communicate one figure.
 - [Growth Reflections](../01-course-info/growth-reflections.md) — individual
   reflection prompts and submission expectations.
 - [Grading](../01-course-info/grading.md) — weights, scale, and submission

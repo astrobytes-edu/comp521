@@ -31,11 +31,16 @@ export default {
     root.append(style);
     const slides = [...document.querySelectorAll(".projector-lecture.projector-slide")];
     if (!slides.length) return;
+    const sectionMode = slides.some((slide) => slide.classList.contains("lecture-scroll"));
+    const unit = sectionMode ? "section" : "slide";
     const shell = document.createElement("nav");
     shell.className = "projector-controls";
-    shell.setAttribute("aria-label", "Projector lecture controls");
-    const previous = button("←", "Previous slide (Left Arrow or Page Up)");
-    const next = button("→", "Next slide (Right Arrow, Space, or Page Down)");
+    shell.setAttribute(
+      "aria-label",
+      sectionMode ? "Lecture section controls" : "Projector lecture controls",
+    );
+    const previous = button("←", `Previous ${unit} (Left Arrow or Page Up)`);
+    const next = button("→", `Next ${unit} (Right Arrow, Space, or Page Down)`);
     const smaller = button("A−", "Decrease lecture font size");
     const larger = button("A+", "Increase lecture font size");
     const contrast = button("◐", "Toggle high contrast");

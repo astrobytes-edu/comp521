@@ -3,6 +3,9 @@ title: "Lecture 4 · NumPy, Matplotlib, and Readable Evidence"
 subtitle: "Block 1 · Week 2 | Chapters 7–8"
 site:
   hide_toc: true
+kernelspec:
+  name: python3
+  display_name: Python 3
 ---
 
 :::{projector-controls}
@@ -10,861 +13,1560 @@ site:
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
 ## NumPy, Matplotlib, and readable evidence
 
-### From numerical arrays to a figure another person can inspect
+### Arrays, figures, and executable code
 
-Lecture 2 introduced arrays as one operation applied to many values. Today we
-make that idea operational: create arrays with a stated shape, select matching
-observations with a Boolean mask, evaluate a simple vectorized model, and make
-a figure that separates data, assumptions, and conclusion.
+Use one small synthetic brightness table to inspect arrays and figures.
+
+Run the Python cells in order. They print the arrays and render the figures
+used in this lecture.
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Use the docs for the full API
+
+We show a small, useful subset of NumPy and Matplotlib. Use the official docs
+to check the full API: signatures, options, return values, errors, and examples.
+
+- NumPy: [user guide](https://numpy.org/doc/stable/user/index.html) · [API reference](https://numpy.org/doc/stable/reference/index.html)
+- Matplotlib: [documentation](https://matplotlib.org/stable/index.html) · [API reference](https://matplotlib.org/stable/api/index.html) · [cheatsheets](https://matplotlib.org/cheatsheets/) · [Figure anatomy](https://matplotlib.org/stable/gallery/showcase/anatomy.html)
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
 ## The through-line
 
 :::{div}
 :class: lecture-through-line
 
-1. **Question about a varying quantity**
-2. **Paired arrays with units**
-3. **A stated selection rule**
-4. **One vectorized calculation**
-5. **A labeled figure**
-6. **A bounded claim**
+1. **A numerical record**
+2. **A one-dimensional array**
+3. **A selection rule**
+4. **Named axes in an ND array**
+5. **A vectorized calculation**
+6. **A labeled figure**
+7. **A limited claim**
 :::
 
-The same array can be useful or misleading depending on what each position
-means, which values were selected, and what the figure actually shows.
+State what positions, axes, and marks mean before interpreting a result.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
 ## Today’s question
 
-How do arrays and figures make a numerical relationship inspectable without
-quietly turning a toy model or a selection rule into a scientific discovery?
+How do we organize values across positions and axes, select and combine them
+safely, and make a figure a reader can check?
 
 By the end of class, you should be able to:
 
-- create and inspect one-dimensional NumPy arrays;
-- use indexing, slicing, and Boolean masks without breaking paired data;
-- explain elementwise operations and array shape;
-- construct a Matplotlib figure with readable axes, labels, and a legend; and
-- state what a figure shows directly and what it cannot establish alone.
+- create and inspect NumPy arrays with `shape`, `size`, and `dtype`;
+- use indexing, slicing, and Boolean masks while preserving aligned data;
+- read and index 2-D and ND arrays by their named axes and shape order;
+- use a length-one axis to broadcast an explicitly owned quantity safely;
+- write and check a vectorized calculation; and
+- construct a readable Matplotlib figure and state what it shows—and what it
+  cannot establish alone.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
-## Today’s example is deliberately not Project 1
+## One synthetic record supplies the values
 
-We will use a small **synthetic rotating-star brightness** example: a starspot
-can make measured brightness vary smoothly as the star rotates. This is a toy
-periodic signal with invented values. It is not a transit model, it is not
-Project 1 data, and it does not ask you to infer a planet.
+These synthetic brightness measurements let us practice array operations and
+plots without reproducing a Project 1 analysis. A periodic reference curve
+appears later to distinguish calculated values from observations.
 
-We begin with one fixed synthetic observation record and compare it with a
-separately named toy model. It gives us a controlled setting in which:
-
-- time has units of days;
-- brightness is dimensionless and normalized;
-- a period is an assumption we state; and
-- a plot can be read without completing a project analysis.
+| Quantity | Meaning | Units |
+| --- | --- | --- |
+| `observation_time_days` | observation time | days |
+| `observed_brightness` | invented measurement | normalized; dimensionless |
+| `reference_period_days` | period used by one reference curve | days |
+| `dimming_depth` | reference-curve drop from bright to dim | dimensionless |
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
-## I · An array represents one numerical quantity across positions
+## I · NumPy arrays: quantities, positions, and elementwise operations
 
 ### Question
 
-What must be true before one operation can safely apply to many values?
+What is an array, and what must be true before one operation can safely apply
+to many values?
 
 ### You will leave this section able to
 
-- distinguish a Python list from a numerical array;
-- read an array’s shape, size, and dtype;
-- create a stated numerical grid with np.linspace; and
-- recognize elementwise arithmetic.
+- distinguish a Python list from a NumPy array;
+- read `shape`, `size`, and `dtype`;
+- create a numerical grid with `np.linspace`; and
+- explain elementwise arithmetic.
 
-**Through-line focus:** named quantity $\rightarrow$ numerical array.
+**Through-line focus:** named quantity → numerical array.
 :::
 
-:::{div}
-:class: projector-lecture projector-slide
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
 ## A list and an array make different promises
 
-~~~python
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+- A `list` can hold related Python objects.
+- A numerical array supports elementwise arithmetic.
+- Neither stores units or validates a model for you.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
 import numpy as np
 
 brightness_list = [1.000, 0.997, 0.991]
 brightness_array = np.array(brightness_list)
 
-print(brightness_list * 2)
-print(brightness_array * 2)
-~~~
+print("list * 2:", brightness_list * 2)
+print("array * 2:", brightness_array * 2)
+```
 
-| Expression | Result | Meaning |
-|---|---|---|
-| brightness_list * 2 | repeats the list | Python list operation |
-| brightness_array * 2 | doubles each value | elementwise numerical operation |
-
-A NumPy array stores values in a regular, typed arrangement designed for
-numerical work. It does not attach units, validate the scientific model, or
-tell us whether two values are comparable. Those remain our responsibilities.
+| Expression | Meaning |
+| --- | --- |
+| `brightness_list * 2` | Python repeats the list. |
+| `brightness_array * 2` | NumPy doubles each position. |
 :::
+::::
 
-:::{div}
-:class: projector-lecture projector-slide
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
 ## Shape says how positions are organized
 
-~~~python
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
 observation_time_days = np.linspace(0.0, 6.0, 13)
 observed_brightness = np.array([
     0.986, 0.971, 0.973, 0.984, 0.999, 0.997, 0.985,
     0.973, 0.970, 0.986, 0.997, 0.999, 0.984,
 ])
 
+print("time:", observation_time_days)
+print("brightness:", observed_brightness)
 print("time shape:", observation_time_days.shape)
 print("brightness shape:", observed_brightness.shape)
-print("number of values:", observed_brightness.size)
-print("stored dtype:", observed_brightness.dtype)
-~~~
-
-Both arrays have shape (13,): one dimension containing thirteen positions. Index i
-refers to the same observation in each array:
-
-~~~text
-observation_time_days[i]  ↔  observed_brightness[i]
-~~~
-
-This pairing is part of the representation. A matching shape does not prove
-that arrays are correctly paired, but a mismatching shape is an immediate
-reason to stop and inspect the data.
+print("number of observations:", observed_brightness.size)
+print("dtype:", observed_brightness.dtype)
+```
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
+
+`shape` says how positions are organized. Both arrays have shape `(13,)`:
+one dimension with one value per observation, in order.
+
+Index `i` has the same meaning in both arrays:
+
+`observation_time_days[i]` ↔ `observed_brightness[i]`
+
+Matching shapes do not prove a correct pairing. A mismatch is an immediate
+reason to stop and inspect the record.
+:::
+::::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
 ## A numerical grid names its endpoints and count
 
-~~~python
-time_days = np.linspace(0.0, 4.0, 9)
+::::{div}
+:class: lecture-two-column
 
-print(time_days)
-print("shape:", time_days.shape)
-~~~
+:::{div}
+:class: lecture-column
 
-np.linspace(start, stop, count) creates count evenly spaced values, including
-both endpoints. Here it creates nine times from 0.0 to 4.0 days.
-
-| Question | Correct answer |
-|---|---|
-| What are the units? | days, because the variable is time_days |
-| How many values? | 9 |
-| Is 4.0 included? | yes |
-| What is the spacing? | 0.5 days |
+`np.linspace(start, stop, count)` returns `count` evenly spaced values,
+including both endpoints.
 
 The grid is an input to a calculation, not an observation by itself.
 :::
 
-:::::{div}
-:class: projector-lecture projector-slide
+:::{div}
+:class: lecture-column
 
-## Run · make a grid and a toy brightness series
+```{code-cell} python
+time_days = np.linspace(0.0, 4.0, 9)
 
-:::{interactive-python}
-:id: lecture-04-array-grid
-:packages: numpy
-:controls: {"period_days":{"label":"rotation period (days)","min":1,"max":6,"step":0.5,"value":3},"amplitude":{"label":"brightness amplitude","min":0.005,"max":0.04,"step":0.005,"value":0.02}}
-
-import numpy as np
-
-model_time_days = np.linspace(0.0, 6.0, 13)
-phase = 2 * np.pi * model_time_days / period_days
-model_brightness = 1.0 - amplitude * (1.0 + np.sin(phase)) / 2.0
-
-print("time shape:", model_time_days.shape)
-print("brightness shape:", model_brightness.shape)
-print("first three times:", model_time_days[:3])
-print("first three brightness values:", model_brightness[:3])
+print("time grid:", time_days)
+print("shape:", time_days.shape)
+print("spacing:", time_days[1] - time_days[0], "days")
+```
 :::
+::::
 
-Before running, predict the two shapes. Then change the period: does the
-number of values change, or only their modeled brightness?
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
-**Worked result:** both arrays have shape (13,). The grid fixes the number of
-samples; the period changes the calculation at each sample.
-:::::
+## Common array generators
+
+::::{div}
+:class: lecture-two-column
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
 
-## Elementwise arithmetic follows positions, not whole-array algebra
+Choose a generator from the structure you need:
 
-~~~python
+- `np.arange` for integer steps;
+- `np.linspace` for a stated interval and count;
+- `np.logspace` for powers of a base;
+- `np.zeros`, `np.ones`, or `np.full` for a stated shape and initial value.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+integer_steps = np.arange(0, 5)
+log_values = np.logspace(0, 3, 4)
+blank_by_source = np.zeros((3, 5))
+unit_weights = np.ones(5)
+missing_values = np.full(5, np.nan)
+
+print("integer steps:", integer_steps)
+print("log values:", log_values)
+print("blank shape:", blank_by_source.shape)
+print("weights:", unit_weights)
+print("missing values:", missing_values)
+```
+:::
+::::
+
+`np.logspace(0, 3, 4)` returns `10**0` through `10**3`. For a floating-point
+grid with a stated number of values, use `np.linspace` rather than `np.arange`.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Elementwise arithmetic follows positions
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+Subtracting a scalar applies the same operation at every position.
+
+`[b₀, b₁, b₂, …] - background`
+
+`= [b₀ - background, b₁ - background, b₂ - background, …]`
+
+This only makes sense when the scalar has the same meaning for every
+observation. A time-dependent correction needs an aligned array.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
 background_level = 0.003
 corrected_brightness = observed_brightness - background_level
 
-print(corrected_brightness[:3])
-~~~
+print("first three corrected values:", corrected_brightness[:3])
+print("shape preserved:", corrected_brightness.shape)
+```
+:::
+::::
+:::::
 
-Subtracting a scalar from an array applies the subtraction to every element:
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
-~~~text
-[b₀, b₁, b₂, …] - background
-    = [b₀ - background, b₁ - background, b₂ - background, …]
-~~~
+## `dtype` is a numerical representation, not a unit
 
-This is useful only when the scalar means the same thing for every position.
-If background varies with time, it should be an array whose value at each
-position is documented and aligned with observed_brightness.
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+`integer_counts` stores integers. Division produces floating-point normalized
+brightness because the result is not generally an integer.
+
+Use variable names, labels, and documentation for units. Use `dtype` to
+inspect how values are stored.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
 
-## Array dtype is a computational choice, not a unit label
-
-~~~python
+```{code-cell} python
 integer_counts = np.array([1000, 997, 991])
 normalized_brightness = integer_counts / integer_counts[0]
 
-print(integer_counts.dtype)
-print(normalized_brightness.dtype)
-~~~
-
-The first array stores integer counts. Division produces floating-point values
-because normalized brightness is not generally an integer. Neither dtype tells
-us whether the counts were calibrated, whether the denominator is appropriate,
-or what uncertainty the normalization introduces.
-
-**Keep this rule:** use variable names, labels, and documentation for units;
-use dtype to understand numerical representation.
+print("count dtype:", integer_counts.dtype)
+print("normalized dtype:", normalized_brightness.dtype)
+print("normalized values:", normalized_brightness)
+```
 :::
+::::
+:::::
 
-:::{div}
-:class: projector-lecture projector-slide
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
 ## Reference · array creation and inspection
 
 | Expression | What it does |
-|---|---|
-| np.array(values) | creates an array from a sequence |
-| np.linspace(start, stop, count) | creates a specified evenly spaced grid |
-| array.shape | reports dimension lengths, such as (13,) |
-| array.size | counts all elements |
-| array.dtype | reports stored numerical type |
-| array + scalar | adds the scalar to every element |
-| array_1 + array_2 | adds corresponding positions when shapes are compatible |
+| --- | --- |
+| `np.array(values)` | Creates an array from a sequence. |
+| `np.arange(start, stop, step)` | Creates regularly spaced values; `stop` is excluded. |
+| `np.linspace(start, stop, count)` | Creates an evenly spaced grid. |
+| `np.logspace(start, stop, count)` | Creates powers of `10` from `10**start` through `10**stop`. |
+| `np.zeros(shape)` | Creates an array of zeros with the given shape. |
+| `np.ones(shape)` | Creates an array of ones with the given shape. |
+| `np.full(shape, value)` | Creates an array filled with one value. |
+| `np.eye(size)` | Creates a square array with ones on the main diagonal. |
+| `array.shape` | Reports dimension lengths, such as `(13,)`. |
+| `array.size` | Counts all elements. |
+| `array.dtype` | Reports stored numerical type. |
+| `array + scalar` | Applies the operation at every position. |
 
-**Keep this rule:** each axis and position needs a stated meaning before array
-arithmetic can support an interpretation.
-:::
+**Rule:** state what each position represents before combining
+arrays.
+:::::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
-## II · Indexing and masks preserve or break the pairing
+## II · Indexing, slicing, and Boolean selection
 
 ### Question
 
-How do we select a subset of observations without separating values from the
-coordinates that give them meaning?
+How do we retrieve or select values while preserving the relationships among
+aligned arrays?
 
 ### You will leave this section able to
 
-- retrieve one position and a contiguous slice;
+- retrieve the first, last, or a contiguous range of positions;
 - construct a Boolean mask from a stated rule;
 - apply the same mask to paired arrays; and
 - count selected values before interpreting them.
 
-**Through-line focus:** paired arrays $\rightarrow$ inspectable selection.
+**Through-line focus:** paired arrays → same selection.
+:::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Indexing starts at `0`; negative indices count from the end
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+- `values[0]` selects the first position; `values[1]` selects the second.
+- `values[-1]` selects the last position; `values[-2]` selects the one before it.
+- `values[start:stop]` includes `start` and stops before `stop`.
+- Apply the same slice to every array in the same record.
+
+Indexing is not permission to choose a convenient point after seeing a result.
+Use it for a stated role: a reference point, documented event, or predeclared
+check.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
 
-## Indexing asks for one known position
-
-~~~python
-print("third time:", observation_time_days[2], "days")
-print("third brightness:", observed_brightness[2])
-~~~
-
-Python and NumPy count positions from zero. The pair at index 2 is the third
-synthetic observation: 1.0 days and 0.973 normalized brightness.
-
-Indexing is not a license to pick a convenient point after seeing the result.
-Use an index when it has a stated role: first observation, known reference
-point, a documented event, or a value chosen by a rule you can show.
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## Slicing selects a contiguous range without changing order
-
-~~~python
+```{code-cell} python
+first_time_days = observation_time_days[0]
+third_time_days = observation_time_days[2]
+last_time_days = observation_time_days[-1]
+penultimate_time_days = observation_time_days[-2]
+third_brightness = observed_brightness[2]
 early_time_days = observation_time_days[:3]
 early_brightness = observed_brightness[:3]
 
-print(early_time_days)
-print(early_brightness)
-~~~
+print("first observation:", first_time_days, "days")
+print("third observation:", third_time_days, "days;", third_brightness)
+print("last observation:", last_time_days, "days")
+print("one before last:", penultimate_time_days, "days")
+print("early times:", early_time_days)
+print("early brightness:", early_brightness)
 
-start:stop includes start and excludes stop. Thus [:3] selects positions 0, 1,
-and 2. Slicing both arrays with the same slice preserves the time–brightness
-pairing.
+assert observation_time_days[-1] == observation_time_days[len(observation_time_days) - 1]
+```
+:::
+::::
+:::::
 
-| Slice | Positions selected |
-|---|---|
-| [:3] | 0, 1, 2 |
-| [2:] | 2 through the last |
-| [1:4] | 1, 2, 3 |
-| [::2] | every second position |
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## A Boolean mask selects the same positions from both arrays
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+Make one mask, then use it on every aligned array.
+
+The mask has one `True` or `False` value per observation. Applying it to both
+arrays preserves the time--brightness pairing.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
 
-## A Boolean mask stores the result of one rule per position
-
-~~~python
+```{code-cell} python
 low_brightness = observed_brightness < 0.985
 
-print(low_brightness)
-~~~
-
-The mask is an array of True and False values with the same shape as
-brightness. It answers a limited question: which readings satisfy the declared
-numerical threshold?
-
-~~~text
-observed brightness: [0.986, 0.971, 0.973, 0.984, ...]
-low brightness:      [False,  True,  True,  True, ...]
-~~~
-
-The mask does not identify the physical cause of a low reading. It records the
-output of one selection rule.
+print("mask:", low_brightness)
+print("selected times:", observation_time_days[low_brightness])
+print("selected brightness:", observed_brightness[low_brightness])
+print("selected count:", np.count_nonzero(low_brightness))
+```
 :::
+::::
 
 :::::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
-## Predict · select the same observations from both arrays
+## Arrays need an explicit many-value question
 
-:::{interactive-python}
-:id: lecture-04-boolean-mask
-:packages: numpy
-:controls: {"threshold":{"label":"brightness threshold","min":0.96,"max":1.0,"step":0.005,"value":0.995}}
-
-import numpy as np
-
-observation_time_days = np.linspace(0.0, 6.0, 13)
-observed_brightness = np.array([
-    0.986, 0.971, 0.973, 0.984, 0.999, 0.997, 0.985,
-    0.973, 0.970, 0.986, 0.997, 0.999, 0.984,
-])
-
-low_brightness = observed_brightness < threshold
-selected_time_days = observation_time_days[low_brightness]
-selected_brightness = observed_brightness[low_brightness]
-
-print("mask:               ", low_brightness)
-print("selected times:     ", selected_time_days)
-print("selected brightness:", selected_brightness)
-print("number selected:    ", low_brightness.sum())
-:::
-
-Before running, count the values you expect the mask to select. Then change the
-threshold: why must the same mask be applied to both arrays?
-
-**Worked result:** the Boolean mask retains the corresponding times and
-brightness values together. low_brightness.sum() counts True values.
-:::::
+::::{div}
+:class: lecture-two-column
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
 
-## Compare numbers, not arrays, in an ordinary if
+`if low_brightness:` fails because `low_brightness` contains many Boolean
+values.
 
-~~~python
-if observed_brightness < 0.985:
-    print("low")
-~~~
-
-This does not ask one true-or-false question; it produces a whole Boolean
-array. Python will refuse to guess whether you mean “any value is low” or “all
-values are low.”
-
-~~~python
-if np.any(observed_brightness < 0.985):
-    print("at least one reading is below the threshold")
-
-if np.all(observed_brightness > 0.95):
-    print("every reading exceeds 0.95")
-~~~
-
-Use np.any and np.all only after saying which group-level claim you mean. They
-do not replace a mask when you need the individual selected positions.
+Use `np.any` for “at least one” and `np.all` for “every.”
 :::
 
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+try:
+    if low_brightness:
+        print("This will not run.")
+except ValueError as error:
+    print(type(error).__name__ + ":", error)
+
+print("any low values?", np.any(low_brightness))
+print("all low values?", np.all(low_brightness))
+```
+:::
+::::
+:::::
+
 :::::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
-## Selection rules should make their limits visible
+## A threshold is a selection rule
 
-:::{admonition} A threshold is not a physical explanation
+:::{admonition} State the rule
 :class: warning
 
-observed_brightness < 0.985 selects readings below a stated numerical threshold. It does
-not establish that starspots caused the variation, that the data are calibrated,
-or that the threshold is scientifically appropriate.
+`observed_brightness < 0.985` selects readings below a stated numerical
+threshold.
 :::
-
-A useful figure can show the threshold so a reader can see the decision rule.
-It cannot turn a decision rule into evidence for an unstated mechanism.
 :::::
 
-:::{div}
-:class: projector-lecture projector-slide
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
 ## Reference · indexing and Boolean selection
 
-| Expression | Result |
-|---|---|
-| array[i] | one value at position i |
-| array[start:stop] | a contiguous slice; stop is excluded |
-| array[mask] | values where the same-shaped mask is True |
-| mask = values < threshold | one Boolean decision per position |
-| mask.sum() | number of selected positions |
-| np.any(mask) | whether at least one position is selected |
-| np.all(mask) | whether every position is selected |
+| Expression | Read it as |
+| --- | --- |
+| `array[0]` | First position. |
+| `array[-1]` | Last position. |
+| `array[i]` | One value at position `i`. |
+| `array[start:stop]` | A slice; `stop` is excluded. |
+| `array[mask]` | Positions where the same-shaped mask is `True`. |
+| `mask = values < threshold` | One Boolean decision per position. |
+| `np.count_nonzero(mask)` | Number of selected positions. |
+| `np.any(mask)` / `np.all(mask)` | At least one / every position. |
 
-**Keep this rule:** paired quantities require the same selection in every
-array that represents the same observations.
-:::
+**Rule:** use the same selection on every array that describes the
+same observations.
+:::::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
-## III · Vectorize one stated model before plotting it
+## III · 2-D and ND arrays: matrices, axes, and shape
 
 ### Question
 
-How can one function evaluate a simple model at many times without concealing
-which position corresponds to which time?
+How do we represent values across multiple named axes without losing the
+meaning of any dimension?
 
 ### You will leave this section able to
 
-- write a NumPy expression that evaluates elementwise;
-- check a vectorized result against one scalar calculation.
+- read `ndim` and a two-dimensional `shape`;
+- state what each axis and position represents;
+- index a row, column, or one specific value;
+- state what `axis=0` and `axis=1` leave behind; and
+- broadcast one owned value per source across time.
 
-**Through-line focus:** one model evaluation $\rightarrow$ a family of values.
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## A vectorized function can accept an array without a Python loop
-
-~~~python
-import numpy as np
-
-def rotating_star_brightness(time_days, period_days, amplitude):
-    """Return toy normalized brightness for times and period in days."""
-    if period_days <= 0:
-        raise ValueError("period_days must be positive")
-    if not 0 <= amplitude < 1:
-        raise ValueError("amplitude must be in [0, 1)")
-    phase = 2 * np.pi * time_days / period_days
-    return 1.0 - amplitude * (1.0 + np.sin(phase)) / 2.0
-
-
-model_time_days = np.linspace(0.0, 6.0, 121)
-model_brightness = rotating_star_brightness(model_time_days, 3.0, 0.02)
-~~~
-
-Every operation in the final expression is elementwise. If model_time_days has
-121 values, model_brightness has 121 values. The function remains a toy model: it does
-not include spot evolution, measurement noise, or instrumental effects.
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## Verify one vectorized value against the same scalar calculation
-
-~~~python
-model_time_days = np.linspace(0.0, 6.0, 121)
-model_brightness = rotating_star_brightness(model_time_days, 3.0, 0.02)
-
-scalar_at_day_1 = rotating_star_brightness(1.0, 3.0, 0.02)
-array_at_day_1 = model_brightness[20]  # model_time_days[20] is 1.0 day
-
-print(scalar_at_day_1)
-print(array_at_day_1)
-~~~
-
-This is a cheap local check: at the same time and parameters, the scalar and
-array paths should agree. It does not validate the physical model or prove that
-the grid samples the system adequately.
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## Shape errors usually reveal a representation question
-
-~~~python
-observation_time_days = np.linspace(0.0, 6.0, 13)
-model_time_days = np.linspace(0.0, 6.0, 121)
-
-residual = observation_time_days - model_time_days
-~~~
-
-These arrays have shapes (13,) and (121,). NumPy cannot align them elementwise,
-and it should not try to invent a correspondence. Do not “fix” a shape error by
-truncating or reshaping values until you can state why positions should
-correspond.
-
-Ask first:
-
-1. What does each axis mean?
-2. Which positions should be compared?
-3. Did a prior selection or grid construction change one array?
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## Extension · broadcasting is a next-step array skill
-
-Broadcasting compares a family of parameter choices over one grid by adding
-length-one axes. It is useful, but it is not needed to make the model-versus-
-observation figure in this lecture.
-
-After you can explain the one-dimensional arrays above, complete the
-[Vectorization and Broadcasting Lab](../07-practice-labs/vectorization-broadcasting.md).
-There you will name rows, columns, and each array shape before using a
-two-dimensional result.
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## Reference · vectorization and compatible shapes
-
-| Idea | Read it as… |
-|---|---|
-| elementwise operation | apply one operation at corresponding positions |
-| (n,) | one-dimensional array with n positions |
-| scalar check | compare one array position to the same scalar calculation |
-| shape error | stop and state which positions should correspond |
-
-**Keep this rule:** write the shape and the physical meaning of every position
-before you combine two arrays.
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## IV · A figure is a compact argument with visible assumptions
-
-### Question
-
-What does a reader need to see to distinguish measured values, a model curve,
-and a selection rule?
-
-### You will leave this section able to
-
-- create a figure and axes with plt.subplots();
-- use labels, units, legend entries, markers, and line styles deliberately;
-- show a selection threshold without overstating it; and
-- write a bounded evidence statement from a figure.
-
-**Through-line focus:** arrays and model $\rightarrow$ inspectable evidence.
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## Start with a figure and axes object
-
-~~~python
-import matplotlib.pyplot as plt
-
-fig, ax = plt.subplots()
-ax.plot(
-    observation_time_days,
-    observed_brightness,
-    marker="o",
-    linestyle="none",
-    label="synthetic observations",
-)
-plt.show()
-~~~
-
-fig is the whole figure. ax is the plotting area that owns the data, labels,
-limits, legend, and grid. Keeping a name for ax makes later choices explicit:
-
-~~~python
-ax.set(xlabel="Time (days)", ylabel="Normalized brightness")
-ax.legend()
-~~~
-
-Use fig, ax = plt.subplots() as the default course pattern. It scales to
-multiple axes and keeps figure decisions attached to the right object.
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## Every visual element should answer a reader’s question
-
-~~~python
-fig, ax = plt.subplots()
-ax.plot(
-    observation_time_days,
-    observed_brightness,
-    marker="o",
-    linestyle="none",
-    label="synthetic observations",
-)
-ax.plot(
-    model_time_days,
-    model_brightness,
-    color="tab:blue",
-    label="toy rotating-star model",
-)
-ax.set(
-    xlabel="Time (days)",
-    ylabel="Normalized brightness",
-    title="Synthetic periodic brightness variation",
-)
-ax.grid(alpha=0.25)
-ax.legend()
-plt.show()
-~~~
-
-| Element | What it lets a reader inspect |
-|---|---|
-| marker without a line | discrete synthetic observations |
-| line | toy model evaluated on a denser grid |
-| axis labels | the quantity and its units |
-| title | what is shown, without a discovery claim |
-| legend | which graphical marks belong to which series |
-| grid | approximate coordinate reading |
-:::
-
-:::{div}
-:class: projector-lecture projector-slide
-
-## A threshold needs a label and a limited interpretation
-
-~~~python
-threshold = 0.985
-
-fig, ax = plt.subplots()
-ax.plot(
-    observation_time_days,
-    observed_brightness,
-    marker="o",
-    linestyle="none",
-    label="synthetic observations",
-)
-ax.plot(model_time_days, model_brightness, label="toy rotating-star model")
-ax.axhline(
-    threshold,
-    color="tab:red",
-    linestyle="--",
-    label="illustrative low-brightness threshold",
-)
-ax.set(xlabel="Time (days)", ylabel="Normalized brightness")
-ax.legend()
-ax.grid(alpha=0.25)
-plt.show()
-~~~
-
-The dashed style distinguishes the threshold from the brightness series even
-for readers who do not distinguish the colors. The legend calls it
-illustrative because the line communicates a rule for this exercise, not a
-validated scientific classification.
+**Through-line focus:** named positions → named axes.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide
+:class: projector-lecture projector-slide lecture-scroll
 
-## Run · draw the toy data, model, and rule together
+## A 2-D array can represent a labeled matrix
 
-:::{interactive-python}
-:id: lecture-04-figure
-:packages: numpy,matplotlib
-:controls: {"period_days":{"label":"rotation period (days)","min":1,"max":6,"step":0.5,"value":3},"amplitude":{"label":"brightness amplitude","min":0.01,"max":0.06,"step":0.005,"value":0.03},"threshold":{"label":"illustrative threshold","min":0.94,"max":1.0,"step":0.005,"value":0.98}}
+::::{div}
+:class: lecture-two-column
 
-import numpy as np
+:::{div}
+:class: lecture-column
+
+A regular two-dimensional `ndarray` is NumPy’s representation for a matrix or
+any rectangular table of values. Its shape uses the matrix convention:
+`(number_of_rows, number_of_columns)`.
+
+`brightness_by_source` is a measurement matrix with shape `(3, 5)`:
+
+- axis `0`: three sources (rows);
+- axis `1`: five observing times (columns);
+- `brightness_by_source[source_index, time_index]`: one measurement.
+
+The layout is matrix-like; the axis meanings are scientific: `(source, time)`.
+State what every axis owns.
+
+`*` is elementwise multiplication for `ndarray` objects. `A @ B` is matrix
+multiplication. Use `@` only when the inner dimensions and the linear mapping
+have been stated.
+
+Here, matrices are data tables with named axes. We will use matrix
+multiplication when its linear-algebra meaning is the topic.
+:::
+
+:::{div}
+:class: lecture-column lecture-matrix
+
+| source row / time column | `0` (0 days) | `1` (1 day) | `2` (2 days) | `3` (3 days) | `4` (4 days) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `0` · source A | 1.000 | 0.998 | 0.985 | 0.997 | 1.001 |
+| `1` · source B | 0.980 | 0.979 | **0.966** | 0.978 | 0.981 |
+| `2` · source C | 1.020 | 1.018 | 1.006 | 1.017 | 1.021 |
+
+`brightness_by_source[1, 2]` is the bold entry: source B at day `2.0`.
+:::
+::::
+
+```{code-cell} python
+source_labels = np.array(["A", "B", "C"])
+sample_time_days = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+brightness_by_source = np.array([
+    [1.000, 0.998, 0.985, 0.997, 1.001],
+    [0.980, 0.979, 0.966, 0.978, 0.981],
+    [1.020, 1.018, 1.006, 1.017, 1.021],
+])
+
+print("ndim:", brightness_by_source.ndim)
+print("shape:", brightness_by_source.shape)
+print("row labels:", source_labels)
+print("column times (days):", sample_time_days)
+```
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Matrix order and coordinate order are different conventions
+
+For a matrix or ordinary 2-D array, use `array[row, column]`: first vertical
+row, then horizontal column.
+
+Cartesian coordinates are conventionally written `(x, y)`: horizontal
+position first, then vertical position. An image stored in a 2-D array is
+therefore commonly accessed as `image[y, x]`, not `image[x, y]`.
+
+:::{admonition} Write the convention before indexing
+:class: warning
+
+Do not infer an axis order from variable names alone. State whether a pair is
+`(row, column)`, `(x, y)`, `(source, time)`, or another named convention.
+:::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Shape and indexing use the same axis order
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+NumPy lists axis lengths left to right:
+
+`array.shape == (axis_0_length, axis_1_length, ...)`
+
+Indexing follows the same order:
+
+`array[axis_0_index, axis_1_index, ...]`
+
+For a conventional 2-D table, that is `(row, column)` and
+`array[row, column]`. In this lecture, the axes are `(source, time)`, so
+`brightness_by_source[source, time]` uses the same convention.
+
+An array does not assign the meanings “row,” “column,” “source,” or “time.”
+You define and document them.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+source_index = 1
+time_index = 2
+
+brightness_by_time_source = brightness_by_source.T
+
+print("axis order:", "(source, time)")
+print("shape:", brightness_by_source.shape)
+print("value at [source, time]:", brightness_by_source[source_index, time_index])
+print("transposed axis order:", "(time, source)")
+print("transposed shape:", brightness_by_time_source.shape)
+print("same value at [time, source]:", brightness_by_time_source[time_index, source_index])
+
+assert (
+    brightness_by_source[source_index, time_index]
+    == brightness_by_time_source[time_index, source_index]
+)
+```
+
+For a 3-D array, use the same rule: a shape such as `(3, 5, 2)` could mean
+`(source, time, filter)` and be indexed as `array[source, time, filter]`.
+:::
+::::
+
+:::{admonition} Memory order is separate
+:class: note
+
+New NumPy arrays use C order by default, so the last index changes fastest in
+memory. That does not assign scientific meaning to an axis. Use `shape`,
+indexing, and documented axis names to establish meaning.
+:::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Indexing a 2-D array names both axes
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+Read these in order:
+
+- `brightness_by_source[1]` selects source `B` across all times: shape `(5,)`.
+- `brightness_by_source[:, 2]` selects all sources at day `2.0`: shape `(3,)`.
+- `brightness_by_source[1, 2]` selects one scalar measurement.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+source_index = 1
+time_index = 2
+
+print("one source:", brightness_by_source[source_index])
+print("one time across sources:", brightness_by_source[:, time_index])
+print(
+    "one measurement:",
+    source_labels[source_index],
+    "at day",
+    sample_time_days[time_index],
+    "=",
+    brightness_by_source[source_index, time_index],
+)
+```
+:::
+::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## A reduction consumes one axis
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+`mean(axis=1)` reduces the time axis, leaving one mean per source.
+
+`mean(axis=0)` reduces the source axis, leaving one mean per observing time.
+
+The output shape is part of the scientific meaning, not an implementation
+detail.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+mean_brightness_per_source = brightness_by_source.mean(axis=1)
+mean_brightness_per_time = brightness_by_source.mean(axis=0)
+
+print("per-source shape:", mean_brightness_per_source.shape)
+print("per-source means:", mean_brightness_per_source)
+print("per-time shape:", mean_brightness_per_time.shape)
+print("per-time means:", mean_brightness_per_time)
+```
+:::
+::::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Broadcasting: one operation across compatible shapes
+
+**Definition:** Broadcasting is NumPy’s shape-matching rule for elementwise
+operations. NumPy aligns shapes from the right. On each aligned axis, the
+lengths must match or one length must be `1`; missing leading axes behave like
+length `1`. The result uses the larger length on each axis.
+
+NumPy does not need to copy a value into a larger array. Broadcasting describes
+how the operation is evaluated.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Apply the shape rule before the operation
+
+| Left shape | Right shape | Result shape | What repeats conceptually |
+| --- | --- | --- | --- |
+| `(3, 5)` | `(5,)` | `(3, 5)` | One value per column across every row. |
+| `(3, 5)` | `(3, 1)` | `(3, 5)` | One value per row across every column. |
+| `(3, 1)` | `(1, 5)` | `(3, 5)` | A row quantity and column quantity combine. |
+| `(3, 5)` | `(3,)` | error | Trailing lengths `5` and `3` conflict. |
+
+Equal lengths are compatible. A length-one axis can expand. Any other pair of
+aligned lengths raises `ValueError`.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## See broadcasting on generic rows and columns
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+`values_by_row_and_column` has shape `(3, 5)`.
+
+- `per_column` has shape `(5,)`, so it aligns with the trailing column axis.
+- `per_row` has shape `(3,)`, so it conflicts with the trailing axis.
+- `per_row[:, np.newaxis]` has shape `(3, 1)`, so its length-one column axis
+  expands across five columns.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+values_by_row_and_column = np.zeros((3, 5))
+per_column = np.array([10, 20, 30, 40, 50])
+per_row = np.array([1, 2, 3])
+
+print("per-column result shape:", (values_by_row_and_column + per_column).shape)
+
+try:
+    values_by_row_and_column + per_row
+except ValueError as error:
+    print("per-row without newaxis:", type(error).__name__)
+
+per_row_column = per_row[:, np.newaxis]
+print("per-row result shape:", (values_by_row_and_column + per_row_column).shape)
+print("per-row result:\n", values_by_row_and_column + per_row_column)
+```
+:::
+::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Apply broadcasting to one baseline per source
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+`brightness_by_source` has shape `(3, 5)` with axes `(source, time)`.
+`baseline_per_source` has shape `(3,)`. Right alignment compares its `3` with
+the table’s trailing time length `5`, so the operation fails.
+
+`baseline_per_source[:, np.newaxis]` has shape `(3, 1)`: one baseline per
+source and a length-one time axis. Broadcasting expands that time axis across
+the five columns, giving shape `(3, 5)`.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+baseline_per_source = brightness_by_source[:, 0]
+
+try:
+    brightness_by_source / baseline_per_source
+except ValueError as error:
+    print("without an explicit axis:", type(error).__name__)
+
+baseline_column = baseline_per_source[:, np.newaxis]
+normalized_by_source = brightness_by_source / baseline_column
+
+assert normalized_by_source.shape == brightness_by_source.shape
+assert np.allclose(normalized_by_source[:, 0], 1.0)
+print("baseline shape:", baseline_per_source.shape)
+print("explicit baseline shape:", baseline_column.shape)
+print("normalized shape:", normalized_by_source.shape)
+print("first normalized row:", normalized_by_source[0])
+```
+:::
+::::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Reference · ND arrays, axes, and broadcasting
+
+| Expression | Read it as |
+| --- | --- |
+| `array.ndim` | Number of axes. |
+| `array.shape == (3, 5)` | Three row positions and five column positions. |
+| `array[row, column]` | One value with both positions named. |
+| `array.mean(axis=1)` | One value per row after reducing columns. |
+| `array.mean(axis=0)` | One value per column after reducing rows. |
+| `values[:, np.newaxis]` | Add a length-one column axis. |
+| `array + values` | Align shapes from the right; each axis must match or have length `1`. |
+
+**Rule:** before combining ND arrays, name each axis, its owner, and
+the expected output shape.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Practice the 2-D case before using it in larger work
+
+The [Vectorization and Broadcasting Lab](../07-practice-labs/vectorization-broadcasting.md)
+repeats this reasoning with a fresh data table. Complete it after this lecture:
+predict a shape, write the axis meaning, then run the expression.
+
+Then complete the [ND Array Evidence Check](../08-assessments/nd-array-evidence-check.md):
+state axes and shapes, broadcast a baseline, make a figure, and write a bounded
+claim.
+:::::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## IV · Vectorized calculations and shape checks
+
+### Question
+
+How can one stated calculation accept a scalar or many positions while
+preserving correspondence and checking shape?
+
+### You will leave this section able to
+
+- write a vectorized function with an explicit input contract;
+- check an array result against one scalar result; and
+- distinguish a vectorized one-dimensional calculation from an ND-array
+  broadcasting operation.
+
+**Through-line focus:** paired array → stated calculation.
+:::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## A vectorized calculation accepts a scalar, list, or array
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+`time_days` must be finite. `reference_period_days` must be finite and
+positive. `dimming_depth` is the drop from `1.0` to
+`1.0 - dimming_depth` in this reference curve.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+def periodic_reference_brightness(time_days, reference_period_days, dimming_depth):
+    """Return a periodic reference curve for finite times in days.
+
+    dimming_depth sets the drop from 1.0 to 1.0 - dimming_depth.
+    """
+    time_days = np.asarray(time_days, dtype=float)
+    if not np.all(np.isfinite(time_days)):
+        raise ValueError("time_days must contain only finite values")
+    if not np.isfinite(reference_period_days) or reference_period_days <= 0:
+        raise ValueError("reference_period_days must be finite and positive")
+    if not np.isfinite(dimming_depth) or not 0 <= dimming_depth < 1:
+        raise ValueError("dimming_depth must be finite and in [0, 1)")
+
+    phase = 2.0 * np.pi * time_days / reference_period_days
+    return 1.0 - dimming_depth * (1.0 + np.sin(phase)) / 2.0
+
+
+reference_period_days = 3.0
+dimming_depth = 0.030
+reference_brightness = periodic_reference_brightness(
+    observation_time_days,
+    reference_period_days,
+    dimming_depth,
+)
+
+print("reference shape:", reference_brightness.shape)
+print("reference values:", np.round(reference_brightness, 4))
+```
+:::
+::::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Check one vectorized result against one scalar call
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+The assertion checks the scalar and vector paths at the same input.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+index = 4
+scalar_brightness = periodic_reference_brightness(
+    observation_time_days[index],
+    reference_period_days,
+    dimming_depth,
+)
+
+np.testing.assert_allclose(
+    reference_brightness[index],
+    scalar_brightness,
+    rtol=0.0,
+    atol=1e-12,
+)
+print("scalar and vector results agree at index", index)
+```
+:::
+::::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## A shape error asks a representation question
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+These arrays represent different grids: one has `13` positions and the other
+has `400`. NumPy should not invent a one-to-one correspondence.
+
+Before combining arrays, ask:
+
+1. What does each position mean?
+2. Which positions should correspond?
+3. Did a grid or selection change one array?
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+reference_time_days = np.linspace(0.0, 6.0, 400)
+
+try:
+    observation_time_days - reference_time_days
+except ValueError as error:
+    print(type(error).__name__ + ":", error)
+```
+:::
+::::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Reference · vectorization and compatible shapes
+
+| Idea | Read it as |
+| --- | --- |
+| Elementwise operation | Apply one operation at corresponding positions. |
+| `(n,)` | One-dimensional array with `n` positions. |
+| Scalar check | Compare one array position with the same scalar calculation. |
+| Shape error | Stop and state which positions should correspond. |
+
+**Rule:** write the shape and physical meaning of every position
+before combining arrays.
+:::::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## V · Matplotlib: readable figures and bounded evidence
+
+### Question
+
+What must a reader identify to interpret a figure and assess a bounded claim?
+
+### You will leave this section able to
+
+- create a figure and axes object;
+- distinguish observations, a reference calculation, and a threshold;
+- choose scales and axis direction deliberately; and
+- write a bounded evidence statement from a figure.
+
+**Through-line focus:** stated calculation → readable figure.
+:::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Run this: render the observations
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+`fig` is the whole figure. `ax` is the plotting area that owns the data,
+labels, limits, legend, and grid.
+
+Use `fig, ax = plt.subplots()` as the default course pattern. It keeps later
+choices attached to a named axes object and extends cleanly to multi-panel
+figures.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+:tags: [remove-output]
+
 import matplotlib.pyplot as plt
 
-observation_time_days = np.linspace(0.0, 6.0, 13)
-observed_brightness = np.array([
-    0.986, 0.971, 0.973, 0.984, 0.999, 0.997, 0.985,
-    0.973, 0.970, 0.986, 0.997, 0.999, 0.984,
-])
-model_time_days = np.linspace(0.0, 6.0, 121)
-phase = 2 * np.pi * model_time_days / period_days
-model_brightness = 1.0 - amplitude * (1.0 + np.sin(phase)) / 2.0
-
-fig, ax = plt.subplots()
-ax.plot(
+fig, ax = plt.subplots(
+    figsize=(8.5, 4.8),
+    layout="constrained",
+)
+ax.scatter(
     observation_time_days,
     observed_brightness,
+    color="#0072B2",
     marker="o",
-    linestyle="none",
     label="synthetic observations",
 )
+ax.set(
+    xlabel="Observation time (days)",
+    ylabel="Normalized brightness",
+    title="Synthetic observations",
+)
+ax.grid(alpha=0.25)
+ax.legend()
+fig.savefig(
+    "lecture-04-synthetic-observations.png",
+    dpi=200,
+    bbox_inches="tight",
+)
+plt.show()
+```
+
+::::{figure} lecture-04-synthetic-observations.png
+:label: fig:synthetic-observations
+:alt: Thirteen blue circular markers show synthetic normalized brightness from 0 to 6 days, ranging from 0.970 to 0.999. No curve is shown.
+
+Synthetic observations plotted as discrete markers.
+::::
+
+**Read the rendered output:** each circle is one observation. No curve is shown
+yet.
+:::
+::::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Add a separately named reference curve
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+A line can look more authoritative than the data. Name it as a reference
+calculation and use a denser, separately named grid so the reader can
+distinguish calculated values from observations.
+:::
+
+:::{div}
+:class: lecture-column
+
+```{code-cell} python
+:tags: [remove-output]
+
+reference_time_days = np.linspace(0.0, 6.0, 400)
+smooth_reference_brightness = periodic_reference_brightness(
+    reference_time_days,
+    reference_period_days,
+    dimming_depth,
+)
+
+comparison_fig, comparison_ax = plt.subplots(
+    figsize=(8.5, 4.8),
+    layout="constrained",
+)
+comparison_ax.scatter(
+    observation_time_days,
+    observed_brightness,
+    color="#0072B2",
+    marker="o",
+    label="synthetic observations",
+    zorder=3,
+)
+comparison_ax.plot(
+    reference_time_days,
+    smooth_reference_brightness,
+    color="#D55E00",
+    linestyle="-",
+    label="periodic reference curve",
+)
+comparison_ax.set(
+    xlabel="Observation time (days)",
+    ylabel="Normalized brightness",
+    title="Synthetic observations and a reference calculation",
+    xlim=(0.0, 6.0),
+)
+comparison_ax.grid(alpha=0.25)
+comparison_ax.legend()
+comparison_fig.savefig(
+    "lecture-04-observations-reference.png",
+    dpi=200,
+    bbox_inches="tight",
+)
+plt.show()
+```
+
+::::{figure} lecture-04-observations-reference.png
+:label: fig:observations-reference
+:alt: Thirteen blue circular observations are plotted from 0 to 6 days with an orange periodic reference curve on a denser time grid. Both range from about 0.970 to 1.000.
+
+Synthetic observations and a separately evaluated reference curve.
+::::
+
+**Read the rendered output:** markers are 13 observations; the solid line uses
+a denser reference grid.
+:::
+::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Add a threshold and complete the figure
+
+```{code-cell} python
+:tags: [remove-output]
+
+import matplotlib.pyplot as plt
+
+reference_time_days = np.linspace(0.0, 6.0, 400)
+smooth_reference_brightness = periodic_reference_brightness(
+    reference_time_days,
+    reference_period_days,
+    dimming_depth,
+)
+threshold_brightness = 0.985
+
+brightness_fig, ax = plt.subplots(figsize=(8.5, 4.8), layout="constrained")
+ax.scatter(
+    observation_time_days,
+    observed_brightness,
+    color="#0072B2",
+    marker="o",
+    label="synthetic observations",
+    zorder=3,
+)
 ax.plot(
-    model_time_days,
-    model_brightness,
-    color="tab:blue",
-    label="toy rotating-star model",
+    reference_time_days,
+    smooth_reference_brightness,
+    color="#D55E00",
+    linestyle="-",
+    label="periodic reference curve",
 )
 ax.axhline(
-    threshold,
-    color="tab:red",
+    threshold_brightness,
+    color="#4D4D4D",
     linestyle="--",
     label="illustrative threshold",
 )
 ax.set(
-    xlabel="Time (days)",
+    xlabel="Observation time (days)",
     ylabel="Normalized brightness",
-    title="Synthetic periodic brightness variation",
+    title="Synthetic brightness observations and a reference calculation",
+    xlim=(0.0, 6.0),
 )
 ax.grid(alpha=0.25)
 ax.legend()
+brightness_fig.savefig(
+    "lecture-04-synthetic-brightness-figure.png",
+    dpi=200,
+    bbox_inches="tight",
+)
 plt.show()
-:::
+```
 
-Predict whether the curve crosses the threshold before changing a control. Then
-name one thing this plot shows directly and one thing it does **not** establish.
+::::{figure} lecture-04-synthetic-brightness-figure.png
+:label: fig:observations-reference-threshold
+:alt: Thirteen blue circular observations and an orange periodic reference curve range from about 0.970 to 1.000 normalized brightness. A gray dashed horizontal line marks the illustrative 0.985 threshold.
 
-**Worked interpretation:** the markers are fixed synthetic observations; the
-line is the stated toy model; the dashed line is an illustrative threshold. The
-agreement in this exercise does not establish that a measured star has this
-period, amplitude, or physical cause.
+Synthetic observations, a periodic reference curve, and an illustrative threshold.
+::::
+
+- Circles are the synthetic observations.
+- The solid line is a reference calculation, not a fit.
+- The dashed line is an illustrative threshold.
+- Marker shape and line style work even without color.
+
+**Read the rendered output:** markers, the solid line, and the dashed line
+represent different things. The legend names them.
 :::::
 
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Use figure anatomy as a checklist
+
+::::{div}
+:class: lecture-two-column
+
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
 
-## Plotting choices can change the question a figure answers
+The [Matplotlib Anatomy of a Figure](https://matplotlib.org/stable/gallery/showcase/anatomy.html)
+is a reference for figure and axes vocabulary.
 
-~~~python
-ax.set_xlim(0.0, 6.0)
-ax.set_ylim(0.94, 1.01)
-~~~
+```{code-cell} python
+from pathlib import Path
 
-Axis limits can make small variations visible or hide meaningful context.
-Choose them to serve a stated comparison, not to make a result look more
-dramatic. When a convention requires an inverted axis—for example astronomical
-magnitude—make that choice explicit:
+export_path = Path("lecture-04-synthetic-brightness-figure.png")
+brightness_fig.savefig(
+    export_path,
+    dpi=200,
+    bbox_inches="tight",
+)
+print(f"saved: {export_path} (exists: {export_path.exists()})")
+```
 
-~~~python
-ax.invert_yaxis()  # only when the plotted quantity uses that convention
-~~~
+`plt.show()` displays a figure in a notebook. `savefig(...)` writes an image
+file. The examples do both so this page can display the executed figures.
 
-Normalized brightness is not magnitude. Do not invert its axis merely because
-some astronomy plots have a reversed vertical direction.
+Save only after you set labels, limits, scale, and legend.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
 
-## Write a bounded evidence statement
-
-Use this three-part pattern after making a figure:
-
-1. **What is visible:** “Several synthetic observations and the toy model lie
-   below the 0.98 illustrative threshold.”
-2. **What supports it:** “The labeled y-axis, circular observation markers,
-   solid model line, and dashed threshold make those three elements distinct.”
-3. **What remains open:** “The toy model contains no measured uncertainty,
-   calibration, or competing physical explanation.”
-
-The boundary is not a weakness. It tells a reader where the figure’s evidence
-ends and the next scientific question begins.
+| Part | Check |
+| --- | --- |
+| Axis labels | Quantity and units are visible. |
+| Limits and scale | The relevant range is visible. |
+| Legend | Every encoding is identified. |
+| Title or caption | It says what is shown. |
+| Export | Text remains readable. |
 :::
+::::
+:::::
 
-:::{div}
-:class: projector-lecture projector-slide
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Check the axes before exporting
+
+```{code-cell} python
+print("x label:", ax.get_xlabel())
+print("y label:", ax.get_ylabel())
+print("title:", ax.get_title())
+print("legend labels:", ax.get_legend_handles_labels()[1])
+```
+
+The figure object exposes labels and legend entries for code-based checks.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Scale changes what a reader can see
+
+```{code-cell} python
+:tags: [remove-output]
+
+distance_pc = np.array([1.0, 10.0, 100.0, 1_000.0])
+relative_signal = distance_pc ** -2
+
+scale_fig, axes = plt.subplots(1, 2, figsize=(10.0, 3.8), layout="constrained")
+
+for ax, title in zip(axes, ("Linear axes", "Log--log axes")):
+    ax.plot(distance_pc, relative_signal, marker="o", linestyle="-")
+    ax.set(
+        xlabel="Distance (pc)",
+        ylabel="Relative signal",
+        title=title,
+    )
+    ax.grid(alpha=0.25)
+
+axes[1].set_xscale("log")
+axes[1].set_yscale("log")
+scale_fig.savefig(
+    "lecture-04-scale-comparison.png",
+    dpi=200,
+    bbox_inches="tight",
+)
+plt.show()
+```
+
+::::{figure} lecture-04-scale-comparison.png
+:label: fig:scale-comparison
+:alt: Two panels show the same inverse-square relative signal versus distance from 1 to 1,000 parsecs. On linear axes the three farthest values cluster near zero; on log-log axes the points form a descending straight line.
+
+The same inverse-square relationship on linear and log-log axes.
+::::
+
+The values are positive, so logarithmic axes are allowed. Equal ratios occupy
+equal distances on a log axis. A log scale changes the view, not the values.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Axis direction is a stated convention
+
+```{code-cell} python
+:tags: [remove-output]
+
+lookback_time_gyr = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+normalized_quantity = np.array([1.00, 0.93, 0.87, 0.80, 0.74])
+detector_row = np.array([1, 2, 3, 4, 5])
+row_signal = np.array([12, 9, 7, 10, 11])
+
+direction_fig, axes = plt.subplots(1, 2, figsize=(10.0, 3.8), layout="constrained")
+
+axes[0].plot(lookback_time_gyr, normalized_quantity, marker="o", linestyle="-")
+axes[0].invert_xaxis()
+axes[0].set(
+    xlabel="Lookback time (Gyr; present at right)",
+    ylabel="Normalized quantity",
+    title="An inverted x-axis",
+)
+axes[0].grid(alpha=0.25)
+
+axes[1].plot(row_signal, detector_row, marker="s", linestyle="-")
+axes[1].invert_yaxis()
+axes[1].set(
+    xlabel="Detector signal (counts)",
+    ylabel="Detector row (1 at top)",
+    title="An inverted y-axis",
+)
+axes[1].grid(alpha=0.25)
+direction_fig.savefig(
+    "lecture-04-axis-direction.png",
+    dpi=200,
+    bbox_inches="tight",
+)
+plt.show()
+```
+
+::::{figure} lecture-04-axis-direction.png
+:label: fig:axis-direction
+:alt: Two panels demonstrate stated axis inversions. The left panel places present-day lookback time at the right; the right panel places detector row 1 at the top.
+
+Inverted axes require an explicit convention in the axis label.
+::::
+
+Call `invert_xaxis()` or `invert_yaxis()` only when the label states the
+convention.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## State what the figure shows
+
+Use three parts:
+
+1. **Visible:** Several synthetic observations and the reference curve lie
+   below the `0.985` illustrative threshold.
+2. **Evidence:** The labeled axes, circular markers, solid line, and
+   dashed threshold distinguish the three visual elements.
+3. **Open:** The reference calculation has no measured uncertainty,
+   calibration, or competing physical explanation.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
 ## Reference · a readable Matplotlib figure
 
 | Pattern | Purpose |
-|---|---|
-| fig, ax = plt.subplots() | create a figure and named axes |
-| ax.plot(x, y, marker="o", linestyle="none", label="…") | plot discrete observations with an inspectable legend entry |
-| ax.plot(model_x, model_y, label="…") | draw a separate model curve |
-| ax.axhline(value, linestyle="--", label="…") | show a horizontal rule or threshold |
-| ax.set(xlabel="…", ylabel="…", title="…") | name quantities, units, and the figure’s subject |
-| ax.legend() | identify plotted series and rules |
-| ax.grid(alpha=0.25) | aid coordinate reading without dominating the data |
-| ax.set_xlim(...); ax.set_ylim(...) | choose a visible domain deliberately |
-| plt.show() | display the completed figure |
+| --- | --- |
+| `fig, ax = plt.subplots()` | Creates a figure and named axes. |
+| `ax.scatter(x, y, ...)` | Shows discrete observations. |
+| `ax.plot(reference_x, reference_y, ...)` | Draws a separately named reference curve. |
+| `ax.axhline(value, ...)` | Shows a horizontal rule or threshold. |
+| `ax.set(xlabel=..., ylabel=..., title=...)` | Names quantities, units, and subject. |
+| `ax.legend()` | Identifies plotted series and rules. |
+| `ax.grid(alpha=0.25)` | Aids coordinate reading without dominating data. |
+| `brightness_fig.savefig(...)` | Exports after the figure is checked. |
 
-**Keep this rule:** a figure should make its variables, units, model status,
-and selection rule easier to inspect—not harder.
+**Rule:** name variables, units, calculation status, and selection rules.
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
+
+## Documentation for the next question
+
+::::{div}
+:class: lecture-two-column
+
+:::{div}
+:class: lecture-column
+
+| Resource | Use it for |
+| --- | --- |
+| [NumPy user guide](https://numpy.org/doc/stable/user/index.html) | concepts and worked guides |
+| [NumPy API reference](https://numpy.org/doc/stable/reference/index.html) | exact functions, parameters, and returns |
+| [Matplotlib documentation](https://matplotlib.org/stable/index.html) | plotting guides and API |
+| [Matplotlib API reference](https://matplotlib.org/stable/api/index.html) | exact plotting methods, parameters, and returns |
+| [Matplotlib cheatsheets](https://matplotlib.org/cheatsheets/) | compact reminders |
+| [Matplotlib Anatomy of a Figure](https://matplotlib.org/stable/gallery/showcase/anatomy.html) | figure and axes vocabulary |
 :::
 
 :::{div}
-:class: projector-lecture projector-slide
+:class: lecture-column
+
+Start with the user guide for concepts and worked examples. Use an API
+reference when you need an exact parameter, return type, or error condition.
+
+Use the cheatsheets and figure anatomy page while you are building a plot, not
+after you have guessed at the method names.
+:::
+::::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
 ## Exit check
 
-A teammate makes a plot with this code:
+A teammate writes:
 
-~~~python
+```python
 ax.plot(observation_time_days, observed_brightness)
 ax.axhline(0.985)
-~~~
+```
 
-Name three additions needed before it can serve as an inspectable course figure,
-and explain why each matters. Then answer:
+Name three additions needed before this can serve as a course figure, and say
+why each matters. Then answer:
 
-1. Which marks in your revised plot are observations, which are the model, and
-   which are the threshold?
-2. Why must one Boolean mask be applied to both observation_time_days and
-   observed_brightness?
-3. What does a threshold line show directly—and what does it not establish?
-:::
+1. Why must one Boolean mask select both `observation_time_days` and
+   `observed_brightness`?
+2. What does a threshold line show directly? What does it not establish?
+3. What does `reference_brightness.shape == observation_time_days.shape` check?
+4. `brightness_by_source` has shape `(3, 5)` and `baseline_per_source` has
+   shape `(3,)`. Why does their division fail? What does
+   `baseline_per_source[:, np.newaxis]` change, and why does `(3, 1)` work?
+5. Why might a Cartesian point `(x, y)` be accessed as `image[y, x]` in a
+   2-D image array?
+:::::
 
-:::{div}
-:class: projector-lecture projector-slide
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll
 
 ## Carry forward
 
-You now have a workflow for a small numerical question:
+`state quantities and units`
 
-~~~text
-state quantities and units
-→ build and inspect arrays
-→ select with a documented rule
-→ evaluate a stated model
-→ make a labeled figure
-→ claim only what the figure supports
-~~~
+`→ build and inspect arrays`
 
-The next time you use arrays or plots in a project, reuse this workflow—but do
-not mistake this toy stellar-variability example for a solution template. The
-project’s question, data, assumptions, and validation needs determine the next
-steps.
-:::
+`→ select with a documented rule`
+
+`→ evaluate a stated calculation`
+
+`→ make a labeled figure`
+
+`→ claim only what the figure supports`
+
+Reuse this workflow in later work. The next scientific question determines the
+data, assumptions, and validation it needs.
+:::::

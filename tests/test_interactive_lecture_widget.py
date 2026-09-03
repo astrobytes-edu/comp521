@@ -3,12 +3,15 @@ from pathlib import Path
 
 
 WIDGET = Path(__file__).resolve().parents[1] / "plugins" / "interactive-lecture" / "widget.mjs"
+PROJECTOR_CONTROLS = Path(__file__).resolve().parents[1] / "plugins" / "interactive-python" / "projector-controls.mjs"
 LECTURE_STYLES = Path(__file__).resolve().parents[1] / "assets" / "lecture-projector.css"
 LECTURE_ONE = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-01-run-calculate-inspect.md"
 LECTURE_TWO = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-02-procedures-decisions.md"
 LECTURE_THREE = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-03-data-functions.md"
 LECTURE_FOUR = Path(__file__).resolve().parents[1] / "03-python" / "bootcamp-04-arrays-figures.md"
 GRADE_CALCULATOR_LAB = Path(__file__).resolve().parents[1] / "07-practice-labs" / "grade-calculator-design.md"
+ND_ARRAY_ASSESSMENT = Path(__file__).resolve().parents[1] / "08-assessments" / "nd-array-evidence-check.md"
+MYST_CONFIG = Path(__file__).resolve().parents[1] / "myst.yml"
 
 
 class InteractiveLectureWidgetTests(unittest.TestCase):
@@ -69,9 +72,23 @@ class InteractiveLectureWidgetTests(unittest.TestCase):
     def test_projector_code_uses_a_larger_readable_scale(self):
         styles = LECTURE_STYLES.read_text()
 
-        self.assertIn("calc(1.25rem * var(--lecture-font-scale, 1))", styles)
-        self.assertIn("calc(2vw * var(--lecture-font-scale, 1))", styles)
-        self.assertIn("calc(1.8rem * var(--lecture-font-scale, 1))", styles)
+        self.assertIn("calc(1.18rem * var(--lecture-font-scale, 1))", styles)
+        self.assertIn("calc(1.32rem * var(--lecture-font-scale, 1))", styles)
+        self.assertIn("calc(2.1vw * var(--lecture-font-scale, 1))", styles)
+        self.assertIn("calc(1.9rem * var(--lecture-font-scale, 1))", styles)
+        self.assertIn("calc(1rem * var(--lecture-font-scale, 1))", styles)
+        self.assertIn(".projector-lecture.projector-slide.lecture-scroll", styles)
+        self.assertIn(".lecture-two-column", styles)
+        self.assertIn("grid-template-columns: minmax(16rem, 0.8fr)", styles)
+        self.assertIn(".projector-lecture .lecture-matrix", styles)
+        self.assertIn("font-variant-numeric: tabular-nums", styles)
+
+    def test_projector_controls_name_scrollable_blocks_as_sections(self):
+        controls = PROJECTOR_CONTROLS.read_text()
+
+        self.assertIn('slide.classList.contains("lecture-scroll")', controls)
+        self.assertIn('const unit = sectionMode ? "section" : "slide"', controls)
+        self.assertIn('sectionMode ? "Lecture section controls"', controls)
 
     def test_lecture_two_scaffolds_core_python_before_a_bounded_numpy_preview(self):
         lecture = LECTURE_TWO.read_text()
@@ -232,22 +249,50 @@ class InteractiveLectureWidgetTests(unittest.TestCase):
             lecture.index("## Run the definition, then run its tests"),
         )
 
-    def test_week_two_lectures_use_the_projector_structure_and_active_checks(self):
-        for lecture_path, controls_id in (
-            (LECTURE_THREE, "lecture-03-controls"),
-            (LECTURE_FOUR, "lecture-04-controls"),
-        ):
-            lecture = lecture_path.read_text()
+    def test_lecture_three_keeps_the_projector_structure_and_active_checks(self):
+        lecture = LECTURE_THREE.read_text()
 
-            self.assertIn("hide_toc: true", lecture)
-            self.assertIn(":::{projector-controls}", lecture)
-            self.assertIn(controls_id, lecture)
-            self.assertGreaterEqual(lecture.count("projector-lecture projector-slide"), 12)
-            self.assertIn("## The through-line", lecture)
-            self.assertIn("## Today’s question", lecture)
-            self.assertIn("## Predict", lecture)
-            self.assertIn("## Exit check", lecture)
-            self.assertIn(":::{interactive-python}", lecture)
+        self.assertIn("hide_toc: true", lecture)
+        self.assertIn(":::{projector-controls}", lecture)
+        self.assertIn("lecture-03-controls", lecture)
+        self.assertGreaterEqual(lecture.count("projector-lecture projector-slide"), 12)
+        self.assertIn("## The through-line", lecture)
+        self.assertIn("## Today’s question", lecture)
+        self.assertIn("## Predict", lecture)
+        self.assertIn("## Exit check", lecture)
+        self.assertIn(":::{interactive-python}", lecture)
+
+    def test_lecture_four_keeps_scrollable_lecture_blocks_and_executable_cells(self):
+        lecture = LECTURE_FOUR.read_text()
+
+        self.assertIn("kernelspec:", lecture)
+        self.assertIn("name: python3", lecture)
+        self.assertGreaterEqual(lecture.count("```{code-cell} python"), 21)
+        self.assertGreaterEqual(lecture.count("plt.show()"), 5)
+        self.assertIn("hide_toc: true", lecture)
+        self.assertIn(":::{projector-controls}", lecture)
+        self.assertIn("lecture-04-controls", lecture)
+        self.assertGreaterEqual(lecture.count("projector-lecture projector-slide"), 28)
+        self.assertGreaterEqual(lecture.count("lecture-scroll"), 28)
+        self.assertGreaterEqual(lecture.count("lecture-two-column"), 6)
+        self.assertNotIn(":::{interactive-python}", lecture)
+        self.assertNotIn(":class: lecture-prompt", lecture)
+        self.assertNotIn("**Predict:**", lecture)
+        for heading in (
+            "## I · NumPy arrays: quantities, positions, and elementwise operations",
+            "## II · Indexing, slicing, and Boolean selection",
+            "## III · 2-D and ND arrays: matrices, axes, and shape",
+            "## IV · Vectorized calculations and shape checks",
+            "## V · Matplotlib: readable figures and bounded evidence",
+            "## Reference · array creation and inspection",
+            "## Reference · indexing and Boolean selection",
+            "## Reference · ND arrays, axes, and broadcasting",
+            "## Reference · vectorization and compatible shapes",
+            "## Reference · a readable Matplotlib figure",
+            "## Exit check",
+            "## Carry forward",
+        ):
+            self.assertIn(heading, lecture)
 
     def test_week_two_extends_function_interfaces_before_array_work(self):
         lecture_three = LECTURE_THREE.read_text()
@@ -263,16 +308,18 @@ class InteractiveLectureWidgetTests(unittest.TestCase):
         ):
             self.assertIn(topic, lecture_three)
 
-        self.assertIn("synthetic rotating-star brightness", lecture_four)
+        self.assertIn("synthetic brightness measurements", lecture_four)
         self.assertNotIn("radioactive", lecture_four.lower())
         self.assertNotIn("Start Project 1", lecture_four)
         self.assertIn("def describe_series(values, *, label=", lecture_three)
         self.assertIn("def plot_series(ax, time_days, brightness, **plot_options)", lecture_three)
         self.assertNotIn("def describe_series(values, **metadata)", lecture_three)
         self.assertIn("observed_brightness", lecture_four)
-        self.assertIn("model_brightness", lecture_four)
+        self.assertIn("reference_brightness", lecture_four)
+        self.assertIn("brightness_by_source", lecture_four)
+        self.assertIn("baseline_column", lecture_four)
         self.assertIn(
-            "1.0 - amplitude * (1.0 + np.sin(phase)) / 2.0",
+            "1.0 - dimming_depth * (1.0 + np.sin(phase)) / 2.0",
             lecture_four,
         )
         self.assertNotIn("amplitude * np.sin(phase) ** 2", lecture_four)
@@ -319,12 +366,161 @@ class InteractiveLectureWidgetTests(unittest.TestCase):
     def test_week_two_figure_design_names_orientation_threshold_and_noncolor_encoding(self):
         lecture = LECTURE_FOUR.read_text()
 
-        self.assertIn("ax.invert_yaxis()", lecture)
+        self.assertIn("axes[1].invert_yaxis()", lecture)
+        self.assertIn("axes[0].invert_xaxis()", lecture)
+        self.assertIn('axes[1].set_xscale("log")', lecture)
+        self.assertIn('axes[1].set_yscale("log")', lecture)
         self.assertIn("marker=", lecture)
         self.assertIn("linestyle=", lecture)
         self.assertIn("illustrative threshold", lecture)
-        self.assertIn("readers who do not distinguish the colors", lecture)
-        self.assertIn("bounded evidence statement", lecture)
+        self.assertIn("even without color", lecture)
+        self.assertIn("not a fit", lecture)
+
+    def test_lecture_four_has_honest_array_contracts_and_documented_figure_workflow(self):
+        lecture = LECTURE_FOUR.read_text()
+
+        for phrase in (
+            'raise ValueError("time_days must contain only finite values")',
+            'raise ValueError("reference_period_days must be finite and positive")',
+            'raise ValueError("dimming_depth must be finite and in [0, 1)")',
+            "np.testing.assert_allclose(",
+            "rtol=0.0,",
+            "atol=1e-12,",
+            "try:",
+            'brightness_fig.savefig(',
+            "Vectorization and Broadcasting Lab",
+            "## Broadcasting: one operation across compatible shapes",
+            "Broadcasting is NumPy’s shape-matching rule for elementwise",
+            "NumPy aligns shapes from the right.",
+            "## Apply the shape rule before the operation",
+            "values_by_row_and_column = np.zeros((3, 5))",
+            "per_row[:, np.newaxis]",
+            "## Apply broadcasting to one baseline per source",
+            "brightness_by_source.mean(axis=1)",
+            "brightness_by_source.mean(axis=0)",
+            "## Indexing starts at `0`; negative indices count from the end",
+            "`values[0]` selects the first position",
+            "`values[-1]` selects the last position",
+            "observation_time_days[-1] == observation_time_days[len(observation_time_days) - 1]",
+            "## A 2-D array can represent a labeled matrix",
+            "`(number_of_rows, number_of_columns)`",
+            "`brightness_by_source[1, 2]` is the bold entry",
+            "`*` is elementwise multiplication for `ndarray` objects. `A @ B` is matrix",
+            "## Matrix order and coordinate order are different conventions",
+            "`image[y, x]`, not `image[x, y]`",
+            "`(row, column)`, `(x, y)`, `(source, time)`",
+            "## Shape and indexing use the same axis order",
+            "`array.shape == (axis_0_length, axis_1_length, ...)`",
+            "`array[axis_0_index, axis_1_index, ...]`",
+            "`(row, column)`",
+            "`brightness_by_source[source, time]`",
+            "`(source, time, filter)`",
+            "New NumPy arrays use C order by default, so the last index changes fastest in",
+            "brightness_by_time_source = brightness_by_source.T",
+            "## Use the docs for the full API",
+            "np.arange(start, stop, step)",
+            "np.logspace(start, stop, count)",
+            "np.zeros(shape)",
+            "np.ones(shape)",
+            "np.full(shape, value)",
+            "Matplotlib Anatomy of a Figure",
+            "https://numpy.org/doc/stable/user/index.html",
+            "https://numpy.org/doc/stable/reference/index.html",
+            "https://matplotlib.org/stable/index.html",
+            "https://matplotlib.org/stable/api/index.html",
+            "https://matplotlib.org/cheatsheets/",
+            "https://matplotlib.org/stable/gallery/showcase/anatomy.html",
+        ):
+            self.assertIn(phrase, lecture)
+
+        self.assertNotIn("brightness amplitude", lecture)
+        self.assertNotIn("if observed_brightness < 0.985:\n    print", lecture)
+
+        figure_section = lecture[
+            lecture.index("## Add a threshold and complete the figure"):
+            lecture.index("## Use figure anatomy as a checklist")
+        ]
+        self.assertLess(figure_section.index("ax.scatter("), figure_section.index("ax.legend()"))
+        self.assertLess(figure_section.index("ax.legend()"), figure_section.index("plt.show()"))
+
+        first_plot_section = lecture[
+            lecture.index("## Run this: render the observations"):
+            lecture.index("## Add a separately named reference curve")
+        ]
+        self.assertIn("ax.scatter(", first_plot_section)
+        self.assertNotIn("ax.plot(", first_plot_section)
+        self.assertIn("`plt.show()` displays a figure in a notebook.", lecture)
+        self.assertIn(
+            "../08-assessments/nd-array-evidence-check.md",
+            lecture,
+        )
+
+        exit_check = lecture[
+            lecture.index("## Exit check"):
+            lecture.index("## Carry forward")
+        ]
+        self.assertIn("baseline_per_source[:, np.newaxis]", exit_check)
+        self.assertIn("Why does their division fail?", exit_check)
+
+    def test_lecture_four_renders_plot_files_with_alt_text_and_captions(self):
+        lecture = LECTURE_FOUR.read_text()
+
+        figures = (
+            (
+                "lecture-04-synthetic-observations.png",
+                "fig:synthetic-observations",
+                "Thirteen blue circular markers",
+            ),
+            (
+                "lecture-04-observations-reference.png",
+                "fig:observations-reference",
+                "Thirteen blue circular observations are plotted",
+            ),
+            (
+                "lecture-04-synthetic-brightness-figure.png",
+                "fig:observations-reference-threshold",
+                "A gray dashed horizontal line",
+            ),
+            (
+                "lecture-04-scale-comparison.png",
+                "fig:scale-comparison",
+                "On linear axes the three farthest values cluster near zero",
+            ),
+            (
+                "lecture-04-axis-direction.png",
+                "fig:axis-direction",
+                "detector row 1 at the top",
+            ),
+        )
+
+        for filename, label, alt_text in figures:
+            self.assertTrue((LECTURE_FOUR.parent / filename).is_file())
+            self.assertIn(filename, lecture)
+            self.assertIn(label, lecture)
+            self.assertIn(alt_text, lecture)
+
+        self.assertIn('export_path = Path("lecture-04-synthetic-brightness-figure.png")', lecture)
+        self.assertIn('print(f"saved: {export_path} (exists: {export_path.exists()})")', lecture)
+
+    def test_nd_array_evidence_check_is_individual_and_uses_the_course_grading_model(self):
+        assessment = ND_ARRAY_ASSESSMENT.read_text()
+        myst_config = MYST_CONFIG.read_text()
+
+        for phrase in (
+            "Individual graded assessment",
+            "Scholarly Engagement",
+            "nd_array_evidence_check.ipynb",
+            "flux_by_target",
+            "normalized_flux.shape == flux_by_target.shape",
+            "normalized_flux[:, 0], 1.0",
+            "axis `0`",
+            "axis `1`",
+            "Save the figure as a file and display it in the notebook.",
+            "This is holistic letter feedback, not a point checklist.",
+        ):
+            self.assertIn(phrase, assessment)
+
+        self.assertIn("08-assessments/nd-array-evidence-check.md", myst_config)
 
 
 if __name__ == "__main__":

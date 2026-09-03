@@ -9,10 +9,11 @@ Built with [MyST](https://mystmd.org).
 uv sync
 npm install -g mystmd
 source .venv/bin/activate
-myst start
+myst start --execute
 ```
 
-To reproduce a production build (executes all code cells):
+To reproduce a production build (executes all code cells and embeds their
+printed output and figures):
 
 ```bash
 myst build --html --execute

@@ -152,6 +152,7 @@ Avoid:
 * Narrating trivial actions
 * Vague claims (“improved clarity”) without pointing to what changed
 * Overconfident statements when unverified
+* Please remove all mannered prose. Use concise, direct prose and lists when they improve scanning.
 
 ### Output contract (always)
 
