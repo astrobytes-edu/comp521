@@ -148,6 +148,7 @@ print("array * 2:", brightness_array * 2)
 | `brightness_array * 2` | NumPy doubles each position. |
 :::
 ::::
+:::::
 
 :::::{div}
 :class: projector-lecture projector-slide lecture-scroll
@@ -221,6 +222,7 @@ print("spacing:", time_days[1] - time_days[0], "days")
 ```
 :::
 ::::
+:::::
 
 :::::{div}
 :class: projector-lecture projector-slide lecture-scroll
@@ -452,6 +454,7 @@ print("selected count:", np.count_nonzero(low_brightness))
 ```
 :::
 ::::
+:::::
 
 :::::{div}
 :class: projector-lecture projector-slide lecture-scroll
@@ -723,6 +726,7 @@ print(
 ```
 :::
 ::::
+:::::
 
 :::::{div}
 :class: projector-lecture projector-slide lecture-scroll
@@ -829,6 +833,7 @@ print("per-row result:\n", values_by_row_and_column + per_row_column)
 ```
 :::
 ::::
+:::::
 
 :::::{div}
 :class: projector-lecture projector-slide lecture-scroll
@@ -1140,6 +1145,8 @@ fig.savefig(
 )
 plt.show()
 ```
+:::
+::::
 
 ::::{figure} lecture-04-synthetic-observations.png
 :label: fig:synthetic-observations
@@ -1150,8 +1157,6 @@ Synthetic observations plotted as discrete markers.
 
 **Read the rendered output:** each circle is one observation. No curve is shown
 yet.
-:::
-::::
 :::::
 
 :::::{div}
@@ -1217,6 +1222,8 @@ comparison_fig.savefig(
 )
 plt.show()
 ```
+:::
+::::
 
 ::::{figure} lecture-04-observations-reference.png
 :label: fig:observations-reference
@@ -1227,8 +1234,7 @@ Synthetic observations and a separately evaluated reference curve.
 
 **Read the rendered output:** markers are 13 observations; the solid line uses
 a denser reference grid.
-:::
-::::
+:::::
 
 :::::{div}
 :class: projector-lecture projector-slide lecture-scroll
