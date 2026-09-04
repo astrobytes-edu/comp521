@@ -156,11 +156,17 @@ Avoid:
 ### Writing
 
 Remove all mannered prose. State the rule, the measurement and the mechanism in plain
-sentences. No rhetorical emphasis, no asides, no metaphors, no dramatised failure stories;
-the number, the date and the mechanism carry the point. Use lists where they improve
-scanning. This applies to chat, commit messages, and every file in the repo -- including
-lecture prose, readings, assignment text, and figure captions, which are where this course's
-writing actually reaches students.
+sentences. No rhetorical emphasis, no throat-clearing, no performed enthusiasm or gravitas,
+no dramatised failure stories; the number, the date and the mechanism carry the point. Use
+lists where they improve scanning. This applies to chat, commit messages, and every file in
+the repo -- including lecture prose, readings, assignment text, and figure captions, which
+are where this course's writing actually reaches students.
+
+**It does not override the pedagogy.** A worked example, a prediction prompt, a motivating
+question, or an analogy chosen to carry a computational idea is a teaching device, not
+flourish -- keep those. What this rule removes is prose that carries no content, not the
+devices that make an explanation land. When the two seem to conflict in student-facing
+material, the pedagogy wins and the sentence around it still gets written plainly.
 
 ### Output contract (always)
 
