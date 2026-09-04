@@ -1,6 +1,7 @@
 @AGENTS.md
 
-Please remove all mannered prose.
+The writing rule (remove all mannered prose) is in the `### Writing` section of `AGENTS.md`
+and applies here too -- to chat as well as to course prose.
 
 <!--
 Claude reads the shared COMP 521 instructions from AGENTS.md so Codex and

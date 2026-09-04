@@ -152,7 +152,15 @@ Avoid:
 * Narrating trivial actions
 * Vague claims (“improved clarity”) without pointing to what changed
 * Overconfident statements when unverified
-* Please remove all mannered prose. Use concise, direct prose and lists when they improve scanning.
+
+### Writing
+
+Remove all mannered prose. State the rule, the measurement and the mechanism in plain
+sentences. No rhetorical emphasis, no asides, no metaphors, no dramatised failure stories;
+the number, the date and the mechanism carry the point. Use lists where they improve
+scanning. This applies to chat, commit messages, and every file in the repo -- including
+lecture prose, readings, assignment text, and figure captions, which are where this course's
+writing actually reaches students.
 
 ### Output contract (always)
 
