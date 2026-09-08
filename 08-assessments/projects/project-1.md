@@ -696,8 +696,9 @@ not that it looks tidy, but that a change lands in one place.
 1. `flux(p, 0)` equals `1 - p**2`
 2. `flux(p, 5)` equals `1` exactly
 3. **Continuity.** Using $p = 0.1$, evaluate at $z = (1-p)\pm10^{-9}$ and
-   $z = (1+p)\pm10^{-9}$. The two branches should agree to better than
-   $10^{-11}$ — you will see something in the range $10^{-14}$ to $10^{-12}$
+   $z = (1+p)\pm10^{-9}$. Use $10^{-11}$ as the comparison allowance for this probe.
+   The observed discrepancy depends on geometric change and numerical evaluation;
+   report and investigate it rather than assuming a fixed value
 
 Test 3 finds real bugs. A backwards comparison or a sign error in $\kappa_0$
 passes 1 and 2 and produces a light curve with a visible step in it.
@@ -709,7 +710,7 @@ You may *also* assert it — but if you do, **set the tolerance explicitly**:
 
 ```python
 np.isclose(lo, hi, rtol=0, atol=1e-11)     # a claim you can defend
-np.isclose(lo, hi)                          # rtol=1e-5: cannot fail here
+np.isclose(lo, hi)                          # defaults can admit errors larger than this target
 ```
 
 The defaults would call your two values equal even if the branches disagreed by
@@ -722,9 +723,9 @@ One short paragraph addressing both:
 
 - **Why is test 3 a better test than tests 1 and 2?** Name a specific bug it
   catches that they miss.
-- Test 3 agrees to something around $10^{-13}$ — not zero, and not $10^{-16}$.
-  **Where does the number you got come from?** Shrink the $10^{-9}$ offset and
-  say what happens to it.
+- **Where does the discrepancy you measured come from?** Shrink the $10^{-9}$
+  offset and report what happens. Distinguish geometric change from numerical
+  error; a smaller offset need not produce a smaller computed discrepancy.
 :::
 :::{admonition} Why the order of your `if` statements is load-bearing
 :class: warning dropdown
@@ -859,9 +860,10 @@ Report the speedup.
 
 :::{admonition} Why this exercise is the whole course in miniature
 :class: note dropdown
-You will get tens of times faster — the exact number depends on your machine.
-The physics did not change and the arithmetic is identical. The loop moved into
-compiled code.
+Vectorization can reduce Python-loop overhead, but the measured speedup
+depends on the machine and implementation. The physical model is unchanged;
+floating-point results need not be bit-identical. Report the repeated timings
+and agreement check rather than aiming for a prescribed speedup.
 
 That is the honest answer to "why not just use the library?" Libraries are not
 smarter than you, they are *compiled*. In Project 6 you race your own
