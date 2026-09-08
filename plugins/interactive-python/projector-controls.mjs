@@ -79,11 +79,27 @@ export default {
       if (["ArrowRight", "PageDown", " "].includes(event.key)) { event.preventDefault(); go(currentIndex + 1); }
       if (["ArrowLeft", "PageUp"].includes(event.key)) { event.preventDefault(); go(currentIndex - 1); }
     });
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) update(slides.indexOf(visible.target));
-    }, { threshold: [0.45, 0.7] });
-    slides.forEach((slide) => observer.observe(slide));
+    // Several short sections can be fully visible together. Intersection
+    // callbacks contain only changed entries, so their largest ratio cannot
+    // identify the section aligned with the top of the reading area.
+    let scrollTimer;
+    function syncSection() {
+      const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      let index = 0;
+      slides.forEach((slide, candidate) => {
+        const margin = parseFloat(getComputedStyle(slide).scrollMarginTop) || 0;
+        if (slide.getBoundingClientRect().top <= padding + margin + 2) index = candidate;
+      });
+      update(index);
+    }
+    function scheduleSync() {
+      clearTimeout(scrollTimer);
+      // Keep the requested index while smooth scrolling passes other sections.
+      scrollTimer = setTimeout(syncSection, 120);
+    }
+    document.addEventListener("scroll", scheduleSync, { passive: true });
+    window.addEventListener("resize", scheduleSync);
     update(0);
+    scheduleSync(); // Respect a restored scroll position or an initial fragment.
   },
 };

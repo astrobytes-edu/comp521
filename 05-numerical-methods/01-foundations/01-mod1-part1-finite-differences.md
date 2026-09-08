@@ -1,5 +1,5 @@
 ---
-title: "Part 1: The Fundamental Paradox - Calculus on Computers"
+title: "Part 1: Finite Differences and Discrete Calculus"
 subtitle: "Foundations of Discrete Computing | Numerical Methods Module 1 | COMP 521"
 author: "Anna Rosen"
 kernelspec:
@@ -7,17 +7,12 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+:::{note} Block 2 connection
+This chapter uses numerical derivatives to make the Taylor-series structure of a
+discrete method visible. In quadrature, the same reasoning explains the error of
+an integral approximated by a finite weighted sum. The derivative utilities here
+are examples, not the integration library you will build.
 :::
-<!-- prep-banner:end -->
 
 ## Learning Objectives
 
@@ -126,7 +121,15 @@ $$
 $$
 The approximation improves as $h$ gets smaller, but it is still not exact because we have not taken the true limit.
 
-![What to notice: as $h$ shrinks, the secant slope moves toward the tangent slope, but the figure never lets the discrete secant become the exact limit. That visual gap is the paradox of numerical differentiation: smaller $h$ improves the approximation, but the computer still works with a finite step.](figures/1_1_derivative_paradox.webp){#fig-derivative-paradox width="100%"}
+:::{figure} figures/1_1_derivative_paradox.webp
+:label: fig-derivative-paradox
+:width: 100%
+:alt: as $h$ shrinks, the secant slope moves toward the tangent slope, but the figure never lets the discrete secant become the exact limit
+
+What to notice: as $h$ shrinks, the secant slope moves toward the tangent slope, but the figure never lets the discrete secant become the exact limit. That visual gap is the paradox of numerical differentiation: smaller $h$ improves the approximation, but the computer still works with a finite step.
+
+[Open full-size figure](figures/1_1_derivative_paradox.webp)
+:::
 
 On a real computer, we also need to remember that numbers are stored in floating-point form. Double precision gives roughly 16 decimal digits of relative precision near numbers of order unity, but that does **not** mean every subtraction preserves 16 useful digits.
 
@@ -162,6 +165,14 @@ If your derivative estimate suddenly becomes $0$, `nan`, or wildly noisy when yo
 1. If $h$ is reduced from $0.5$ to $0.1$ in the $f(x)=x^2$ example, why does the approximation improve?
 2. Why is "very small" not the same as "mathematically zero" on a computer?
 3. What goes wrong if $f(x+h)$ and $f(x)$ round to the same floating-point value?
+:::
+
+:::{tip} Answers and reasoning
+:class: dropdown
+
+1. For $x^2$, the forward quotient is exactly $2x+h$ in real arithmetic. Reducing $h$ from 0.5 to 0.1 reduces that truncation error by five.
+2. A finite step samples another point; zero gives a zero denominator. A limit describes the behavior of finite steps, not an instruction to divide by zero.
+3. If both evaluations round to the same value, the numerator is zero and the derivative estimate can be wrong even though the code returns a finite number.
 :::
 
 ---
@@ -385,7 +396,10 @@ Central difference uses symmetry to cancel the largest truncation term.
 
 Why this matters: symmetry is one of the most powerful accuracy upgrades in numerical analysis, and central difference is your first clear example of it.
 
-The magic in central difference is not luck. It comes from pairing points symmetrically around $x$. Even-order terms in the Taylor expansions cancel, leaving a smaller leading error term. That is why symmetry improves accuracy without requiring a completely new mathematical idea.
+Central difference improves accuracy by pairing points symmetrically around $x$.
+Even-order terms in the Taylor expansions cancel, leaving a smaller leading
+error term. Symmetry therefore changes the truncation order without changing
+the underlying approximation problem.
 
 This pattern appears again and again:
 
@@ -423,7 +437,15 @@ Computationally, this formula spends more function evaluations to buy a much sma
 
 If the function is noisy, non-smooth, or expensive to evaluate, higher order is not automatically better. A formally high-order method can still perform worse in practice if the assumptions behind the Taylor expansion are not satisfied.
 
-![What to notice: the right-hand truncation regime has slopes that match the theory — forward and backward behave like $O(h)$, central like $O(h^2)$, and fourth-order central like $O(h^4)$. The left-hand round-off upturn shows why higher order does not rescue you once subtraction error dominates.](figures/1_4_error_scaling.webp){#fig-error-scaling width="100%"}
+:::{figure} figures/1_4_error_scaling.webp
+:label: fig-error-scaling
+:width: 100%
+:alt: Forward, central, and fourth-order central derivative errors decrease with step size before rounding changes their trends.
+
+What to notice: the right-hand truncation regime has slopes that match the theory — forward behaves like $O(h)$, central like $O(h^2)$, and fourth-order central like $O(h^4)$. The left-hand round-off upturn shows why higher order does not rescue you once subtraction error dominates.
+
+[Open full-size figure](figures/1_4_error_scaling.webp)
+:::
 
 ---
 
@@ -503,7 +525,22 @@ That scaling will appear again in the executable code below, but again as heuris
 Saying that double precision has "about 16 digits" is only a local statement about relative precision near numbers of order unity. It is not a promise that every numerical operation will preserve 16 correct digits. Subtraction between nearly equal numbers is where that intuition breaks most quickly.
 :::
 
-![What to notice: each curve is U-shaped because two error mechanisms are competing. The right side is the truncation regime, the left side is the round-off upturn, and the minimum marks the balance point where total error is smallest for that method.](figures/1_2_error_landscape.webp){#fig-error-tradeoff width="100%"}
+:::{figure} figures/1_2_error_landscape.webp
+:label: fig-error-tradeoff
+:width: 100%
+:alt: Two error models show truncation, amplified rounding, their sum, and visible minima for first- and second-order methods.
+
+Both minima are visible. The curves use the illustrative model
+$E(h)=Ah^p+B\epsilon/h$ with $A=B=1$ and binary64 machine epsilon. Dashed
+curves show truncation; dotted curves show amplified rounding; solid curves
+show their sum. Differentiating this model gives
+$h_*=(B\epsilon/(pA))^{1/(p+1)}$. The minimum changes with the coefficients as
+well as the order. Actual function-evaluation errors can be irregular and can
+partly cancel, so these are explanatory curves, not fitted error guarantees.
+Compare them with the executable refinement experiment below.
+
+[Open full-size figure](figures/1_2_error_landscape.webp)
+:::
 
 For forward difference in double precision, it is common to get on the order of 8 correct digits in a well-scaled smooth problem. That is useful guidance, but it is not a universal accuracy ceiling for every derivative calculation.
 
@@ -560,8 +597,10 @@ def finite_diff(
     method: str = "central",
 ) -> float:
     """Estimate the derivative of a scalar function with a finite-difference stencil."""
-    if h <= 0:
-        raise ValueError("Step size h must be strictly positive.")
+    if not np.isfinite(h) or h <= 0:
+        raise ValueError("Step size h must be positive and finite.")
+    if not np.isfinite(x):
+        raise ValueError("x must be finite.")
 
     method_name = method.lower()
     valid_methods = {"forward", "backward", "central", "central4"}

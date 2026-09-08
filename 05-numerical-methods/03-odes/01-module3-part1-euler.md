@@ -2,6 +2,9 @@
 title: "Part 1: The Failure of Naive Integration"
 subtitle: "ODE Methods & Conservation | Numerical Methods Module 3 | COMP 521"
 author: "Anna Rosen"
+kernelspec:
+  name: python3
+  display_name: Python 3
 ---
 
 <!-- prep-banner:start -->
@@ -39,7 +42,8 @@ This has the formal integral solution:
 
 $$x(t) = x_0 + \int_{t_0}^t f(x(s), s) ds$$
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Initial Value Problem (IVP)**: Finding a function given its derivative and starting value — the fundamental problem of dynamics.
 :::
 
@@ -49,7 +53,7 @@ Numerical methods break this circular dependency by making assumptions about how
 
 1. **Constant derivative assumption** (Euler): Assume $f$ stays constant over $[t_n, t_{n+1}]$
 2. **Linear variation assumption** (Trapezoidal): Assume $f$ varies linearly between endpoints
-3. **Polynomial approximation** (Runge-Kutta): Assume $f$ follows a polynomial of degree $p$
+3. **Matched intermediate stages** (Runge-Kutta): Evaluate $f$ at predicted states so the update matches the solution Taylor expansion to a chosen order
 
 Each assumption leads to a different family of methods with different error behaviors, stability properties, and conservation characteristics.
 
@@ -58,24 +62,23 @@ Each assumption leads to a different family of methods with different error beha
 
 Before diving into specific methods, let's understand what constrains our choice of timestep $h$ from pure dimensional analysis.
 
-For any oscillatory system with characteristic frequency $\omega$:
+For an oscillatory system, the dimensionless quantity $\omega h$ compares the step with the dynamical timescale. If $T=2\pi/\omega$, then $h=0.1T$ gives 10 steps per period and $h=0.01T$ gives 100. Neither choice is an accuracy guarantee.
 
-- Nyquist requirement: $h < \pi/\omega$ (must sample twice per oscillation)
-- Accuracy requirement: $h < 0.1 \times 2\pi/\omega$ (need ~60 points per period)
-- Typical choice: $h \sim 0.01 \times 2\pi/\omega$ (600 points per period)
+Sampling a prescribed band-limited signal above its Nyquist rate is a different
+problem from integrating its dynamics. An ODE method must also be stable: forward
+Euler is unstable on a pure oscillator for every nonzero $h$, while leapfrog's
+oscillator stability interval is $0<\omega h<2$.
 
-For gravitational N-body systems, multiple timescales compete:
+For gravitational systems, compare the orbital timescale
+$T=2\pi\sqrt{a^3/(GM)}$ with encounter scales such as $R/v_{\rm rel}$ and
+$\sqrt{R^3/[G(m_1+m_2)]}$. Close encounters can introduce a much shorter scale
+than the main orbit. No fixed fraction of one timescale guarantees accuracy for
+every orbit, method, or requested observable.
 
-- Orbital period: $t_\text{orb} = 2\pi\sqrt{a^{3}/(GM)}$ (for semi-major axis $a$)
-- Close encounter: $t_\text{coll} = R/v_\text{rel}$ (where $v_\text{rel}$ is relative velocity)
-- Shortest scale: $t_\text{min} = \min(\text{all pairwise encounter times})$
-- Required timestep: $h < 0.01 \times t_\text{min}$
-
-**Example — Earth-Sun system:**
-
-- Period: $t_\text{orb} = 365.25 \text{ days} = 3.156 \times 10^{7}$ s
-- Typical timestep: $h \sim 1 \text{ day} = 8.64 \times 10^{4}$ s
-- High accuracy: $h \sim 0.1 \text{ day} = 8.64 \times 10^{3}$ s
+**Example — a one-year period:** a one-day step gives about 365 steps per period;
+a tenth-day step gives about 3650. Both are candidate resolutions to compare,
+not labels meaning "ordinary" and "high" accuracy. Measure trajectory, energy,
+and phase errors under refinement over the actual duration you need.
 
 ---
 
@@ -84,7 +87,8 @@ For gravitational N-body systems, multiple timescales compete:
 
 ### Mathematical Formulation
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Euler's method**: The simplest ODE integration scheme, using a constant derivative over each timestep.
 :::
 
@@ -96,11 +100,20 @@ $$\boxed{x_{n+1} = x_n + h f(x_n, t_n)}$$
 
 This assumes the derivative $f$ remains constant over the entire interval $[t_n, t_{n+1}]$ — essentially extending the tangent line at $t_n$ forward by distance $h$.
 
-![Euler's method extends the tangent line at each point, accumulating error by ignoring the solution's curvature. The diagram shows how Euler follows straight line segments (red) that deviate increasingly from the true curved solution (blue). The local truncation error at each step is proportional to $h^{2}$, but these errors accumulate to give $O(h)$ global error.](figures/3_1_euler_geometric.webp){#fig-3-1-euler-geometric width="800px"}
+:::{figure} figures/3_1_euler_geometric.webp
+:label: fig-3-1-euler-geometric
+:width: 800px
+:alt: Euler's method extends the tangent line at each point, accumulating error by ignoring the solution's curvature
+
+Euler's method extends the tangent line at each point. This dimensionless example solves $y'=-2y+t$, $y(0)=1$, with exact reference $y(t)=\tfrac54e^{-2t}+\tfrac12t-\tfrac14$ (the figure labels the independent variable $x$). The left panel compares single steps; the right compares repeated steps through $t=2$. The final absolute errors are about 0.01534 for $h=0.2$ and 0.02249 for $h=0.4$. Error is not monotone in time here: it grows initially and then decreases. For a smooth problem over a fixed interval, Euler's one-step error is $O(h^2)$ and its global error is $O(h)$.
+
+[Open full-size figure](figures/3_1_euler_geometric.webp)
+:::
 
 ### Taylor Series Analysis of Error
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Local truncation error**: Error introduced in a single step, assuming perfect starting values.
 
 **Global error**: Total accumulated error over the entire integration interval.
@@ -116,12 +129,21 @@ The **local truncation error** — the error in one step — is:
 
 $$\tau_n = x(t_{n+1}) - x_{n+1} = \frac{h^2}{2}x''(t_n) + O(h^3)$$
 
-The leading error term is $O(h^2)$, making Euler locally second-order accurate.
-But errors accumulate! Over $N = t_\text{final}/h$ steps to reach final time $t_\text{final}$, the **global error** becomes:
+The one-step defect is $O(h^2)$; Euler is called a **first-order method** because its global error is $O(h)$ on a fixed time interval under smoothness and stability assumptions. Global error is not generally the unweighted sum of the local defects: a wrong state changes the next derivative.
 
-$$E_\text{global} = \sum_{i=0}^{N-1} \tau_i \approx N \cdot \frac{h^2}{2}x''(\xi) = \frac{t_\text{final}}{h} \cdot \frac{h^2}{2}x''(\xi) = \frac{t_\text{final} h}{2}x''(\xi) = O(h)$$
+If $f$ is Lipschitz in the state with constant $L$ and each defect is bounded by
+$Ch^2$, then, starting from an exact initial value,
 
-Euler is globally first-order: halving the timestep only halves the total error.
+$$|e_{n+1}|\le(1+hL)|e_n|+Ch^2,$$
+
+and summing this geometric bound gives, for $L>0$,
+
+$$|e_N|\le\frac{Ch}{L}\big[(1+hL)^N-1\big]
+\le\frac{Ch}{L}(e^{LT}-1),\qquad T=Nh.$$
+
+For $L=0$, the bound is $CTh$. This explains the $O(h)$ global order at fixed
+$T$ and why the duration matters. Halving $h$ approximately halves the leading
+error only while that term dominates.
 
 (energy-drift)=
 ## The Energy Drift Catastrophe
@@ -158,7 +180,7 @@ def euler_harmonic(x0, v0, omega, h, n_steps):
     return energies
 ```
 
-The shocking result: energy grows approximately linearly with time! After 1000 orbital periods, energy has typically increased by 10%. The orbit spirals outward, violating conservation of energy.
+The energy increases at every step. For this oscillator we can derive the complete growth law, so there is no need to attach an unexplained percentage to a particular number of periods. The apparent linear growth at short times is the beginning of an exponential.
 
 ## Mathematical Analysis of Energy Growth
 
@@ -183,50 +205,88 @@ $$\boxed{E_{n+1} = E_n(1 + h^2\omega^2)}$$
 
 The amplification factor $(1 + h^2\omega^2) > 1$ means energy grows exponentially! After $N$ steps:
 
-$$E_N \approx E_0(1 + h^2\omega^2)^N \approx E_0 e^{Nh^2\omega^2} = E_0 e^{t_\text{final}h\omega^2}$$
+$$E_N = E_0(1 + h^2\omega^2)^N \approx E_0 e^{Nh^2\omega^2} = E_0 e^{t_\text{final}h\omega^2}$$
 
-For Earth's orbit with $h = 1$ day and $t_\text{final} = 1000$ years:
-$$\frac{E_{final}}{E_0} \approx e^{0.1} \approx 1.1$$
+Take an oscillator with a one-year period and express time in days:
+$\omega=2\pi/365.25\ \mathrm{day}^{-1}$, $h=1\ \mathrm{day}$, and
+$T=1000(365.25)\ \mathrm{day}$. Then
 
-A 10% energy increase means that Earth would drift into a higher orbit!
+$$\log(E_N/E_0)=365250\log\left[1+(2\pi/365.25)^2\right]\approx108.1.$$
 
-![Euler's method systematically violates energy conservation with catastrophic consequences. The figure shows a harmonic oscillator integrated over 10 periods with timestep h = 0.02: (Top left) Phase space trajectory spirals outward as energy increases ~3.5\times. (Top right) Energy grows monotonically from amplification factor $(1 + h^2\omega^2) \approx 1.0004$ per step compounding over many orbits. (Bottom left) Spatial orbit expands continuously—a planet would spiral away from its star! (Bottom right) Error analysis shows systematic energy injection (red line) versus oscillating position errors (teal). This demonstrates why Euler fails for long-term dynamics despite being locally accurate.](figures/3_2_energy_drift.webp){#fig-3-2-energy-drift width="800px"}
+The ratio is of order $10^{47}$, not 1.1. This is an oscillator benchmark with
+Earth's period, not a numerical solution of the nonlinear Earth–Sun problem.
+The formula cannot be transferred to a Kepler orbit after its radius changes.
+
+:::{figure} figures/3_2_energy_drift.webp
+:label: fig-3-2-energy-drift
+:width: 800px
+:alt: Euler's oscillator trajectory spirals outward and its energy grows to about 3.51 times its initial value.
+
+The dimensionless oscillator uses $\omega=1$, $h=0.02$, and 3142 steps
+(approximately ten periods). Left: Euler expands the scaled phase-plane
+trajectory relative to the exact unit circle. Right: the exact discrete energy
+factor compounds to about 3.51. This is an oscillator diagnostic, not a computed
+spatial orbit in an inverse-square force.
+
+[Open full-size figure](figures/3_2_energy_drift.webp)
+:::
 
 ## Why Euler Fails: The Geometric View
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Phase space**: The space of all possible states, with position and momentum coordinates. Trajectories follow energy contours.
 
 **Liouville's theorem**: Phase space volume must be preserved in Hamiltonian systems
 :::
 
-In **phase space** (position-velocity space), the harmonic oscillator traces a circle. Each Euler step moves along the tangent to the circle, placing the new point slightly outside. The phase space area increases, violating **Liouville's theorem** that phase space volume must be preserved in Hamiltonian systems.
+In scaled phase coordinates $(x,v/\omega)$, the harmonic oscillator traces a circle; in unscaled position-velocity coordinates it generally traces an ellipse. Each Euler step moves along the tangent to the circle, placing the new point slightly outside. The phase space area increases, violating **Liouville's theorem** that phase space volume must be preserved in Hamiltonian systems.
 
 ## The Phase Error Problem
 
-Even if we could tolerate energy drift, Euler has another fatal flaw: phase error. The frequency of oscillation is wrong:
+Energy and phase diagnose different errors. In scaled coordinates, one Euler
+step rotates by $\arctan(\omega h)$ while expanding the radius. Therefore
 
-$$\omega_{numerical} = \omega_{true}(1 + O(h^2))$$
+$$\omega_{\rm num}=\frac{\arctan(\omega h)}h
+=\omega-\frac{\omega^3h^2}{3}+O(h^4).$$
 
-After $N = t_\text{final}/h$ oscillations, the phase error is:
-$$\Delta\phi = N \cdot O(h^2) = \frac{T}{h} \cdot O(h^2) = O(h)$$
+After $N=T/h$ **steps**, the unwrapped phase discrepancy is
 
-This means that even with small timesteps, the phase error accumulates linearly with time. 
+$$\Delta\phi=T(\omega_{\rm num}-\omega)
+=-\frac{T\omega^3h^2}{3}+O(Th^4).$$
 
-<!---
-For a binary pulsar observed for 40 years:
+At fixed duration the oscillator's phase error is second order even though
+Euler's overall state error is first order: amplitude growth dominates the
+state error. At fixed $h$, the phase lag accumulates linearly with time. This
+special diagnostic order does not make Euler a second-order integrator.
 
-- True orbits: ~45,000
-- Phase error with Euler: ~100 radians
-- The pulsar would be completely out of phase!
---->
+**Predict:** when $h$ is halved at fixed $T$, should the leading energy error
+halve or quarter? What about the phase error?
+
+```{code-cell} python
+import numpy as np
+T = 2 * np.pi  # One period, with omega = 1 in dimensionless time.
+for n in (100, 200, 400):
+    h = T / n
+    energy_error = np.expm1(n * np.log1p(h*h))
+    phase_error = n * np.arctan(h) - T
+    print(f"n={n}: relative energy error={energy_error:.5e}, "
+          f"phase lag={phase_error:.5e} rad")
+```
+
+:::{tip} Answer: two diagnostics, two orders
+:class: dropdown
+The energy error approaches first-order scaling; the phase lag approaches
+second-order scaling. Measure both at the same final time. Counting steps as
+oscillations would insert an extra factor of $1/h$ and give the wrong phase order.
+:::
 
 ## When Does Euler Work?
 
 Despite these failures, Euler has legitimate uses:
 
-1. **Very short integrations** where $N h^2 \ll 1$
-2. **Highly dissipative systems** where energy should decay
+1. **Very short integrations** where $N(\omega h)^2 \ll 1$ for this oscillator
+2. **Resolved dissipative systems** where the step also satisfies the stability limit; stiffness can make explicit Euler impractical
 3. **Quick explorations** before using better methods
 4. **Teaching** why better methods are needed!
 
@@ -236,16 +296,26 @@ Euler's method reveals a profound truth about numerical integration:
 
 > **Local accuracy does not guarantee global stability**
 
-Euler is locally second-order accurate ($O(h^2)$ per step), yet it systematically violates conservation laws. This isn't a bug — it's a fundamental property of the discretization.
+Euler has a second-order one-step defect ($O(h^2)$) and first-order global error, yet it systematically violates conservation laws. This isn't a bug — it's a fundamental property of the discretization.
 
 The tangent line approximation, while locally accurate, doesn't respect the curved geometry of phase space. Each step compounds this geometric error until the qualitative behavior is wrong.
 
 :::{note} Check Your Understanding
 1. Why does Euler's method have $O(h^2)$ local but $O(h)$ global error?
 2. If we used Euler backwards in time, would orbits spiral in or out?
-3. For a circular orbit, by what factor does the radius grow per orbit?
+3. For the oscillator in scaled phase coordinates, by what factor does the radius grow over one exact period?
 4. Could we fix Euler by just using a tiny timestep?
 5. What is the phase space volume change per step for Euler's method?
+:::
+
+:::{tip} Answers and reasoning
+:class: dropdown
+
+1. There are $O(1/h)$ one-step defects over a fixed interval; their propagation through a Lipschitz right-hand side gives an $O(h)$ global bound.
+2. Explicit Euler with negative $h$ still has oscillator energy factor $1+(\omega h)^2>1$. It expands in either direction; a negative explicit step is not the inverse of a positive one.
+3. After $N=T/|h|$ steps, assuming that is an integer, the phase-plane radius grows by $[1+(\omega h)^2]^{N/2}$. This is the oscillator result, not a Kepler radius law.
+4. At fixed finite duration, refinement can meet a target. It never creates a stable nonzero Euler step for the undamped oscillator, and its cost can become prohibitive.
+5. The oscillator Jacobian determinant is $1+(\omega h)^2$, so phase-space area expands by that factor each step.
 :::
 
 ---

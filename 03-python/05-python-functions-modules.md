@@ -16,7 +16,7 @@ By the end of this chapter, you will be able to:
 - [ ] **(1) Design a function contract** that names inputs, units, outputs, valid domain, failure behavior, and side effects.
 - [ ] **(2) Choose positional, keyword, default, and keyword-only parameters** so a scientific call communicates its intent.
 - [ ] **(3) Diagnose mutable-default and scope bugs**, then make state ownership explicit.
-- [ ] **(4) Organize related public functions** in an importable module with documentation, tests, and lightweight type annotations.
+- [ ] **(4) Organize related public functions** in an importable module with documentation, `pytest` tests, and lightweight type annotations.
 - [ ] **(5) Distinguish** a local timing or cache result from a general performance claim.
 
 ## Prerequisites
@@ -2063,6 +2063,195 @@ def find_peaks_fixed(data, threshold):
 Peak definitions are domain-specific. This heuristic is a reasonable default, and it avoids marking *every* plateau point as a separate peak.
 :::
 ::::
+
+## 5.6 Writing Reusable Scientific Python
+
+A notebook is useful for exploration, figures, and interpretation. It is a poor
+place for the only copy of a calculation that you need to import, test, revise,
+or reuse in a different analysis. When a calculation becomes part of a result,
+give it a small public boundary in a module.
+
+This does not require a package or a framework. Start with one module, one test
+file, and an analysis notebook that imports the module:
+
+```text
+spectral-analysis/
+├── spectral_tools.py       # public calculations and their documentation
+├── tests/
+│   └── test_spectral_tools.py
+└── analysis.ipynb          # figures, input data, and interpretation
+```
+
+The layout separates three questions:
+
+- What calculation does the code promise? Read `spectral_tools.py`.
+- Does the implementation meet selected known cases and reject invalid input?
+  Run the tests.
+- What do the calculation and evidence imply for this data set? Read the
+  notebook or report.
+
+The separation makes a notebook restart less risky. It does not make a model,
+a data reduction, or a scientific conclusion correct by itself.
+
+### Start with a narrow public interface
+
+The module below defines one unit-aware conversion. Its docstring names the
+input unit, output unit, valid domain, and failure behavior. The module does
+not read a file, make a plot, or depend on notebook variables; those are
+separate responsibilities.
+
+```python
+# spectral_tools.py
+"""Small, reusable conversions for spectral calculations."""
+
+import math
+
+SPEED_OF_LIGHT_M_S = 299_792_458.0
+
+
+def wavelength_nm_to_frequency_hz(wavelength_nm: float) -> float:
+    """Return frequency in Hz for a positive vacuum wavelength in nm.
+
+    Parameters
+    ----------
+    wavelength_nm
+        Vacuum wavelength in nanometres. It must be finite and positive.
+
+    Returns
+    -------
+    float
+        Frequency in hertz, computed as ``c / wavelength``.
+
+    Raises
+    ------
+    ValueError
+        If ``wavelength_nm`` is not finite or is not positive.
+    """
+    wavelength_nm = float(wavelength_nm)
+    if not math.isfinite(wavelength_nm) or wavelength_nm <= 0.0:
+        raise ValueError("wavelength_nm must be finite and positive")
+
+    return SPEED_OF_LIGHT_M_S / (wavelength_nm * 1.0e-9)
+```
+
+:::{important} Interface rule
+The public function name, parameter meanings, return units, exceptions, and
+documented behavior form the interface. Rearranging local variables or changing
+an internal algorithm is normally safe only if that public behavior remains
+true. Changing the units, a default, a returned shape, or an exception is an
+interface change and requires updated tests and documentation.
+:::
+
+Imports should make source visible. In an analysis notebook in the same project
+directory, use:
+
+```python
+from spectral_tools import wavelength_nm_to_frequency_hz
+
+frequency_hz = wavelength_nm_to_frequency_hz(500.0)
+print(f"500 nm corresponds to {frequency_hz:.6e} Hz")
+```
+
+Avoid modifying `sys.path` to make an import work. First check the directory
+from which Python is running and the name of the module being imported. The
+[Python tutorial on modules](https://docs.python.org/3/tutorial/modules.html)
+explains module names, imports, and the module search path. It also documents
+why a changed module may need a kernel restart before an interactive session
+uses the new definition.
+
+### Test the contract from a separate file
+
+Place tests in `tests/test_spectral_tools.py`. A test name should state the
+behavior it checks. Here, one test uses an exact unit conversion and the other
+checks the documented invalid-input behavior:
+
+```python
+# tests/test_spectral_tools.py
+import pytest
+
+from spectral_tools import SPEED_OF_LIGHT_M_S, wavelength_nm_to_frequency_hz
+
+
+def test_one_metre_wavelength_has_the_speed_of_light_in_hz() -> None:
+    assert wavelength_nm_to_frequency_hz(1.0e9) == SPEED_OF_LIGHT_M_S
+
+
+@pytest.mark.parametrize("wavelength_nm", [0.0, -1.0, float("inf")])
+def test_wavelength_must_be_finite_and_positive(wavelength_nm: float) -> None:
+    with pytest.raises(ValueError, match="finite and positive"):
+        wavelength_nm_to_frequency_hz(wavelength_nm)
+```
+
+From the project root, run:
+
+```console
+$ python -m pytest
+```
+
+Running `pytest` through `python -m` uses the active interpreter explicitly.
+That reduces ambiguity when more than one Python environment is installed. The
+[pytest getting-started guide](https://docs.pytest.org/en/stable/getting-started.html)
+documents discovery, test names, and the command-line workflow.
+
+:::{note} A test is evidence with a scope
+These tests establish two facts about this function: the stated metre-to-hertz
+conversion and its rejection of three invalid inputs. They do not establish
+that a measured wavelength is calibrated, that vacuum is the appropriate model,
+or that a larger spectral analysis is scientifically valid. Add tests as the
+contract grows: a known analytic case, a limiting case, an array-shape rule, a
+unit conversion, or a regression for a repaired bug.
+:::
+
+### Keep analysis and reusable code connected without mixing them
+
+Use the module in the notebook; do not copy the function back into a code cell.
+When a result changes, update the module, the test that identifies the intended
+behavior, and the notebook's interpretation together. Then restart the kernel
+and run the notebook from top to bottom. A green test suite does not show that a
+notebook used the intended inputs or that a figure has the right labels.
+
+For a small scientific codebase, this checklist is enough:
+
+1. Put reusable calculations in named `.py` modules.
+2. Give each public function a unit-aware contract and failure behavior.
+3. Put tests in `tests/test_*.py` and run `python -m pytest` from the project
+   root.
+4. Keep notebooks for data provenance, figures, and interpretation.
+5. Record the Python and dependency environment that produced results.
+6. Use version control before a calculation is shared or submitted.
+
+### Documentation routes for this section
+
+- [Python tutorial: modules](https://docs.python.org/3/tutorial/modules.html)
+  — module names, imports, and running a module as a script.
+- [Python standard library: `unittest`](https://docs.python.org/3/library/unittest.html)
+  — Python's built-in alternative when a project uses the standard-library
+  framework.
+- [pytest documentation: get started](https://docs.pytest.org/en/stable/getting-started.html)
+  — test discovery, assertions, fixtures, and command-line use.
+- [Python Packaging User Guide: packaging projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+  — a later reference when a one-module layout needs installation, a published
+  API, or distribution beyond one repository.
+- [Docs First](docs-first.md) — the course route for checking the exact
+  behavior of a library before using it in a calculation.
+
+::::{note} Check your understanding
+
+You add an optional argument to `wavelength_nm_to_frequency_hz`, change its
+default unit from nanometres to metres, and update the implementation. Which
+other artifacts must be reviewed before you rely on the result?
+
+:::{tip} Answer
+:class: dropdown
+
+Review the docstring, all call sites, examples, tests, notebooks, figures, and
+any text that states the returned unit. A default unit is part of the public
+interface. Existing code can still run while silently producing values off by a
+factor of $10^9$, so a passing import alone is not evidence of correctness.
+:::
+::::
+
+---
 
 (measure-and-cache-a-stated-workload)=
 ## Deep Dive: Measure and Cache a Stated Workload

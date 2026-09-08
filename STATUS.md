@@ -1,8 +1,8 @@
 # COMP 521 — status
 
-next: Configure and rehearse the real Project 1 Classroom50 repository-check path before the first day of class.
-blocker: The actual Classroom50 invitation and fresh-account workflow remain unverified.
-due: 2026-08-24
+next: Instructor review and approval of the revised six-part Project 2 before public release.
+blocker: Project 2 publication awaits instructor approval. The earlier Project 1 fresh-account verification gate remains unverified.
+due: 2026-09-08
 
 ## Current focus
 

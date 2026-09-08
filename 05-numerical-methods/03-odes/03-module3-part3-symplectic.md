@@ -30,23 +30,31 @@ By the end of this section, you will be able to:
 
 ## The Fundamental Insight
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Symplectic integrator**: A numerical method that preserves the symplectic structure (phase space volume and geometric properties) of Hamiltonian systems.
 :::
 
-Instead of minimizing local truncation error, **symplectic integrators** preserve geometric properties:
+A **symplectic integrator** preserves the canonical two-form, a geometric
+constraint stronger than volume preservation in more than one degree of freedom.
+It still has truncation error: geometry and accuracy are both design criteria.
 
-1. **Phase space volume** (Liouville's theorem)
-2. **Time reversibility**
-3. **Bounded energy error** (oscillates but doesn't grow)
-4. **Poincaré invariants** (action integrals)
+1. Symplectic maps preserve canonical phase-space volume in exact arithmetic.
+2. A symmetric method such as fixed-step leapfrog is also time reversible;
+   symplecticity alone does not imply reversibility.
+3. Near-conservation of energy over long times needs smoothness, sufficiently
+   small fixed steps, and a trajectory in a suitable bounded region.
+4. Stability and accurate phase still need independent checks.
 
-The profound trade-off: symplectic methods may be less accurate locally but maintain qualitative correctness globally.
+These distinctions let us ask a sharper question than "does it conserve
+physics?": which property is exact for the discrete map, which is approximate,
+and over what regime have we checked it?
 
 (hamiltonian-mechanics)=
 ## Hamiltonian Mechanics Refresher
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Hamiltonian**: A function $H(q,p,t)$ that represents the total energy of a system, where $q$ are generalized coordinates and $p$ are conjugate momenta.
 :::
 
@@ -71,17 +79,27 @@ These equations have remarkable properties:
 (phase-space-perspective)=
 ## The Phase Space Perspective
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Phase space**: The space of all possible states of a system, with position and momentum (or velocity) as coordinates.
 :::
 
 In **phase space**, each point $(q,p)$ represents a complete state of the system. Trajectories follow contours of constant energy $H = E$.
 
-![Phase space structure of Hamiltonian systems. (Left) Harmonic oscillator: closed orbits on energy surfaces. (Middle) Pendulum: separatrix divides oscillation from rotation. (Right) Liouville's theorem: phase space volume is preserved under Hamiltonian flow—areas deform but don't change size. This geometric structure is what symplectic integrators preserve, ensuring long-term stability.](figures/3_5_phase_space_structure.webp){#fig-3-5-phase-space-structure width="800px"}
+:::{figure} figures/3_5_phase_space_structure.webp
+:label: fig-3-5-phase-space-structure
+:width: 800px
+:alt: Oscillator and pendulum energy contours accompany equal-area phase-space regions deformed by Hamiltonian flow.
+
+Phase space structure of Hamiltonian systems. (Left) Harmonic oscillator: closed orbits on energy surfaces. (Middle) Pendulum: separatrix divides oscillation from rotation. (Right) Liouville's theorem: phase space volume is preserved under Hamiltonian flow—areas deform but don't change size. This geometric structure is what symplectic integrators preserve, without by itself guaranteeing numerical stability for any step size.
+
+[Open full-size figure](figures/3_5_phase_space_structure.webp)
+:::
 
 ### Liouville's Theorem
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Liouville's theorem**: The phase space volume occupied by an ensemble of states is preserved under Hamiltonian evolution.
 :::
 
@@ -124,25 +142,29 @@ Position: q₀            q₁            q₂
 Momentum:       p₁/₂          p₃/₂
 ```
 
-This staggering is key to symplecticity!
+The symplectic argument comes from composing the exact kick and drift flows, not from staggered storage alone.
 
 (implementation-tips)=
-### Implementation Tips for Your N-body Project
+### Implementation tips for an orbital calculation
 
-:::{tip} N-body Implementation Advice
-For your Project 2 N-body simulation:
-
-1. **Avoid the diagonal bug**: When computing pairwise forces, set diagonal distances to infinity, not 1!
-2. **Use half-timestep trick**: Store velocities at half-timesteps for leapfrog
-3. **Vectorize force calculation**: Compute all pairwise forces simultaneously
-4. **Monitor energy**: Check $|E(t) - E(0)|/|E(0)| < 10^{-10}$ for stability
-5. **Start simple**: Test with 2-body system before scaling up
+:::{tip} Keep the force and diagnostic contracts visible
+1. Exclude self-interaction explicitly in a pairwise force calculation; do not
+   hide a zero-distance singularity behind an arbitrary finite distance.
+2. Distinguish staggered momenta from momenta at the position's time when
+   calculating energy. The kick–drift–kick version below stores full-step states.
+3. Compare a two-body problem with a known orbital solution before increasing
+   the number of bodies.
+4. Choose accuracy targets from the observable and duration, then refine the
+   step. A universal energy threshold such as $10^{-10}$ is not a stability test.
+5. Resolve close encounters or use an appropriate specialized method; a
+   symplectic label does not remove force singularities.
 :::
 
 (proof-symplecticity)=
 ## Proof of Symplecticity
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Symplectic condition**: A transformation preserves phase space structure if its Jacobian $J$ satisfies $J^T \Omega J = \Omega$ where $\Omega = \begin{pmatrix} 0 & I \\ -I & 0 \end{pmatrix}$.
 :::
 
@@ -187,23 +209,56 @@ Phase space volume is exactly preserved, satisfying Liouville's theorem.
 (modified-hamiltonian)=
 ## The Modified Hamiltonian
 
-:::{margin}
-**Modified Hamiltonian**: The exactly conserved quantity for a symplectic integrator, differing from the original Hamiltonian by small bounded terms.
+:::{div}
+:class: reading-definition
+**Modified Hamiltonian**: A formal nearby Hamiltonian whose flow approximates
+the discrete symplectic map order by order. Its series need not converge.
 :::
 
-Leapfrog doesn't conserve the original Hamiltonian $H$ exactly. Instead, it exactly conserves a **modified Hamiltonian**:
+Backward error analysis expresses a symmetric second-order method through a
+formal series
 
-$$\tilde{H} = H + h^2 H_2 + h^4 H_4 + \ldots$$
+$$\widetilde H=H+h^2H_2+h^4H_4+\cdots.$$
 
-The correction terms can be computed using backward error analysis. For the harmonic oscillator with $H = \frac{1}{2}(p^2 + \omega^2 q^2)$:
+For smooth problems, a suitable truncation describes a nearby flow; under
+analyticity and bounded-trajectory assumptions, sufficiently small fixed steps
+can give near-energy conservation over very long times. This is not a theorem
+that every symplectic method exactly conserves some global energy for every
+step and every orbit. [Hairer, Lubich, and Wanner's analysis](https://www.unige.ch/~hairer/preprints/gniverlet.html).
 
-$$H_2 = \frac{\omega^2}{24}\{H, \{H, H\}\}$$
+### An exact discrete invariant we can derive
 
-where $\{f,g\} = \frac{\partial f}{\partial q}\frac{\partial g}{\partial p} - \frac{\partial f}{\partial p}\frac{\partial g}{\partial q}$ is the Poisson bracket.
+For the unit-mass oscillator $H=(p^2+\omega^2q^2)/2$, kick–drift–kick leapfrog gives
 
-The key insight: $\tilde{H} - H = O(h^2)$ is bounded! Energy oscillates within a band but never drifts away.
+$$q_{n+1}=(1-h^2\omega^2/2)q_n+hp_n,$$
+$$p_{n+1}=(1-h^2\omega^2/2)p_n-h\omega^2(1-h^2\omega^2/4)q_n.$$
 
-![Energy behavior comparison. (Top) RK4 exhibits monotonic energy drift while Leapfrog energy oscillates within bounded envelope. (Bottom) Phase space trajectories: RK4 spirals outward, Leapfrog remains on a nearby invariant torus of the modified Hamiltonian. This demonstrates the fundamental advantage of symplectic methods—trading local accuracy for global stability.](figures/3_6_modified_hamiltonian.webp){#fig-3-6-modified-hamiltonian width="800px"}
+Substitute these into the quadratic form
+
+$$K_h(q,p)=\frac12\left[p^2+\omega^2(1-h^2\omega^2/4)q^2\right].$$
+
+The cross terms cancel and $K_h(q_{n+1},p_{n+1})=K_h(q_n,p_n)$ in exact
+arithmetic. This is a special exact invariant of this linear map. It differs
+from the physical energy by
+
+$$K_h-H=-\frac{h^2\omega^4q^2}{8}.$$
+
+When $0<|h\omega|<2$, $K_h$ is positive definite, so it bounds both coordinates
+and the physical energy oscillates in a bounded band. At the stability
+boundary it loses positive definiteness; symplecticity has not disappeared,
+but the energy argument no longer works. This makes the step-size condition
+part of the explanation, rather than a footnote.
+
+:::{figure} figures/3_6_modified_hamiltonian.webp
+:label: fig-3-6-modified-hamiltonian
+:alt: RK4 oscillator energy decays while leapfrog physical energy oscillates and its discrete quadratic invariant remains constant within rounding.
+
+The oscillator at a fixed stable step separates physical energy from the
+leapfrog invariant $K_h$. RK4 damps this example; leapfrog preserves $K_h$ up to
+floating-point effects. Both methods still accumulate phase error.
+
+[Open full-size figure](figures/3_6_modified_hamiltonian.webp)
+:::
 
 ## Higher-Order Symplectic Methods
 
@@ -215,36 +270,45 @@ The strange values involving $2^{1/3}$ arise from the algebraic constraints of m
 
 $$w_0 = -\frac{2^{1/3}}{2 - 2^{1/3}}, \quad w_1 = \frac{1}{2 - 2^{1/3}}$$
 
-The algorithm combines leapfrog steps with timesteps $c_i h$ where:
-$$c_1 = c_4 = w_1/2, \quad c_2 = c_3 = (w_0 + w_1)/2$$
+Let $S_h$ denote one **whole** second-order leapfrog step. Apply three steps,
+in order, with lengths $w_1h$, $w_0h$, and $w_1h$:
 
-### Forest-Ruth Method
+$$S_h^{[4]}=S_{w_1h}\circ S_{w_0h}\circ S_{w_1h}.$$
 
-An alternative fourth-order symplectic integrator with different stability properties. The choice between methods depends on the specific problem's characteristics.
+The coefficients satisfy $2w_1+w_0=1$ (advance by total time $h$) and
+$2w_1^3+w_0^3=0$ (cancel the leading symmetric composition error).
+The middle substep is negative; this is appropriate only when the component
+flows are defined for those signed substeps.
 
-## Performance Comparison: 1000-Year Integration
+If we expand kick–drift–kick steps and merge adjacent kicks, the four **kick**
+coefficients are $w_1/2,(w_1+w_0)/2,(w_0+w_1)/2,w_1/2$, while the three
+**drift** coefficients are $w_1,w_0,w_1$. The four kick coefficients are not
+four whole-leapfrog-step lengths. Confusing these two levels loses fourth order.
 
-Testing on Earth's orbit (eccentricity $e = 0.017$, period = 365.25 days):
+### Forest–Ruth and symmetric compositions
 
-| Method | Order | Energy Error | Phase Error | Stable? |
-|--------|-------|--------------|-------------|---------|
-| Euler | 1 | +100% | 100 radians | No |
-| RK2 | 2 | +10% | 10 radians | No |
-| RK4 | 4 | +0.1% | 0.1 radians | No |
-| Leapfrog | 2 | ±0.01% (bounded) | 0.01 radians | Yes |
-| Yoshida4 | 4 | ±0.0001% (bounded) | 0.0001 radians | Yes |
+Forest–Ruth and Yoshida constructions belong to this family of fourth-order
+symmetric splitting methods. When comparing implementations, specify the
+actual kick/drift sequence: names alone do not identify the update ordering.
 
-Leapfrog with only second-order accuracy outperforms fourth-order RK4 for long-term stability!
+### Compare diagnostics before choosing a method
+
+Use the [shared oscillator experiment](#oscillator-comparison) to compare
+finite-time position, energy, and phase. A small bounded energy oscillation
+does not prove a small phase error, and higher order does not remove a method's
+step-size restrictions. For an actual Kepler orbit, repeat the comparison at
+the required eccentricity and duration; the oscillator is a controlled
+benchmark, not evidence for a thousand-year Earth integration.
 
 ## When to Use Symplectic Methods
 
-| Problem Type | Requirement | Best Method | Reason |
+| Problem Type | Requirement | Candidate method | What to verify |
 |--------------|------------|-------------|---------|
-| Solar system (Gyr) | Long-term stability | Symplectic | Bounded energy error |
-| Satellite (days) | Trajectory accuracy | RK45 adaptive | Short duration |
-| Galaxy merger | Phase space structure | Symplectic | Preserve invariants |
-| Molecular dynamics | Energy conservation | Symplectic | $10^{15}$ timesteps |
-| Dissipative system | Include friction | RK4 | No Hamiltonian structure |
+| Conservative orbital model | Long-time dynamics | Suitable symplectic splitting | Encounters, step restriction, phase, and energy error |
+| Satellite trajectory | Finite-time position accuracy | Adaptive RK | Position error over the requested duration and force-model adequacy |
+| Collisionless galaxy model | Phase-space dynamics | Symplectic method for a compatible Hamiltonian | Force approximation, resolution, and conserved quantities |
+| Conservative molecular dynamics | Statistical and dynamical observables | Verlet or another appropriate splitting | Fast modes, step size, and sampling of the intended observables |
+| Dissipative system | Correct loss or relaxation | RK for non-stiff problems; implicit method when stiff | Physical decay and time-integration accuracy |
 
 ## Simple Example: Pendulum Dynamics
 
@@ -256,7 +320,7 @@ import numpy as np
 def pendulum_leapfrog(theta0, omega0, g, L, h, n_steps):
     """
     Integrate pendulum with leapfrog
-    Preserves energy for nonlinear oscillations
+    Second-order fixed-step method; monitor energy error under refinement
     """
     theta, omega = theta0, omega0
     energies = []
@@ -276,41 +340,50 @@ def pendulum_leapfrog(theta0, omega0, g, L, h, n_steps):
     return energies
 ```
 
-The energy remains bounded even for large amplitude oscillations where linearization fails!
+For a resolved fixed step, this experiment can show near-conservation beyond the small-angle limit. Repeat it with half the step and monitor the trajectory as well as energy, especially near the separatrix. Large steps need not preserve this behavior.
 
-:::{tip} Physical Example: Binary Pulsar PSR B1913+16
-This system has been observed for 40+ years with microsecond timing precision:
-
-- Orbital period: 7.75 hours
-- Number of orbits over 40 years: ~45,000
-- Required phase accuracy: ~0.001 radians per orbit
-- Energy conservation needed: better than 1 part in $10^{10}$
-
-Only symplectic integrators maintain this precision. The Nobel Prize-winning detection of gravitational wave energy loss required comparing observations with symplectic integration predictions!
+:::{tip} Physical boundary: an inspiralling binary
+Gravitational radiation removes orbital energy from a binary pulsar. A model
+that conserves the conservative orbital Hamiltonian exactly would omit that
+loss. Choose equations and diagnostics appropriate to the question: compare
+the decrease in orbital energy with the modeled radiation flux, rather than
+requiring zero energy drift. Symplectic integration of a conservative model
+alone does not establish a relativistic timing prediction.
 :::
 
 :::{warning} Common Mistakes with Symplectic Methods
-1. **Using adaptive timesteps** - This destroys symplecticity!
+1. **Ordinary state-dependent timesteps** - Generally lose the symplectic property; specialized extended-phase-space methods require a separate derivation
 2. **Mixing with dissipation** - Friction breaks Hamiltonian structure
-3. **Applying to non-conservative forces** - Only works for gradient systems
-4. **Expecting local accuracy** - They preserve geometry, not trajectories
+3. **Using the shown splitting outside its assumptions** - Kick–drift–kick here requires a separable Hamiltonian and a gradient force; general symplectic methods have broader scope
+4. **Treating geometry as an accuracy test** - Leapfrog has second-order trajectory error; measure whether it meets the target
 5. **Wrong force evaluation** - Must use forces at correct time levels
 :::
 
 :::{note} Check Your Understanding
 1. Why does leapfrog conserve phase space volume but not exact energy?
 2. What's the trade-off between RK4 and leapfrog for 100-year integrations?
-3. Why are symplectic methods time-reversible?
+3. Why is the symmetric leapfrog composition time-reversible, while symplecticity alone is insufficient?
 4. How does the modified Hamiltonian differ from the original?
 5. Can we make leapfrog adaptive while preserving symplecticity?
 6. Why do the Yoshida coefficients involve $2^{1/3}$?
+:::
+
+:::{tip} Answers and reasoning
+:class: dropdown
+
+1. Each exact-arithmetic kick and drift is symplectic, but their composition follows a discrete approximation to the physical flow. Preserving the two-form does not imply preserving the original Hamiltonian value.
+2. Compare the actual observable, duration, resolution, and cost. RK4 may have smaller short-time state error; resolved leapfrog can have more favorable long-time energy behavior while still accumulating phase error.
+3. Reversing the signed step reverses the symmetric kick–drift–kick sequence. A nonsymmetric symplectic Euler composition is a counterexample to universal reversibility.
+4. The formal modified Hamiltonian differs by $O(h^2)$ for leapfrog; its truncations describe nearby dynamics under appropriate assumptions. The oscillator's exact quadratic invariant is a special solvable example.
+5. A predetermined sequence of state-independent step lengths composes symplectic maps, but does not supply the same fixed-step energy analysis. Ordinary state-dependent selection generally loses symplecticity. Specialized adaptive constructions require additional variables or a separate formulation.
+6. The two constraints $2w_1+w_0=1$ and $2w_1^3+w_0^3=0$ cancel the cubic composition defect. Solving them introduces the cube root; the coefficients are signed whole-step lengths.
 :::
 
 ---
 
 ## Bridge to Part 4: Stability Analysis
 
-You've seen the profound difference between local accuracy and geometric preservation. Symplectic methods sacrifice pointwise precision for global stability, keeping simulations physically meaningful over cosmic timescales.
+You've seen the profound difference between local accuracy and geometric preservation. Symplectic methods impose a geometric constraint as well as an accuracy order. Their favorable long-time energy behavior has conditions, and accurate trajectories require enough resolution.
 
 But choosing the right integrator is only part of the challenge. We also need to understand when methods become unstable, how to diagnose problems, and what limits our timestep choices. In Part 4, we'll analyze stability regions to predict when methods explode and understand the special challenges of stiff equations.
 

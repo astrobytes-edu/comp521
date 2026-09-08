@@ -156,6 +156,11 @@ project:
                 - file: 03-python/bootcamp-03-data-functions.md
                 - file: 03-python/bootcamp-04-arrays-figures.md
 
+        - title: Block 2 · Numerical Integration
+          children:
+            - file: 09-lectures/lecture-05-approximation-errors-quadrature.md
+            - file: 09-lectures/lecture-06-quadrature-modules-tests.md
+
     - title: Practice Labs
       children:
         - file: 07-practice-labs/index.md

@@ -1,5 +1,5 @@
 ---
-title: "Part 3: Taylor Series Applications & Modern Methods"
+title: "Part 3: Taylor Series, Error Order, and Derivative Methods"
 subtitle: "Module 1: Foundations of Discrete Computing | COMP 521"
 author: "Anna Rosen"
 kernelspec:
@@ -7,17 +7,13 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+:::{note} Block 2 connection
+The derivative stencils in this chapter are a worked case of a general method:
+expand a smooth function, retain a finite combination of samples, and identify
+the first omitted term. Quadrature applies that method to left rectangles,
+trapezoids, and Simpson panels, then measures the resulting orders $1$, $2$,
+and $4$.
 :::
-<!-- prep-banner:end -->
 
 Part 1 showed how finite differences arise from Taylor series. Part 2 showed why floating-point arithmetic limits accuracy. Part 3 puts those ideas together: verify the theory numerically, build custom formulas on purpose, and decide when finite differences are the wrong tool.
 
@@ -156,6 +152,93 @@ def observed_order(errors_coarse: float, errors_fine: float) -> float:
         raise ValueError("errors must be strictly positive.")
     return math.log(errors_coarse / errors_fine, 2.0)
 ```
+
+(taylor-polynomial-remainder)=
+## Build a finite polynomial before taking an infinite limit
+
+Why this matters: a Taylor polynomial is a controlled local approximation.
+Writing an infinite sum with an equals sign makes a stronger claim, and we
+should know what justifies it before using it in a calculation.
+
+Near $x_0$, write $x=x_0+h$ and seek
+$P_m(h)=a_0+a_1h+\cdots+a_mh^m$. Match the value and derivatives of $f$ at
+$x_0$. At $h=0$, the $k$th derivative of the polynomial is $k!a_k$, so
+
+$$a_k=\frac{f^{(k)}(x_0)}{k!},\qquad
+P_m(h)=\sum_{k=0}^m\frac{f^{(k)}(x_0)}{k!}h^k.$$
+
+The constant matches the value, the linear term adds slope, and the quadratic
+term adds curvature. Matching at one point does not make two functions equal
+throughout an interval. Taylor's theorem supplies the missing statement: if
+$f$ has continuous derivatives through order $m+1$ on the intervening interval,
+
+$$f(x_0+h)=P_m(h)+R_{m+1}(h),\qquad
+R_{m+1}(h)=\frac{f^{(m+1)}(\xi)}{(m+1)!}h^{m+1}$$
+
+for some $\xi$ between $x_0$ and $x_0+h$. The equality includes the remainder.
+Dropping it gives an approximation. A known derivative bound $M_{m+1}$ gives
+
+$$|f(x_0+h)-P_m(h)|\le\frac{M_{m+1}}{(m+1)!}|h|^{m+1}.$$
+
+At fixed degree this controls the error as $h$ shrinks. At fixed $h$, increasing
+the degree improves a general function's approximation only if the remainder
+actually becomes smaller. An infinite Taylor series equals the function where
+$R_{m+1}\to0$ as $m\to\infty$; smoothness alone does not ensure that limit.
+For example, the smooth function $f(x)=e^{-1/x^2}$ for $x\ne0$, with $f(0)=0$,
+has every derivative zero at 0. Its Taylor series there is zero, but the
+function is positive away from 0. Finite local error statements and equality
+to an infinite series are different claims.
+
+### Predict → Run → Explain: how much accuracy does another term buy?
+
+For $f(x)=e^x$ at $x_0=0$, every derivative at the expansion point is 1.
+For $0\le h\le1$, the next derivative is bounded by $e$, so the remainder is
+at most $e h^{m+1}/(m+1)!$. Predict which requires more terms for the same
+absolute error: $h=0.2$ or $h=1$.
+
+```{code-cell} python
+def exp_polynomial(h, degree):
+    term = total = 1.0  # The constant term.
+    for k in range(1, degree + 1):
+        term = term * h / k  # Reuse h**(k-1)/(k-1)! to obtain h**k/k!.
+        total += term
+    return total
+
+for h in (0.2, 1.0):
+    for degree in (1, 2, 4, 8):
+        estimate = exp_polynomial(h, degree)
+        error = abs(np.exp(h) - estimate)
+        bound = np.e * h**(degree+1) / math.factorial(degree+1)
+        print(f"h={h}, degree={degree}: error={error:.3e}, bound={bound:.3e}")
+```
+
+:::{figure} figures/taylor-polynomial-remainder.png
+:alt: Exponential Taylor polynomials track the curve near zero; residuals and derivative-based bounds decrease with degree on the positive interval.
+
+Left: matching value, slope, and curvature improves the local shape. Right:
+solid residual curves are compared with dashed remainder bounds for degrees
+1, 2, and 4 on $0<h\le1$. The bound is an upper limit, not the observed error.
+
+[Open full-size figure](figures/taylor-polynomial-remainder.png)
+:::
+
+Every added term in this recurrence costs one multiplication, one division,
+and one addition. Degree 8 uses 24 scalar arithmetic operations after
+initialization, compared with 6 for degree 2. That is an operation count,
+not a timing benchmark, and general derivatives may be expensive to obtain.
+Choose a degree from an accuracy target and a justified bound, then check the
+computed error. More arithmetic can eventually add rounding without useful
+accuracy. Optimized library functions need not use this classroom algorithm.
+
+:::{tip} Answer: distance and remainder matter together
+:class: dropdown
+$h=1$ needs more terms because the powers of $h$ do less to suppress the
+omitted terms. For this positive exponential example, adding terms reduces
+truncation error. The finite theorem gives a bound without requiring us to
+compute an infinite sum, and the residual plot checks whether the actual
+calculation stays below that bound.
+:::
+
 
 ## Verifying Error Predictions
 
@@ -396,7 +479,15 @@ This numerical check should show observed order near $1$, which confirms the fir
 
 This confirms the first-order convergence predicted by Taylor series. Losing symmetry costs an order of accuracy.
 
-![What to notice in this figure: the lack of symmetry at the boundary forces all of the sample points onto one side of $x$, so the stencil loses the cancellation pattern that made the centered formulas more accurate.](figures/3_6_boundary_stencil_geometry.webp){#fig-boundary-stencil width="100%"}
+:::{figure} figures/3_6_boundary_stencil_geometry.webp
+:label: fig-boundary-stencil
+:width: 100%
+:alt: the lack of symmetry at the boundary forces all of the sample points onto one side of $x$, so the stencil loses the cancellation pattern that made the centered formulas more accurate.
+
+What to notice in this figure: the lack of symmetry at the boundary forces all of the sample points onto one side of $x$, so the stencil loses the cancellation pattern that made the centered formulas more accurate.
+
+[Open full-size figure](figures/3_6_boundary_stencil_geometry.webp)
+:::
 
 ## General Recipe for Custom Methods
 
@@ -482,7 +573,8 @@ Suppose a velocity curve or luminosity signal is measured with small observation
 
 What is known exactly here is the smooth underlying signal. What is approximated numerically is the derivative of noisy samples, and what theory predicts is amplification of the shortest-scale fluctuations.
 
-This cell is self-contained and does not depend on the shared helper functions.
+This cell reuses the NumPy and Matplotlib imports from the setup cell, but does
+not depend on the shared helper functions.
 
 ```{code-cell} python
 rng = np.random.default_rng(536)
@@ -531,7 +623,7 @@ def finite_difference_call_count(n_parameters: int, method: str = "central") -> 
     if n_parameters <= 0:
         raise ValueError("n_parameters must be positive.")
     calls_per_parameter = {"forward": 1, "central": 2, "central4": 4}[method]
-    return n_parameters * calls_per_parameter
+    return n_parameters * calls_per_parameter + (1 if method == "forward" else 0)
 
 
 for n_parameters in [10, 10_000, 1_000_000]:
@@ -543,6 +635,10 @@ for n_parameters in [10, 10_000, 1_000_000]:
         f"central calls = {central_calls:>9d}"
     )
 ```
+
+Forward differences share one baseline evaluation across all coordinates, so a
+fresh gradient costs $n+1$ calls. If the baseline is already cached, the
+additional cost is $n$. Central differences need $2n$ calls.
 
 For neural networks or large inverse problems, finite differences for millions of parameters is not merely inconvenient. It is computationally unreasonable.
 
@@ -565,7 +661,7 @@ Here is the clean distinction:
 | Finite differences | approximate derivative with truncation and round-off error | multiple function evaluations per derivative | black-box verification, quick experiments, small parameter counts | sensitive to $h$, noise, and computational cost |
 | Automatic differentiation | derivative of the implemented computation to machine precision | often comparable to a small multiple of function evaluation cost | optimization, neural networks, inverse problems | needs AD-compatible code and still inherits floating-point and differentiability limits |
 
-:::{important} AD Is Powerful, Not Magical
+:::{important} What AD does and does not guarantee
 
 Automatic differentiation does not rescue discontinuous models or numerically unstable implementations. It differentiates the code you wrote, including its weaknesses.
 
@@ -616,11 +712,11 @@ The takeaway is that AD is powerful because it matches the code you run, not bec
 
 Why this matters: decision frameworks are useful only if they reflect actual computational trade-offs.
 
-Use this decision tree as a heuristic, not a law:
+Use this checklist as a heuristic, not a law:
 
-1. If an analytical derivative is easy to derive and evaluate stably, use it.
-2. If the function is a black box and you only need a few derivatives, finite differences may be reasonable.
-3. If the data are noisy, avoid direct differentiation unless you first smooth or model the signal.
+1. Check smoothness and noise first, including for a black-box function. If the data are noisy, model or smooth the signal and test sensitivity to that choice before trusting its derivative. At a non-smooth point, establish whether the derivative you want exists.
+2. If an analytical derivative is easy to derive and evaluate stably, use it.
+3. If the function is a smooth black box and you only need a few derivatives, finite differences may be reasonable; sweep the step size to check convergence and noise amplification.
 4. If you need many derivatives and have access to differentiable source code, automatic differentiation is usually the right tool.
 5. If the function evaluation is extremely expensive, rethink whether derivative-free reformulation, surrogate modeling, or adjoint methods would be better.
 
@@ -632,7 +728,15 @@ The right choice depends on smoothness, cost, noise, and access to the source co
 | Finite differences | black-box function, small derivative count | easy to implement and easy to inspect | sensitive to $h$, noise, and evaluation cost | validating convergence ideas and debugging |
 | Automatic differentiation | differentiable source code and many parameters | scalable accurate gradients for implemented code | depends on AD-compatible operations | optimization and neural-network training |
 
-![What to notice in this figure: the choice is not about prestige or mathematical purity. The path depends on smoothness, noise, evaluation cost, and whether you can access differentiable source code.](figures/3_5_method_selection_tree.webp){#fig-method-selection width="100%"}
+:::{figure} figures/3_5_method_selection_tree.webp
+:label: fig-method-selection
+:width: 100%
+:alt: A derivative-method comparison first checks noise and smoothness, then pairs analytical formulas, smooth black boxes, differentiable source code, and costly evaluations with candidate methods and verification checks.
+
+Assess noise and smoothness before selecting a derivative method, including when the function is a black box. The table pairs available information with candidate approaches and checks; these are conditional choices, not guarantees. Smoothing noisy data changes the estimated signal, so test sensitivity to the smoothing or model choice as well as to the derivative calculation.
+
+[Open full-size figure](figures/3_5_method_selection_tree.webp)
+:::
 
 :::{note} Research Reality
 
@@ -727,9 +831,37 @@ The deeper lesson is that method choice is scientific judgment, not just formal 
 Carry that mindset into Module 2: every new algorithm will still ask both questions at once, "what is the approximation?" and "when should I trust it?"
 :::
 
-## Bridge to Module 2 and Beyond
+## From Taylor expansions to quadrature panels
 
-Why this matters: Taylor-series reasoning does not disappear after finite differences. It keeps reappearing in almost every major numerical method.
+Taylor-series reasoning does not disappear after finite differences. It explains
+the order claims for the quadrature rules.
+
+On one left-rectangle panel of width $h$, expand a smooth integrand about the
+left endpoint:
+
+$$
+f(x_i+s)=f(x_i)+f'(x_i)s+O(s^2), \qquad 0\leq s\leq h.
+$$
+
+Integrating the expansion gives
+
+$$
+\int_{x_i}^{x_i+h} f(x)\,dx
+=h f(x_i)+\frac{h^2}{2}f'(x_i)+O(h^3).
+$$
+
+The omitted area on one panel is therefore $O(h^2)$. A fixed interval contains
+about $(b-a)/h$ panels, so the composite left-rectangle error is $O(h)$, not
+$O(h^2)$. This local-to-global count is the source of the first order you will
+measure in a convergence study.
+
+For the trapezoid rule, symmetric endpoint samples cancel the leading odd Taylor
+term and give global order $2$. Simpson's symmetric two-panel weights cancel
+further terms and give global order $4$ when the required derivatives are
+smooth. These are claims about a refinement regime; test them before the
+floating-point floor and away from a discontinuity or branch point.
+
+## Bridge to later numerical methods
 
 The same habits you built here will reappear when you solve
 
@@ -755,7 +887,12 @@ $$
 
 because ODE solvers are designed around local truncation error, stability, and the repeated accumulation of floating-point effects.
 
-Module 2 moves from single-point derivative estimates to root finding, quadrature, and time stepping. The throughline is the same: Taylor-series reasoning tells us what the method is trying to approximate, and numerical verification tells us whether the implementation actually behaves that way.
+Block 2 uses the quadrature case first. Block 3 then introduces root finding,
+whose bracketing and initial-guess contracts are different from integration.
+Block 4 introduces time stepping, where local error is accumulated through a
+trajectory and stability adds a further constraint. The throughline is the
+same: Taylor-series reasoning tells us what the method is trying to approximate,
+and numerical verification tells us whether the implementation behaves that way.
 
 The takeaway to carry forward is that every new method still demands both approximation logic and verification evidence.
 
@@ -767,6 +904,8 @@ Before you leave Module 1, make sure you can:
 - [ ] derive a one-sided stencil by canceling Taylor terms,
 - [ ] explain why noisy data and expensive function evaluations change the method choice,
 - [ ] describe what automatic differentiation does and what it does not promise,
+- [ ] turn a local panel error into a composite quadrature order,
+- [ ] distinguish the integration, root-finding, and time-stepping contracts,
 - [ ] carry Taylor-series reasoning into later topics such as $f(x)=0$, $\int f(x)\,dx$, and $\frac{dy}{dt}=f(t,y)$.
 
-*Next: Module 2 - Root finding, quadrature, and the first numerical time-evolution methods.*
+*Next: numerical integration. Root finding follows in a later reading.*

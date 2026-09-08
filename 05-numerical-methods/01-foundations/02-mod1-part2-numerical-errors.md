@@ -1,5 +1,5 @@
 ---
-title: "Part 2: Numbers Aren't Real - Computer Arithmetic & Cosmic Consequences"
+title: "Part 2: Floating-Point Arithmetic and Numerical Error"
 subtitle: "Module 1: Foundations of Discrete Computing | COMP 521"
 author: "Anna Rosen"
 kernelspec:
@@ -7,17 +7,12 @@ kernelspec:
   display_name: Python 3
 ---
 
-<!-- prep-banner:start -->
-:::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+:::{note} Block 2 connection
+Quadrature uses these ideas to separate a rule's truncation regime
+from its floating-point floor, choose an error metric, and justify test
+tolerances. The derivative examples remain useful because the arithmetic does
+not depend on which numerical method produced the result.
 :::
-<!-- prep-banner:end -->
 
 Mathematics treats real numbers as continuous and exact; computers store finite binary approximations. Numerical science begins when those worlds stop agreeing.
 
@@ -76,9 +71,30 @@ which says that star-formation problems mix local structure and cloud-scale stru
 
 Double precision gives about 15 to 16 decimal digits of relative precision near numbers of order unity. That is an approximate practical statement about floating-point spacing, not a law of nature about "how many digits exist" in a calculation.
 
-![What to notice in this figure: the computational challenge is not just that astronomy spans many orders of magnitude. It is that no single coordinate scale makes every subtraction, normalization, and conservation check equally well conditioned.](figures/2_3_astronomical_scales.webp){#fig-astro-scales width="100%"}
+:::{figure} figures/2_3_astronomical_scales.webp
+:label: fig-astro-scales
+:width: 100%
+:alt: Approximate astronomical lengths and their adjacent binary64 spacings are compared on logarithmic axes, both in centimeters.
 
-![What to notice in this figure: representable numbers are discrete rather than continuous, and the gap between adjacent floating-point values grows with magnitude. That is why a subtraction that is safe near $1$ may be ill-conditioned near $10^{16}$.](figures/2_5_floating_point_spacing.webp){#fig-floating-spacing width="100%"}
+The upper panel shows approximate length scales, all readily representable in
+binary64. The lower panel shows the spacing to the next larger binary64 value
+at each scale. These are different quantities: representing a large position
+does not imply resolving a very small displacement added to it. The cloud,
+galactic, and intergalactic lengths are illustrative scales, not measurements
+of particular objects.
+
+[Open full-size figure](figures/2_3_astronomical_scales.webp)
+:::
+
+:::{figure} figures/2_5_floating_point_spacing.webp
+:label: fig-floating-spacing
+:width: 100%
+:alt: Three number lines show adjacent floats near 1e-21, 1, and 1e16 using offsets in units of their local spacing.
+
+What to notice in this figure: representable numbers are discrete rather than continuous, and the gap between adjacent floating-point values grows with magnitude. That is why a subtraction that is safe near $1$ may be ill-conditioned near $10^{16}$.
+
+[Open full-size figure](figures/2_5_floating_point_spacing.webp)
+:::
 
 The takeaway is that scale is part of the numerical problem. The same subtraction can be harmless at one magnitude and poorly conditioned at another.
 
@@ -89,13 +105,11 @@ The takeaway is that scale is part of the numerical problem. The same subtractio
 
 Why this matters: machine epsilon is the local scale at which a floating-point number near $1$ stops changing when you perturb it.
 
-The standard definition is
+NumPy defines machine epsilon as the distance from $1$ to the next larger representable number:
 
-$$
-1 + \epsilon_{\mathrm{machine}} \neq 1.
-$$
+$$\epsilon_{\mathrm{machine}}=\operatorname{nextafter}(1,+\infty)-1.$$
 
-This equation says that $\epsilon_{\mathrm{machine}}$ is the smallest positive floating-point number that still changes $1$ when added to it.
+Under round-to-nearest, a perturbation just larger than half this spacing can already change the rounded sum. Therefore, "the smallest positive number that changes 1 when added" is not the same definition. The halving experiment below searches powers of two and recovers the spacing, not every possible perturbation. [NumPy's definition](https://numpy.org/doc/stable/reference/generated/numpy.finfo.html).
 
 For IEEE 754 double precision, the value is about
 
@@ -162,7 +176,15 @@ print(f"0.3              -> {0.3:.17f}")
 
 Interpretation: the mismatch is not folklore and it is not a Python bug. The finite binary approximation of $0.1$ is slightly different from the exact real number $0.1$, and those tiny differences survive arithmetic.
 
-![What to notice in this figure: the issue is not that the computer is careless. The issue is that most finite decimal fractions do not have finite binary expansions, so the stored values are the nearest available binary fractions.](figures/2_6_decimal_binary_mismatch.webp){#fig-binary-mismatch width="100%"}
+:::{figure} figures/2_6_decimal_binary_mismatch.webp
+:label: fig-binary-mismatch
+:width: 100%
+:alt: Signed representation errors are nonzero for 0.1, 0.2, and 0.3; the binary fraction 0.5 is exact.
+
+What to notice in this figure: the issue is not that the computer is careless. The issue is that most finite decimal fractions do not have finite binary expansions, so the stored values are the nearest available binary fractions.
+
+[Open full-size figure](figures/2_6_decimal_binary_mismatch.webp)
+:::
 
 ### Worked Example 2: Computing $\epsilon_{\mathrm{machine}}$
 
@@ -183,7 +205,7 @@ What is represented approximately on the computer?
 - Each trial perturbation in the halving loop is itself a floating-point number.
 
 What does the error mean in practice?
-- This tells you the local relative spacing scale near $1$, which is often the floor below which further refinement is pointless.
+- This tells you the spacing near $1$. The useful refinement limit for a method depends on how its operations amplify rounding; it need not equal epsilon.
 
 :::{note} Code Purpose
 :class: simple
@@ -371,26 +393,44 @@ print(f"Stable value:     {good_value:.18e} AU^-1")
 print(f"Relative gap:     {relative_difference:.3e}")
 ```
 
-Interpretation: both formulas are correct algebraically, but the stable form postpones the dangerous subtraction until after the denominator has been formed. The point is not that every toy example explodes dramatically in absolute error. The point is that one formula preserves more trustworthy significant digits than the other.
+Interpretation: the reformulation subtracts the stored distances directly, before rounding two reciprocal evaluations. Nearby floating-point distances can subtract exactly even though they approximate the intended decimal inputs. To see what the algebra repairs, we need two references: the intended decimal problem and the problem defined by the stored binary inputs.
 
 ```{code-cell} python
-from decimal import Decimal, getcontext
+from decimal import Decimal, localcontext
 
-
-getcontext().prec = 50
-d1_decimal = Decimal("1.000000000000000")
-d2_decimal = Decimal("1.000000000000067")
-exact_difference = (Decimal(1) / d1_decimal) - (Decimal(1) / d2_decimal)
-
-bad_error = abs(Decimal(str(bad_value)) - exact_difference)
-good_error = abs(Decimal(str(good_value)) - exact_difference)
-
-print(f"Exact value:      {exact_difference:.18E} AU^-1")
-print(f"Naive abs error:  {bad_error:.3E}")
-print(f"Stable abs error: {good_error:.3E}")
+with localcontext() as context:
+    context.prec = 70
+    # Decimal strings describe the intended data; from_float preserves stored bits.
+    d1_decimal = Decimal("1.000000000000000")
+    d2_decimal = Decimal("1.000000000000067")
+    decimal_reference = 1 / d1_decimal - 1 / d2_decimal
+    d1_binary = Decimal.from_float(d1_au)
+    d2_binary = Decimal.from_float(d2_au)
+    binary_reference = 1 / d1_binary - 1 / d2_binary
+    input_error = abs(binary_reference - decimal_reference)
+    bad_error = abs(Decimal.from_float(bad_value) - binary_reference)
+    good_error = abs(Decimal.from_float(good_value) - binary_reference)
+    print(f"Input representation contribution: {input_error:.3E} AU^-1")
+    print(f"Naive evaluation error:            {bad_error:.3E} AU^-1")
+    print(f"Reformulated evaluation error:     {good_error:.3E} AU^-1")
+    for name, value in (("naive", bad_value), ("reformulated", good_value)):
+        total_error = abs(Decimal.from_float(value) - decimal_reference)
+        print(f"Total error against decimal data ({name}): {total_error:.3E}")
 ```
 
-Interpretation: the stable formula is not "more correct" algebraically. It is more trustworthy numerically because it spends fewer significant digits before you reach the small signal you care about.
+The reformulated expression evaluates the stored-input problem more accurately.
+The total errors against the intended decimals remain nearly equal because the
+input representation contribution dominates. Algebra cannot recover information
+already lost when the distances were stored. This distinction matters when a
+code improvement appears to have no effect on the final scientific observable.
+
+:::{tip} Check Your Understanding — answer
+:class: dropdown
+Would increasing only the arithmetic precision after reading the distances as
+ordinary floats restore the intended decimals? No. It preserves those already
+rounded inputs more accurately. To reduce input representation error as well,
+the higher-precision calculation must begin with the original decimal strings.
+:::
 
 (reformulation)=
 ### Stable Reformulation
@@ -410,7 +450,15 @@ This equation says that if $a$ and $b$ are close, the left-hand side performs tw
 If a quantity should be small because of physics, do not assume a noisy result is "just a small signal." Ask whether you are subtracting two large nearly equal numbers to get it.
 :::
 
-![What to notice in this figure: the dangerous step is not "small minus small." It is "almost equal minus almost equal," because the shared leading digits cancel and expose the least reliable trailing digits.](figures/2_1_catastrophic_cancellation.webp){#fig-cancellation width="100%"}
+:::{figure} figures/2_1_catastrophic_cancellation.webp
+:label: fig-cancellation
+:width: 100%
+:alt: Reciprocal-difference errors against intended decimal inputs and stored binary64 inputs. Rewriting reduces evaluation error, while input representation error remains.
+
+The intended dimensionless inputs are $d_1=1$ and $d_2=1+\delta$. Both formulas use the same stored binary64 inputs. The left panel compares their answers with a 90-digit decimal reference for the intended inputs; the right uses a 90-digit reference for the stored inputs. Rewriting the reciprocal difference reduces evaluation error to about floating-point precision, but it cannot recover the input digits already lost when storing $1+\delta$. Consequently, the total errors can remain comparable. No artificial error floor is plotted.
+
+[Open full-size figure](figures/2_1_catastrophic_cancellation.webp)
+:::
 
 Algebraic equivalence does not imply numerical equivalence. Catastrophic cancellation is a conditioning problem exposed by subtraction.
 
@@ -479,12 +527,9 @@ def absolute_relative_error(
     absolute_error = abs(computed_scalar - true_scalar)
     near_zero_threshold = np.sqrt(np.finfo(float).eps) * zero_scale_scalar
 
-    if abs(true_scalar) <= near_zero_threshold:
-        relative_error = math.nan
-        recommended_metric = "absolute"
-    else:
-        relative_error = absolute_error / abs(true_scalar)
-        recommended_metric = "relative"
+    # Relative error is mathematically undefined only at an exactly zero reference.
+    relative_error = math.nan if true_scalar == 0.0 else absolute_error / abs(true_scalar)
+    recommended_metric = "absolute" if abs(true_scalar) <= near_zero_threshold else "relative"
 
     return {
         "absolute_error": absolute_error,
@@ -493,6 +538,12 @@ def absolute_relative_error(
         "near_zero_threshold": near_zero_threshold,
     }
 ```
+
+The threshold in this helper is an illustrative reporting heuristic, not a
+definition of zero or an acceptance tolerance. It does not suppress a defined
+relative error: for a nonzero reference of $10^{-8}$ and a computed value of
+$2\times10^{-8}$, the relative error is $1$, or 100%. Whether that matters
+requires a physical accuracy target.
 
 ### Worked Example 4: Computing Jupiter's Mass
 
@@ -605,7 +656,7 @@ Interpretation: the relative error sounds catastrophic because the denominator i
 import matplotlib.pyplot as plt
 
 
-regime_names = ["large quantity", "moderate quantity", "near-zero quantity"]
+regime_names = ["Jupiter mass (g)", "dimensionless quantity", "velocity (cm/s)"]
 true_values = np.array([1.898e30, 1.0, 1.0e-8])
 computed_values = np.array([1.897e30, 0.95, 2.0e-8])
 absolute_errors = np.abs(computed_values - true_values)
@@ -615,12 +666,12 @@ fig, axes = plt.subplots(2, 1, figsize=(8.5, 5.8), sharex=True)
 x_positions = np.arange(len(regime_names))
 palette = [plt.get_cmap("tab10")(idx) for idx in range(len(regime_names))]
 
-axes[0].plot(x_positions, absolute_errors, marker="o", linewidth=2.0, color=palette[0])
+axes[0].scatter(x_positions, absolute_errors, s=55, color=palette)
 axes[0].set_yscale("log")
-axes[0].set_ylabel(r"$E_{\mathrm{abs}}$")
-axes[0].set_title("Absolute error across three regimes")
+axes[0].set_ylabel("Numeric absolute error\n(in each example's units)")
+axes[0].set_title("Separate examples: absolute errors have different units")
 
-axes[1].plot(x_positions, relative_errors, marker="s", linewidth=2.0, color=palette[1])
+axes[1].scatter(x_positions, relative_errors, marker="s", s=55, color=palette)
 axes[1].set_yscale("log")
 axes[1].set_ylabel(r"$E_{\mathrm{rel}}$")
 axes[1].set_title("Relative error across the same three regimes")
@@ -633,11 +684,90 @@ fig.tight_layout()
 plt.show()
 ```
 
-*What to notice: the large-scale and moderate-scale cases keep relative error in its natural role as a size-aware summary, while the near-zero case breaks that intuition. The point is not that relative error is bad, but that it becomes misleading when the reference value nearly vanishes.*
+*What to notice: the top panel shows three separate numerical examples in their
+stated units. A mass error in grams cannot be ranked physically against a
+velocity error in centimeters per second by comparing these numbers. The
+bottom panel uses dimensionless relative errors, which allow a fractional
+comparison across scales. The near-zero reference still needs care: a large
+fractional error can correspond to a small absolute discrepancy. Whether that
+discrepancy matters depends on the physical accuracy required.*
 
 Relative error is powerful away from zero and often misleading near zero.
 
 ---
+
+(comparison-tolerances)=
+## From measured errors to `atol` and `rtol`
+
+An error measures a discrepancy. A tolerance states how much discrepancy a
+particular comparison permits. Increasing the tolerance changes the decision,
+not the computed result. We should choose it from a physical target, a method
+error bound, or a justified numerical comparison before seeing whether a test passes.
+
+For finite values, NumPy's `isclose(computed, reference, rtol=r, atol=a)` tests
+
+$$|\mathrm{computed}-\mathrm{reference}|
+\le a+r|\mathrm{reference}|.$$
+
+The reference belongs second: NumPy uses it for the relative scale. `atol` has
+the quantity's units, while `rtol` is dimensionless (`0.01` means 1%). The
+allowances **add**; passing does not mean satisfying both limits separately.
+At zero reference only `atol` contributes. [NumPy comparison semantics](https://numpy.org/doc/stable/reference/generated/numpy.isclose.html).
+
+**Predict:** the following residuals are in centimeters. The example's stated
+criterion allows $10^{-8}$ cm plus one part in a million of the reference.
+Which rows pass? Write the allowed error before calling `np.isclose`.
+
+```{code-cell} python
+reference_cm = np.array([0.0, 1.0, 1.0e6])
+computed_cm = reference_cm + np.array([3.0e-9, 0.1, 0.1])
+atol_cm, rtol = 1.0e-8, 1.0e-6  # Stated targets for this example, not defaults.
+errors_cm = np.abs(computed_cm - reference_cm)  # Elementwise absolute values.
+allowed_cm = atol_cm + rtol * np.abs(reference_cm)
+print("absolute errors [cm]:", errors_cm)
+print("allowed errors [cm]: ", allowed_cm)
+print("accepted:", np.isclose(computed_cm, reference_cm, rtol=rtol, atol=atol_cm))
+print("zero, relative only:", np.isclose(3e-9, 0.0, rtol=rtol, atol=0.0))
+print("tiny reference, defaults:", np.isclose(2e-12, 1e-12))
+print("tiny reference, 1%:", np.isclose(2e-12, 1e-12, rtol=0.01, atol=0.0))
+```
+
+The first and third rows pass, for different reasons. At zero, the absolute
+allowance accepts the residual; at $10^6$ cm the relative allowance is about
+1 cm. The same 0.1 cm discrepancy fails at 1 cm. The tiny-reference example
+shows why defaults deserve scrutiny: a 100% relative error passes when the
+default absolute allowance is much larger than either value.
+
+:::{figure} figures/tolerance-acceptance.png
+:alt: A shaded band shows accepted computed-minus-reference residuals; its width is constant near zero and increases with reference magnitude.
+
+The boundary is $\pm(\mathrm{atol}+\mathrm{rtol}|\mathrm{reference}|)$.
+The plotted example uses `atol=0.1 cm` and `rtol=0.1` so both contributions are
+visible. They are illustrative scales, not recommended course-wide tolerances.
+
+[Open full-size figure](figures/tolerance-acceptance.png)
+:::
+
+`np.isclose` works element by element; `np.allclose` requires all comparisons
+to pass. Check array shapes so broadcasting does not silently compare the wrong
+objects. Also check finiteness when your mathematical model requires finite
+values: a closeness test is not a complete input or result validation.
+
+Lecture 1's `math.isclose` uses a different rule for finite scalars:
+$\max(\mathrm{abs\_tol},\mathrm{rel\_tol}\max(|a|,|b|))$. It is symmetric and
+takes a maximum rather than a sum. Read the API rather than assuming a rename
+preserves the criterion. In `pytest.approx`, the allowance is also a maximum
+of its supplied absolute and expected-value-scaled relative tolerances.
+
+:::{tip} Check Your Understanding — tolerance or method?
+:class: dropdown
+If a first-order quadrature rule misses the target, setting `rtol=1e-12` does
+not improve it. Increase resolution, choose a more suitable rule, or repair
+the integrand evaluation, then measure again. If the reference is itself
+approximate, the discrepancy includes its error; budget for that uncertainty
+rather than treating a library result as exact.
+:::
+
 
 (propagation-error)=
 ## Tracking Accumulated Error
@@ -715,7 +845,15 @@ for row in propagation_results:
 
 Interpretation: the random-walk model grows more slowly because positive and negative errors partially cancel. The systematic model grows faster because every step pushes in the same direction.
 
-![What to notice in this figure: random-sign accumulation and coherent bias do not threaten long integrations in the same way. The random-walk curve grows slowly, while the systematic curve grows much faster and can dominate long-running calculations.](figures/2_2_error_propagation.webp){#fig-error-propagation width="100%"}
+:::{figure} figures/2_2_error_propagation.webp
+:label: fig-error-propagation
+:width: 100%
+:alt: Independent zero-mean additive errors have root-N RMS growth, while equal same-sign errors grow as N. Five random-walk histories cross the RMS scale, which is not a bound.
+
+These are additive models with the illustrative dimensionless scale $\sigma=b=10^{-15}$: independent zero-mean errors with standard deviation $\sigma$ give RMS accumulated error $\sigma\sqrt{N}$, while identical positive errors $b$ give $bN$. The five seeded histories use independent steps $\pm\sigma$; the dashed RMS scale is not a bound on a history. The models contain no dynamical amplification and do not prescribe tolerances from simulation duration.
+
+[Open full-size figure](figures/2_2_error_propagation.webp)
+:::
 
 The takeaway is that repeated tiny errors matter because history matters. Growth law, sign structure, and amplification all change the scientific risk.
 
@@ -724,6 +862,14 @@ The takeaway is that repeated tiny errors matter because history matters. Growth
 ## Adaptive Error Control
 
 Why this matters: many algorithms cannot afford to run with a single fixed step size or tolerance everywhere.
+
+:::{note} Scope for adaptive quadrature
+This section illustrates a generic step-size controller. Adaptive
+Simpson rule uses a different, quadrature-specific estimator:
+$|S_{\mathrm{two}}-S_{\mathrm{whole}}|/15$. Do not transfer the exponent in the
+helper below into that algorithm; use the adaptive-quadrature contract in the
+[quadrature reading](../02-roots-quadrature/02-mod2-part2-quadrature.md#adaptive-methods).
+:::
 
 Suppose an error estimator gives a current value $E_{\mathrm{estimated}}$. A basic tolerance rule is
 
@@ -750,7 +896,10 @@ In a real solver, the controller exponent and update logic depend on the method 
 
 :::{warning} Common Misconception: Smaller Tolerance Is Always Better
 
-A tolerance smaller than the physically meaningful scale of the problem, or smaller than the floating-point floor relevant to the algorithm, does not magically create accuracy. It can just create wasted computation or unstable controller behavior.
+A tolerance smaller than the physically meaningful scale of the problem, or
+smaller than the floating-point floor relevant to the algorithm, does not create
+additional accuracy. It can create wasted computation or unstable controller
+behavior.
 :::
 
 :::{note} Code Purpose
@@ -800,7 +949,15 @@ for estimated_error in [1.0e-2, 5.0e-5, 0.0]:
 
 Interpretation: a large error estimate reduces the step size, a very small one allows a larger step, and the zero-error case is treated cautiously rather than dividing by zero.
 
-![What to notice in this figure: adaptive control is a feedback loop, not magic. The algorithm is constantly trading accuracy against efficiency by reacting to the local difficulty of the problem.](figures/2_4_adaptive_step_control.webp){#fig-adaptive-control width="100%"}
+:::{figure} figures/2_4_adaptive_step_control.webp
+:label: fig-adaptive-control
+:width: 100%
+:alt: A feedback diagram compares coarse and fine estimates, accepts a step within its allowance, or refines and retries.
+
+Adaptive control is a feedback loop. The algorithm changes its step size in response to an error estimate, trading computational work against a stated accuracy target.
+
+[Open full-size figure](figures/2_4_adaptive_step_control.webp)
+:::
 
 The takeaway is that adaptive control is a method-specific feedback design, not a single rule to memorize.
 
@@ -814,7 +971,7 @@ The table below gives context-dependent examples, not universal commandments. It
 
 | Application | Typical Numerical Target | Why That Target Is Chosen | Cautionary Note |
 |---|---|---|---|
-| Short planetary integration in a course project | Relative energy drift of roughly $10^{-8}$ to $10^{-10}$ | Tight enough to reveal integrator quality in a well-scaled toy problem | Strongly problem-dependent; longer runs or close encounters may need different diagnostics |
+| Quadrature benchmark | A tolerance justified by the rule's observed order and the exact reference | The sine integral and $\pi^4/15$ make a measured error possible | A test tolerance must be looser than the expected numerical error but tight enough to catch a broken rule |
 | Long conservative integration | Problem-dependent conservation monitor plus convergence study | Long runs accumulate error, so invariants and cross-resolution checks matter together | A single scalar tolerance is rarely enough |
 | Stellar structure or evolution solve | Residuals around $10^{-6}$ to $10^{-8}$, depending on model and solver | Often below dominant input-physics uncertainty while still numerically stable | Do not confuse solver tolerance with physical uncertainty |
 | Galaxy or cluster simulation | Global conservation and ensemble statistics at about $10^{-4}$ to $10^{-6}$, depending on the observable | Often the global structure matters more than trajectory-level perfection | Particle-level exactness is usually not the goal |

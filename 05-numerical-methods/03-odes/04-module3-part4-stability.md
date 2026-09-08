@@ -37,7 +37,8 @@ $$\frac{dy}{dt} = \lambda y$$
 
 where $\lambda \in \mathbb{C}$. The true solution is $y(t) = y_0 e^{\lambda t}$.
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Stability function**: The amplification factor $R(z)$ relating consecutive numerical solution values: $y_{n+1} = R(h\lambda)y_n$.
 :::
 
@@ -47,7 +48,8 @@ $$y_{n+1} = R(h\lambda) y_n$$
 
 where $R(z)$ is the **stability function** with $z = h\lambda$.
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Stability region**: The set of complex values $z = h\lambda$ for which $|R(z)| \leq 1$, ensuring bounded solutions.
 :::
 
@@ -81,19 +83,18 @@ Therefore: $\boxed{R(z) = 1 + z + \frac{z^2}{2}}$
 Through similar analysis (but more algebra):
 $$\boxed{R(z) = 1 + z + \frac{z^2}{2} + \frac{z^3}{6} + \frac{z^4}{24}}$$
 
-This matches the Taylor series of $e^z$ through fourth order, but is not exactly $e^z$ truncated!
+For this linear test equation, it is exactly the degree-four Taylor polynomial of $e^z$. That does not make the general state-dependent RK4 update a scalar exponential polynomial.
 
-<!-- Figure: Stability Regions Comparison
-Create a complex plane plot showing:
-- Euler: small circle centered at (-1,0) with radius 1
-- RK2: larger kidney-shaped region
-- RK4: even larger region extending to about -2.8 on real axis
-- Leapfrog: segment on imaginary axis from -2i to 2i
-- Backward Euler: entire left half-plane
-Include axes labels, shading for stable regions
-Why: Visual comparison of stability regions is essential for method selection
-Caption: "Stability regions in the complex z-plane where z = hλ. Shaded regions show where |R(z)| $\leq$ 1. Euler has smallest region, RK4 extends further along negative real axis, Leapfrog covers imaginary axis (oscillatory problems), and implicit methods cover entire left half-plane."
--->
+:::{figure} figures/stability-regions.png
+:alt: Shaded stability regions show forward Euler's disk, RK4's bounded region, and backward Euler's exterior region including the left half-plane.
+
+Shading marks $|R(z)|\le1$ for the scalar test equation. Forward Euler's
+region touches the imaginary axis only at zero. Backward Euler covers the
+left half-plane but can still introduce substantial artificial damping.
+
+[Open full-size figure](figures/stability-regions.png)
+:::
+
 
 ## Physical Interpretation
 
@@ -104,9 +105,9 @@ For different types of problems, we need different stability characteristics:
 For a harmonic oscillator with frequency $\omega$:
 
 - Eigenvalues: $\lambda = \pm i\omega$ (purely imaginary)
-- Stability requires the **imaginary axis** to be in the stability region
-- **Euler**: Marginally stable for $h < 2/\omega$, but introduces artificial damping
-- **RK4**: Stable for $h < 2.8/\omega$
+- Stability requires the particular points $\pm ih\omega$ to lie in the method's stable set
+- **Euler**: Unstable for every $h>0$, since $|1+i\omega h|=\sqrt{1+\omega^2h^2}>1$; it amplifies the oscillator
+- **RK4**: Stable on this linear oscillator for $0<h\omega\le\sqrt8$; generally damps inside that interval
 - **Leapfrog**: Stable for $h < 2/\omega$ with no damping!
 
 ### Dissipative Systems (Damped Motion)
@@ -114,20 +115,21 @@ For a harmonic oscillator with frequency $\omega$:
 For exponential decay with rate $\gamma$:
 
 - Eigenvalue: $\lambda = -\gamma$ (negative real)
-- Stability requires the **negative real axis** in the stability region
+- Stability requires the particular negative-real point $-h\gamma$ in the stability region
 - **Euler**: Stable for $h < 2/\gamma$
 - **RK4**: Stable for $h < 2.78/\gamma$
 
 (stiff-equations)=
 ## Stiff Equations - When Stability Dominates
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Stiff equation**: An ODE where stability requirements force much smaller timesteps than accuracy requirements. Named because they arise in stiff mechanical systems.
 :::
 
 ### What Makes an Equation Stiff?
 
-A **stiff equation** contains widely separated timescales. After fast transients die out, we're left tracking slow evolution, but explicit methods still need tiny timesteps for stability.
+Widely separated timescales are a common source of **stiffness**, not a necessary definition. After fast transients decay, we may be tracking slow evolution while an explicit method still requires tiny timesteps for stability. The comparison is between the step needed for accuracy on the interval of interest and the step allowed by the chosen method's stability region.
 
 ### Understanding Stiffness Through Examples
 
@@ -140,33 +142,36 @@ $$\frac{dB}{dt} = 0.04A - 10^4 B$$
 
 The eigenvalues are $\lambda_1 = -0.04$ (slow) and $\lambda_2 = -10^4$ (fast).
 
-After the initial transient ($t > 0.001$), B has equilibrated and we're just tracking the slow decay of A. But explicit methods need $h < 2/10^4 = 0.0002$ for stability, even though nothing interesting happens on this timescale!
+The fast transient decays as $e^{-10^4t}$; after $t=0.001$ its amplitude is about $4.5\times10^{-5}$ of its initial value. For initial data and error targets that make this remnant negligible, $B$ then follows the slowly decaying $A$. Forward Euler still needs $h<2/10^4=0.0002$ to damp the fast numerical mode, even when the slow evolution could meet the accuracy target with a much larger step.
 
 #### Example 2: Stellar Interior with Radiative Cooling
 
-In stellar shocks, radiative cooling can create extreme stiffness:
+A thermal model can contain a cooling relaxation timescale much shorter than
+the duration of interest. For a stated toy model $T'=A-BT^4$, linearization
+about $T_{\rm eq}=(A/B)^{1/4}$ gives
 
-$$\frac{dT}{dt} = \text{heating} - \text{cooling}(T)$$
+$$\delta T'=-4BT_{\rm eq}^3\delta T,\qquad
+\tau_{\rm relax}=\frac{1}{4BT_{\rm eq}^3}.$$
 
-where cooling $\propto T^4$ for high temperatures. Near equilibrium:
+An explicit method may need to resolve this fast relaxation even while the
+equilibrium changes slowly. The $T^4$ law here is a pedagogical cooling model,
+not a universal prescription for stellar shocks; real cooling depends on
+opacity, density, ionization, and radiation transport.
 
-- Heating timescale: years
-- Cooling timescale: seconds
-- Stiffness ratio: $10^7$!
-
-:::{margin}
+:::{div}
+:class: reading-definition
 **Non-stiff equation**: An ODE where accuracy requirements determine the timestep, with stability easily satisfied. Most orbital mechanics problems are non-stiff.
 :::
 
 ### Non-Stiff vs Stiff: The Key Distinction
 
-**Non-stiff equations** have eigenvalues with similar magnitudes. The timestep is chosen for accuracy, and stability is automatically satisfied. Examples:
+**Non-stiff problems**, for the chosen method and interval, allow accuracy to set the step without a much stricter stability restriction. Similar eigenvalue magnitudes are not a sufficient definition; even the scalar equation $y'=-1000y$ can be stiff over a long interval after its transient decays. Examples:
 
 - Planetary orbits (all periods within a few orders of magnitude)
 - Pendulum oscillations
 - Wave propagation in uniform media
 
-**Stiff equations** have eigenvalues with vastly different magnitudes. The timestep is forced by stability of the fastest mode, even after it has decayed. Examples:
+Widely separated decay rates are one common source of **stiffness**. The timestep can be forced by stability of the fastest mode even after it has decayed; a scalar fast-decay problem can also be stiff over a long interval. Examples:
 
 - Chemical reaction networks
 - Radiative transfer with cooling
@@ -175,7 +180,8 @@ where cooling $\propto T^4$ for high temperatures. Near equilibrium:
 (implicit-methods)=
 ## Implicit Methods for Stiff Problems
 
-:::{margin}
+:::{div}
+:class: reading-definition
 **Implicit method**: A numerical scheme where the unknown appears on both sides of the equation, requiring solution of an algebraic system at each step.
 :::
 
@@ -200,14 +206,10 @@ Stability function: $\boxed{R(z) = \frac{1}{1-z}}$
 
 This is stable for the **entire left half-plane**! We call this A-stable.
 
-<!-- Figure: Implicit vs Explicit Stability
-Create a figure with two panels:
-Left: Show stability regions for Forward Euler (small circle) vs Backward Euler (entire left half-plane)
-Right: Solution behavior for stiff equation showing Forward Euler explosion vs Backward Euler stability
-Include example trajectories for y' = -1000(y-cos(t)) - sin(t)
-Why: Dramatically shows advantage of implicit methods for stiff problems
-Caption: "Implicit methods transform stability. (Left) Backward Euler is stable for entire left half-plane while Forward Euler has tiny stability region. (Right) For stiff equation y' = -1000(y-cos(t)) - sin(t), Forward Euler explodes while Backward Euler remains stable with large timesteps."
--->
+**A limiting check:** for $y'=-1000y$ with $h=0.01$, forward Euler's
+factor is $-9$, while backward Euler's is $1/11$. The exact factor is
+$e^{-10}$. The implicit result is bounded and decays, but one step still
+does not resolve the actual fast transient accurately.
 
 ### Solving the Implicit Equation
 
@@ -216,12 +218,16 @@ The challenge: we must solve $y_{n+1} = y_n + hf(y_{n+1}, t_{n+1})$ for $y_{n+1}
 For nonlinear $f$, this requires iteration. Newton's method is typical:
 
 ```python
+import numpy as np
+
 def backward_euler_step(y, t, h, f, df_dy, tol=1e-10):
     """
     Single backward Euler step
-    Requires Jacobian df/dy for Newton iteration
+    Requires a one-dimensional state array and its square Jacobian df/dy.
+    tol bounds the algebraic residual norm, not the time-integration error.
     """
-    y_new = y  # Initial guess
+    y = np.asarray(y, dtype=float)
+    y_new = y.copy()  # Initial guess
     
     for _ in range(10):  # Newton iterations
         # Residual: R(y_new) = y_new - y - h*f(y_new, t+h)
@@ -246,24 +252,25 @@ A second-order implicit method:
 
 $$y_{n+1} = y_n + hf\left(\frac{y_n + y_{n+1}}{2}, t_n + \frac{h}{2}\right)$$
 
-This is A-stable AND symplectic! It preserves geometric structure while handling stiffness.
+Implicit midpoint is A-stable and symplectic for canonical Hamiltonian systems when the implicit solve is exact. It is not L-stable: its amplification tends to -1 for very stiff decay, so it can retain alternating unresolved transients. A-stability does not guarantee good damping or accuracy, and a loose nonlinear solve can spoil the structure.
 
 ## The CFL Condition
 
-:::{margin}
-**CFL condition**: Courant-Friedrichs-Lewy condition - information cannot propagate more than one grid cell per timestep. Named after the mathematicians who discovered it in 1928.
+:::{div}
+:class: reading-definition
+**CFL condition**: Courant-Friedrichs-Lewy condition - the numerical domain of dependence must contain the physical one; its numerical coefficient depends on the scheme. Named after the mathematicians who discovered it in 1928.
 :::
 
 The **CFL condition** is a necessary stability criterion for hyperbolic PDEs that also applies to ODEs from spatial discretization:
 
-$$h \leq \frac{\Delta x}{c_{max}}$$
+$$h \leq C_{\rm CFL}\frac{\Delta x}{c_{max}}$$
 
-where $\Delta x$ is the spatial grid spacing and $c_{max}$ is the maximum wave speed.
+where $\Delta x$ is the spatial grid spacing, $c_{max}$ is the maximum wave speed, and $C_{\rm CFL}$ depends on the spatial and temporal discretizations and dimension. A CFL bound alone is not a sufficient stability proof.
 
 For the wave equation $\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}$ discretized in space:
 
-- Eigenvalues: $\lambda \approx \pm ic/\Delta x$
-- Stability requires: $h < \Delta x/c$
+- Centered second differences in one dimension give frequencies up to $2c/\Delta x$.
+- Coupling that semidiscretization to leapfrog gives $ch/\Delta x<1$ away from the boundary; coupling it to forward Euler remains unstable on the imaginary axis.
 
 This means finer spatial grids require smaller timesteps!
 
@@ -273,18 +280,20 @@ This means finer spatial grids require smaller timesteps!
 
 When your integration fails, follow this diagnostic sequence:
 
-1. **Check for NaN/Inf**: Immediate indicator of instability
+1. **Check for NaN/Inf**: Could indicate instability, an invalid function domain, division by zero, or overflow
 2. **Plot the solution**: Look for oscillations growing exponentially
 3. **Compute eigenvalues**: Estimate $\lambda_{max}$
-4. **Check stability limit**: Is $h|\lambda_{max}| < \text{stability limit}$?
+4. **Check stability region**: Do all relevant complex values $h\lambda_j$ lie inside it? For non-normal systems, eigenvalues alone can miss transient amplification.
 5. **Test with smaller h**: Does halving h fix the problem?
 6. **Monitor energy**: For conservative systems, is energy bounded?
 
 ### Stability Test Code
 
 ```python
+import numpy as np
+
 def stability_test(method, lambda_val, h_values):
-    """Test stability for different timesteps"""
+    """Flag non-finite or large finite-run outputs; not a stability proof."""
     results = []
     
     for h in h_values:
@@ -294,7 +303,7 @@ def stability_test(method, lambda_val, h_values):
         for n in range(1000):
             y = method(y, lambda_val, h)
             
-            if abs(y) > 1e10:  # Explosion detected
+            if not np.isfinite(y) or abs(y) > 1e10:  # Failure of this finite-run check
                 stable = False
                 break
         
@@ -303,10 +312,15 @@ def stability_test(method, lambda_val, h_values):
     return results
 ```
 
+A `True` flag means only that this run stayed finite and below the stated
+threshold for 1000 steps. Slow growth can pass that check. Use the analytical
+$|R(h\lambda)|$ condition for this test equation and report the finite-run
+diagnostic separately. A `nan` result is always a failure of this check.
+
 :::{warning} Common Mistakes in Stability Analysis
 1. **Ignoring complex eigenvalues** - Oscillatory systems have imaginary parts!
 2. **Using wrong stability limit** - Each method has different limits
-3. **Not checking all eigenvalues** - The largest magnitude dominates
+3. **Checking only eigenvalue magnitude** - Direction in the complex plane matters as well
 4. **Confusing local and global stability** - Local stability doesn't guarantee global behavior
 5. **Forgetting about stiffness** - Accuracy and stability have different requirements
 :::
@@ -320,12 +334,26 @@ def stability_test(method, lambda_val, h_values):
 6. Can a method be too stable? (Hint: think about damping)
 :::
 
+:::{tip} Answers and reasoning
+:class: dropdown
+
+1. Oscillatory linear modes have eigenvalues $\pm i\omega$; their amplification is tested at $\pm ih\omega$, not on the negative real axis.
+2. Stiffness means stability forces steps much shorter than accuracy needs over the interval of interest, often after a fast transient has decayed.
+3. Implicit steps require algebraic solves and do not remove accuracy requirements. Their damping can also distort oscillations.
+4. Spatial discretization produces modes whose eigenvalues depend on grid spacing. The time integrator must stably advance those modes; the CFL coefficient depends on both discretizations.
+5. Explicit steps are simpler and often cheaper individually; implicit steps can permit much larger stable advances on stiff problems but require reliable solves.
+6. Strong numerical damping can erase an oscillation that the physical system preserves. Backward Euler is stable there but not necessarily accurate; boundedness alone is insufficient.
+:::
+
 ---
 
-## Bridge to Part 5: From Stability to Speed
+## Bridge to the synthesis: choose and verify a method
 
-Understanding stability tells us what timesteps are allowed, but performance determines whether our simulations finish in reasonable time. Even the most stable method is useless if it takes years to run.
+Stability identifies restrictions that an error tolerance alone cannot enforce.
+The synthesis brings together step size, accuracy, conservation, and cost.
+Before optimizing a solver, establish a reference problem and a diagnostic
+that would reveal the failure mode you care about. A faster unstable solution
+is still an incorrect calculation; a stable result can still have unacceptable
+phase or trajectory error.
 
-In Part 5, we'll explore performance optimization through vectorization. Modern processors can perform multiple operations simultaneously, but only if we structure our code correctly. The difference between naive loops and optimized array operations can be 100$\times$ in execution speed — the difference between waiting hours and waiting weeks for results.
-
-*Next: Part 5 - Performance Optimization*
+*Next: Summary and Synthesis*

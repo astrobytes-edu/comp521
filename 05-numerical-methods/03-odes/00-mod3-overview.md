@@ -18,15 +18,28 @@ from you than not.
 
 ## The Big Picture: Learning Dynamics Through Failure
 
-### A Story That Changes Everything
+### A problem we can test before solving an orbit
 
-In 1889, King Oscar II of Sweden offered a prize for solving the n-body problem — predicting the motion of multiple gravitationally interacting bodies forever into the future. Henri Poincaré won by proving something shocking: the problem was *impossible* to solve analytically for n $\geq$ 3. Even worse, he showed that tiny differences in initial conditions led to completely different outcomes. Chaos was born.
+An isolated harmonic oscillator has an exact solution and constant energy.
+That makes it a useful first test for an orbit integrator: if our discrete
+update creates energy here, we can identify the mechanism before adding
+gravitational encounters or complicated initial conditions.
 
-But here's what happened next: Instead of giving up, astronomers turned to numerical integration. By 1960, they were using computers to track planetary positions centuries into the future. By 1990, they could simulate the solar system for millions of years. Today, we simulate galaxy collisions over billions of years and track spacecraft to Jupiter with meter precision.
+Start with a position and velocity, advance both along their current
+derivatives, and repeat. This is Euler's method. Each step looks reasonable,
+yet the phase-space radius grows. A different arrangement of almost the same
+force evaluations—leapfrog—has different geometry and different long-time
+behavior. We will derive both outcomes rather than infer them from a plot.
 
-The key insight that made this possible wasn't faster computers or better mathematics — it was discovering that **not all integration methods are created equal**. Some methods that seem accurate destroy the physics they're trying to simulate. Others that seem crude preserve what matters. The difference between a planet spiraling into the sun and orbiting stably for a billion years isn't computational power — it's choosing the right algorithm.
+The historical difficulty of the many-body problem does not mean every
+three-body motion is chaotic or that analytic solutions never exist. The
+practical numerical question is narrower: for the equations, initial state,
+duration, and observable we chose, what evidence supports the result?
 
-This is the heart of what you're about to learn: **how to make time flow numerically while preserving the fundamental laws of physics**.
+That question leads through the whole module. We compare state error, energy
+error, phase error, and computational work because each measures something
+different. A trajectory that looks closed may have the wrong period; an energy
+that stays bounded may accompany an accumulating phase error.
 
 ### Your Mission: Preserve Physics Through Time
 
@@ -37,19 +50,24 @@ You're about to discover that simulating the universe's evolution is a battle ag
 - **How can we simulate galaxies for cosmic time?** Symplectic integrators preserve geometry
 - **When do numerical methods explode?** Stability analysis predicts catastrophic failure
 
-But here's the revelation: **geometric structure matters more than local accuracy**. A second-order method that preserves phase space beats a tenth-order method that violates conservation laws. Master this principle, and you can simulate anything from binary pulsars to galaxy mergers.
+The central lesson is that local accuracy, stability, and geometric
+preservation answer different questions. None automatically dominates the
+others. A second-order symplectic method can be useful for long conservative
+integrations; a fourth-order adaptive method can be preferable for a precise
+short trajectory. Both choices need an accuracy target and verification.
 
-### Why This Matters Now More Than Ever
+### Why this matters in computational astrophysics
 
-Modern astrophysics runs on temporal evolution:
+Orbit propagation, stellar evolution, chemical networks, and radiation
+hydrodynamics all involve time evolution. They do not all have the same
+conservation laws or timescales. A cooling gas should lose thermal energy; a
+conservative oscillator should not. Before selecting a method, state which
+equations and diagnostic apply to the system being modeled.
 
-- **LIGO detections** require integrating Einstein's equations to generate waveform templates
-- **Gaia's billion-star catalog** needs orbit integration to detect perturbations from dark matter
-- **JWST observations** of early galaxies require N-body simulations for comparison
-- **Exoplanet discoveries** depend on integrating orbital dynamics with extreme precision
-- **Dark energy constraints** come from simulating structure formation over cosmic time
-
-**You NEED these methods** to do modern astrophysics. This module ensures you understand not just how to call `scipy.integrate.odeint`, but *why* symplectic integrators keep planets stable, *when* implicit methods become essential, and *how* to diagnose numerical disasters before they happen.
+In these readings, the oscillator provides a shared, dimensionless benchmark.
+The physical applications explain how to transfer the reasoning, not how to
+replace a full scientific model with a toy problem. The goal is to understand
+what a solver's accuracy and stability statements actually promise.
 
 ## Quick Navigation Guide
 
@@ -58,7 +76,7 @@ Modern astrophysics runs on temporal evolution:
 ::::{grid} 1 1 2 3
 
 :::{grid-item}
-### 🏃 Fast Track {.unnumbered}
+### 🏃 Fast Track
 Essential concepts only
 
 - [Euler's failure](01-module3-part1-euler.md#eulers-method)
@@ -68,7 +86,7 @@ Essential concepts only
 :::
 
 :::{grid-item}
-### 🚶 Standard Path {.unnumbered}
+### 🚶 Standard Path
 Full conceptual understanding
 
 Everything in Fast Track, plus:
@@ -81,7 +99,7 @@ Everything in Fast Track, plus:
 :::
 
 :::{grid-item}
-### 🧗 Complete Path {.unnumbered}
+### 🧗 Complete Path
 Deep dive with all details
 
 Complete module including:
@@ -96,60 +114,34 @@ Complete module including:
 
 ::::
 
-### 🎯 Navigation by Project Needs
+### Navigation by computational question
 
-:::{tip} Quick Jump to What You Need by Project
+:::{tip} Find the diagnostic you need
 :class: dropdown
-
-**For Project 2 (N-body Dynamics)**:
-- [Leapfrog implementation](03-module3-part3-symplectic.md#the-algorithm) - Your main integrator
-- [Energy monitoring](01-module3-part1-euler.md#energy-drift) - Conservation checks
-- [Timestep selection](01-module3-part1-euler.md#dimensional-analysis) - Setting h appropriately
-- [Close encounters](03-module3-part3-symplectic.md#implementation-tips) - Handling singularities
-- [Phase space structure](03-module3-part3-symplectic.md#phase-space-perspective) - Understanding orbits
-
-**For Project 3 (Monte Carlo Radiative Transfer)**:
-- [Ray integration](02-module3-part2-runge-kutta.md#rk4-classical) - Path through varying media
-- [Adaptive methods](02-module3-part2-runge-kutta.md#adaptive-timestep) - Efficiency in varying opacity
-- [Stability for stiff cooling](04-module3-part4-stability.md#stiff-equations) - Radiative processes
-
-**For Project 4 (MCMC)**:
-- [Hamiltonian Monte Carlo](03-module3-part3-symplectic.md#hamiltonian-mechanics) - Symplectic integration
-- Detailed balance - Preserving equilibrium
-- [Trajectory length](04-module3-part4-stability.md#stability-functions) - Choosing integration time
-
-**For Project 5 (Gaussian Processes)**:
-- [SDE integration](04-module3-part4-stability.md#implicit-methods) - Stochastic differential equations
-- [Kernel evolution](02-module3-part2-runge-kutta.md#general-framework) - Time-dependent covariance
-- [Stability analysis](04-module3-part4-stability.md#linear-stability) - Numerical convergence
-
-**For Final Project (Neural Networks)**:
-- [Gradient descent as ODE](01-module3-part1-euler.md#from-continuous-discrete) - Training dynamics
-- [Learning rate as timestep](02-module3-part2-runge-kutta.md#adaptive-timestep) - Adaptive optimization
-- [Momentum methods](03-module3-part3-symplectic.md#hamiltonian-mechanics) - Accelerated convergence
-- [Stability of SGD](04-module3-part4-stability.md#stability-functions) - When training diverges
+- For an energy drift, start with the [Euler derivation](01-module3-part1-euler.md#energy-drift).
+- For state accuracy and cost, use the [shared oscillator experiment](02-module3-part2-runge-kutta.md#oscillator-comparison).
+- For geometric preservation, read the [leapfrog proof](03-module3-part3-symplectic.md#proof-symplecticity).
+- For short and long timescales, read [stiffness](04-module3-part4-stability.md#stiff-equations).
+- For choosing a step, compare [stability functions](04-module3-part4-stability.md#stability-functions) with a refinement study.
 :::
 
-:::{note} 💭 Why This Module Exists: A Personal Note from Your Instructor
-:class: dropdown
+### A guide to reading the experiments
 
-**This module has a secret mission**: teaching you that numerical integration isn't about memorizing Runge-Kutta coefficients — it's about understanding the deep conflict between discrete computation and continuous physics.
+Before running an example, write down what the exact system should do. For
+the oscillator, energy is constant and the phase advances at a known rate.
+Then predict which numerical defect should appear and which plot would reveal
+it. A trajectory plot is useful, but often hides a small systematic error.
 
-I've watched too many students implement RK4 perfectly, then wonder why their solar system flies apart after a million years. They increase the order to RK8, use smaller timesteps, switch to adaptive methods — nothing works. The planets still spiral into the sun or escape to infinity.
+After running, compare at least two resolutions over the same physical time.
+Changing both the step and final time makes an error ratio ambiguous. Record
+whether the method is in its stable range, whether the predicted leading
+order is visible, and whether rounding has become significant.
 
-**What makes this different**: We start with failure. You'll watch Euler's method destroy a simple harmonic oscillator, see energy grow exponentially when it should be constant. This isn't a bug — it's a fundamental property of the discretization. Then you'll discover that symplectic methods, which look almost identical to Euler, preserve energy for billions of years.
-
-**The revelation students have**:
-- *Wait, higher accuracy makes things WORSE for long-term integration?* **Sometimes!**
-- *A second-order method beats fourth-order for orbits?* **If it's symplectic!**
-- *The same equations that govern planets also train neural networks?* **Exactly!**
-
-This module makes those connections explicit from the start.
-
-**Here's what ODE integration actually is**: creating alternate realities with slightly different physics. Euler creates a universe where energy spontaneously appears. RK4 creates one where energy slowly leaks away. Leapfrog creates one where energy oscillates but stays bounded. Your job is choosing which alternate reality best preserves the physics you care about.
-
-By the end, you'll understand not just the formulas but the deep principles: why geometric structure beats local accuracy, when stability matters more than precision, and how the same mathematical framework spans from planetary dynamics to machine learning. These aren't separate topics — they're all facets of making time flow while preserving what matters.
-:::
+Finally, ask what the experiment does not establish. Preserving an oscillator
+invariant does not validate a gravitational force calculation; passing an
+energy test does not prove accurate phase; repeatable output does not prove
+the equations match the physical problem. These boundaries are part of the
+scientific interpretation, not reasons to avoid numerical experiments.
 
 ## Mathematical Foundations
 
@@ -189,8 +181,8 @@ Before diving in, let's establish the mathematical language for temporal evoluti
 
 **Symplecticity**: Preservation of phase space structure
 - Volume preservation (Liouville)
-- Bounded energy error
-- Time reversibility
+- Long-time near-energy conservation under the stated regularity and step conditions
+- Time reversibility for symmetric methods such as fixed-step leapfrog
 
 **Why This Matters**: Every simulation creates a discrete approximation to continuous physics. Understanding these approximations — their errors, stability, and structure preservation — determines whether your simulations reveal truth or nonsense.
 :::
@@ -199,15 +191,15 @@ Before diving in, let's establish the mathematical language for temporal evoluti
 
 ### [Part 1: The Failure of Naive Integration](01-module3-part1-euler.md)
 
-Witness Euler's method catastrophically violate energy conservation. Understand why local accuracy doesn't guarantee global stability. See how systematic geometric errors compound until physics is destroyed. Learn to recognize failure modes before they corrupt your simulations.
+Derive Euler’s update, then compare its predicted and measured energy and phase errors on an undamped oscillator. Distinguish this instability from its behavior on a decay problem. Use the equations and the observable to choose the next diagnostic.
 
 ### [Part 2: Building Better Methods - Runge-Kutta](02-module3-part2-runge-kutta.md)
 
-Construct the Runge-Kutta family from Taylor series. Connect RK weights to quadrature rules from Module 2. Implement adaptive timestep control. Discover why even fourth-order accuracy can't preserve energy over cosmic timescales.
+Construct the Runge-Kutta family from Taylor series. Connect RK weights to quadrature rules from Module 2. Implement adaptive timestep control. Discover why fourth-order state accuracy does not imply exact energy conservation.
 
 ### [Part 3: Symplectic Integration - Geometry Over Accuracy](03-module3-part3-symplectic.md)
 
-Learn why preserving phase space structure matters more than minimizing error. Prove leapfrog's symplecticity. Understand modified Hamiltonians and bounded energy error. Master the art of choosing between accuracy and conservation.
+Learn what preserving phase-space structure adds to an accuracy calculation. Prove leapfrog's symplecticity. Understand modified Hamiltonians and bounded energy error. Master the art of choosing between accuracy and conservation.
 
 ### [Part 4: Stability Analysis](04-module3-part4-stability.md)
 

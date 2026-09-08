@@ -42,6 +42,21 @@ Useful background: [Exoplanets](../10-scientific-background/exoplanets.md),
 [light curves](../10-scientific-background/light-curves.md), and the
 [uniform-source model](../10-scientific-background/uniform-source-model.md).
 
+## Block 2 · Numerical Integration
+
+How do we turn a continuous mathematical model into a finite calculation, and
+how do we decide whether its accuracy is sufficient?
+
+| Lecture | In-class question | Build toward |
+|---|---|---|
+| [Lecture 5: Approximation, Errors, and Quadrature](lecture-05-approximation-errors-quadrature.md) | How do Taylor approximations and floating-point arithmetic shape numerical error? | absolute and relative tolerances, rectangle quadrature, and an error bound |
+| [Lecture 6: Trapezoids, Simpson, Modules, and Tests](lecture-06-quadrature-modules-tests.md) | How do better local approximations and meaningful tests improve an integration method? | trapezoid and Simpson rules, reusable modules, and the sine rectangle lab |
+
+Read alongside the lectures: [numerical errors](../05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md),
+[Taylor series](../05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md),
+and [quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md).
+These methods support Project 2's integration and convergence investigations.
+
 ## Future course blocks
 
 :::{warning} Library expansion in progress
@@ -51,8 +66,6 @@ yet a second set of required materials. The course schedule and published
 lecture pages determine what is currently assigned.
 :::
 
-- **Block 2 · Numerical Integration** — discrete approximation, error, and
-  convergence.
 - **Block 3 · Root Finding & Stellar Inference** — solving a model equation
   and checking whether a solution is trustworthy.
 - **Block 4 · ODE Methods & Dynamical Models** — time stepping, stability, and
