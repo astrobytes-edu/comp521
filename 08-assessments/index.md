@@ -12,9 +12,6 @@ criteria.
 - [Project overview](../01-course-info/projects.md) — the six-project sequence and grading criteria.
 - [Project 1](projects/project-1.md) — transit models and stellar properties.
 - [Project 2](projects/project-2.md) — numerical integration, convergence, and limb-darkened transits.
-- [ND Array Evidence Check](nd-array-evidence-check.md) — individual evidence
-  that you can state axes and shapes, normalize an ND record, validate the
-  result, and communicate one figure.
 - [Growth Reflections](../01-course-info/growth-reflections.md) — individual
   reflection prompts and submission expectations.
 - [Grading](../01-course-info/grading.md) — weights, scale, and submission

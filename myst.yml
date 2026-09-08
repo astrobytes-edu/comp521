@@ -170,7 +170,6 @@ project:
     - title: Assessments
       children:
         - file: 08-assessments/index.md
-        - file: 08-assessments/nd-array-evidence-check.md
         - title: Projects
           children:
             - title: Project Overview

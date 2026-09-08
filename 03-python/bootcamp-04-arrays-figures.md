@@ -908,9 +908,6 @@ The [Vectorization and Broadcasting Lab](../07-practice-labs/vectorization-broad
 repeats this reasoning with a fresh data table. Complete it after this lecture:
 predict a shape, write the axis meaning, then run the expression.
 
-Then complete the [ND Array Evidence Check](../08-assessments/nd-array-evidence-check.md):
-state axes and shapes, broadcast a baseline, make a figure, and write a bounded
-claim.
 :::::
 
 :::{div}

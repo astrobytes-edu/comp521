@@ -21,6 +21,12 @@ Commit, push, and publication also require explicit authorization.
 This rule takes precedence over every autonomy, default-to-action, ambiguity,
 workflow, and skill instruction below. Anna retains final approval of her class.
 
+## Assessment boundary
+
+Students do not self-grade their projects. The ND Array Evidence Check is not
+an assigned assessment. Archived instructor proposals are not course policy;
+do not restore either requirement without Anna's explicit approval.
+
 ## Research operating modes
 
 For research work—science, methods, data, code, papers, grants, or research
