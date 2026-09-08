@@ -14,7 +14,7 @@ kernelspec:
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Trapezoids, Simpson, modules, and tests
 
@@ -25,9 +25,11 @@ use a line and a quadratic, then organize and test the rectangle rule in a lab.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## The through-line
+
+**Jump to:** [Trapezoid](#l6-trapezoid) · [Simpson](#l6-simpson) · [Modules and tests](#l6-modules) · [Sine lab](#l6-lab)
 
 :::{div}
 :class: lecture-through-line
@@ -43,7 +45,7 @@ The same choices apply to many scientific integrands.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Today's question
 
@@ -60,7 +62,7 @@ By the end of class, you should be able to:
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Recall · what a left rectangle retains
 
@@ -76,25 +78,23 @@ term can we capture? What kind of function would the new rule integrate exactly?
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
+(l6-trapezoid)=
 ## I · Trapezoids retain the local slope
-
-### Question
 
 What accuracy do we gain by connecting the two endpoint heights?
 
-### You will leave this section able to
+### Goals
 
 - integrate a linear interpolant on one panel;
 - assemble the endpoint and interior weights; and
 - derive the local and composite error orders with Taylor expansion.
 
-**Through-line focus:** linear approximation $\rightarrow$ second-order composite rule.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Integrate the line between the endpoints
 
@@ -112,7 +112,7 @@ exactly by its endpoint interpolant.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Interior nodes belong to two neighboring trapezoids
 
@@ -132,7 +132,7 @@ the integration variable.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Taylor expansion identifies the trapezoid error
 
@@ -152,7 +152,7 @@ below the curve, and what sign should $T_n-I$ have?
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Compare the local approximations
 
@@ -162,7 +162,7 @@ below the curve, and what sign should $T_n-I$ have?
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.rcParams.update({"font.size": 14})
+plt.rcParams.update({"font.size": 18})
 x = np.linspace(0.0, 1.0, 301)
 # The quadratic interpolates exp(x) at 0, 1/2, and 1.
 quadratic = (2*(x-0.5)*(x-1)
@@ -190,7 +190,7 @@ that polynomial and the function determines the quadrature error.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Reference · trapezoid geometry and error
 
@@ -205,26 +205,24 @@ that polynomial and the function determines the quadrature error.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
+(l6-simpson)=
 ## II · Simpson uses a quadratic and symmetry
-
-### Question
 
 Why can an integral gain accuracy beyond the pointwise degree of its interpolant?
 
-### You will leave this section able to
+### Goals
 
 - derive weights $1,4,1$ across a pair of panels;
 - explain why composite Simpson requires an even panel count;
 - use symmetry to explain cubic exactness; and
 - state the smoothness assumptions behind fourth-order accuracy.
 
-**Through-line focus:** quadratic interpolation and symmetry $\rightarrow$ fourth order.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Fit a quadratic across two panels
 
@@ -244,7 +242,7 @@ $$\int_{-h}^{h}P(s)\,ds=2hA+\frac{2h^3}{3}C.$$
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## The coefficients give Simpson's weights
 
@@ -262,7 +260,7 @@ reproduce a cubic point by point, so explain your reasoning about its integral.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Symmetry cancels the cubic contribution to the error
 
@@ -274,6 +272,13 @@ $$f(m+s)=f_m+s f'_m+\frac{s^2}{2}f''_m
 Both the symmetric integral and Simpson's symmetric weights cancel odd terms.
 The constant and quadratic contributions agree. The first possible mismatch
 is the fourth-derivative term.
+
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Derive the Simpson error coefficient
 
 For the fourth-order term, the integral contributes
 $h^5 f^{(4)}_m/60$ and Simpson contributes $h^5 f^{(4)}_m/36$.
@@ -288,7 +293,7 @@ For a cubic, the fourth derivative vanishes: Simpson is exact in exact arithmeti
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Pair the panels to build composite Simpson
 
@@ -306,7 +311,7 @@ An odd count is an invalid input, not a reason to silently change the grid.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Translate the weights into array slices
 
@@ -324,30 +329,89 @@ inside an interior sum. The complete implementations are your next exercise.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
-## Compare areas and count the samples
+## Compare the rectangle samples
 
-These four rules use six equal panels for
-$f(x)=e^{-x/2}\cos(2x)+1$ on $[0,2]$; both axes are dimensionless.
+Same integrand, same six panels: $f(x)=e^{-x/2}\cos(2x)+1$ on $[0,2]$.
 
-:::{figure} reading-quadrature-geometry.webp
-:alt: Four panels show the actual left rectangles, midpoint rectangles, endpoint chords, and paired quadratic interpolants for the same curved integrand. Dots mark six samples for rectangle rules and seven for trapezoid and Simpson; each panel states its computed area and absolute error.
-:width: 950px
+```{code-cell} python
+:tags: [remove-input, remove-output]
 
-The shading is the area under each rule's approximant. At this resolution,
-Simpson has the smallest error; midpoint is more accurate than trapezoid.
-One grid does not establish an order or a universal method ranking.
+# Plot local interpolants; this is an illustration, not a quadrature library.
+from numpy.polynomial import Polynomial
+plot_edges = np.linspace(0.0, 2.0, 7)
+plot_h = plot_edges[1] - plot_edges[0]
+plot_f = lambda x: np.exp(-x/2) * np.cos(2*x) + 1
+primitive = lambda x: np.exp(-x/2) * (-0.5*np.cos(2*x) + 2*np.sin(2*x)) / 4.25
+plot_exact = 2 + primitive(2) - primitive(0)
+for pair, names in enumerate((("Left", "Midpoint"), ("Trapezoid", "Simpson"))):
+    fig, axes = plt.subplots(1, 2, figsize=(12, 3.5), layout="constrained")
+    for ax, name, color in zip(axes, names, ("#0072B2", "#D55E00")):
+        xx = np.linspace(0, 2, 501)
+        ax.plot(xx, plot_f(xx), color="#122b38", lw=2)
+        area = 0.0
+        if pair == 0:
+            samples = plot_edges[:-1] + (plot_h/2 if name == "Midpoint" else 0)
+            heights = plot_f(samples)
+            ax.bar(plot_edges[:-1], heights, width=plot_h, align="edge",
+                   color=color, edgecolor=color, alpha=0.25)
+            area = plot_h * np.sum(heights)
+        else:
+            samples = plot_edges
+            degree = 1 if name == "Trapezoid" else 2
+            for i in range(0, 6, degree):
+                nodes = plot_edges[i:i+degree+1]
+                poly = Polynomial.fit(nodes, plot_f(nodes), degree)
+                xx = np.linspace(nodes[0], nodes[-1], 101)
+                ax.fill_between(xx, 0, poly(xx), color=color, alpha=0.25)
+                ax.plot(xx, poly(xx), color=color)
+                integral = poly.integ()
+                area += integral(nodes[-1]) - integral(nodes[0])
+        ax.plot(samples, plot_f(samples), "o", color=color)
+        ax.set(xlabel="x (dimensionless)", ylabel="f(x)",
+               title=f"{name}: {len(samples)} samples\nAbsolute error {abs(area-plot_exact):.3g}")
+        ax.tick_params(labelsize=13)
+    fig.savefig(f"lecture-06-geometry-{pair}.png", dpi=160)
+    plt.close(fig)
+```
+
+:::{figure} lecture-06-geometry-0.png
+:alt: Left and midpoint rectangles on the same six panels; their sample positions differ. The midpoint estimate has a smaller absolute error on this grid.
+
+**Explain:** why does midpoint sampling give the smaller error on this grid?
+:::
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Compare the endpoint interpolants
+
+:::{figure} lecture-06-geometry-1.png
+:alt: Trapezoid chords and paired Simpson quadratics use the same seven endpoints. The quadratic tracks this integrand more closely on these six panels.
+
+**Explain:** why do both rules use seven heights for six panels?
 :::
 
-[Open full-size figure](reading-quadrature-geometry.webp).
+[Reference: all four methods and numerical values](reading-quadrature-geometry.webp).
+
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Explain the sample count
+
+On this grid, Simpson has the smallest error; midpoint beats trapezoid.
+One grid does not establish convergence order or a universal ranking.
 
 **Explain:** why do the endpoint rules need seven sampled heights for six
 panels? Where do neighboring Simpson pairs reuse a height?
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Orders need a smoothness condition
 
@@ -367,31 +431,75 @@ does not supply that guarantee. We will investigate such an example later.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Reference · a corner changes the error pattern
 
-**Predict:** is $g(x)=e^x+|x-0.2|$ smooth enough for the usual Simpson bound
-on all of $[0,1]$? What changes if we split at 0.2?
+**Interpret:** why does the corner in $g(x)=e^x+|x-0.2|$ invalidate the usual
+Simpson bound on $[0,1]$? Explain the effect of splitting at 0.2.
 
-:::{figure} reading-quadrature-kink.png
-:alt: The upper panel shows a corner at 0.2 between grid nodes. The lower log-log panel compares smooth exponential, unsplit corner, and split corner Simpson errors. Splitting restores fourth-order decay on this sequence, while the unsplit corner has roughly second-order decay.
+```{code-cell} python
+:tags: [remove-input, remove-output]
+
+# Library quadrature produces this illustration; students write their own rules.
+from scipy.integrate import simpson as reference_simpson
+corner = 0.2
+corner_f = lambda x: np.exp(x) + np.abs(x-corner)
+corner_exact = np.expm1(1) + (corner**2 + (1-corner)**2)/2
+corner_ns = 2**np.arange(2, 11)
+corner_errors = [[], [], []]
+for panels in corner_ns:
+    grid = np.linspace(0, 1, panels+1)
+    left = np.linspace(0, corner, panels//2+1)
+    right = np.linspace(corner, 1, panels//2+1)
+    # Sample the shared endpoint once and reuse its value.
+    values = corner_f(np.concatenate((left, right[1:])))
+    split_area = (reference_simpson(values[:panels//2+1], x=left)
+                  + reference_simpson(values[panels//2:], x=right))
+    corner_errors[0].append(abs(reference_simpson(np.exp(grid), x=grid)-np.expm1(1)))
+    corner_errors[1].append(abs(reference_simpson(corner_f(grid), x=grid)-corner_exact))
+    corner_errors[2].append(abs(split_area-corner_exact))
+fig, axes = plt.subplots(1, 2, figsize=(12, 3.7), layout="constrained")
+xx = np.linspace(0, 1, 501)
+axes[0].plot(xx, corner_f(xx), color="#122b38", lw=2)
+axes[0].axvline(corner, color="#D55E00", ls="--")
+axes[0].set(xlabel="x", ylabel="g(x)", title="Split at the corner")
+for errors, label, color in zip(corner_errors, ("Smooth", "Corner", "Split corner"),
+                                ("#0072B2", "#D55E00", "#009E73")):
+    axes[1].loglog(corner_ns+1, errors, "o-", label=label, color=color)
+axes[1].set(xlabel="Distinct samples", ylabel="Absolute error")
+axes[1].legend(fontsize=13)
+axes[1].grid(alpha=0.2)
+fig.savefig("lecture-06-corner.png", dpi=160)
+plt.close(fig)
+```
+
+:::{figure} lecture-06-corner.png
+:alt: The left panel shows a corner at 0.2, marked by a dashed vertical line. The right log-log panel compares smooth exponential, unsplit corner, and split corner Simpson errors. Splitting restores fourth-order decay on this sequence, while the unsplit corner has roughly second-order decay.
 :width: 900px
 
-All curves use the same total panel count. The split calculation uses half
-the panels on each side and reuses the shared endpoint value, so each method
-uses $n+1$ distinct samples. The intervals on either side are smooth; a
-quadratic can then approximate each piece without crossing the corner.
+Compare the smooth, unsplit, and split error curves at the same total panel count.
 :::
 
 [Open full-size figure](reading-quadrature-kink.png).
 
-Use this as a preview of the reading's investigation. Grid alignment can
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Reference · why splitting at a corner helps
+
+Each calculation uses $n+1$ distinct samples. The split rule uses half the
+panels on each side and reuses the shared endpoint.
+
+Each side is smooth: the quadratic no longer crosses the corner.
+This previews the reading's investigation. Grid alignment can
 cancel an error term, so an observed slope alone does not prove smoothness.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Reference · composite Simpson
 
@@ -407,28 +515,32 @@ cancel an error term, so an observed slope alone does not prove smoothness.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
+(l6-modules)=
 ## III · A module gives a function an importable home
-
-### Question
 
 How can a notebook and a test call the same numerical implementation?
 
-### You will leave this section able to
+### Goals
 
 - separate method definitions from analysis and tests;
 - import a local module and account for cached notebook imports;
 - recognize how pytest finds and runs tests; and
 - translate a stated tolerance into a `pytest.approx` assertion.
 
-**Through-line focus:** one function definition $\rightarrow$ independent callers.
 :::
 
-:::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:::::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Give each file one role
+
+:::::{div}
+:class: lecture-two-column
+
+::::{div}
+:class: lecture-column
 
 ```text
 quadrature-lab/
@@ -438,18 +550,32 @@ quadrature-lab/
 └── analysis.ipynb
 ```
 
+
+::::
+
+::::{div}
+:class: lecture-column
+
 - `integrate.py` defines numerical methods.
 - The notebook imports them, makes figures, and explains results.
 - Test files import them and check specified behavior.
 
 A notebook can contain assertions and be tested by execution. Modules make
 functions easier to import and test independently of notebook state.
-:::
+::::
+:::::
+:::::::
 
-:::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:::::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Imports connect the files
+
+:::::{div}
+:class: lecture-two-column
+
+::::{div}
+:class: lecture-column
 
 In a notebook located in the lab directory:
 
@@ -460,17 +586,31 @@ from integrate import rectangle
 estimate = rectangle(np.sin, 0.0, np.pi/2, 100)
 ```
 
+
+::::
+
+::::{div}
+:class: lecture-column
+
 Python executes a module's top-level statements when it first imports it in
 a process. Keep demonstration runs and plotting out of the module's top level.
 
 After editing the module, restart the notebook kernel and run from the top.
 Importing again does not normally reload a module already in memory.
-:::
+::::
+:::::
+:::::::
 
-:::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:::::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## What `pytest` does
+
+:::::{div}
+:class: lecture-two-column
+
+::::{div}
+:class: lecture-column
 
 `pytest` discovers test functions, calls them, and reports failed assertions
 and unexpected exceptions.
@@ -480,6 +620,12 @@ def test_example():
     result = 2 + 3
     assert result == 5
 ```
+
+
+::::
+
+::::{div}
+:class: lecture-column
 
 For this lab, use files named `test_*.py` and functions named `test_*`.
 An assertion should test a behavior you can explain.
@@ -492,10 +638,12 @@ python -m pytest
 
 If pytest is missing, install it in the same course environment with
 `python -m pip install pytest`, then rerun the command.
-:::
+::::
+:::::
+:::::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Carry `rtol` and `atol` into tests carefully
 
@@ -517,7 +665,7 @@ Source: [pytest `approx` documentation](https://docs.pytest.org/en/stable/refere
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Reference · modules and tests
 
@@ -533,26 +681,24 @@ Source: [pytest `approx` documentation](https://docs.pytest.org/en/stable/refere
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
+(l6-lab)=
 ## IV · Lab: rectangle integration of sine
-
-### Question
 
 Can another file import your rule and verify a claim about its result?
 
-### You will leave this section able to
+### Goals
 
 - complete an importable rectangle module;
 - justify a sine-integral test with a derivative bound;
 - test an invalid-input contract; and
 - interpret a deliberate failure without weakening a justified criterion.
 
-**Through-line focus:** prediction $\rightarrow$ implementation $\rightarrow$ test evidence.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Predict · the sine integral and the module contract
 
@@ -571,7 +717,7 @@ Use the known rectangle mathematics to concentrate on modules and tests.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Lab step 1 · Create `integrate.py`
 
@@ -598,7 +744,7 @@ Do not hard-code `np.sin` inside the rule.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Lab step 2 · Choose the tolerance before running the test
 
@@ -612,12 +758,13 @@ At $n=100$, the bound is $\pi^2/800\approx0.01234$.
 Use this absolute bound for the known-integral test. The sine result has
 room below this conservative bound, much larger than rounding effects here.
 
-**Predict:** what should happen if we replace the bound with $10^{-12}$ while
-keeping $n=100$? A correct first-order rule should fail that stronger demand.
+**Explain:** a correct left-rectangle rule at $n=100$ fails a $10^{-12}$
+accuracy demand here. Why is that a tolerance problem rather than evidence
+of an implementation bug?
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Lab step 3 · Write the known-integral test
 
@@ -642,7 +789,7 @@ range before changing any code or tolerance.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Lab step 4 · Check invalid inputs
 
@@ -663,7 +810,7 @@ An error message is part of making the function usable.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Lab step 5 · Make a failure informative
 
@@ -681,7 +828,7 @@ prediction. The bound test alone does not establish convergence order.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## What the lab establishes
 
@@ -697,7 +844,7 @@ answer different questions.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Documentation for the next question
 
@@ -713,7 +860,7 @@ contract. Check the documented API before changing the implementation.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Exit check
 
@@ -726,7 +873,7 @@ contract. Check the documented API before changing the implementation.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Carry forward
 

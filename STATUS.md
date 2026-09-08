@@ -1,7 +1,7 @@
 # COMP 521 — status
 
-next: Instructor review and approval of the revised five-part Project 2 before public release.
-blocker: Project 2 publication awaits instructor approval. The earlier Project 1 fresh-account verification gate remains unverified.
+next: Review proposed Lecture 5 and 6 slide reductions with the instructor.
+blocker: The earlier Project 1 fresh-account verification gate remains unverified.
 due: 2026-09-08
 
 ## Current focus

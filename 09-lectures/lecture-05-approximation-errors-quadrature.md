@@ -14,7 +14,7 @@ kernelspec:
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Approximation, errors, and quadrature
 
@@ -26,9 +26,11 @@ accumulation. Today we connect these descriptions.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## The through-line
+
+**Jump to:** [Numbers](#l5-numbers) · [Taylor](#l5-taylor) · [Tolerances](#l5-tolerances) · [Quadrature](#l5-quadrature)
 
 :::{div}
 :class: lecture-through-line
@@ -44,7 +46,7 @@ State the approximation before interpreting its numerical error.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Today's question
 
@@ -61,47 +63,93 @@ By the end of class, you should be able to:
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
+(l5-numbers)=
 ## I · Numbers and operations have finite precision
-
-### Question
 
 What changes between a real number on paper and a number stored in a computer?
 
-### You will leave this section able to
+### Goals
 
 - distinguish representable values from rounded approximations;
 - relate absolute spacing to the scale of a number; and
 - separate representation and arithmetic errors from method truncation.
 
-**Through-line focus:** mathematical value $\rightarrow$ stored value and operation.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Predict · which sums are exactly represented?
 
-In Block 1, we saw that a mathematical expression, its Python implementation,
-and its floating-point result are distinct things.
+Python stores these numbers as binary fractions, built from
+$1/2, 1/4, 1/8, \ldots$. Some fit exactly; others must be rounded.
 
 **Predict:** will both of these print `True`?
 
 ```{code-cell} python
+:tags: [remove-output]
+
 import numpy as np
 
 print(0.1 + 0.2 == 0.3)
 print(0.5 + 0.25 == 0.75)
-print(f"0.1 + 0.2 = {0.1 + 0.2:.17g}")
 ```
 
-The second sum uses fractions with finite binary representations. The first
-sum rounds both represented inputs and the arithmetic result.
+`==` checks exact equality. It does not allow a small discrepancy.
 :::
 
+:::::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Explain · why False, then True?
+
+:::::{div}
+:class: lecture-two-column
+
+::::{div}
+:class: lecture-column
+
+### Why `False`?
+
+Just as $1/3=0.3333\ldots$ repeats in decimal, $0.1$ and $0.2$
+repeat in binary. Python stores rounded approximations.
+
+Adding them and rounding the result produces a slightly different stored
+number from entering `0.3` directly:
+
+```{code-cell} python
+:tags: [remove-output]
+
+print(0.1 + 0.2)  # 0.30000000000000004
+print(0.3)        # 0.3
+```
+
+`==` therefore returns `False`.
+::::
+
+::::{div}
+:class: lecture-column
+
+### Why `True`?
+
+These fractions have exact, finite binary representations:
+
+$$0.5=\frac12,\qquad 0.25=\frac14,$$
+
+$$0.75=\frac12+\frac14.$$
+
+Their representations and this addition require no rounding. The stored sum
+equals the stored value of `0.75` exactly.
+
+`==` therefore returns `True`.
+::::
+:::::
+:::::::
+
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Spacing depends on the scale of the number
 
@@ -121,7 +169,7 @@ scales of 1 and $10^8$?
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Three sources of numerical discrepancy
 
@@ -138,7 +186,7 @@ An accurate implementation can still calculate an inadequate model.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Reference · finite precision
 
@@ -153,26 +201,24 @@ An accurate implementation can still calculate an inadequate model.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
+(l5-taylor)=
 ## II · Taylor expansion describes a local approximation
-
-### Question
 
 How much of a function can we reconstruct from its value and derivatives at one point?
 
-### You will leave this section able to
+### Goals
 
 - construct constant, linear, and quadratic local approximations;
 - interpret the remainder and an order statement;
 - predict an error ratio under refinement; and
 - derive a forward difference and explain its rounding tradeoff.
 
-**Through-line focus:** local shape $\rightarrow$ approximation and omitted terms.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Build the polynomial one derivative at a time
 
@@ -197,7 +243,7 @@ through order $m+1$ on the interval between $x_0$ and $x_0+h$.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Why these coefficients reproduce the local shape
 
@@ -214,6 +260,13 @@ Choose its derivatives at $h=0$ to match those of $f$ at $x_0$:
 | Curvature | $P_m''(0)=f''(x_0)$ | $2a_2=f''(x_0)$ |
 | Derivative $k\le m$ | $P_m^{(k)}(0)=f^{(k)}(x_0)$ | $k!a_k=f^{(k)}(x_0)$ |
 
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Why divide by a factorial?
+
 Differentiating $h^k$ exactly $k$ times produces $k!$. That is why the
 coefficient is $f^{(k)}(x_0)/k!$.
 
@@ -222,7 +275,7 @@ Taylor's theorem tells us how to express the remaining difference.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Work out a local model for the exponential
 
@@ -230,8 +283,8 @@ For $f(x)=e^x$ at $x_0=0$, every derivative equals 1:
 
 $$P_0(h)=1,\qquad P_1(h)=1+h,\qquad P_2(h)=1+h+\frac{h^2}{2}.$$
 
-**Predict:** which approximation should be best near zero? Does that promise
-the same accuracy one unit away?
+**Compare the results:** which approximation is best at these offsets?
+Why does this not guarantee the same accuracy one unit away?
 
 ```{code-cell} python
 for step in (0.5, 0.1, 0.01):
@@ -243,7 +296,7 @@ for step in (0.5, 0.1, 0.01):
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## See the value, slope, and curvature
 
@@ -252,7 +305,7 @@ for step in (0.5, 0.1, 0.01):
 
 import matplotlib.pyplot as plt
 
-plt.rcParams.update({"font.size": 14})
+plt.rcParams.update({"font.size": 18})
 x_plot = np.linspace(-1.0, 1.0, 401)
 fig, ax = plt.subplots(figsize=(9, 4.8), layout="constrained")
 ax.plot(x_plot, np.exp(x_plot), color="#122b38", lw=3, label=r"$e^x$")
@@ -277,7 +330,7 @@ Each polynomial uses information at the same expansion point, $x_0=0$.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## The remainder tells us what we omitted
 
@@ -297,7 +350,7 @@ Taylor series to converge to use this local result.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## More terms: accuracy costs arithmetic
 
@@ -308,6 +361,13 @@ $$|e^h-P_m(h)|\le e^r\frac{h^{m+1}}{(m+1)!}.$$
 For a fixed positive $h$, adding terms reduces the truncation error in this
 example. Farther from the expansion point, more terms are needed for the same
 absolute accuracy.
+
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Read the plot · how many terms are enough?
 
 ```{code-cell} python
 :tags: [remove-input, remove-output]
@@ -342,7 +402,7 @@ but evaluating those terms requires additional operations.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Count the work before claiming a speed improvement
 
@@ -354,6 +414,13 @@ for k in range(1, m + 1):    # Add terms 1 through m; stop is excluded.
     term = term * h / k      # One multiplication and one division.
     total = total + term     # One addition accumulates the next term.
 ```
+
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Reference · operation count and accuracy
 
 | Degree $m$ | Terms retained | Arithmetic operations in this loop |
 | --- | --- | --- |
@@ -371,7 +438,7 @@ floating-point rounding can eventually limit improvement even here.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## An order predicts a refinement ratio
 
@@ -388,12 +455,12 @@ $$E(h)\approx C h^q,\qquad E(h/2)\approx \frac{E(h)}{2^q}.$$
 An $O(h^q)$ bound alone does not establish an exact slope. Cancellation can
 remove a leading term, and rounding can obscure it.
 
-**Predict:** if a first-order error is $0.02$, what error do you expect after
+**Apply the rule:** if a first-order error is $0.02$, what error do you expect after
 halving $h$, while the same leading term dominates?
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Taylor expansion gives a finite difference
 
@@ -413,7 +480,7 @@ $f''(x)\ne0$. We can calculate it without taking a limit in code.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Run · smaller steps eventually stop helping
 
@@ -428,10 +495,26 @@ forward = (np.exp(steps) - 1.0) / steps
 # np.abs takes each absolute value: compare every estimate with f'(0) = 1.
 derivative_errors = np.abs(forward - 1.0)
 
+```
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Read the finite-difference results
+
+```{code-cell} python
 # [::3] selects every third entry; zip pairs matching h, estimate, and error.
 for step, value, error in zip(steps[::3], forward[::3], derivative_errors[::3]):
     print(f"h={step:.0e}: derivative={value:.8f}, error={error:.3e}")
 ```
+
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Interpret · where does refinement stop helping?
 
 ```{code-cell} python
 :tags: [remove-input, remove-output]
@@ -456,7 +539,7 @@ floating-point implementation; the truncation prediction does not include roundi
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Why two small errors can produce a larger one
 
@@ -477,7 +560,7 @@ leaving the truncation order unchanged.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Reference · Taylor approximation and error order
 
@@ -492,26 +575,24 @@ leaving the truncation order unchanged.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
+(l5-tolerances)=
 ## III · Measure the error before deciding what is acceptable
-
-### Question
 
 What does it mean for a result to agree with a reference closely enough?
 
-### You will leave this section able to
+### Goals
 
 - compute absolute and relative discrepancies;
 - state the units and roles of `atol` and `rtol`;
 - handle a zero or very small reference deliberately; and
 - justify a tolerance independently of whether a test passes.
 
-**Through-line focus:** discrepancy $\rightarrow$ a stated comparison criterion.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Absolute and relative errors answer different questions
 
@@ -531,7 +612,7 @@ A tolerance is an acceptance criterion. It does not measure or reduce error.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## `atol` and `rtol` state two scales of agreement
 
@@ -554,31 +635,38 @@ each allowance separately.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## See the tolerance as an acceptance region
 
-**Predict:** with `atol=0.1` cm and `rtol=0.1`, how much discrepancy is
+**Read the figure:** with `atol=0.1` cm and `rtol=0.1`, how much discrepancy is
 allowed at a reference of zero? At a reference of 2 cm?
 
 :::{figure} reading-tolerance-acceptance.png
 :alt: A shaded acceptance region includes zero residual and widens from plus or minus 0.1 cm at a zero reference to plus or minus 0.4 cm at references of plus or minus 3 cm. Dashed lines mark the absolute allowance.
 :width: 850px
 
-NumPy accepts finite comparisons inside the shaded region, including its
-boundary. The allowed absolute discrepancy is 0.1 cm at zero and 0.3 cm at
-2 cm. These illustrative tolerances are choices for this comparison, not
-properties of floating-point arithmetic.
+NumPy accepts finite comparisons inside the shaded region, including its boundary.
 :::
 
 [Open full-size figure](reading-tolerance-acceptance.png).
+
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Interpret the tolerance
+
+At zero: $0.1$ cm. At 2 cm: $0.1+0.1(2)=0.3$ cm.
+These tolerances are comparison choices, not floating-point properties.
 
 **Explain:** does passing this comparison tell us whether a model describes
 its physical system correctly?
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Predict · the same absolute error at different scales
 
@@ -586,10 +674,28 @@ Suppose our stated criterion is relative agreement within one part in a million,
 with no separate absolute allowance.
 
 ```{code-cell} python
+:tags: [remove-output]
+
 reference = np.array([1.0, 1.0e6])
 computed = reference + 0.1
 rtol = 1.0e-6
 atol = 0.0
+
+print("absolute error:", np.abs(computed - reference))
+print("allowed error:", atol + rtol * np.abs(reference))
+print("accepted:", np.isclose(computed, reference, rtol=rtol, atol=atol))
+```
+
+**Predict:** which comparisons pass? State the allowed error for each reference.
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Results · the same absolute error at different scales
+
+```{code-cell} python
+:tags: [remove-input]
 
 print("absolute error:", np.abs(computed - reference))
 print("allowed error:", atol + rtol * np.abs(reference))
@@ -601,7 +707,7 @@ the tolerance change either computed value?
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Near zero, the absolute scale matters
 
@@ -621,7 +727,7 @@ The $10^{-8}$ cm here is a stated example target, not a universal recommendation
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## A default absolute tolerance can hide a large relative error
 
@@ -643,7 +749,7 @@ Source: [NumPy `isclose` documentation](https://numpy.org/doc/stable/reference/g
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Similar comparison functions have different rules
 
@@ -666,7 +772,7 @@ Sources: [NumPy](https://numpy.org/doc/stable/reference/generated/numpy.isclose.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Choose a tolerance from the claim
 
@@ -684,7 +790,7 @@ more accurate? What would you actually need to change?
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Reference · tolerances and error measurements
 
@@ -700,26 +806,24 @@ more accurate? What would you actually need to change?
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
+(l5-quadrature)=
 ## IV · Quadrature replaces an integral with a finite sum
-
-### Question
 
 How can local function approximations give a numerical value for an integral?
 
-### You will leave this section able to
+### Goals
 
 - distinguish the interval, panels, nodes, heights, and weights;
 - implement a callable-based left-rectangle rule;
 - connect local area error to composite error; and
 - compare computed errors with a ratio prediction and a bound.
 
-**Through-line focus:** local polynomial $\rightarrow$ panel areas $\rightarrow$ integral.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Approximate one panel, then add the areas
 
@@ -739,12 +843,12 @@ $$L_n=h\sum_{i=0}^{n-1}f(x_i).$$
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
-## Predict · which area is missing?
+## Explain · which area is missing?
 
 For $f(x)=\sin x$ on $[0,\pi/2]$, the function is increasing and the exact
-integral is 1. Predict the sign of $L_n-1$.
+integral is 1. Use the rectangles to explain the sign of $L_n-1$.
 
 ```{code-cell} python
 :tags: [remove-input, remove-output]
@@ -773,7 +877,7 @@ integral, which explains part of the underestimate.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Build the nodes before the function
 
@@ -795,17 +899,35 @@ $b-h$, not $b$.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## One function implements the rule
 
+```python
+width = (b - a) / n
+nodes = a + width * np.arange(n)
+return float(width * np.sum(f(nodes)))
+```
+
+1. Set the panel width.
+2. Sample the left endpoints.
+3. Add height × width.
+
+The complete function on the next slide also validates `n`.
+
+Contract: finite scalar limits; `f` accepts and returns finite arrays of matching
+shape. `n` is a positive integer; booleans are excluded.
+
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Reference · rectangle implementation
+
 ```{code-cell} python
 def rectangle(f, a, b, n):
-    """Left rectangles; first-order composite error for smooth f.
-
-    f accepts and returns arrays of matching shape.
-    n is a positive integer; a and b are finite scalar limits.
-    """
+    """Left rectangles; first-order composite error for smooth f."""
     # Reject Boolean values, then require a Python or NumPy integer.
     if isinstance(n, (bool, np.bool_)) or not isinstance(n, (int, np.integer)):
         raise ValueError("n must be a positive integer")
@@ -819,24 +941,35 @@ def rectangle(f, a, b, n):
 print(rectangle(np.sin, 0.0, np.pi/2, 100))
 ```
 
-Here the integrand contract also requires finite sampled values. Boolean
-values are excluded even though Python treats `bool` as a kind of integer.
 :::
 
-:::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:::::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Why use `isinstance` for input checks?
+
+:::::{div}
+:class: lecture-two-column
+
+::::{div}
+:class: lecture-column
 
 `isinstance(value, type)` asks whether a value belongs to a type, including its
 subclasses. A tuple of types accepts any of the listed types.
 
 ```{code-cell} python
-print(isinstance(6, int))                      # True: a Python integer.
-print(isinstance(6.0, int))                    # False: a float, even if whole.
-print(isinstance(np.int64(6), (int, np.integer)))  # True: a NumPy integer.
-print(isinstance(True, int))                   # True: bool subclasses int!
+print(isinstance(6, int))    # True
+print(isinstance(6.0, int))  # False
+integer_types = (int, np.integer)
+print(isinstance(np.int64(6), integer_types))
+print(isinstance(True, int)) # True: bool is an int
 ```
+
+
+::::
+
+::::{div}
+:class: lecture-column
 
 A panel count describes a number of intervals. The rule accepts positive
 integers and rejects `True`, `6.0`, and `6.5` under its stated contract.
@@ -846,10 +979,12 @@ The first check rejects unsuitable types; `n <= 0` rejects unsuitable values.
 `raise ValueError(...)` stops the calculation and tells the caller which
 input requirement was violated. This example checks `n`; finite limits and
 finite, matching integrand arrays remain caller preconditions here.
-:::
+::::
+:::::
+:::::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Passing a function is different from calling one
 
@@ -862,6 +997,14 @@ finite, matching integrand arrays remain caller preconditions here.
 The rule owns the grid. The callable owns the mathematical function.
 
 **Predict:** what must change inside `rectangle` to integrate $e^x$ instead?
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Reuse the rule with another function
+
+Nothing inside `rectangle` changes. Pass a different callable and interval.
 
 ```{code-cell} python
 print("sine:", rectangle(np.sin, 0.0, np.pi/2, 100))
@@ -870,7 +1013,7 @@ print("exponential:", rectangle(np.exp, 0.0, 1.0, 100))
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Taylor expansion explains the rectangle error
 
@@ -888,7 +1031,7 @@ For an increasing function, the missing leading area is positive.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## One-panel error and whole-interval error differ
 
@@ -904,7 +1047,7 @@ slide derives that bound for any continuously differentiable $f$ on $[a,b]$.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Derive a bound for any smooth integrand
 
@@ -923,6 +1066,13 @@ $$|E_i|\le\int_0^h|f(x_i+s)-f(x_i)|\,ds
 \le\int_0^h M_1s\,ds=\frac{M_1h^2}{2}.$$
 
 The factor $1/2$ is the area of a triangle with base $h$ and height $M_1h$.
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Sum the panel bounds
+
 Adding the absolute panel bounds gives
 
 $$\lvert I-L_n\rvert=\left|\sum_{i=0}^{n-1}E_i\right|
@@ -934,7 +1084,7 @@ test must also allow for relevant floating-point effects.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Choose a panel count from an error target
 
@@ -959,7 +1109,7 @@ a separate contribution to the total error budget.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Run · test the first-order prediction
 
@@ -980,7 +1130,7 @@ if the leading order stayed the same?
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Use the error bound to choose an absolute tolerance
 
@@ -993,6 +1143,13 @@ At $n=100$,
 
 $$\lvert I-L_{100}\rvert\le\frac{\pi^2}{8(100)}\approx0.01234.$$
 
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Check the sine estimate against its bound
+
 ```{code-cell} python
 n = 100
 error_bound = np.pi**2 / (8*n)
@@ -1001,18 +1158,29 @@ print("observed error:", abs(estimate - 1.0))
 print("theoretical bound:", error_bound)
 print("within bound:", np.isclose(estimate, 1.0, rtol=0.0, atol=error_bound))
 
-# Conversely, choose n to make the quadrature bound at most 0.01.
+```
+
+The measured error is below the bound; rounding is much smaller here.
+Passing checks this example, not the general theorem.
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Compute a sufficient panel count
+
+```{code-cell} python
+# Choose n to make the quadrature bound at most 0.01.
 target = 0.01
 required_n = max(1, int(np.ceil(np.pi**2 / (8*target))))
 print("sufficient panels for target 0.01:", required_n)  # 124 panels.
 ```
 
-The observed error has substantial room below the bound here; rounding is much
-smaller. Passing supports this bounded check. It does not prove the general rule.
+The ceiling rounds upward: 124 panels suffice for this quadrature bound.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Reference · left-rectangle quadrature
 
@@ -1028,7 +1196,7 @@ smaller. Passing supports this bounded check. It does not prove the general rule
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Same panels, different rectangle heights
 
@@ -1040,6 +1208,13 @@ is sampled, with $i=0,\ldots,n-1$:
 | Left | $a+ih$ | $L_n=h\sum_i f(a+ih)$ |
 | Right | $a+(i+1)h$ | $R_n=h\sum_i f(a+(i+1)h)$ |
 | Midpoint | $a+(i+\tfrac12)h$ | $M_n=h\sum_i f(a+(i+\tfrac12)h)$ |
+
+:::::
+
+:::::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Compare left, right, and midpoint rectangles
 
 ```{code-cell} python
 :tags: [remove-input, remove-output]
@@ -1077,7 +1252,7 @@ the sample changes their heights and the estimated area.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## What changes when we move the sample?
 
@@ -1088,12 +1263,27 @@ $$L_n\le I\le R_n,\qquad R_n-L_n=h[f(b)-f(a)].$$
 The sum in the difference telescopes: interior samples cancel, leaving only
 the endpoint values. For a decreasing function, the inequalities reverse.
 
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Predict · which side is the midpoint area on?
+
 The midpoint rule cancels the linear contribution about each panel's center,
 so its composite error is $O(h^2)$ when the second derivative is bounded.
 It need not lie on the same side of the integral as the left rule.
 
 **Predict:** sine is concave down on this interval. Does midpoint sampling
-underestimate or overestimate its area? A tangent at each midpoint lies above
+underestimate or overestimate its area?
+:::
+
+:::{div}
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
+
+## Explain the midpoint estimate
+
+A tangent at each midpoint lies above
 the curve, and its integral over the symmetric panel equals the midpoint
 rectangle area: here the midpoint rule overestimates.
 
@@ -1103,7 +1293,7 @@ improves the order.
 :::
 
 :::::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Documentation for the next question
 
@@ -1135,7 +1325,7 @@ discrepancy before changing either tolerance.
 :::::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Exit check
 
@@ -1149,7 +1339,7 @@ Use the mechanism in each answer, not only the name of the error.
 :::
 
 :::{div}
-:class: projector-lecture projector-slide lecture-scroll
+:class: projector-lecture projector-slide lecture-scroll lecture-teaching
 
 ## Carry forward
 

@@ -55,7 +55,7 @@ how do we decide whether its accuracy is sufficient?
 Read alongside the lectures: [numerical errors](../05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md),
 [Taylor series](../05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md),
 and [quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md).
-These methods support Project 2's integration and convergence investigations.
+These methods support [Project 2](../08-assessments/projects/project-2.md): integration and convergence investigations.
 
 ## Future course blocks
 

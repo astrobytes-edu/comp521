@@ -9,8 +9,9 @@ This section collects the pages that govern graded or submission-bearing work.
 Each linked page remains the authoritative source for its own requirements and
 criteria.
 
-- [Projects](projects/project-1.md) — the Project 1 brief, repository check,
-  and six-project sequence.
+- [Project overview](../01-course-info/projects.md) — the six-project sequence and grading criteria.
+- [Project 1](projects/project-1.md) — transit models and stellar properties.
+- [Project 2](projects/project-2.md) — numerical integration, convergence, and limb-darkened transits.
 - [ND Array Evidence Check](nd-array-evidence-check.md) — individual evidence
   that you can state axes and shapes, normalize an ND record, validate the
   result, and communicate one figure.
