@@ -307,7 +307,7 @@ article.content:has(.projector-lecture) .projector-lecture.projector-slide {
 .lecture-film { display:flex; flex-direction:column; align-items:center; }
 .lecture-film > p { margin:0; }
 .lecture-film img, .lecture-film video { width:min(100%,850px); max-height:390px; object-fit:contain; background:#f7fafc; }
-.lecture-film.player-ready > picture { display:none; }
+.lecture-film.player-ready > :is(picture, img, p:has(img)) { display:none; }
 .lecture-film > p:has(a) { order:2; font-size:.8em; }
 .lecture-film video { display:block; }
 .lecture-film > div { width:100%; display:flex; justify-content:center; }
@@ -319,7 +319,7 @@ article.content:has(.projector-lecture) .projector-lecture.projector-slide {
 @media print {
   .projector-lecture.lecture-78.projector-slide.lecture-teaching { min-height:0; padding:1rem; break-after:page; }
   .lecture-film video { display:none; }
-  .lecture-film.player-ready > picture { display:block; }
+  .lecture-film.player-ready > :is(picture, img, p:has(img)) { display:block; }
 }
 
 .projector-lecture.lecture-78 .lecture-film > p { margin:.25rem 0; }
