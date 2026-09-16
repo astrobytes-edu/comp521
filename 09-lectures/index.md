@@ -54,6 +54,8 @@ how do we decide whether its accuracy is sufficient?
 | [Lecture 7: Approximations, Adaptivity, and Roots](lecture-07-adaptivity-roots.md) | How do local models guide adaptive integration and root finding? | quadrature recall, Simpson error estimates, bisection bounds, and Newton updates |
 | [Lecture 8: Finite Differences and Root-Finding Tools](lecture-08-rootfinding-tools.md) | What evidence supports a solver’s stopping decision? | finite differences, secant updates, and a tested bisection module |
 
+**Watch and review:** [Block 2 animations](animations/animations.md) — integration geometry, adaptive refinement, and root-finding steps.
+
 Read alongside the lectures: [numerical errors](../05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md),
 [Taylor series](../05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md),
 [quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md),

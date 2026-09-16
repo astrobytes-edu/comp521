@@ -22,7 +22,7 @@ export default {
       return [{type:'div',class:'lecture-film',children:[
         {type:'paragraph',children:[{type:'image',url:poster,alt:data.body.trim()}]},
         {type:'paragraph',children:[{type:'link',url:video,children:[{type:'text',value:'Open or download this short animation'}]}]},
-        widget(vfile,'lecture-player.mjs',{description:data.body.trim()},id),
+        widget(vfile,'lecture-player.mjs',{description:data.body.trim(),mediaUrl:`${(process.env.BASE_URL || '').replace(/\/$/,'')}/media/${video.split('/').pop()}`},id),
       ]}];
     },
   }],

@@ -27,6 +27,7 @@ project:
   # site. Activities can therefore use one stable, base-path-aware Lite URL.
   static_files:
     - assets/jupyterlite
+    - 09-lectures/media
   plugins:
     - plugins/interactive-python/interactive-python.mjs
     - plugins/panel-pyodide/panel-pyodide.mjs
@@ -163,6 +164,15 @@ project:
             - file: 09-lectures/lecture-06-quadrature-modules-tests.md
             - file: 09-lectures/lecture-07-adaptivity-roots.md
             - file: 09-lectures/lecture-08-rootfinding-tools.md
+            - file: 09-lectures/animations/animations.md
+              children:
+                - file: 09-lectures/animations/animation-rectangles.md
+                - file: 09-lectures/animations/animation-trapezoids.md
+                - file: 09-lectures/animations/animation-simpson.md
+                - file: 09-lectures/animations/animation-adaptive-simpson.md
+                - file: 09-lectures/animations/animation-bisection.md
+                - file: 09-lectures/animations/animation-newton.md
+                - file: 09-lectures/animations/animation-secant.md
 
     - title: Practice Labs
       children:

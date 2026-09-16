@@ -72,6 +72,9 @@ jobs:
           # following render.
           myst build --html --execute
           cp -R assets/jupyterlite _build/html/jupyterlite
+          mkdir -p _build/html/media
+          cp -R 09-lectures/media/. _build/html/media/
+          python3 scripts/check_lecture_media.py
           python3 scripts/check_jupyterlite_bundle.py
 
       - uses: actions/configure-pages@v5

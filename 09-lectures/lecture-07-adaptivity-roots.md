@@ -142,6 +142,8 @@ Taylor approximation already supplied quadrature and slopes. We now use those id
 Left rectangles accumulate across the interval, then refine from four to eight to sixteen panels with running sums and actual error; Taylor explains local second-order and composite first-order truncation error.
 :::
 
+[Video page and explanation](animations/animation-rectangles.md)
+
 **Integration in action, then Taylor recall.** Interpret: why does an error of order $h^2$ on one panel give order $h$ over a fixed interval?
 :::::::
 
@@ -159,6 +161,8 @@ Left rectangles accumulate across the interval, then refine from four to eight t
 Trapezoidal areas accumulate and the partition refines, with running sums and actual error; comparing Taylor coefficients gives local third-order and composite second-order truncation error.
 :::
 
+[Video page and explanation](animations/animation-trapezoids.md)
+
 **Integration in action, then Taylor recall.** Interpret: which Taylor terms agree, and which coefficient first differs?
 :::::::
 
@@ -175,6 +179,8 @@ Trapezoidal areas accumulate and the partition refines, with running sums and ac
 
 Quadratic segments accumulate their areas across successive Simpson pairs; refinement changes the sum and actual error, then Taylor symmetry explains fifth-order pair error and fourth-order composite error.
 :::
+
+[Video page and explanation](animations/animation-simpson.md)
 
 **Integration in action, then Taylor recall.** Interpret: why is a rule built from a quadratic also exact for cubics? The pair width is $2h$.
 :::::::
@@ -345,6 +351,8 @@ This is **recursion**: repeat the task on smaller intervals and combine their re
 Adaptive Simpson fills coarse and refined quadratic areas, splits local budgets, and accumulates accepted corrected contributions with covered-interval actual error.
 :::
 
+[Video page and explanation](animations/animation-adaptive-simpson.md)
+
 **Integration in action.** Interpret: what travels down the recursion tree, and what comes back up? The error estimate is not an unconditional bound.
 :::::::
 
@@ -467,6 +475,8 @@ Check endpoint roots before requiring opposite signs. A sign change across a dis
 
 Three bisection decisions preserve opposite signs and halve the interval width.
 :::
+
+[Video page and explanation](animations/animation-bisection.md)
 
 **Interpret:** the bound after an update belongs to the **new bracket’s midpoint**. It does not apply to the old midpoint.
 
@@ -603,6 +613,8 @@ Calculate the next iterate. Does it move toward the positive root?
 
 Newton takes two updates from two: construct a tangent, find its zero, then reevaluate the original curve.
 :::
+
+[Video page and explanation](animations/animation-newton.md)
 
 **Interpret:** why must we return to the curve before building the next tangent?
 
@@ -825,6 +837,8 @@ The dimensionless plot uses $u=T/T_{\rm eq}$, where $T_{\rm eq}$ is the illustra
 
 For exp(4x), compare coarse and fine Simpson estimates, allocate half budgets on a split, and add accepted contributions.
 :::
+
+[Video page and explanation](animations/animation-adaptive-simpson.md)
 
 **Interpret:** why does the right half need more samples? This is estimator-guided allocation, not a universal guarantee. [Return to sample reuse](#reuse-samples-do-not-hide-failure).
 

@@ -219,6 +219,8 @@ Use the update to find $x_2$. Which two points will define the following line?
 A secant through the two retained points proposes a zero, then replaces the older point with a newly evaluated one.
 :::
 
+[Video page and explanation](animations/animation-secant.md)
+
 **Interpret:** which value is reused? Which point is discarded? Ordinary secant does not enforce opposite signs.
 :::::::
 

@@ -349,3 +349,9 @@ html.lecture-high-contrast .projector-lecture.lecture-78 h2,
 html.lecture-high-contrast .projector-lecture.lecture-78 h3,
 html.lecture-high-contrast .projector-lecture.lecture-78 figcaption { color:#000; }
 html.lecture-high-contrast .projector-lecture.lecture-78 pre { border:2px solid #000; }
+
+/* Standalone animation pages share the lecture player at reading width. */
+.animation-page .lecture-film { margin: 1.5rem 0; }
+.animation-page .lecture-film img, .animation-page .lecture-film video { width:100%; max-height:none; aspect-ratio:16/9; }
+.lecture-film .lecture-film-error { order:3; padding:.75rem; border-left:3px solid #a34b22; font-size:1rem; }
+.lecture-film .lecture-film-error[hidden] { display:none; }
