@@ -374,8 +374,8 @@ an arbitrary iterate is not the same thing as a sensitive root.
 
 | Problem | Symptom | Solution |
 |---------|---------|----------|
-| f'(x) $\approx$ 0 | Division by small number | Switch to bisection |
-| Bad initial guess | Divergence | Use bisection to bracket first |
+| f'(x) $\approx$ 0 | Division by small number | Use bisection if a valid sign-changing bracket is available |
+| Bad initial guess | Divergence | Find and verify a sign-changing bracket, then use bisection |
 | Oscillation | Repeating values | Detect cycles, switch methods |
 | Repeated root | Slow convergence | Use modified Newton: $x_{n+1} = x_n - m\frac{f(x_n)}{f'(x_n)}$ |
 

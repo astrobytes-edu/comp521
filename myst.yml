@@ -31,6 +31,7 @@ project:
     - plugins/interactive-python/interactive-python.mjs
     - plugins/panel-pyodide/panel-pyodide.mjs
     - plugins/interactive-lecture/interactive-lecture.mjs
+    - plugins/lecture-media/lecture-media.mjs
 
   numbering:
     heading_2: false
@@ -160,6 +161,8 @@ project:
           children:
             - file: 09-lectures/lecture-05-approximation-errors-quadrature.md
             - file: 09-lectures/lecture-06-quadrature-modules-tests.md
+            - file: 09-lectures/lecture-07-adaptivity-roots.md
+            - file: 09-lectures/lecture-08-rootfinding-tools.md
 
     - title: Practice Labs
       children:

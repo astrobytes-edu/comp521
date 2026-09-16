@@ -51,10 +51,13 @@ how do we decide whether its accuracy is sufficient?
 |---|---|---|
 | [Lecture 5: Approximation, Errors, and Quadrature](lecture-05-approximation-errors-quadrature.md) | How do Taylor approximations and floating-point arithmetic shape numerical error? | absolute and relative tolerances, rectangle quadrature, and an error bound |
 | [Lecture 6: Trapezoids, Simpson, Modules, and Tests](lecture-06-quadrature-modules-tests.md) | How do better local approximations and meaningful tests improve an integration method? | trapezoid and Simpson rules, reusable modules, and the sine rectangle lab |
+| [Lecture 7: Approximations, Adaptivity, and Roots](lecture-07-adaptivity-roots.md) | How do local models guide adaptive integration and root finding? | quadrature recall, Simpson error estimates, bisection bounds, and Newton updates |
+| [Lecture 8: Finite Differences and Root-Finding Tools](lecture-08-rootfinding-tools.md) | What evidence supports a solver’s stopping decision? | finite differences, secant updates, and a tested bisection module |
 
 Read alongside the lectures: [numerical errors](../05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md),
 [Taylor series](../05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md),
-and [quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md).
+[quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md),
+and [root finding](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md).
 These methods support [Project 2](../08-assessments/projects/project-2.md): integration and convergence investigations.
 
 ## Future course blocks

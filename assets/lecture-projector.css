@@ -259,3 +259,93 @@ article.content:has(.projector-lecture) .projector-lecture.projector-slide {
 
 .projector-lecture.lecture-teaching pre code { font-size: inherit; }
 .projector-lecture.lecture-teaching figure { margin-block: 0.75rem; }
+
+
+/* Block 2 teaching slides: keep figures and code legible in a projected frame.
+   Scope this to the revised decks; narrow screens retain natural scrolling. */
+.projector-lecture.lecture-78.lecture-teaching figure img {
+  max-height: 360px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin-inline: auto;
+}
+.projector-lecture.lecture-78.lecture-teaching pre {
+  font-size: clamp(calc(1.05rem * var(--lecture-font-scale, 1)),
+    calc(1.45vw * var(--lecture-font-scale, 1)),
+    calc(1.25rem * var(--lecture-font-scale, 1)));
+  line-height: 1.35;
+}
+.projector-lecture.lecture-78.lecture-teaching .lecture-two-column {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 760px) {
+  .projector-lecture.lecture-78.lecture-teaching .lecture-two-column {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .projector-lecture.lecture-78.lecture-teaching figure img { max-height: none; }
+}
+
+.projector-lecture.lecture-78.lecture-teaching pre code { font-size: inherit; }
+.projector-lecture.lecture-78.lecture-teaching figure { margin-block: 0.75rem; }
+
+/* Private override: a prediction occupies the frame before the answer starts. */
+.projector-lecture.lecture-78.projector-slide.lecture-teaching {
+  min-height: calc(100svh - 5rem);
+  scroll-margin-top: 1rem;
+  padding: 1.5rem 2.2rem 5.5rem;
+  display: block;
+  font-size: calc(1.22rem * var(--lecture-font-scale, 1));
+  line-height: 1.4;
+}
+.projector-lecture.lecture-78.lecture-teaching h2 { font-size: calc(2rem * var(--lecture-font-scale, 1)); margin-bottom: 1.25rem; }
+.projector-lecture.lecture-78.lecture-teaching figure img { max-height: 340px; }
+.projector-lecture.lecture-78.lecture-teaching figcaption { color:#344d5c; font-size:.92em; }
+.projector-lecture.lecture-78.lecture-teaching .lecture-two-column { gap:2rem; grid-template-columns:1fr 1fr; }
+.projector-lecture.lecture-78.lecture-teaching .lecture-column figure img { max-height:310px; }
+.projector-lecture.lecture-78.lecture-teaching pre { font-size:calc(1.07rem * var(--lecture-font-scale,1)); line-height:1.35; }
+.lecture-film { display:flex; flex-direction:column; align-items:center; }
+.lecture-film > p { margin:0; }
+.lecture-film img, .lecture-film video { width:min(100%,850px); max-height:390px; object-fit:contain; background:#f7fafc; }
+.lecture-film.player-ready > picture { display:none; }
+.lecture-film > p:has(a) { order:2; font-size:.8em; }
+.lecture-film video { display:block; }
+.lecture-film > div { width:100%; display:flex; justify-content:center; }
+.lecture-reference h2::before { content:'REFERENCE · '; color:#587181; font-size:.65em; letter-spacing:.05em; }
+@media(max-width:900px) {
+  .projector-lecture.lecture-78.lecture-teaching .lecture-two-column { grid-template-columns:1fr; }
+  .projector-lecture.lecture-78.projector-slide.lecture-teaching { padding-inline:1rem; }
+}
+@media print {
+  .projector-lecture.lecture-78.projector-slide.lecture-teaching { min-height:0; padding:1rem; break-after:page; }
+  .lecture-film video { display:none; }
+  .lecture-film.player-ready > picture { display:block; }
+}
+
+.projector-lecture.lecture-78 .lecture-film > p { margin:.25rem 0; }
+.projector-lecture.lecture-78 .lecture-film > video { width:min(100%,710px); max-height:400px; margin:0 auto; }
+.projector-lecture.lecture-78 .lecture-film > .myst-anywidget { display:none; }
+
+/* Keep interpretation beside the film, clear of the fixed slide controls. */
+@media (min-width:1100px) {
+  .projector-lecture.lecture-78.projector-slide:has(.lecture-film) {
+    display:flow-root;
+  }
+  .projector-lecture.lecture-78.projector-slide:has(.lecture-film) > .lecture-film {
+    float:left;
+    width:calc(75% - 1rem);
+  }
+  .projector-lecture.lecture-78.projector-slide:has(.lecture-film) > p {
+    margin-left:calc(75% + 1rem);
+  }
+  .projector-lecture.lecture-78 .lecture-film > video {
+    width:min(100%, calc((100svh - 17rem) * 16 / 9));
+    max-height:calc(100svh - 17rem);
+  }
+}
+
+html.lecture-high-contrast .projector-lecture.lecture-78 { color:#000; background:#fff; }
+html.lecture-high-contrast .projector-lecture.lecture-78 h2,
+html.lecture-high-contrast .projector-lecture.lecture-78 h3,
+html.lecture-high-contrast .projector-lecture.lecture-78 figcaption { color:#000; }
+html.lecture-high-contrast .projector-lecture.lecture-78 pre { border:2px solid #000; }

@@ -1,8 +1,8 @@
 # COMP 521 — status
 
-next: Review proposed Lecture 5 and 6 slide reductions with the instructor.
+next: Teach the expanded Lecture 7 and Lecture 8 root-finding module activity.
 blocker: The earlier Project 1 fresh-account verification gate remains unverified.
-due: 2026-09-08
+due: 2026-09-17
 
 ## Current focus
 
