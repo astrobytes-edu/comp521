@@ -297,7 +297,7 @@ size depends on the vertical scale; bracket width measures uncertainty in x.
 **Tangent line approximation**: Replacing a curve with its tangent line at a point, valid for small deviations.
 :::
 
-Newton's method uses calculus to accelerate convergence. The key insight: near any point, a smooth function looks approximately linear. We can follow the **tangent line** to where it crosses the axis, getting much closer to the root in a single step.
+Newton's method uses calculus to accelerate convergence. The key insight: near any point, a smooth function looks approximately linear. We follow the **tangent line** to where it crosses the axis. Sufficiently near a simple root, under suitable smoothness conditions, this can provide a much more accurate estimate. A tangent step from an arbitrary starting point need not improve the estimate.
 
 ### Mathematical Derivation
 
@@ -482,7 +482,7 @@ application's derivative calculation.
 
 | Problem | Symptom | Solution |
 |---------|---------|----------|
-| f(x₀) $\approx$ f(x_{1}) | Near-zero denominator | Perturb one point slightly |
+| f(x₀) $\approx$ f(x_{1}) | Near-zero denominator | Report an unusable slope; restart with justified points or use a bracketed safeguard |
 | Parallel secants | No convergence | Restart with different points |
 | Leaves bracket | May miss root | Combine with bisection (Brent's method) |
 
