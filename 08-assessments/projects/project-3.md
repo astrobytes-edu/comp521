@@ -96,7 +96,7 @@ this reading route:
    follow the introductory examples in **§§6.1–6.4**: construct an object with
    `__init__`, use `self`, call a method, and compute a derived `@property`.
    Focus on these examples rather than every exercise or extended example.
-2. Read **§§10.1–10.4** of
+2. Read **§§10.1 and 10.4** of
    [Designing Small Scientific Types](../../04-scientific-computing/10-advanced-oop.md)
    for state validation and tests of the object's contract.
 

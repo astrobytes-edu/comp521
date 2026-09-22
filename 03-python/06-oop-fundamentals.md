@@ -244,6 +244,7 @@ Neilson, and Litwin (2005), *The Mars Rover Spirit FLASH Anomaly*.
 
 ---
 
+(week5-class-basics)=
 ## 6.2 Classes and Objects: Building Blocks
 
 :::{margin}
@@ -251,25 +252,13 @@ Neilson, and Litwin (2005), *The Mars Rover Spirit FLASH Anomaly*.
 A blueprint or template for creating objects that defines attributes and methods.
 :::
 
-Before we dive into creating classes, let's understand why we need them beyond the simple example we just saw. As your programs grow, you face several challenges that classes elegantly solve:
+Functions and modules can organize reusable calculations and validate inputs. A class is useful when several operations share state and should enforce the same rules for constructing or updating it.
 
-**Namespace pollution**: Without classes, you might have functions like `calculate_star_luminosity()`, `calculate_planet_mass()`, `calculate_galaxy_distance()` - your namespace becomes cluttered with hundreds of related functions.
+**Organization:** modules group related functions; classes group the state and behavior of instances.
 
-:::{margin}
-**Object**
-A specific instance of a class containing data (attributes) and behavior (methods).
-:::
+**Consistency:** validation must be written explicitly in either design. A class can centralize it at construction and through controlled updates.
 
-**Data consistency**: When data and functions are separate, nothing prevents you from passing a galaxy's data to a star's calculation function, potentially causing silent errors or crashes.
-
-:::{margin}
-**Constructor**
-The `__init__` method that initializes new objects when they're created.
-:::
-
-**Code reusability**: With functions alone, similar behaviors must be duplicated. Every object type needs its own set of functions even when the logic is similar.
-
-**Conceptual clarity**: We naturally think of stars, planets, and galaxies as entities with properties and behaviors. Classes let us model this intuition directly in code.
+**Reuse:** functions already support reuse. Choose a class when a shared state contract makes the interface clearer, not merely because calculations are related.
 
 A **class** is a blueprint for creating objects. An **object** (or _instance_) is a specific realization of that blueprint. Think of a class as the concept "thermometer" and objects as specific thermometers in your lab.
 
@@ -321,6 +310,7 @@ print(f"Pressure: {pressure.value:.2e} +/- {pressure.error} dyne/cm^2")
 print(f"Pressure relative error: {pressure.relative_error():.3f}%")
 ```
 
+(week5-self)=
 ### Understanding `self`
 
 :::{margin}
@@ -523,6 +513,7 @@ The bundling of data and methods that operate on that data within a single unit 
 
 ---
 
+(week5-methods)=
 ## 6.3 Methods: Functions Attached to Objects
 
 :::{margin}
@@ -754,6 +745,7 @@ print(m31.separation(m33))  # Method for angular distance
 
 ---
 
+(week5-properties)=
 ## 6.4 Properties: Smart Attributes
 
 :::{margin}
@@ -766,6 +758,16 @@ A special attribute that executes code when accessed or set, created with the `@
 A property method that validates and sets attribute values, defined with `@attribute.setter`.
 :::
 
+<!-- Lecture-figure public copies retain their basenames. Source: _instructor/python/figures/generate_lecture910.py. -->
+:::{figure} ../assets/textbook-figures/l10-stale-state.svg
+:alt: A three-by-four rectangle initially has area twelve. After its width changes to six, a stored area of twelve is stale while a newly computed area is twenty-four.
+
+If a derived value is stored separately, an update can leave it inconsistent.
+Which values should the rectangle store?
+
+[Open full-size figure](../assets/textbook-figures/l10-stale-state.svg)
+:::
+
 Properties can enforce **declared invariants** through a controlled public interface. A circle's radius must be positive. A temperature can't go below absolute zero. A probability must be between 0 and 1. Without a controlled setter, any code could set `circle.radius = -5` and corrupt your simulation. With one, the class can reject values it explicitly recognizes as invalid:
 
 **What properties give you:**
@@ -776,6 +778,15 @@ Properties can enforce **declared invariants** through a controlled public inter
 4. **Invariant enforcement through the public interface** — Reject invalid
    assignments where the class controls updates; this is not a proof that every
    scientific assumption or internal mutation is valid
+
+:::{figure} ../assets/textbook-figures/l10-object-state.svg
+:alt: A Rectangle instance stores width three and height four. Reading its area property multiplies the current dimensions and returns twelve without storing a second area value.
+
+The rectangle stores validated dimensions and derives area when requested.
+The following circle applies the same idea to radius and area.
+
+[Open full-size figure](../assets/textbook-figures/l10-object-state.svg)
+:::
 
 ```{code-cell} python
 import math
@@ -869,6 +880,12 @@ class Temperature:
     @celsius.setter
     def celsius(self, value):
         """Set temperature in Celsius."""
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+        ):
+            raise ValueError("temperature must be a finite number")
         # Use kelvin setter for validation
         self.kelvin = value + 273.15
 
@@ -880,6 +897,12 @@ class Temperature:
     @fahrenheit.setter
     def fahrenheit(self, value):
         """Set temperature in Fahrenheit."""
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+        ):
+            raise ValueError("temperature must be a finite number")
         # Convert to Kelvin, using kelvin setter for validation
         self.kelvin = (value + 459.67) * 5/9
 

@@ -1,8 +1,8 @@
 # COMP 521 — status
 
-next: Verify the approved Lecture 8 deployment and public animation playback.
+next: Confirm the Week 5 deployment, then support the Project 2 deadline and Thursday Project 3 lab.
 blocker: The earlier Project 1 fresh-account verification gate remains unverified.
-due: 2026-09-17
+due: 2026-09-23
 
 ## Current focus
 

@@ -16,6 +16,27 @@ class begin in Block 3 and Project 3.
 :::
 <!-- prep-banner:end -->
 
+## Step acceptance, stopping, and accuracy
+
+Keep these three decisions separate:
+
+| Decision | Root finding | Quadrature |
+|:--|:--|:--|
+| Accept a proposal | A line search tests decrease; a hybrid tests a bracket-preserving proposal. | An adaptive method compares local estimates before accepting a panel. |
+| Stop the algorithm | Check the declared bracket, residual, or step criterion and iteration budget. | Check the allocated estimated-error budget and refinement limits. |
+| Trust the answer | Check physical root selection, conditioning, and independent cases. | Check sampling adequacy, smoothness assumptions, cancellation, and independent cases. |
+
+The [backtracking example](01-mod2-part1-root-finding.md#backtracking-newton)
+illustrates one accepted Newton step, not a complete solve. Line search does
+not preserve a bracket. Levenberg regularization changes the direction itself.
+These extensions are conceptual context; Project 3 still implements only its
+specified bisection, Newton, and secant methods.
+
+For nested calculations, an outer root solver acts on the function supplied by
+an inner calculation. Neither accepted steps nor smaller outer tolerances can
+remove a fixed quadrature or trajectory error. The investigation below gives
+a concrete example of that limit.
+
 ## Module Summary
 
 ```mermaid

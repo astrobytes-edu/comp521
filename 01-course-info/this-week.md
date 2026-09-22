@@ -9,48 +9,38 @@ subtitle: "COMP 521 | September 22–24, 2026"
 
 This week connects convergence and error estimates to the question: when should
 we trust a numerical answer? Tuesday surveys advanced numerical methods and
-examines what stopping criteria do and do not establish. Thursday introduces
+examines what stopping criteria do and do not establish. It also includes
+Project 2 work time. Thursday introduces
 a small scientific class, then begins Project 3 in lab.
 
-## Required readings
+## Reading route
 
-### Before Tuesday · Convergence and trustworthy answers
+### Prepare for Tuesday
 
-Read these sections of [Root Finding](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md):
+Read [convergence rates](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md#week5-convergence) and the [root-evidence investigation](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md#root-investigation). Be ready to distinguish residual, update, and root error.
 
-- **Comparison of Convergence Rates**: distinguish bracket contraction from
-  measured root error and convergence order.
-- **Hybrid Methods: preserve a bracket while using local models**: how
-  safeguarded methods combine bracketing with faster proposals.
-- **Investigation: which root estimate is justified?** and **Application: Units
-  and Scaling**: residuals, root errors, absolute and relative tolerances.
+### Review after Tuesday
 
-Revisit **Adaptive Methods and Richardson Extrapolation** in
-[Quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md),
-focusing on refinement-based error estimates and the example where sampling
-misses a feature. Gaussian quadrature is part of the in-class overview;
-its derivation is optional. No new integration algorithm is required for
-Project 3.
+- [Backtracking](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md#backtracking-newton): direction, distance, and acceptance.
+- [Jacobians and local fitting](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md#week5-jacobians): matrix dimensions, predicted changes, and damping.
+- [Safeguarded methods](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md#week5-hybrids): preserve a bracket while using local proposals.
+- [Adaptive estimates](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md#adaptive-methods), [Richardson extrapolation](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md#richardson-extrapolation), and [Gaussian quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md#method-4-gaussian): match the method to the available information.
 
-### Before Thursday · A small class with validated state
+Focus on the explanations and worked examples. Implementations of advanced methods are optional enrichment; Project 3 requires the basic solvers specified in its brief.
 
-1. Follow the introductory examples in **§§6.1–6.4** of
-   [OOP Fundamentals](../03-python/06-oop-fundamentals.md): `__init__`, `self`,
-   methods, and derived properties. Focus on these examples rather than every
-   exercise or extended example.
-2. Read **§§10.1–10.4** of
-   [Designing Small Scientific Types](../04-scientific-computing/10-advanced-oop.md)
-   for validation and tests of an object's contract.
+### Prepare for Thursday
 
-Inheritance, operator overloading, and advanced class machinery are not required.
-Dataclasses are optional. Review importing modules and running `python -m pytest`
-in [Functions and Modules](../03-python/05-python-functions-modules.md) if needed.
+1. Read [class basics and `self`](../03-python/06-oop-fundamentals.md#week5-class-basics), [methods](../03-python/06-oop-fundamentals.md#week5-methods), and [properties](../03-python/06-oop-fundamentals.md#week5-properties). Follow the introductory examples; extended examples and exercises are optional.
+2. Read the [type contract](../04-scientific-computing/10-advanced-oop.md#week5-type-contract) and [tests of that contract](../04-scientific-computing/10-advanced-oop.md#week5-type-tests). The example uses a dataclass; understand its stored fields and validation, but implementing a dataclass is optional. An ordinary class is sufficient for Project 3.
+
+Inheritance and operator overloading are not required. Review imports and `python -m pytest` in [Functions and Modules](../03-python/05-python-functions-modules.md) if needed.
 
 ## In class
 
-- **Tuesday, September 22:** advanced integration and root-finding overview;
-  convergence evidence; physical-root selection; tolerances and trustworthy answers.
-- **Thursday, September 24:** constructors, stored state, methods, and properties;
+- **Tuesday, September 22:** [Lecture 9](../09-lectures/lecture-09-trustworthy-answers.md) surveys methods including backtracking,
+  Levenberg–Marquardt, integration, and convergence evidence; then Project 2 work time. Advanced methods are conceptual context, not new
+  implementation requirements.
+- **Thursday, September 24:** [Lecture 10](../09-lectures/lecture-10-classes-lab.md) covers constructors, stored state, methods, and properties;
   a small validation example; then Project 3 lab.
 
 Bring your Python environment, Lecture 8 root-finding module and tests, and
@@ -59,6 +49,10 @@ returned history, and construct one valid `Star` while rejecting invalid state.
 If the solver is unfinished, establish that passing test first.
 
 ## Project work
+
+[Project 2 · Numerical Integration](../08-assessments/projects/project-2.md)
+is due **Wednesday, September 23, 11:59 pm PT**. Use Tuesday’s work time to
+resolve your first unchecked requirement and rerun the relevant tests.
 
 [Project 3 · Root Finding and Stellar Inference](../08-assessments/projects/project-3.md)
 is due **Monday, October 5, 11:59 pm PT**. Build reusable root finders, investigate Wien's law, compute

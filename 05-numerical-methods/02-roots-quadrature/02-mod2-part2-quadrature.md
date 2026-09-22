@@ -570,6 +570,28 @@ Instead of evaluating at equally-spaced points, Gaussian quadrature uses special
 
 This choice makes the rule exact for all cubic polynomials.
 
+<!-- Lecture-figure public copies retain their basenames. Sources: _instructor/python/figures/generate_lecture9_overview.py and generate_lecture9_gauss.py. -->
+::::{figure} figures/l9-gauss-nodes.svg
+:alt: On minus one to one, an endpoint trapezoid uses the two endpoints while two-node Gauss-Legendre uses plus and minus one over square root of three. Each displayed weight is one.
+
+Both rules evaluate twice. Their sample locations differ, and the Gaussian
+weights apply to function values rather than to fixed-width panels.
+
+[Open full-size figure](figures/l9-gauss-nodes.svg)
+::::
+
+For $f(x)=x^2$, the endpoint trapezoid gives $2$, while these Gaussian nodes
+give $1/3+1/3=2/3$, the exact integral on $[-1,1]$.
+
+::::{figure} figures/l9-gauss-area.svg
+:alt: Two panels for x squared on minus one to one. Endpoint trapezoid shading has area two; the actual area under the curve is two thirds, matched by the two Gaussian weighted samples of value one third each.
+
+The right-hand shading is the true integral, not a collection of Gaussian
+panels. Gaussian quadrature combines the two sampled values with their weights.
+
+[Open full-size figure](figures/l9-gauss-area.svg)
+::::
+
 ### In Practice
 
 NumPy provides the nodes and weights. This is an extension, not a Project 2
@@ -754,6 +776,15 @@ Under the leading-error model, the finer-grid estimate uses the factor $1/15$. C
 directly to `tol` uses the wrong scale and rejects intervals more often than the
 stated tolerance requires.
 
+::::{figure} figures/l9-local-refinement.svg
+:alt: Two partitions of a unit interval around a narrow positive peak. The upper partition samples uniformly; the lower one has more boundaries near the peak's known location.
+
+Local refinement spends more samples near a feature. This illustrative
+partition uses its known location; it is not an adaptive solver trace.
+
+[Open full-size figure](figures/l9-local-refinement.svg)
+::::
+
 For Project 2, the public interface is
 
 ```python
@@ -780,6 +811,41 @@ Python fails without explaining the numerical problem.
 Adaptive subdivision is not root finding. It bisects intervals to control an
 integral-error estimate; it does not require a sign-changing bracket or select a
 solution of $f(x)=0$. Root-finding methods and their contracts begin in Block 3.
+
+### Absolute and relative error budgets
+
+The Project 2 `tol` is an **absolute integral-error budget**, in units of
+$f(x)\,dx$. It is not the root-position tolerance used by a root finder.
+A more general integrator can compare an estimated error with
+
+$$\tau_I=\mathrm{atol}_I+\mathrm{rtol}_I|Q|,$$
+
+where $Q$ estimates the integral, $\mathrm{atol}_I$ carries the integral's
+units, and $\mathrm{rtol}_I$ is dimensionless. This explains a common library
+interface; it does not change Project 2's required signature.
+
+If positive and negative contributions nearly cancel, $|Q|$ may be tiny even
+when $\int|f|\,dx$ is large. A purely relative target based on $|Q|$ can then
+be unrealistic. Choose an absolute scale from the question and the uncertainty
+in the supplied function; do not promise relative digits that cancellation and
+round-off cannot support.
+
+Local budgets must also support the global claim. The Project 2 allocation
+`tol/2` makes child absolute budgets sum to their parent's budget. Giving every
+subinterval the full tolerance does not preserve that bound. Separately
+accepting relative errors against each subintegral can likewise overstate
+accuracy in a strongly cancelling sum. A general absolute/relative controller
+needs to account for accumulated error estimates and the total-result scale.
+
+The $1/15$ estimate assumes a resolved smooth-error regime. It estimates the
+error of the finer Simpson value; applying the correction does not turn the
+estimate into a rigorous error bound for every integrand. Check refinement,
+known breakpoints, analytic cases, and recursion failures. The missed-feature
+example below shows why tightening a tolerance alone may not help.
+
+See FNC's [adaptive integration chapter](https://fncbook.com/adaptive/) for the
+connection between extrapolation, error estimation, cancellation, and mixed
+absolute/relative criteria.
 
 :::{note} Two tests define the failure boundary
 Test `adaptive_simpson(np.sin, 0, np.pi / 2, tol=...)` against the exact value
@@ -870,6 +936,16 @@ This cancels the leading error term! For trapezoidal rule (p=2):
 $$I_{better} = \frac{4 I(h/2) - I(h)}{3}$$
 
 For a sufficiently smooth integrand on nested uniform grids, the trapezoid error expansion has even powers: after cancelling the $h^2$ term, the next term is $O(h^4)$. The general expansion written above alone would promise only $O(h^{p+1})$; the extra order comes from symmetry.
+
+::::{figure} figures/l9-richardson.svg
+:alt: Log-log plot of measured trapezoid and Richardson-combined absolute errors for integrating cosine from zero to one against sine of one. The combined error falls faster as coarse spacing decreases.
+
+For this smooth, resolved cosine example, the measured combination follows a
+steeper error trend. The plot is evidence for this example, not a universal
+error guarantee.
+
+[Open full-size figure](figures/l9-richardson.svg)
+::::
 
 ---
 

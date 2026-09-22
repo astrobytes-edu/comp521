@@ -164,6 +164,8 @@ project:
             - file: 09-lectures/lecture-06-quadrature-modules-tests.md
             - file: 09-lectures/lecture-07-adaptivity-roots.md
             - file: 09-lectures/lecture-08-rootfinding-tools.md
+            - file: 09-lectures/lecture-09-trustworthy-answers.md
+            - file: 09-lectures/lecture-10-classes-lab.md
             - file: 09-lectures/animations/animations.md
               children:
                 - file: 09-lectures/animations/animation-rectangles.md

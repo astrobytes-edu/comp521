@@ -174,7 +174,17 @@ So 33 interval halvings suffice, followed by the new midpoint, provided continui
 
 ### Implementation
 
-Here's a complete bisection implementation to understand the algorithm:
+This reading uses a compact reference interface to illustrate bracket reduction.
+It differs from the [Project 3 contract](../../08-assessments/projects/project-3.md):
+
+| Reading example | Project 3 |
+|:--|:--|
+| `bisection(..., tol=...)` returns one scalar | `bisect(..., atol=..., rtol=...)` returns `(root, n_iter, history)` |
+| An exact sampled root may be passed as `(x, x)` | Require `a < b`; retain exact sampled roots separately |
+| Absolute position tolerance only | Absolute plus relative position allowance |
+
+Use the project brief for submitted interfaces, history recording, and failure
+behavior. The example below is a reading reference, not a replacement module.
 
 ```{code-cell} python
 import math
@@ -470,6 +480,7 @@ it does not supply the constants, basin of convergence, or runtime of an
 application's derivative calculation.
 :::
 
+(week5-convergence)=
 ### Comparison of Convergence Rates
 
 | Method | Order | Error Reduction | Digits Gained/Iteration | Function Evals |
@@ -478,13 +489,35 @@ application's derivative calculation.
 | Secant | 1.618 | $\lvert e_{n+1}\rvert \approx C\lvert e_n\rvert^{1.618}$ | Correct-digit count grows by roughly 1.618 | 1 new, after initialization |
 | Newton | 2.0 | $e_{n+1} \approx Ce_n^2$ | Doubles | 2 (f and f') |
 
+The bracket bound can contract even when successive midpoint errors do not.
+The computed example below uses $f(x)=x^2-2$; it compares actual errors with
+the bisection bound, not with residuals or update sizes.
+
+<!-- Lecture-figure public copies retain their basenames. Sources: _instructor/python/figures/generate_lecture910.py, generate_lecture9_overview.py, and generate_lecture9_levenberg.py. -->
+::::{figure} figures/l9-convergence.svg
+:alt: Log plot for the root of x squared minus two. Bisection midpoint errors sometimes rise, while the dashed bracket-error bound halves each iteration; Newton errors fall rapidly until zero errors are omitted from the log axis.
+
+The measured midpoint error can rise while its guaranteed bracket bound falls.
+Zero error cannot be displayed on a logarithmic axis.
+
+[Open full-size figure](figures/l9-convergence.svg)
+::::
+
+There is no universal absolute cutoff for a "small" secant denominator:
+multiplying the equation by a constant scales that denominator while leaving
+the exact secant step unchanged. Compare evaluation uncertainty with the local
+function-value scale and inspect the proposed step. If function error dominates
+the difference, report an unreliable slope or use a justified safeguard.
+Project 3 requires explicit handling of zero denominators and nonfinite values;
+it does not prescribe an extra arbitrary near-zero threshold.
+
 ### Common Failure Modes and Fixes
 
 | Problem | Symptom | Solution |
 |---------|---------|----------|
 | f(x₀) $\approx$ f(x_{1}) | Near-zero denominator | Report an unusable slope; restart with justified points or use a bracketed safeguard |
 | Parallel secants | No convergence | Restart with different points |
-| Leaves bracket | May miss root | Combine with bisection (Brent's method) |
+| Leaves bracket | May miss root | Use a bracket-preserving hybrid; Brent is one specific algorithm, not any secant/bisection combination |
 
 :::{note} Check Your Understanding
 1. What is the main advantage of secant over Newton's method?
@@ -504,9 +537,157 @@ application's derivative calculation.
 
 ---
 
+(backtracking-newton)=
+## Backtracking: choose how far to follow Newton
+
+Newton proposes a direction $p=-f(x)/f'(x)$. A **line search** chooses a step
+length $\alpha$ along that direction:
+
+$$x_{\rm trial}=x+\alpha p,\qquad 0<\alpha\le1.$$
+
+The full Newton step uses $\alpha=1$. Backtracking starts there and shortens the
+step when it fails an acceptance test. This controls a local proposal; it does
+not preserve a root bracket or select a physically meaningful root.
+
+::::{figure} figures/l9-newton-proposal.svg
+:alt: Arctangent curve at x equals two with a tangent whose zero is near minus 3.536, far beyond the true root at zero.
+
+Newton finds the zero of a local tangent. That proposal still needs an actual
+function evaluation before it can be accepted.
+
+[Open full-size figure](figures/l9-newton-proposal.svg)
+::::
+
+### Define progress before testing a step
+
+For a scalar equation, use the merit function $\phi(x)=\tfrac12 f(x)^2$.
+With a differentiable $f$ and finite nonzero $f'(x)$, an exact Newton direction
+satisfies
+
+$$\phi'(x)p=f(x)f'(x)\left(-\frac{f(x)}{f'(x)}\right)=-f(x)^2<0$$
+
+at a nonroot. It is a descent direction locally, although a full step can
+increase the merit function. The Armijo sufficient-decrease test is
+
+$$\phi(x+\alpha p)\le\phi(x)+c\alpha\phi'(x)p
+=\phi(x)-c\alpha f(x)^2.$$
+
+Choose $0<c<1/2$ here; the example uses $c=10^{-4}$ and halves $\alpha$
+after each rejection. These are illustrative algorithm settings, not accuracy
+tolerances. Under the differentiability and descent assumptions, sufficiently
+small positive steps satisfy this test in exact arithmetic. A finite search
+budget, floating-point stagnation, or unreliable evaluations can still prevent
+an implementation from accepting a step.
+
+### Predict, compare, explain: one accepted step
+
+For $f(x)=\arctan x$, start at $x=2$. Predict whether the full Newton step reduces $|f|$, then compare these candidate trials (including an extra quarter-step for comparison). This is one step, not a complete solve.
+
+| Step fraction $\alpha$ | Trial $x+\alpha p$ | Residual magnitude | Armijo test |
+|:--|:--|:--|:--|
+| $1$ | $-3.535744$ | $1.295169$ | Reject |
+| $1/2$ | $-0.767872$ | $0.654841$ | Accept |
+| $1/4$ | $0.616064$ | $0.552148$ | Accept |
+
+::::{figure} figures/l9-backtracking.svg
+:alt: Merit function along the Newton direction from x equals two. The full step fails the sufficient-decrease line; the half-step passes it, so backtracking accepts that first passing trial.
+
+The acceptance test compares the actual merit value with the sufficient-decrease
+threshold. The quarter-step is shown only to compare candidates; an ordinary
+backtracking search would stop at the accepted half-step.
+
+[Open full-size figure](figures/l9-backtracking.svg)
+::::
+
+Backtracking accepts the first passing trial, not necessarily the best point on the line. Explain why an accepted step neither identifies a root nor preserves a bracket. No line-search implementation is assigned.
+
+The full step reaches approximately −3.536 and increases the residual
+magnitude. One halving reaches approximately −0.768 and satisfies sufficient
+decrease. This is progress, not a converged root. A complete solver still needs
+an outer iteration budget, stopping rules, diagnostics, and a physical-domain
+check. Domain-restricted functions also need an explicit feasible-trial policy;
+this example does not turn arbitrary domain errors into successful steps.
+
+:::{warning} Decrease is not a root certificate
+A line search can approach a stationary point of $\phi$ with $f\ne0$.
+For example, $f(x)=x^2+1$ has no real root, although $\phi$ has a minimum at
+zero. Small accepted steps can indicate stagnation. Inspect the defining
+equation and its sensitivity, not just whether steps were accepted. A computed
+zero can arise from underflow here as in the other methods.
+:::
+
+### Three different ways to control a proposal
+
+| Approach | What it controls | What it does not establish by itself |
+|:--|:--|:--|
+| Backtracking line search | Distance along a direction, using sufficient decrease | A root-error bound, a bracket, or the physical root |
+| Bracket-preserving hybrid | Proposed steps plus reliable bracket reduction | Continuity or correctness of supplied function signs |
+| Levenberg regularization | The linear system that defines the direction | A zero residual or a globally successful solve |
+
+FNC's [quasi-Newton chapter](https://fncbook.com/quasinewton/) develops
+Levenberg's method for nonlinear systems: regularization changes the proposed
+step, and residual reduction governs acceptance. It is related to step control
+but is not the scalar backtracking algorithm above. For a production
+Newton/line-search interface, see [PETSc](https://petsc.org/release/manualpages/SNES/SNESNEWTONLS/).
+Levenberg's method is a preview for later nonlinear least squares, not another
+algorithm to implement this week.
+
+(week5-jacobians)=
+### Jacobians and local fitting · Week 5 companion
+
+For observations $y_i$ and a model $g(t_i;\theta)$, define residuals $r_i=g(t_i;\theta)-y_i$. With $m$ observations and $n$ parameters, the Jacobian $J$ has shape $m\times n$ and entries $J_{ij}=\partial r_i/\partial\theta_j$. Each row describes one observation; each column describes sensitivity to one parameter.
+
+::::{figure} figures/l9-fit-residuals.svg
+:alt: Constructed observations beside a candidate exponential decay curve. Vertical segments show each prediction minus observation and therefore the residuals used in the fit.
+
+Changing either parameter changes several residuals at once. These points are
+constructed for illustration, not measured data or the three-point Jacobian
+example that follows.
+
+[Open full-size figure](figures/l9-fit-residuals.svg)
+::::
+
+For a small parameter update $p$, $r(\theta+p)\approx r(\theta)+Jp$. The product predicts a **change**, not the new residual itself.
+
+For $g(t;A,k)=Ae^{-kt}$ at $A=2$, $k=\ln2$, and $t=0,1,2$ (scaled, dimensionless coordinates),
+$$J=\begin{bmatrix}1&0\\1/2&-1\\1/4&-1\end{bmatrix}.$$
+The update $p=(0.10,0.02)^{\mathsf T}$ predicts changes $(0.10,0.03,0.005)^{\mathsf T}$. Actual changes are approximately $(0.10,0.029209,0.004414)^{\mathsf T}$. Reducing the step by ten reduces the largest discrepancy by about 99: the linear approximation improves locally.
+
+The least-squares loss is $\Phi=\tfrac12\lVert r\rVert^2$, where $\lVert r\rVert^2=\sum_i r_i^2$. Transpose, written $\mathsf T$, exchanges rows and columns. The loss gradient (its parameter partial derivatives) is $J^{\mathsf T}r$.
+
+Gauss–Newton minimizes $\tfrac12\lVert r+Jp\rVert^2$. A Levenberg step adds a penalty on the current update:
+$$q_\lambda(p)=\tfrac12\lVert r+Jp\rVert^2+\tfrac\lambda2\lVert p\rVert^2.$$
+Setting $\nabla_p q_\lambda=J^{\mathsf T}(r+Jp)+\lambda p=0$ gives
+$$(J^{\mathsf T}J+\lambda I)p=-J^{\mathsf T}r.$$
+Here $I$ is the identity matrix and $\lambda>0$ controls damping. The parameters must be scaled sensibly; Marquardt variants incorporate scaling. This is a penalty on an update, not a fixed prior on the parameters. Check actual loss reduction before accepting a trial. The displayed normal equations explain the method; production solvers can use QR or SVD to avoid the conditioning penalty of explicitly forming $J^{\mathsf T}J$.
+
+::::{figure} figures/l9-levenberg-damping.svg
+:alt: Contours of a constructed exponential fit's local squared residual. A cross marks the local-model minimum; arrows from zero show alternative damped proposals, not successive iterations. Larger damping shortens and rotates the proposal.
+
+Contours show the **local** squared-residual model in scaled parameter updates.
+Each arrow starts at zero and represents a different damping choice, not the
+next point of one trajectory. Actual loss must be checked separately.
+
+[Open full-size figure](figures/l9-levenberg-damping.svg)
+::::
+
+In regression and calibration, noisy data generally cannot all have zero residual. This differs from solving a square system $F(u)=0$, where a nonsingular (invertible) Jacobian gives the Newton proposal $J_Fp=-F$. Damping can control a poor step but cannot create information absent from the observations. For example, early observations of a decay curve weakly constrain $k$ because $\partial g/\partial k=-At e^{-kt}$ is small near $t=0$.
+
+**Explain:** why can a tiny damped step coexist with a large residual? No implementation of these advanced fitting methods is required for Project 3.
+
+(week5-hybrids)=
 ## Hybrid Methods: preserve a bracket while using local models
 
 A safeguarded method uses interpolation or a derivative when the proposed step is acceptable and falls back to bracket reduction when it is not.
+
+::::{figure} figures/l9-bracket-safeguard.svg
+:alt: Arctangent curve with a sign-changing bracket from minus one to two. The Newton proposal from two falls outside it; midpoint one half stays inside and supplies a bracket-reducing fallback.
+
+The fallback protects the sign-changing bracket. It does not claim that every
+accepted local proposal is a root.
+
+[Open full-size figure](figures/l9-bracket-safeguard.svg)
+::::
 
 ### Brent's Method
 
@@ -579,7 +760,7 @@ answer. Stagnation can make it zero even when a target remains unmet.
 <!-- root-data:start -->
 The final recorded rows from the cubic comparison are:
 
-| Method | $|f(x)|$ | Last recorded step | Actual position error | $f$ calls | $f'$ calls | Stop |
+| Method | $\lvert f(x)\rvert$ | Last recorded step | Actual position error | $f$ calls | $f'$ calls | Stop |
 |---|---|---|---|---|---|---|
 | bisection | 6.168e-10 | 5.821e-11 | 5.526e-11 | 36 | 0 | width tolerance |
 | newton | 8.882e-16 | 4.441e-16 | 0.000e+00 | 6 | 6 | floating-point stagnation |
@@ -741,9 +922,11 @@ For an ellipse, $0\le e<1$, so $f'(E)=1-e\cos E\ge1-e>0$. The derivative can bec
 
 ### Initial Guess Strategy
 
-Good initial guesses are crucial:
-- For $e < 0.8$: Use $E_0 = M$ (nearly circular)
-- For $e \geq 0.8$: Use $E_0 = \pi$ (highly eccentric)
+One heuristic on a reduced mean-anomaly interval is to start with $E_0=M$
+for $e<0.8$ and $E_0=\pi$ otherwise. The value 0.8 is not a convergence
+threshold, and the first regime is not uniformly nearly circular. Compare
+both guesses over the project's sweep and report failures and iteration counts.
+If reducing $M$ modulo $2\pi$, restore its branch in the returned $E$.
 
 ### Convergence Analysis
 
@@ -794,7 +977,9 @@ print(find_brackets(lambda x: x - 0.5, 0.0, 1.0))
 
 A scan can miss an even-multiplicity root between samples or several crossings
 within one cell. A sampled zero is reported once, as a zero-width pair; the
-bisection function accepts it. Neither a sign scan nor bisection proves
+reading's `bisection` accepts it. Project 3's `bisect` requires `a < b`,
+so retain these sampled roots separately and send only positive-width brackets
+to that solver. Neither a sign scan nor bisection proves
 continuity or verifies that a computed zero did not arise from underflow.
 
 
@@ -807,8 +992,8 @@ Common root-finding bugs and their diagnosis:
 | Symptom | Likely Cause | Fix |
 |---------|-------------|-----|
 | Bisection won't start | Same sign at endpoints | Scan for sign changes first |
-| Newton diverges | Poor initial guess or $f'(x) \approx 0$ | Use bisection first to bracket |
-| Secant oscillates | Nearly parallel secant lines | Check $\|f(x_1) - f(x_0)\|$ threshold |
+| Newton diverges | Poor initial guess or a small derivative | Find and verify a sign-changing bracket first, then apply bisection; a line search is another step-control option with different guarantees |
+| Secant oscillates | An unreliable slope or poor starting points | Inspect the function-value scale, separation of inputs, and proposed step; reject zero/nonfinite denominators or unusable updates, then restart or safeguard |
 | Wrong root found | Multiple roots in region | Narrow search interval |
 | No progress | No representable interior point or unmet iteration cap | Report failure; reassess position tolerance and scaling |
 | No convergence | Discontinuous function | Check function continuity |

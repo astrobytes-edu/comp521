@@ -5,7 +5,7 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Project 2 — Numerical Integration
 
-**Due Monday, September 21, 11:59 pm PT** · pairs allowed; each student submits
+**Due Wednesday, September 23, 11:59 pm PT** · pairs allowed; each student submits
 independently written code and explanations.
 
 ## What you are building

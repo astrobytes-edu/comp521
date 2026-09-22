@@ -84,7 +84,7 @@ Before starting, you should be able to define a function and read a traceback
 
 :::{note} Core route through this chapter
 
-Read Sections 10.1–10.4 in order. The **Deep Dive** preserves advanced
+For the complete chapter, read Sections 10.1–10.4 in order. For Week 5, follow the narrower route on This Week: the opening example, 10.1, and 10.4. Dataclass syntax appears in these examples; using a dataclass in Project 3 is optional. An ordinary class with a tested contract is sufficient. The **Deep Dive** preserves advanced
 research-software ideas for later lookup; it is not a second required route.
 :::
 
@@ -101,6 +101,7 @@ stated unit.* The type cannot establish calibration, physical adequacy, or
 interchangeability of arbitrary units. Those are separate claims with separate
 evidence.
 
+(week5-type-contract)=
 ## 10.1 From a record to a contract
 
 A dictionary is often the right starting point:
@@ -283,6 +284,7 @@ or test failure. That is useful evidence, but it is not a complete provenance
 record. A production data product may also need timestamps, configuration,
 versions, uncertainties, and links to its raw inputs.
 
+(week5-type-tests)=
 ## 10.4 Test the type's contract
 
 Chapter 9 established that a passing test demonstrates stated behavior under

@@ -13,7 +13,7 @@ function activeAct(slides, currentIndex) {
     const title = slides[index].querySelector("h2")?.textContent.trim().replace("¶", "") || "";
     if (/^[IVX]+ · /.test(title)) return title;
   }
-  return "Introduction";
+  return slides[currentIndex].querySelector("h2")?.textContent.trim().replace("¶", "") || "Lecture";
 }
 
 export default {

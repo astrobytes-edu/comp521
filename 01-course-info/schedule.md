@@ -85,7 +85,7 @@ the whole day after class as well. From Project 2 on, deadlines are Mondays.
 
 ## Block 2 · Project 2 — Numerical Integration
 
-*Assigned Tue Sep 8 · Due Mon Sep 21*
+*Assigned Tue Sep 8 · Due Wed Sep 23*
 
 ### Week 3 — Sep 8, 10 · Discrete computing and visualization
 
@@ -107,7 +107,7 @@ the source of every method in this course
 estimation and convergence order; verifying you achieve the expected order
 
 **Due** — **Project 2** (integration library + exoplanet transit model +
-analysis notebook), Mon **Sep 21**
+analysis notebook), Wed **Sep 23**
 
 ## Block 3 · Project 3 — Root Finding & Stellar Inference
 
