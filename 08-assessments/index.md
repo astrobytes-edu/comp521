@@ -12,6 +12,8 @@ criteria.
 - [Project overview](../01-course-info/projects.md) — the six-project sequence and grading criteria.
 - [Project 1](projects/project-1.md) — transit models and stellar properties.
 - [Project 2](projects/project-2.md) — numerical integration, convergence, and limb-darkened transits.
+- [Project 3](projects/project-3.md) — root finding, orbital geometry, transit contacts, and stellar temperature zones.
+- [Project 3 Science Background](projects/project-3-science-background.md) — supporting physics and diagrams; no additional submission.
 - [Growth Reflections](../01-course-info/growth-reflections.md) — individual
   reflection prompts and submission expectations.
 - [Grading](../01-course-info/grading.md) — weights, scale, and submission

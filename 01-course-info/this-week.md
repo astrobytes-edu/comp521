@@ -1,63 +1,83 @@
 ---
 title: "This Week"
-subtitle: "COMP 521 | September 8–10, 2026"
+subtitle: "COMP 521 | September 22–24, 2026"
 ---
 
 # This Week
 
-## Week 3 · Numerical approximation and integration
+## Week 5 · Trustworthy answers and scientific classes
 
-This week connects Taylor approximation and floating-point error to numerical
-integration. Next week continues with adaptive quadrature and a conceptual
-Monte Carlo introduction in Lecture 7, then introduces root finding in Lecture 8.
-Both meetings include time for labs and Project 2 work.
+This week connects convergence and error estimates to the question: when should
+we trust a numerical answer? Tuesday surveys advanced numerical methods and
+examines what stopping criteria do and do not establish. Thursday introduces
+a small scientific class, then begins Project 3 in lab.
 
 ## Required readings
 
-### Foundations · Lecture 5
+### Before Tuesday · Convergence and trustworthy answers
 
-- [Finite differences](../05-numerical-methods/01-foundations/01-mod1-part1-finite-differences.md): how a finite calculation approximates a derivative.
-- [Numerical errors](../05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md): representation, rounding, truncation, absolute and relative error, and `atol`/`rtol`.
-- [Taylor series](../05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md): local polynomials, remainders, and error order.
+Read these sections of [Root Finding](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md):
 
-### Quadrature and implementation · prepare for Lecture 6
+- **Comparison of Convergence Rates**: distinguish bracket contraction from
+  measured root error and convergence order.
+- **Hybrid Methods: preserve a bracket while using local models**: how
+  safeguarded methods combine bracketing with faster proposals.
+- **Investigation: which root estimate is justified?** and **Application: Units
+  and Scaling**: residuals, root errors, absolute and relative tolerances.
 
-Read the following sections of [Quadrature — Discrete Sums, Error, and Adaptation](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md):
+Revisit **Adaptive Methods and Richardson Extrapolation** in
+[Quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md),
+focusing on refinement-based error estimates and the example where sampling
+misses a feature. Gaussian quadrature is part of the in-class overview;
+its derivation is optional. No new integration algorithm is required for
+Project 3.
 
-- **Building a reusable numerical method** and **Methods 1–3**: callable interfaces, left rectangles, trapezoids, Simpson's rule, and their error assumptions.
-- **Adaptive Methods and Richardson Extrapolation**: estimating error from refinement, deciding where to subdivide, and the limits of an estimator.
-- **Investigation: why did the expected order disappear?**: smoothness, convergence evidence, and known breakpoints.
-- **Project 2 applications: endpoints and branch points**: the removable Planck endpoint and the radial transit formulation. The change-of-variables subsection is optional enrichment.
+### Before Thursday · A small class with validated state
 
-Review **5.4 Modules as Reusable Scientific Boundaries** and the testing material
-in **5.5 Documentation, Tests, and Public Type Hints** in
-[Functions and Modules](../03-python/05-python-functions-modules.md).
-Focus on importing functions, organizing test files, running `python -m pytest`,
-and choosing justified numerical tolerances.
+1. Follow the introductory examples in **§§6.1–6.4** of
+   [OOP Fundamentals](../03-python/06-oop-fundamentals.md): `__init__`, `self`,
+   methods, and derived properties. Focus on these examples rather than every
+   exercise or extended example.
+2. Read **§§10.1–10.4** of
+   [Designing Small Scientific Types](../04-scientific-computing/10-advanced-oop.md)
+   for validation and tests of an object's contract.
 
-Gaussian quadrature, Monte Carlo, and the spectrum application are optional
-reading this week. Monte Carlo is a conceptual comparison, not an assigned
-Project 2 implementation or deliverable.
+Inheritance, operator overloading, and advanced class machinery are not required.
+Dataclasses are optional. Review importing modules and running `python -m pytest`
+in [Functions and Modules](../03-python/05-python-functions-modules.md) if needed.
 
 ## In class
 
-- [Lecture 5 · Approximation, Errors, and Quadrature](../09-lectures/lecture-05-approximation-errors-quadrature.md)
-- [Lecture 6 · Trapezoids, Simpson, Modules, and Tests](../09-lectures/lecture-06-quadrature-modules-tests.md)
+- **Tuesday, September 22:** advanced integration and root-finding overview;
+  convergence evidence; physical-root selection; tolerances and trustworthy answers.
+- **Thursday, September 24:** constructors, stored state, methods, and properties;
+  a small validation example; then Project 3 lab.
 
-Use the lecture pages for the class examples and reference tables; use the
-readings for the full explanations. Bring your Python environment ready for
-the rectangle-rule lab and numerical tests.
+Bring your Python environment, Lecture 8 root-finding module and tests, and
+Project 1–2 code. In lab, aim to run a passing known-root test, explain the
+returned history, and construct one valid `Star` while rejecting invalid state.
+If the solver is unfinished, establish that passing test first.
 
 ## Project work
 
-Read [Project 2 · Numerical Integration](../08-assessments/projects/project-2.md),
-including its learning outcomes, five-part overview, interfaces, and required
-evidence. Start by organizing your modules and tests, then build and check the
-fixed quadrature rules. The project brief governs requirements and submission.
+[Project 3 · Root Finding and Stellar Inference](../08-assessments/projects/project-3.md)
+is due **Monday, October 5, 11:59 pm PT**. Build reusable root finders, investigate Wien's law, compute
+Keplerian positions and transit contacts, and use a `Star` class for simplified
+equilibrium-temperature zones. The project brief governs requirements and
+submission; use the [course project rubric](projects.md#how-each-project-is-graded)
+for the assessment dimensions.
+
+Use the [Science Background](../08-assessments/projects/project-3-science-background.md)
+for the spectral-density explanation, worked orbital example, and contact diagrams.
+Read those sections alongside the corresponding project parts.
+
+By the end of this week, aim to finish Parts 1–2 and begin Part 3. Test the root
+library before using it for orbital calculations. These are pacing milestones;
+the required submission is defined in the project brief.
 
 ## Looking ahead
 
-Next week introduces root finding ahead of Project 3, with time for labs and
-continued Project 2 work. The
-[root-finding reading](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md)
-is available for an early look; it is not required preparation for this week.
+Next week connects Kepler geometry to contact finding. Check the circular orbit
+against Project 1 before finding eccentric transit contacts. Lab time will
+support contact-duration comparisons, stellar temperature round trips, and a
+clean notebook run before submission.

@@ -189,6 +189,8 @@ project:
               file: 01-course-info/projects.md
             - file: 08-assessments/projects/project-1.md
             - file: 08-assessments/projects/project-2.md
+            - file: 08-assessments/projects/project-3.md
+            - file: 08-assessments/projects/project-3-science-background.md
         - file: 01-course-info/growth-reflections.md
         - file: 01-course-info/grading.md
 
