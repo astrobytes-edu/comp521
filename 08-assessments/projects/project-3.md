@@ -492,7 +492,7 @@ periastron orientation remain fixed as eccentricity changes.
 
 ## Part 5 — Stars, and where the algebra wins
 
-Build this interface in `star.py`:
+Implement the complete `Star` class in `star.py` with this interface:
 
 ```python
 class Star:
@@ -504,11 +504,18 @@ class Star:
     def habitable_zone(self, albedo=0.3): ...   # (inner, outer) in AU
 ```
 
-Copy your tested Project 1 `luminosity` function into `star.py`; call
-`luminosity(radius, teff, solar=True)` from the property. Recover the Project 1
-solar result with the same constants. Require finite, positive radius and
-temperature, and derive properties from that state. Validate later changes
-too, or make the state read-only.
+Store readable `name`, `radius`, and `teff` attributes; radius is in solar radii
+and temperature is in kelvin. Require finite, positive radius and temperature
+at construction. If those values can change later, validate each new value; a
+read-only design is also acceptable. Compute `luminosity` and `lambda_max` from
+the current state rather than storing separate copies.
+
+Reuse your tested Project 1 Stefan–Boltzmann calculation. You may copy its
+`luminosity(radius, teff, solar=False)` function into `star.py`, import it from a
+submitted module, or refactor it while preserving its units and behavior. The
+`Star.luminosity` property must return $L_\odot$ from the object's current
+radius and temperature. Check that the Sun gives the same result as in
+Project 1.
 
 Use $1\ \mathrm{AU}=1.495979\times10^{13}$ cm and
 $R_\odot=6.957\times10^{10}$ cm.
