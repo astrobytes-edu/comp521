@@ -21,6 +21,11 @@ Commit, push, and publication also require explicit authorization.
 This rule takes precedence over every autonomy, default-to-action, ambiguity,
 workflow, and skill instruction below. Anna retains final approval of her class.
 
+The public repository and `_instructor/` are separate Git repositories. Keep
+private teaching code, solutions, notes, and planning out of public commits and
+site paths. Push the private repository only with explicit authorization and a
+configured private remote.
+
 ## Assessment boundary
 
 Students do not self-grade their projects. The ND Array Evidence Check is not
@@ -74,7 +79,7 @@ reasonable assumption as authorization to edit.
 
 ## Ambiguity handling (default behavior)
 
-If it’s not high-risk:
+Within an approved scope, for routine implementation choices:
 
 * pick the best reasonable assumption
 * proceed
@@ -112,14 +117,6 @@ If it’s not high-risk:
 2. Propose the smallest coherent change-set and wait for explicit approval before editing.
 3. Validate: run tests/linters/build; if none exist, add targeted checks or give exact manual verification steps.
 4. Polish: ensure style consistency, clean naming, docs updated, no broken links/imports.
-
-## Deliverable format (always)
-
-* Summary (1–6 bullets)
-* Assumptions (only if any)
-* Files changed (bulleted)
-* How to verify (exact commands/steps)
-* Follow-ups / risks (only if truly relevant)
 
 ## Communication constraints
 

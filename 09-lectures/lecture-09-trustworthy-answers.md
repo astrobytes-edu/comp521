@@ -416,7 +416,7 @@ $$
 
 **Gradient:** $\nabla_\theta\Phi$ has one loss derivative per parameter.
 
-**Nonsingular:** a square matrix gives a unique solution for every right-hand side.
+**Nonsingular:** a square matrix for which every right-hand side has exactly one solution.
 
 $J$ describes separate outputs; $\nabla\Phi$ describes one scalar loss.
 :::::

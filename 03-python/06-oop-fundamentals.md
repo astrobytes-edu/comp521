@@ -807,12 +807,13 @@ class Circle:
     @radius.setter
     def radius(self, value):
         """Set radius with validation."""
-        if (
-            isinstance(value, bool)
-            or not isinstance(value, (int, float))
-            or not math.isfinite(value)
-            or value <= 0
-        ):
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError(f"Radius must be a finite positive number, got {value}")
+        try:
+            finite = math.isfinite(value)
+        except OverflowError as exc:
+            raise ValueError(f"Radius must be a finite positive number, got {value}") from exc
+        if not finite or value <= 0:
             raise ValueError(f"Radius must be a finite positive number, got {value}")
         self._radius = value
 

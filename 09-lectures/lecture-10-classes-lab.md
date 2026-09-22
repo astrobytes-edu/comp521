@@ -386,7 +386,7 @@ Chapter 6 §§6.1–6.4: construction, `self`, methods, properties.
 
 Chapter 10 §§10.1 and 10.4: validated state and tests. Dataclass implementation is optional.
 
-Inheritance and operator overloading are not required. Dataclasses are optional.
+Inheritance and operator overloading are not required.
 
 [Download the complete Rectangle example](examples/lecture10-rectangle.py).
 
