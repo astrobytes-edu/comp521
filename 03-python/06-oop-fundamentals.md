@@ -50,21 +50,22 @@ object is visible to the caller; rebinding the local parameter is not.
 
 ## Why this chapter matters
 
-Functions organize calculations; classes can organize calculations that share one object's state. For example, a simulation particle has a mass, position, and velocity. A class can keep its state, position update, and energy calculation together, with a clear rule for valid updates.
+Functions organize calculations; classes can organize calculations that share one object's state. For example, a simulation particle has a mass, position, and velocity. A class can keep its state, position update, and energy calculation together, with a place to check valid updates.
 
 You will construct objects, use `self` in methods, and define properties that compute values or validate changes. You will also compare a class with a function-based design. Use a class when shared state and its rules make the interface clearer; a stateless conversion can remain a function. These patterns will help you read scientific objects such as NumPy arrays.
 
 ```{figure} ../assets/textbook-figures/ch06-object-state.svg
 :name: ch06-object-state
-:alt: A Particle class blueprint specifies state, an invariant, and methods; an instance holds one particle's mass, position, and velocity and can update its own state.
+:alt: A Particle class blueprint lists mass, position, velocity, methods, and a design goal of positive mass. An instance holds one particle's state and can update its position. The design goal needs an explicit validation check.
 :width: 100%
 
-A class can keep related state, behavior, and local invariants together when that makes the model easier to inspect.
+A class can keep related state and behavior together, and can enforce rules when their checks are implemented.
 ```
 
-What to notice: an invariant enforced by a class is a software promise about the
-paths the class controls. It cannot, by itself, establish that the chosen model
-or measurements are physically adequate.
+What to notice: positive mass is a design goal here. The introductory `Particle`
+example below does not check it. A class protects only the paths it validates;
+even a checked rule cannot establish that the model or measurements are
+physically adequate.
 
 :::{tip} TL;DR — Why This Chapter Matters
 
@@ -355,7 +356,7 @@ This seemingly simple concept of bundling data with behavior revolutionized prog
 
 In 1962, Norwegian computer scientists Kristen Nygaard and Ole-Johan Dahl faced a mounting challenge at the Norwegian Computing Center. Nygaard had been developing simulations since 1957 - first for nuclear reactor calculations, then for operations research problems. Their early projects included analyzing factory layouts, airport departure systems, and harbor operations. The existing approaches using ALGOL 60 were becoming unwieldy for modeling these complex, interconnected systems with hundreds of interacting components.
 
-Their revolutionary solution? Create "objects" that bundled data with behavior. In 1965, they successfully used [SIMULA](http://kristennygaard.org/FORSKNINGSDOK_MAPPE/F_OO_start.html) I to analyze the Raufoss ammunitions factory layout - determining optimal arrangements for cranes and storage points. The program, punched on 1,130 cards, could simulate 2.5 days of factory operations in just 22 seconds. Each crane, storage point, and workstation became an object that knew its own state and could respond to events.
+In 1965, they used [SIMULA](http://kristennygaard.org/FORSKNINGSDOK_MAPPE/F_OO_start.html) I to analyze the Raufoss ammunitions factory layout, including cranes and storage points. The 1,130-card program simulated 2.5 days of factory operations in 22 seconds. SIMULA I modeled interacting processes; the class and object constructs came with SIMULA 67.
 
 ```python
 # Simplified concept in modern Python:
@@ -2021,7 +2022,7 @@ the method.
 | Managing state over time | Simple transformations |
 | Modeling real entities | Stateless operations |
 | Operations belong to data | One-way data flow |
-| Need data validation | No state to maintain |
+| Several operations share one state contract | One calculation validates its inputs |
 | Complex initialization | Simple input $\to$ output |
 | Multiple related methods | Single operation |
 
