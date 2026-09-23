@@ -50,11 +50,9 @@ object is visible to the caller; rebinding the local parameter is not.
 
 ## Why this chapter matters
 
-You've mastered functions to organize behavior and modules to organize related functions. But what happens when data and the functions that operate on it are inseparable? When tracking particles in a simulation, each particle has position, velocity, and mass, along with methods to update position, calculate kinetic energy, and check collisions. Passing all this data between separate functions becomes error-prone and verbose. This is where Object-Oriented Programming transforms your code from a collection of functions to a model of your problem domain.
+Functions organize calculations; classes can organize calculations that share one object's state. For example, a simulation particle has a mass, position, and velocity. A class can keep its state, position update, and energy calculation together, with a clear rule for valid updates.
 
-**Object-Oriented Programming** (OOP) isn't just another way to organize code - it's a fundamental shift in how we think about programs. Instead of viewing code as a sequence of operations on data, we model it as interactions between objects that combine data and behavior. A thermometer knows its temperature and how to convert units. A dataset knows its values and how to calculate statistics. A simulation particle knows its state and how to evolve. This paradigm mirrors how we naturally think about scientific systems, making complex programs more intuitive and maintainable.
-
-This chapter introduces OOP's essential concepts through practical scientific examples. You'll learn to create classes (blueprints for objects), instantiate objects (specific instances), and define methods (functions attached to objects). We'll explore how properties provide computed attributes and validation, making declared local scientific constraints visible and enforceable along the paths a class controls. Most importantly, you'll develop judgment about when OOP clarifies code (managing stateful systems, modeling entities) versus when it adds unnecessary complexity (simple calculations, stateless transformations). By the end, you'll understand why NumPy arrays are objects with methods, setting the foundation for leveraging Python's scientific ecosystem.
+You will construct objects, use `self` in methods, and define properties that compute values or validate changes. You will also compare a class with a function-based design. Use a class when shared state and its rules make the interface clearer; a stateless conversion can remain a function. These patterns will help you read scientific objects such as NumPy arrays.
 
 ```{figure} ../assets/textbook-figures/ch06-object-state.svg
 :name: ch06-object-state
@@ -70,13 +68,8 @@ or measurements are physically adequate.
 
 :::{tip} TL;DR — Why This Chapter Matters
 
-OOP isn't about syntax — it can help manage systems where data and behavior must
-stay synchronized. Well-designed properties and validation can enforce declared
-invariants, but they do not do so automatically: the class must define the
-invariant, validate every relevant path, and be tested.
-
-**The real lesson:** classes can make selected invalid states harder to create;
-they are one design tool among several, not a guarantee of correctness.
+A class can make an object's state and its update rules easier to inspect. It
+protects only the paths it validates; test the wider scientific interface too.
 :::
 
 :::{note} 📖 How to Use This Chapter
@@ -276,9 +269,13 @@ class Measurement:
             or isinstance(error, bool)
             or not isinstance(value, (int, float))
             or not isinstance(error, (int, float))
-            or not math.isfinite(value)
-            or not math.isfinite(error)
         ):
+            raise ValueError("value and error must be finite numbers")
+        try:
+            finite = math.isfinite(value) and math.isfinite(error)
+        except OverflowError:
+            finite = False  # An integer too large to convert to a finite float.
+        if not finite:
             raise ValueError("value and error must be finite numbers")
         if error < 0:
             raise ValueError(f"Error must be non-negative, got {error}")
@@ -668,17 +665,34 @@ class DataProcessor:
     @staticmethod
     def validate_data(values):
         """Check a materialized sequence of finite, non-Boolean numbers."""
-        return len(values) > 0 and all(
-            isinstance(x, (int, float))
-            and not isinstance(x, bool)
-            and math.isfinite(x)
-            for x in values
-        )
+        try:
+            count = len(values)
+        except (TypeError, OverflowError):
+            return False
+        if count == 0:
+            return False
+        for x in values:
+            if isinstance(x, bool) or not isinstance(x, (int, float)):
+                return False
+            try:
+                if not math.isfinite(x):
+                    return False
+            except OverflowError:
+                return False
+        return True
 
     # Static method with physics example
     @staticmethod
     def celsius_to_kelvin(celsius):
         """Convert Celsius to a finite, physically meaningful Kelvin value."""
+        if isinstance(celsius, bool) or not isinstance(celsius, (int, float)):
+            raise ValueError("temperature must be finite and not below absolute zero")
+        try:
+            finite = math.isfinite(celsius)
+        except OverflowError:
+            finite = False
+        if not finite:
+            raise ValueError("temperature must be finite and not below absolute zero")
         kelvin = celsius + 273.15
         if not math.isfinite(kelvin) or kelvin < 0:
             raise ValueError("temperature must be finite and not below absolute zero")
@@ -852,6 +866,18 @@ import math
 class Temperature:
     """Temperature with automatic unit conversion."""
 
+    @staticmethod
+    def _require_finite_number(value):
+        """Validate an original input before any unit arithmetic."""
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("temperature must be a finite number")
+        try:
+            finite = math.isfinite(value)
+        except OverflowError:
+            finite = False
+        if not finite:
+            raise ValueError("temperature must be a finite number")
+
     def __init__(self, kelvin):
         """Initialize with temperature in Kelvin."""
         self.kelvin = kelvin  # Route construction through the same validation.
@@ -864,13 +890,9 @@ class Temperature:
     @kelvin.setter
     def kelvin(self, value):
         """Set temperature with validation."""
-        if (
-            isinstance(value, bool)
-            or not isinstance(value, (int, float))
-            or not math.isfinite(value)
-            or value < 0
-        ):
-            raise ValueError(f"Kelvin temperature must be finite and non-negative, got {value}")
+        self._require_finite_number(value)
+        if value < 0:
+            raise ValueError("Kelvin temperature must be non-negative")
         self._kelvin = value
 
     @property
@@ -881,12 +903,7 @@ class Temperature:
     @celsius.setter
     def celsius(self, value):
         """Set temperature in Celsius."""
-        if (
-            isinstance(value, bool)
-            or not isinstance(value, (int, float))
-            or not math.isfinite(value)
-        ):
-            raise ValueError("temperature must be a finite number")
+        self._require_finite_number(value)
         # Use kelvin setter for validation
         self.kelvin = value + 273.15
 
@@ -898,12 +915,7 @@ class Temperature:
     @fahrenheit.setter
     def fahrenheit(self, value):
         """Set temperature in Fahrenheit."""
-        if (
-            isinstance(value, bool)
-            or not isinstance(value, (int, float))
-            or not math.isfinite(value)
-        ):
-            raise ValueError("temperature must be a finite number")
+        self._require_finite_number(value)
         # Convert to Kelvin, using kelvin setter for validation
         self.kelvin = (value + 459.67) * 5/9
 
@@ -1157,18 +1169,24 @@ class NavigationImpulse:
     def __init__(self, impulse_newton_seconds=0.0):
         self.impulse_newton_seconds = impulse_newton_seconds
 
+    @staticmethod
+    def _require_finite_number(value):
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("impulse must be a finite number")
+        try:
+            finite = math.isfinite(value)
+        except OverflowError:
+            finite = False
+        if not finite:
+            raise ValueError("impulse must be a finite number")
+
     @property
     def impulse_newton_seconds(self):
         return self._impulse_ns
 
     @impulse_newton_seconds.setter
     def impulse_newton_seconds(self, value):
-        if (
-            isinstance(value, bool)
-            or not isinstance(value, (int, float))
-            or not math.isfinite(value)
-        ):
-            raise ValueError("impulse must be a finite number")
+        self._require_finite_number(value)
         self._impulse_ns = value
 
     @property
@@ -1177,6 +1195,7 @@ class NavigationImpulse:
 
     @impulse_pound_force_seconds.setter
     def impulse_pound_force_seconds(self, value):
+        self._require_finite_number(value)
         self.impulse_newton_seconds = value / 0.224809
 ```
 
@@ -1637,6 +1656,14 @@ import math
 
 def celsius_to_kelvin(celsius):
     """Convert Celsius to a finite Kelvin temperature above absolute zero."""
+    if isinstance(celsius, bool) or not isinstance(celsius, (int, float)):
+        raise ValueError("temperature must be finite and not below absolute zero")
+    try:
+        finite = math.isfinite(celsius)
+    except OverflowError:
+        finite = False
+    if not finite:
+        raise ValueError("temperature must be finite and not below absolute zero")
     kelvin = celsius + 273.15
     if not math.isfinite(kelvin) or kelvin < 0:
         raise ValueError("temperature must be finite and not below absolute zero")
@@ -1644,9 +1671,21 @@ def celsius_to_kelvin(celsius):
 
 def orbital_period_years_solar_mass(semi_major_axis_au):
     """Return P in years for a negligible companion orbiting one solar mass."""
-    if not math.isfinite(semi_major_axis_au) or semi_major_axis_au <= 0:
+    if isinstance(semi_major_axis_au, bool) or not isinstance(semi_major_axis_au, (int, float)):
         raise ValueError("semi-major axis must be finite and positive")
-    return semi_major_axis_au ** 1.5
+    try:
+        finite = math.isfinite(semi_major_axis_au)
+    except OverflowError:
+        finite = False
+    if not finite or semi_major_axis_au <= 0:
+        raise ValueError("semi-major axis must be finite and positive")
+    try:
+        period = semi_major_axis_au ** 1.5
+    except OverflowError as error:
+        raise ValueError("period is not representable as a finite number") from error
+    if not math.isfinite(period):
+        raise ValueError("period is not representable as a finite number")
+    return period
 
 # Simple functions are clearer than unnecessary classes
 temp_k = celsius_to_kelvin(25)
@@ -1901,19 +1940,10 @@ the method.
 
 ## Main Takeaways
 
-You've just made a fundamental leap in how you think about programming. Object-Oriented Programming isn't just a different syntax—it's a different mental model. Instead of thinking "what operations do I need to perform on this data?", you now think "what *is* this thing and what can it *do*?" This shift from procedural to object-oriented thinking mirrors how we naturally conceptualize scientific systems. A particle isn't just three numbers for position; it's an entity with mass, velocity, and behaviors like moving and colliding. This conceptual alignment makes complex programs more intuitive and maintainable.
-
-The power of OOP becomes clear when managing complexity. That simple Particle class with five attributes and three methods might seem like overkill compared to a dictionary. But when a simulation has many particles that need consistent updates, validation, and state tracking, a carefully designed class can make local contracts easier to inspect and test. Properties can validate a controlled update, methods can make the intended state transition explicit, and special methods can integrate an object with Python syntax. None of those mechanisms alone establishes system-level correctness: interfaces, units, models, and independent evidence still need their own checks.
-
-The historical journey from SIMULA to modern Python reveals how OOP emerged from practical needs. Norwegian scientists needed to simulate factories and harbors, leading them to bundle data with behavior—the birth of objects. This paradigm spread through Smalltalk, C++, Java, and Python. When you write `__add__` to define addition for an object, you are participating in a visible Python protocol; scientific libraries can choose compatible protocols when doing so serves a real interface.
-
-But perhaps the most important lesson is knowing when NOT to use objects. Not every function needs to become a method. Not every data structure needs to become a class. Simple calculations should stay as functions. Stateless transformations don't need objects. The art lies in recognizing when you're modeling entities with state and behavior (use classes) versus performing operations on data (use functions). An array's shape, dtype, and memory layout make an object interface useful, while Astropy shows how a community can coordinate scientific representations and interfaces.
-
-Looking ahead, everything in Python's scientific stack builds on these concepts. NumPy arrays are objects with methods like `.mean()` and `.reshape()`. Every Matplotlib plot is an object maintaining state about axes, data, and styling. When you write `array.sum()` or `figure.savefig()`, you're using the same patterns you just learned. More importantly, you can now create your own scientific classes that integrate seamlessly with these tools. You're not just learning to use objects—you're learning to think in objects, and that's a superpower for scientific computing that will serve you throughout your career.
-
----
-
-**What's Next:** You now have the conceptual tools to understand *why* NumPy arrays are objects with methods, *how* properties can expose local constraints, and *why* special methods like `__getitem__` enable slicing syntax. In Chapter 7, you'll see these OOP patterns in action at scale through arrays and broadcasting. The classes you learned to build here are the foundation; NumPy is where you learn to *leverage* related ideas for real scientific work.
+- Keep related state and behavior in a class when they share a clear contract. Use a function for a calculation that needs no persistent state.
+- Route construction and permitted updates through validation. A property can compute a value from current state; it does not establish that a scientific model or external interface is correct.
+- Use `self` to access one instance's state. Instance attributes belong to that object; class attributes are shared.
+- Add special methods when an object needs a specific Python operation. Test the behavior and units of the resulting interface.
 
 ## Definitions
 
@@ -1948,28 +1978,6 @@ Looking ahead, everything in Python's scientific stack builds on these concepts.
 **special method** - Methods with double underscores (like `__init__`, `__str__`) that define object behavior for built-in operations
 
 **static method** - A method that doesn't receive self or cls, defined with `@staticmethod`
-
-## Key Takeaways
-
-✓ **Classes combine data and behavior** – Objects bundle related attributes and methods, helping keep coordinated state and operations inspectable
-
-✓ **The self parameter connects methods to objects** – It's automatically passed to methods and refers to the specific instance being operated on
-
-✓ **Properties provide smart attributes** – Use `@property` for computed values and declared local validation, while still testing the wider scientific interface
-
-✓ **Special methods make objects Pythonic** – Implementing `__str__`, `__len__`, `__add__` lets your objects work naturally with built-in functions and operators
-
-✓ **Instance attributes belong to objects, class attributes are shared** – Choose instance for object-specific data, class for constants and shared state
-
-✓ **Not everything needs to be a class** – Use objects for stateful entities with behavior, functions for simple calculations and transformations
-
-✓ **Properties can expose local unit checks** – Validation in setters can catch a declared local constraint, but system-level unit interfaces require independent verification
-
-✓ **Everything in Python is an object** – Even functions and modules are objects, making Python's object model consistent and powerful
-
-✓ **Duck typing enables flexibility** – Protocols let operations depend on supported capabilities; explicit type checks remain appropriate when an interface requires them
-
-✓ **OOP emerged from practical simulation needs** – SIMULA's factory simulations birthed the paradigm that now powers scientific computing
 
 ## Reference: Class Syntax, Protocols, and Debugging
 

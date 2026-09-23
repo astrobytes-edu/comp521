@@ -186,9 +186,9 @@ Explain the contract behind each answer.
 
 | Quantity | Role |
 |:--|:--|
-| name, radius, temperature | stored state |
-| luminosity, peak wavelength | derived properties |
-| albedo | argument to a zone calculation |
+| `name`, `radius` (solar radii), `teff` (K) | stored attributes |
+| `luminosity` (solar luminosities), `lambda_max` (cm) | derived properties |
+| `albedo` | argument to `habitable_zone` (AU bounds) |
 
 :::{div}
 :class: lecture-prompt
@@ -228,6 +228,8 @@ Explain the contract behind each answer.
 ::::::
 
 **Contract:** a class does not convert units automatically; its implementation must do so.
+
+**Project 1 link:** reuse or refactor your tested Stefan–Boltzmann calculation. The `luminosity` property reads the current `radius` and `teff`.
 
 :::::::
 
