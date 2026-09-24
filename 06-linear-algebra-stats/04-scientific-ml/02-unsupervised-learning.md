@@ -4,7 +4,7 @@ subtitle: "Scientific Machine Learning | COMP 521"
 ---
 
 :::{warning} Reading in preparation
-This Project 6 reading will be finalized before it is assigned. This page is a
+This reading will be finalized before it is assigned. This page is a
 course marker, not yet a complete lesson.
 :::
 

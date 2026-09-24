@@ -65,6 +65,10 @@ Before turning to AI, you are expected to do **all** of the following:
 
 In this course, “struggle first” usually means **~20–30 minutes** of genuine effort *before* asking an AI tool for help with coding work. The goal is productive struggle, not watching the clock.
 
+For the [Code Review Presentations](../08-assessments/code-review-presentations.md),
+you may use AI to discover candidate packages without waiting through a coding
+struggle-first period. Coding help still follows the guidance below.
+
 Use judgment based on what kind of stuck you are:
 
 - **Simple syntax/typo errors:** 5–10 minutes is enough.
@@ -142,8 +146,8 @@ These uses undermine learning and/or fairness:
 - **any AI refactoring/restructuring** that changes the shape of your solution (even if the output “looks nicer”),
 - using AI during a **live explainability check** — when I ask you to walk
   through your code, modify it on the spot, or defend a design choice (including
-  final-project presentation questions). These are oral, and they are the point
-  at which "can you explain it" stops being rhetorical.
+  code review and final-project presentation questions). These are oral, and
+  they are the point at which "can you explain it" stops being rhetorical.
 
 ### Examples: good vs. bad AI requests
 
@@ -172,12 +176,13 @@ After consulting AI, **close it and re‑implement the idea from your own unders
 
 AI permissions change over the semester to match where you should be cognitively at that point. These phases apply to everyone. There are **no early opt‑ins**.
 
-Phase transitions are tied to project blocks, not to calendar convenience:
+Phase transitions are tied to the course's assessment sequence, not to calendar
+convenience:
 
-| Phase | Projects | Weeks | Dates (Fall 2026) |
+| Phase | Work | Weeks | Dates (Fall 2026) |
 |:--|:--|:--|:--|
 | **Phase 1** — Skill Formation | Projects 1–3 | 1–6 | Aug 25 – Oct 5 |
-| **Phase 2** — Assisted Fluency | Projects 4–6 | 7–12 | Oct 6 – Nov 16 |
+| **Phase 2** — Assisted Fluency | Projects 4–5 and Code Review Presentations | 7–12 | Oct 6 – Nov 16 |
 | **Phase 3** — Supervised Tool Use | Final Project | 13–16 | Nov 17 – Dec 10 |
 
 :::{danger} What the phases do *not* change
@@ -227,7 +232,7 @@ This is the phase where automation is most harmful to learning.
 - writing docstrings/comments,
 - automating git workflows.
 
-### Phase 2 — Assisted Fluency (Projects 4–6 · Weeks 7–12)
+### Phase 2 — Assisted Fluency (Projects 4–5 and Code Review Presentations · Weeks 7–12)
 
 **What this phase is about:** becoming more efficient *after* you’ve built foundations.
 
@@ -247,12 +252,19 @@ By this point, you should have written many docstrings, made plots from scratch,
 - transforming code in ways that make it unclear what you wrote.
 
 AI can help with presentation and efficiency—but **structure and logic must remain yours**.
+For the Code Review Presentations, the
+[assessment brief](../08-assessments/code-review-presentations.md#ai-use-for-this-assessment)
+sets a narrower rule: AI may help you find and understand packages or flag gaps,
+but it may not write or rewrite your outline, slides, notebook, review, or
+demonstration code.
 
 ### Phase 3 — Supervised Tool Use (Final Project · Weeks 13–16)
 
 **What this phase is about:** using tools the way a competent researcher does—under your own supervision, with verification you can defend.
 
-This phase applies **only to the final project**, and only because by this point you have implemented six projects' worth of algorithms yourself. The final project largely extends code *you already wrote*.
+This phase applies **only to the final project**. By this point you have
+completed five implementation projects and two code reviews. The final project
+can extend code *you already wrote*.
 
 AI may be used for productivity, including:
 

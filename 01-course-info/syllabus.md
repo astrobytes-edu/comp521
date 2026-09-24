@@ -37,7 +37,9 @@ author: "Dr. Anna Rosen"
 - **Grading is by letter, not points.** Projects use four broad weighted letter
   categories; other assignments receive one holistic letter. See
   [Grading](grading.md) for the shared scale and calculation.
-- **You will work in rotating pairs** on Projects 1–6 while writing and submitting your own code. The final project is solo.
+- **You will work in rotating pairs** on Projects 1–5 while writing and
+  submitting your own code. The two code review presentations and final
+  project are individual work.
 - **Getting help:** office hours are **Thursdays 4–5 pm, Physics 239**. Use
   Canvas Inbox for course-related messages; reserve email for genuine emergencies
   or confidential matters.
@@ -142,15 +144,17 @@ By the end of this course, students will be able to:
    tests, documentation, figures, notebooks, and presentations; clearly stating
    methods, evidence, limitations, and meaningful collaboration or AI use.
 
-**Where these outcomes are assessed:** Projects 1–6, the Final Project (including
-the proposal pitch), and the Growth Reflections.
+**Where these outcomes are assessed:** Projects 1–5, the two Code Review
+Presentations, the Final Project (including the proposal pitch), and the
+Growth Reflections.
 
 (sec-grading)=
 ## Grading & Assessments
 
 | Component | Weight |
 |---|-:|
-| Projects (6 total; ~8.3% each) | 50% |
+| Projects 1–5 (8% each) | 40% |
+| Code Review Presentations (2; 5% each) | 10% |
 | Final Project (proposal pitch 5%; finished project 25%) | 30% |
 | Growth Reflections (3 total) | 10% |
 | Scholarly Engagement | 10% |
@@ -168,6 +172,14 @@ deadline means you arrive at Tuesday class having submitted, rather than
 finishing in the room. See the [Course Schedule](schedule.md) for all assignment
 and submission dates, including exceptions, and [Projects](projects.md) for
 deliverables and submission expectations.
+
+| Code review presentation | Date |
+|---|---|
+| Scientific computing | Thu **Oct 22**, in class |
+| Data science / machine learning | Thu **Nov 12**, in class |
+
+See [Code Review Presentations](../08-assessments/code-review-presentations.md)
+for the individual presentation and submission requirements.
 
 **End-of-semester sequence:**
 
@@ -228,15 +240,19 @@ final letter.
 (sec-late)=
 ### Late Work & Extensions
 
-- **One free extension per semester, for Projects 1–6 only.** Request it at least
+- **One free extension per semester, for Projects 1–5 only.** Request it at least
   **24 hours** before the deadline and you get a **2-day grace period** with no
   penalty and no reason required.
-- **No late submissions beyond that.** If you miss a deadline without having
-  arranged your extension in advance, the submission is **not accepted** unless
-  there is a documented emergency.
-- **Your submission is the latest commit pushed to GitHub by the deadline.** Work
-  that remains only on your computer has not been submitted. Push early and
-  often.
+- **No late submissions beyond that.** If you miss a deadline without an
+  advance arrangement, the submission is **not accepted** unless there is a
+  documented emergency. If you cannot give a code review presentation on its
+  scheduled date, contact me promptly through Canvas Inbox to arrange an
+  equivalent individual presentation and a deadline for its materials. The
+  project extension does not apply to presentations.
+- **For projects, your submission is the latest commit pushed to GitHub by the
+  deadline.** Work that remains only on your computer has not been submitted.
+  Push early and often. Code review materials are submitted through Canvas by
+  the start of class on the presentation date.
 
 (sec-regrades)=
 ### Regrade Requests
@@ -261,9 +277,20 @@ including reading, project work, and preparation for class.
 ### Projects
 
 COMP 521 includes a required repository check at the start of Project 1,
-six two-week projects, and a four-week solo final project. See
+five two-week projects, two individual code review presentations, and a
+four-week solo final project. See
 [Projects](projects.md) for the checkpoint, project sequence, submissions, and
 collaboration expectations.
+
+### Code Review Presentations (10% total)
+
+Choose one open source computational science/scientific computing package and,
+later in the semester, a different data science or machine-learning package.
+Present a brief map of each package's architecture, then examine one code path,
+teach a small example, and explain what a focused check supports. Each
+individual presentation counts for 5%. See the
+[assessment brief](../08-assessments/code-review-presentations.md) for the dates,
+submission route, grading, and assignment-specific AI rules.
 
 (sec-engagement)=
 ### Scholarly Engagement (10%)
@@ -363,7 +390,9 @@ optional; you are responsible for the code and written answers you submit and
 must be able to explain both. Core solution code remains yours in every phase.
 Disclose meaningful use. Read the full
 [AI Use & Growth Mindset Policy](ai-policy.md) before Project 1; its staged
-permissions and documentation requirements are enforced.
+permissions and documentation requirements are enforced. The
+[Code Review Presentations](../08-assessments/code-review-presentations.md#ai-use-for-this-assessment)
+have additional rules for package discovery and student-authored explanations.
 
 ### How I use generative AI
 

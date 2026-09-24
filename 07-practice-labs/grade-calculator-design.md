@@ -10,6 +10,10 @@ planning and testing, then write and run your own implementation. It uses the
 published COMP 521 grading policy, but **only with the fictional record below**.
 Do not enter your own grades, a classmate's grades, or Canvas data.
 
+The fictional record and weights below reflect the current five-project,
+two-presentation course plan. If you completed this activity earlier in the
+semester, you do not need to redo it.
+
 :::{important} Two phases, two class meetings
 
 Complete Parts 1–4 during Week 1 or before Lecture 3. The **30-minute in-class
@@ -24,7 +28,8 @@ and final course letter from the actual COMP 521 component weights:
 
 | Category | Weight | Fictional letter grades |
 |---|---:|---|
-| Projects (average of six) | 50% | `A`, `B+`, `A−`, `B`, `A`, `B+` |
+| Projects (average of five) | 40% | `A`, `B+`, `A−`, `B`, `A` |
+| Code Review Presentations (average of two) | 10% | `A`, `B+` |
 | Final-project proposal pitch | 5% | `B+` |
 | Finished final project | 25% | `A−` |
 | Growth Reflections (average of three) | 10% | `A`, `A−`, `B+` |
@@ -61,7 +66,7 @@ Write a compact answer to each question.
    and Growth Reflections.
 2. What outputs does it return?
 3. What does it do with an unknown letter such as `"E"`?
-4. What does it do with five projects or two Growth Reflections?
+4. What does it do with four projects, one presentation, or two Growth Reflections?
 5. When, if ever, does it round the numerical average?
 
 ## Part 2 — Write the calculation in pseudocode
@@ -69,15 +74,16 @@ Write a compact answer to each question.
 The numerical course average is
 
 $$
-G = 0.50\overline{P} + 0.05Q + 0.25F + 0.10\overline{R} + 0.10E,
+G = 0.40\overline{P} + 0.10\overline{C} + 0.05Q + 0.25F + 0.10\overline{R} + 0.10E,
 $$
 
-where $\overline{P}$ is the mean grade-point value for six projects, $Q$ is the
+where $\overline{P}$ is the mean grade-point value for five projects,
+$\overline{C}$ is the mean for two Code Review Presentations, $Q$ is the
 proposal-pitch grade point, $F$ is the finished-final-project grade point,
-$\overline{R}$ is the mean grade-point value for three Growth Reflections, and
-$E$ is the Scholarly Engagement grade point. Write pseudocode that checks
-inputs, calculates $G$, and assigns a final-course letter. Be explicit about
-the order of checks and do not round before applying a cutoff.
+$\overline{R}$ is the mean for three Growth Reflections, and $E$ is the
+Scholarly Engagement grade point. Write pseudocode that checks inputs,
+calculates $G$, and assigns a final-course letter. Be explicit about the order
+of checks and do not round before applying a cutoff.
 
 ```text
 START
@@ -93,14 +99,15 @@ course letter.
 
 | Category | Component grade points | Weight | Contribution to G |
 |---|---:|---:|---:|
-| Projects |  | 0.50 |  |
+| Projects |  | 0.40 |  |
+| Code Review Presentations |  | 0.10 |  |
 | Proposal pitch |  | 0.05 |  |
 | Finished final project |  | 0.25 |  |
 | Growth Reflections |  | 0.10 |  |
 | Scholarly Engagement |  | 0.10 |  |
 | **Total** |  |  |  |
 
-Your unrounded result should be approximately `3.632`, which is an `A−`.
+Your unrounded result should be approximately `3.662`, which is an `A−`.
 
 ## Part 4 — Design tests before implementation
 
@@ -108,11 +115,11 @@ Complete at least these six cases. Add a seventh case of your own.
 
 | Test case | Inputs or condition | Expected result | Why this test matters |
 |---|---|---|---|
-| ordinary complete fictional record |  | `3.632...`, `A−` | ordinary |
+| ordinary complete fictional record |  | `3.661666...`, `A−` | ordinary |
 | `final_course_letter(3.80)` |  | `A` | final-course boundary |
 | `final_course_letter(3.79)` |  | `A−` | final-course boundary |
 | unknown letter, such as `"E"` |  | reject | invalid input |
-| five projects or two reflections |  | reject | incomplete component |
+| four projects, one presentation, or two reflections |  | reject | incomplete component |
 | `final_course_letter(4.30)` |  | `A`, never `A+` | final-course policy |
 | your case |  |  |  |
 
@@ -141,7 +148,8 @@ Represent the supplied fictional record with named fields:
 
 ```python
 fictional_record = {
-    "projects": ["A", "B+", "A-", "B", "A", "B+"],
+    "projects": ["A", "B+", "A-", "B", "A"],
+    "code_reviews": ["A", "B+"],
     "proposal_pitch": "B+",
     "final_project": "A-",
     "growth_reflections": ["A", "A-", "B+"],
@@ -151,7 +159,7 @@ fictional_record = {
 
 Use ordinary or keyword calls deliberately. `expected_count` and
 `component_name` are keyword-only because a call such as
-`mean_component_grade(projects, expected_count=6, component_name="projects")`
+`mean_component_grade(projects, expected_count=5, component_name="projects")`
 is easier to inspect than two unexplained positional values.
 
 Keep these jobs separate: mapping letters, averaging a component, calculating

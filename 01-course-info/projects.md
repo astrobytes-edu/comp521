@@ -5,7 +5,7 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Projects
 
-Projects are the core of COMP 521: six two-week investigations. Each project
+Projects are the core of COMP 521: five two-week investigations. Each project
 has two halves:
 
 - **Week 1** — method, implementation, and validation against known results
@@ -27,7 +27,7 @@ you can use Python and Jupyter.
 
 ## Project Sequence
 
-The six projects build a continuous scientific investigation: detecting and
+The five projects build a continuous scientific investigation: detecting and
 characterizing exoplanets in real Kepler data.
 
 | Project | Assigned | Due | Contribution to the investigation |
@@ -37,10 +37,12 @@ characterizing exoplanets in real Kepler data.
 | [3](../08-assessments/projects/project-3.md) | Tue **Sep 22** | Mon **Oct 5** | Solve orbital and transit-contact problems; compare simplified temperature zones for 15 stars |
 | 4 | Tue **Oct 6** | Mon **Oct 19** | Build exoplanet interiors and test mass–radius relations against Seager et al. |
 | 5 | Tue **Oct 20** | Mon **Nov 2** | Download, clean, and fit a transit model to real Kepler photometry |
-| 6 | Tue **Nov 3** | Mon **Nov 16** | Classify a Gaia stellar sample with machine-learning methods |
 
 The [Final Project](syllabus.md#sec-final-project) uses the course toolkit on a
 bounded scientific question.
+Two individual [Code Review Presentations](../08-assessments/code-review-presentations.md)
+give you a chance to study open source scientific and DS/ML packages during
+Project 5 and the later machine-learning unit.
 
 ## What to Submit
 
@@ -112,8 +114,9 @@ highest-leverage next improvement.
 (sec-pairs)=
 ## Project Pairs & Collaboration
 
-Projects 1–6 are done in rotating pairs. The final project is solo, although you
-may still discuss design and debugging with classmates.
+Projects 1–5 are done in rotating pairs. The code review presentations and
+final project are individual work, although you may still discuss ideas and
+debugging with classmates.
 
 :::{important} You are responsible for your own work
 Working in a pair does **not** mean submitting shared work. Each student writes

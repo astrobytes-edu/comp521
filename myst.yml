@@ -185,6 +185,7 @@ project:
     - title: Assessments
       children:
         - file: 08-assessments/index.md
+        - file: 08-assessments/code-review-presentations.md
         - title: Projects
           children:
             - title: Project Overview

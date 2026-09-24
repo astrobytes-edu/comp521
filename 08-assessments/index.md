@@ -9,7 +9,9 @@ This section collects the pages that govern graded or submission-bearing work.
 Each linked page remains the authoritative source for its own requirements and
 criteria.
 
-- [Project overview](../01-course-info/projects.md) — the six-project sequence and grading criteria.
+- [Project overview](../01-course-info/projects.md) — the five-project sequence and grading criteria.
+- [Code Review Presentations](code-review-presentations.md) — two individual
+  open source package reviews, each worth 5% of the course grade.
 - [Project 1](projects/project-1.md) — transit models and stellar properties.
 - [Project 2](projects/project-2.md) — numerical integration, convergence, and limb-darkened transits.
 - [Project 3](projects/project-3.md) — root finding, orbital geometry, transit contacts, and stellar temperature zones.

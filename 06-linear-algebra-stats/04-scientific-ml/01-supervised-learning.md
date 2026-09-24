@@ -4,7 +4,7 @@ subtitle: "Scientific Machine Learning | COMP 521"
 ---
 
 :::{warning} Reading in preparation
-This Project 6 reading will be finalized before it is assigned. This page is a
+This reading will be finalized before it is assigned. This page is a
 course marker, not yet a complete lesson.
 :::
 
@@ -16,5 +16,5 @@ course marker, not yet a complete lesson.
 - cross-validation and basic model comparison;
 - interpreting failure cases instead of reporting accuracy alone.
 
-The project will ask you to connect model evaluation to the scientific question
+The course unit asks you to connect model evaluation to the scientific question
 the labels are intended to answer.

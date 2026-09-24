@@ -21,9 +21,10 @@ will be announced through Canvas and reflected on this site.
 
 > **Build methods. Test their limits. Use them on real data.**
 
-You will implement the core algorithms behind scientific software, including
-integration, root-finding, ODE solvers, model fitting, and classifiers, then
-apply them to real astronomical data from Gaia and Kepler.
+You will implement core algorithms behind scientific software, including
+integration, root-finding, ODE solvers, and model fitting. You will also use
+and evaluate introductory machine-learning methods, then apply the course
+toolkit to real astronomical data from Gaia and Kepler.
 
 By the end, you will not just *use* `scipy.integrate`; you will know what it is
 doing, when it will fail you, and how to tell the difference.
@@ -44,7 +45,8 @@ the [syllabus](01-course-info/syllabus.md#sec-ai-policy) for details.
 
 ## How this course is structured
 
-The semester has six two-week projects and a four-week solo final project.
+The semester has five two-week projects, two individual code review
+presentations, and a four-week solo final project.
 Every class meeting combines instruction and hands-on work, so bring your
 laptop.
 

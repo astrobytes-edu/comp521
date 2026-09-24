@@ -4,13 +4,13 @@ subtitle: "Data, Inference, and Scientific ML | COMP 521"
 ---
 
 :::{warning} Module in preparation
-This module will be finalized before Project 6 begins. Its placement and
+This module will be finalized before the scientific ML unit begins. Its placement and
 learning sequence are stable; the readings are still being written.
 :::
 
 ## Purpose
 
-Project 6 uses machine learning as a scientific modeling task: define a target,
+This unit treats machine learning as a scientific modeling task: define a target,
 choose and inspect features, evaluate generalization, and explain what the
 model can and cannot support.
 

@@ -5,8 +5,8 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Course Schedule
 
-Sixteen weeks: six two-week projects (in rotating pairs), then a four-week
-solo final project.
+Sixteen weeks: five two-week projects (in rotating pairs), two individual code
+review presentations, then a four-week solo final project.
 Class meets **Tue/Thu 5:30–6:45 pm in LSN 134**.
 
 :::{important} How to read this page
@@ -32,6 +32,8 @@ posted)* are being written and will appear before they are needed.
 | Office hours | Thu **4:00–5:00 pm** (and by appointment) |
 | Add/drop deadline | Fri **Sep 4** |
 | Labor Day — campus closed | Mon **Sep 7** |
+| Scientific computing code reviews | Thu **Oct 22**, in class |
+| DS/ML code reviews | Thu **Nov 12**, in class |
 | No class — Thanksgiving | Thu **Nov 26** |
 | Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
@@ -173,6 +175,9 @@ Memo 2** (mid-semester), Mon **Oct 19**, 11:59 pm PT
 **Topics** — archives and APIs, Lightkurve, quality flags, gaps, outliers, and
 exploratory analysis of real Kepler light curves
 
+**In class** — [Scientific computing code reviews](../08-assessments/code-review-presentations.md),
+Thu **Oct 22**
+
 ### Week 10 — Oct 27, 29 · Model fitting and uncertainty
 
 **Readings**
@@ -188,9 +193,7 @@ model fitting, and bootstrap uncertainty
 **Due** — **Project 5** (real Kepler photometry + transit-model fit + analysis
 notebook), Mon **Nov 2**
 
-## Block 6 · Project 6 — Machine Learning & Scientific Classification
-
-*Assigned Tue Nov 3 · Due Mon Nov 16*
+## Block 6 · Machine Learning & Code Review
 
 ### Week 11 — Nov 3, 5 · Supervised learning
 
@@ -212,7 +215,8 @@ classifying stellar types; final-project pathways and examples
 matrices, feature importance; clustering the Gaia sample from Project 1 and
 comparing against scikit-learn
 
-**Due** — **Project 6**, Mon **Nov 16**
+**In class** — [DS/ML code reviews](../08-assessments/code-review-presentations.md),
+Thu **Nov 12**
 
 ## Block 7 · Final Project
 

@@ -7,10 +7,10 @@ subtitle: "COMP 521 | Fall 2026"
 
 ## How grading works in this course
 
-**Each graded assignment receives one final letter grade.** Projects 1–6 use
+**Each graded assignment receives one final letter grade.** Projects 1–5 use
 four broad letter-graded dimensions; the weighted average becomes the project
-letter. Growth Reflections, the proposal pitch, and the final project remain
-holistically assessed as described below.
+letter. Code Review Presentations, Growth Reflections, the proposal pitch, and
+the final project are holistically assessed as described below.
 
 :::{note} Why it works this way
 The project rubric is deliberately broad. It makes the basis of the grade
@@ -61,7 +61,8 @@ up a whole step: consistent A− work earns an A−.
 
 | Component | Weight |
 |:--|--:|
-| Projects (6) | 50% |
+| Projects 1–5 (8% each) | 40% |
+| Code Review Presentations (5% each) | 10% |
 | Final project (proposal pitch 5%; finished project 25%) | 30% |
 | Growth Reflections (3) | 10% |
 | Scholarly engagement | 10% |
@@ -71,7 +72,7 @@ up a whole step: consistent A− work earns an A−.
 The descriptions below are anchors. Plus and minus grades indicate work between
 adjacent descriptions; A+ is reserved for the judgment described above.
 
-### Projects 1–6
+### Projects 1–5
 
 (project-grade-calculation)=
 #### Project grade calculation
@@ -115,6 +116,15 @@ Each project's **analysis notebook** includes written reasoning and
 interpretation in the places required by the project brief. Those answers are
 evidence for the scientific-reasoning and communication dimensions; they are
 not a separate points category.
+
+### Code Review Presentations
+
+Each of the two individual presentations receives one holistic letter grade
+and counts for 5% of the course grade. I look for a useful map of the package,
+a specific code trace, a check that could have disagreed with the student's
+expectation, and a conclusion that stays within the evidence. See the
+[assessment brief](../08-assessments/code-review-presentations.md) for the
+rounds, format, and grading anchors.
 
 ### Final project
 
@@ -173,14 +183,16 @@ substantive check-ins, and other visible engagement with the course.
 
 Project 1 is submitted by linking the GitHub repository in its Canvas
 assignment. Later project briefs will name their submission route, including any
-Classroom50 use. Growth Reflections are submitted through their corresponding
-Canvas assignments. The final-project brief will specify its submission route.
+Classroom50 use. Code Review Presentations and Growth Reflections are submitted
+through their corresponding Canvas assignments. The final-project brief will
+specify its submission route.
 Projects are due **Mondays at 11:59 pm PT** unless the [Schedule](schedule.md)
 states otherwise.
 
-**Your submission is the latest commit pushed to GitHub by the deadline.** Work
-that remains only on your computer has not been submitted. Push early and often:
-a pushed work-in-progress always beats a perfect uncommitted local copy.
+**For projects, your submission is the latest commit pushed to GitHub by the
+deadline.** Work that remains only on your computer has not been submitted.
+Push early and often: a pushed work-in-progress always beats a perfect
+uncommitted local copy.
 
 See the syllabus for [extensions](syllabus.md#sec-late) and
 [regrade requests](syllabus.md#sec-regrades).

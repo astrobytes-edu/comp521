@@ -551,12 +551,12 @@ data structure did you use for the star table, and how many lines would change
 if I asked you to add a sixteenth star? If the answer is more than one, say so
 honestly; that is more useful to me than a structure you rearranged afterwards.
 :::
-:::{admonition} Keep this figure — Project 6 draws the same axes
+:::{admonition} Keep this figure — a larger survey reveals more structure
 :class: note dropdown
 What you are plotting is *what the equation permits*: smooth lines of constant
-radius. In Project 6 you plot the same axes from real Gaia measurements of
-thousands of stars — lumpy, with a main sequence and a giant branch, none of
-which is anywhere in the Stefan–Boltzmann law.
+radius. Real Gaia measurements of thousands of stars on the same axes reveal a
+main sequence and a giant branch, neither of which is specified by the
+Stefan–Boltzmann law alone.
 
 Your fifteen stars are a preview. With thousands, the structure becomes
 unmissable.
@@ -865,10 +865,10 @@ depends on the machine and implementation. The physical model is unchanged;
 floating-point results need not be bit-identical. Report the repeated timings
 and agreement check rather than aiming for a prescribed speedup.
 
-That is the honest answer to "why not just use the library?" Libraries are not
-smarter than you, they are *compiled*. In Project 6 you race your own
-machine-learning code against scikit-learn and find the same thing. Knowing what
-a library does, and knowing it will beat your version, are not in conflict.
+That is the honest answer to "why not just use the library?" Library routines
+are often optimized or compiled. Compare their results and performance with
+your own implementation rather than assuming either will always be faster.
+Understanding what a library does helps you judge the comparison.
 :::
 
 ### Your second figure
