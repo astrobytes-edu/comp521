@@ -1,0 +1,18 @@
+// =============================================================================
+// BASE - Core RevealJS overrides
+// =============================================================================
+
+// Keep slide content from feeling "too wide" on projectors
+.reveal .slides section {
+  text-align: left;
+}
+
+// Links more readable in slides
+.reveal a {
+  text-decoration: none;
+  border-bottom: 2px solid rgba($link-color, 0.25);
+}
+
+.reveal a:hover {
+  border-bottom-color: rgba($link-hover-color, 0.5);
+}

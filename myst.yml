@@ -28,6 +28,7 @@ project:
   static_files:
     - assets/jupyterlite
     - 09-lectures/media
+    - 09-lectures/reveal
   plugins:
     - plugins/interactive-python/interactive-python.mjs
     - plugins/panel-pyodide/panel-pyodide.mjs

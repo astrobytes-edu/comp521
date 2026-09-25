@@ -40,13 +40,12 @@ Inheritance and operator overloading are not required. Review imports and `pytho
 - **Tuesday, September 22:** [Lecture 9](../09-lectures/lecture-09-trustworthy-answers.md) surveys methods including backtracking,
   Levenberg–Marquardt, integration, and convergence evidence; then Project 2 work time. Advanced methods are conceptual context, not new
   implementation requirements.
-- **Thursday, September 24:** [Lecture 10](../09-lectures/lecture-10-classes-lab.md) covers constructors, stored state, methods, and properties;
-  a small validation example; then Project 3 lab.
+- **Thursday, September 24:** [Lecture 10](../09-lectures/lecture-10-classes-lab.md) develops methods, attributes, constructors, public and internal names, properties, and scientific classes; then Project 3 Part 5 lab.
 
-Bring your Python environment, Lecture 8 root-finding module and tests, and
-Project 1–2 code. In lab, aim to run a passing known-root test, explain the
-returned history, and construct one valid `Star` while rejecting invalid state.
-If the solver is unfinished, establish that passing test first.
+Bring your Python environment, Project 1 stellar data and luminosity code,
+and any completed Project 3 Part 2 work. In lab, build the `Star` class for
+Part 5, reject invalid state, check derived values, and start the fifteen-star
+comparison.
 
 ## Project work
 

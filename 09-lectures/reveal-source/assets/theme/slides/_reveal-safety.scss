@@ -1,0 +1,162 @@
+// =============================================================================
+// REVEAL SAFETY — Defensive CSS for slide robustness
+// =============================================================================
+//
+// The goal is to make it difficult to create broken slides (overflow, collisions,
+// unreadable code, etc.) while keeping escape hatches available.
+
+// ---------------------------------------------------------------------------
+// Safe slide padding (helps avoid collisions with controls/progress/logo)
+// ---------------------------------------------------------------------------
+:root {
+  --slide-safe-top: 0.25rem;
+  --slide-safe-bottom: 3.25rem;
+  --slide-safe-left: 1.25rem;
+  --slide-safe-right: 1.25rem;
+
+  --slide-logo-h: 4.66vh;
+  --slide-logo-bottom: 1.65rem;
+  --slide-logo-right: 2vw;
+}
+
+.reveal .slides section {
+  box-sizing: border-box;
+  padding-top: var(--slide-safe-top);
+  padding-bottom: var(--slide-safe-bottom);
+  padding-left: var(--slide-safe-left);
+  padding-right: var(--slide-safe-right);
+}
+
+// Opt-in escape hatch for full-bleed background/media slides.
+.reveal .slides section.full-bleed {
+  padding: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Logo placement (Quarto revealjs `logo:`)
+// ---------------------------------------------------------------------------
+.reveal img.slide-logo,
+.reveal .slide-logo img,
+.reveal .slide-logo,
+.reveal .logo img,
+.reveal .logo,
+.reveal img.logo {
+  position: fixed !important;
+  bottom: var(--slide-logo-bottom) !important;
+  right: var(--slide-logo-right) !important;
+  height: var(--slide-logo-h) !important;
+  width: auto !important;
+  max-height: none !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+
+// Slide number should never collide with the logo/controls.
+.reveal .slide-number {
+  right: auto;
+  left: 1.25rem;
+  bottom: 0.85rem;
+  z-index: 11;
+}
+
+// ---------------------------------------------------------------------------
+// Columns baseline (Quarto `.columns`)
+// ---------------------------------------------------------------------------
+.reveal .columns {
+  gap: $space-2;
+  align-items: start;
+}
+
+.reveal .columns > .column {
+  overflow: hidden;
+}
+
+// ---------------------------------------------------------------------------
+// Fragments (slightly softer entrance; does not change layout)
+// ---------------------------------------------------------------------------
+.reveal .slides section .fragment {
+  opacity: 0.18;
+}
+.reveal .slides section .fragment.visible {
+  opacity: 1;
+}
+
+// Hide pointer dot while spotlight overlay is active (cursor can be distracting).
+body.spotlight-on .cursor-dot {
+  opacity: 0 !important;
+}
+
+// ---------------------------------------------------------------------------
+// Media credits (images + videos)
+// ---------------------------------------------------------------------------
+.reveal .media-block {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.reveal .media-embed {
+  width: 100%;
+  height: 100%;
+}
+
+.reveal .media-credit {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.55rem;
+  max-width: 55%;
+  font-size: $text-xxs;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  opacity: 0.85;
+  text-align: right;
+  pointer-events: none;
+  color: rgba($body-color, 0.6);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+}
+
+.reveal .slides section[data-background-color="black"] .media-credit {
+  color: rgba(255,255,255,0.65);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.55);
+}
+
+// ---------------------------------------------------------------------------
+// Code + tables: safer overflow behavior
+// ---------------------------------------------------------------------------
+.reveal pre code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.reveal table {
+  max-width: 100%;
+}
+
+.reveal .table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+// ---------------------------------------------------------------------------
+// Background defaults (only applies when Reveal hasn't set inline style)
+// ---------------------------------------------------------------------------
+.reveal .slide-background-content {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+// ---------------------------------------------------------------------------
+// Overflow escape hatches
+// ---------------------------------------------------------------------------
+.reveal .scroll-y {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.reveal .scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}

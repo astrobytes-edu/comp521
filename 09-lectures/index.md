@@ -54,10 +54,10 @@ how do we decide whether its accuracy is sufficient?
 | [Lecture 7: Approximations, Adaptivity, and Roots](lecture-07-adaptivity-roots.md) | How do local models guide adaptive integration and root finding? | quadrature recall, Simpson error estimates, bisection bounds, and Newton updates |
 | [Lecture 8: Finite Differences and Root-Finding Tools](lecture-08-rootfinding-tools.md) | What evidence supports a solver’s stopping decision? | finite differences, secant updates, and a tested bisection module |
 | [Lecture 9: Trustworthy Numerical Answers](lecture-09-trustworthy-answers.md) | When do an accepted step, a small residual, or a refined integral support an answer? | line searches, Jacobians, damping, advanced quadrature, and convergence evidence |
-| [Lecture 10: Scientific Classes and Project Lab](lecture-10-classes-lab.md) | How can validated state and computed properties keep a scientific object consistent? | a Rectangle example, class contracts, and Project 3 lab |
+| [Lecture 10: Modular Design and OOP](lecture-10-classes-lab.md) | How do functions and variables become methods and attributes in a class? | Rectangle, scientific classes, and Project 3 Part 5 |
 
 Lectures 9 and 10 continue this lecture sequence in Week 5. The course
-schedule begins the Project 3 phase that week; Lecture 10 starts its lab.
+schedule begins the Project 3 phase that week; Lecture 10 leads into the Project 3 Part 5 lab.
 
 **Watch and review:** [Block 2 animations](animations/animations.md) — integration geometry, adaptive refinement, and root-finding steps.
 

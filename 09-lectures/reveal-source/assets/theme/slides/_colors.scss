@@ -1,0 +1,60 @@
+// =============================================================================
+// COLORS - Text color, backgrounds, opacity utilities
+// =============================================================================
+// Uses semantic color names from _tokens-bridge.scss
+
+// -----------------------------------------------------------------------------
+// Text Colors (Semantic)
+// -----------------------------------------------------------------------------
+// Primary = structure (indigo) - headings, important structural text
+.reveal .text-primary { color: $heading-color !important; }
+
+// Secondary = interactive (teal) - links, clickable elements
+.reveal .text-secondary { color: $link-color !important; }
+
+// Accent = emphasis (teal) - highlighted content
+.reveal .text-accent { color: $accent-color !important; }
+
+// Muted = de-emphasized text
+.reveal .text-muted { color: $muted-color !important; }
+
+// Warning = pitfalls, errors (rose)
+.reveal .text-warning { color: $warning-color !important; }
+
+// Success = positive outcomes (teal)
+.reveal .text-success { color: $accent-color !important; }
+
+// -----------------------------------------------------------------------------
+// Opacity
+// -----------------------------------------------------------------------------
+.reveal .opacity-25 { opacity: 0.25 !important; }
+.reveal .opacity-50 { opacity: 0.50 !important; }
+.reveal .opacity-75 { opacity: 0.75 !important; }
+.reveal .opacity-100 { opacity: 1 !important; }
+
+// -----------------------------------------------------------------------------
+// Background Colors
+// -----------------------------------------------------------------------------
+.reveal .bg-highlight {
+  background-color: $bg-highlight !important;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+}
+
+.reveal .bg-muted {
+  background-color: $bg-muted !important;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+}
+
+.reveal .bg-primary {
+  background-color: rgba($heading-color, 0.1) !important;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+}
+
+.reveal .bg-accent {
+  background-color: rgba($accent-color, 0.1) !important;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+}

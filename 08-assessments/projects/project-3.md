@@ -26,10 +26,10 @@ to compare equilibrium-temperature zones for your fifteen Project 1 stars.
 :::{admonition} Suggested pace
 :class: tip
 
-Thursday lab: establish a passing root-finder test and construct one validated
-`Star`. By the end of Week 1, finish Parts 1–2 and begin Part 3. In Week 2,
-check the circular orbit before finding contacts, then complete the stellar
-comparison and rerun the notebook from a fresh kernel.
+Thursday lab: work on Part 5. Build and check the `Star` class, then start the
+fifteen-star comparison. By the end of Week 1, finish Parts 1–2 and begin
+Part 3. In Week 2, check the circular orbit before finding contacts, then
+complete the stellar comparison and rerun the notebook from a fresh kernel.
 :::
 
 :::{important} One library, several applications

@@ -1,0 +1,78 @@
+// =============================================================================
+// VARIABLES - Typography scale, spacing, RevealJS-specific settings
+// =============================================================================
+// Colors via tokens-bridge.scss (semantic aliases for brand colors)
+
+@forward 'tokens-bridge';     // Re-export bridge variables for downstream files
+@use 'tokens-bridge' as *;    // Also use them locally in this file
+
+// -----------------------------------------------------------------------------
+// Typography Scale (Slide-specific - relative units for projection)
+// -----------------------------------------------------------------------------
+$text-xxs: 0.42em;
+$text-xs: 0.65em;
+$text-sm: 0.8em;
+$text-base: 1em;
+$text-lg: 1.2em;
+$text-xl: 1.5em;
+
+// Font weights
+$font-normal: 400;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;
+
+// Line heights
+$leading-none: 1.0;
+$leading-tight: 1.15;
+$leading-normal: 1.4;
+$leading-relaxed: 1.65;
+
+// -----------------------------------------------------------------------------
+// RevealJS Presentation Settings
+// -----------------------------------------------------------------------------
+// Reference: https://quarto.org/docs/presentations/revealjs/themes.html
+
+$presentation-heading-font: $font-sans !default;
+$presentation-heading-color: $heading-color !default;
+$presentation-heading-font-weight: 650 !default;
+
+// Body text: projector-readable (default 40px, reduced to 32px)
+$presentation-font-size-root: 32px !default;
+$presentation-line-height: 1.25 !default;
+
+// Titles: restrained, not shouty (smaller than Reveal defaults)
+// Defaults: H1=2.5em, H2=1.6em, H3=1.3em, H4=1.0em
+$presentation-h1-font-size: 1.9em !default;
+$presentation-h2-font-size: 1.3em !default;
+$presentation-h3-font-size: 1.1em !default;
+$presentation-h4-font-size: 0.9em !default;
+
+// Reduce whitespace between blocks (default 12px)
+$presentation-block-margin: 10px !default;
+
+// Slide margins (default 0.04 = 4%, reduced for more content area)
+$presentation-margin: 0.03 !default;
+
+// Code: 0.56em = ~18px with 32px base
+$code-block-font-size: 0.56em !default;
+
+// -----------------------------------------------------------------------------
+// Spacing Scale (Slide-specific)
+// -----------------------------------------------------------------------------
+$space-1: 0.5rem;
+$space-2: 1rem;
+$space-4: 2rem;
+
+// -----------------------------------------------------------------------------
+// Breakpoints (Slide-specific)
+// -----------------------------------------------------------------------------
+// NOTE: RevealJS uses a fixed canvas with scaling; these are viewport-based
+// fallbacks for narrow displays and print/PDF rendering.
+$bp-narrow: 900px;
+
+// -----------------------------------------------------------------------------
+// Background Colors (Derived from bridge colors)
+// -----------------------------------------------------------------------------
+$bg-highlight: rgba($highlight-color, 0.15);
+$bg-muted: rgba($body-color, 0.05);

@@ -1,0 +1,41 @@
+/*-- scss:defaults --*/
+// =============================================================================
+// GENERATED FILE — DO NOT EDIT
+// =============================================================================
+// Source: _brand.yml
+// Regenerate: python scripts/brand_to_scss.py
+//
+// This file contains ONLY brand identity tokens (colors + typography).
+// Design tokens (radii, sizing, mixins) are in _design_tokens.scss
+
+// ---- Palette Colors ----
+$bg-dark: #0f1115;
+$bg-light: #f7f8fa;
+$border-dark: #2a2f38;
+$border-light: #d6dbe3;
+$gold-dark: #d8c08b;
+$gold-light: #7f6d44;
+$indigo-dark: #9fa1d4;
+$indigo-light: #5a5a8a;
+$mauve-dark: #b89ac0;
+$mauve-light: #7d6b85;
+$muted-dark: #a8b0bf;
+$muted-light: #5c6470;
+$purple-dark: #a78bfa;
+$purple-light: #7c3aed;
+$rose-dark: #c9a5a8;
+$rose-light: #9a7b7f;
+$slate-dark: #8892a2;
+$slate-light: #5c6470;
+$surface-2-dark: #1d2026;
+$surface-2-light: #eef1f5;
+$surface-dark: #16181d;
+$surface-light: #ffffff;
+$teal-dark: #5dbfbf;
+$teal-light: #2f6f6f;
+$text-dark: #e8ecf2;
+$text-light: #16181d;
+
+// ---- Typography ----
+$font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;

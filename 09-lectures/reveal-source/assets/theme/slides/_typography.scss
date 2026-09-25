@@ -1,0 +1,39 @@
+// =============================================================================
+// TYPOGRAPHY - Text sizing, weight, style, line-height utilities
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Text Sizing
+// -----------------------------------------------------------------------------
+.reveal .text-xxs { font-size: $text-xxs !important; }
+.reveal .text-xs { font-size: $text-xs !important; }
+.reveal .text-sm { font-size: $text-sm !important; }
+.reveal .text-base { font-size: $text-base !important; }
+.reveal .text-lg { font-size: $text-lg !important; }
+.reveal .text-xl { font-size: $text-xl !important; }
+
+// -----------------------------------------------------------------------------
+// Font Weight
+// -----------------------------------------------------------------------------
+.reveal .font-normal { font-weight: $font-normal !important; }
+.reveal .font-medium { font-weight: $font-medium !important; }
+.reveal .font-semibold { font-weight: $font-semibold !important; }
+.reveal .font-bold { font-weight: $font-bold !important; }
+
+// -----------------------------------------------------------------------------
+// Font Style
+// -----------------------------------------------------------------------------
+.reveal .italic { font-style: italic !important; }
+.reveal .not-italic { font-style: normal !important; }
+.reveal .uppercase { text-transform: uppercase !important; }
+.reveal .lowercase { text-transform: lowercase !important; }
+.reveal .capitalize { text-transform: capitalize !important; }
+.reveal .normal-case { text-transform: none !important; }
+
+// -----------------------------------------------------------------------------
+// Line Height
+// -----------------------------------------------------------------------------
+.reveal .leading-none { line-height: $leading-none !important; }
+.reveal .leading-tight { line-height: $leading-tight !important; }
+.reveal .leading-normal { line-height: $leading-normal !important; }
+.reveal .leading-relaxed { line-height: $leading-relaxed !important; }

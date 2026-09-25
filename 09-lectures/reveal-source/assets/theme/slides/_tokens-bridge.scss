@@ -1,0 +1,72 @@
+// =============================================================================
+// TOKENS BRIDGE - Imports generated tokens, creates slide-appropriate aliases
+// =============================================================================
+// This file is the ONLY place where website tokens are imported into slides.
+// Slides use light-mode tokens (projectors are bright environments).
+//
+// Semantic roles (from _brand.yml via generated tokens):
+// - Teal = interactive (links, actions)
+// - Indigo = structure (headings, organization)
+// - Gold = rare emphasis (use sparingly)
+// - Rose = pitfalls (warnings, errors)
+// - Purple = frontier/mystery (code, special)
+
+@use '../tokens_generated' as t;
+@use '../design_tokens' as d;
+
+// -----------------------------------------------------------------------------
+// SEMANTIC COLOR ALIASES (Slide Context)
+// -----------------------------------------------------------------------------
+
+// Structure colors (headings, organizational elements)
+$heading-color: t.$indigo-light !default;
+$structure-color: t.$indigo-light !default;
+
+// Interactive colors (links, clickable elements)
+$interactive-color: t.$teal-light !default;
+$link-color: t.$teal-light !default;
+$link-hover-color: t.$teal-dark !default;
+
+// Emphasis colors
+$accent-color: t.$teal-light !default;
+$emphasis-color: t.$gold-light !default;
+$highlight-color: t.$gold-light !default;
+
+// Warning/pitfall colors
+$warning-color: t.$rose-light !default;
+
+// Code colors
+$code-color: t.$purple-light !default;
+
+// -----------------------------------------------------------------------------
+// NEUTRALS (from tokens)
+// -----------------------------------------------------------------------------
+$body-bg: t.$surface-light !default;
+$body-color: t.$text-light !default;
+$muted-color: t.$muted-light !default;
+$border-color: t.$border-light !default;
+$surface-color: t.$surface-2-light !default;
+
+// -----------------------------------------------------------------------------
+// TYPOGRAPHY (from generated tokens)
+// -----------------------------------------------------------------------------
+$font-sans: t.$font-sans;
+$font-mono: t.$font-mono;
+
+// -----------------------------------------------------------------------------
+// DESIGN TOKENS (from hand-authored file)
+// -----------------------------------------------------------------------------
+$radius-sm: d.$radius-sm;
+$radius-md: d.$radius-md;
+
+// -----------------------------------------------------------------------------
+// ASTRONOMY ALIASES (Backward Compatibility)
+// -----------------------------------------------------------------------------
+// Preserved for existing slide content. Use semantic names for new content.
+
+$cosmic-blue: $heading-color;
+$stellar-blue: $link-color;
+$aurora-teal: $accent-color;
+$solar-gold: $highlight-color;
+$nova-orange: $warning-color;
+$nebula-purple: $code-color;

@@ -1,0 +1,135 @@
+// =============================================================================
+// LAYOUT PRIMITIVES — Small, composable vocabulary for reliable slides
+// =============================================================================
+//
+// These are opinionated *patterns* (not atomic utilities). They are intended to:
+// - Prevent overflow by default
+// - Avoid raw HTML grids in slides
+// - Collapse gracefully on small screens / print
+
+// Shared gap token for slide layouts (keep it simple; reuse slide spacing scale).
+$layout-gap: $space-2;
+
+// ---------------------------------------------------------------------------
+// Two-column layouts
+// ---------------------------------------------------------------------------
+.reveal .layout-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $layout-gap;
+  align-items: start;
+}
+
+.reveal .layout-2col-40-60 { grid-template-columns: 0.8fr 1.2fr; }
+.reveal .layout-2col-60-40 { grid-template-columns: 1.2fr 0.8fr; }
+
+// Common child conventions for Quarto divs:
+// ::: {.layout-2col}
+// ::: {.col} ... :::  ::: {.col} ... :::
+.reveal .layout-2col > .col,
+.reveal .layout-2col > .column {
+  min-width: 0;
+  min-height: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Simple grids (use for 2×2 image grids, etc.)
+// ---------------------------------------------------------------------------
+.reveal .layout-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $layout-gap;
+  align-items: start;
+}
+
+.reveal .layout-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: $layout-gap;
+  align-items: start;
+}
+
+.reveal .layout-grid-2 > *,
+.reveal .layout-grid-3 > * {
+  min-width: 0;
+  min-height: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Hero layout (media + caption)
+// ---------------------------------------------------------------------------
+.reveal .layout-hero {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: $space-1;
+  align-items: start;
+}
+
+.reveal .layout-hero .hero-caption {
+  font-size: $text-sm;
+  color: $muted-color;
+  line-height: $leading-normal;
+}
+
+// ---------------------------------------------------------------------------
+// Triad layout (“Measure / Infer / Physics”)
+// ---------------------------------------------------------------------------
+.reveal .layout-triad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $layout-gap;
+  align-items: start;
+}
+
+.reveal .layout-triad .triad-item {
+  border: 1px solid rgba($border-color, 0.55);
+  border-radius: $radius-sm;
+  padding: $space-1;
+  background: rgba($surface-color, 0.6);
+}
+
+.reveal .layout-triad .triad-item > :last-child {
+  margin-bottom: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Callout + content split
+// ---------------------------------------------------------------------------
+.reveal .layout-callout {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: $layout-gap;
+  align-items: start;
+}
+
+.reveal .layout-callout > * {
+  min-width: 0;
+  min-height: 0;
+}
+
+.reveal .layout-callout .callout {
+  margin: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive collapse
+// ---------------------------------------------------------------------------
+@media (max-width: $bp-narrow) {
+  .reveal .layout-2col,
+  .reveal .layout-grid-2,
+  .reveal .layout-grid-3,
+  .reveal .layout-triad,
+  .reveal .layout-callout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .reveal .layout-2col,
+  .reveal .layout-grid-2,
+  .reveal .layout-grid-3,
+  .reveal .layout-triad,
+  .reveal .layout-callout {
+    grid-template-columns: 1fr;
+  }
+}

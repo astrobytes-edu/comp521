@@ -1,0 +1,1162 @@
+---
+title: "Lecture 10: Modular Design & Object-Oriented Programming"
+subtitle: "COMP 521 | Scientific Python"
+author: "Dr. Anna Rosen"
+date: 2026-09-24
+format:
+  revealjs:
+    theme: [default, assets/theme/slides/theme.scss]
+    slide-number: true
+    preview-links: auto
+    embed-resources: true
+    code-overflow: wrap
+    code-line-numbers: true
+    highlight-style: github
+    transition: slide
+    center: false
+    hash: true
+    history: true
+execute:
+  echo: true
+  warning: false
+  error: false
+---
+
+## Learning Objectives
+
+By the end of this lecture, you will be able to:
+
+::: {.incremental .text-sm}
+
+- Explain why **modular design** prevents costly software failures
+- Apply the **function contract pattern** (preconditions, postconditions, validation)
+- Identify when to use **classes vs functions** for scientific code
+- Relate **methods to functions** and **attributes to variables**
+- Build classes with **properties** that enforce physical constraints
+- Explain public names, `_internal` names, and special `__dunder__` methods
+- Debug common OOP errors
+
+:::
+
+::: {.notes}
+Time: 0-2 min. Read objectives aloud. These are testable outcomes.
+:::
+
+---
+
+# Part 0: Why This Matters {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 2-10 min total for Part 0
+Start with the real software failure and the unchecked assumption.
+:::
+
+---
+
+## Ariane 5: A Failed Conversion
+
+:::: {.columns}
+
+::: {.column width="49%" .text-sm}
+**Ariane 5 Flight 501, June 4, 1996**
+
+- An inertial reference system converted a 64-bit floating-point value to a 16-bit signed integer.
+- The value, a horizontal bias related to velocity, exceeded the integer range.
+- The unprotected conversion stopped both redundant reference systems; the launcher broke up.
+
+[ESA inquiry summary](https://www.esa.int/Newsroom/Press_Releases/Ariane_501_-_Presentation_of_Inquiry_Board_report)
+:::
+
+::: {.column width="49%" .compact}
+```python
+# Illustrative Python guard, not Ariane flight code
+def checked_int16(value):
+    if not -32768 <= value <= 32767:
+        raise OverflowError("outside int16 range")
+    return int(value)
+```
+
+Python's `int` has arbitrary precision. The limit here represents the required 16-bit destination type.
+:::
+
+::::
+
+::: {.fragment .text-sm}
+
+Ariane 4's trajectory had kept this value within range. Ariane 5's different trajectory broke that assumption.
+:::
+
+::: {.notes}
+The failure involved an alignment function that continued after liftoff. The simplified Python example demonstrates range validation, not the original Ada code or the full failure chain.
+:::
+
+---
+
+## The Lesson
+
+::: {.r-fit-text}
+**Design first. Validate always.**
+:::
+
+. . .
+
+This lecture: how to write code you can **trust**
+
+::: {.notes}
+Time: 4-5 min
+Transition to reproducibility and program structure.
+:::
+
+---
+
+## Notebooks Need Execution Discipline
+
+A notebook is useful for exploring data and presenting scientific evidence. Its kernel also remembers state between cell runs.
+
+::: {.incremental}
+
+1. **Hidden state:** a variable can outlive the cell that created it.
+2. **Out-of-order execution:** displayed results may use old values.
+3. **Reproducibility:** restart the kernel and run every cell in order before submitting.
+4. **Reusable code:** put tested functions and classes in importable `.py` modules; call them from the notebook.
+
+:::
+
+::: {.notes}
+Project 3 uses analysis.ipynb for figures and interpretations, plus roots.py and star.py for reusable code.
+:::
+
+---
+
+## The Hidden State Trap
+
+```{python}
+#| eval: true
+#| echo: true
+
+# Imagine running these cells out of order...
+
+# Cell 1: Define calibration
+calibration_factor = 1.02
+
+# Cell 2: Apply calibration
+raw_measurement = 100.0
+calibrated = raw_measurement * calibration_factor
+
+# Cell 3: Oops, change calibration (but forget to re-run Cell 2!)
+calibration_factor = 0.98
+
+# Cell 4: Report results
+print(f"Calibrated value: {calibrated}")  # Still uses OLD calibration!
+print(f"Current factor: {calibration_factor}")  # Shows NEW value
+```
+
+. . .
+
+**The displayed factor and result disagree.** Restart and run all cells in order to detect stale state.
+
+::: {.notes}
+Time: 7-9 min
+DEMO: Actually run this if time permits
+KEY POINT: Restart and run all cells to detect stale notebook state.
+:::
+
+---
+
+## A Reproducible Project Layout
+
+| File | Job |
+|------|-----|
+| `star.py` | Define a reusable class and its validation rules |
+| `test_star.py` | Run automated tests of the class |
+| `analysis.ipynb` | Import the class, compute results, make figures, and interpret them |
+
+. . .
+
+**Workflow:** edit modules → run tests → restart the notebook kernel → run all cells.
+
+::: {.notes}
+Connect the design to Project 3. A notebook can be tested with execution checks; keeping reusable logic in modules makes unit tests simpler.
+:::
+
+---
+
+# Part 1: Functions as Contracts {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 10-22 min total for Part 1
+:::
+
+---
+
+## Functions Are Promises
+
+Every well-designed function is a **contract**:
+
+| Contract Element | Question It Answers |
+|-----------------|---------------------|
+| **Preconditions** | What must be true before calling? |
+| **Postconditions** | What will be true after calling? |
+| **Invariants** | What stays unchanged? |
+| **Side effects** | What else happens? |
+
+. . .
+
+A function that doesn't document its contract is a function waiting to betray you.
+
+::: {.notes}
+Time: 10-12 min
+:::
+
+---
+
+## What Is a Contract?
+
+In software, a **(function) contract** is an explicit agreement between a *caller* and a *function* about correct use and guaranteed behavior.
+
+::: {.incremental .text-sm}
+
+- **Preconditions**: what the caller must provide (valid types, ranges, units, shapes)
+- **Postconditions**: what the function guarantees on success (return value meaning, units, shape, accuracy)
+- **Failure mode**: what happens when preconditions aren’t met (errors raised, messages)
+- **Invariants / side effects**: what must not change, and what else the function touches (files, globals, randomness)
+
+::: {.notes}
+Time: 12-13 min
+Say: "A contract isn’t legal language—it’s how we make scientific code trustworthy."
+:::
+
+:::
+
+---
+
+::: {.fragment .text-lg}
+
+Contracts matter because they make bugs **loud and early**, make tests **obvious**, and make code **safe to reuse** without re-reading the implementation.
+
+:::
+
+---
+
+## Example: Kinetic Energy with Contract
+
+```{python}
+#| eval: true
+#| echo: true
+#| code-line-numbers: "|1-12|14-15|17-18"
+
+def kinetic_energy_cgs(mass_g, velocity_cms):
+    """
+    Calculate kinetic energy in ergs.
+
+    Parameters:
+        mass_g: mass in grams (must be positive)
+        velocity_cms: velocity in cm/s
+
+    Returns:
+        energy in ergs (g*cm^2/s^2)
+    """
+    # PRECONDITION: mass must be positive
+    if mass_g <= 0:
+        raise ValueError(f"mass must be positive, got {mass_g}")
+
+    # COMPUTATION: KE = (1/2)mv^2
+    energy_ergs = 0.5 * mass_g * velocity_cms**2
+    return energy_ergs
+
+# Test it
+print(f"Electron at 1% c: {kinetic_energy_cgs(9.109e-28, 2.998e8):.2e} erg")
+```
+
+::: {.notes}
+Time: 12-14 min
+Walk through each section
+Emphasize: validation is not optional
+:::
+
+---
+
+## Mutable vs Immutable (Python)
+
+In Python, an object is **mutable** if it can be changed *in place* after it’s created. An object is **immutable** if it can’t; you can only create a new value and rebind the name.
+
+::: {.incremental}
+- **Mutable:** `list`, `dict`, `set` (methods like `.append()` / `.update()` modify the same object)
+- **Immutable:** `int`, `float`, `bool`, `str`, `tuple` (operations produce a new value)
+:::
+
+. . .
+
+This matters because default function arguments are created once, so a **mutable** default can silently accumulate changes across calls.
+
+::: {.notes}
+Time: 14 min
+Quick check: “If I call `.append()`, did I mutate the object or create a new one?”
+:::
+
+---
+
+## The Mutable Default Trap
+
+One of Python's most infamous gotchas:
+
+```{python}
+#| eval: true
+#| echo: true
+
+# WRONG - This creates a SHARED list!
+def add_measurement_buggy(value, data=[]):
+    data.append(value)
+    return data
+
+# Watch the disaster
+day1 = add_measurement_buggy(23.5)
+print(f"Day 1: {day1}")
+
+day2 = add_measurement_buggy(24.1)  # Fresh list? Nope!
+print(f"Day 2: {day2}")  # Contains BOTH days!
+
+print(f"Same object? {day1 is day2}")  # True!
+```
+
+::: {.notes}
+Time: 14-16 min
+This bug has appeared in CERN analysis code, NASA calculations
+:::
+
+---
+
+## The Fix: None Sentinel Pattern
+
+```{python}
+#| eval: true
+#| echo: true
+
+# CORRECT - New list each time
+def add_measurement_fixed(value, data=None):
+    if data is None:
+        data = []  # Fresh list!
+    data.append(value)
+    return data
+
+# Now it works
+day1 = add_measurement_fixed(23.5)
+day2 = add_measurement_fixed(24.1)
+
+print(f"Day 1: {day1}")
+print(f"Day 2: {day2}")
+print(f"Same object? {day1 is day2}")  # False!
+```
+
+. . .
+
+**Rule:** Always use `None` as default for mutable arguments (lists, dicts, sets).
+
+::: {.notes}
+Time: 16-17 min
+:::
+
+---
+
+## Name Lookup and Scope
+
+When Python evaluates a variable name, it searches a sequence of **scopes** — places where names can live. That search rule is called **LEGB**:
+
+::: {.incremental}
+- **L**ocal: inside the current function
+- **E**nclosing: inside any outer function (nested functions)
+- **G**lobal: at the module (file) level
+- **B**uilt-in: names like `len`, `print`, `range`
+:::
+
+::: {.notes}
+Time: 17 min
+Set up: “This is why the next question throws `UnboundLocalError`.”
+:::
+
+---
+
+## Concept Check: LEGB Scope
+
+What does this code print?
+
+```python
+counter = 0
+
+def increment():
+    counter += 1
+    return counter
+
+result = increment()
+print(result)
+```
+
+. . .
+
+**Answer:** Raises `UnboundLocalError`!
+
+Python sees the assignment `counter += 1`, assumes `counter` is local, but can't find a local value to increment.
+
+::: {.notes}
+Time: 17-19 min
+Give 30 seconds to think
+Press C to reveal
+Explain: Python sees assignment, assumes local, can't find local value
+:::
+
+---
+
+## LEGB: How Python Finds Variables
+
+```
+┌─────────────────────────────────────────┐
+│  Built-in (print, len, range, ...)      │
+│  ┌─────────────────────────────────┐    │
+│  │  Global (module level)          │    │
+│  │  ┌─────────────────────────┐    │    │
+│  │  │  Enclosing (outer func) │    │    │
+│  │  │  ┌─────────────────┐    │    │    │
+│  │  │  │  Local (inner)  │ <-──Search starts here
+│  │  │  └─────────────────┘    │    │    │
+│  │  └─────────────────────────┘    │    │
+│  └─────────────────────────────────┘    │
+└─────────────────────────────────────────┘
+```
+
+. . .
+
+**Key insight:** Assignment to a name makes it **local** to that scope.
+
+::: {.notes}
+Time: 19-20 min
+:::
+
+---
+
+## Module Organization: The Main Guard
+
+```python
+# physics_cgs.py
+
+SPEED_OF_LIGHT = 2.998e10  # cm/s
+
+def kinetic_energy(mass_g, velocity_cms):
+    """Calculate KE in ergs."""
+    return 0.5 * mass_g * velocity_cms**2
+
+# This block ONLY runs when executed directly
+if __name__ == "__main__":
+    # Test the module
+    print("Testing physics_cgs...")
+    ke = kinetic_energy(1.0, 100.0)
+    print(f"KE test: {ke} erg")
+```
+
+. . .
+
+**Why?** Module can be both **imported** and **run directly**.
+
+::: {.notes}
+Time: 20-22 min
+Transition: "Functions are great, but what about state?"
+:::
+
+---
+
+# Part 2: Why Objects? {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 22-32 min total for Part 2
+The conceptual leap
+:::
+
+---
+
+## The Parallel Lists Problem
+
+Tracking 3 particles with functions alone:
+
+```python
+# Separate lists for each property
+masses = [1.0, 0.5, 2.0]
+positions_x = [0, 10, -5]
+positions_y = [0, 5, 3]
+velocities_x = [10, -5, 0]
+velocities_y = [5, 0, -10]
+
+# Easy to mix up indices!
+def update_positions(px, py, vx, vy, dt):
+    for i in range(len(px)):
+        px[i] += vx[i] * dt
+        py[i] += vy[i] * dt
+        # Wait, did I use the right index?
+        # Is mass[0] paired with position_x[0]?
+```
+
+. . .
+
+**Problem:** Nothing connects related data together.
+
+::: {.notes}
+Time: 22-25 min
+:::
+
+---
+
+## The Same Problem with Objects
+
+```{python}
+#| eval: false
+#| echo: true
+
+class Particle:
+    def __init__(self, mass, x, y, vx, vy):
+        self.mass = mass
+        self.x, self.y = x, y
+        self.vx, self.vy = vx, vy
+
+    def update_position(self, dt):
+        self.x += self.vx * dt
+        self.y += self.vy * dt
+
+# Each particle is self-contained
+particles = [
+    Particle(1.0, 0, 0, 10, 5),
+    Particle(0.5, 10, 5, -5, 0),
+    Particle(2.0, -5, 3, 0, -10)
+]
+
+# Clear, intuitive operations
+for p in particles:
+    p.update_position(dt=0.1)
+```
+
+. . .
+
+**Objects bundle data with the code that operates on it.**
+
+::: {.notes}
+Time: 25-28 min
+:::
+
+---
+
+## State: What Your Code Remembers
+
+**State** is the information a program stores that can persist over time and change what happens next.
+
+In an object, state usually lives in **instance attributes** like `self.x`, `self.y`, and `self.vx`.
+
+::: {.incremental}
+- A **stateful** design *updates* stored values (e.g., a `Particle` moves each timestep by changing `self.x` and `self.y`).
+- A **stateless** function doesn’t remember anything: its output depends only on its inputs (same inputs $\to$ same output).
+:::
+
+. . .
+
+This is why classes shine in simulations: the “thing” you’re modeling needs to **carry its state forward** from one step to the next.
+
+::: {.notes}
+Time: 28 min
+Point at the Particle example: “After `update_position`, the object is different.”
+Contrast with a converter function: “It returns a value but doesn’t remember it.”
+:::
+
+---
+
+## When to Use Classes vs Functions
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### Use Classes When
+
+- State **persists** between calls
+- Data and behavior are **inseparable**
+- Need to **validate** constraints
+- Modeling **real entities**
+
+*Examples: Particle, Star, Telescope, Dataset*
+:::
+
+::: {.column width="50%"}
+### Use Functions When
+
+- Operation is **stateless**
+- Simple **input $\to$ output**
+- Logic is **generic**
+- One-time calculation
+
+*Examples: `celsius_to_kelvin()`, `orbital_period()`*
+:::
+
+::::
+
+::: {.notes}
+Time: 28-30 min
+:::
+
+---
+
+## The Decision Flowchart
+
+```
+Does your code need to remember state between calls?
+    │
+    ├── NO -> Use a function
+    │
+    └── YES -> Does the state need validation/protection?
+                │
+                ├── NO -> Maybe a dict is enough
+                │
+                └── YES -> Use a class with properties
+```
+
+. . .
+
+::: {.callout-tip}
+## Rule of Thumb
+If you're passing the same 5 variables to every function, they want to be an object.
+:::
+
+::: {.notes}
+Time: 30-32 min
+TRANSITION: "Let's learn to build classes properly"
+:::
+
+---
+
+# Part 3: Building Classes {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 32-50 min total for Part 3
+This is the technical core
+:::
+
+---
+
+## Start With a Familiar Function
+
+```python
+def rectangle_area(width, height):
+    return width * height
+
+print(rectangle_area(3, 4))  # 12
+```
+
+The **parameters** are inputs. The **local variables** exist only while the function runs.
+
+If the same rectangle changes width, we must pass its dimensions again. A class can keep those related values together.
+
+---
+
+## A Rectangle Class
+
+```python
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+rect = Rectangle(3, 4)
+print(rect.area())   # 12
+rect.width = 6
+print(rect.area())   # 24
+```
+
+`Rectangle` is the **class** (the definition); `rect` is an **instance** (one object). `__init__` initializes that instance.
+
+---
+
+## Methods Are Functions
+
+A **method** is a function defined in a class. Call it through an object:
+
+```python
+rect.area()                  # ordinary method call
+Rectangle.area(rect)        # equivalent explicit call
+```
+
+Python passes `rect` as the first argument, named `self` inside the method. You write `def area(self):` but call `rect.area()` with no explicit `self`.
+
+A method can use or change the state of its instance. A free function receives every value it needs as an explicit argument.
+
+---
+
+## Attributes Are Variables Attached to Objects
+
+```python
+rect.width       # 6: an instance attribute
+rect.height      # 4: another instance attribute
+rect.area()      # 24: a method call needs parentheses
+```
+
+`self.width` and `self.height` store values **on this instance**. A local variable such as `new_width` inside a method disappears when that call returns.
+
+```python
+other = Rectangle(2, 5)
+other.width = 7
+print(rect.width, other.width)  # 6 7
+```
+
+Each instance has its own dimensions. A class attribute, written in the class body outside methods, is shared unless an instance overrides it.
+
+---
+
+## Public Names and Internal Names
+
+| Spelling | Meaning in Python code |
+|----------|------------------------|
+| `width`, `area` | Public interface: other code may use it. |
+| `_width` | Internal by convention: implementation detail, **not access control**. |
+| `__width` | Name-mangled to reduce accidental clashes; **not secure privacy**. |
+| `__init__`, `__str__` | Special methods with two underscores on **both** sides. |
+
+Use a single leading `_` for backing state behind a validating property or a helper that callers should not depend on. Use public names for the supported interface. Avoid `__name` unless name mangling solves a real subclass collision.
+
+---
+
+## Keep Rectangle State Valid
+
+```python
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width  # calls the setter
+        self.height = height
+
+    @property
+    def width(self):
+        return self._width
+
+    @width.setter
+    def width(self, value):
+        if value <= 0:
+            raise ValueError("width must be positive")
+        self._width = value
+```
+
+The public `width` property checks a change before storing `_width`. Add the same pattern for `height`. Compute `area` from current dimensions instead of storing a copy that can become stale.
+
+**Predict:** what happens on `rect.width = -2`? What would happen if the getter returned `self.width`?
+
+---
+
+## Anatomy of a Class
+
+```{python}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "|1|3-4|6-11|13-16|18-21"
+
+class Particle:  # 1. Class definition
+
+    # 2. Class attribute (shared by ALL instances)
+    G = 6.674e-8  # CGS gravitational constant
+
+    # 3. Constructor - runs when creating object
+    def __init__(self, mass, x, y, vx, vy):
+        # 4. Instance attributes (unique to each)
+        self.mass = mass
+        self.x, self.y = x, y
+        self.vx, self.vy = vx, vy
+
+    # 5. Instance method
+    def update_position(self, dt):
+        self.x += self.vx * dt
+        self.y += self.vy * dt
+
+    # 6. Property (computed attribute)
+    @property
+    def kinetic_energy(self):
+        return 0.5 * self.mass * (self.vx**2 + self.vy**2)
+```
+
+::: {.notes}
+Time: 32-37 min
+Walk through each numbered section
+:::
+
+---
+
+## The `self` Parameter
+
+**The #1 confusion for beginners**
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### You write:
+```python
+p = Particle(1.0, 0, 0, 10, 5)
+p.update_position(0.1)
+```
+:::
+
+::: {.column width="50%"}
+### Python actually does:
+```python
+p = Particle(1.0, 0, 0, 10, 5)
+Particle.update_position(p, 0.1)
+#                        ^
+#                   p becomes self!
+```
+:::
+
+::::
+
+. . .
+
+**The universal error:**
+
+```python
+def method():  # WRONG - missing self!
+    return 42
+```
+
+`TypeError: method() takes 0 positional arguments but 1 was given`
+
+::: {.notes}
+Time: 37-40 min
+Draw on board if helpful
+:::
+
+---
+
+## Properties: Enforcing Physics
+
+```{python}
+#| eval: true
+#| echo: true
+#| code-line-numbers: "|6-8|10-17|19-22"
+
+class Temperature:
+    """Temperature with automatic validation."""
+
+    def __init__(self, kelvin):
+        self.kelvin = kelvin  # Uses setter!
+
+    @property
+    def kelvin(self):
+        return self._kelvin  # Note underscore!
+
+    @kelvin.setter
+    def kelvin(self, value):
+        if value < 0:
+            raise ValueError("Below absolute zero!")
+        self._kelvin = value
+
+    @property
+    def celsius(self):
+        return self._kelvin - 273.15
+
+# Try it
+temp = Temperature(300)
+print(f"{temp.kelvin} K = {temp.celsius:.1f} C")
+```
+
+::: {.notes}
+Time: 40-45 min
+KEY POINT: Properties enforce invariants automatically
+:::
+
+---
+
+## Concept Check: Properties
+
+Why does the Temperature class use `self._kelvin` internally instead of `self.kelvin`?
+
+A. It's faster
+
+B. Python requires underscores for private data
+
+C. To avoid infinite recursion in the property
+
+D. Convention only, no technical reason
+
+. . .
+
+**Answer: C.** A getter returning `self.kelvin` would call itself repeatedly. The leading underscore marks separate backing storage by convention; Python does not require it for privacy.
+
+::: {.notes}
+Time: 45-46 min
+Press C to reveal
+Explain: self.kelvin calls the getter, which returns self.kelvin, which calls the getter...
+:::
+
+---
+
+## Special Methods: Making Objects Pythonic
+
+```{python}
+#| eval: true
+#| echo: true
+
+class Vector3D:
+    def __init__(self, x, y, z):
+        self.x, self.y, self.z = x, y, z
+
+    def __str__(self):
+        """For print() - human readable."""
+        return f"({self.x}, {self.y}, {self.z})"
+
+    def __add__(self, other):
+        """Enable v1 + v2."""
+        return Vector3D(self.x + other.x,
+                       self.y + other.y,
+                       self.z + other.z)
+
+    def __abs__(self):
+        """Enable abs(v) for magnitude."""
+        return (self.x**2 + self.y**2 + self.z**2)**0.5
+
+# Now vectors work naturally!
+v1 = Vector3D(3, 0, 4)
+v2 = Vector3D(1, 2, 2)
+print(f"v1 = {v1}, magnitude = {abs(v1)}")
+print(f"v1 + v2 = {v1 + v2}")
+```
+
+::: {.notes}
+Time: 46-50 min
+Duck typing: if it walks like a duck...
+:::
+
+---
+
+## Inheritance: Reuse an Interface
+
+```python
+class Shape:
+    def describe(self):
+        return f"Area: {self.area()}"
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width, self.height = width, height
+
+    def area(self):
+        return self.width * self.height
+
+print(Rectangle(3, 4).describe())  # Area: 12
+```
+
+`Rectangle(Shape)` is a **subclass**. It inherits `describe` and supplies `area`. Code that calls `shape.area()` can work with different shapes: **polymorphism**.
+
+Inheritance is useful for a real shared interface. Project 3 does not require it.
+
+---
+
+## Composition: Build With Objects
+
+```python
+class Box:
+    def __init__(self, footprint, height):
+        self.footprint = footprint  # a Rectangle object
+        self.height = height
+
+    def volume(self):
+        return self.footprint.area() * self.height
+
+box = Box(Rectangle(3, 4), 5)
+print(box.volume())  # 60
+```
+
+A `Box` **has a** rectangle as its footprint: this is composition. Use it when one object contains or uses another, rather than when one object is a kind of another.
+
+---
+
+# Part 4: Common Pitfalls {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 50-58 min total for Part 4
+:::
+
+---
+
+## Pitfall 1: Forgetting self
+
+```python
+# WRONG
+class BadExample:
+    def method():  # Missing self!
+        return 42
+
+# CORRECT
+class GoodExample:
+    def method(self):
+        return 42
+```
+
+**Error message:** `TypeError: method() takes 0 positional arguments but 1 was given`
+
+::: {.notes}
+Time: 50-52 min
+:::
+
+---
+
+## Pitfall 2: Mutable Default in __init__
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### WRONG
+```python
+class Observatory:
+    def __init__(self, name,
+                 telescopes=[]):
+        self.telescopes = telescopes
+        # All instances share
+        # the SAME list!
+```
+:::
+
+::: {.column width="50%"}
+### CORRECT
+```python
+class Observatory:
+    def __init__(self, name,
+                 telescopes=None):
+        if telescopes is None:
+            telescopes = []
+        self.telescopes = telescopes
+```
+:::
+
+::::
+
+::: {.notes}
+Time: 52-54 min
+Same bug as functions, but in __init__
+:::
+
+---
+
+## Pitfall 3: Property Recursion
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### WRONG - Infinite loop!
+```python
+@property
+def value(self):
+    return self.value
+    # Calls itself forever!
+```
+:::
+
+::: {.column width="50%"}
+### CORRECT - Different name
+```python
+@property
+def value(self):
+    return self._value
+    # Returns stored value
+```
+:::
+
+::::
+
+. . .
+
+**Rule:** Property name and storage name must differ. Convention: `_` prefix for storage.
+
+::: {.notes}
+Time: 54-55 min
+:::
+
+---
+
+## Think-Pair-Share: Design a Star Class
+
+**Challenge:** Design a `Star` class for stellar evolution
+
+Think about:
+
+::: {.incremental}
+
+1. What **attributes** should a Star have?
+2. What **validation** is needed?
+3. What **methods** would be useful?
+4. What should be **properties** vs **methods**?
+
+:::
+
+. . .
+
+**Discuss with a neighbor for 2 minutes!**
+
+::: {.notes}
+Time: 55-58 min
+Walk around, listen to discussions
+Cold-call 2-3 pairs for ideas
+:::
+
+---
+
+# Part 5: Synthesis {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 58-60 min total
+:::
+
+---
+
+## Key Takeaways
+
+::: {.incremental}
+
+- **Functions are contracts** - validate inputs, document assumptions
+- **Use `None` for mutable defaults** - avoid the shared list trap
+- **Classes bundle state + behavior** - use when data persists
+- **Properties enforce invariants** - physics constraints in code
+- **Special methods** make objects feel Pythonic
+- **Design and validate** assumptions at software boundaries
+
+:::
+
+::: {.notes}
+Time: 58-59 min
+:::
+
+---
+
+## Preview: Why This Matters for NumPy
+
+```python
+import numpy as np
+
+# NumPy arrays are OBJECTS with METHODS!
+arr = np.array([1, 2, 3, 4, 5])
+
+arr.mean()      # Method call, not mean(arr)
+arr.reshape(5, 1)  # Returns new array object
+arr.dtype       # Property - no parentheses
+
+# Now you understand WHY this design exists!
+```
+
+. . .
+
+**Connection to earlier NumPy work:** arrays are objects; their methods and attributes follow the same Python rules.
+
+::: {.notes}
+Time: 59-60 min
+TRANSITION: "Everything in scientific Python is objects"
+:::
+
+---
+
+## One Thing to Remember
+
+::: {.r-fit-text}
+**Design first. Validate always.**
+:::
+
+::: {.notes}
+Ask: "What's the one thing you'll remember from today?"
+:::

@@ -1,0 +1,123 @@
+// =============================================================================
+// LAYOUT - Flexbox, centering, spacing, width utilities
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Text Alignment
+// -----------------------------------------------------------------------------
+.reveal .text-left { text-align: left !important; }
+.reveal .text-center { text-align: center !important; }
+.reveal .text-right { text-align: right !important; }
+
+// -----------------------------------------------------------------------------
+// Block Centering
+// -----------------------------------------------------------------------------
+.reveal .mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+// -----------------------------------------------------------------------------
+// Flexbox
+// -----------------------------------------------------------------------------
+.reveal .flex { display: flex !important; }
+.reveal .inline-flex { display: inline-flex !important; }
+.reveal .flex-col { flex-direction: column !important; }
+.reveal .flex-row { flex-direction: row !important; }
+.reveal .flex-wrap { flex-wrap: wrap !important; }
+
+// Alignment
+.reveal .items-start { align-items: flex-start !important; }
+.reveal .items-center { align-items: center !important; }
+.reveal .items-end { align-items: flex-end !important; }
+.reveal .items-stretch { align-items: stretch !important; }
+
+.reveal .justify-start { justify-content: flex-start !important; }
+.reveal .justify-center { justify-content: center !important; }
+.reveal .justify-end { justify-content: flex-end !important; }
+.reveal .justify-between { justify-content: space-between !important; }
+.reveal .justify-around { justify-content: space-around !important; }
+
+// Gap
+.reveal .gap-1 { gap: $space-1 !important; }
+.reveal .gap-2 { gap: $space-2 !important; }
+.reveal .gap-4 { gap: $space-4 !important; }
+
+// -----------------------------------------------------------------------------
+// Margin
+// -----------------------------------------------------------------------------
+// Top
+.reveal .mt-0 { margin-top: 0 !important; }
+.reveal .mt-1 { margin-top: $space-1 !important; }
+.reveal .mt-2 { margin-top: $space-2 !important; }
+.reveal .mt-4 { margin-top: $space-4 !important; }
+
+// Bottom
+.reveal .mb-0 { margin-bottom: 0 !important; }
+.reveal .mb-1 { margin-bottom: $space-1 !important; }
+.reveal .mb-2 { margin-bottom: $space-2 !important; }
+.reveal .mb-4 { margin-bottom: $space-4 !important; }
+
+// Y-axis (top + bottom)
+.reveal .my-0 { margin-top: 0 !important; margin-bottom: 0 !important; }
+.reveal .my-1 { margin-top: $space-1 !important; margin-bottom: $space-1 !important; }
+.reveal .my-2 { margin-top: $space-2 !important; margin-bottom: $space-2 !important; }
+.reveal .my-4 { margin-top: $space-4 !important; margin-bottom: $space-4 !important; }
+
+// X-axis (left + right)
+.reveal .mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
+.reveal .mx-1 { margin-left: $space-1 !important; margin-right: $space-1 !important; }
+.reveal .mx-2 { margin-left: $space-2 !important; margin-right: $space-2 !important; }
+.reveal .mx-4 { margin-left: $space-4 !important; margin-right: $space-4 !important; }
+
+// -----------------------------------------------------------------------------
+// Padding
+// -----------------------------------------------------------------------------
+// Top
+.reveal .pt-0 { padding-top: 0 !important; }
+.reveal .pt-1 { padding-top: $space-1 !important; }
+.reveal .pt-2 { padding-top: $space-2 !important; }
+.reveal .pt-4 { padding-top: $space-4 !important; }
+
+// Bottom
+.reveal .pb-0 { padding-bottom: 0 !important; }
+.reveal .pb-1 { padding-bottom: $space-1 !important; }
+.reveal .pb-2 { padding-bottom: $space-2 !important; }
+.reveal .pb-4 { padding-bottom: $space-4 !important; }
+
+// Y-axis
+.reveal .py-0 { padding-top: 0 !important; padding-bottom: 0 !important; }
+.reveal .py-1 { padding-top: $space-1 !important; padding-bottom: $space-1 !important; }
+.reveal .py-2 { padding-top: $space-2 !important; padding-bottom: $space-2 !important; }
+.reveal .py-4 { padding-top: $space-4 !important; padding-bottom: $space-4 !important; }
+
+// X-axis
+.reveal .px-0 { padding-left: 0 !important; padding-right: 0 !important; }
+.reveal .px-1 { padding-left: $space-1 !important; padding-right: $space-1 !important; }
+.reveal .px-2 { padding-left: $space-2 !important; padding-right: $space-2 !important; }
+.reveal .px-4 { padding-left: $space-4 !important; padding-right: $space-4 !important; }
+
+// All sides
+.reveal .p-0 { padding: 0 !important; }
+.reveal .p-1 { padding: $space-1 !important; }
+.reveal .p-2 { padding: $space-2 !important; }
+.reveal .p-4 { padding: $space-4 !important; }
+
+// -----------------------------------------------------------------------------
+// Width
+// -----------------------------------------------------------------------------
+.reveal .w-full { width: 100% !important; }
+.reveal .w-half { width: 50% !important; }
+.reveal .w-third { width: 33.333% !important; }
+.reveal .w-two-thirds { width: 66.666% !important; }
+.reveal .w-quarter { width: 25% !important; }
+.reveal .w-three-quarters { width: 75% !important; }
+.reveal .w-auto { width: auto !important; }
+
+// Max width for readable prose
+.reveal .max-w-prose { max-width: 65ch !important; }
+.reveal .max-w-full { max-width: 100% !important; }
+
+// NOTE: Image trimming is now handled by the img shortcode's trim kwarg
+// Usage: {{< img fig-id trim="0 50% 0 0" >}}
+// See: _extensions/course/shortcodes.lua

@@ -1,0 +1,52 @@
+// =============================================================================
+// CALLOUTS & EQUATION GLOSS — Modern minimal styling for slides
+// =============================================================================
+
+// --- Callout polish: consistent width + compact padding ---
+.reveal .callout {
+  border-radius: 14px;
+  padding: 0.7rem 0.9rem;
+  margin: 0.7rem 0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+// Reduce callout title dominance a bit
+.reveal .callout-title {
+  font-size: 0.92em;
+  letter-spacing: 0.2px;
+  margin-bottom: 0.35rem;
+}
+
+// Make callouts feel "modern minimal": less noisy internals
+.reveal .callout > :last-child {
+  margin-bottom: 0;
+}
+
+// --- Equation meaning gloss block: reusable utility class ---
+// Use in slides like:
+//
+// ::: {.callout-tip .eq-gloss appearance="minimal"}
+// **What it predicts**
+// ...
+// :::
+
+.reveal .eq-gloss {
+  font-size: 0.85em;
+  line-height: 1.18;
+  padding: 0.65rem 0.85rem;
+}
+
+// Make the gloss read like an instrument panel
+.reveal .eq-gloss strong {
+  font-weight: 650;
+}
+
+// Tighten lists inside gloss blocks
+.reveal .eq-gloss ul,
+.reveal .eq-gloss ol {
+  margin: 0.35rem 0 0.25rem 1.1rem;
+}
+
+.reveal .eq-gloss li {
+  margin: 0.12rem 0;
+}
