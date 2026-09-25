@@ -1201,7 +1201,7 @@ display:block!important;
 </section>
 <section id="the-hidden-state-trap" class="slide level2">
 <h2>The Hidden State Trap</h2>
-<div id="315058fd" class="cell" data-execution_count="1">
+<div id="cell-1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href aria-label="1"></a><span class="co"># Imagine running these cells out of order...</span></span>
 <span id="cb2-2"><a href aria-label="2"></a></span>
 <span id="cb2-3"><a href aria-label="3"></a><span class="co"># Cell 1: Define calibration</span></span>
@@ -1383,7 +1383,7 @@ display:block!important;
 </section>
 <section id="example-kinetic-energy-with-contract" class="slide level2">
 <h2>Example: Kinetic Energy with Contract</h2>
-<div id="bc5cec99" class="cell" data-execution_count="2">
+<div id="cell-2" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" data-code-line-numbers="|1-12|14-15|17-18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href aria-label="1"></a><span class="kw">def</span> kinetic_energy_cgs(mass_g, velocity_cms):</span>
 <span id="cb4-2"><a href aria-label="2"></a>    <span class="co">&quot;&quot;&quot;</span></span>
 <span id="cb4-3"><a href aria-label="3"></a><span class="co">    Calculate kinetic energy in ergs.</span></span>
@@ -1450,7 +1450,7 @@ display:block!important;
 <section id="the-mutable-default-trap" class="slide level2">
 <h2>The Mutable Default Trap</h2>
 <p>One of Python’s most infamous gotchas:</p>
-<div id="f13f4c21" class="cell" data-execution_count="3">
+<div id="cell-3" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href aria-label="1"></a><span class="co"># WRONG - This creates a SHARED list!</span></span>
 <span id="cb6-2"><a href aria-label="2"></a><span class="kw">def</span> add_measurement_buggy(value, data<span class="op">=</span>[]):</span>
 <span id="cb6-3"><a href aria-label="3"></a>    data.append(value)</span>
@@ -1486,7 +1486,7 @@ display:block!important;
 </section>
 <section id="the-fix-none-sentinel-pattern" class="slide level2">
 <h2>The Fix: None Sentinel Pattern</h2>
-<div id="05fcfe2c" class="cell" data-execution_count="4">
+<div id="cell-4" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href aria-label="1"></a><span class="co"># CORRECT - New list each time</span></span>
 <span id="cb8-2"><a href aria-label="2"></a><span class="kw">def</span> add_measurement_fixed(value, data<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb8-3"><a href aria-label="3"></a>    <span class="cf">if</span> data <span class="kw">is</span> <span class="va">None</span>:</span>
@@ -1696,7 +1696,7 @@ display:block!important;
 </section>
 <section id="the-same-problem-with-objects" class="slide level2">
 <h2>The Same Problem with Objects</h2>
-<div id="5cdcac7a" class="cell" data-execution_count="5">
+<div id="cell-5" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href aria-label="1"></a><span class="kw">class</span> Particle:</span>
 <span id="cb14-2"><a href aria-label="2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, mass, x, y, vx, vy):</span>
 <span id="cb14-3"><a href aria-label="3"></a>        <span class="va">self</span>.mass <span class="op">=</span> mass</span>
@@ -1955,7 +1955,7 @@ display:block!important;
 </section>
 <section id="anatomy-of-a-class" class="slide level2">
 <h2>Anatomy of a Class</h2>
-<div id="bfe47946" class="cell" data-execution_count="6">
+<div id="cell-6" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" data-code-line-numbers="|1|3-4|6-11|13-16|18-21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href aria-label="1"></a><span class="kw">class</span> Particle:  <span class="co"># 1. Class definition</span></span>
 <span id="cb22-2"><a href aria-label="2"></a></span>
 <span id="cb22-3"><a href aria-label="3"></a>    <span class="co"># 2. Class attribute (shared by ALL instances)</span></span>
@@ -2029,7 +2029,7 @@ display:block!important;
 </section>
 <section id="properties-enforcing-physics" class="slide level2">
 <h2>Properties: Enforcing Physics</h2>
-<div id="72ca88b5" class="cell" data-execution_count="7">
+<div id="cell-7" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" data-code-line-numbers="|6-8|10-17|19-22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href aria-label="1"></a><span class="kw">class</span> Temperature:</span>
 <span id="cb26-2"><a href aria-label="2"></a>    <span class="co">&quot;&quot;&quot;Temperature with automatic validation.&quot;&quot;&quot;</span></span>
 <span id="cb26-3"><a href aria-label="3"></a></span>
@@ -2097,7 +2097,7 @@ display:block!important;
 </section>
 <section id="special-methods-making-objects-pythonic" class="slide level2">
 <h2>Special Methods: Making Objects Pythonic</h2>
-<div id="fd486b71" class="cell" data-execution_count="8">
+<div id="cell-8" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href aria-label="1"></a><span class="kw">class</span> Vector3D:</span>
 <span id="cb28-2"><a href aria-label="2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, x, y, z):</span>
 <span id="cb28-3"><a href aria-label="3"></a>        <span class="va">self</span>.x, <span class="va">self</span>.y, <span class="va">self</span>.z <span class="op">=</span> x, y, z</span>

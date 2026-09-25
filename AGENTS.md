@@ -26,6 +26,15 @@ private teaching code, solutions, notes, and planning out of public commits and
 site paths. Push the private repository only with explicit authorization and a
 configured private remote.
 
+## Lecture presentation backend
+
+For new or substantially revised lecture slide decks, use the Quarto Reveal
+source, shared theme, and self-contained HTML workflow in
+`09-lectures/README.md`. Keep the MyST lecture page as the stable student route.
+Lecture 10 is the published example. Existing MyST projector lectures remain
+until Anna approves their individual revision. The instructor approval rule
+above applies to source, generated slides, commits, and publication.
+
 ## Assessment boundary
 
 Students do not self-grade their projects. The ND Array Evidence Check is not

@@ -27,6 +27,14 @@ course content, not decoration. A build without `--execute` will render the
 pages but strip those results, so always use `--execute` when checking
 correctness.
 
+## Lecture presentations
+
+New and substantially revised lecture decks use Quarto Reveal source and a
+committed self-contained HTML export. MyST keeps each lecture's stable page and
+serves the export as a static file. See the [lecture slide workflow](09-lectures/README.md)
+for the source, render command, and release checks. Earlier MyST projector
+lectures remain in place until individually revised.
+
 ## Interactive reading experiments
 
 Long readings remain static, build-executed references. A short, structured
