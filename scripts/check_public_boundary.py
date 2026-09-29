@@ -5,6 +5,11 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import argparse
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 FORBIDDEN_PREFIXES = (
@@ -14,8 +19,47 @@ FORBIDDEN_PREFIXES = (
     "roster/",
 )
 
+def check_site(site: Path) -> list[str]:
+    errors = []
+    for prefix in (*FORBIDDEN_PREFIXES, "tools/", "docs/"):
+        if (site / prefix).exists():
+            errors.append(f"Non-course workspace in publication artifact: {prefix}")
+    config_file = site / "config.json"
+    if not config_file.is_file():
+        return errors + ["Missing built site config.json"]
+    config = json.loads(config_file.read_text())
+    slugs = {page["slug"] for project in config["projects"]
+             for page in project.get("pages", []) if "slug" in page}
+    slugs.update(project["index"] for project in config["projects"])
+    # The JupyterLite runtime is an intentionally separate static application.
+    for index in site.glob("*/index.html"):
+        if index.parent.name not in slugs | {"jupyterlite"}:
+            errors.append(f"Page outside course navigation: {index.relative_to(site)}")
+    expected = {path.name for path in (ROOT / "09-lectures/reveal").glob("*.html")}
+    expected.update({"software-engineering.html", "software-engineering.handout.html"})
+    reveal = site / "reveal"
+    for file in reveal.rglob("*"):
+        if file.is_file() and file.relative_to(reveal).as_posix() not in expected:
+            errors.append(f"Unselected slide artifact: {file.relative_to(site)}")
+    for name in expected:
+        if not (reveal / name).is_file():
+            errors.append(f"Missing public slide artifact: reveal/{name}")
+    for slug in ("software-engineering", "software-engineering-for-scientists", "software-engineering-guide"):
+        if slug not in slugs or not (site / slug / "index.html").is_file():
+            errors.append(f"Missing SWE student route: {slug}")
+    route = site / "software-engineering/index.html"
+    if route.is_file():
+        html = route.read_text()
+        for name in ("software-engineering.html", "software-engineering.handout.html"):
+            if f'href="/comp521/reveal/{name}"' not in html:
+                errors.append(f"Student page lacks base-path-correct link: {name}")
+    return errors
+
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--site", action="store_true", help="Also check the final _build/html upload artifact")
+    args = parser.parse_args()
     tracked = subprocess.run(
         ["git", "ls-files"],
         check=True,
@@ -30,6 +74,12 @@ def main() -> int:
         return 1
 
     print("Public repository boundary check passed.")
+    if args.site:
+        errors = check_site(ROOT / "_build/html")
+        if errors:
+            print("\n".join(errors))
+            return 1
+        print("Publication artifact boundary and SWE route checks passed.")
     return 0
 
 

@@ -67,6 +67,13 @@ Read alongside the lectures: [numerical errors](../05-numerical-methods/01-found
 and [root finding](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md).
 These methods support [Project 2](../08-assessments/projects/project-2.md): integration and convergence investigations.
 
+## Software Engineering for Scientists
+
+[Software Engineering for Scientists](software-engineering.md) provides the
+slides, handout, and companion readings for contracts, independent checks,
+systematic debugging, and reproducible results. Apply the examples to your
+current project; its brief owns the required interface and deliverables.
+
 ## Future course blocks
 
 :::{warning} Library expansion in progress

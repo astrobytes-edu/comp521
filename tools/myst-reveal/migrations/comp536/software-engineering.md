@@ -1,6 +1,6 @@
 ---
 title: "Software Engineering for Scientists"
-subtitle: "COMP 521 adaptation · editorial draft"
+subtitle: "COMP 521 · Software Engineering for Scientists"
 author: Anna Rosen
 ---
 
@@ -36,12 +36,12 @@ Ask: "Who has spent 6 hours debugging something that turned out to be a one-char
 ```
 
 ::::::::::::::::::::::::{div}
-**Think $\to$ Plan $\to$ Code**
+**Think $\to$ Plan $\to$ Code $\to$ Check**
 ::::::::::::::::::::::::
 
 
 ::::::::::::::::::::::::::{fragment}
-The keyboard is the **last** step, not the first.
+Plan the check before coding; run it after implementing.
 ::::::::::::::::::::::::::
 
 
@@ -73,8 +73,16 @@ This is the single most important message. Professional developers spend more ti
 
 
 ::::::::::::::::::::::::::{fragment}
-This is how you end up debugging for 6 hours instead of thinking for 20 minutes.
+Write one expected result before implementing.
 ::::::::::::::::::::::::::
+
+```{slide-question}
+What should `mean([2, 4])` return?
+```
+
+```{slide-answer}
+`3`: add the two values and divide by two.
+```
 
 ## Write Down the Contract
 
@@ -97,6 +105,13 @@ Before coding, answer **in writing**:
 | What could go wrong? | Negative mass, wrong units |
 | How will I validate? | L(1.0) $\approx$ 0.698 |
 
+```{slide-question}
+Which contract clause rejects `luminosity(0)`?
+```
+
+```{slide-answer}
+The input range: mass must be at least `0.1`.
+```
 
 
 
@@ -145,7 +160,7 @@ Not "the output looks reasonable."
 {"class":"swe-deck"}
 ```
 
-Different commands produce different kinds of evidence. Keep them separate so failures are easier to interpret.
+Name the claim a check probes. The command that runs it does not determine its evidence type.
 
 ::::::::::::::::::::::::{slide-columns}
 :::::::::::::::::::::::{slide-column}
@@ -153,9 +168,9 @@ Different commands produce different kinds of evidence. Keep them separate so fa
 
 **Scientific Evidence**
 
-A validation command, for example `python run.py validate`
+Does the calculation match an independent reference?
 
-Checks whether results match scientific expectations (anchor values, trends, limits).
+Compare a result with a known anchor, trend, or limiting case.
 ::::::::::::::::::::::
 :::::::::::::::::::::::
 :::::::::::::::::::::::{slide-column}
@@ -163,9 +178,9 @@ Checks whether results match scientific expectations (anchor values, trends, lim
 
 **Behavioral Evidence**
 
-A test command, for example `python -m pytest`
+Does the function meet its contract?
 
-Checks whether code behavior matches the function contract.
+Check a known output or required error, such as rejecting empty input.
 ::::::::::::::::::::::
 :::::::::::::::::::::::
 :::::::::::::::::::::::{slide-column}
@@ -173,9 +188,9 @@ Checks whether code behavior matches the function contract.
 
 **Diagnostic Evidence**
 
-A figure-generation command, for example `python run.py make-figures`
+Where does the result depart from the prediction?
 
-Checks where model output looks wrong so you can localize bugs quickly.
+Plot the discrepancy to locate a scale, shape, or boundary problem.
 ::::::::::::::::::::::
 :::::::::::::::::::::::
 ::::::::::::::::::::::::
@@ -204,7 +219,7 @@ project/
 
 :::::::::::::::::::::::
 :::::::::::::::::::::::{slide-column}
-**Good (reproducible by design)**
+**Good (clear responsibilities)**
 
 ```{slide-code} text
 :title: Repository layout
@@ -222,6 +237,10 @@ project/
 :::::::::::::::::::::::
 ::::::::::::::::::::::::
 
+::::::::::::::::::::::::::{fragment}
+Reproducibility means another person can regenerate the reported results from the saved code, inputs, environment, and documented steps. Check that workflow from a clean clone.
+::::::::::::::::::::::::::
+
 ## Fail Fast
 
 ```{slide-options}
@@ -234,15 +253,23 @@ project/
 {"class":"swe-deck"}
 ```
 
+```{slide-question}
+For `mass = float("nan")`, what do `mass < 0.1` and `mass > 100` return?
+```
+
+::::::::::::::::::::::::::{fragment}
+Both return `False`. Require the valid range instead:
+
 ```{slide-code} python
-:title: Python example
+:title: Reject invalid mass
 def luminosity(mass, Z=0.02):
     # Check inputs FIRST
-    if mass < 0.1 or mass > 100:
+    if not 0.1 <= mass <= 100:
         raise ValueError("Mass must be in [0.1, 100] M_sun")
 
     # ... then compute
 ```
+::::::::::::::::::::::::::
 
 
 
@@ -273,6 +300,14 @@ In scientific computing: **plots are currency.**
 - Validate — Does the pattern match known trends?
 - Communicate — Papers, talks, reports
 ::::::::::::::::::::::::
+
+```{slide-question}
+Before plotting $y=x^2$: where is the minimum, and what should $x=-2$ and $x=2$ give?
+```
+
+```{slide-answer}
+The minimum is $(0,0)$; both inputs give $y=4$. Check these predictions on the plot.
+```
 
 ## The Anti-Pattern
 
@@ -373,14 +408,16 @@ def test_luminosity_solar_mass():
 
 
 ::::::::::::::::::::::::::{fragment}
-Not "something is broken somewhere."
+Expected: `f(x) = x**2`. Observed: `f(2)` returns `2`.
+
+Hypothesis: the implementation is missing the square.
 ::::::::::::::::::::::::::
 
 
 
 
 ::::::::::::::::::::::::::{fragment}
-Form a hypothesis. Test it. Repeat.
+Changing that operation predicts `f(2) == 4`. Check this input before changing anything else.
 ::::::::::::::::::::::::::
 
 
@@ -468,7 +505,7 @@ You have permission to:
 
 
 ::::::::::::::::::::::::::{fragment}
-Code is cheap. Your time and sanity are expensive.
+Before deleting, preserve the failing input and its test. Git protects content saved in a commit; untracked and ignored files need separate protection.
 ::::::::::::::::::::::::::
 
 ## One Source of Truth
@@ -494,6 +531,7 @@ SOLAR_MASS = 1.989e33
 M_SUN = 1.989e33  # Same value, different name!
 ```
 
+If you change `SOLAR_MASS` in `file1.py`, will `file2.py` follow?
 
 
 
@@ -505,6 +543,9 @@ M_SUN = 1.989e33  # Same value, different name!
 :title: Python example
 # constants.py (the ONLY place)
 MSUN = 1.989e33
+
+# In each caller
+from constants import MSUN
 ```
 ::::::::::::::::::::::::::
 
@@ -555,23 +596,21 @@ git add path/to/changed_file.py
 git commit -m "Save working baseline before experiment"
 ```
 
+Committed: `model.py`. Untracked: `notes.txt`. Which file can you recover?
 
 
 ::::::::::::::::::::::::::{fragment}
-Now you can delete freely.
+Only `model.py`. A commit protects the content staged in it.
 ::::::::::::::::::::::::::
 
 
 
 
 ::::::::::::::::::::::::::{fragment}
-If it goes badly:
-
 ```{slide-code} bash
-:title: Git commands
+:title: If it goes badly: inspect before restoring
 git log --oneline -- filename.py
 git diff <baseline-commit> -- filename.py
-# After inspecting the change:
 git restore --source=<baseline-commit> -- filename.py
 ```
 
@@ -682,7 +721,7 @@ The act of articulating often reveals the solution.
 {"class":"swe-deck"}
 ```
 
-**Spec → Contract → Validate (scientific evidence) → Test (behavioral evidence) → Plot (diagnostic evidence) → Iterate → Spec.**
+**Spec → Contract and planned checks → Implement → Run checks and diagnostics → Interpret → Iterate.**
 
 ## The Key Insight
 
@@ -822,12 +861,12 @@ assert finite_mean([1.0, 3.0]) == 2.0
 assert finite_mean([7.0]) == 7.0
 assert finite_mean([4.0, 6.0]) == 5.0
 
-try:
-    finite_mean([])
-except ValueError:
-    pass
-else:
-    raise AssertionError("Empty input must be rejected")
+import pytest
+
+for values in ([], [float("nan")],
+               [float("inf")], [-float("inf")]):
+    with pytest.raises(ValueError):
+        finite_mean(values)
 ```
 
 
@@ -866,13 +905,13 @@ Keep the original stellar examples as a second context: the same workflow applie
 
 ::::::::::::::::::::::::{fragment}
 :::::::::::::::::::::::{div}
-**Think $\to$ Plan $\to$ Validate $\to$ Code**
+**Think $\to$ Plan $\to$ Code $\to$ Check**
 :::::::::::::::::::::::
 ::::::::::::::::::::::::
 
 
 ::::::::::::::::::::::::::{fragment}
-The keyboard is the last step, not the first.
+Plan the check before coding; run it after implementing.
 ::::::::::::::::::::::::::
 
 ## Before Next Class

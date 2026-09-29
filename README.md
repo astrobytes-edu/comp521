@@ -29,11 +29,13 @@ correctness.
 
 ## Lecture presentations
 
-New and substantially revised lecture decks use Quarto Reveal source and a
-committed self-contained HTML export. MyST keeps each lecture's stable page and
-serves the export as a static file. See the [lecture slide workflow](09-lectures/README.md)
-for the source, render command, and release checks. Earlier MyST projector
-lectures remain in place until individually revised.
+The Software Engineering pilot uses MyST authoring and the tracked
+`tools/myst-reveal/` exporter. Deployment installs its locked dependencies,
+builds the course site, then exports only the SWE deck and handout into the
+public artifact. Lecture 10 retains its existing Quarto export; earlier MyST
+projector lectures remain available. See the
+[lecture slide workflow](09-lectures/README.md) for local production commands
+and release checks.
 
 ## Interactive reading experiments
 

@@ -19,6 +19,17 @@ project:
     content: CC-BY-4.0
     code: MIT
 
+  # These are tooling or private workspaces, not course content. MyST otherwise
+  # discovers bibliography files recursively, even with an explicit TOC.
+  exclude:
+    - tools
+    - _instructor
+    - _planning
+    - docs
+    - tests
+    - scripts
+  bibliography: []
+
   # MyST's native Thebe/JupyterLite integration is currently site-wide in the
   # installed release. Keep it off so long reference readings remain static;
   # selected experiment cards use the scoped local Pyodide directive below.
@@ -150,6 +161,7 @@ project:
     - title: Lectures
       children:
         - file: 09-lectures/index.md
+        - file: 09-lectures/software-engineering.md
         - title: Block 1 · Scientific Programming & Transit Model
           children:
             - title: Python Bootcamp · Weeks 1–2

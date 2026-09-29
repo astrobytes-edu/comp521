@@ -41,3 +41,43 @@ BASE_URL=/comp521 PATH="$PWD/.venv/bin:$PATH" tools/myst-reveal/node_modules/.bi
 ```
 
 Local review only. No commit, push or publication. These checks validate the presentation sequence and sampled rendering, not every possible classroom delivery choice or scientific claim in the retained reading.
+# Approved production release — 2026-09-29
+
+Anna approved the distributed predictions/checks, NaN-safe Fail Fast guard,
+claim-based evidence explanation, reproducibility definition, Git protection
+example, and nonfinite mean tests. Both closing workflows now begin with
+Think → Plan → Code → Check and distinguish planning checks from running them.
+The reading retains the plot-as-proof passage and adds the smooth but incorrect
+`2*x**2` example. The removed COMP 536 contract paragraph remains absent.
+
+The student route is `09-lectures/software-engineering.md`. Production installs
+the locked dependencies, exports only SWE slides/handout from the migration
+project, and copies those two files into the course artifact. The package stays
+tracked here. MyST excludes tooling/private workspaces from discovery; the final
+artifact checker rejects extra slide files and pages outside course navigation.
+The full chapter and shorter COMP 521 guide are both retained.
+
+Fresh checks: nine renderer/selected-export tests passed; 22 staged slides passed
+156 forward/backward states with 11 transitions and the worked-example closing
+order preserved. Original COMP 536 hashes, computational cells, assets, and mean
+contract checks passed. The course rendered twice with executed outputs; the
+final public artifact passed the boundary and route checks. Initial layout review
+found overflow on the expanded Git slide; its prompt and recovery label were
+condensed without removing the commands or Git protection warning. Prediction
+labels now meet the 18 px metadata floor. Final layout and public deployment
+verification are recorded by the release session; publication is authorized.
+
+Production verification from the repository root:
+
+```sh
+python3 scripts/check_public_boundary.py --site
+```
+
+Deck verification from `tools/myst-reveal/`:
+
+```sh
+node --test test/render.test.mjs test/production.test.mjs
+node migrations/comp536/check-swe-sequence.mjs _build/production/software-engineering.html
+node src/check.mjs _build/production/decks.json --deck software-engineering --out _build/swe-review-final
+python3 migrations/comp536/verify_migration.py
+```

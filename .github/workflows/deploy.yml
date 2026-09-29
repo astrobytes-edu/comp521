@@ -29,8 +29,9 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Install MyST
-        run: npm install -g mystmd
+      - name: Install locked MyST and Reveal dependencies
+        working-directory: tools/myst-reveal
+        run: npm ci
 
       # The readings contain ~203 executable cells; the site is only correct
       # if they actually run, so the Python env is a build dependency.
@@ -67,15 +68,26 @@ jobs:
       - name: Build site
         run: |
           source .venv/bin/activate
-          myst build --html --execute
+          tools/myst-reveal/node_modules/.bin/myst build --html --execute
           # MyST injects newly executed notebook outputs from its cache on the
           # following render.
-          myst build --html --execute
+          tools/myst-reveal/node_modules/.bin/myst build --html --execute
           cp -R assets/jupyterlite _build/html/jupyterlite
           mkdir -p _build/html/media
           cp -R 09-lectures/media/. _build/html/media/
           python3 scripts/check_lecture_media.py
           python3 scripts/check_jupyterlite_bundle.py
+
+      - name: Build Software Engineering slides and handout
+        run: |
+          source .venv/bin/activate
+          node tools/myst-reveal/src/build.mjs tools/myst-reveal/migrations/comp536 tools/myst-reveal/_build/production --deck software-engineering
+          mkdir -p _build/html/reveal
+          cp tools/myst-reveal/_build/production/software-engineering.html _build/html/reveal/
+          cp tools/myst-reveal/_build/production/software-engineering.handout.html _build/html/reveal/
+
+      - name: Check final publication boundary and SWE routes
+        run: python3 scripts/check_public_boundary.py --site
 
       - uses: actions/configure-pages@v5
 

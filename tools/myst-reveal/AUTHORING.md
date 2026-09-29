@@ -32,6 +32,16 @@ renders everything in a staging directory before replacing the review outputs.
 The preview watcher uses the same build path. `decks.json` maps slides to source
 files/lines for later automated review.
 
+For the COMP 521 SWE publication pilot, use
+`node src/build.mjs migrations/comp536 _build/production --deck software-engineering`.
+This processes the named source and exports only that deck and its handout;
+the project's other decks and standalone source pages are excluded. Use a
+separate output directory: selected export refuses to mix with unrelated files.
+Keep `decks.json` and `provenance.json` in the build workspace, and copy only the
+two HTML files into the course site's `reveal/` directory. This selection is for
+a standalone deck; references requiring other exported source pages must use
+the full project export or an explicit course-site destination.
+
 Native MyST references, footnotes, bibliographies, and notebook embeds work in
 selected decks. Footnotes are repeated on each slide that refers to them. For
 example, `![](#labelled-output)` embeds the resolved notebook output and a source

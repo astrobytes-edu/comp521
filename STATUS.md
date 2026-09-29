@@ -1,8 +1,8 @@
 # COMP 521 — status
 
-next: Review SWE slides and companion reading, then integrate and publish them on the COMP 521 site.
-blocker: SWE content review and production slide-build integration remain open; the separate Project 1 fresh-account gate remains unverified.
-due: Not scheduled
+next: Verify the public SWE reading, slides, and handout after the approved Pages deployment.
+blocker: Pages deployment and public HTTP verification are pending; the separate Project 1 fresh-account gate remains unverified.
+due: 2026-09-29 lecture
 
 ## Current focus
 

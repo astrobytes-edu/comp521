@@ -1,11 +1,41 @@
 # Lecture slide workflow
 
-New and substantially revised COMP 521 lecture slide decks use **Quarto Reveal**.
-Lecture 10 is the working example. Existing MyST projector lectures remain
-available until each lecture is revised; this convention does not change their
-content or links.
+The Software Engineering pilot uses **MyST → Reveal** from the tracked
+`tools/myst-reveal/` package. Keep the canonical source in
+`tools/myst-reveal/migrations/comp536/software-engineering.md`; do not reimport
+the COMP 536 source over it. The package remains here until Anna extracts it.
 
-## Source, output, and site page
+Lecture 10 retains its existing Quarto export. Existing MyST projector lectures
+remain available until individually revised.
+
+## Software Engineering production build
+
+The student route is `software-engineering.md`. It links the slides, handout,
+full companion reading, and preserved shorter COMP 521 guide. Production
+installs the package lock and exports only this deck. ODE/statistics migrations,
+prototype demos, exporter manifests, and local review outputs stay outside the
+upload artifact.
+
+From the repository root:
+
+```sh
+npm ci --prefix tools/myst-reveal
+BASE_URL=/comp521 PATH="$PWD/.venv/bin:$PATH" tools/myst-reveal/node_modules/.bin/myst build --html --execute
+BASE_URL=/comp521 PATH="$PWD/.venv/bin:$PATH" tools/myst-reveal/node_modules/.bin/myst build --html --execute
+PATH="$PWD/.venv/bin:$PATH" node tools/myst-reveal/src/build.mjs tools/myst-reveal/migrations/comp536 tools/myst-reveal/_build/production --deck software-engineering
+mkdir -p _build/html/reveal
+cp tools/myst-reveal/_build/production/software-engineering.html _build/html/reveal/
+cp tools/myst-reveal/_build/production/software-engineering.handout.html _build/html/reveal/
+python3 scripts/check_public_boundary.py --site
+```
+
+The second course render incorporates newly executed outputs, matching the
+deployment workflow. Use `tools/myst-reveal/AUTHORING.md` for the authoring
+contract and `.github/workflows/deploy.yml` for the full runtime/media build.
+After an authorized push, verify the Pages job and the actual student, reading,
+slide, and handout URLs.
+
+## Existing Quarto source, output, and site page
 
 - Write the deck in `09-lectures/reveal-source/<lecture>.qmd`. Use the shared
   `assets/theme/slides/theme.scss` relative to that source directory. Keep code

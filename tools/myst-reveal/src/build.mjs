@@ -86,10 +86,17 @@ ${script(read('src/runtime.js'))}
   return { source: document.location, preset, variant: config.variant || null, theme: config.theme || 'light', slideIndex, slides: slideIndex.length, bytes: Buffer.byteLength(html), outputFile };
 }
 
-function exportProjectFiles(projectDir, outputDir) {
+function exportProjectFiles(projectDir, outputDir, deckName) {
   const config = JSON.parse(fs.readFileSync(path.join(projectDir, 'slides.json'), 'utf8'));
   if (!Array.isArray(config.decks) || !config.decks.length) throw new Error('slides.json needs a nonempty decks list.');
-  const documents = loadDocuments(projectDir);
+  if (deckName) {
+    config.decks = config.decks.filter(deck => deck.name === deckName);
+    if (config.decks.length !== 1) throw new Error(`Expected one deck named ${deckName}.`);
+    // A selected-deck publication does not include the project's other reading pages.
+    config.sources = [];
+  }
+  const allDocuments = loadDocuments(projectDir);
+  const documents = deckName ? [selectDocument(allDocuments, config.decks[0].source)] : allDocuments;
   const routes = {};
   const names = new Set();
   for (const deck of config.decks) {
@@ -140,10 +147,15 @@ function exportProjectFiles(projectDir, outputDir) {
   return manifest;
 }
 
-export function exportProject(projectDir, outputDir) {
+export function exportProject(projectDir, outputDir, deckName) {
+  if (deckName && fs.existsSync(outputDir)) {
+    const allowed = new Set([`${deckName}.html`, `${deckName}.handout.html`, 'decks.json', 'provenance.json']);
+    const unexpected = fs.readdirSync(outputDir).filter(file => !allowed.has(file));
+    if (unexpected.length) throw new Error(`Selected-deck output contains unrelated files: ${unexpected.join(', ')}. Use a separate output directory.`);
+  }
   const stage = fs.mkdtempSync(path.join(projectDir, '_build/.reveal-'));
   try {
-    const manifest = exportProjectFiles(projectDir, stage);
+    const manifest = exportProjectFiles(projectDir, stage, deckName);
     fs.mkdirSync(outputDir, { recursive: true });
     fs.cpSync(stage, outputDir, { recursive: true });
     return manifest;
@@ -152,17 +164,23 @@ export function exportProject(projectDir, outputDir) {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
-    const projectDir = path.resolve(process.argv[2] || 'examples/prototype');
-    const outputFile = path.resolve(process.argv[3] || path.join(packageRoot, '_build/html/reveal/prototype.html'));
+    const args = process.argv.slice(2);
+    const deckFlag = args.indexOf('--deck');
+    const deckName = deckFlag >= 0 ? args[deckFlag + 1] : undefined;
+    if (deckFlag >= 0 && (!deckName || deckFlag !== 2 || args.length !== 4)) throw new Error('Usage: build.mjs PROJECT OUTPUT_DIRECTORY --deck NAME');
+    const projectDir = path.resolve(args[0] || 'examples/prototype');
+    const outputFile = path.resolve(args[1] || path.join(packageRoot, '_build/html/reveal/prototype.html'));
+    const configFile = path.join(projectDir, 'slides.json');
+    const config = fs.existsSync(configFile) ? JSON.parse(fs.readFileSync(configFile)) : {};
+    const selected = deckName ? config.decks?.filter(deck => deck.name === deckName) : undefined;
+    if (deckName && selected?.length !== 1) throw new Error(`Expected one deck named ${deckName}.`);
     const result = spawnSync(process.execPath, [path.join(packageRoot, 'node_modules/mystmd/dist/myst.cjs'),
       'build', '--site', '--execute', '--strict'], { cwd: projectDir, encoding: 'utf8' });
     const log = `${result.stdout || ''}${result.stderr || ''}`.replace(/token=[^\s]+/g, 'token=[redacted]');
     if (result.error) throw result.error;
     if (result.status !== 0) throw new Error(`MyST processing failed:\n${log}`);
     console.log(log.trim());
-    const configFile = path.join(projectDir, 'slides.json');
-    const multi = fs.existsSync(configFile) && JSON.parse(fs.readFileSync(configFile)).decks;
-    console.log(JSON.stringify(multi ? exportProject(projectDir, process.argv[3] ? path.resolve(process.argv[3]) : path.join(packageRoot, '_build/html/reveal')) : exportDeck(projectDir, outputFile)));
+    console.log(JSON.stringify(config.decks ? exportProject(projectDir, args[1] ? path.resolve(args[1]) : path.join(packageRoot, '_build/html/reveal'), deckName) : exportDeck(projectDir, outputFile)));
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;

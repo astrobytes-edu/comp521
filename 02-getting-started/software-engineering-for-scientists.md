@@ -17,6 +17,8 @@ independent checks and diagnostic reasoning; substitute your project's model and
 reference evidence when applying them.
 :::
 
+[Open the slides and handout](../09-lectures/software-engineering.md) for the lecture's short examples and arithmetic-mean walkthrough.
+
 ## Why This Matters
 
 Most scientists learn to code by trial and error. This works for small scripts, but fails catastrophically for:
@@ -88,32 +90,33 @@ python run.py test
 python run.py make-figures
 ```
 
-::::::::{note} Three command families, three evidence types
-Treat these command families as different evidence streams:
+::::::::{note} Match the evidence to its claim
+Describe what each check probes:
 
-- `python run.py validate` = **scientific evidence** (physics/trend/anchor checks)
-- `python run.py test` = **behavioral evidence** (contract and error-handling checks)
-- `python run.py make-figures` = **diagnostic evidence** (where output shape or scale goes wrong)
+- **Scientific evidence:** agreement with an independent anchor, trend, or limiting case.
+- **Behavioral evidence:** agreement with the input, output, and error-handling contract.
+- **Diagnostic evidence:** a discrepancy that helps locate a scale, shape, or boundary problem.
 
-The commands are complementary, not interchangeable.
+A `pytest` test can check a scientific anchor as well as an interface requirement. A plot can compare a result with a reference. The claim and comparison determine what evidence the check supplies; the command name does not.
 ::::::::
 
 ```{mermaid}
 flowchart LR
     S["Spec"] --> C["Contract"]
-    C --> V["Validate<br/>(scientific evidence)"]
-    V --> T["Test<br/>(behavioral evidence)"]
-    T --> P["Plot<br/>(diagnostic evidence)"]
-    P --> I["Iterate"]
+    C --> K["Plan checks"]
+    K --> M["Implement"]
+    M --> E["Run checks and diagnostics"]
+    E --> R["Interpret"]
+    R --> I["Iterate"]
     I --> S
 
     classDef core fill:#e8f3ff,stroke:#1f4b99,stroke-width:2px,color:#0f274f;
     classDef evidence fill:#fff4e5,stroke:#a35a00,stroke-width:2px,color:#4a2a00;
-    class S,C,I core;
-    class V,T,P evidence;
+    class S,C,K,M,I core;
+    class E,R evidence;
 ```
 
-::::::::{tip} Structure is part of your evidence
+::::::::{tip} Structure makes responsibilities visible
 Students usually copy directory structure before they copy process. Start with a structure that makes your evidence pipeline obvious.
 
 **Bad repo (ambiguous responsibilities):**
@@ -127,7 +130,7 @@ project/
 └── test_script.py
 ```
 
-**Good repo (reproducible by design):**
+**Good repo (clear responsibilities):**
 
 ```text
 project/
@@ -140,6 +143,8 @@ project/
 ├── validation/
 └── figures/
 ```
+
+Reproducibility means another person can regenerate the reported results from the saved code, inputs, environment, and documented steps. A directory tree tells them where to look; a clean run shows whether those pieces work together. Record dependency versions, input sources, configuration, and random seeds where needed, then check the documented workflow from a clean clone. For nondeterministic calculations, state which results should agree and the comparison criterion.
 ::::::::
 
 If you build your workflow around these commands, everything else in this guide becomes easier: debugging is faster, your repo stays reviewable, and CI can run your project automatically. See [Project 1](https://astrobytes-edu.github.io/comp536-sp26/08-short-projects/project-1/comp536-project-1.html) for the exact submission contract.
@@ -253,9 +258,9 @@ def luminosity(mass, Z=0.02):
 def luminosity(mass, Z=0.02):
     # Enforce preconditions (fail fast)
     mass = np.asarray(mass)
-    if np.any(mass < 0.1) or np.any(mass > 100):
+    if not np.all((0.1 <= mass) & (mass <= 100)):
         raise ValueError("Mass must be in [0.1, 100] M_sun")
-    if Z < 0.0001 or Z > 0.03:
+    if not 0.0001 <= Z <= 0.03:
         raise ValueError("Z must be in [0.0001, 0.03]")
 
     # ... compute result ...
@@ -271,6 +276,8 @@ def luminosity(mass, Z=0.02):
 **Fail fast** means: detect errors as early as possible, as close to the source as possible. Don't let bad data propagate through your code.
 
 A clear error at the input is infinitely better than garbage output that "looks reasonable."
+
+Predict `mass < 0.1` and `mass > 100` for `float("nan")`: both return `False`. Checking that every value lies inside the valid range rejects NaN as well as values outside the range.
 ::::::::
 
 ::::::::{tip} Check yourself (2 minutes)
@@ -308,7 +315,7 @@ From Tout et al. (1996):
 
 - Precondition: mass in [0.1, 100] solar units
 - Precondition: Z in [0.0001, 0.03]
-- Implication: Raise error outside these ranges (don't extrapolate!)
+- Interface choice in this example: raise an error outside the calibrated ranges.
 
 > "The coefficients are given in Table 1"
 
@@ -380,13 +387,13 @@ def validate_luminosity():
 ```
 
 ::::::::{note} Validation vs. tests vs. plots (don’t blur these)
-These three tools have different jobs. You want all three — but you don’t want to confuse them.
+Ask which claim each check supports:
 
-- **Validation = scientific evidence.** Validation answers: “Does the science make sense?” These are fast physics or ground-truth checks (anchor values, trends, limiting cases). In COMP 536 this is typically `python run.py validate`.
-- **Unit tests = behavioral evidence.** Unit tests answer: “Does the code meet its contract?” These are automated, fast checks of behavior and error handling (usually via `pytest` or `python run.py test`).
-- **Plots = diagnostic evidence.** Plots answer: “Where is it going wrong?” Plots are diagnostic checkpoints and sanity checks — often the fastest way to spot unit/shape mistakes. In COMP 536 this is typically `python run.py make-figures`.
+- **Scientific comparison:** does the result match an independent reference, trend, or limiting case?
+- **Behavioral check:** does the function meet its stated contract for these inputs?
+- **Visual diagnostic:** where does the result depart from the predicted pattern?
 
-Not everything belongs in a unit test. If a check is slow, visual, or requires generating figures, it probably belongs in validation or in your figure pipeline — not in `pytest`.
+The tools can overlap. The mass-trend assertion above can run under `pytest`; a figure can include a reference comparison. Keep expensive figure generation separate when it slows routine checks, while still automating the comparisons that matter.
 ::::::::
 
 ::::::::{tip} Check yourself (2 minutes)
@@ -544,7 +551,7 @@ Each test should:
 ::::::::{warning} Numerical gotchas: floats and randomness
 Scientific code almost always involves floating-point arithmetic and (sometimes) randomness. Treat both as first-class engineering concerns.
 
-- **Never assert exact float equality.** Use tolerances (e.g., `pytest.approx`) and choose them intentionally. Use a **relative tolerance** when values span orders of magnitude, and add an **absolute tolerance** when values can be near zero.
+- **Compare floats intentionally.** Computed numerical results usually need justified tolerances (e.g., `pytest.approx`). Use a **relative tolerance** for nonzero scales and an **absolute tolerance** near zero. Exact checks are appropriate for a deliberately returned literal or an exactly representable result: the arithmetic mean of `[1.0, 3.0]` is exactly `2.0`.
 - **Be deterministic by default.** If you use randomness (Monte Carlo, sampling, noise models), fix the seed for `validate` and `test` so bugs are reproducible. Make “override the seed” an explicit option — not an implicit accident.
 ::::::::
 
@@ -658,6 +665,8 @@ You have permission to:
 
 Code is cheap. Your time and sanity are expensive.
 
+Before deleting, preserve the failing input and its test. Git protects content saved in a commit; untracked and ignored files need separate protection.
+
 ### The Iteration Mindset
 
 Professional software development is iterative:
@@ -679,7 +688,7 @@ git add path/to/changed_file.py
 git commit -m "WIP: saving before rewrite"
 ```
 
-Now you can delete freely. If the rewrite goes badly, you can always get back:
+Inspect what the commit contains before deleting. If the rewrite goes badly, recover the saved version of those files:
 
 ```bash
 git log --oneline -- filename.py
@@ -780,6 +789,8 @@ In scientific computing, **plots are currency** — they're how you:
 
 A function that runs without errors means nothing. A plot showing correct behavior means *everything*.
 
+For example, suppose the expected relation is $y=x^2$. The implementation `y = 2*x**2` produces a smooth, symmetric parabola, but at `x = 2` it gives `8` instead of `4`. Compare the plot with the predicted values as well as its shape.
+
 ### The Anti-Pattern
 
 Most students do this:
@@ -868,7 +879,9 @@ You're not building a cathedral. You're iterating toward correctness.
 4. **Test** — Encode requirements as tests
 5. **Debug** — Systematically, with hypotheses
 
-The keyboard is the **last** step, not the first.
+**Think → Plan → Code → Check.** Plan the checks before coding; execute them after implementing.
+
+In software engineering terms: **Spec → Contract and planned checks → Implement → Run checks and diagnostics → Interpret → Iterate.**
 
 ::::::::{important} The key insight
 Amateur programmers debug their code. Professional programmers debug their **understanding**.

@@ -4,18 +4,23 @@ import fs from 'node:fs';
 import {pathToFileURL} from 'node:url';
 import path from 'node:path';
 import {chromium} from 'playwright';
-const deck=path.resolve('_build/html/reveal/migrations/software-engineering.html');
+const deck=path.resolve(process.argv[2] || '_build/html/reveal/migrations/software-engineering.html');
 // Each inner array is one click. All of its content must arrive together.
 const plans={
  'why-this-matters':[['This works for small scripts'],['Code that must be correct'],['Code that others must read'],['Code you must debug']],
+ 'id-1-think-before-you-type':[['Write one expected result'],['3','divide by two']],
+ 'id-2-write-down-the-contract':[['The input range','0.1']],
+ 'bad-repo-vs-good-repo':[['Reproducibility means','clean clone']],
+ 'id-4-fail-fast':[['Both return','Reject invalid mass','if not 0.1'],['A clear error']],
+ 'id-5-plot-first-not-last':[['Diagnose'],['Validate'],['Communicate'],['The minimum','both inputs give']],
  'id-3-assume-your-code-is-wrong':[['Not “it runs without errors.”'],['Not “the output looks reasonable.”'],['Show me the evidence.']],
  'id-6-test-requirements-not-code':[['Good test:','def test_luminosity_solar_mass','pytest.approx']],
- 'id-7-debug-with-hypotheses':[['Not “something is broken somewhere.”'],['Form a hypothesis. Test it. Repeat.']],
+ 'id-7-debug-with-hypotheses':[['Observed','missing the square'],['f(2) == 4','before changing']],
  'id-8-delete-bad-code':[['I’ve already put so much time'],['This is the sunk cost fallacy.'],['Those 3 hours are gone.']],
- 'permission-to-delete':[['Delete functions'],['Rewrite modules'],['Throw away'],['Start fresh'],['Code is cheap.']],
+ 'permission-to-delete':[['Delete functions'],['Rewrite modules'],['Throw away'],['Start fresh'],['preserve the failing input','Git protects']],
  'id-9-one-source-of-truth':[['Good:','# constants.py']],
  'id-10-read-more-than-you-write':[['Before changing code:'],['Understand what it does now'],['Understand why it was written'],['Then modify']],
- 'id-11-commit-before-you-experiment':[['Now you can delete freely.'],['If it goes badly:','git restore','Uncommitted or ignored files']],
+ 'id-11-commit-before-you-experiment':[['Only model.py','staged in it'],['If it goes badly:','git restore','Uncommitted or ignored files']],
  'the-walk-away-rule':[['Stop typing'],['Go do something else'],['Come back with fresh eyes'],['This isn’t procrastination.']],
  'how-to-ask-for-help':[['Good:','Here’s my code:']],
  'the-key-insight':[['Debug your understanding, not your code.'],['Understanding the problem gives you'],['When repeated patches fail']],
@@ -25,7 +30,8 @@ const plans={
  'transfer-the-workflow-to-your-project':[['Write the input'],['Pick one reference'],['Run the smallest'],['State a hypothesis'],['Check limits'],['Save the configuration'],['Keep the original stellar examples']],
  'before-next-class':[['Read the full guide'],['Keep the 11 principles'],['Apply these principles']],
 };
-const browser=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+const chrome=process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const browser=await chromium.launch({headless:true,...(fs.existsSync(chrome)?{executablePath:chrome}:{})});
 let checks=0;
 try {
  const page=await browser.newPage();await page.goto(pathToFileURL(deck).href);await page.waitForFunction(()=>window.deckReady);
