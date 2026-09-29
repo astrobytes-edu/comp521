@@ -1,0 +1,12 @@
+flowchart LR
+    S["Spec"] --> C["Contract"]
+    C --> V["Validate<br/>(scientific evidence)"]
+    V --> T["Test<br/>(behavioral evidence)"]
+    T --> P["Plot<br/>(diagnostic evidence)"]
+    P --> I["Iterate"]
+    I --> S
+
+    classDef core fill:#e8f3ff,stroke:#1f4b99,stroke-width:2px,color:#0f274f;
+    classDef evidence fill:#fff4e5,stroke:#a35a00,stroke-width:2px,color:#4a2a00;
+    class S,C,I core;
+    class V,T,P evidence;

@@ -1,0 +1,60 @@
+{
+  "source": "/Users/anna/Teaching/comp536-sp26/02-getting-started/04-software-engineering-guide.qmd",
+  "sha256": "ba80be0bbf93cb0ce67118ea4a0494707709b1cee534395fcc1597c18208f62f",
+  "destination": "/Users/anna/Teaching/comp521/02-getting-started/software-engineering-for-scientists.md",
+  "edits": [
+    {
+      "before": "This is a course-wide reference, not a one-off assignment handout. We\u2019ll use [Project 1](../08-short-projects/project-1/comp536-project-1.qmd) as a running example because it\u2019s the first time you\u2019ll be required to meet the full reproducibility contract (CI, `run.py`, deterministic runs, and non-interactive figure generation). Keep this open and return to it throughout the semester \u2014 these habits apply to every project and to real research code.",
+      "after": "This is a course-wide reference, not a one-off assignment handout. The original COMP 536 Project 1 supplies the running stellar-model example and its reproducibility contract (CI, `run.py`, deterministic runs, and non-interactive figure generation). Keep this open and return to it throughout the semester. For COMP 521, follow the current project brief; these habits apply across projects and research code."
+    },
+    {
+      "before": "Here is the standard you should design for from day one (and the standard Project 1 will grade directly):",
+      "after": "The following was the COMP 536 Project 1 contract. It is retained as a worked example, not a COMP 521 grading requirement:"
+    },
+    {
+      "before": "Prove otherwise with validation, not hope.",
+      "after": "Support correctness claims with tests and validation evidence."
+    },
+    {
+      "before": "Every plot is validation.",
+      "after": "Every plot is a diagnostic; validation also needs a stated reference or expectation."
+    },
+    {
+      "before": "**Assume your code is wrong until proven otherwise.**",
+      "after": "**Support correctness claims with tests and validation evidence.**"
+    },
+    {
+      "before": "Then prove yourself wrong by finding evidence of correctness.",
+      "after": "Then test that assumption with independent evidence."
+    },
+    {
+      "before": "This is $O(\\log n)$ instead of $O(n)$ \u2014 much faster for long code paths.",
+      "after": "With ordered checkpoints and a failure that can be localized to one half, checkpoint decisions grow as $O(\\log n)$. Arbitrary bugs do not automatically satisfy that assumption."
+    },
+    {
+      "before": "A passing test suite means: \"All requirements I wrote down are satisfied.\"",
+      "after": "A passing test suite means the implemented checks passed for the tested cases; omitted requirements and untested cases remain open."
+    },
+    {
+      "before": "Git remembers everything. Commit first, then delete.",
+      "after": "Git preserves committed content. Uncommitted and ignored files need separate protection."
+    },
+    {
+      "before": "git add -A",
+      "after": "git status\ngit diff\ngit add path/to/changed_file.py"
+    },
+    {
+      "before": "git checkout HEAD~1 -- filename.py",
+      "after": "git log --oneline -- filename.py\ngit diff <baseline-commit> -- filename.py\n# After inspecting the change:\ngit restore --source=<baseline-commit> -- filename.py"
+    },
+    {
+      "before": "Nothing is ever truly lost if it's in git.",
+      "after": "Choose the saved baseline commit explicitly. Restoring replaces current uncommitted contents; a commit does not protect untracked or ignored files."
+    },
+    {
+      "before": "If you deeply understand the problem, the code writes itself. If you don't, no amount of debugging will save you.",
+      "after": "Understanding the problem gives you a contract and predictions to test. Implementation still requires careful work. When repeated patches fail, revisit the assumptions and the smallest case you can explain by hand."
+    }
+  ],
+  "scope": "Full companion reading, preserved case-study context; original COMP 521 guide retained."
+}

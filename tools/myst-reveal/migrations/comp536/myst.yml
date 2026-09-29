@@ -1,0 +1,15 @@
+version: 1
+project:
+  title: COMP 536 lecture migration drafts
+  plugins:
+    - ../../plugin.mjs
+  toc:
+    - file: software-engineering.md
+    - file: ode-methods.md
+    - file: ode-methods-computations.ipynb
+    - file: statistical-thinking.md
+    - file: statistical-thinking-computations.ipynb
+  numbering:
+    heading_2: false
+site:
+  template: book-theme

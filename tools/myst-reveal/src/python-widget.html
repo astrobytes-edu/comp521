@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Live Python</title>
+<style>
+:root{color-scheme:light}*{box-sizing:border-box}body{font:16px system-ui;color:#16181d;margin:12px;background:#fff}button{font:inherit;padding:6px 10px;border:1px solid #859b9b;border-radius:5px;background:#fff;color:#245959;cursor:pointer}button:disabled{opacity:.5}button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid #264c8c;outline-offset:2px}.toolbar{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap}#status{margin-left:auto;font-size:14px}.workspace{display:grid;grid-template-columns:minmax(0,var(--split,50%)) 12px minmax(0,1fr);height:290px}.editor{position:relative;overflow:hidden;border:1px solid #a8b0bf;border-radius:5px;background:#f6f8fb}.editor textarea,.editor pre{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:10px 10px 10px 48px;border:0;font:17px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:normal;tab-size:4;white-space:pre;overflow:auto;text-align:left}.editor pre{pointer-events:none;color:#16181d;background:transparent}.editor textarea{resize:none;background:transparent;color:transparent;caret-color:#16181d;-webkit-text-fill-color:transparent}.editor textarea::selection{background:#add6ff80}#numbers{position:absolute;top:0;left:0;padding:10px 8px;white-space:pre;font:17px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#677383;pointer-events:none;text-align:right;background:#edf0f5;width:40px}#divider{cursor:col-resize;border:0;border-radius:0;padding:0;background:linear-gradient(90deg,transparent 40%,#cbd5e1 40%,#cbd5e1 60%,transparent 60%)}.results{overflow:auto;padding:0 8px}#output{font:16px/1.4 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 8px}img{display:block;max-width:100%;max-height:260px;width:auto;height:auto;object-fit:contain}p{font-size:13px;color:#596272}#parameters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px}#parameters label{font-size:14px}#trace{font-size:14px;padding:8px;background:#f1f5f9}#trace pre{white-space:pre-wrap;margin:6px 0}.trace-active{background:#ffdf8a;color:#16181d}.hljs-keyword{color:#0000a8}.hljs-built_in,.hljs-type{color:#267f99}.hljs-string,.hljs-attr{color:#a31515}.hljs-title,.hljs-meta{color:#795e26}.hljs-number,.hljs-literal{color:#096b45}.hljs-comment{color:#38763b;font-style:italic}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+body.dark{background:#101923;color:#e7edf4}body.dark .editor,body.dark #trace{background:#192735;color:#e7edf4}body.dark .editor pre{color:#e7edf4}body.dark .editor textarea{caret-color:#e7edf4}body.dark #numbers{background:#233545;color:#b4c0cd}body.dark p{color:#b4c0cd}body.dark button{background:#192735;color:#92d8d3}body.dark .hljs-keyword{color:#c5a7ef}body.dark .hljs-string{color:#efa78b}body.dark .hljs-number{color:#b8d7a3}body.dark .hljs-title,body.dark .hljs-meta{color:#eee2a2}body.dark .hljs-built_in{color:#85d8df}body.dark .hljs-comment{color:#a2ba95}
+@media(max-width:650px){.workspace{grid-template-columns:1fr;height:auto}.editor{height:220px}.results{max-height:260px;margin-top:12px}#divider{display:none}}
+@media(forced-colors:active){#highlighted{display:none}.editor textarea{color:CanvasText;-webkit-text-fill-color:CanvasText;caret-color:CanvasText}}
+</style>
+<body class="__THEME__"><div class="toolbar"><button id="run" title="Run Python (Ctrl or Command + Enter)">Run Python</button><button id="stop" disabled>Stop</button><button id="reset">Reset</button><button id="fallback-button" hidden>Precomputed result</button><span id="status" role="status">Ready</span></div>
+<div id="parameters"></div><div class="workspace"><div class="editor"><label class="sr-only" for="code">Python code</label><pre id="highlighted" aria-hidden="true"></pre><textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off">__PYTHON_SOURCE__</textarea><div id="numbers" aria-hidden="true"></div></div><button id="divider" aria-label="Resize code pane" title="Drag or use left/right arrow keys" role="separator" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="75" aria-valuenow="50"></button><div class="results" aria-label="Python results"><pre id="output" aria-label="Python output"></pre><div id="figures" data-alt="__FIGURE_ALT__"></div><div id="fallback" hidden>__FALLBACK__</div><div id="trace" hidden><button id="previous">Previous step</button><button id="next">Next step</button><p id="trace-label"></p><pre id="variables"></pre></div></div></div>
+<p id="runtime-note">Python loads on first Run. Each run starts fresh. Ctrl/Command+Enter runs; Tab indents, Escape then Tab leaves the editor.</p>
+<script>__HIGHLIGHT_SCRIPT__</script><script>
+const run=document.getElementById('run'),stop=document.getElementById('stop'),status=document.getElementById('status'),output=document.getElementById('output'),figures=document.getElementById('figures'),code=document.getElementById('code'),fallback=document.getElementById('fallback');
+window.addEventListener('message',event=>{if(event.source!==parent||event.data?.type!=='myst-reveal-theme'||!['light','dark'].includes(event.data.theme))return;document.body.classList.toggle('dark',event.data.theme==='dark');document.documentElement.style.colorScheme=event.data.theme;});
+parent.postMessage({type:'myst-reveal-theme-ready'},'*');
+const initial=code.value,packages=__PYTHON_PACKAGES__,parameters=__PARAMETERS__,runtime=__RUNTIME__,traceEnabled=__TRACE_ENABLED__;
+const highlighted=document.getElementById('highlighted'),highlighter=RevealHighlight().hljs,numbers=document.getElementById('numbers');
+let worker,timer,trace=[],traceIndex=0,escapeTab=false;
+function paintCode(){highlighted.innerHTML=highlighter.highlight(code.value+'\n',{language:'python'}).value;numbers.textContent=code.value.split('\n').map((_,i)=>i+1).join('\n');syncScroll();}
+function syncScroll(){highlighted.scrollTop=code.scrollTop;highlighted.scrollLeft=code.scrollLeft;numbers.style.transform=`translateY(${-code.scrollTop}px)`;}
+code.addEventListener('input',paintCode);code.addEventListener('scroll',syncScroll);paintCode();
+code.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){escapeTab=true;return;}
+ if(e.key==='Tab' && !escapeTab){e.preventDefault();const a=code.selectionStart,b=code.selectionEnd;if(e.shiftKey){const start=code.value.lastIndexOf('\n',a-1)+1;const n=Math.min(4,(code.value.slice(start).match(/^ */)||[''])[0].length);code.setRangeText('',start,start+n,'preserve');}else code.setRangeText('    ',a,b,'end');paintCode();}
+ else if(e.key==='Enter' && !(e.ctrlKey||e.metaKey)){e.preventDefault();const start=code.value.lastIndexOf('\n',code.selectionStart-1)+1,line=code.value.slice(start,code.selectionStart),indent=(line.match(/^ */)||[''])[0]+(line.trimEnd().endsWith(':')?'    ':'');code.setRangeText('\n'+indent,code.selectionStart,code.selectionEnd,'end');paintCode();}
+ escapeTab=false;
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();if(!run.disabled)run.click();}});
+const inputs=new Map();for(const p of parameters){const label=document.createElement('label'),input=document.createElement('input'),value=document.createElement('output');input.type='range';for(const key of ['min','max','step','value'])input[key]=p[key];input.setAttribute('aria-label',p.label);value.textContent=p.value;input.oninput=()=>value.textContent=input.value;label.append(p.label+' ',input,value);document.getElementById('parameters').append(label);inputs.set(p.name,input);}
+const divider=document.getElementById('divider'),workspace=document.querySelector('.workspace');let split=50;
+function resize(value){split=Math.max(25,Math.min(75,value));workspace.style.setProperty('--split',split+'%');divider.setAttribute('aria-valuenow',String(Math.round(split)));}
+divider.onkeydown=e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();resize(split+(e.key==='ArrowRight'?5:-5));}};
+divider.onpointerdown=e=>{divider.setPointerCapture(e.pointerId);};divider.onpointermove=e=>{if(divider.hasPointerCapture(e.pointerId)){const b=workspace.getBoundingClientRect();resize(100*(e.clientX-b.left)/b.width);}};divider.onpointerup=e=>divider.releasePointerCapture(e.pointerId);
+const fallbackButton=document.getElementById('fallback-button');fallbackButton.hidden=!fallback.querySelector('img');fallbackButton.onclick=()=>{fallback.hidden=!fallback.hidden;};
+function finish(message){clearTimeout(timer);worker?.terminate();worker=null;run.disabled=false;stop.disabled=true;status.textContent=message;}
+function showTrace(){const entry=trace[traceIndex];document.getElementById('trace').hidden=!entry;if(!entry)return;document.getElementById('trace-label').textContent=`Step ${traceIndex+1}/${trace.length}: ${entry.event} at line ${entry.line}. Line events show state before that line executes.`;document.getElementById('variables').textContent=JSON.stringify(entry.locals,null,2);const line=code.value.split('\n')[entry.line-1]||'';document.getElementById('trace-label').append(document.createElement('br'),line);code.scrollTop=Math.max(0,(entry.line-3)*25.5);syncScroll();const lines=numbers.textContent.split('\n');numbers.innerHTML=lines.map((n,i)=>i+1===entry.line?`<span class="trace-active">${n}</span>`:n).join('\n');}
+document.getElementById('previous').onclick=()=>{traceIndex=Math.max(0,traceIndex-1);showTrace();};document.getElementById('next').onclick=()=>{traceIndex=Math.min(trace.length-1,traceIndex+1);showTrace();};
+run.onclick=()=>{
+ output.textContent='';figures.replaceChildren();fallback.hidden=true;trace=[];showTrace();run.disabled=true;stop.disabled=false;status.textContent='Loading Python…';
+ const program=`importScripts(${JSON.stringify(runtime+'pyodide.js')});
+ self.onmessage=async event=>{try{
+ let executing=false;
+ const py=await loadPyodide({indexURL:${JSON.stringify(runtime)},stdout:text=>{if(executing)postMessage({text});},stderr:text=>postMessage({text})});
+ if(event.data.packages.length)await py.loadPackage(event.data.packages);
+ executing=true;
+ py.globals.set('_slide_source',event.data.source);py.globals.set('_slide_parameters',JSON.stringify(event.data.parameters));
+ await py.runPythonAsync('import json\\n_slide_namespace = {"__name__": "__main__", **json.loads(_slide_parameters)}');
+ if(event.data.packages.includes('matplotlib'))await py.runPythonAsync("import matplotlib\\nmatplotlib.use('agg')\\nimport matplotlib.pyplot as plt\\nimport io, base64, json\\nfrom js import postMessage\\ndef _slide_show(*args, **kwargs):\\n    for number in plt.get_fignums():\\n        buffer = io.BytesIO()\\n        plt.figure(number).savefig(buffer, format='png', bbox_inches='tight')\\n        postMessage(json.dumps({'figure': base64.b64encode(buffer.getvalue()).decode()}))\\n    plt.close('all')\\nplt.show = _slide_show");
+ postMessage({ready:true});
+ if(event.data.trace)await py.runPythonAsync(${JSON.stringify(`import sys, json
+from js import postMessage
+_slide_events = []
+def _slide_safe(v):
+    if type(v) is str:
+        return v[:120]
+    if type(v) is int and abs(v) > 9007199254740991:
+        return {'type': 'int', 'value': str(v)[:120]}
+    if type(v) is float and (v != v or abs(v) == float('inf')):
+        return {'type': 'float', 'value': str(v)}
+    if type(v) in (int, float, bool, type(None)):
+        return v
+    if type(v) in (list, tuple):
+        return [_slide_safe(x) if type(x) in (str,int,float,bool,type(None)) else type(x).__name__ for x in v[:20]]
+    return '<' + type(v).__name__ + '>'
+def _slide_trace(frame, event, arg):
+    if frame.f_code.co_filename == '<slide>' and event in ('line','return'):
+        if len(_slide_events) >= 300:
+            raise RuntimeError('Trace stopped at 300 events; simplify the example.')
+        _slide_events.append({'line': frame.f_lineno, 'event': event, 'locals': {k:_slide_safe(v) for k,v in frame.f_locals.items() if not k.startswith('_')}})
+    return _slide_trace
+sys.settrace(_slide_trace)
+try:
+    exec(compile(_slide_source, '<slide>', 'exec'), _slide_namespace)
+finally:
+    sys.settrace(None)
+    postMessage(json.dumps({'trace':_slide_events}))`)});
+ else await py.runPythonAsync("exec(compile(_slide_source, '<slide>', 'exec'), _slide_namespace)");
+ if(event.data.packages.includes('matplotlib'))await py.runPythonAsync('plt.show()');postMessage({done:true});
+ }catch(error){postMessage({error:String(error)});}};`;
+ const url=URL.createObjectURL(new Blob([program],{type:'text/javascript'}));
+ try{worker=new Worker(url);}catch(error){URL.revokeObjectURL(url);output.textContent=String(error);finish('Unable to start Python');return;}URL.revokeObjectURL(url);
+ worker.onmessage=event=>{const data=typeof event.data==='string'?JSON.parse(event.data):event.data;
+ if(data.ready){status.textContent='Running…';clearTimeout(timer);timer=setTimeout(()=>finish('Stopped after 15 seconds.'),15000);}
+ if(data.text!==undefined)output.textContent+=data.text+'\n';
+ if(data.figure){const img=document.createElement('img');img.src='data:image/png;base64,'+data.figure;img.alt=figures.dataset.alt;figures.append(img);}
+ if(data.trace){trace=data.trace;traceIndex=0;showTrace();}
+ if(data.error){output.textContent+=data.error;finish('Error');}
+ if(data.done)finish('Done');};
+ worker.onerror=e=>{output.textContent=e.message||'Unable to load Python. Use the precomputed result if supplied.';finish('Unable to load or run Python');};
+ timer=setTimeout(()=>finish('Loading timed out. Use a precomputed result or retry.'),60000);
+ worker.postMessage({source:code.value,packages,parameters:Object.fromEntries([...inputs].map(([key,input])=>[key,Number(input.value)])),trace:traceEnabled});
+};
+stop.onclick=()=>finish('Stopped');document.getElementById('reset').onclick=()=>{finish('Ready');code.value=initial;paintCode();output.textContent='';figures.replaceChildren();fallback.hidden=true;trace=[];showTrace();for(const p of parameters){inputs.get(p.name).value=p.value;inputs.get(p.name).dispatchEvent(new Event('input'));}};
+
+window.addEventListener('message',event=>{
+ if(event.source!==parent||event.data?.type!=='myst-state-request')return;
+ const {id,action,state}=event.data;
+ try{
+  if(worker)throw Error('Stop Python or wait for it to finish before saving or restoring a state.');
+  if(action==='capture')parent.postMessage({type:'myst-state-response',id,state:{code:code.value,parameters:[...inputs].map(([name,input])=>[name,input.value]),output:output.textContent,figures:[...figures.querySelectorAll('img')].map(img=>img.src),trace,traceIndex,status:status.textContent,fallback:!fallback.hidden}},'*');
+  else if(action==='restore'){
+   if(!state||typeof state.code!=='string'||!Array.isArray(state.figures)||state.figures.some(src=>!/^data:image\/png;base64,/.test(src)))throw Error('Invalid Python replay state.');
+   code.value=state.code;paintCode();for(const [name,value] of state.parameters){const input=inputs.get(name);if(input){input.value=value;input.dispatchEvent(new Event('input'));}}
+   output.textContent=state.output;figures.replaceChildren();for(const src of state.figures){const img=document.createElement('img');img.src=src;img.alt=figures.dataset.alt;figures.append(img);}trace=state.trace;traceIndex=state.traceIndex;showTrace();status.textContent=state.status+' (restored; not rerun)';fallback.hidden=!state.fallback;
+   parent.postMessage({type:'myst-state-response',id,state:true},'*');
+  }
+ }catch(error){parent.postMessage({type:'myst-state-response',id,error:error.message},'*');}
+});
+</script></html>

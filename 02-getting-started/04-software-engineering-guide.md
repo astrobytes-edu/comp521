@@ -9,6 +9,9 @@ inspect. “The code ran” is only the beginning: you also need to know what th
 calculation was meant to do, which checks could reveal a mistake, and what the
 result does—and does not—support.
 
+For the full eleven-commandment treatment, extended stellar-model examples, and
+debugging reference, see [Software Engineering for Scientists](software-engineering-for-scientists.md).
+
 ## The course workflow changes after P1
 
 | Phase | Implementation | Required execution path |

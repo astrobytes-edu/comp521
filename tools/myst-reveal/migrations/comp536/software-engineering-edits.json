@@ -1,0 +1,72 @@
+[
+  {
+    "before": "## Evidence Families (COMP 536)",
+    "after": "## Three Kinds of Evidence",
+    "reason": "Use a course-neutral heading without changing the distinction."
+  },
+  {
+    "before": "`python run.py validate`",
+    "after": "A validation command, for example `python run.py validate`",
+    "reason": "Do not imply every COMP 521 project has this command."
+  },
+  {
+    "before": "`python run.py test`",
+    "after": "A test command, for example `python -m pytest`",
+    "reason": "Use a familiar example without imposing a new project interface."
+  },
+  {
+    "before": "`python run.py make-figures`",
+    "after": "A figure-generation command, for example `python run.py make-figures`",
+    "reason": "Label the example as a possible interface, not current course policy."
+  },
+  {
+    "before": "This is $O(\\log n)$ instead of $O(n)$.",
+    "after": "With ordered checkpoints and a failure you can localize to one half, the number of checkpoint decisions grows as $O(\\log n)$. Arbitrary bugs do not automatically satisfy that assumption.",
+    "reason": "Qualify the debugging complexity claim."
+  },
+  {
+    "before": "| NaN or Inf | Division by zero |",
+    "after": "| NaN or Inf | Division by zero, invalid domains, overflow, or earlier nonfinite input |",
+    "reason": "Retain the diagnostic table while avoiding a single-cause claim."
+  },
+  {
+    "before": "git add -A\ngit commit -m \"WIP: saving before experiment\"",
+    "after": "git status\ngit diff\ngit add path/to/changed_file.py\ngit commit -m \"Save working baseline before experiment\"",
+    "reason": "Inspect and stage intended files; avoid indiscriminate staging."
+  },
+  {
+    "before": "git checkout HEAD~1 -- filename.py",
+    "after": "git log --oneline -- filename.py\ngit diff <baseline-commit> -- filename.py\n# After inspecting the change:\ngit restore --source=<baseline-commit> -- filename.py",
+    "reason": "HEAD~1 may predate the intended baseline; restore only from an explicitly selected commit."
+  },
+  {
+    "before": "Nothing is truly lost.",
+    "after": "Committed content can be recovered. Uncommitted or ignored files are not protected by a commit; restoring a file replaces its current uncommitted contents.",
+    "reason": "Correct the scope of Git recovery."
+  },
+  {
+    "before": "**Prove correctness with validation, not hope.**",
+    "after": "**Support correctness claims with tests and validation evidence.**",
+    "reason": "Finite tests do not prove arbitrary program correctness."
+  },
+  {
+    "before": "If you deeply understand the problem, the code writes itself.\n\nIf you don't, no amount of debugging will save you.",
+    "after": "Understanding the problem gives you a contract and predictions to test. Implementation still requires careful work.\n\nWhen repeated patches fail, revisit the assumptions and the smallest case you can explain by hand.",
+    "reason": "Preserve the lesson while replacing an overstatement with actionable guidance."
+  },
+  {
+    "before": "3. **Start** Project 1 with these principles",
+    "after": "3. **Apply** these principles to your current COMP 521 project",
+    "reason": "Remove obsolete COMP 536 assignment direction."
+  },
+  {
+    "before": "2. **Print** the 11 Commandments \u2014 put them next to your monitor",
+    "after": "2. **Keep** the 11 principles available while you work; printing them is optional",
+    "reason": "Keep the teaching advice without creating a new requirement."
+  },
+  {
+    "before": "Unqualified luminosity reference 0.698",
+    "after": "Retained stellar example with explicit model-specific qualification.",
+    "reason": "Preserve context without promoting a model-specific number to a universal reference."
+  }
+]

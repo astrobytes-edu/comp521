@@ -1,0 +1,13 @@
+version: 1
+project:
+  title: MyST Reveal feature tour
+  plugins:
+    - ../../plugin.mjs
+  bibliography:
+    - references.bib
+  toc:
+    - file: slides.md
+  numbering:
+    heading_2: false
+site:
+  template: book-theme

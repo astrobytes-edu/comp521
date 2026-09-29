@@ -1,0 +1,44 @@
+{
+  "reveal": {
+    "transition": "fade",
+    "transitionSpeed": "fast"
+  },
+  "sources": [
+    "analysis.ipynb",
+    "methods.md"
+  ],
+  "decks": [
+    {
+      "name": "computation",
+      "source": "computation.md",
+      "preset": "lecture",
+      "handoutMode": "exercises"
+    },
+    {
+      "name": "astronomy",
+      "source": "astronomy.md",
+      "preset": "seminar",
+      "handoutMode": "worked"
+    },
+    {
+      "name": "advanced",
+      "source": "advanced.md",
+      "preset": "seminar",
+      "theme": "dark",
+      "variants": [
+        {
+          "name": "short",
+          "includeTags": [
+            "core"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exploration",
+      "source": "exploration.md",
+      "preset": "lecture",
+      "theme": "light"
+    }
+  ]
+}

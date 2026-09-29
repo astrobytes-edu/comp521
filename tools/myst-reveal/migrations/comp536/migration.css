@@ -1,0 +1,18 @@
+.reveal .slides section { font-size:30px; }
+.reveal .slides h2 { font-size:1.35em; }
+.reveal .cell-outputs img { max-height:360px; }
+
+.reveal .slides pre code,.reveal .code-example .code-card pre,.reveal .myst-reveal-column pre { font-size:20px; }
+.reveal pre code { white-space:pre-wrap; overflow-wrap:anywhere; }
+.reveal .cell-output { font-size:20px; white-space:pre-wrap; overflow-wrap:anywhere; }
+.reveal .slides .katex-display { margin:.6em 0; }
+.reveal .slides .katex-display>.katex { white-space:normal; }
+.reveal .slides h3 { font-size:1em; }
+
+/* SWE pacing and visual hierarchy; other migrated decks are unchanged. */
+.reveal .slides section.swe-deck div.fragment,
+.reveal .slides section.swe-deck li.fragment { border-left:0; padding-left:0; }
+.reveal .slides section.swe-transition { padding-top:140px; min-height:580px; }
+.reveal .slides section.swe-transition h2 { font-size:2.25em; max-width:1000px; line-height:1.12; margin:.35em 0; }
+.reveal .slides section.swe-transition .slide-eyebrow { font-size:.7em; text-transform:uppercase; letter-spacing:.13em; color:var(--accent, #2f6f6f); }
+.reveal .slides section.swe-deck th,.reveal .slides section.swe-deck td { padding:.18em .45em; text-align:left; }

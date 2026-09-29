@@ -1,0 +1,9 @@
+version: 1
+project:
+  title: MyST Reveal host check
+  static_files:
+    - ../../_build/html/reveal
+  toc:
+    - file: index.md
+site:
+  template: book-theme

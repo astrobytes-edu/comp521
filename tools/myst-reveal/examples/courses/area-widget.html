@@ -1,0 +1,5 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Rectangle area</title>
+<style>body{font:24px system-ui;color:#16181d;padding:20px}label{display:block;margin-bottom:20px}input{width:70%;accent-color:#2f6f6f}output{font-weight:bold}#rectangle{height:80px;background:#2f6f6f;margin-top:20px;border-radius:5px}</style>
+<label>Width <input id="width" type="range" min="1" max="10" value="5" aria-label="Width"></label>
+<p>Height = 2 · Area = <output id="area" for="width">10</output></p><div id="rectangle" role="img" aria-label="Rectangle width five and height two"></div>
+<script>const slider=document.getElementById('width');function update(){document.getElementById('area').value=Number(slider.value)*2;const rect=document.getElementById('rectangle');rect.style.width=(Number(slider.value)*40)+'px';rect.setAttribute('aria-label','Rectangle width '+slider.value+' and height two')}slider.addEventListener('input',update);update();</script></html>

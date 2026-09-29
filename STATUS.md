@@ -1,8 +1,8 @@
 # COMP 521 — status
 
-next: Support the September 23 Project 2 deadline and September 24 Project 3 lab.
-blocker: The earlier Project 1 fresh-account verification gate remains unverified.
-due: 2026-09-23
+next: Review SWE slides and companion reading, then integrate and publish them on the COMP 521 site.
+blocker: SWE content review and production slide-build integration remain open; the separate Project 1 fresh-account gate remains unverified.
+due: Not scheduled
 
 ## Current focus
 

@@ -1,0 +1,38 @@
+{
+  "decks": [
+    {
+      "deck": "software-engineering.html",
+      "slides": 38,
+      "states": 75,
+      "sha256": "1462e7e14dbd75205b4eb1028668c18b984210dfdd7145426ac2363de6d702f7",
+      "report": "_build/migration-review3/report.json",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "deck": "statistical-thinking.html",
+      "slides": 45,
+      "states": 53,
+      "sha256": "a79dd91c322a1d6e90daab8de42fe512aba6a3702c011c265282a75297112916",
+      "report": "_build/migration-review3/report.json",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "deck": "ode-methods.html",
+      "slides": 68,
+      "states": 143,
+      "sha256": "08494c17cc234ed0156a517ad6b4b708cb79cde0e79bf0160fe44f9329bf2471",
+      "report": "_build/migration-review-final-ode/report.json",
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "sourceCellsPreserved": 19,
+  "sourceFiguresPreserved": 8,
+  "rendererTestsPassed": 7,
+  "scope": "Automated layout and local-link checks; sampled visual and interactive review. Not a full scientific audit.",
+  "fragmentStates": 271,
+  "slides": 151,
+  "status": "Initial migration snapshot; SWE superseded by SWE-REVIEW.md and _build/swe-review-final/report.json."
+}

@@ -1,0 +1,19 @@
+version: 1
+project:
+  title: Computational science and astronomy
+  plugins:
+    - ../../plugin.mjs
+  bibliography:
+    - references.bib
+  toc:
+    - file: index.md
+    - file: computation.md
+    - file: astronomy.md
+    - file: advanced.md
+    - file: exploration.md
+    - file: analysis.ipynb
+    - file: methods.md
+  numbering:
+    heading_2: false
+site:
+  template: book-theme

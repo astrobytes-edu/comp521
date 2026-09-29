@@ -1,0 +1,11 @@
+{
+  "reveal": {
+    "transition": "fade",
+    "transitionSpeed": "fast",
+    "autoAnimateDuration": 0.6,
+    "showNotes": false,
+    "defaultTiming": 90
+  },
+  "css": ["tour.css"],
+  "plugins": [{ "script": "tour-plugin.js", "global": "RevealTourPlugin" }]
+}

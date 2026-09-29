@@ -1,0 +1,295 @@
+[
+  {
+    "deck": "ode-methods",
+    "approval": "approved-status",
+    "before": "Review copy \u00b7 COMP 536 content \u00b7 edits pending approval",
+    "after": "COMP 521 adaptation \u00b7 editorial draft"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O5",
+    "before": "**Connect** these methods to Project 2's N-body simulation",
+    "after": "**Connect** these methods to COMP 521 Project 4; compare with the original N-body case study"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O5",
+    "before": "In Project 1, you modeled **stellar populations**",
+    "after": "In the COMP 536 case study, Project 1 modeled **stellar populations**"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O5",
+    "before": "That's Project 2.",
+    "after": "That was the COMP 536 Project 2 application."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O5",
+    "before": "## Project 2: N-body Dynamics",
+    "after": "## COMP 536 case study: N-body Dynamics"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O5",
+    "before": "For Project 2, you'll implement **three** of these (Euler, RK4, Leapfrog) and discover these differences yourself.",
+    "after": "In the original COMP 536 Project 2, students implemented **three** of these (Euler, RK4, Leapfrog). Keep that comparison as context; follow the COMP 521 Project 4 specification for required methods."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O5",
+    "before": "## Timeline and Milestones",
+    "after": "## Original COMP 536 timeline and milestones"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1",
+    "before": "Exponential decay is **forgiving** \u2014 the solution shrinks, so errors shrink too.",
+    "after": "For $\\dot y=-y$, forward Euler is stable for $0<h<2$ and decays monotonically for $0<h\\leq1$. Outside the stability interval, even a decaying exact solution can have growing numerical errors."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1",
+    "before": "Making $h$ smaller slows the growth but **never stops it**. Euler's method on conservative systems is fundamentally broken.",
+    "after": "For this harmonic oscillator, every positive fixed step increases energy. Reducing $h$ reduces the error over a fixed time interval, but does not make forward Euler symplectic. Test convergence and long-time conservation separately."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1",
+    "before": "*(Euler is fine for non-oscillatory problems like exponential decay, and useful for first-pass debugging. The failure is specific to **energy-conserving** systems \u2014 which is exactly what Project 2 is.)*",
+    "after": "*(Forward Euler remains useful for learning and for suitable problems within its stability limits. The oscillator illustrates a specific long-time failure; this is not a verdict on every conservative system.)*"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1",
+    "before": "\"The error is structural, not numerical. No amount of resolution fixes a structural flaw. We need a better method.\"",
+    "after": "\"This numerical error reflects the method\u2019s structure. Refinement improves finite-time accuracy, while a different integrator may better preserve long-time geometry.\""
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1",
+    "before": "\"Energy grows exponentially. This is not a bug \u2014 it is a theorem about Euler on Hamiltonian systems.\"",
+    "after": "\"The displayed formula establishes energy growth for forward Euler on this harmonic oscillator. Do not generalize it to every Hamiltonian system.\""
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O2",
+    "before": "## The Problem With All Runge-Kutta Methods\n\nRK2, RK4, even RK8 \u2014 they all share a fundamental flaw:\n\n::::::::::::::::::::::::{slide-incremental}\n- They treat $[x, v]$ as a **single blob** and update everything at once\n- This is accurate **locally** but violates a deep physical principle\n- **Liouville's theorem:** physical systems preserve phase space volume\n- RK methods **shrink or expand** phase space slightly each step\n- Over millions of steps: systematic energy drift (always in the same direction)\n::::::::::::::::::::::::\n\n::::::::::::::::::::::::{fragment}\n:::::::::::::::::::::::{note}\nNo amount of accuracy fixes a structural violation. We need a method that respects the geometry of physics.\n:::::::::::::::::::::::\n::::::::::::::::::::::::\n\n::::::::::::::::::::::::{speaker-note}\nTime: 46-48 min. \"This is the deepest idea in the lecture. Accuracy and structure are different things. You can be very accurate and still violate physics.\"\n::::::::::::::::::::::::\n",
+    "after": "## Accuracy and structure are different questions\n\nThe explicit midpoint RK2 and classical RK4 methods shown here are not symplectic.\n\n:::{slide-incremental}\n- Local accuracy and long-time geometric behavior are different properties.\n- For Hamiltonian dynamics, the exact flow preserves symplectic structure and phase-space volume.\n- Numerical behavior depends on the problem, timestep and integration duration.\n- Some **implicit Runge\u2013Kutta methods are symplectic**; the statement is not about every RK method.\n:::\n\nCompare **trajectory error, phase error and energy error** separately for the oscillator.\n\n:::{speaker-note}\nOriginal teaching slot: 46\u201348 min. Keep the distinction between accuracy and structure. Do not claim that drift always has one sign or that a simultaneous state update itself explains the defect.\n:::\n"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O3",
+    "before": "## Why Leapfrog Preserves Energy\n\n::::::::::::::::::::::::{div}\nEach sub-step is a **shear** \u2014 stretches phase space in one direction but preserves total area:\n\n:::::::::::::::::::::::{slide-incremental}\n- **Kick:** changes velocity, leaves position alone \u2192 shear in $v$-direction\n- **Drift:** changes position, leaves velocity alone \u2192 shear in $x$-direction\n- Shears **preserve area exactly** (like pushing a deck of cards sideways)\n- Composition of area-preserving maps = area-preserving map\n:::::::::::::::::::::::\n\n:::::::::::::::::::::::{fragment}\n**Result:** Leapfrog conserves a *slightly modified* energy $\\tilde{E} = E + O(h^2)$.\n\n- $\\tilde{E}$ is conserved **exactly** \u2192 energy oscillates within a bounded envelope\n- The envelope width is $\\propto h^2$ \u2192 shrinks with smaller timestep\n- Energy **never drifts** \u2014 bounded forever, no matter how many steps\n\n| Property | RK4 | Leapfrog |\n|----------|-----|----------|\n| Order | 4th | 2nd |\n| After $10^6$ steps | Drifts by $\\sim 0.1\\%$ | Oscillates within $\\sim 0.01\\%$ |\n| After $10^9$ steps | Drifts by $\\sim 100\\%$ | Still within $\\sim 0.01\\%$ |\n:::::::::::::::::::::::\n::::::::::::::::::::::::\n\n::::::::::::::::::::::::{note}\nOnly 2nd order \u2014 but energy is conserved to machine precision. **Structure preservation beats raw accuracy.**\n::::::::::::::::::::::::\n\n::::::::::::::::::::::::{speaker-note}\nTime: 49-52 min. \"This is the key insight. A deck of cards pushed sideways doesn't change in area. Three shears composed = area preserved = energy bounded. A 2nd-order method that preserves physics beats a 4th-order method that doesn't.\"\n::::::::::::::::::::::::\n",
+    "after": "## What leapfrog preserves\n\nFor a separable Hamiltonian and a fixed timestep, kick-drift-kick leapfrog is symplectic and time reversible.\n\n:::{slide-incremental}\n- **Kick:** changes velocity while position stays fixed, a shear in velocity.\n- **Drift:** changes position while velocity stays fixed, a shear in position.\n- In the one-dimensional phase plane, these shears preserve area.\n- Their composition retains the symplectic structure of the substeps.\n:::\n\nThis does **not** imply exact conservation of the physical energy.\n\n:::{speaker-note}\nKeep the deck-of-cards analogy for area preservation. Area preservation alone is not a general proof of bounded physical-energy error.\n:::\n\n## Leapfrog: energy error and its limits\n\n```{slide-options}\n{\"vertical\":true}\n```\n\nFor the harmonic oscillator in the stable regime $h\\omega<2$, physical-energy error oscillates rather than showing forward Euler\u2019s secular growth.\n\n- The energy error is typically $O(h^2)$ in this setting.\n- Modified-Hamiltonian analysis explains long-time behavior under additional assumptions.\n- It is not a universal statement of exact modified-energy conservation for arbitrary systems.\n- Instability, changing timesteps and finite precision require separate analysis.\n\n| Question | Classical RK4 | Fixed-step leapfrog |\n|---|---|---|\n| Formal order | Fourth | Second |\n| Symplectic for this separable problem? | No | Yes |\n| Diagnostic to inspect | Phase and energy error | Phase and energy error |\n\n:::{speaker-note}\nThis replaces unsupported percentage claims at a million or billion steps. No numerical drift percentage is asserted without a specified experiment. A second-order method is not automatically preferable: match method, problem, duration and accuracy needs.\n:::\n"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1",
+    "before": "| **Euler** | 1st | Exponential growth |",
+    "after": "| **Euler** | 1st | Growth for this oscillator |"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O3",
+    "before": "| **Leapfrog** | 2nd | Bounded oscillation |",
+    "after": "| **Leapfrog** | 2nd | Oscillation in the stable fixed-step regime |"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O4",
+    "after": "Added explicit fixed-step endpoint convention; preserved source numerical experiments."
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "approved-status",
+    "before": "Review copy \u00b7 COMP 536 content \u00b7 edits pending approval",
+    "after": "COMP 521 adaptation \u00b7 editorial draft"
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S6",
+    "before": "throughout COMP 536",
+    "after": "in the original COMP 536 sequence and in later computational work"
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S6",
+    "before": "Choose and validate sampling strategies for Project 2 and Project 3 workflows",
+    "after": "Choose and validate sampling strategies; connect the COMP 536 case studies to COMP 521 uncertainty and model-fitting work"
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S6",
+    "before": "## Roadmap (65 Minutes)",
+    "after": "## Roadmap and pacing"
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S6",
+    "before": "Exit Ticket for transfer to Projects 2 and 3",
+    "after": "Exit Ticket for transfer to sampling and model diagnostics"
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S1",
+    "before": "CLT explains why aggregate collision statistics approach Gaussian behavior and stabilize macroscopic pressure.",
+    "after": "Under suitable independence or weak-dependence and finite-variance conditions, a central-limit approximation describes fluctuations of aggregate collision statistics. It does not say that every underlying distribution becomes Gaussian."
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S1",
+    "before": "Statistical uncertainty propagates predictably, and Monte Carlo precision improves as $1/\\sqrt{N}$.",
+    "after": "For independent identically distributed draws with finite variance, the sample-mean standard error scales as $\\sigma/\\sqrt{N}$. Dependence, heavy tails or nonstationarity require additional analysis."
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S2",
+    "before": "- Predict: if covariance is ignored, are propagated uncertainties usually under- or over-estimated?",
+    "after": "- Predict: for $z=x+y$, how does positive versus negative covariance change $\\operatorname{Var}(z)$?"
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S2",
+    "before": "- Play: recompute one estimate with correlated vs uncorrelated assumptions.",
+    "after": "- Play: compare $\\operatorname{Var}(x)+\\operatorname{Var}(y)+2\\operatorname{Cov}(x,y)$ with the independent-input approximation."
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S3",
+    "before": "Inputs/Outputs: input sample stream; output running first three moments.",
+    "after": "Inputs/Outputs: input sample stream; output running mean, sample variance and standardized skewness."
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S4",
+    "before": "You doubled your Monte Carlo sample count",
+    "after": "You quadrupled your Monte Carlo sample count"
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S4",
+    "before": "What should happen to sampling error if everything else is unchanged?",
+    "after": "Under the independent finite-variance sampling model, what should happen to the standard error?"
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S5",
+    "before": "For Project 2 initial conditions, you need masses from a power law and isotropic positions.",
+    "after": "In the COMP 536 initial-condition case study, you need masses from a declared power law and isotropic directions. Full positions additionally require a radial distribution."
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S6",
+    "before": "careful inversion gives physically realistic mass draws.",
+    "after": "careful inversion generates draws from that declared model. Physical realism depends on the chosen limits, model and supporting evidence."
+  },
+  {
+    "deck": "statistical-thinking",
+    "approval": "S6",
+    "before": "Next step: review Module 1 overview and Parts 1-4 before Project 2 and Project 3 lab work.",
+    "after": "For background, retain the COMP 536 Module 1 overview and Parts 1\u20134 below. In COMP 521, connect these ideas to sampling, uncertainty and model-fitting work; these links do not assign COMP 536 Projects 2 or 3."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O6",
+    "before": "- You need ~60-100 points per period to resolve the motion: $h \\lesssim T/60$",
+    "after": "- About 60\u2013100 points per period can be an illustrative starting point; verify accuracy by refinement and problem-specific tolerances."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O6",
+    "before": "- For good accuracy: $h \\approx 0.01 \\times T$ (about 600 points per period)",
+    "after": "- $h = 0.01 T$ gives **100 points per period**; this alone does not establish accuracy."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O6",
+    "before": "If you **halve** $h$, the global error drops by a factor of $2^p$:",
+    "after": "In the asymptotic convergence regime, at the **same final time**, halving $h$ reduces global error by approximately $2^p$:"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O6",
+    "before": "Higher order = **much more accuracy per unit of work.**",
+    "after": "Higher order can reduce the steps needed for a target error. Compare **cost per step** as well as convergence order."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O7",
+    "before": "*Weights $\\frac{1}{6}, \\frac{2}{6}, \\frac{2}{6}, \\frac{1}{6}$ are Simpson's rule!*",
+    "after": "The weights $\\frac{1}{6}, \\frac{2}{6}, \\frac{2}{6}, \\frac{1}{6}$ resemble Simpson quadrature when midpoint contributions are combined. The stages use **different estimated states**; RK4 is not simply Simpson integration of a known integrand."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O7",
+    "before": "The Simpson's rule connection is deep \u2014 RK4 is doing numerical integration of the slope function.",
+    "after": "The weights resemble Simpson quadrature, but the two midpoint stages use different estimated states."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "layout-only",
+    "before": "$$y(t+h) = y(t) + h\\,y'(t) + \\frac{h^2}{2}\\,y''(t) + \\cdots$$",
+    "after": "$$\\begin{aligned}y(t+h) &= y(t) + h\\,y'(t)\\\\ &\\quad + \\frac{h^2}{2}\\,y''(t) + \\cdots\\end{aligned}$$"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O3",
+    "before": "This structural difference is *why* it preserves energy.",
+    "after": "The alternating kick/drift composition is symplectic for a separable Hamiltonian at fixed step. It does not conserve physical energy exactly."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O3",
+    "before": "That's the whole point \u2014 the alternating structure is what makes it symplectic.",
+    "after": "The alternating kick/drift composition, rather than the API alone, makes it symplectic under the stated assumptions."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1\u2013O3",
+    "before": "Today's harmonic oscillator = tomorrow's gravitational orbit:",
+    "after": "Use the harmonic oscillator to motivate diagnostics for the gravitational case study:"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1",
+    "before": "- **Euler** will spiral your planet outward until it escapes \u2014 just like our spring",
+    "after": "- **Euler:** our oscillator gains energy every step. Measure energy and orbital error separately in the gravitational problem."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O2",
+    "before": "- **RK4** will produce nearly perfect orbits with tiny drift",
+    "after": "- **RK4:** test finite-time convergence; the drift depends on step size, trajectory and duration."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O3",
+    "before": "- **Leapfrog** will keep energy bounded with no drift \u2014 orbits stay closed forever",
+    "after": "- **Leapfrog:** stable fixed-step integrations can have bounded oscillatory energy error. Phase error remains; closed orbits are not guaranteed."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1\u2013O3",
+    "before": "The physics is different (gravity vs. spring), but the **numerical behavior is identical.**",
+    "after": "The physics is different (gravity vs. spring). Transfer the **diagnostics**, and test the numerical behavior for each problem."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O1\u2013O3",
+    "before": "Same math, same methods, same failure modes.",
+    "after": "The same methods and diagnostics apply, but the stability and error behavior must be tested for the new problem."
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O5",
+    "before": "## The Pipeline-First Approach",
+    "after": "## COMP 536 case study: the pipeline-first approach"
+  },
+  {
+    "deck": "ode-methods",
+    "approval": "O5",
+    "before": "## Reading Assignments\n\nBefore next class, read these from the course website:",
+    "after": "## Background reading from COMP 536\n\nThese original readings support the retained examples; they are not new COMP 521 assignments:"
+  }
+]

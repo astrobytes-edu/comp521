@@ -1,0 +1,560 @@
+---
+title: "Statistical Thinking Foundations"
+subtitle: "{{< meta params.course-code >}} | Week 6 Statistical Thinking Foundations"
+author: "{{< meta params.instructor >}}"
+date: last-modified
+draft: false
+format:
+  revealjs:
+    theme: [default, ../../../assets/theme/slides/theme.scss]
+    slide-number: true
+    preview-links: auto
+    code-overflow: wrap
+    code-line-numbers: true
+    highlight-style: github
+    transition: slide
+    center: false
+    hash: true
+    history: true
+    footer: "{{< meta params.course-code >}} • Statistical Thinking Foundations"
+execute:
+  echo: true
+  warning: false
+  error: false
+  message: false
+---
+
+```{python}
+#| include: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(536)
+
+plt.rcParams.update({
+    "figure.figsize": (10, 5),
+    "axes.grid": True,
+    "grid.alpha": 0.3,
+    "figure.dpi": 110,
+})
+```
+
+## Learning Outcomes
+
+By the end of this lecture, you will be able to:
+
+::: {.incremental .text-sm}
+- Explain why temperature and pressure are ensemble-level statistical quantities
+- Apply CLT, marginalization, and ergodicity ideas to computational diagnostics
+- Use moments to connect physical interpretation to machine-learning practice
+- Choose and validate sampling strategies for Project 2 and Project 3 workflows
+- Build a trustworthy stochastic computation with reproducibility and diagnostics
+:::
+
+::: {.notes}
+Time: 0:00-2:00. Read outcomes and state that today unifies physics and computational statistics.
+:::
+
+---
+
+## Why This Lecture Exists
+
+You are about to use Monte Carlo methods, random sampling, and population modeling throughout COMP 536.
+
+::: {.fragment}
+Without statistical foundations, those methods become recipes without understanding.
+:::
+
+::: {.fragment}
+With strong foundations, you can diagnose when a method is failing and fix it quickly.
+:::
+
+::: {.notes}
+Time: 2:00-4:00. Set stakes: this is about judgment, not memorization.
+:::
+
+---
+
+## Roadmap (65 Minutes)
+
+:::: {.columns}
+::: {.column width="50%"}
+### Concept Loops
+- Loop A: Emergence (temperature, pressure, CLT)
+- Loop B: Core statistical tools (correlation, marginalization, uncertainty)
+- Loop C: Moments as information compression
+- Loop D: Sampling for realistic simulation
+:::
+
+::: {.column width="50%"}
+### Practice Components
+- Livecoding-lite with deterministic snippets
+- Code Craft micro-segment
+- Exit Ticket for transfer to Projects 2 and 3
+:::
+::::
+
+::: {.notes}
+Time: 4:00-5:00. Emphasize predict-play-explain cadence.
+:::
+
+---
+
+# Loop A: Emergence from Randomness {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 5:00-18:00.
+:::
+
+---
+
+## Predict: Can One Particle Have a Temperature?
+
+A single particle has velocity and kinetic energy.
+
+::: {.fragment}
+Does it have a temperature?
+:::
+
+- A) Yes, because kinetic energy implies temperature
+- B) No, because temperature describes a distribution over many particles
+
+::: {.notes}
+Time: 5:00-6:30. Poll quickly before reveal.
+:::
+
+---
+
+## Reveal: Temperature is a Distribution Parameter
+
+![](../../../05-the-statistical-universe/module-1-how-nature-computes/figures/01_temperature_emergence_from_statistics.png){width="95%"}
+
+Temperature scales with velocity variance across an ensemble, not with one particle state.
+
+::: {.notes}
+Time: 6:30-8:00. Reinforce ensemble definition and units in CGS context.
+:::
+
+---
+
+## Play: Estimate Temperature from Velocity Samples
+
+::: {.callout-note appearance="simple"}
+Purpose: infer an ensemble temperature proxy from sampled velocities.
+Inputs/Outputs: input `n_samples`; output sample variance and inferred relative temperature.
+Pitfall: interpreting small-`N` fluctuation as a physics change rather than sampling noise.
+:::
+
+```{python}
+#| code-line-numbers: "1-6|8-10|12-14"
+def infer_temperature_proxy(n_samples, sigma_true=1.0):
+    v = rng.normal(0.0, sigma_true, n_samples)
+    variance = np.var(v, ddof=1)
+    return variance
+
+for n in [20, 200, 2000, 20000]:
+    var_hat = infer_temperature_proxy(n)
+    print(f"N={n:5d}  variance~{var_hat:0.4f}")
+
+print("Interpretation: larger N gives a more stable estimate of ensemble properties.")
+```
+
+::: {.notes}
+Time: 8:00-10:00. If live run is slow, describe expected trend verbally.
+:::
+
+---
+
+## Explain: Why Pressure is Stable
+
+![](../../../05-the-statistical-universe/module-1-how-nature-computes/figures/03_central_limit_theorem_in_action.png){width="95%"}
+
+CLT explains why aggregate collision statistics approach Gaussian behavior and stabilize macroscopic pressure.
+
+::: {.notes}
+Time: 10:00-12:00. Connect to atmospheric and stellar contexts.
+:::
+
+---
+
+## Loop A: Predict - Play - Explain Checkpoint
+
+- Predict: if particle count increases by $100\times$, what happens to relative fluctuation scale?
+- Play: compare sample means for $N=10^2$ and $N=10^4$ draws from the same parent distribution.
+- Explain: use the $1/\sqrt{N}$ law to justify whether a mismatch is expected.
+
+::: {.notes}
+Time: 12:00-13:00. Keep this brisk and participatory.
+:::
+
+---
+
+# Loop B: Tools for Inference and Diagnostics {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 18:00-35:00.
+:::
+
+---
+
+## Correlation is Not Independence
+
+![](../../../05-the-statistical-universe/module-1-how-nature-computes/figures/05_correlation_and_velocity_ellipsoids.png){width="95%"}
+
+Uncorrelated can still be dependent, and dependence structure controls uncertainty propagation.
+
+::: {.notes}
+Time: 18:00-21:00. Use one astronomy example and one ML example.
+:::
+
+---
+
+## Marginalization: Keep What You Can Observe
+
+![](../../../05-the-statistical-universe/module-1-how-nature-computes/figures/06_marginalization_visualization.png){width="95%"}
+
+From 3D velocity density to speed density:
+
+$$g(v) = 4\pi v^2 f_{\vec{v}}(v)$$
+
+This is where geometry enters through the $v^2$ shell factor.
+
+::: {.notes}
+Time: 21:00-24:00. State assumption of isotropy explicitly.
+:::
+
+---
+
+## Error Propagation and Convergence Rates
+
+![](../../../05-the-statistical-universe/module-1-how-nature-computes/figures/09_error_propagation_through_calculations.png){width="95%"}
+
+Statistical uncertainty propagates predictably, and Monte Carlo precision improves as $1/\sqrt{N}$.
+
+::: {.notes}
+Time: 24:00-27:00. Keep focus on practical uncertainty reasoning for current projects.
+:::
+
+---
+
+## Play: Monte Carlo Error Scaling in Practice
+
+::: {.callout-note appearance="simple"}
+Purpose: quantify how estimate precision improves with sample count.
+Inputs/Outputs: inputs draw counts `N`; outputs mean estimate and standard error.
+Pitfall: expecting linear error reduction with compute budget.
+:::
+
+```{python}
+#| code-line-numbers: "1-5|7-12"
+def mc_estimate_and_stderr(n):
+    x = rng.normal(0.0, 1.0, n)
+    mean = np.mean(x)
+    stderr = np.std(x, ddof=1) / np.sqrt(n)
+    return mean, stderr
+
+for n in [10**2, 10**3, 10**4, 10**5]:
+    mean, se = mc_estimate_and_stderr(n)
+    print(f"N={n:6d}  mean={mean:+0.4f}  stderr={se:0.4f}")
+```
+
+::: {.notes}
+Time: 27:00-30:00. Emphasize diminishing returns and planning compute budgets.
+:::
+
+---
+
+## Loop B: Predict - Play - Explain Checkpoint
+
+- Predict: if covariance is ignored, are propagated uncertainties usually under- or over-estimated?
+- Play: recompute one estimate with correlated vs uncorrelated assumptions.
+- Explain: decide whether mismatch came from dependence structure, wrong propagation assumptions, or finite sample count.
+
+::: {.notes}
+Time: 30:00-31:00.
+:::
+
+---
+
+# Loop C: Moments as Information Compression {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 35:00-46:00.
+:::
+
+---
+
+## Moments: What They Preserve and What They Lose
+
+For a distribution $f(x)$:
+
+$$M_n = E[X^n]$$
+
+Low-order moments often capture core behavior for smooth unimodal distributions, but can miss multimodality and heavy tails.
+
+::: {.notes}
+Time: 35:00-38:00. Keep caveats explicit to avoid overgeneralization.
+:::
+
+---
+
+## Physics and ML Use the Same Statistical Machinery
+
+- Physics: variance links to velocity dispersion and thermal width.
+- ML: first/second moments appear in momentum and adaptive optimizers.
+- Shared move: compress high-dimensional stochastic behavior into stable summary statistics.
+
+::: {.notes}
+Time: 38:00-40:00. Show transfer explicitly; students need this bridge.
+:::
+
+---
+
+## Play: Moment Tracking in a Synthetic Stream
+
+::: {.callout-note appearance="simple"}
+Purpose: observe how mean/variance/skewness evolve as sample size grows.
+Inputs/Outputs: input sample stream; output running first three moments.
+Pitfall: over-interpreting unstable skewness at low sample count.
+:::
+
+```{python}
+#| code-line-numbers: "1-5|7-13"
+from scipy.stats import skew
+
+samples = rng.normal(loc=0.0, scale=1.0, size=5000)
+for n in [50, 200, 1000, 5000]:
+    x = samples[:n]
+    m1 = np.mean(x)
+    m2 = np.var(x, ddof=1)
+    m3 = skew(x, bias=False)
+    print(f"N={n:4d}  mean={m1:+0.3f}  var={m2:0.3f}  skew={m3:+0.3f}")
+```
+
+::: {.notes}
+Time: 40:00-43:00. If scipy import fails, describe expected stabilization trend.
+:::
+
+---
+
+## Loop C: Predict - Play - Explain Checkpoint
+
+- Predict: which moment stabilizes slowest for symmetric noise, variance or skewness?
+- Play: compare stabilization rates across $N$.
+- Explain: connect sensitivity to rare events and tail sampling.
+
+::: {.notes}
+Time: 43:00-44:00.
+:::
+
+---
+
+# Loop D: Sampling to Build Simulations {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 46:00-57:00.
+:::
+
+---
+
+## Inverse Transform and Rejection Sampling
+
+![](../../../05-the-statistical-universe/module-1-how-nature-computes/figures/12_random_sampling_methods.png){width="95%"}
+
+Inverse transform is exact when $F^{-1}$ is tractable; rejection sampling is flexible when it is not.
+
+::: {.notes}
+Time: 46:00-49:00.
+:::
+
+---
+
+## Power Laws and Astrophysical Populations
+
+![](../../../05-the-statistical-universe/module-1-how-nature-computes/figures/13_power_law_distribution_sampling.png){width="95%"}
+
+For $f(m) \propto m^{-\alpha}$ on $[m_{\min}, m_{\max}]$, careful inversion gives physically realistic mass draws.
+
+::: {.notes}
+Time: 49:00-51:00. Mention special-case handling near $\alpha=1$.
+:::
+
+---
+
+## Isotropic 3D Sampling Matters
+
+![](../../../05-the-statistical-universe/module-1-how-nature-computes/figures/14_plummer_sphere_spatial_sampling.png){width="95%"}
+
+Use
+- $\mu = \cos\theta \sim U(-1,1)$
+- $\phi \sim U(0,2\pi)$
+- $\theta = \arccos(\mu)$
+
+to avoid pole clustering artifacts.
+
+::: {.notes}
+Time: 51:00-53:00. This is a frequent bug to call out explicitly.
+:::
+
+---
+
+## Play: Minimal Isotropic Direction Sampler
+
+::: {.callout-note appearance="simple"}
+Purpose: generate unbiased direction vectors for 3D initial conditions.
+Inputs/Outputs: input `n`; output arrays `(x, y, z)` on the unit sphere.
+Pitfall: sampling $\theta$ uniformly in $[0,\pi]$ creates non-isotropic clustering.
+:::
+
+```{python}
+#| code-line-numbers: "1-5|7-12"
+def sample_isotropic_directions(n):
+    mu = rng.uniform(-1.0, 1.0, n)
+    phi = rng.uniform(0.0, 2 * np.pi, n)
+    theta = np.arccos(mu)
+
+    x = np.sin(theta) * np.cos(phi)
+    y = np.sin(theta) * np.sin(phi)
+    z = np.cos(theta)
+    return x, y, z
+
+x, y, z = sample_isotropic_directions(5)
+print(np.round(np.column_stack([x, y, z]), 3))
+```
+
+::: {.notes}
+Time: 53:00-55:00.
+Fallback: describe qualitative isotropy check if runtime issues occur.
+:::
+
+---
+
+## Loop D: Predict - Play - Explain Checkpoint
+
+- Predict: does Monte Carlo error always decrease faster than model bias as compute increases?
+- Play: compare diagnostics for $10^2$, $10^4$, $10^6$ samples.
+- Explain: identify whether failure is geometric bias, model mismatch, or finite-sample noise.
+
+::: {.notes}
+Time: 55:00-56:00.
+:::
+
+---
+
+# Code Craft: Trustworthy Stochastic Computing {background-color="#1a1a2e"}
+
+::: {.notes}
+Time: 57:00-62:00.
+:::
+
+---
+
+## Code Craft Pattern: From Idea to Reliable Result
+
+A reliable stochastic workflow has five explicit steps:
+
+1. State assumptions and target observable.
+2. Seed randomness for reproducibility.
+3. Validate against analytical or limiting-case checks.
+4. Track uncertainty and convergence rate.
+5. Record diagnostics before interpretation.
+
+::: {.notes}
+Time: 57:00-59:00.
+:::
+
+---
+
+## Code Craft Example: Reproducible Monte Carlo Estimate
+
+::: {.callout-note appearance="simple"}
+Purpose: demonstrate a reproducible estimate with an explicit uncertainty report.
+Inputs/Outputs: input `n`; output estimate and standard error.
+Pitfall: reporting a point estimate without uncertainty or reproducibility metadata.
+:::
+
+```{python}
+#| code-line-numbers: "1-6|8-12|14-15"
+def mc_mean_with_error(n, seed=536):
+    local_rng = np.random.default_rng(seed)
+    draws = local_rng.normal(0.0, 1.0, n)
+    estimate = np.mean(draws)
+    stderr = np.std(draws, ddof=1) / np.sqrt(n)
+    return estimate, stderr
+
+est, se = mc_mean_with_error(20000)
+print(f"estimate={est:+0.4f}, stderr={se:0.4f}")
+print("Report both estimate and uncertainty in all project summaries.")
+```
+
+::: {.notes}
+Time: 59:00-61:00. This is the coding habit to enforce across projects.
+:::
+
+---
+
+## Livecoding-lite Fallback Plan
+
+If a live snippet fails during class:
+
+- Use pre-rendered figures already in the deck.
+- Ask students to predict the expected trend before revealing fallback output.
+- Debrief what the snippet was intended to test.
+
+This keeps pedagogy intact even when runtime is imperfect.
+
+::: {.notes}
+Time: 61:00-62:00.
+:::
+
+---
+
+# Exit Ticket {background-color="#1a1a2e"}
+
+---
+
+## Exit Ticket 1: Concept Transfer
+
+You doubled your Monte Carlo sample count from $N=10^4$ to $N=4\\times 10^4$.
+
+What should happen to sampling error if everything else is unchanged?
+
+- A) It should drop by about $2\\times$
+- B) It should drop by about $4\\times$
+- C) It should stay about the same
+
+::: {.notes}
+Time: 62:00-63:00. Correct answer: A from $1/\\sqrt{N}$ scaling.
+:::
+
+---
+
+## Exit Ticket 2: Implementation Decision
+
+For Project 2 initial conditions, you need masses from a power law and isotropic positions.
+
+Which pipeline is most defensible?
+
+1. Draw $m$ from an inverse-CDF sampler, then sample directions with $\mu = \cos\theta \sim U(-1,1)$.
+2. Draw $\theta \sim U(0,\pi)$ and $\phi \sim U(0,2\pi)$ directly, then adjust by hand.
+3. Use rejection sampling everywhere without diagnostics.
+
+Write one sentence justifying your choice with one diagnostic you would run.
+
+::: {.notes}
+Time: 63:00-65:00. Correct choice: 1 with a profile/anisotropy diagnostic.
+:::
+
+---
+
+## Closing and Reading Link
+
+Next step: review Module 1 overview and Parts 1-4 before Project 2 and Project 3 lab work.
+
+- [Module 1 Overview](../../../05-the-statistical-universe/module-1-how-nature-computes/00-mod1-part0-overview.qmd)
+- [Part 2 Statistical Tools](../../../05-the-statistical-universe/module-1-how-nature-computes/02-mod1-part2-statistical-tools.qmd)
+- [Part 4 Sampling](../../../05-the-statistical-universe/module-1-how-nature-computes/04-mod1-part4-sampling.qmd)
+
+::: {.notes}
+End on transfer: statistics is your modeling language across astrophysics and ML.
+:::

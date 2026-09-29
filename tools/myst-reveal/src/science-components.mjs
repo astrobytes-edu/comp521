@@ -1,0 +1,11 @@
+import { sourceImage } from './figures.mjs';
+import { assetData } from './assets.mjs';
+export function comparisonHtml(opts, settings, publicDir, escape) {
+  if (!opts.title || !Array.isArray(opts.images) || opts.images.length !== 2 || opts.images.some(i => !i.source || !i.alt || !i.label)) throw new Error('Image comparison needs a title and two images with source, alt, and label.');
+  const images = opts.images.map(i => ({ ...i, ...sourceImage(i, settings, publicDir) }));
+  return `<div class="image-comparison" role="group" aria-label="${escape(opts.title)}"><div class="comparison-images">${images.map(i => `<figure><img src="${i.data}" alt="${escape(i.alt)}"><figcaption>${escape(i.label)}</figcaption></figure>`).join('')}</div><label class="comparison-control">Blend second image <input type="range" min="0" max="100" value="50" aria-label="Image blend"></label><p class="comparison-note">${escape(opts.caption || 'Compare the images; coordinate registration must be established by the author.')}</p></div>`;
+}
+export function moviesHtml(opts, settings, escape) {
+  if (!opts.title || !Array.isArray(opts.movies) || opts.movies.length < 2 || opts.movies.length > 3 || opts.movies.some(m => !m.source || !m.label || !m.poster)) throw new Error('Synchronized movies need two or three labelled local videos with poster images.');
+  return `<div class="synced-movies" role="group" aria-label="${escape(opts.title)}"><div class="movie-panels">${opts.movies.map(m => `<figure><video muted preload="metadata" playsinline aria-label="${escape(m.label)}" src="${assetData(settings.projectDir, m.source)}" poster="${assetData(settings.projectDir, m.poster)}"></video><img class="movie-poster" src="${assetData(settings.projectDir, m.poster)}" alt="${escape(m.label)}"><figcaption>${escape(m.label)}</figcaption></figure>`).join('')}</div><div class="movie-controls"><button type="button" data-movie="play">Play together</button><button type="button" data-movie="pause">Pause</button><button type="button" data-movie="reset">Reset</button><label>Time <input type="range" aria-label="Movie time" min="0" max="1" step="0.01" value="0"></label><output role="status">Ready</output></div><p>${escape(opts.caption || 'Playback is synchronized by elapsed video time; physical time mapping is the author’s responsibility.')}</p></div>`;
+}

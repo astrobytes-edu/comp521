@@ -1,0 +1,645 @@
+[
+  {
+    "deck": "software-engineering",
+    "source": "/Users/anna/Teaching/comp536-sp26/lectures/software-engineering/slides/software-engineering-for-scientists.qmd",
+    "sha256": "36996180e3f4d655862af537ba24077267447f7b10a0ec2a1bca22695b8f6741",
+    "slides": [
+      {
+        "sourceSlide": 1,
+        "title": "Why This Matters",
+        "sourceLine": 29
+      },
+      {
+        "sourceSlide": 2,
+        "title": "The Core Insight",
+        "sourceLine": 49
+      },
+      {
+        "sourceSlide": 3,
+        "title": "The 11 Commandments",
+        "sourceLine": 65
+      },
+      {
+        "sourceSlide": 4,
+        "title": "1. Think Before You Type",
+        "sourceLine": 75
+      },
+      {
+        "sourceSlide": 5,
+        "title": "2. Write Down the Contract",
+        "sourceLine": 85
+      },
+      {
+        "sourceSlide": 6,
+        "title": "3. Assume Your Code is Wrong",
+        "sourceLine": 98
+      },
+      {
+        "sourceSlide": 7,
+        "title": "Evidence Families (COMP 536)",
+        "sourceLine": 114
+      },
+      {
+        "sourceSlide": 8,
+        "title": "Bad Repo vs Good Repo",
+        "sourceLine": 144
+      },
+      {
+        "sourceSlide": 9,
+        "title": "4. Fail Fast",
+        "sourceLine": 180
+      },
+      {
+        "sourceSlide": 10,
+        "title": "5. Plot First, Not Last",
+        "sourceLine": 197
+      },
+      {
+        "sourceSlide": 11,
+        "title": "The Anti-Pattern",
+        "sourceLine": 213
+      },
+      {
+        "sourceSlide": 12,
+        "title": "The Right Way",
+        "sourceLine": 225
+      },
+      {
+        "sourceSlide": 13,
+        "title": "6. Test Requirements, Not Code",
+        "sourceLine": 243
+      },
+      {
+        "sourceSlide": 14,
+        "title": "7. Debug with Hypotheses",
+        "sourceLine": 265
+      },
+      {
+        "sourceSlide": 15,
+        "title": "The Binary Search Method",
+        "sourceLine": 279
+      },
+      {
+        "sourceSlide": 16,
+        "title": "Common Bug Symptoms",
+        "sourceLine": 293
+      },
+      {
+        "sourceSlide": 17,
+        "title": "8. Delete Bad Code",
+        "sourceLine": 305
+      },
+      {
+        "sourceSlide": 18,
+        "title": "Permission to Delete",
+        "sourceLine": 321
+      },
+      {
+        "sourceSlide": 19,
+        "title": "9. One Source of Truth",
+        "sourceLine": 338
+      },
+      {
+        "sourceSlide": 20,
+        "title": "10. Read More Than You Write",
+        "sourceLine": 361
+      },
+      {
+        "sourceSlide": 21,
+        "title": "11. Commit Before You Experiment",
+        "sourceLine": 375
+      },
+      {
+        "sourceSlide": 22,
+        "title": "Getting Unstuck",
+        "sourceLine": 65
+      },
+      {
+        "sourceSlide": 23,
+        "title": "The Walk Away Rule",
+        "sourceLine": 404
+      },
+      {
+        "sourceSlide": 24,
+        "title": "Rubber Duck Debugging",
+        "sourceLine": 420
+      },
+      {
+        "sourceSlide": 25,
+        "title": "How to Ask for Help",
+        "sourceLine": 434
+      },
+      {
+        "sourceSlide": 26,
+        "title": "The Professional Workflow",
+        "sourceLine": 65
+      },
+      {
+        "sourceSlide": 27,
+        "title": "The 5-Step Process",
+        "sourceLine": 459
+      },
+      {
+        "sourceSlide": 28,
+        "title": "The Professional Loop",
+        "sourceLine": 473
+      },
+      {
+        "sourceSlide": 29,
+        "title": "The Key Insight",
+        "sourceLine": 492
+      },
+      {
+        "sourceSlide": 30,
+        "title": "Before Next Class",
+        "sourceLine": 508
+      },
+      {
+        "sourceSlide": 31,
+        "title": "Questions?",
+        "sourceLine": 518
+      },
+      {
+        "sourceSlide": 32,
+        "title": "The Takeaway",
+        "sourceLine": 530
+      }
+    ],
+    "codeCells": 0,
+    "assets": []
+  },
+  {
+    "deck": "ode-methods",
+    "source": "/Users/anna/Teaching/comp536-sp26/lectures/numerical-methods/slides/ode-methods.qmd",
+    "sha256": "59a5d476348ceb341b23a19d7b67603464b73fea216e2fb90eb410766cf9aaf7",
+    "slides": [
+      {
+        "sourceSlide": 1,
+        "title": "Learning Objectives",
+        "sourceLine": 42
+      },
+      {
+        "sourceSlide": 2,
+        "title": "The Dynamic Universe",
+        "sourceLine": 62
+      },
+      {
+        "sourceSlide": 3,
+        "title": "From Stars to Star Clusters",
+        "sourceLine": 70
+      },
+      {
+        "sourceSlide": 4,
+        "title": "The N-body Problem in Action",
+        "sourceLine": 86
+      },
+      {
+        "sourceSlide": 5,
+        "title": "The Language of Change",
+        "sourceLine": 102
+      },
+      {
+        "sourceSlide": 6,
+        "title": "The Fundamental Problem",
+        "sourceLine": 139
+      },
+      {
+        "sourceSlide": 7,
+        "title": "From Continuous to Discrete",
+        "sourceLine": 161
+      },
+      {
+        "sourceSlide": 8,
+        "title": "What Is a State Vector?",
+        "sourceLine": 169
+      },
+      {
+        "sourceSlide": 9,
+        "title": "The Key Trick: Converting to First-Order",
+        "sourceLine": 190
+      },
+      {
+        "sourceSlide": 10,
+        "title": "The Discretization Idea",
+        "sourceLine": 217
+      },
+      {
+        "sourceSlide": 11,
+        "title": "What Could Possibly Go Wrong?",
+        "sourceLine": 243
+      },
+      {
+        "sourceSlide": 12,
+        "title": "Choosing $h$: The Timestep",
+        "sourceLine": 258
+      },
+      {
+        "sourceSlide": 13,
+        "title": "Our Two Test Problems",
+        "sourceLine": 284
+      },
+      {
+        "sourceSlide": 14,
+        "title": "Euler's Method",
+        "sourceLine": 324
+      },
+      {
+        "sourceSlide": 15,
+        "title": "The Derivation",
+        "sourceLine": 334
+      },
+      {
+        "sourceSlide": 16,
+        "title": "What Does \"Order\" Mean?",
+        "sourceLine": 358
+      },
+      {
+        "sourceSlide": 17,
+        "title": "Euler in Three Lines of Code",
+        "sourceLine": 410
+      },
+      {
+        "sourceSlide": 18,
+        "title": "Warmup: Euler on $\\dot{y} = -y$",
+        "sourceLine": 433
+      },
+      {
+        "sourceSlide": 19,
+        "title": "Warmup Result: Euler Works... Okay",
+        "sourceLine": 462
+      },
+      {
+        "sourceSlide": 20,
+        "title": "Now the Real Test",
+        "sourceLine": 485
+      },
+      {
+        "sourceSlide": 21,
+        "title": "SHO: Setting Up the Code",
+        "sourceLine": 499
+      },
+      {
+        "sourceSlide": 22,
+        "title": "SHO: The Diagnostic",
+        "sourceLine": 531
+      },
+      {
+        "sourceSlide": 23,
+        "title": "The Beautiful Failure: Trajectory",
+        "sourceLine": 549
+      },
+      {
+        "sourceSlide": 24,
+        "title": "Phase Space Reveals the Crime",
+        "sourceLine": 582
+      },
+      {
+        "sourceSlide": 25,
+        "title": "Energy Tells the Story",
+        "sourceLine": 607
+      },
+      {
+        "sourceSlide": 26,
+        "title": "Why Euler Fails",
+        "sourceLine": 637
+      },
+      {
+        "sourceSlide": 27,
+        "title": "From Equations to Code: RK2",
+        "sourceLine": 662
+      },
+      {
+        "sourceSlide": 28,
+        "title": "Euler's Problem, Visually",
+        "sourceLine": 672
+      },
+      {
+        "sourceSlide": 29,
+        "title": "The Midpoint Method (RK2)",
+        "sourceLine": 690
+      },
+      {
+        "sourceSlide": 30,
+        "title": "Equation to Code: Step by Step",
+        "sourceLine": 718
+      },
+      {
+        "sourceSlide": 31,
+        "title": "Full RK2 Integrator",
+        "sourceLine": 755
+      },
+      {
+        "sourceSlide": 32,
+        "title": "Why Should RK2 Be Better?",
+        "sourceLine": 786
+      },
+      {
+        "sourceSlide": 33,
+        "title": "RK2 vs Euler: Trajectory",
+        "sourceLine": 813
+      },
+      {
+        "sourceSlide": 34,
+        "title": "RK2 vs Euler: Phase Space",
+        "sourceLine": 838
+      },
+      {
+        "sourceSlide": 35,
+        "title": "RK2 vs Euler: Energy",
+        "sourceLine": 867
+      },
+      {
+        "sourceSlide": 36,
+        "title": "Higher-Order Methods: Your Turn",
+        "sourceLine": 907
+      },
+      {
+        "sourceSlide": 37,
+        "title": "RK4: Four Slopes, Fourth-Order",
+        "sourceLine": 917
+      },
+      {
+        "sourceSlide": 38,
+        "title": "The Problem With All Runge-Kutta Methods",
+        "sourceLine": 955
+      },
+      {
+        "sourceSlide": 39,
+        "title": "Leapfrog: Structure Over Accuracy",
+        "sourceLine": 979
+      },
+      {
+        "sourceSlide": 40,
+        "title": "Why Leapfrog Preserves Energy",
+        "sourceLine": 997
+      },
+      {
+        "sourceSlide": 41,
+        "title": "Your Turn: RK4",
+        "sourceLine": 1034
+      },
+      {
+        "sourceSlide": 42,
+        "title": "Your Turn: Leapfrog",
+        "sourceLine": 1072
+      },
+      {
+        "sourceSlide": 43,
+        "title": "Method Comparison",
+        "sourceLine": 1112
+      },
+      {
+        "sourceSlide": 44,
+        "title": "Project 2: N-body Dynamics",
+        "sourceLine": 1135
+      },
+      {
+        "sourceSlide": 45,
+        "title": "The Challenge",
+        "sourceLine": 1143
+      },
+      {
+        "sourceSlide": 46,
+        "title": "The Pipeline-First Approach",
+        "sourceLine": 1160
+      },
+      {
+        "sourceSlide": 47,
+        "title": "What You Should Observe",
+        "sourceLine": 1179
+      },
+      {
+        "sourceSlide": 48,
+        "title": "Timeline and Milestones",
+        "sourceLine": 1201
+      },
+      {
+        "sourceSlide": 49,
+        "title": "Reading Assignments",
+        "sourceLine": 1215
+      }
+    ],
+    "codeCells": 13,
+    "assets": []
+  },
+  {
+    "deck": "statistical-thinking",
+    "source": "/Users/anna/Teaching/comp536-sp26/lectures/statistical-thinking/slides/statistical-thinking-foundations.qmd",
+    "sha256": "facd6601a2a9de4c645d2acfb15355957bf240d615392ba7f0f0ab917804db26",
+    "slides": [
+      {
+        "sourceSlide": 1,
+        "title": "Learning Outcomes",
+        "sourceLine": 42
+      },
+      {
+        "sourceSlide": 2,
+        "title": "Why This Lecture Exists",
+        "sourceLine": 60
+      },
+      {
+        "sourceSlide": 3,
+        "title": "Roadmap (65 Minutes)",
+        "sourceLine": 78
+      },
+      {
+        "sourceSlide": 4,
+        "title": "Loop A: Emergence from Randomness",
+        "sourceLine": 103
+      },
+      {
+        "sourceSlide": 5,
+        "title": "Predict: Can One Particle Have a Temperature?",
+        "sourceLine": 111
+      },
+      {
+        "sourceSlide": 6,
+        "title": "Reveal: Temperature is a Distribution Parameter",
+        "sourceLine": 128
+      },
+      {
+        "sourceSlide": 7,
+        "title": "Play: Estimate Temperature from Velocity Samples",
+        "sourceLine": 140
+      },
+      {
+        "sourceSlide": 8,
+        "title": "Explain: Why Pressure is Stable",
+        "sourceLine": 168
+      },
+      {
+        "sourceSlide": 9,
+        "title": "Loop A: Predict - Play - Explain Checkpoint",
+        "sourceLine": 180
+      },
+      {
+        "sourceSlide": 10,
+        "title": "Loop B: Tools for Inference and Diagnostics",
+        "sourceLine": 192
+      },
+      {
+        "sourceSlide": 11,
+        "title": "Correlation is Not Independence",
+        "sourceLine": 200
+      },
+      {
+        "sourceSlide": 12,
+        "title": "Marginalization: Keep What You Can Observe",
+        "sourceLine": 212
+      },
+      {
+        "sourceSlide": 13,
+        "title": "Error Propagation and Convergence Rates",
+        "sourceLine": 228
+      },
+      {
+        "sourceSlide": 14,
+        "title": "Play: Monte Carlo Error Scaling in Practice",
+        "sourceLine": 240
+      },
+      {
+        "sourceSlide": 15,
+        "title": "Loop B: Predict - Play - Explain Checkpoint",
+        "sourceLine": 267
+      },
+      {
+        "sourceSlide": 16,
+        "title": "Loop C: Moments as Information Compression",
+        "sourceLine": 279
+      },
+      {
+        "sourceSlide": 17,
+        "title": "Moments: What They Preserve and What They Lose",
+        "sourceLine": 287
+      },
+      {
+        "sourceSlide": 18,
+        "title": "Physics and ML Use the Same Statistical Machinery",
+        "sourceLine": 301
+      },
+      {
+        "sourceSlide": 19,
+        "title": "Play: Moment Tracking in a Synthetic Stream",
+        "sourceLine": 313
+      },
+      {
+        "sourceSlide": 20,
+        "title": "Loop C: Predict - Play - Explain Checkpoint",
+        "sourceLine": 340
+      },
+      {
+        "sourceSlide": 21,
+        "title": "Loop D: Sampling to Build Simulations",
+        "sourceLine": 352
+      },
+      {
+        "sourceSlide": 22,
+        "title": "Inverse Transform and Rejection Sampling",
+        "sourceLine": 360
+      },
+      {
+        "sourceSlide": 23,
+        "title": "Power Laws and Astrophysical Populations",
+        "sourceLine": 372
+      },
+      {
+        "sourceSlide": 24,
+        "title": "Isotropic 3D Sampling Matters",
+        "sourceLine": 384
+      },
+      {
+        "sourceSlide": 25,
+        "title": "Play: Minimal Isotropic Direction Sampler",
+        "sourceLine": 401
+      },
+      {
+        "sourceSlide": 26,
+        "title": "Loop D: Predict - Play - Explain Checkpoint",
+        "sourceLine": 432
+      },
+      {
+        "sourceSlide": 27,
+        "title": "Code Craft: Trustworthy Stochastic Computing",
+        "sourceLine": 444
+      },
+      {
+        "sourceSlide": 28,
+        "title": "Code Craft Pattern: From Idea to Reliable Result",
+        "sourceLine": 452
+      },
+      {
+        "sourceSlide": 29,
+        "title": "Code Craft Example: Reproducible Monte Carlo Estimate",
+        "sourceLine": 468
+      },
+      {
+        "sourceSlide": 30,
+        "title": "Livecoding-lite Fallback Plan",
+        "sourceLine": 496
+      },
+      {
+        "sourceSlide": 31,
+        "title": "Exit Ticket",
+        "sourceLine": 512
+      },
+      {
+        "sourceSlide": 32,
+        "title": "Exit Ticket 1: Concept Transfer",
+        "sourceLine": 516
+      },
+      {
+        "sourceSlide": 33,
+        "title": "Exit Ticket 2: Implementation Decision",
+        "sourceLine": 532
+      },
+      {
+        "sourceSlide": 34,
+        "title": "Closing and Reading Link",
+        "sourceLine": 550
+      }
+    ],
+    "codeCells": 6,
+    "assets": [
+      {
+        "source": "/Users/anna/Teaching/comp536-sp26/05-the-statistical-universe/module-1-how-nature-computes/figures/01_temperature_emergence_from_statistics.png",
+        "copy": "assets/01_temperature_emergence_from_statistics.png",
+        "sha256": "45611907a38766a6327ed482da53396e53af509156fce5f013116c6167c1927f"
+      },
+      {
+        "source": "/Users/anna/Teaching/comp536-sp26/05-the-statistical-universe/module-1-how-nature-computes/figures/03_central_limit_theorem_in_action.png",
+        "copy": "assets/03_central_limit_theorem_in_action.png",
+        "sha256": "e605c62f42d2ea1de5821aaa01b0d65aa09f8169692e3600bb13e26bdd5211db"
+      },
+      {
+        "source": "/Users/anna/Teaching/comp536-sp26/05-the-statistical-universe/module-1-how-nature-computes/figures/05_correlation_and_velocity_ellipsoids.png",
+        "copy": "assets/05_correlation_and_velocity_ellipsoids.png",
+        "sha256": "14667003a5c8040c76b7878f9e001f082d02fe04e1904015d8742bea88f373de"
+      },
+      {
+        "source": "/Users/anna/Teaching/comp536-sp26/05-the-statistical-universe/module-1-how-nature-computes/figures/06_marginalization_visualization.png",
+        "copy": "assets/06_marginalization_visualization.png",
+        "sha256": "701cda46317fe77537c7c418eb7d025c13cdbb38070e2d0a9c6c4841f71d7773"
+      },
+      {
+        "source": "/Users/anna/Teaching/comp536-sp26/05-the-statistical-universe/module-1-how-nature-computes/figures/09_error_propagation_through_calculations.png",
+        "copy": "assets/09_error_propagation_through_calculations.png",
+        "sha256": "1d87422baa2fcf96b1a53a9e278a2b1a2bb3c5ced3e25483133542dd7a9b2ac4"
+      },
+      {
+        "source": "/Users/anna/Teaching/comp536-sp26/05-the-statistical-universe/module-1-how-nature-computes/figures/12_random_sampling_methods.png",
+        "copy": "assets/12_random_sampling_methods.png",
+        "sha256": "fc8c1c750ad320bb07881183b04f468899a6f75221bc5f6fab24026e73f757b0"
+      },
+      {
+        "source": "/Users/anna/Teaching/comp536-sp26/05-the-statistical-universe/module-1-how-nature-computes/figures/13_power_law_distribution_sampling.png",
+        "copy": "assets/13_power_law_distribution_sampling.png",
+        "sha256": "caaec9a9a55f3b7d978a80cb397ad14d2d13a18079bd0ef8e6c7cb37801cbb10"
+      },
+      {
+        "source": "/Users/anna/Teaching/comp536-sp26/05-the-statistical-universe/module-1-how-nature-computes/figures/14_plummer_sphere_spatial_sampling.png",
+        "copy": "assets/14_plummer_sphere_spatial_sampling.png",
+        "sha256": "8c620ed05e47c4938de32fb1566a966a52cf7a53d4876f4ae61704bcd0ffc7b5"
+      }
+    ]
+  }
+]

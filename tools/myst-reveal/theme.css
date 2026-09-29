@@ -1,0 +1,95 @@
+/* Prototype adaptation of Lecture 10: indigo headings, teal links, light canvas.
+   Values originate in reveal-source/assets/theme/{_tokens_generated,slides/_variables}.scss. */
+:root {
+  --r-background-color: #fff;
+  --r-main-font: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r-main-font-size: 32px;
+  --r-main-color: #16181d;
+  --r-heading-font: var(--r-main-font);
+  --r-heading-color: #5a5a8a;
+  --r-heading-font-weight: 650;
+  --r-heading-line-height: 1.15;
+  --r-heading-text-transform: none;
+  --r-heading1-size: 1.9em;
+  --r-heading2-size: 1.3em;
+  --r-heading3-size: 1.1em;
+  --r-heading4-size: 0.9em;
+  --r-link-color: #2f6f6f;
+  --r-link-color-hover: #214e4e;
+  --r-selection-background-color: #d6dbe3;
+}
+.reveal { font-family: var(--r-main-font); font-size: var(--r-main-font-size); color: var(--r-main-color); }
+.reveal .slides { text-align: left; }
+.reveal .slides section { box-sizing: border-box; line-height: 1.35; }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: var(--r-heading-font); color: var(--r-heading-color); font-weight: 650; line-height: 1.15; margin: 0 0 0.65em; }
+.reveal h1 { font-size: 1.9em; } .reveal h2 { font-size: 1.3em; } .reveal h3 { font-size: 1.1em; }
+.reveal p { margin: 0.6em 0; }
+.reveal a { color: var(--r-link-color); text-decoration: underline; text-underline-offset: 0.12em; }
+.reveal a:hover { color: var(--r-link-color-hover); }
+.reveal a:focus-visible, button:focus-visible { outline: 3px solid #2f6f6f; outline-offset: 4px; }
+.reveal pre { position: relative; box-sizing: border-box; width: 100%; margin: 0.7em 0; padding: 0; background: #eef1f5; border: 1px solid #d6dbe3; border-radius: 6px; font-size: 0.62em; box-shadow: none; }
+.reveal pre code { display: block; box-sizing: border-box; padding: 0.65em 0.8em; max-height: none; white-space: pre-wrap; overflow: visible; background: transparent; }
+.reveal code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+/* Editor-style light palette, shared with the live Python editor. */
+.hljs-keyword, .hljs-selector-tag { color: #0000a8; }
+.hljs-built_in, .hljs-type { color: #267f99; }
+.hljs-string, .hljs-attr { color: #a31515; }
+.hljs-title, .hljs-title.function_ { color: #795e26; }
+.hljs-number, .hljs-literal { color: #096b45; }
+.hljs-comment { color: #38763b; font-style: italic; }
+.hljs-meta { color: #795e26; }
+.reveal :not(pre) > code { font-size: 0.85em; color: #6531ad; }
+.myst-reveal-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2em; }
+.myst-reveal-column { min-width: 0; }
+.reveal .myst-reveal-column pre { font-size: 0.57em; }
+.reveal figure { margin: 0.6em 0; }
+.reveal figure img { width: 100%; max-height: 330px; object-fit: contain; margin: 0; }
+.reveal figcaption { font-size: 0.7em; color: #5c6470; }
+.reveal .caption-number { font-weight: 650; }
+.equation { position: relative; margin: 1em 0; }
+.equation-number { position: absolute; right: 0; top: 0.5em; font-size: 0.7em; }
+.reveal .cell-output { padding: 0.65em 0.8em; border-left: 5px solid #2f6f6f; background: #f3f8f8; margin-top: 0.3em; }
+.reveal .citation { font-size: 0.7em; }
+.reveal .slide-number { font: 16px var(--r-main-font); color: #5c6470; background: white; }
+.deck-label { position: fixed; left: 20px; bottom: 12px; z-index: 10; color: #5c6470; font: 13px system-ui, sans-serif; }
+.reveal .controls { color: #2f6f6f; }
+.reveal .progress { color: #2f6f6f; height: 4px; }
+.reveal div.fragment, .reveal li.fragment { border-left: 4px solid #2f6f6f; padding-left: 0.5em; }
+.reveal .hljs-ln { border-collapse: collapse; width: auto; margin: 0; }
+.reveal .hljs-ln td { border: 0; padding: 0; font-size: inherit; }
+.reveal .hljs-ln .hljs-ln-numbers { padding-right: 1em; color: #5c6470; user-select: none; }
+.reveal pre[data-auto-animate-target] { overflow: hidden; }
+.reveal video { max-width: 100%; max-height: 430px; }
+.reveal audio { width: 100%; }
+.reveal .cell-outputs > img { display: block; max-width: 100%; max-height: 240px; margin: 0.5em auto; }
+.reveal section.background-widget { pointer-events: none; padding-top: 380px; }
+.slide-embed { box-sizing: border-box; width: 100%; height: 400px; border: 1px solid #d6dbe3; border-radius: 8px; background: white; }
+.output-embed { height: 220px; }
+.print-embed { border: 1px solid #d6dbe3; border-radius: 6px; padding: 0.7em; font-size: 0.75em; }
+.print-pdf .reveal section.background-widget { padding-top: 0; }
+.reveal .admonition { border-left: 5px solid #2f6f6f; background: #eef1f5; padding: 0.3em 0.7em; margin: 0.7em 0; }
+.reveal .admonition-title { font-weight: 650; color: #5a5a8a; }
+.reveal .warning { border-left-color: #9a7b7f; }
+.reveal .bibliography { font-size: 0.7em; line-height: 1.5; }
+.reveal .dark { color: #fff; }
+.reveal .dark h2, .reveal .dark h3 { color: #fff; }
+.reveal .dark a { color: #9bd8d8; }
+.slide-tabs [role=tablist] { display: flex; gap: 0.3em; border-bottom: 2px solid #d6dbe3; }
+.slide-tab-label { color: #2f6f6f; background: white; border: 1px solid #d6dbe3; border-radius: 5px 5px 0 0; padding: 0.35em 0.8em; font: inherit; cursor: pointer; }
+.slide-tab-label[aria-selected=true] { color: white; background: #2f6f6f; }
+.slide-tab-content[hidden] { display: none; }
+.deck-tools { position: fixed; left: 20px; bottom: 35px; display: flex; gap: 5px; z-index: 30; }
+.deck-tools button, .deck-tools a, .slide-menu button { font: 13px system-ui, sans-serif; padding: 5px 8px; background: white; color: #2f6f6f; border: 1px solid #d6dbe3; border-radius: 4px; cursor: pointer; text-decoration: none; }
+.deck-tools [aria-pressed=true] { background: #2f6f6f; color: white; }
+.slide-menu { max-height: 75vh; width: min(650px, 80vw); border: 1px solid #d6dbe3; border-radius: 8px; padding: 1rem; font-family: system-ui, sans-serif; }
+.slide-menu::backdrop { background: rgb(0 0 0 / 0.4); }
+.slide-menu ol { list-style: none; padding: 0; }
+.slide-menu li { margin-top: 0.5em; }
+.slide-menu li button { text-align: left; width: 100%; font-size: 16px; }
+.laser-pointer { pointer-events: none; position: fixed; width: 14px; height: 14px; border: 2px solid white; border-radius: 50%; background: #c00030; box-shadow: 0 0 8px #c00030; z-index: 100; transform: translate(-50%, -50%); }
+@media print { .deck-tools, .laser-pointer, .slide-menu { display: none !important; } .slide-tab-content[hidden] { display: block; } }
+@media print { .deck-label { display: none; } .reveal pre { break-inside: avoid; } }
+@media (prefers-reduced-motion: reduce) { .reveal *, .reveal *::before, .reveal *::after { transition: none !important; animation: none !important; } }
+/* Print staged prose in reading order, including transient Reveal effects. */
+.print-pdf .reveal div.fragment, .print-pdf .reveal li.fragment { opacity: 1 !important; visibility: visible !important; transform: none !important; }
+.print-pdf .reveal .r-stack { display: block; }

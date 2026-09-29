@@ -1,0 +1,540 @@
+---
+title: "Software Engineering for Scientists"
+subtitle: "The Commandments You Were Never Taught"
+author: "Dr. Anna Rosen"
+date: "2026-01-28"
+description: "Core software engineering principles for computational science — what CS majors learn in 4 years, compressed to what you need"
+draft: false
+
+format:
+  revealjs:
+    theme: [default, ../../../assets/theme/slides/theme.scss]
+    slide-number: true
+    transition: fade
+    transition-speed: fast
+    background-transition: fade
+    center: false
+    footer: "COMP 536 • Software Engineering for Scientists"
+    chalkboard: true
+    code-line-numbers: true
+    fig-align: center
+    html-math-method: mathjax
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Why This Matters
+
+Most scientists learn to code by trial and error.
+
+. . .
+
+This works for small scripts, but fails for:
+
+::: {.incremental}
+- Code that must be **correct** (not just "seems to work")
+- Code that others must **read and trust**
+- Code you must **debug at 2am before a deadline**
+:::
+
+::: {.notes}
+Ask: "Who has spent 6 hours debugging something that turned out to be a one-character typo?"
+:::
+
+---
+
+## The Core Insight
+
+::: {.r-fit-text}
+**Think $\to$ Plan $\to$ Code**
+:::
+
+. . .
+
+The keyboard is the **last** step, not the first.
+
+::: {.notes}
+This is the single most important message. Professional developers spend more time reading and thinking than typing.
+:::
+
+---
+
+## {.center}
+
+::: {.r-fit-text}
+The 11 Commandments
+:::
+
+*Read these every week until they become instinct*
+
+---
+
+## 1. Think Before You Type
+
+> "Let me just start coding and figure it out as I go."
+
+. . .
+
+This is how you end up debugging for 6 hours instead of thinking for 20 minutes.
+
+---
+
+## 2. Write Down the Contract
+
+Before coding, answer **in writing**:
+
+| Question | Example |
+|----------|---------|
+| What are the inputs? | mass: float, [0.1, 100] $M_\odot$ |
+| What are the outputs? | luminosity: float, $L_\odot$ |
+| What could go wrong? | Negative mass, wrong units |
+| How will I validate? | L(1.0) $\approx$ 0.698 |
+
+---
+
+## 3. Assume Your Code is Wrong
+
+::: {.r-fit-text}
+**Prove correctness with validation, not hope.**
+:::
+
+. . .
+
+Not "it runs without errors."
+
+Not "the output looks reasonable."
+
+**Show me the evidence.**
+
+---
+
+## Evidence Families (COMP 536)
+
+Different commands produce different kinds of evidence. Keep them separate so failures are easier to interpret.
+
+:::: {.columns}
+::: {.column width="33%"}
+::: {.callout-note appearance="simple" title="Scientific Evidence"}
+`python run.py validate`
+
+Checks whether results match scientific expectations (anchor values, trends, limits).
+:::
+:::
+::: {.column width="33%"}
+::: {.callout-tip appearance="simple" title="Behavioral Evidence"}
+`python run.py test`
+
+Checks whether code behavior matches the function contract.
+:::
+:::
+::: {.column width="33%"}
+::: {.callout-important appearance="simple" title="Diagnostic Evidence"}
+`python run.py make-figures`
+
+Checks where model output looks wrong so you can localize bugs quickly.
+:::
+:::
+::::
+
+---
+
+## Bad Repo vs Good Repo
+
+Students usually copy structure before they copy principles.
+
+:::: {.columns}
+::: {.column width="48%"}
+**Bad (hard to grade, hard to debug)**
+
+```text
+project/
+├── analysis_final_v3.ipynb
+├── final_code_really.py
+├── tmp2.py
+├── plot_latest_new.png
+└── test_script.py
+```
+:::
+::: {.column width="48%"}
+**Good (reproducible by design)**
+
+```text
+project/
+├── run.py
+├── src/
+│   ├── model.py
+│   └── physics.py
+├── notebooks/
+├── tests/
+├── validation/
+└── figures/
+```
+:::
+::::
+
+---
+
+## 4. Fail Fast
+
+```python
+def luminosity(mass, Z=0.02):
+    # Check inputs FIRST
+    if mass < 0.1 or mass > 100:
+        raise ValueError("Mass must be in [0.1, 100] M_sun")
+
+    # ... then compute
+```
+
+. . .
+
+A clear error at the input beats garbage output that "looks reasonable."
+
+---
+
+## 5. Plot First, Not Last
+
+In software engineering: **working software** is progress.
+
+In scientific computing: **plots are currency.**
+
+. . .
+
+::: {.incremental}
+- Diagnose — Where does it go wrong?
+- Validate — Does the pattern match known trends?
+- Communicate — Papers, talks, reports
+:::
+
+---
+
+## The Anti-Pattern
+
+Most students:
+
+1. Write all the code
+2. Debug until it runs
+3. Make plots at the end
+4. Discover something is fundamentally wrong
+5. Start over 😱
+
+---
+
+## The Right Way
+
+Plot as soon as you have plottable output:
+
+```
+luminosity() -> Plot L vs M -> Look right?
+    v YES
+radius() -> Plot R vs M -> Look right?
+    v YES
+T_eff() -> Plot HR diagram -> Look right?
+    v YES
+Continue...
+```
+
+Each plot is a **checkpoint**.
+
+---
+
+## 6. Test Requirements, Not Code
+
+**Bad test:**
+
+```python
+def test_luminosity():
+    L = luminosity(1.0)
+    assert L == luminosity(1.0)  # Tautology!
+```
+
+. . .
+
+**Good test:**
+
+```python
+def test_luminosity_solar_mass():
+    L = luminosity(1.0)
+    assert L == pytest.approx(0.698, rel=0.02)
+```
+
+---
+
+## 7. Debug with Hypotheses
+
+::: {.r-fit-text}
+**"I think X is wrong because Y"**
+:::
+
+. . .
+
+Not "something is broken somewhere."
+
+Form a hypothesis. Test it. Repeat.
+
+---
+
+## The Binary Search Method
+
+If you don't know where the bug is:
+
+1. Check output at the **end** — wrong?
+2. Check output at the **middle** — wrong?
+   - Yes $\to$ Bug in first half
+   - No $\to$ Bug in second half
+3. Repeat until found
+
+This is $O(\log n)$ instead of $O(n)$.
+
+---
+
+## Common Bug Symptoms
+
+| Symptom | Likely cause |
+|---------|--------------|
+| Off by factor of ~2.3 | `log` vs `log10` |
+| Off by powers of 10 | Unit conversion |
+| Wrong sign | Subtraction order |
+| NaN or Inf | Division by zero |
+| Shape mismatch | Scalar vs array |
+
+---
+
+## 8. Delete Bad Code
+
+You've spent 3 hours on a function. It's ugly and buggy.
+
+. . .
+
+> "I've already put so much time into this..."
+
+. . .
+
+**This is the sunk cost fallacy.**
+
+Those 3 hours are gone. What's fastest *from here*?
+
+---
+
+## Permission to Delete
+
+You have permission to:
+
+::: {.incremental}
+- **Delete functions** that aren't working
+- **Rewrite modules** that got tangled
+- **Throw away** your first approach entirely
+- **Start fresh** with what you learned
+:::
+
+. . .
+
+Code is cheap. Your time and sanity are expensive.
+
+---
+
+## 9. One Source of Truth
+
+**Bad:**
+
+```python
+# file1.py
+SOLAR_MASS = 1.989e33
+
+# file2.py
+M_SUN = 1.989e33  # Same value, different name!
+```
+
+. . .
+
+**Good:**
+
+```python
+# constants.py (the ONLY place)
+MSUN = 1.989e33
+```
+
+---
+
+## 10. Read More Than You Write
+
+Professional developers spend **more time reading** than writing.
+
+. . .
+
+Before changing code:
+
+- Understand what it does now
+- Understand why it was written that way
+- *Then* modify
+
+---
+
+## 11. Commit Before You Experiment
+
+```bash
+git add -A
+git commit -m "WIP: saving before experiment"
+```
+
+. . .
+
+Now you can delete freely.
+
+If it goes badly:
+
+```bash
+git checkout HEAD~1 -- filename.py
+```
+
+Nothing is truly lost.
+
+---
+
+## {.center}
+
+::: {.r-fit-text}
+Getting Unstuck
+:::
+
+---
+
+## The Walk Away Rule
+
+If you've been stuck for 30+ minutes:
+
+::: {.incremental}
+1. **Stop typing**
+2. **Go do something else** — walk, shower, eat
+3. **Come back with fresh eyes**
+:::
+
+. . .
+
+This isn't procrastination. Your brain works on problems in the background.
+
+---
+
+## Rubber Duck Debugging
+
+Before asking for help, **explain the problem out loud**.
+
+. . .
+
+To a rubber duck. A stuffed animal. An empty chair.
+
+. . .
+
+The act of articulating often reveals the solution.
+
+---
+
+## How to Ask for Help
+
+**Bad:**
+
+> "My luminosity function gives wrong values. Help?"
+
+. . .
+
+**Good:**
+
+> "My `luminosity(1.0)` returns 0.45, but should be ~0.698.
+> Here's my code: [10 lines].
+> I checked: coefficients, log10 vs ln, units.
+> What am I missing?"
+
+---
+
+## {.center}
+
+::: {.r-fit-text}
+The Professional Workflow
+:::
+
+---
+
+## The 5-Step Process
+
+1. **Understand** — Read specs, identify requirements
+
+2. **Plan** — Write contracts, identify validation
+
+3. **Implement** — One function at a time, validate immediately
+
+4. **Test** — Encode requirements as tests
+
+5. **Debug** — Systematically, with hypotheses
+
+---
+
+## The Professional Loop
+
+```{mermaid}
+flowchart LR
+    S["Spec"] --> C["Contract"]
+    C --> V["Validate<br/>(scientific evidence)"]
+    V --> T["Test<br/>(behavioral evidence)"]
+    T --> P["Plot<br/>(diagnostic evidence)"]
+    P --> I["Iterate"]
+    I --> S
+
+    classDef core fill:#e8f3ff,stroke:#1f4b99,stroke-width:2px,color:#0f274f;
+    classDef evidence fill:#fff4e5,stroke:#a35a00,stroke-width:2px,color:#4a2a00;
+    class S,C,I core;
+    class V,T,P evidence;
+```
+
+---
+
+## The Key Insight {.center}
+
+::: {.fragment .fade-up}
+::: {.r-fit-text}
+**Debug your understanding, not your code.**
+:::
+:::
+
+. . .
+
+If you deeply understand the problem, the code writes itself.
+
+If you don't, no amount of debugging will save you.
+
+---
+
+## Before Next Class
+
+1. **Read** the full guide: [Software Engineering for Scientists](../../../02-getting-started/04-software-engineering-guide.qmd)
+
+2. **Print** the 11 Commandments — put them next to your monitor
+
+3. **Start** Project 1 with these principles
+
+---
+
+## Questions?
+
+Common questions:
+
+::: {.incremental}
+- "What if I've already started coding the wrong way?"
+- "How do I know when to rewrite vs. keep debugging?"
+- "What counts as a 'good' validation check?"
+:::
+
+---
+
+## The Takeaway {.center}
+
+::: {.fragment .fade-up}
+::: {.r-fit-text}
+**Think $\to$ Plan $\to$ Validate $\to$ Code**
+:::
+:::
+
+. . .
+
+The keyboard is the last step, not the first.

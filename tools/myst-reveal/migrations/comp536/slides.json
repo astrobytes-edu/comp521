@@ -1,0 +1,31 @@
+{
+  "fit": "bounded",
+  "minFont": 28,
+  "css": [
+    "migration.css"
+  ],
+  "decks": [
+    {
+      "name": "software-engineering",
+      "source": "software-engineering.md",
+      "preset": "lecture",
+      "theme": "light"
+    },
+    {
+      "name": "ode-methods",
+      "source": "ode-methods.md",
+      "preset": "lecture",
+      "theme": "light"
+    },
+    {
+      "name": "statistical-thinking",
+      "source": "statistical-thinking.md",
+      "preset": "lecture",
+      "theme": "light"
+    }
+  ],
+  "sources": [
+    "ode-methods-computations.ipynb",
+    "statistical-thinking-computations.ipynb"
+  ]
+}

@@ -1,0 +1,6 @@
+node_modules/
+_build/
+examples/**/_build/
+examples/**/.myst/
+examples/**/.jupyter_cache/
+output/

@@ -42,3 +42,6 @@ _planning/
 
 # Grading harness working dir (belt-and-braces; it lives outside the repo)
 comp521-grading/
+
+# Local retrieval index
+.zvec-grep/
