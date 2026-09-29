@@ -64,8 +64,21 @@ contract checks passed. The course rendered twice with executed outputs; the
 final public artifact passed the boundary and route checks. Initial layout review
 found overflow on the expanded Git slide; its prompt and recovery label were
 condensed without removing the commands or Git protection warning. Prediction
-labels now meet the 18 px metadata floor. Final layout and public deployment
-verification are recorded by the release session; publication is authorized.
+labels now meet the 18 px metadata floor. The final 49-slide layout review has
+zero errors and one site-root reading-link warning, resolved by public HTTP
+verification. Projector and narrow handout views, copy feedback, and navigation
+were inspected. Pages deployment of `a07daa8` succeeded in
+[run 36647592472](https://github.com/astrobytes-edu/comp521/actions/runs/36647592472).
+The student route, full reading, existing shorter guide, slides, and handout all
+returned HTTP 200; the public slide and handout bytes match the reviewed builds.
+
+Public routes:
+
+- [Student lecture page](https://astrobytes-edu.github.io/comp521/software-engineering/)
+- [Slides](https://astrobytes-edu.github.io/comp521/reveal/software-engineering.html)
+- [Handout](https://astrobytes-edu.github.io/comp521/reveal/software-engineering.handout.html)
+- [Full reading](https://astrobytes-edu.github.io/comp521/software-engineering-for-scientists/)
+- [Existing COMP 521 guide](https://astrobytes-edu.github.io/comp521/software-engineering-guide/)
 
 Production verification from the repository root:
 

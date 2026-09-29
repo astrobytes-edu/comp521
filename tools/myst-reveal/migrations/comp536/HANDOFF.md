@@ -1,5 +1,23 @@
 # SWE review and publication handoff — 2026-09-29
 
+## Published release update — 2026-09-29
+
+The earlier checkpoint account below is historical. Anna subsequently approved
+the bounded SWE content and integration changes, then explicitly requested
+commit, push, and immediate publication. Release `a07daa8` is public; Pages
+[run 36647592472](https://github.com/astrobytes-edu/comp521/actions/runs/36647592472)
+succeeded. The student route, full chapter, shorter guide, slides, and handout
+returned HTTP 200. Public slide/handout bytes match the reviewed final artifacts.
+
+The deck remains 49 slides with 11 commandment transitions. New predictions,
+NaN-safe guards, both requested workflows, claim-based evidence, reproducibility
+explanation, Git protection, and nonfinite mean tests are implemented. The
+reading retains the plot-as-proof passage and adds a smooth but incorrect plot
+example. The package remains tracked here. ODE/statistics are excluded from
+the public slide export. See `SWE-REVIEW.md` for final checks and public URLs.
+
+---
+
 Anna requested this local checkpoint, a Brain capture, and a new session to review the Software Engineering slides and reading, integrate the slides with the real course site, and make both public. This checkpoint is not publication. No push was performed.
 
 ## Canonical files

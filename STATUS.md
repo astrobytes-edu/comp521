@@ -1,8 +1,8 @@
 # COMP 521 — status
 
-next: Verify the public SWE reading, slides, and handout after the approved Pages deployment.
-blocker: Pages deployment and public HTTP verification are pending; the separate Project 1 fresh-account gate remains unverified.
-due: 2026-09-29 lecture
+next: Complete the separate Project 1 fresh-account release gate.
+blocker: Project 1 fresh-account verification remains open. SWE slides, readings, and handout are publicly verified as of 2026-09-29.
+due: Not scheduled
 
 ## Current focus
 
