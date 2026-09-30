@@ -1,5 +1,32 @@
 # SWE presentation and companion reading revision
 
+## Approved title slide and lecture blocks — 2026-09-30
+
+Anna approved an opening title slide naming the lecture, COMP 521, Anna Rosen,
+and San Diego State University. The deck now has 50 slides; the original 49
+slides and their IDs remain in their existing order. The title uses the
+`title` layout documented in `AUTHORING.md`, with scoped SWE typography.
+
+The course sidebar and Lecture Library now retain Lectures 5–6 and quadrature
+animations in Block 2; group Lectures 7–10, SWE, and root-finding animations
+under Block 3; and expose a Block 4 ODE lecture overview linked to the existing
+ODE readings. Block labels on the moved lecture/animation pages were updated.
+Their bodies, dates, and URLs remain unchanged. Lecture 7 stays intact as the
+adaptivity-to-roots bridge. ODE/statistics migration decks remain outside the
+publication artifact.
+
+Anna explicitly approved rebuild, commit, push, and publication. Fresh local
+checks passed: nine renderer/export tests; title-first order and 156 fragment
+states; all 50 slides with zero layout errors; original COMP 536 source, cell,
+and asset checks; mean contract checks; and the final artifact boundary check.
+The course rendered twice with executed outputs and no duplicate citation
+warnings. All 101 existing published page slugs are retained; only
+`block-04-odes` is added. The title was inspected at 1024×768; the handout and
+ODE overview were inspected at 390×844 with no horizontal page overflow.
+Public verification is pending the deployment.
+
+## Earlier review and publication records
+
 Anna approved option A: repair staging, add commandment transitions, standardize presentation, reorder the closing, and migrate the full reading while preserving the existing COMP 521 guide.
 
 ## Changes

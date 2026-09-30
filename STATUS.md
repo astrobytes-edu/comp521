@@ -1,7 +1,7 @@
 # COMP 521 — status
 
-next: Complete the separate Project 1 fresh-account release gate.
-blocker: Project 1 fresh-account verification remains open. SWE slides, readings, and handout are publicly verified as of 2026-09-29.
+next: Verify publication of the SWE title slide and lecture Blocks 3–4.
+blocker: Deployment verification is pending; the separate Project 1 fresh-account gate remains open.
 due: Not scheduled
 
 ## Current focus

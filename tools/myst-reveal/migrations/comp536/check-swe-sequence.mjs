@@ -49,9 +49,12 @@ try {
   for(let i=steps.length-2;i>=-1;i--){await page.keyboard.press('ArrowLeft');await page.waitForFunction(i=>(Reveal.getIndices().f??-1)===i,i);await check(i);}
  }
  const structure=await page.evaluate(()=>({transitions:[...document.querySelectorAll('.swe-transition .slide-eyebrow')].map(e=>e.textContent),ids:[...document.querySelectorAll('.slides section[id]')].map(e=>e.id)}));
+ assert.equal(structure.ids[0],'slide-software-engineering-for-scientists');
+ assert.equal(structure.ids[1],'slide-why-this-matters');
+ assert.equal(structure.ids.length,50);
  assert.equal(structure.transitions.filter(t=>t.startsWith('Commandment')).length,11);
  assert.ok(structure.ids.indexOf('slide-worked-example-independent-checks')<structure.ids.indexOf('slide-before-next-class'));
  assert.equal(structure.ids.at(-1),'slide-questions');
- const result={slidesWithExplicitSequence:Object.keys(plans).length,forwardBackwardStates:checks,commandmentTransitions:11,closingOrder:'passed'};
+ const result={slides:structure.ids.length,titleSlide:'passed',slidesWithExplicitSequence:Object.keys(plans).length,forwardBackwardStates:checks,commandmentTransitions:11,closingOrder:'passed'};
  fs.writeFileSync('_build/swe-sequence-review.json',JSON.stringify(result,null,2)+'\n');console.log(result);
 }finally{await browser.close();}

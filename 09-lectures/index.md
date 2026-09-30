@@ -51,28 +51,47 @@ how do we decide whether its accuracy is sufficient?
 |---|---|---|
 | [Lecture 5: Approximation, Errors, and Quadrature](lecture-05-approximation-errors-quadrature.md) | How do Taylor approximations and floating-point arithmetic shape numerical error? | absolute and relative tolerances, rectangle quadrature, and an error bound |
 | [Lecture 6: Trapezoids, Simpson, Modules, and Tests](lecture-06-quadrature-modules-tests.md) | How do better local approximations and meaningful tests improve an integration method? | trapezoid and Simpson rules, reusable modules, and the sine rectangle lab |
+
+**Watch and review:** [Quadrature animations](animations/animations.md#quadrature-animations) — integration geometry and adaptive refinement.
+
+Read alongside the lectures: [numerical errors](../05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md),
+[Taylor series](../05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md),
+and [quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md).
+These methods support [Project 2](../08-assessments/projects/project-2.md): integration and convergence investigations.
+
+## Block 3 · Root Finding & Stellar Inference
+
+**Project connection:** [Project 3](../08-assessments/projects/project-3.md),
+a root-finding library and stellar-inference notebook. Lecture 7 bridges
+adaptive integration and root finding.
+
+| Lecture | In-class question | Build toward |
+|---|---|---|
 | [Lecture 7: Approximations, Adaptivity, and Roots](lecture-07-adaptivity-roots.md) | How do local models guide adaptive integration and root finding? | quadrature recall, Simpson error estimates, bisection bounds, and Newton updates |
 | [Lecture 8: Finite Differences and Root-Finding Tools](lecture-08-rootfinding-tools.md) | What evidence supports a solver’s stopping decision? | finite differences, secant updates, and a tested bisection module |
 | [Lecture 9: Trustworthy Numerical Answers](lecture-09-trustworthy-answers.md) | When do an accepted step, a small residual, or a refined integral support an answer? | line searches, Jacobians, damping, advanced quadrature, and convergence evidence |
 | [Lecture 10: Modular Design and OOP](lecture-10-classes-lab.md) | How do functions and variables become methods and attributes in a class? | Rectangle, scientific classes, and Project 3 Part 5 |
 
-Lectures 9 and 10 continue this lecture sequence in Week 5. The course
-schedule begins the Project 3 phase that week; Lecture 10 leads into the Project 3 Part 5 lab.
+Lectures 9 and 10 continue this lecture sequence in Week 5. Lecture 10 leads
+into the Project 3 Part 5 lab.
 
-**Watch and review:** [Block 2 animations](animations/animations.md) — integration geometry, adaptive refinement, and root-finding steps.
+**Watch and review:** [Root-finding animations](animations/animations.md#root-finding-animations) — bisection, Newton, and secant steps.
 
-Read alongside the lectures: [numerical errors](../05-numerical-methods/01-foundations/02-mod1-part2-numerical-errors.md),
-[Taylor series](../05-numerical-methods/01-foundations/03-mod1-part3-taylor-series.md),
-[quadrature](../05-numerical-methods/02-roots-quadrature/02-mod2-part2-quadrature.md),
-and [root finding](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md).
-These methods support [Project 2](../08-assessments/projects/project-2.md): integration and convergence investigations.
+Read alongside the lectures: [root finding](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md)
+and [robust computing](../04-scientific-computing/09-robust-computing.md).
 
-## Software Engineering for Scientists
+### Software Engineering for Scientists
 
 [Software Engineering for Scientists](software-engineering.md) provides the
 slides, handout, and companion readings for contracts, independent checks,
 systematic debugging, and reproducible results. Apply the examples to your
 current project; its brief owns the required interface and deliverables.
+
+## Block 4 · ODE Methods & Exoplanet Interiors
+
+[Open the ODE lecture overview](block-04-odes.md) for time stepping, stability,
+conservation, and links to the existing ODE readings. Lecture pages for this
+block are being prepared.
 
 ## Future course blocks
 
@@ -83,10 +102,6 @@ yet a second set of required materials. The course schedule and published
 lecture pages determine what is currently assigned.
 :::
 
-- **Block 3 · Root Finding & Stellar Inference** — solving a model equation
-  and checking whether a solution is trustworthy.
-- **Block 4 · ODE Methods & Dynamical Models** — time stepping, stability, and
-  conservation.
 - **Block 5 · Real Data & Model Fitting** — data provenance, uncertainty, and
   model criticism.
 - **Block 6 · ML & Scientific Classification** — evaluation, generalization,

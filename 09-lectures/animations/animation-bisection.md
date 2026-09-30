@@ -1,6 +1,6 @@
 ---
 title: "Animation · Bisection"
-subtitle: "Block 2 · Watch, pause, and explain"
+subtitle: "Block 3 · Watch, pause, and explain"
 ---
 
 For $f(x)=x^2-2$, start with $[1,2]$. Each midpoint evaluation identifies a half-interval that retains opposite endpoint signs. The film follows three decisions.

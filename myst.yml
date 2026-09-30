@@ -161,7 +161,6 @@ project:
     - title: Lectures
       children:
         - file: 09-lectures/index.md
-        - file: 09-lectures/software-engineering.md
         - title: Block 1 · Scientific Programming & Transit Model
           children:
             - title: Python Bootcamp · Weeks 1–2
@@ -175,19 +174,31 @@ project:
           children:
             - file: 09-lectures/lecture-05-approximation-errors-quadrature.md
             - file: 09-lectures/lecture-06-quadrature-modules-tests.md
-            - file: 09-lectures/lecture-07-adaptivity-roots.md
-            - file: 09-lectures/lecture-08-rootfinding-tools.md
-            - file: 09-lectures/lecture-09-trustworthy-answers.md
-            - file: 09-lectures/lecture-10-classes-lab.md
             - file: 09-lectures/animations/animations.md
+              title: Quadrature animations
               children:
                 - file: 09-lectures/animations/animation-rectangles.md
                 - file: 09-lectures/animations/animation-trapezoids.md
                 - file: 09-lectures/animations/animation-simpson.md
                 - file: 09-lectures/animations/animation-adaptive-simpson.md
+
+        - title: Block 3 · Root Finding & Stellar Inference
+          children:
+            - file: 09-lectures/lecture-07-adaptivity-roots.md
+            - file: 09-lectures/lecture-08-rootfinding-tools.md
+            - file: 09-lectures/lecture-09-trustworthy-answers.md
+            - file: 09-lectures/lecture-10-classes-lab.md
+            - file: 09-lectures/software-engineering.md
+            - title: Root-finding animations
+              children:
                 - file: 09-lectures/animations/animation-bisection.md
                 - file: 09-lectures/animations/animation-newton.md
                 - file: 09-lectures/animations/animation-secant.md
+
+        - title: Block 4 · ODE Methods & Exoplanet Interiors
+          children:
+            - file: 09-lectures/block-04-odes.md
+              title: ODE lecture overview
 
     - title: Practice Labs
       children:

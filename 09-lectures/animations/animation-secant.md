@@ -1,6 +1,6 @@
 ---
 title: "Animation · The secant method"
-subtitle: "Block 2 · Watch, pause, and explain"
+subtitle: "Block 3 · Watch, pause, and explain"
 ---
 
 Approximate Newton's derivative using the two most recent function values. The film follows $f(x)=x^2-2$ from the initial inputs $1$ and $2$, showing which point is retained after each update.

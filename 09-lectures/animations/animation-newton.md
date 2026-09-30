@@ -1,6 +1,6 @@
 ---
 title: "Animation · Newton's method"
-subtitle: "Block 2 · Watch, pause, and explain"
+subtitle: "Block 3 · Watch, pause, and explain"
 ---
 
 Starting at $x_0=2$ for $f(x)=x^2-2$, replace the curve locally by its tangent, find the tangent's zero, and return to the original curve. The film shows two updates.

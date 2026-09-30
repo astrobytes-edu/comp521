@@ -1,6 +1,6 @@
 ---
 title: "Lecture 7 · Approximations, Adaptivity, and Roots"
-subtitle: "Block 2 · Week 4"
+subtitle: "Block 3 · Week 4"
 site:
   hide_toc: true
   hide_outline: true

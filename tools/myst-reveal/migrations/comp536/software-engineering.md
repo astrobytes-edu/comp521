@@ -4,6 +4,15 @@ subtitle: "COMP 521 · Software Engineering for Scientists"
 author: Anna Rosen
 ---
 
+## Software Engineering for Scientists
+
+```{slide-options}
+{"layout":"title", "class":"swe-deck swe-title"}
+```
+
+**COMP 521**
+
+Anna Rosen · San Diego State University
 
 ## Why This Matters
 

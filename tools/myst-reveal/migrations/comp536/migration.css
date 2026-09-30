@@ -17,3 +17,4 @@
 .reveal .slides section.swe-transition .slide-eyebrow { font-size:.7em; text-transform:uppercase; letter-spacing:.13em; color:var(--accent, #2f6f6f); }
 .reveal .slides section.swe-deck th,.reveal .slides section.swe-deck td { padding:.18em .45em; text-align:left; }
 .reveal .slides section.swe-deck .component-label { font-size:18px; }
+.reveal .slides section.swe-title h2 { font-size:2.1em; max-width:1000px; line-height:1.12; }
