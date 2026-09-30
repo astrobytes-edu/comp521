@@ -23,7 +23,18 @@ The course rendered twice with executed outputs and no duplicate citation
 warnings. All 101 existing published page slugs are retained; only
 `block-04-odes` is added. The title was inspected at 1024×768; the handout and
 ODE overview were inspected at 390×844 with no horizontal page overflow.
-Public verification is pending the deployment.
+Pages deployment of `d414600` succeeded in
+[run 36778175543](https://github.com/astrobytes-edu/comp521/actions/runs/36778175543).
+Public slide and handout bytes match the reviewed builds. The live navigation
+matches the approved four-block hierarchy and retains all 101 prior routes.
+The lecture library, ODE overview, animation hub, SWE routes, and all six ODE
+reading links return HTTP 200. The published sidebar and ODE overview link were
+also checked in the browser, including the `/comp521/` base path. Fresh CI
+passed the final artifact boundary check with no duplicate citation warnings.
+
+- [SWE slides with title slide](https://astrobytes-edu.github.io/comp521/reveal/software-engineering.html)
+- [Lecture Library](https://astrobytes-edu.github.io/comp521/index-4/)
+- [Block 4 ODE overview](https://astrobytes-edu.github.io/comp521/block-04-odes/)
 
 ## Earlier review and publication records
 
