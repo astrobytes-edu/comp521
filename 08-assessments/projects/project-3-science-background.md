@@ -5,8 +5,10 @@ subtitle: "Wien's law, Kepler geometry, and transit contacts"
 
 # Project 3 — Science Background
 
-Project 3 uses roots to find a spectral peak, recover orbital positions, and
-locate transit contacts. This companion explains the physics and geometry
+Project 3 uses roots to find where a radiation spectrum peaks, recover a
+planet's position, and locate the start and end of a **transit**: a planet
+passing in front of its star and blocking some starlight. This companion
+explains the physics and geometry
 behind Parts 2–4 of [Project 3](project-3.md). The brief specifies the code,
 tests, and submissions; this page adds no deliverables.
 
@@ -16,7 +18,7 @@ Visible light is the small part of electromagnetic radiation our eyes detect.
 Radio, infrared, ultraviolet, X-rays, and gamma rays are the same kind of
 radiation at different wavelengths. Wavelength $\lambda$ is the distance
 between successive wave crests; frequency $\nu$ counts cycles per second.
-In vacuum,
+A **photon** is a packet of light energy. In vacuum,
 
 $$c=\lambda\nu,\qquad E_{\rm photon}=h\nu=\frac{hc}{\lambda}.$$
 
@@ -48,21 +50,29 @@ infrared. These examples connect the spectrum map to the Planck curves below.
 Think of a histogram: its bin height can be a count divided by bin width.
 Likewise, $B_\lambda\,d\lambda$ measures radiance in a small wavelength
 interval. $B_\lambda$ alone is radiance **per unit wavelength**, not the
-radiance in the whole spectrum. Changing from equal wavelength bins to equal
+radiance in the whole spectrum. **Radiance** describes radiation traveling
+in a particular direction, per unit apparent emitting area and solid angle. The
+apparent area is the surface area as viewed from that direction. A **solid
+angle** measures the size of a cone of directions; its unit is the steradian
+(sr). Changing from equal wavelength bins to equal
 frequency bins changes their widths unevenly because $\nu=c/\lambda$.
 The density and the location of its maximum can therefore change, while the
 radiation in corresponding intervals stays the same.
 
 ## 2. Wien's law: find the wavelength peak
 
-A blackbody at temperature $T$ emits over a range of wavelengths. Its spectral
-radiance per unit wavelength is the Planck function
+A **blackbody** is an ideal object that absorbs all incident radiation and
+emits a thermal spectrum determined by its temperature. A **spectrum** shows
+how radiation is distributed over wavelength or frequency. Temperature $T$
+is measured in kelvin (K), an absolute scale with zero at absolute zero.
+The blackbody's spectral radiance per unit wavelength is the **Planck function**:
 
 $$B_\lambda(T)=\frac{2hc^2}{\lambda^5}
 \frac{1}{\exp[hc/(\lambda k_BT)]-1}.$$
 
 Here $h$ is Planck's constant, $c$ is the speed of light, and $k_B$ is Boltzmann's
-constant. Use the CGS values in Part 2: $\lambda$ in cm and $T$ in K. Then
+constant. **CGS** means centimeter–gram–second units; the erg is its unit of
+energy. Use the values in Part 2: $\lambda$ in cm and $T$ in K. Then
 $B_\lambda$ has units of energy per time, area, solid angle, and wavelength:
 $\mathrm{erg\,s^{-1}\,cm^{-2}\,sr^{-1}\,cm^{-1}}$.
 
@@ -73,7 +83,15 @@ $$\lambda_{\max}T=b,\qquad b\approx0.2897772\ \mathrm{cm\,K}.$$
 Doubling the temperature halves the peak wavelength. The spectrum remains
 broad; the peak does not mean that all photons have that wavelength. Treating
 a stellar spectrum as a blackbody is an approximation: real spectra include
-absorption lines and atmospheric effects.
+absorption lines and atmospheric effects. Here **stellar** means relating
+to a star; absorption lines are narrow dips where material absorbs particular
+wavelengths, and a stellar atmosphere is a star's outer gas layers.
+
+The star's **photosphere** is the layer from which most of its visible light
+escapes. A blackbody approximates its thermal radiation. **Surface flux** is
+the energy emitted per unit surface area per unit time; **luminosity** is the
+total energy emitted by the whole star per unit time. Temperature sets the
+surface flux, while luminosity also depends on the star's size.
 
 ```{figure} figures/project3-wien-spectra.svg
 :alt: Absolute Planck spectral radiance at 3000, 5000, and 8000 K. The vertical axis is logarithmic. Hotter curves are higher at every wavelength and peak at shorter wavelengths.
@@ -89,9 +107,25 @@ in the CGS units of the equation above. These are ideal blackbody spectra,
 not measured stellar spectra.
 ```
 
+### Predict → Play → Explain
+
+Before changing temperature, predict how the wavelength peak and emitted
+surface flux will change. Compare the absolute curves first, then normalize
+their peaks by dividing each curve by its own maximum. Explain which
+difference normalization hides. The second view
+connects the spectral peak to the root-finding problem below.
+
+:::{radiation-figure}
+:id: project3-stellar-radiation
+
+Interactive ideal blackbody spectra in CGS units. Temperature changes the
+absolute radiance and wavelength peak; a second view distinguishes the
+positive Wien root from the zero boundary root.
+:::
+
 ### Derive the equation to solve
 
-At fixed $T>0$, define the dimensionless variable
+At fixed $T>0$, define the **dimensionless** variable (a ratio with no units)
 
 $$x=\frac{hc}{\lambda k_BT},\qquad
 \frac{dx}{d\lambda}=-\frac{x}{\lambda}.$$
@@ -165,11 +199,37 @@ These give Stefan–Boltzmann's law and Wien's law, respectively.
 
 ## 3. The model and its coordinates
 
-An orbit describes both a path and motion along that path. The planet is
-closest to the star at **periastron** and farthest away at **apastron**.
-On an eccentric orbit, it moves faster near periastron and slower near
-apastron. To predict a transit, we need its position at a particular time
-and then its position on the observer's sky.
+An **orbit** is a path followed under gravity. Here we track the planet
+relative to the star. Its path is an **ellipse**, a closed oval defined by
+two fixed points called **foci** (singular: **focus**): distances from any
+point on the oval to the two foci add to the same total. The star lies at
+one focus, away from the ellipse's center unless the orbit is circular.
+
+- **Periastron:** the point where the planet is closest to the star.
+- **Apastron:** the point where it is farthest from the star.
+- **Orbital period $P$:** the time for one complete orbit, from one
+  periastron passage to the next. We set $t=0$ at periastron, so $t/P$
+  measures the elapsed fraction of that time. For example, $P/4$ is a
+  quarter of the period, not a quarter of the distance around the orbit.
+
+### Why the planet changes speed
+
+Imagine a line joining the star to the moving planet. That line sweeps
+out a wedge-shaped area. **Kepler's second law** says it sweeps equal areas
+in equal time intervals. During a short time step near periastron, the line
+is shorter, so a larger sideways step is needed to cover the same area. Near apastron, the line is
+longer and a smaller step suffices. The planet therefore moves fastest at
+periastron and slowest at apastron. See NASA's
+[explanation of Kepler's laws](https://science.nasa.gov/solar-system/orbits-and-keplers-laws/).
+
+Turn on the figure's equal-time dots: wider gaps mean greater distance
+traveled in the same time, hence greater speed. Equal time means **equal
+swept area**, not equal distance or equal angle.
+
+To predict a transit, we also need the planet's apparent position on the
+sky. The **orbital plane** contains its path. The **sky plane** is an
+imaginary image plane perpendicular to our viewing direction; projecting
+onto it gives the two-dimensional picture an observer sees.
 
 ### What the orbital parameters mean
 
@@ -179,7 +239,8 @@ and then its position on the observer's sky.
   give more elongated ellipses and a larger difference between closest
   and farthest distance.
 - **Inclination $i$: tilt.** Relative to the sky plane, $0^\circ$ is face-on
-  and $90^\circ$ is edge-on. Tilt changes the apparent track and whether
+  (looking directly at the orbit's face) and $90^\circ$ is edge-on
+  (looking along its plane). Tilt changes the apparent track and whether
   it can cross the stellar disk.
 - **Argument of periastron $\omega$: orientation within the orbital plane.**
   The direction of closest approach, measured from the ascending-node
@@ -197,16 +258,13 @@ the orientation panel mark periastron for two rotations about the stellar focus.
 [View the figure at full size](figures/project3-orbit-parameters.svg).
 :::
 
-The **period $P$** is the time for one complete orbit. We also need a time
-origin: here, $t=0$ is periastron. Together, these specify when to locate
-the planet on its path.
-
 In this two-body model, $i$ and $\omega$ stay fixed while the planet moves.
 They orient the orbit; they do not say where the planet is along it. The
 changing angle $\nu$ supplies that position. Our reference plane is the
 **observer's sky**, with positive $Z$ toward the observer. We choose $X$
-along the ascending node, so a separate node longitude $\Omega$ is not
-needed in the project's coordinates.
+along the ascending node. Its direction in the sky plane would otherwise
+be specified by the **node longitude $\Omega$**, an angle from a reference
+direction; choosing $X$ this way makes that extra angle unnecessary here.
 
 ::::{admonition} Watch: tilt, orientation, and position
 :class: dropdown
@@ -226,12 +284,16 @@ how is that different from $\omega$?
 
 ### The project model and symbols
 
-Treat the star and planet as an isolated Newtonian two-body system. Their
+Treat the star and planet as an isolated Newtonian two-body system: include
+only their mutual gravity, described by Newton's laws. Their
 relative orbit is an ellipse with semimajor axis $a$ and eccentricity
 $0\le e<1$. The position below is the planet's displacement **relative to the
-star**; the star need not be stationary in an inertial frame. For the transit,
+star**; the star need not be stationary in an **inertial frame**, a coordinate
+frame that is not accelerating or rotating. For the transit,
 use spherical bodies and a distant observer, so their projected outlines are
-circles. Project 3 uses a uniform-brightness stellar disk for its light curves.
+circles. The **stellar disk** is the star's apparent circular face. Project 3
+uses uniform brightness across that disk. A **light curve** plots the
+received brightness against time.
 
 | Symbol | Meaning |
 |:--|:--|
@@ -261,7 +323,7 @@ $$
 
 ## 4. Three angles with different jobs
 
-An **anomaly** is a parameter describing position in an orbit. The three
+An **anomaly** is an angular parameter describing position in an orbit. The three
 anomalies below describe the **same instant** in different ways; they are
 linked by the orbit's geometry, not three angles we choose independently.
 
@@ -276,14 +338,16 @@ describes the same time-to-position sequence.
 
 | Parameter | Question it answers | Where to read it |
 |:--|:--|:--|
-| Mean anomaly $M$ | How much of the period has elapsed? | A separate uniform clock: $M/(2\pi)=t/P$ |
+| Mean anomaly $M$ | How much of the period has elapsed? | A clock that advances at a constant rate: $M/(2\pi)=t/P$ |
 | Eccentric anomaly $E$ | Which auxiliary-circle point maps to the planet? | At ellipse center $C$, from the periastron direction to circle point $Q$ |
 | True anomaly $\nu$ | In which direction is the actual planet? | At star $S$, from periastron toward the planet |
 
-$E$ points to **$Q$, not to the planet**. The circle is a geometric
-construction; there is only one planet. $\nu$ points to the planet from
+$E$ points to **$Q$, not to the planet**. The **auxiliary circle** is a
+helper drawing centered at $C$ with radius $a$; there is only one planet.
+$\nu$ points to the planet from
 the star. All equations use **radians**; the figure can display degrees
-to help read the angles.
+to help read the angles. A **radian** is an angle unit: one full turn is
+$2\pi$ radians or $360^\circ$, and a right angle is $\pi/2$ radians.
 
 ### Watch the clock and the planet
 
@@ -370,7 +434,8 @@ fail to show equal increments of time when $e>0$? Use $M=E-e\sin E$.
 
 $$M=nt,\qquad n=\frac{2\pi}{P}.$$
 
-It advances by equal amounts in equal time intervals. For an eccentric orbit,
+Here $n$ is the clock's angular rate, in radians per unit time.
+The clock advances by equal amounts in equal time intervals. For an eccentric orbit,
 it is not the planet's physical angle around the star.
 
 **Eccentric anomaly parametrizes the ellipse.** Draw an auxiliary circle of
@@ -406,7 +471,8 @@ $$\nu=2\operatorname{atan2}\!\left(
 
 Use a two-argument arctangent to retain quadrant information. Angles differing
 by $2\pi$ describe the same position, but the project's Kepler solver must
-return $E$ on the same **unwrapped branch** as its input $M$.
+return $E$ on the same **unwrapped branch** as its input $M$: keep the count
+of completed turns rather than reducing every angle to one revolution.
 For example, $M=2\pi+0.570884$ corresponds to one full orbit plus the
 snapshot above, so $E$ is near $2\pi+\pi/3$, not just $\pi/3$.
 
@@ -419,7 +485,8 @@ $\nu$, and $r$? Simplify the formulas before checking your program.
 
 Kepler's second law says the line joining star and planet sweeps equal areas
 in equal times. Let $b_\ell=a\sqrt{1-e^2}$ be the ellipse's semiminor
-axis. From periastron to eccentric anomaly $E$, the swept area is
+axis, half its shortest width. From periastron to eccentric anomaly $E$,
+the swept area is
 
 $$A(E)=\frac{ab_\ell}{2}(E-e\sin E).$$
 
@@ -515,7 +582,8 @@ contact calculations use $90^\circ$.
 ```
 
 A transit needs both projected overlap and the planet in front: $z<1+p$ and
-$Z>0$. Projected overlap with $Z<0$ is a secondary eclipse. Because $z$ is a
+$Z>0$. Projected overlap with $Z<0$ is a **secondary eclipse**: the star passes
+in front of the planet and hides some or all of the planet's light. Because $z$ is a
 distance, it loses this front/back information.
 
 **Recover Project 1.** In a circular, edge-on orbit, $r=a$ and
@@ -549,6 +617,8 @@ Check the rotation by verifying $X^2+Y^2+Z^2=r^2$ before rounding.
 
 ## 7. Contacts are tangencies between two circles
 
+**Contact** means the apparent planet and star outlines just touch.
+This is **tangency**, with the circles touching without crossing at that instant.
 Scale lengths by $R_\star$: the stellar radius is one, the planetary radius is
 $p$, and their center separation is $z$. External tangency occurs at the sum
 of radii, $1+p$. Internal tangency occurs at their difference, $1-p$, for
@@ -558,29 +628,35 @@ $0<p<1$.
 :alt: Four numbered panels, read across each row, show a planet moving right to left across the stellar center. Orange rings mark tangency points. At contacts one and four the circles touch externally; at contacts two and three the planet is internally tangent to the stellar boundary.
 :width: 900px
 
-Four distinct contacts for a central transit, read left to right across each
+Four distinct contacts for a central transit (a crossing through the star's
+apparent center), read left to right across each
 row. Orange rings mark the tangency points; arrows show planet motion in our
 sky coordinates. The illustrative planet has $p=0.18$.
 ```
 
 | Contact | Geometry | What follows |
 |:--|:--|:--|
-| $t_1$: $z=1+p$ | first external tangency | ingress: overlap grows |
+| $t_1$: $z=1+p$ | first external tangency | ingress (entry): overlap grows |
 | $t_2$: $z=1-p$ | first internal tangency | the planet is fully inside the stellar disk |
-| $t_3$: $z=1-p$ | second internal tangency | egress: overlap shrinks |
+| $t_3$: $z=1-p$ | second internal tangency | egress (exit): overlap shrinks |
 | $t_4$: $z=1+p$ | second external tangency | overlap has ended |
 
-For a nongrazing transit, $t_1<t_2<t_3<t_4$. The two durations are
+In a **nongrazing transit**, the planet's disk fits fully inside the star's
+apparent disk for part of the crossing, so $t_1<t_2<t_3<t_4$. The two durations are
 
 $$T_{14}=t_4-t_1,\qquad T_{23}=t_3-t_2.$$
 
 The second is the **full-overlap duration**. For a uniformly bright star and
-an opaque planet with negligible flux of its own, full overlap blocks a
-fraction $p^2$ of the starlight: normalized flux is $1-p^2$. With limb darkening,
+an **opaque** planet (one that does not transmit starlight) with negligible
+flux of its own, full overlap blocks a fraction $p^2$ of the starlight.
+**Normalized flux** divides the received flux by its value outside transit;
+that baseline is one, and full-overlap flux is $1-p^2$. With **limb darkening**
+(a stellar disk that looks dimmer toward its edge),
 the planet crosses regions of different brightness, so this segment need not
 be flat.
 
-A grazing transit lacks a full-overlap interval. At the boundary where the
+A **grazing transit** clips the star's apparent edge without a full-overlap
+interval. At the boundary where the
 planet just reaches internal tangency, the two inner contacts merge. Project
 3 requires four distinct contacts for its supplied configurations; it asks
 for a reported failure if that condition is not met elsewhere.

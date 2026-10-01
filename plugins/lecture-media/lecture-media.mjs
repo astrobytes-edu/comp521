@@ -36,5 +36,17 @@ export default {
         widget(vfile,'kepler-explorer.mjs',{figureUrl:url},data.options.id),
       ]}];
     },
+  },{
+    name:'radiation-figure', body:{type:String,required:true},
+    options:{id:{type:String,required:true}},
+    run(data,vfile) {
+      const url=(process.env.BASE_URL || '').replace(/\/$/,'')+'/media/StellarRadiation.html';
+      return [{type:'div',class:'radiation-figure',children:[
+        {type:'paragraph',children:[{type:'link',url:'/media/StellarRadiation.html',children:[
+          {type:'text',value:'Open the interactive stellar radiation figure at full size'}]}]},
+        widget(vfile,'kepler-explorer.mjs',{figureUrl:url,
+          figureTitle:'Stellar radiation: Planck spectra, wavelength peaks, and Wien root selection'},data.options.id),
+      ]}];
+    },
   }],
 };

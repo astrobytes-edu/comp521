@@ -48,7 +48,15 @@ else:
         errors.append('Missing interactive Kepler figure URL in science background')
     if f'href="{base}/media/Project3Kepler.html"' not in rendered:
         errors.append('Missing full-size Kepler figure link in science background')
-for name in ('Project3Kepler.html', 'kepler-geometry.mjs'):
+    if f'"figureUrl":"{base}/media/StellarRadiation.html"' not in rendered:
+        errors.append('Missing interactive radiation figure URL in science background')
+    if f'href="{base}/media/StellarRadiation.html"' not in rendered:
+        errors.append('Missing full-size radiation figure link in science background')
+figure_files=['Project3Kepler.html','kepler-geometry.mjs','StellarRadiation.html',
+              'radiation-physics.mjs','figure-math.mjs']
+figure_files += [str(path.relative_to(SOURCE/'media'))
+                 for path in (SOURCE/'media/katex').rglob('*') if path.is_file()]
+for name in figure_files:
     source, target = SOURCE / 'media' / name, HTML / 'media' / name
     if not source.is_file() or not target.is_file():
         errors.append(f'Missing source or stable deployed file: {name}')
@@ -56,4 +64,4 @@ for name in ('Project3Kepler.html', 'kepler-geometry.mjs'):
         errors.append(f'Deployed file differs from source: {name}')
 if errors:
     raise SystemExit('\n'.join(errors))
-print(f'Lecture media: {len(films)} films, matching static copies, animation pages, and Project 3 figure verified.')
+print(f'Lecture media: {len(films)} films, matching static copies, animation pages, and both Project 3 figures verified.')
