@@ -23,5 +23,5 @@ criteria.
 - [Final Project and Proposal Pitch](../01-course-info/syllabus.md#sec-final-project)
   — current requirements in the syllabus.
 
-Practice and lecture activities are not automatically assessments. See
-[Practice Labs](../07-practice-labs/index.md) for short ungraded rehearsal.
+Lecture activities are not automatically assessments. Follow the linked
+assessment brief for required work and submission instructions.

@@ -13,6 +13,8 @@ import sys
 HOME = Path("index.md")
 REQUIRED = (
     "Required readings will be posted at least one week before they are due.",
+    "01-course-info/this-week.md",
+    "09-lectures/index.md",
     "01-course-info/syllabus.md",
     "01-course-info/schedule.md",
     "01-course-info/projects.md",
@@ -24,6 +26,8 @@ FORBIDDEN = (
     "The thread running through everything",
     "Complete data science pipeline",
     "Monday, August 24",
+    "Thu Aug 27",
+    "Fri Aug 28",
 )
 
 

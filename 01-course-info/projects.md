@@ -34,9 +34,9 @@ characterizing exoplanets in real Kepler data.
 |---|---|---|---|
 | 1 | Tue **Aug 25** | Tue **Sep 8** | Build and validate a transit model; place 15 real stars on a theoretical HR diagram |
 | [2](../08-assessments/projects/project-2.md) | Tue **Sep 8** | Wed **Sep 23** | Integrate a limb-darkened transit model and derive the Stefan–Boltzmann constant |
-| [3](../08-assessments/projects/project-3.md) | Tue **Sep 22** | Mon **Oct 5** | Solve orbital and transit-contact problems; compare simplified temperature zones for 15 stars |
-| 4 | Tue **Oct 6** | Mon **Oct 19** | Build exoplanet interiors and test mass–radius relations against Seager et al. |
-| 5 | Tue **Oct 20** | Mon **Nov 2** | Download, clean, and fit a transit model to real Kepler photometry |
+| [3](../08-assessments/projects/project-3.md) | Tue **Sep 22** | Wed **Oct 7** | Solve orbital and transit-contact problems; compare simplified temperature zones for 15 stars |
+| 4 | Tue **Oct 6** | Wed **Oct 21** | Build exoplanet interiors and test mass–radius relations against Seager et al. |
+| 5 | Tue **Oct 20** | Wed **Nov 4** | Download, clean, and fit a transit model to real Kepler photometry |
 
 The [Final Project](syllabus.md#sec-final-project) uses the course toolkit on a
 bounded scientific question.

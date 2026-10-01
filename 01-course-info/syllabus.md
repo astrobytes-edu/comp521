@@ -31,7 +31,8 @@ author: "Dr. Anna Rosen"
 - **Bring your laptop to every class.** Sessions mix instruction with hands-on
   work. There are no separate lab days, and much of what happens in the room is
   not posted anywhere.
-- **Cadence:** projects are posted **Tuesdays** and due **Mondays at 11:59 pm PT**.
+- **Cadence:** projects are typically posted **Tuesdays** and due
+  **Wednesdays at 11:59 pm PT**. The schedule lists each specific deadline.
   Come to class prepared to discuss and use the assigned readings. See
   [Important Dates](#sec-important-dates).
 - **Grading is by letter, not points.** Projects use four broad weighted letter
@@ -167,11 +168,10 @@ Synthesis** at the start of finals week. See
 (sec-important-dates)=
 ### Important Dates
 
-Projects are assigned on **Tuesdays** and due **Mondays at 11:59 pm PT**. A Monday
-deadline means you arrive at Tuesday class having submitted, rather than
-finishing in the room. See the [Course Schedule](schedule.md) for all assignment
-and submission dates, including exceptions, and [Projects](projects.md) for
-deliverables and submission expectations.
+Projects are typically assigned on **Tuesdays** and due on
+**Wednesdays at 11:59 pm PT**. See the [Course Schedule](schedule.md) for each
+assignment and submission date, including exceptions, and [Projects](projects.md)
+for deliverables and submission expectations.
 
 | Code review presentation | Date |
 |---|---|

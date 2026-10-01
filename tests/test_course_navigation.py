@@ -217,13 +217,12 @@ def test_new_course_route_has_its_required_contract(path, required):
 def test_myst_toc_uses_the_approved_top_level_libraries():
     config = (ROOT / "myst.yml").read_text()
     titles = re.findall(r"^    - title: (.+)$", config, flags=re.MULTILINE)
-    assert titles[:8] == [
+    assert titles[:7] == [
         "Course Info & Roadmap",
-        "Scientific Computing with Python",
-        "Readings",
+        "Python Textbook",
+        "Numerical Methods, Data & Inference",
         "Scientific Background",
         "Lectures",
-        "Practice Labs",
         "Assessments",
         "Tools & Workflow",
     ]

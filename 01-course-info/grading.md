@@ -186,8 +186,8 @@ assignment. Later project briefs will name their submission route, including any
 Classroom50 use. Code Review Presentations and Growth Reflections are submitted
 through their corresponding Canvas assignments. The final-project brief will
 specify its submission route.
-Projects are due **Mondays at 11:59 pm PT** unless the [Schedule](schedule.md)
-states otherwise.
+Projects are typically due **Wednesdays at 11:59 pm PT**. The
+[Schedule](schedule.md) lists each specific deadline.
 
 **For projects, your submission is the latest commit pushed to GitHub by the
 deadline.** Work that remains only on your computer has not been submitted.

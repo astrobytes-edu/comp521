@@ -181,9 +181,13 @@ convenience:
 
 | Phase | Work | Weeks | Dates (Fall 2026) |
 |:--|:--|:--|:--|
-| **Phase 1** — Skill Formation | Projects 1–3 | 1–6 | Aug 25 – Oct 5 |
+| **Phase 1** — Skill Formation | Projects 1–3 | 1–6 | Aug 25 – Oct 7 |
 | **Phase 2** — Assisted Fluency | Projects 4–5 and Code Review Presentations | 7–12 | Oct 6 – Nov 16 |
 | **Phase 3** — Supervised Tool Use | Final Project | 13–16 | Nov 17 – Dec 10 |
+
+Project 3 retains Phase 1 rules through its October 7 deadline, even though
+Project 4 begins October 6. Follow the phase for the assessment you are working
+on when project windows overlap.
 
 :::{danger} What the phases do *not* change
 **You write your own core solution code in every phase of this course. That

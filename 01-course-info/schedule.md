@@ -17,12 +17,15 @@ Project due dates are fixed — plan around them. Topics and readings are listed
 time and the balance shifts depending on where we actually are. If we need an
 extra session on a hard idea, we take it.
 
-Projects are assigned **Tuesdays** and due **Mondays at 11:59 pm PT**, so you
-arrive at Tuesday class having submitted rather than finishing in the room.
+Projects are typically assigned **Tuesdays** and due
+**Wednesdays at 11:59 pm PT**. Use the specific dates below for each project.
 
-Come to class prepared to discuss and use the assigned readings. The schedule
-and Canvas announcements will identify what to prepare. Readings marked *(to be
-posted)* are being written and will appear before they are needed.
+Come to class prepared to discuss and use the assigned sections.
+[This Week](this-week.md) separates preparation, reference, and optional
+enrichment for the current week and retains links for earlier weeks. Chapter
+links below also serve as reference routes; a link to a chapter does not mean
+every deep dive or exercise is assigned. Readings marked *(in preparation)* are
+not yet complete lessons; their assigned sections will be identified when ready.
 :::
 
 :::{note} At a glance
@@ -59,8 +62,8 @@ point, control flow, the five algorithmic patterns
 **Before class Thu Aug 27** — complete the laptop setup so that you can use
 Python and Jupyter in class
 
-**Due Fri Aug 28, 11:59 pm PT** — **Project 1 Repository Check** in your assigned
-Classroom50 repository
+**Due Fri Aug 28, 11:59 pm PT** — **Project 1 Repository Check** in the Project 1
+repository you will link through Canvas; use the brief for its setup route
 
 **Assigned** — **Growth Memo 1**, Tue **Aug 25**; due Mon **Aug 31**, 11:59 pm PT
 
@@ -78,11 +81,10 @@ material for now and returns when a later project needs it.
 **Due** — **Project 1** + **analysis notebook**, Tue **Sep 8**
 
 :::{note} Why Project 1 is due Tuesday
-Every other project is due Monday. Project 1 is the exception because Mon Sep 7
-is **Labor Day** — campus is closed and some of you will be travelling.
+Project 1 used a Tuesday deadline because Mon Sep 7 was **Labor Day**.
+Its original deadline remains listed here for reference.
 
-You get the long weekend, and the deadline is **11:59 pm Tuesday**, so you have
-the whole day after class as well. From Project 2 on, deadlines are Mondays.
+Later projects are typically due Wednesday; use each listed deadline.
 :::
 
 ## Block 2 · Project 2 — Numerical Integration
@@ -113,11 +115,13 @@ analysis notebook), Wed **Sep 23**
 
 ## Block 3 · Project 3 — Root Finding & Stellar Inference
 
-*Assigned Tue Sep 22 · Due Mon Oct 5*
+*Assigned Tue Sep 22 · Due Wed Oct 7*
 
 ### Week 5 — Sep 22, 24 · Root finding
 
-**Readings**
+**Preparation** — use the [Week 5 section-level route](this-week.md#week-5).
+
+**Reference**
 - [Root finding](../05-numerical-methods/02-roots-quadrature/01-mod2-part1-root-finding.md)
 - [Robust computing](../04-scientific-computing/09-robust-computing.md)
 
@@ -126,23 +130,29 @@ and bracketing; Wien's law and habitable-zone calculation
 
 ### Week 6 — Sep 29, Oct 1 · Kepler orbits and stellar inference
 
-**Readings**
+**Preparation** — use the [Week 6 science and project route](this-week.md#week-6).
+
+**Reference**
 - [Advanced OOP](../04-scientific-computing/10-advanced-oop.md)
 - [Robust computing](../04-scientific-computing/09-robust-computing.md)
 
 **Topics** — Kepler's equation, orbital geometry, root-finding contact points;
 `Star` objects and habitable zones for the 15-star P1 sample
 
-**Due** — **Project 3** (root-finding library + stellar-inference notebook), Mon
-**Oct 5**
+**Due** — **Project 3** (root-finding library + stellar-inference notebook), Wed
+**Oct 7**
 
 ## Block 4 · Project 4 — ODE Methods & Exoplanet Interiors
 
-*Assigned Tue Oct 6 · Due Mon Oct 19*
+*Assigned Tue Oct 6 · Due Wed Oct 21*
 
 ### Week 7 — Oct 6, 8 · ODE solvers
 
-**Readings**
+**Reading status:** existing ODE readings are available and remain under
+revision; lecture pages are in preparation. Use the
+[ODE overview](../09-lectures/block-04-odes.md) for current links.
+
+**Reference**
 - [Euler methods](../05-numerical-methods/03-odes/01-module3-part1-euler.md)
 - [Runge–Kutta](../05-numerical-methods/03-odes/02-module3-part2-runge-kutta.md)
 
@@ -159,18 +169,20 @@ and bracketing; Wien's law and habitable-zone calculation
 **Topics** — hydrostatic equilibrium, equations of state, locating a moving
 surface, shooting, and diagnosing observed order loss
 
-**Due** — **Project 4** (ODE library + exoplanet-interior notebook) + **Growth
-Memo 2** (mid-semester), Mon **Oct 19**, 11:59 pm PT
+**Due Mon Oct 19, 11:59 pm PT** — **Growth Memo 2** (mid-semester).
+
+**Due Wed Oct 21, 11:59 pm PT** — **Project 4** (ODE library +
+exoplanet-interior notebook).
 
 ## Block 5 · Project 5 — Real Data & Model Fitting
 
-*Assigned Tue Oct 20 · Due Mon Nov 2*
+*Assigned Tue Oct 20 · Due Wed Nov 4*
 
 ### Week 9 — Oct 20, 22 · Real data acquisition and cleaning
 
 **Readings**
-- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md)
-- [Data acquisition, cleaning, and exploratory analysis](../04-scientific-computing/12-data-acquisition-cleaning.md)
+- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md) *(early reference)*
+- [Data acquisition, cleaning, and exploratory analysis](../04-scientific-computing/12-data-acquisition-cleaning.md) *(in preparation; scope note only)*
 
 **Topics** — archives and APIs, Lightkurve, quality flags, gaps, outliers, and
 exploratory analysis of real Kepler light curves
@@ -185,13 +197,13 @@ Thu **Oct 22**
 - [Linear algebra for statistics](../06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md)
 - [Probability foundations](../06-linear-algebra-stats/01-probability/01-mod1-part1-foundations.md)
 - [Statistical tools](../06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md)
-- [Model fitting and uncertainty](../06-linear-algebra-stats/03-model-fitting/00-overview.md)
+- [Model fitting and uncertainty](../06-linear-algebra-stats/03-model-fitting/00-overview.md) *(in preparation)*
 
 **Topics** — design matrices, normal equations, conditioning, $\chi^2$, transit
 model fitting, and bootstrap uncertainty
 
 **Due** — **Project 5** (real Kepler photometry + transit-model fit + analysis
-notebook), Mon **Nov 2**
+notebook), Wed **Nov 4**
 
 ## Block 6 · Machine Learning & Code Review
 
@@ -199,7 +211,7 @@ notebook), Mon **Nov 2**
 
 **Readings**
 - [Advanced OOP](../04-scientific-computing/10-advanced-oop.md)
-- [Supervised learning from scratch](../06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md)
+- [Supervised learning from scratch](../06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md) *(in preparation)*
 
 **Topics** — k-NN, decision trees, train/test splits, cross-validation;
 classifying stellar types; final-project pathways and examples
@@ -209,7 +221,7 @@ classifying stellar types; final-project pathways and examples
 
 ### Week 12 — Nov 10, 12 · Unsupervised learning and evaluation
 
-**Readings** — [Clustering, PCA, and model evaluation](../06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md)
+**Readings** — [Clustering, PCA, and model evaluation](../06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md) *(in preparation)*
 
 **Topics** — k-means, hierarchical clustering, PCA; ROC curves, confusion
 matrices, feature importance; clustering the Gaia sample from Project 1 and

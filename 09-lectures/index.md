@@ -19,9 +19,8 @@ worked examples, predictions, and project connection from a specific class.
 - **Lectures** answer: *What did we do in class, and why?*
 - **Scientific Background** answers: *What is this observable, model, or
   approximation?*
-- **Scientific Computing with Python** and **Readings** answer: *Where can I
-  study this method in depth?*
-- **Practice Labs** provide focused, low-stakes rehearsal.
+- **Python Textbook** and **Numerical Methods, Data & Inference** answer:
+  *Where can I study this method in depth?*
 - **Projects** establish the required scientific evidence and deliverables.
 :::
 

@@ -62,7 +62,7 @@ project:
         - file: 01-course-info/ai-policy.md
         - file: 01-course-info/technology-submission.md
 
-    - title: Scientific Computing with Python
+    - title: Python Textbook
       children:
         - title: Part I · Foundations for Scientific Programming
           children:
@@ -91,7 +91,7 @@ project:
             - title: Scope note · Chapter 12
               file: 04-scientific-computing/12-data-acquisition-cleaning.md
 
-    - title: Readings
+    - title: Numerical Methods, Data & Inference
       children:
         - title: Foundations of Discrete Computing
           children:
@@ -137,10 +137,10 @@ project:
                 - file: 06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md
                 - file: 06-linear-algebra-stats/02-inference/03-mod5-part3-mcmc.md
                 - file: 06-linear-algebra-stats/02-inference/04-mod5-part4-advanced-mcmc.md
-            - title: Model Fitting and Uncertainty
+            - title: Model Fitting and Uncertainty (in preparation)
               children:
                 - file: 06-linear-algebra-stats/03-model-fitting/00-overview.md
-            - title: Scientific Machine Learning
+            - title: Scientific Machine Learning (in preparation)
               children:
                 - file: 06-linear-algebra-stats/04-scientific-ml/00-overview.md
                 - file: 06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md
@@ -199,12 +199,6 @@ project:
           children:
             - file: 09-lectures/block-04-odes.md
               title: ODE lecture overview
-
-    - title: Practice Labs
-      children:
-        - file: 07-practice-labs/index.md
-        - file: 07-practice-labs/grade-calculator-design.md
-        - file: 07-practice-labs/vectorization-broadcasting.md
 
     - title: Assessments
       children:

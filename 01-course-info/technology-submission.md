@@ -13,8 +13,9 @@ linked reference when something breaks.
 2. Learn the small set of [terminal commands](../02-getting-started/01-cli-intro.md)
    needed to navigate, run programs, and inspect files.
 3. Set up [Git and GitHub](../02-getting-started/03-git-intro.md) so that your
-   project repository is yours and your work is backed up. Classroom50 is an
-   optional distribution route while the course workflow is being finalized.
+   project repository is yours and your work is backed up. Follow the current
+   project brief and Canvas assignment for repository setup; Classroom50 may
+   distribute an individual repository.
 4. Follow the [Projects](projects.md) page for the repository, notebook,
    evidence, and submission requirements of the current project.
 5. Before every final push, use **Restart Kernel and Run All Cells** and then

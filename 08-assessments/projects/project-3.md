@@ -5,7 +5,7 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Project 3 — Root Finding and Stellar Inference
 
-**Due Monday, October 5, 11:59 pm PT** · pairs allowed, own code and own write-up
+**Due Wednesday, October 7, 11:59 pm PT** · pairs allowed, own code and own write-up
 
 ## What you are building
 

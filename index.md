@@ -5,9 +5,11 @@ subtitle: "San Diego State University | Fall 2026"
 
 <!-- prep-banner:start -->
 :::{note} Course materials and updates
-Readings and supporting materials will be added as the semester progresses.
-Required readings will be posted at least one week before they are due. Changes
-will be announced through Canvas and reflected on this site.
+This website and the relevant course materials will be updated throughout the
+semester. Required readings will be posted at least one week before they are due.
+Check [This Week](01-course-info/this-week.md) for current preparation and material
+links. Changes to assigned work and deadlines will be announced through Canvas
+and reflected on this site.
 :::
 <!-- prep-banner:end -->
 
@@ -50,17 +52,27 @@ presentations, and a four-week solo final project.
 Every class meeting combines instruction and hands-on work, so bring your
 laptop.
 
-Complete the laptop setup before class **Thu Aug 27** so that you can use Python
-and Jupyter in class. The completion-only **Project 1 Repository Check** is due
-**Fri Aug 28 at 11:59 pm PT**: accept your Classroom50 assignment, clone the
-repository, and push one setup commit. It does not assess Project 1 progress.
-The [Schedule](01-course-info/schedule.md) is the authoritative source for all
-dates; [Projects](01-course-info/projects.md) explains what you will build and
-submit.
+Use [This Week](01-course-info/this-week.md) for current preparation, project
+connections, and links to earlier weeks. The [Lecture Library](09-lectures/index.md)
+collects class materials. The [Schedule](01-course-info/schedule.md) is the
+authoritative source for dates; [Projects](01-course-info/projects.md) explains
+what you will build and submit.
 
 ## Start here
 
 ::::{grid} 1 1 2 3
+
+:::{grid-item-card} This Week
+:link: 01-course-info/this-week.md
+
+Current preparation and materials, with earlier weeks available for review.
+:::
+
+:::{grid-item-card} Lectures
+:link: 09-lectures/index.md
+
+Class materials, worked examples, and project connections.
+:::
 
 :::{grid-item-card} Syllabus
 :link: 01-course-info/syllabus.md
@@ -83,14 +95,13 @@ Project sequence, submissions, and collaboration.
 :::{grid-item-card} AI Policy
 :link: 01-course-info/ai-policy.md
 
-Read this before beginning Project 1.
+What assistance is allowed for your current assessment.
 :::
 
 :::{grid-item-card} Getting Started
 :link: 02-getting-started/getting-started.md
 
-Set up your laptop for Thursday and complete the Project 1 Repository Check by
-Friday.
+Set up Python, use Git, and troubleshoot your project workflow.
 :::
 
 ::::
