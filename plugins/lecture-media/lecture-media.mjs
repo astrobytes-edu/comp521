@@ -25,5 +25,16 @@ export default {
         widget(vfile,'lecture-player.mjs',{description:data.body.trim(),mediaUrl:`${(process.env.BASE_URL || '').replace(/\/$/,'')}/media/${video.split('/').pop()}`},id),
       ]}];
     },
+  },{
+    name:'kepler-figure', body:{type:String,required:true},
+    options:{id:{type:String,required:true}},
+    run(data,vfile) {
+      const url=(process.env.BASE_URL || '').replace(/\/$/,'')+'/media/Project3Kepler.html';
+      return [{type:'div',class:'kepler-figure',children:[
+        {type:'paragraph',children:[{type:'link',url:'/media/Project3Kepler.html',children:[
+          {type:'text',value:'Open the interactive Kepler figure at full size'}]}]},
+        widget(vfile,'kepler-explorer.mjs',{figureUrl:url},data.options.id),
+      ]}];
+    },
   }],
 };

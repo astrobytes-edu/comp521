@@ -165,6 +165,67 @@ These give Stefan–Boltzmann's law and Wien's law, respectively.
 
 ## 3. The model and its coordinates
 
+An orbit describes both a path and motion along that path. The planet is
+closest to the star at **periastron** and farthest away at **apastron**.
+On an eccentric orbit, it moves faster near periastron and slower near
+apastron. To predict a transit, we need its position at a particular time
+and then its position on the observer's sky.
+
+### What the orbital parameters mean
+
+- **Semimajor axis $a$: size.** Half the ellipse's longest width, not the
+  planet's instantaneous distance from the star.
+- **Eccentricity $e$: shape.** Zero gives a circle; larger values below one
+  give more elongated ellipses and a larger difference between closest
+  and farthest distance.
+- **Inclination $i$: tilt.** Relative to the sky plane, $0^\circ$ is face-on
+  and $90^\circ$ is edge-on. Tilt changes the apparent track and whether
+  it can cross the stellar disk.
+- **Argument of periastron $\omega$: orientation within the orbital plane.**
+  The direction of closest approach, measured from the ascending-node
+  direction. The ascending node is where the planet crosses the sky plane
+  toward the observer. Project 3 fixes $\omega=90^\circ$.
+
+(project3-orbit-parameters)=
+:::{figure} figures/project3-orbit-parameters.svg
+:alt: Four panels in a two-by-two layout explain orbital parameters. Top left, a changes the size and the longest width is two a. Top right, e changes a circle into an ellipse at fixed a, with closest periastron and farthest apastron marked. Bottom left, increasing inclination flattens a circular orbit's sky projection. Bottom right, omega rotates periastron from the node direction about the stellar focus.
+:width: 850px
+
+Size, shape, tilt, and orientation. Orange marks the star. The inclination
+panel shows the observer's sky; the others show the orbital plane. Dots in
+the orientation panel mark periastron for two rotations about the stellar focus.
+[View the figure at full size](figures/project3-orbit-parameters.svg).
+:::
+
+The **period $P$** is the time for one complete orbit. We also need a time
+origin: here, $t=0$ is periastron. Together, these specify when to locate
+the planet on its path.
+
+In this two-body model, $i$ and $\omega$ stay fixed while the planet moves.
+They orient the orbit; they do not say where the planet is along it. The
+changing angle $\nu$ supplies that position. Our reference plane is the
+**observer's sky**, with positive $Z$ toward the observer. We choose $X$
+along the ascending node, so a separate node longitude $\Omega$ is not
+needed in the project's coordinates.
+
+::::{admonition} Watch: tilt, orientation, and position
+:class: dropdown
+
+:::{lecture-film}
+:id: project3-orientation-player
+:video: ../../09-lectures/media/Project3Orientation.mp4
+:poster: ../../09-lectures/media/Project3Orientation-poster.png
+A three-dimensional orbit above the observer's sky plane. Inclination i tilts the orbit. Argument of periastron omega sets the direction of closest approach from the ascending node. True anomaly nu locates the planet from that direction at the star. The planet moves while tilt and orientation remain fixed.
+:::
+
+This captioned film uses $i=65^\circ$ to make the tilt visible and
+$\omega=90^\circ$, the project's orientation. The required contact cases
+use $i=90^\circ$. Pause when $\nu$ appears: where does its arc begin, and
+how is that different from $\omega$?
+::::
+
+### The project model and symbols
+
 Treat the star and planet as an isolated Newtonian two-body system. Their
 relative orbit is an ellipse with semimajor axis $a$ and eccentricity
 $0\le e<1$. The position below is the planet's displacement **relative to the
@@ -200,6 +261,111 @@ $$
 
 ## 4. Three angles with different jobs
 
+An **anomaly** is a parameter describing position in an orbit. The three
+anomalies below describe the **same instant** in different ways; they are
+linked by the orbit's geometry, not three angles we choose independently.
+
+We know when we want the planet's position. On an eccentric orbit, its speed
+changes, so elapsed time does not translate directly into an angle around
+the star. **Mean anomaly $M$ represents the steadily advancing orbital
+clock.** Kepler's equation, $M=E-e\sin E$, converts that clock into the
+geometric parameter $E$. From $E$, we calculate the planet's distance and
+its actual direction, the **true anomaly $\nu$**. NASA's
+[orbital-motion explanation](https://pwg.gsfc.nasa.gov/stargaze/Smotion.htm)
+describes the same time-to-position sequence.
+
+| Parameter | Question it answers | Where to read it |
+|:--|:--|:--|
+| Mean anomaly $M$ | How much of the period has elapsed? | A separate uniform clock: $M/(2\pi)=t/P$ |
+| Eccentric anomaly $E$ | Which auxiliary-circle point maps to the planet? | At ellipse center $C$, from the periastron direction to circle point $Q$ |
+| True anomaly $\nu$ | In which direction is the actual planet? | At star $S$, from periastron toward the planet |
+
+$E$ points to **$Q$, not to the planet**. The circle is a geometric
+construction; there is only one planet. $\nu$ points to the planet from
+the star. All equations use **radians**; the figure can display degrees
+to help read the angles.
+
+### Watch the clock and the planet
+
+:::{tip} Predict before watching
+The animation leaves a dot after each equal time interval. Where will the
+dots be closer together: near periastron or near apastron? What does their
+spacing tell you about speed?
+:::
+
+:::{kepler-figure}
+:id: project3-kepler-figure
+A synchronized orbital clock, auxiliary-circle construction, and star-centered physical angle. Time and eccentricity controls let you compare the three anomalies, reveal their different origins, and explore a tilted orbit in space.
+:::
+
+Reveal **Clock & planet → Construct E → Measure ν** in order. Scrub time,
+then turn on equal-time dots. **Orbit in space** keeps the same instant
+while you change tilt and orientation. The viewing-angle control moves
+the diagram's camera; it does not change the orbit.
+
+#### One instant, three readings
+
+The **Film snapshot** uses $e=0.55$ and $E=\pi/3$. Then
+
+$$M=\frac{\pi}{3}-0.55\sin\frac{\pi}{3}=0.570884\ \text{rad},
+\qquad \frac{t}{P}=\frac{M}{2\pi}=0.090859.$$
+
+| Clock $M$ | Construction $E$ | Direction $\nu$ | Distance $r/a$ |
+|:--|:--|:--|:--|
+| $32.71^\circ$ | $60.00^\circ$ | $93.95^\circ$ | $0.725$ |
+
+Less than 10% of the period has elapsed, yet the planet is already more
+than $90^\circ$ from periastron as seen from the star. It moves quickly
+near periastron, and the star is offset from the ellipse center. Indeed,
+$x_{\rm orb}/a=\cos60^\circ-0.55=-0.05$: the planet has passed to the
+left of the star even though $Q$ is still to the right of $C$.
+
+#### Captioned animation
+
+:::{lecture-film}
+:id: project3-kepler-player
+:video: ../../09-lectures/media/Project3Kepler.mp4
+:poster: ../../09-lectures/media/Project3Kepler-poster.png
+A steady mean-anomaly clock accompanies a planet on an eccentric orbit. Equal-time dots are farther apart near periastron and closer near apastron. The film then pauses to show eccentric anomaly E measured using the ellipse center and true anomaly nu measured at the stellar focus.
+:::
+
+The film has no audio. It builds the construction in stages, then holds
+time fixed while taking the circular limit. Use the controls to pause or
+replay it. The static walkthrough below carries the same explanation.
+
+::::{admonition} Static walkthrough: time, position, and angles
+:class: dropdown
+
+**1. Equal time does not mean equal distance.** The clock advances steadily.
+Every neighboring pair of dots represents the same elapsed time, but the
+dots crowd together near apastron, where the planet moves more slowly.
+
+:::{figure} ../../09-lectures/media/Project3Kepler-poster.png
+:alt: A separate orbital clock and an eccentric orbit with sixteen equal-time position markers. The markers crowd near apastron on the left and are farther apart near periastron on the right; the star lies at the right-hand focus.
+:width: 850px
+
+Equal-time sampling for the illustrative $e=0.55$ orbit. The clock completes
+one turn while the planet completes one orbit.
+:::
+
+**2. The angles answer different questions.** $M$ gives elapsed orbital
+phase. $E$ locates the auxiliary-circle point that maps to the planet.
+$\nu$ gives the planet's actual direction from the star.
+
+:::{figure} ../../09-lectures/media/Project3Kepler-angles.png
+:alt: Paused film frame with the mean-anomaly clock separate on the left. On the right, a dashed auxiliary circle surrounds the ellipse. Angle E runs from the periastron direction at center C to auxiliary point Q; a vertical construction maps Q to the planet. Angle nu runs from the same direction at stellar focus S to the planet.
+:width: 850px
+
+One position, three different angles. $E$ is measured using center $C$;
+$\nu$ is measured at focus $S$. The separate clock supplies $M$.
+:::
+
+**Explain:** why would moving the planet through equal increments of $E$
+fail to show equal increments of time when $e>0$? Use $M=E-e\sin E$.
+::::
+
+### Read the geometry
+
 **Mean anomaly is a clock:**
 
 $$M=nt,\qquad n=\frac{2\pi}{P}.$$
@@ -219,14 +385,6 @@ $$x_{\rm orb}=a(\cos E-e),\qquad
 
 **True anomaly is the physical angle at the focus:**
 $\nu=\operatorname{atan2}(y_{\rm orb},x_{\rm orb})$, modulo a full turn.
-
-```{figure} figures/project3-kepler-geometry.svg
-:alt: An ellipse inside its auxiliary circle. E is measured at the ellipse center C toward circle point Q. True anomaly is measured at stellar focus S toward the planet below Q; the two points have the same horizontal coordinate.
-:width: 760px
-
-The two geometric angles have different origins. The auxiliary circle is a
-construction, not another orbit. The illustration uses $e=0.55$.
-```
 
 The distance from the focus is
 
@@ -249,6 +407,8 @@ $$\nu=2\operatorname{atan2}\!\left(
 Use a two-argument arctangent to retain quadrant information. Angles differing
 by $2\pi$ describe the same position, but the project's Kepler solver must
 return $E$ on the same **unwrapped branch** as its input $M$.
+For example, $M=2\pi+0.570884$ corresponds to one full orbit plus the
+snapshot above, so $E$ is near $2\pi+\pi/3$, not just $\pi/3$.
 
 :::{tip} Predict, then check
 When $e=0$, the focus and center coincide. What should happen to $M$, $E$,
@@ -258,17 +418,23 @@ $\nu$, and $r$? Simplify the formulas before checking your program.
 ## 5. Why time leads to a root-finding problem
 
 Kepler's second law says the line joining star and planet sweeps equal areas
-in equal times. Let $b_{\rm ell}=a\sqrt{1-e^2}$ be the ellipse's semiminor
+in equal times. Let $b_\ell=a\sqrt{1-e^2}$ be the ellipse's semiminor
 axis. From periastron to eccentric anomaly $E$, the swept area is
 
-$$A(E)=\frac{ab_{\rm ell}}{2}(E-e\sin E).$$
+$$A(E)=\frac{ab_\ell}{2}(E-e\sin E).$$
 
-Compress the auxiliary circle's sector area by $b_{\rm ell}/a$, then subtract
+Compress the auxiliary circle's sector area by $b_\ell/a$, then subtract
 the signed triangle area associated with the focus's offset $ae$. The ellipse
-has area $\pi ab_{\rm ell}$, so equal-area motion gives
+has area $\pi ab_\ell$, so equal-area motion gives
 
-$$\frac{t}{P}=\frac{A(E)}{\pi ab_{\rm ell}}
+$$\frac{t}{P}=\frac{A(E)}{\pi ab_\ell}
 \quad\Longrightarrow\quad M=E-e\sin E.$$
+
+Thus $M/(2\pi)$ measures both the elapsed fraction of a period and the
+fraction of the ellipse's area swept from periastron. It does **not**
+measure the fraction of the ellipse's circumference traveled. In the
+interactive figure, the purple clock sector and orange swept orbital
+area occupy the same fraction of their respective totals.
 
 For multiple revolutions, interpret area as accumulated swept area. For
 negative time, use signed area. The same equation remains valid without
@@ -300,6 +466,13 @@ condition; they test the equation, not a viable transit system.
 :::
 
 ## 6. From the orbit to the observer's sky
+
+The orbital radius $r$ is a distance in space. For a transit, we need the
+separation of the two centers **on the sky**: could the projected disks
+overlap? Inclination and periastron orientation determine the apparent
+track. The projected center separation, divided by the stellar radius,
+is $z$. The Kepler solve supplies position at a trial time; the contact
+solves find when the projected outlines touch.
 
 Place the star at the origin. Let $X,Y$ span the sky plane and let positive
 $Z$ point **toward the observer**. Choose the sky's $X$ axis along the ascending
