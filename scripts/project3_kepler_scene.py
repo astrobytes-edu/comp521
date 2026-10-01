@@ -178,7 +178,9 @@ class Project3Kepler(Scene):
             for r,color in zip([.40,.60,.80],[CLOCK,ECC,TRUE])
         ])
         equal = MathTex(r"M=E=\nu=32.7^\circ",font_size=34,color=INK).move_to([2.3,-2.75,0])
-        self.play(Create(circle_ray),Create(same_arcs),Write(equal),run_time=1.5)
+        self.play(Create(circle_ray),Create(same_arcs),Write(equal),
+                  Transform(orbit_title,text("CIRCULAR MOTION · CONSTANT SPEED",19,MUTED)
+                            .move_to([2.4,2.18,0])),run_time=1.5)
         say("For a circle, the center and focus coincide. All three angles agree.")
         self.wait(4)
         finish = MathTex(r"t\longrightarrow M\longrightarrow E\longrightarrow(r,\nu)",
