@@ -2382,11 +2382,21 @@ $$
 ::::
 
 ::::{fragment}
+:effect: fade-in-then-out
 :index: 3
 
 :::{slide-figure} ode-figures.ipynb#phase-endpoint-zoom
 :alt: Magnified phase-plane endpoint at T=12 on equal axis scales. RK2 has a visible state offset; RK4 and exact nearly overlap at this magnification.
 :caption: Endpoint zoom: RK2 is displaced. RK4 and exact nearly overlap at this scale.
+:::
+::::
+
+::::{fragment}
+:index: 4
+
+:::{slide-figure} ode-figures.ipynb#rk4-endpoint-zoom
+:alt: Further phase-plane zoom centered on the exact endpoint at T=12. Equally scaled coordinate offsets in microunits separate RK4 from exact; an arrow shows the small state error.
+:caption: Further zoom: offsets from the exact endpoint in millionths. RK4 has a small, nonzero state error.
 :::
 ::::
 :::::
@@ -2678,11 +2688,15 @@ Symplectic structure, state accuracy, and physical energy are separate claims.
 - **Resolution:** 100 steps per period.
 - **Duration:** 20 periods.
 - **Initial state:** $(q_0,p_0)=(1,0)$.
-- Same step size; derivative costs differ.
+- Same step; costs differ.
 
-**Compare:** energy drift, bounded oscillation, and the magnified RK4 error.
+**First plot (log):** $|E-E_0|/E_0$. Zero errors omitted.
 
-Check phase separately.
+- RK2: growing error.
+- Leapfrog: bounded oscillations.
+- RK4: much smaller drift.
+
+Next: signed RK4 error.
 
 :::::::
 
@@ -2695,8 +2709,8 @@ Check phase separately.
 :index: 0
 
 ::::{slide-figure} ode-figures.ipynb#energy
-:alt: 100 steps per period for 20 periods from (1,0); same step, not equal derivative cost.
-:caption: Same step size and duration; different energy behavior.
+:alt: Logarithmic absolute relative energy error over 20 periods. RK2 grows, leapfrog oscillates below a bounded envelope, and RK4 has much smaller nonzero drift. Zero errors are omitted.
+:caption: Energy-error magnitude on a logarithmic scale. Zero values are omitted; same step, unequal derivative cost.
 ::::
 
 
@@ -2733,7 +2747,10 @@ Check phase separately.
 
 ::::::{slide-column}
 
-- **Phase:** timing along the orbit. **Energy:** its level set.
+- **Phase:** timing along the orbit.
+- **Energy:** its level set.
+- **Log scale:** phase-error magnitude. Zero values are omitted.
+- Same 100 steps per period and 20 periods.
 
 
 
@@ -2753,7 +2770,7 @@ Check phase separately.
 :index: 0
 
 :::{slide-figure} ode-figures.ipynb#phase-error
-:alt: The same oscillator reference maps show phase drift even when leapfrog energy error remains bounded.
+:alt: Logarithmic phase-error magnitude. RK2 and leapfrog accumulate larger timing errors than RK4 in the same oscillator experiment. Zero errors are omitted.
 :caption: Energy alone misses accumulating timing error.
 :::
 ::::

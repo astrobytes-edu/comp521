@@ -93,8 +93,8 @@
     "order": "Common-endpoint oscillator errors at T=2 using h=0.1 halved four times; linear reference maps only.",
     "rhs-work": "Derivative evaluation counts are a work model, not measured runtime.",
     "richardson": "Number-line endpoint coordinates0.8,0.81,0.82 and exp(\u22120.2).",
-    "energy": "100 steps per period for20 periods from (1,0); same step, not equal derivative cost.",
-    "phase-error": "The same oscillator reference maps show phase drift even when leapfrog energy error remains bounded.",
+    "energy": "Absolute relative energy error on log y. Exact zeros masked, no artificial floor; frozen 100 steps per period, 20 periods.",
+    "phase-error": "Absolute phase error on log y. Exact zeros masked; frozen oscillator experiment, same step and duration.",
     "rk4-energy": "Magnified RK4 physical-energy error for the same oscillator experiment; RK4 does not preserve energy exactly.",
     "kick1": "Kick\u2013drift\u2013kick for a separable mechanical Hamiltonian; highlighted substep.",
     "drift": "Kick\u2013drift\u2013kick for a separable mechanical Hamiltonian; highlighted substep.",
@@ -113,9 +113,10 @@
     "kick-drift-kick": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
     "rk2-phase": "Exact, Euler, and explicit midpoint RK2 on identical axes for the existing phase experiment.",
     "rk4-phase": "Exact, Euler, RK2, and classical RK4 on identical axes for the existing phase experiment.",
-    "phase-endpoint-zoom": "Magnified terminal phase-plane states for RK2, RK4, and exact at T=12, with equal axis scales."
+    "phase-endpoint-zoom": "Magnified terminal phase-plane states for RK2, RK4, and exact at T=12, with equal axis scales.",
+    "rk4-endpoint-zoom": "Equal-axis terminal phase-plane offsets from exact, multiplied by 1e6, showing nonzero RK4 error at unchanged h=0.1 and T=12."
   },
-  "figure_count": 57,
+  "figure_count": 64,
   "heat_profile_reference": {
     "domain": "infinite line",
     "variables": "dimensionless x and t, normalized temperature excess",
@@ -136,8 +137,8 @@
   "plot_generation": {
     "source": "ode-figures.ipynb",
     "renderer": "Matplotlib SVG output from MyST-executed notebook",
-    "plot_cells": 27,
-    "slide_figure_uses": 31,
+    "plot_cells": 28,
+    "slide_figure_uses": 32,
     "canvas_inches": [
       5.2,
       4.5
@@ -169,5 +170,12 @@
       "RK4": "1-h^6/72+h^8/576"
     },
     "endpoint_zoom": "Equal axis scales; window derived from exact and RK2 endpoints. RK4 and exact nearly overlap at this scale."
+  },
+  "visibility_revision": {
+    "energy": "logarithmic magnitude, signed RK4 detail retained",
+    "phase": "logarithmic magnitude",
+    "zero_handling": "masked; no positive error floor substituted",
+    "rk4_phase": "second endpoint zoom in microunits",
+    "experiments": "unchanged"
   }
 }
