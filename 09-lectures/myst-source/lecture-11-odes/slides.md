@@ -1764,7 +1764,7 @@ $$\begin{aligned}q(t)&=\cos t\\p(t)&=q'(t)=-\sin t\end{aligned}$$
 :::::::
 
 (slide-025)=
-## Same energy does not mean same state
+## Phase diagram: same energy, different states
 
 ```{slide-options}
 {"class":"ode-deck ode-visual","eyebrow":"The harmonic oscillator as a benchmark"}
@@ -1777,19 +1777,23 @@ $$\begin{aligned}q(t)&=\cos t\\p(t)&=q'(t)=-\sin t\end{aligned}$$
 
 ::::::{slide-column}
 
+- **Phase diagram:** each point $(q,p)$ represents a state.
+- **Energy conservation** imposes an **algebraic constraint**:
+
 $$
-E=\tfrac12(q^2+p^2)=\tfrac12
+\begin{aligned}
+E=\tfrac12(q^2+p^2)&=\tfrac12\\
+q^2+p^2&=1
+\end{aligned}
 $$
 
-- $(1,0)$ and $(0,-1)$ have the **same energy**.
-
-
+- $(1,0)$ and $(0,-1)$ lie on the **same energy circle**.
 
 :::{fragment}
 :effect: fade-in
 :index: 1
 
-- At a specified time, only one is the correct state.
+- Energy fixes the circle, **not the state at a given time**.
 :::
 
 ::::::
@@ -1801,8 +1805,8 @@ $$
 :index: 0
 
 :::{slide-figure} ode-figures.ipynb#phase-circle
-:alt: Equal-scale q,p phase plane. Points on the same energy circle can have different phase.
-:caption: Equal energy; different positions along the orbit. Equal axis scales.
+:alt: Phase diagram with scaled position q on the horizontal axis and scaled momentum p on the vertical axis. Distinct states lie on the same constant-energy circle.
+:caption: Horizontal: scaled position. Vertical: scaled momentum. Equal axis scales.
 :::
 ::::
 
