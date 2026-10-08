@@ -2018,10 +2018,26 @@ $$
 :::::::::{fragment}
 :index: 3
 
-:::{slide-figure} ode-figures.ipynb#rk2-phase
-:alt: Equal-scale phase diagram comparing exact, Euler, and explicit midpoint RK2 from (1,0), with h=0.1 over T=12. Euler spirals outward; RK2 nearly follows the exact circle.
-:caption: Add RK2 to the same phase diagram. Same step and duration; unequal derivative cost.
-:::
+::::::::{slide-stack}
+:::::::{fragment}
+:effect: fade-out
+:index: 4
+
+::::::{slide-figure} ode-figures.ipynb#rk2-phase
+:alt: Phase diagram cropped to plus or minus 1.08 on both axes. RK2 is bold teal; exact is dark dotted; Euler is faint gray and continues beyond this crop. A square marks the RK2 endpoint.
+:caption: Near-orbit view; Euler continues outside this crop. Next: endpoint zoom.
+::::::
+:::::::
+
+:::::::{fragment}
+:index: 4
+
+::::::{slide-figure} ode-figures.ipynb#rk2-endpoint-zoom
+:alt: Equal-scale endpoint zoom at T=12 separates the teal RK2 square from the dark exact point and orbit. The experiment is unchanged.
+:caption: Endpoint zoom resolves the RK2 offset from exact at the same time.
+::::::
+:::::::
+::::::::
 
 :::::::::
 
@@ -2388,8 +2404,8 @@ $$
 :index: 3
 
 :::{slide-figure} ode-figures.ipynb#rk4-phase
-:alt: Equal-scale phase diagram with exact, Euler, RK2, and RK4 for the same initial state, step 0.1, and duration 12. RK4 and exact nearly overlap at this scale.
-:caption: Add RK4. Same step and duration; unequal derivative cost.
+:alt: Phase diagram cropped to plus or minus 1.08 on both axes. Bold teal RK2 and purple RK4 use interleaved dashes and distinct endpoint markers. Euler is faint gray and continues beyond the crop; exact is dark dotted.
+:caption: Teal RK2; purple RK4. Euler is faded and cropped. Next: endpoint zoom.
 :::
 ::::
 

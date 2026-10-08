@@ -115,9 +115,10 @@
     "rk4-phase": "Exact, Euler, RK2, and classical RK4 on identical axes for the existing phase experiment.",
     "phase-endpoint-zoom": "Magnified terminal phase-plane states for RK2, RK4, and exact at T=12, with equal axis scales.",
     "rk4-endpoint-zoom": "Equal-axis terminal phase-plane offsets from exact, multiplied by 1e6, showing nonzero RK4 error at unchanged h=0.1 and T=12.",
-    "decay-magnitude": "Exact and Euler magnitudes for already introduced h=0.25,1.5,3; same u0=1 and time interval0to9. Signed panel retained."
+    "decay-magnitude": "Exact and Euler magnitudes for already introduced h=0.25,1.5,3; same u0=1 and time interval0to9. Signed panel retained.",
+    "rk2-endpoint-zoom": "Equal-axis RK2 versus exact terminal phase-plane view for unchanged h=.1,T=12; RK4 not yet introduced."
   },
-  "figure_count": 65,
+  "figure_count": 66,
   "heat_profile_reference": {
     "domain": "infinite line",
     "variables": "dimensionless x and t, normalized temperature excess",
@@ -138,8 +139,8 @@
   "plot_generation": {
     "source": "ode-figures.ipynb",
     "renderer": "Matplotlib SVG output from MyST-executed notebook",
-    "plot_cells": 29,
-    "slide_figure_uses": 33,
+    "plot_cells": 30,
+    "slide_figure_uses": 34,
     "canvas_inches": [
       5.2,
       4.5
@@ -196,5 +197,17 @@
     "linear_retained": "Phase-plane geometry; zero/sign-sensitive state plots; short-range Taylor/tangent constructions; categorical Richardson endpoints; linear pressure law and diffusion profiles.",
     "new_comparison": "Magnitude reveal reuses previously introduced decay steps and the existing signed-panel interval.",
     "style_consistency": "RK2 label in order plot; purple RK4 in energy detail."
+  },
+  "phase_visibility_revision": {
+    "Euler": "faint gray in comparison panels; original full axes retained for its introduction",
+    "RK2": "saturated teal, thick dashed curve and open square endpoint",
+    "RK4": "saturated purple, complementary dashed curve and open triangle endpoint",
+    "comparison_limits": [
+      -1.08,
+      1.08
+    ],
+    "cropping": "Euler spiral continues outside cropped comparison views; captions say so",
+    "magnification": "RK2 endpoint reveal plus existing RK2/RK4 endpoint and RK4 microunit views",
+    "experiment": "unchanged .1 step and duration12"
   }
 }
