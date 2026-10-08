@@ -1841,6 +1841,7 @@ $$
 :::
 
 - Both updates use the **original state**.
+- **Phase experiment:** $(q_0,p_0)=(1,0)$, $h=0.1$, $T=12$.
 
 :::{fragment}
 :effect: fade-in
@@ -1883,12 +1884,18 @@ $$
 **Explicit midpoint (RK2): second order.** Global state error $O(h^2)$.
 :::
 
-:::::::::{slide-columns}
+::::::::::::{slide-columns}
 :ratio: 1 1.15
 :gap: 32
 :align: center
 
-::::::::{slide-column}
+:::::::::::{slide-column}
+
+::::::::::{slide-stack}
+:::::::::{fragment}
+:effect: fade-out
+:index: 3
+
 
 $$
 \begin{aligned}k_1&=f(x_n,y_n)\\k_2&=f(x_n+h/2,y_n+hk_1/2)\end{aligned}
@@ -1931,9 +1938,33 @@ For $y'=y$, missing the midpoint state gives **Euler, first order**.
 ::::::
 
 
-::::::::
+:::::::::
 
-::::::::{slide-column}
+:::::::::{fragment}
+:index: 3
+
+**Same oscillator:** $q'=p$, $p'=-q$.
+
+- $(q_0,p_0)=(1,0)$; $h=0.1$, $T=12$.
+- **RK2:** much less outward drift than Euler.
+
+$$E_{n+1}=\left(1+\frac{h^4}{4}\right)E_n$$
+
+- Small drift is still **not exact energy conservation**.
+
+:::::::::
+
+::::::::::
+
+:::::::::::
+
+:::::::::::{slide-column}
+
+::::::::::{slide-stack}
+:::::::::{fragment}
+:effect: fade-out
+:index: 3
+
 
 ::::::{slide-stack}
 
@@ -1972,10 +2003,24 @@ $$
 ::::::
 
 
-::::::::
+:::::::::
 
+:::::::::{fragment}
+:index: 3
+
+:::{slide-figure} ode-figures.ipynb#rk2-phase
+:alt: Equal-scale phase diagram comparing exact, Euler, and explicit midpoint RK2 from (1,0), with h=0.1 over T=12. Euler spirals outward; RK2 nearly follows the exact circle.
+:caption: Add RK2 to the same phase diagram. Same step and duration; unequal derivative cost.
+:::
 
 :::::::::
+
+::::::::::
+
+:::::::::::
+
+
+::::::::::::
 
 (slide-028)=
 ## Trace one midpoint step
@@ -2186,12 +2231,18 @@ New slopes use new trial states.
 {"class": "ode-deck ode-visual ode-derivation", "eyebrow": "Midpoint and classical RK4"}
 ```
 
-:::::::::{slide-columns}
+::::::::::::{slide-columns}
 :ratio: 1 1.15
 :gap: 32
 :align: center
 
-::::::::{slide-column}
+:::::::::::{slide-column}
+
+::::::::::{slide-stack}
+:::::::::{fragment}
+:effect: fade-out
+:index: 2
+
 
 $$
 \bar k=\tfrac16(k_1+2k_2+2k_3+k_4)
@@ -2241,9 +2292,34 @@ $$
 ::::::
 
 
-::::::::
+:::::::::
 
-::::::::{slide-column}
+:::::::::{fragment}
+:index: 2
+
+**Same oscillator:** $q'=p$, $p'=-q$.
+
+- $(q_0,p_0)=(1,0)$; $h=0.1$, $T=12$.
+- **RK4:** nearly overlaps the exact circle.
+
+$$E_{n+1}=\left(1-\frac{h^6}{72}+\frac{h^8}{576}\right)E_n$$
+
+- Energy is **not conserved exactly**.
+- Inspect the endpoint for **state and phase error**.
+
+:::::::::
+
+::::::::::
+
+:::::::::::
+
+:::::::::::{slide-column}
+
+::::::::::{slide-stack}
+:::::::::{fragment}
+:effect: fade-out
+:index: 2
+
 
 ::::::{slide-stack}
 
@@ -2277,24 +2353,53 @@ $$
 - Matches the exact step through $h^4$.
 - **One-step state defect:** $O(h^5)$.
 - **Global state error:** $O(h^4)$.
-:::::
-::::::
 
-
-::::::::
-
-
-:::::::::
-
-::::{fragment}
-:index: 1
 
 :::{slide-element}
 :class: ode-prompt
 
-**Method order:** global accuracy, not ODE order or stage count. This example illustrates the matching; it does not prove general RK4 order.
+**Order:** global accuracy, not ODE order or stage count. This example is **not a general RK4 order proof**.
+:::
+:::::
+::::::
+
+
+:::::::::
+
+:::::::::{fragment}
+:index: 2
+
+:::::{slide-stack}
+
+::::{fragment}
+:effect: fade-out
+:index: 3
+
+:::{slide-figure} ode-figures.ipynb#rk4-phase
+:alt: Equal-scale phase diagram with exact, Euler, RK2, and RK4 for the same initial state, step 0.1, and duration 12. RK4 and exact nearly overlap at this scale.
+:caption: Add RK4. Same step and duration; unequal derivative cost.
 :::
 ::::
+
+::::{fragment}
+:index: 3
+
+:::{slide-figure} ode-figures.ipynb#phase-endpoint-zoom
+:alt: Magnified phase-plane endpoint at T=12 on equal axis scales. RK2 has a visible state offset; RK4 and exact nearly overlap at this magnification.
+:caption: Endpoint zoom: RK2 is displaced. RK4 and exact nearly overlap at this scale.
+:::
+::::
+:::::
+
+:::::::::
+
+::::::::::
+
+:::::::::::
+
+
+::::::::::::
+
 
 (slide-032)=
 ## Higher order versus more work per step
@@ -2441,7 +2546,7 @@ $$
 :::{slide-element}
 :class: ode-method-order
 
-**Leapfrog: second order.** Global state error $O(h^2)$.
+Leapfrog belongs to the **symplectic family**: **second order**, global state error $O(h^2)$.
 :::
 
 :::::::{slide-columns}

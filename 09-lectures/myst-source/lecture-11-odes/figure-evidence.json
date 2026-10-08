@@ -110,9 +110,12 @@
     "rk-stages-12": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
     "rk-stages-34": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
     "rk-stages-all": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
-    "kick-drift-kick": "Authored scientific reference diagram for the approved 40-frame storyboard revision."
+    "kick-drift-kick": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
+    "rk2-phase": "Exact, Euler, and explicit midpoint RK2 on identical axes for the existing phase experiment.",
+    "rk4-phase": "Exact, Euler, RK2, and classical RK4 on identical axes for the existing phase experiment.",
+    "phase-endpoint-zoom": "Magnified terminal phase-plane states for RK2, RK4, and exact at T=12, with equal axis scales."
   },
-  "figure_count": 54,
+  "figure_count": 57,
   "heat_profile_reference": {
     "domain": "infinite line",
     "variables": "dimensionless x and t, normalized temperature excess",
@@ -133,8 +136,8 @@
   "plot_generation": {
     "source": "ode-figures.ipynb",
     "renderer": "Matplotlib SVG output from MyST-executed notebook",
-    "plot_cells": 24,
-    "slide_figure_uses": 28,
+    "plot_cells": 27,
+    "slide_figure_uses": 31,
     "canvas_inches": [
       5.2,
       4.5
@@ -144,5 +147,27 @@
     "legend_pt": 16,
     "reference_maps_and_experiments": "unchanged; checked against frozen order_ratios and geometry_results",
     "live_example": "growth frame; slide-python with notebook fallback"
+  },
+  "phase_comparison_configuration": {
+    "model": "q prime=p; p prime=-q; undamped scaled oscillator",
+    "initial_state": [
+      1,
+      0
+    ],
+    "step_size": 0.1,
+    "steps": 120,
+    "duration": 12,
+    "methods": [
+      "Euler",
+      "explicit midpoint RK2",
+      "classical RK4"
+    ],
+    "basis": "Existing Euler phase-diagram experiment; same step and endpoint, not equal derivative cost.",
+    "energy_multipliers": {
+      "Euler": "1+h^2",
+      "RK2": "1+h^4/4",
+      "RK4": "1-h^6/72+h^8/576"
+    },
+    "endpoint_zoom": "Equal axis scales; window derived from exact and RK2 endpoints. RK4 and exact nearly overlap at this scale."
   }
 }
