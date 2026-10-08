@@ -1766,7 +1766,7 @@ $$\begin{aligned}q(t)&=\cos t\\p(t)&=q'(t)=-\sin t\end{aligned}$$
 
 ::::{slide-figure} ode-figures.ipynb#oscillator-traces
 :alt: Exact cosine position and negative-sine velocity for the scaled oscillator with initial state (1,0).
-:caption: Position and velocity oscillate out of phase. Scaled variables.
+:caption: A quarter-cycle phase offset.
 ::::
 :::::
 

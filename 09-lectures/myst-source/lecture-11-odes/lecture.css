@@ -141,3 +141,6 @@ body.handout .reveal .slides section.ode-deck .scientific-figure .source-link { 
 .reveal .slides section.ode-state > p { margin: .1em 0; }
 
 .reveal .ode-state .ode-prompt { margin-top: 6px; padding-top: 6px; padding-bottom: 6px; }
+
+/* Reserve room for the oscillator caption and accessible enlarge control. */
+.reveal .slides section#slide-slide-024 .scientific-figure .figure-canvas { --figure-height: 360px; }
