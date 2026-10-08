@@ -1805,8 +1805,8 @@ $$
 :index: 0
 
 :::{slide-figure} ode-figures.ipynb#phase-circle
-:alt: Phase diagram with scaled position q on the horizontal axis and scaled momentum p on the vertical axis. Distinct states lie on the same constant-energy circle.
-:caption: Horizontal: scaled position. Vertical: scaled momentum. Equal axis scales.
+:alt: Phase diagram with scaled position q on the horizontal axis and scaled velocity p on the vertical axis. Distinct states lie on the same constant-energy circle.
+:caption: Horizontal: scaled position. Vertical: scaled velocity. Equal axis scales.
 :::
 ::::
 
