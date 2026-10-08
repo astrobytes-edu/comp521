@@ -128,7 +128,7 @@ body.handout .reveal .slides section.ode-deck .scientific-figure .source-link { 
 .reveal .slides section.ode-growth-model .myst-reveal-column p { margin: .3em 0; }
 .reveal .slides section.ode-finite-differences figure { max-width: 500px; }
 
-.reveal .ode-comparison-rate { font-size: 26px; line-height: 1.3; }
+.reveal .ode-comparison-rate { font-size: 26px; line-height: 1.3; clear: both; }
 .reveal .slides section.ode-deck .ode-comparison-rate p { margin: .25em 0; }
 
 /* Physical context in the first spring state card, without reducing type. */

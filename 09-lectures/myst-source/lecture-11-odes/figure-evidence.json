@@ -51,11 +51,11 @@
     "https://openstax.org/books/university-physics-volume-2/pages/4-4-statements-of-the-second-law-of-thermodynamics"
   ],
   "figures": {
-    "coffee": "Exact exponential cooling of normalized temperature excess in the constant-ambient lumped model.",
+    "coffee": "Positive normalized temperature excess on log y; same fixed-bath exponential model.",
     "growth": "Constant fractional growth normalized to its initial value.",
     "doubling": "Growth reaches twice and four times its initial value after one and two doubling times.",
-    "decay": "Positive exponential decay with its initial value and half-life points.",
-    "sign": "Opposite rate-law signs produce growth and decay from the same positive initial value.",
+    "decay": "Exact positive exponential decay on log y with explicit half-population ticks.",
+    "sign": "Positive exponential growth and decay on log y; opposite straight-line slopes.",
     "water": "Hydrostatic pressure increases linearly with downward depth for constant density and gravity.",
     "planet-mass": "Exact normalized enclosed mass of a constant-density sphere: m/M=(r/R)^3.",
     "planet-pressure": "Exact normalized pressure of a constant-density hydrostatic sphere with zero surface pressure: P/P_c=1\u2212(r/R)^2.",
@@ -77,7 +77,7 @@
     "decay-resolved": "Euler scalar decay test with h=0.25: amplification factor 0.75.",
     "decay-negative": "Euler scalar decay test with h=1.5: amplification factor -0.5.",
     "decay-unstable": "Euler scalar decay test with h=3.0: amplification factor -2.0.",
-    "global-error": "Five Euler steps from computed states compared to exact decay at a common final time of one.",
+    "global-error": "Original five Euler steps, focused linear y range, endpoint error marked.",
     "slope-field": "Two initial values select different exact curves in the same slope field dy/dx=y.",
     "grids": "Coarse and fine coordinate grids end at exactly the same final coordinate.",
     "spring-force": "Linear spring force is opposite positive displacement: F=\u2212kx.",
@@ -89,7 +89,7 @@
     "rk-stage-3": "RK4 stage input states for y\u2032=y, initial value1, step0.1; highlighted stage 3.",
     "rk-stage-4": "RK4 stage input states for y\u2032=y, initial value1, step0.1; highlighted stage 4.",
     "midpoint": "Explicit midpoint stages for y\u2032=y and step0.1, keeping the original base state.",
-    "stage-growth": "Predicted midpoint state is 1.05 rather than exact exp(0.05); the final update is 1.105.",
+    "stage-growth": "Log absolute differences at the original trial midpoint (x=.05,y=1.05) and endpoint (x=.1,y=1.105), each compared with exp(x). No connecting error trajectory implied.",
     "order": "Common-endpoint oscillator errors at T=2 using h=0.1 halved four times; linear reference maps only.",
     "rhs-work": "Derivative evaluation counts are a work model, not measured runtime.",
     "richardson": "Number-line endpoint coordinates0.8,0.81,0.82 and exp(\u22120.2).",
@@ -114,9 +114,10 @@
     "rk2-phase": "Exact, Euler, and explicit midpoint RK2 on identical axes for the existing phase experiment.",
     "rk4-phase": "Exact, Euler, RK2, and classical RK4 on identical axes for the existing phase experiment.",
     "phase-endpoint-zoom": "Magnified terminal phase-plane states for RK2, RK4, and exact at T=12, with equal axis scales.",
-    "rk4-endpoint-zoom": "Equal-axis terminal phase-plane offsets from exact, multiplied by 1e6, showing nonzero RK4 error at unchanged h=0.1 and T=12."
+    "rk4-endpoint-zoom": "Equal-axis terminal phase-plane offsets from exact, multiplied by 1e6, showing nonzero RK4 error at unchanged h=0.1 and T=12.",
+    "decay-magnitude": "Exact and Euler magnitudes for already introduced h=0.25,1.5,3; same u0=1 and time interval0to9. Signed panel retained."
   },
-  "figure_count": 64,
+  "figure_count": 65,
   "heat_profile_reference": {
     "domain": "infinite line",
     "variables": "dimensionless x and t, normalized temperature excess",
@@ -137,8 +138,8 @@
   "plot_generation": {
     "source": "ode-figures.ipynb",
     "renderer": "Matplotlib SVG output from MyST-executed notebook",
-    "plot_cells": 28,
-    "slide_figure_uses": 32,
+    "plot_cells": 29,
+    "slide_figure_uses": 33,
     "canvas_inches": [
       5.2,
       4.5
@@ -177,5 +178,23 @@
     "zero_handling": "masked; no positive error floor substituted",
     "rk4_phase": "second endpoint zoom in microunits",
     "experiments": "unchanged"
+  },
+  "axis_review": {
+    "log_y": [
+      "decay",
+      "sign",
+      "coffee",
+      "decay-magnitude",
+      "energy",
+      "phase-error",
+      "stiff-transient",
+      "stage-growth"
+    ],
+    "log_xy": [
+      "order"
+    ],
+    "linear_retained": "Phase-plane geometry; zero/sign-sensitive state plots; short-range Taylor/tangent constructions; categorical Richardson endpoints; linear pressure law and diffusion profiles.",
+    "new_comparison": "Magnitude reveal reuses previously introduced decay steps and the existing signed-panel interval.",
+    "style_consistency": "RK2 label in order plot; purple RK4 in energy detail."
   }
 }

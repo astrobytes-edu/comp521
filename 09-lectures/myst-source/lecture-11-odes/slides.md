@@ -635,8 +635,8 @@ $$\ln(1/2)=-\lambda t_{1/2}\quad\Rightarrow\quad t_{1/2}=\frac{\ln2}{\lambda}$$
 :index: 1
 
 :::{slide-figure} ode-figures.ipynb#decay
-:alt: A constant decay rate leaves half of the expected population at each half-life.
-:caption: The remaining population halves at equal time intervals.
+:alt: Remaining population on a logarithmic y axis. Equal half-life intervals halve the population and form a straight line.
+:caption: Log y: equal time intervals give equal fractional drops.
 :::
 ::::
 :::::
@@ -646,7 +646,7 @@ $$\ln(1/2)=-\lambda t_{1/2}\quad\Rightarrow\quad t_{1/2}=\frac{\ln2}{\lambda}$$
 :index: 2
 
 ::::{slide-figure} ode-figures.ipynb#sign
-:alt: Opposite constant fractional-rate signs produce growth and decay from the same normalized initial value.
+:alt: Growth and decay on log y: straight lines with opposite slopes, starting from the same normalized population.
 ::::
 
 ::::{slide-element}
@@ -747,8 +747,8 @@ $$
 :index: 1
 
 :::{slide-figure} ode-figures.ipynb#coffee
-:alt: Normalized temperature excess decays exponentially toward zero under Newton cooling with a fixed bath temperature.
-:caption: The temperature difference decays toward equilibrium.
+:alt: Logarithmic normalized temperature excess. Exponential cooling is a straight line and remains positive while approaching equilibrium.
+:caption: Log y reveals the cooling tail; the temperature excess stays positive.
 :::
 ::::
 
@@ -1332,12 +1332,12 @@ $$
 {"class":"ode-deck ode-visual","eyebrow":"Euler, stability, and error"}
 ```
 
-:::::::{slide-columns}
+:::::::::{slide-columns}
 :ratio: 1 1.15
 :gap: 36
 :align: center
 
-::::::{slide-column}
+::::::::{slide-column}
 
 **Same decay model:** $u'=-u$, $u(0)=1$.
 
@@ -1345,37 +1345,47 @@ $$
 
 **Euler:** substitute $f(t_n,u_n)=-u_n$.
 
-$$
-u_{n+1}=u_n-hu_n=(1-h)u_n
-$$
+$$u_{n+1}=u_n-hu_n=(1-h)u_n$$
 
 - $h=0.25$: multiplier $0.75$ → positive decay.
 
-
-
 :::{fragment}
-:effect: fade-in
 :index: 0
 
 - $h=1.5$: $-0.5$ → alternating sign. $h=3$: $-2$ → growing magnitude.
 :::
 
-::::::
+::::::::
 
-::::::{slide-column}
+::::::::{slide-column}
 
-::::{fragment}
-:effect: fade-in
+:::::::{slide-stack}
+::::::{fragment}
+:effect: fade-out
+:index: 1
+
+:::::{fragment}
 :index: 0
 
-:::{slide-figure} ode-figures.ipynb#decay-negative
+::::{slide-figure} ode-figures.ipynb#decay-negative
 :alt: Euler with h=1.5 alternates sign while its magnitude shrinks; exact decay stays positive.
-:caption: A large Euler step alternates signs; exact decay stays positive.
-:::
+:caption: Linear axes retain the sign changes.
 ::::
+:::::
+::::::
 
+::::::{fragment}
+:index: 1
+
+::::{slide-figure} ode-figures.ipynb#decay-magnitude
+:alt: Log magnitude of exact decay and Euler at steps 0.25, 1.5 and 3 over the same time interval. Step 3 grows while the smaller steps shrink at different rates; this panel hides sign.
+:caption: Log magnitude separates decay rates and instability. Signs are shown in the preceding plot.
+::::
 ::::::
 :::::::
+
+::::::::
+:::::::::
 
 (slide-019)=
 ## One old state supplies every coupled slope
@@ -1565,7 +1575,7 @@ $$
 :::
 
 :::{slide-figure} ode-figures.ipynb#global-error
-:alt: Five Euler steps from computed states compared with exact decay at the common endpoint T=1.
+:alt: Five Euler steps and exact decay on focused linear axes. A vertical arrow marks the endpoint state error at T=1.
 :::
 ::::
 
@@ -2063,7 +2073,8 @@ $$
 
 - **Midpoint:** $y_1=1+0.1(1.05)=1.105$.
 
-- **Exact:** $e^{0.1}\approx1.105170918$.
+- **Exact midpoint:** $e^{0.05}\approx1.051271096$.
+- **Exact endpoint:** $e^{0.1}\approx1.105170918$.
 
 
 ::::
@@ -2080,8 +2091,8 @@ $$
 :index: 0
 
 ::::{slide-figure} ode-figures.ipynb#stage-growth
-:alt: Predicted midpoint: $1.05$; exact midpoint: $e^{0.05}$. Final update: $1.105$.
-:caption: The trial midpoint supplies a new slope for the endpoint update.
+:alt: Log absolute state differences at the trial midpoint x=0.05 and final endpoint x=0.1. Trial error is about 0.00127; endpoint error is about 0.000171.
+:caption: Log y resolves both approximation errors at their own coordinates.
 ::::
 
 
@@ -2269,7 +2280,8 @@ $$
 \begin{aligned}y_1&=1+\tfrac{0.1}{6}(6.31025)\\&=1.105170833\ldots\end{aligned}
 $$
 
-- **Exact:** $e^{0.1}\approx1.105170918$.
+- **Exact midpoint:** $e^{0.05}\approx1.051271096$.
+- **Exact endpoint:** $e^{0.1}\approx1.105170918$.
 - Update the original state **once**.
 ::::
 :::::
