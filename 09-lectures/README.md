@@ -35,6 +35,25 @@ contract and `.github/workflows/deploy.yml` for the full runtime/media build.
 After an authorized push, verify the Pages job and the actual student, reading,
 slide, and handout URLs.
 
+## ODE lecture production export
+
+Lecture 11 uses the reviewed MyST source in
+`09-lectures/myst-source/lecture-11-odes/`. The rejected Quarto ODE draft has
+been removed. This deck contains 40 main slides plus four optional references.
+Instructor speaker notes are excluded from both the public source and export.
+
+```sh
+PATH="$PWD/.venv/bin:$PATH" python3 scripts/build_ode_slides.py
+```
+
+The script executes the figure notebook through the existing MyST build,
+rejects instructor notes and unresolved local assets, and writes the
+self-contained deck and worked handout to `09-lectures/reveal/`. MyST copies
+this static directory into the course site. The stable page is
+`block-04-odes.md`; its links use `/reveal/lecture-11-odes.html` and
+`/reveal/lecture-11-odes.handout.html` so the course base path is applied.
+The build omits undeployed notebook companion links.
+
 ## Existing Quarto source, output, and site page
 
 - Write the deck in `09-lectures/reveal-source/<lecture>.qmd`. Use the shared

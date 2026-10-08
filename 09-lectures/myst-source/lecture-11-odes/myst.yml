@@ -1,0 +1,13 @@
+version: 1
+project:
+  title: Lecture 11 · Ordinary Differential Equations
+  plugins:
+    - ../../../tools/myst-reveal/plugin.mjs
+  toc:
+    - file: slides.md
+    - file: ode-figures.ipynb
+  numbering:
+    heading_2: false
+    math: false
+site:
+  template: book-theme

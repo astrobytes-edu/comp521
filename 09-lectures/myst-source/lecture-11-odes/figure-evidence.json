@@ -1,0 +1,148 @@
+{
+  "scope": "private instructor draft; analytical and linear-map reference figures",
+  "order_ratios": {
+    "Euler": [
+      2.075737262369194,
+      2.039201350611606,
+      2.0198814547350037,
+      2.0100044192509747
+    ],
+    "Midpoint": [
+      4.057285510095558,
+      4.031348836396221,
+      4.016400840888932,
+      4.008388530780937
+    ],
+    "RK4": [
+      16.256949991052267,
+      16.140451536714846,
+      16.073144191368147,
+      16.036339210666846
+    ]
+  },
+  "geometry_configuration": {
+    "steps_per_period": 100,
+    "periods": 20,
+    "initial_state": [
+      1,
+      0
+    ]
+  },
+  "geometry_results": {
+    "Midpoint": {
+      "final_phase_error": 0.08258534032746923,
+      "max_abs_energy_error": 0.007823154306495494
+    },
+    "RK4": {
+      "final_phase_error": -1.629804766878351e-05,
+      "max_abs_energy_error": 1.7082916147215244e-06
+    },
+    "Leapfrog": {
+      "final_phase_error": 0.020669832307206093,
+      "max_abs_energy_error": 0.0009869603741570199
+    }
+  },
+  "sources": [
+    "COMP521 lecture-11-odes.qmd",
+    "_instructor/projects/project-4.md",
+    "https://computationalthinking.mit.edu/Fall24/climate_science/advection_and_diffusion/",
+    "https://openstax.org/books/calculus-volume-2/pages/2-8-exponential-growth-and-decay",
+    "https://openstax.org/books/university-physics-volume-3/pages/10-3-radioactive-decay",
+    "https://openstax.org/books/university-physics-volume-2/pages/4-4-statements-of-the-second-law-of-thermodynamics"
+  ],
+  "figures": {
+    "coffee": "Exact exponential cooling of normalized temperature excess in the constant-ambient lumped model.",
+    "growth": "Constant fractional growth normalized to its initial value.",
+    "doubling": "Growth reaches twice and four times its initial value after one and two doubling times.",
+    "decay": "Positive exponential decay with its initial value and half-life points.",
+    "sign": "Opposite rate-law signs produce growth and decay from the same positive initial value.",
+    "water": "Hydrostatic pressure increases linearly with downward depth for constant density and gravity.",
+    "planet-mass": "Exact normalized enclosed mass of a constant-density sphere: m/M=(r/R)^3.",
+    "planet-pressure": "Exact normalized pressure of a constant-density hydrostatic sphere with zero surface pressure: P/P_c=1\u2212(r/R)^2.",
+    "planet-profiles": "Analytic constant-density limiting case, not a computed rocky-planet EOS result.",
+    "hse-balance": "Outward inner pressure force, inward outer pressure force and gravity on a thin spherical shell; qualitative vectors, not force magnitudes.",
+    "mass-shell": "Spherical shell radii r and r+dr; enclosed mass label; differential shell volume4\u03c0r\u00b2dr.",
+    "variables": "Independent variable, unknown state, and derivative identified separately.",
+    "order-definition": "Order is the highest derivative present; both first- and second-order examples are ODEs.",
+    "conditions": "The pieces of a specified initial-value numerical experiment.",
+    "closure": "Density closure joins radial mass and pressure equations into a specified planet model.",
+    "compute": "Computable derivatives lead to an approximate solution with explicit numerical checks.",
+    "update-flow": "Euler computes all coupled slopes from the same old state.",
+    "shooting": "Shooting wraps center-to-surface IVP integrations in an outer root solve.",
+    "surface": "Surface location is a separate numerical operation from the ODE update.",
+    "diagnostics": "State, energy, and phase measurements answer different questions.",
+    "tests": "Distinct test problems expose distinct solver implementation mistakes.",
+    "euler-tangent": "Euler follows the initial tangent for u\u2032=\u2212u; the convex exact decay lies above it.",
+    "decay-step": "One Euler step from u(0)=1 with h=0.2 gives 0.8; the exact endpoint is about 0.818731.",
+    "decay-resolved": "Euler scalar decay test with h=0.25: amplification factor 0.75.",
+    "decay-negative": "Euler scalar decay test with h=1.5: amplification factor -0.5.",
+    "decay-unstable": "Euler scalar decay test with h=3.0: amplification factor -2.0.",
+    "global-error": "Five Euler steps from computed states compared to exact decay at a common final time of one.",
+    "slope-field": "Two initial values select different exact curves in the same slope field dy/dx=y.",
+    "grids": "Coarse and fine coordinate grids end at exactly the same final coordinate.",
+    "spring-force": "Linear spring force is opposite positive displacement: F=\u2212kx.",
+    "oscillator-traces": "Exact scaled oscillator from initial state (q,p)=(1,0).",
+    "phase-circle": "Equal-scale q,p phase plane. Points on the same energy circle can have different phase.",
+    "euler-phase": "Equal-scale q,p phase plane. Euler h=0.1 over scaled duration12 spirals outward.",
+    "rk-stage-1": "RK4 stage input states for y\u2032=y, initial value1, step0.1; highlighted stage 1.",
+    "rk-stage-2": "RK4 stage input states for y\u2032=y, initial value1, step0.1; highlighted stage 2.",
+    "rk-stage-3": "RK4 stage input states for y\u2032=y, initial value1, step0.1; highlighted stage 3.",
+    "rk-stage-4": "RK4 stage input states for y\u2032=y, initial value1, step0.1; highlighted stage 4.",
+    "midpoint": "Explicit midpoint stages for y\u2032=y and step0.1, keeping the original base state.",
+    "stage-growth": "Predicted midpoint state is 1.05 rather than exact exp(0.05); the final update is 1.105.",
+    "order": "Common-endpoint oscillator errors at T=2 using h=0.1 halved four times; linear reference maps only.",
+    "rhs-work": "Derivative evaluation counts are a work model, not measured runtime.",
+    "richardson": "Number-line endpoint coordinates0.8,0.81,0.82 and exp(\u22120.2).",
+    "energy": "100 steps per period for20 periods from (1,0); same step, not equal derivative cost.",
+    "phase-error": "The same oscillator reference maps show phase drift even when leapfrog energy error remains bounded.",
+    "rk4-energy": "Magnified RK4 physical-energy error for the same oscillator experiment; RK4 does not preserve energy exactly.",
+    "kick1": "Kick\u2013drift\u2013kick for a separable mechanical Hamiltonian; highlighted substep.",
+    "drift": "Kick\u2013drift\u2013kick for a separable mechanical Hamiltonian; highlighted substep.",
+    "kick2": "Kick\u2013drift\u2013kick for a separable mechanical Hamiltonian; highlighted substep.",
+    "symplectic": "Symplectic structure, state accuracy, and physical energy are separate claims.",
+    "method-summary": "The appropriate evidence depends on the model and on the quantity being reported.",
+    "modified-invariant": "h=1, unit oscillator, K_h=(p\u00b2+.75q\u00b2)/2; circle and ellipse are exact level sets through(1,0).",
+    "stiff-transient": "u\u2032=\u22121000u, u\u2080=1, h=.01, t from0to.03; exact and backward-Euler amplification.",
+    "adaptive-flow": "Accept/reject schematic; no numerical tolerance is selected.",
+    "simpson": "Exact quadratic g(x)=1+x+x\u00b2, x from0to1; nodes0,.5,1, weights1,4,1; exact integral11/6.",
+    "state-examples": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
+    "heat-profiles": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
+    "rk-stages-12": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
+    "rk-stages-34": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
+    "rk-stages-all": "Authored scientific reference diagram for the approved 40-frame storyboard revision.",
+    "kick-drift-kick": "Authored scientific reference diagram for the approved 40-frame storyboard revision."
+  },
+  "figure_count": 54,
+  "heat_profile_reference": {
+    "domain": "infinite line",
+    "variables": "dimensionless x and t, normalized temperature excess",
+    "solution": "exp(-x*x/(1+4*t))/sqrt(1+4*t)",
+    "equation": "theta_t=theta_xx",
+    "times": [
+      0,
+      0.5,
+      1
+    ],
+    "verification": {
+      "method": "central differences of time and space derivatives at 12 points",
+      "difference_step": 0.0001,
+      "maximum_absolute_PDE_residual": 2.57e-08,
+      "scope": "illustrative exact-reference figure only; no generic numerical solver claim"
+    }
+  },
+  "plot_generation": {
+    "source": "ode-figures.ipynb",
+    "renderer": "Matplotlib SVG output from MyST-executed notebook",
+    "plot_cells": 24,
+    "slide_figure_uses": 28,
+    "canvas_inches": [
+      5.2,
+      4.5
+    ],
+    "axis_label_pt": 20,
+    "tick_pt": 18,
+    "legend_pt": 16,
+    "reference_maps_and_experiments": "unchanged; checked against frozen order_ratios and geometry_results",
+    "live_example": "growth frame; slide-python with notebook fallback"
+  }
+}

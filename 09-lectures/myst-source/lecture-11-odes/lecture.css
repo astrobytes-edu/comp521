@@ -1,0 +1,143 @@
+/* Composition follows the MyST SWE deck and the shared Lecture 10 palette. */
+.reveal .slides section.ode-deck { padding: 20px 28px; }
+.reveal .slides section.ode-deck h2 { font-size: 1.34em; line-height: 1.16; margin-bottom: .5em; }
+.reveal .slides section.ode-deck .slide-eyebrow { font-size: 18px; margin-bottom: .7em !important; }
+.reveal .slides section.ode-deck .myst-reveal-columns { align-items: center; }
+.reveal .slides section.ode-deck .katex-display { margin: .65em 0; }
+.reveal .slides section.ode-deck .katex { font-size: 1em; }
+.reveal .slides section.ode-deck p { margin: .55em 0; }
+.reveal .slides section.ode-deck .slide-question { font-size: 28px; padding: .45em .6em; margin-top: .7em; background: #f4f8f8; }
+.reveal .slides section.ode-deck div.fragment { border: 0; padding-left: 0; }
+.reveal .slides section.ode-deck figure img { max-height: 455px; }
+.reveal .slides section.ode-deck figcaption { font-size: 20px; margin-top: .45em; }
+.reveal .slides section.ode-title, .reveal .slides section.ode-transition { padding: 85px 70px; border-left: 8px solid #2f6f6f; }
+.reveal .slides section.ode-title h2, .reveal .slides section.ode-transition h2 { font-size: 1.95em; max-width: 1000px; }
+.reveal .slides section.ode-wide figure { max-width: 920px; margin: .4em auto; }
+.reveal .slides section.ode-wide figure img { max-height: 310px; }
+.reveal .slides section.ode-wide .r-stack { margin: .3em auto; max-width: 960px; }
+.reveal .slides section.ode-wide .r-stack > div { width: 100%; }
+.reveal .slides section.ode-wide p { font-size: 30px; }
+ .reveal .slides section.ode-deck figcaption p { font-size: 20px; line-height: 1.3; margin: .25em 0; }
+ .reveal .slides section.ode-energy figure img { max-height: 430px; }
+body:not(.handout) .reveal .slides section.ode-energy figcaption { display: none; }
+body.handout .reveal .slides section.ode-deck { padding: 2rem; }
+body.handout .reveal .slides section.ode-deck .myst-reveal-columns { display: block; }
+body.handout .reveal .slides .r-stack { display: block; }
+body.handout .reveal .slides section.ode-wide figure img { max-height: none; }
+/* Authored hierarchy: rate-law hero, mathematical callouts, and compact bullets. */
+.reveal .slides section.ode-title { padding: 80px 72px; border-left: 8px solid #2f6f6f; }
+.reveal .slides section.ode-title h2 { font-size: 2.45em; line-height: 1.08; max-width: 960px; margin-bottom: .4em; }
+.reveal .ode-title-subtitle { color: #394c5d; font-size: 34px; }
+.reveal .ode-hero-equation { padding: .18em .5em; color: #37426d; }
+.reveal .ode-hero-equation .katex { font-size: 1.35em !important; }
+.reveal .ode-hero-equation .katex-display { margin: .4em 0 !important; }
+.reveal .ode-card { height: 100%; box-sizing: border-box; border: 1px solid #cfdddf; border-top: 4px solid #2f6f6f; border-radius: 10px; background: #f5f8fa; padding: 18px 20px; }
+.reveal .ode-card > p:first-child { color: #2f6f6f; font-size: 25px; margin: 0; }
+.reveal .ode-card > p:last-child { font-size: 26px; line-height: 1.25; margin-bottom: 0; }
+.reveal .ode-card .equation { margin: .45em 0; }
+.reveal .ode-byline { font-size: 23px; color: #596272; margin-top: 22px; }
+.reveal .ode-opening .ode-card .katex { font-size: .95em; }
+.reveal .ode-opening > .equation { margin: .45em 0; }
+.reveal .ode-opening > p { margin: .3em 0; }
+.reveal .ode-opening .slide-question { margin-top: .5em; }
+.reveal .ode-takeaway { background: #eef6f5; border-left: 5px solid #2f6f6f; padding: 12px 20px; margin-top: 22px; font-size: 29px; }
+.reveal .slides section.ode-deck ul { display: block; margin: .5em 0 .5em 1em; padding-left: .3em; }
+.reveal .slides section.ode-deck li { margin: .3em 0; line-height: 1.25; }
+.reveal .slides section.ode-deck li::marker { color: #2f6f6f; }
+.reveal .slides section.ode-wide > ul { font-size: 29px; }
+.reveal .ode-transition-equation { margin-top: 35px; color: #2f6f6f; }
+.reveal .slides section.ode-transition { padding: 65px 70px; }
+.reveal .slides section.ode-transition h2 { font-size: 1.8em; }
+body.handout .reveal .ode-card { margin: 1rem 0; height: auto; }
+.reveal .ode-opening .ode-card { padding: 14px 20px; }
+.reveal .ode-opening .ode-card .katex-display { margin: .35em 0; }
+.reveal .ode-prompt { font-size: 29px; line-height: 1.25; padding: 12px 18px; margin-top: 18px; background: #eef6f5; border-left: 4px solid #2f6f6f; }
+.reveal .ode-prompt p { margin: 0 !important; }
+
+.reveal .ode-title .ode-byline { margin-top: 64px; font-size: 25px; }
+
+.reveal .ode-examples-label { color: #2f6f6f; font-size: 25px; margin: .35em 0; }
+.reveal .ode-examples-label p { margin: 0 !important; }
+.reveal .slides section.ode-state > p { margin: .3em 0; }
+.reveal .slides section.ode-state > .equation .katex-display { margin: .45em 0; }
+.reveal .ode-state > .myst-reveal-columns > .myst-reveal-column { display: flex; }
+.reveal .ode-state > .myst-reveal-columns > .myst-reveal-column > .fragment { display: flex; flex: 1; }
+.reveal .ode-state .ode-card { display: flex; flex-direction: column; width: 100%; height: auto; }
+.reveal .ode-state .ode-card .equation { display: flex; align-items: center; justify-content: center; flex: 1; }
+.reveal .slides section.ode-state .ode-card > p { margin: 0; }
+.reveal .ode-state .ode-card > p:last-child { min-height: 2.5em; }
+.reveal .ode-modeling .ode-prompt p + p { margin-top: .4em !important; }
+.reveal .slides section.ode-pde figure { margin: 0; }
+.reveal .slides section.ode-pde figure img { width: 100%; max-height: 420px; }
+.reveal .slides section.ode-pde figcaption p { font-size: 28px; line-height: 1.3; }
+/* Keep plots proportional within a column instead of a slide-wide image box. */
+.reveal .slides section.ode-visual figure,
+.reveal .slides section.ode-pde figure { width: 100%; max-width: 560px; margin: .3em auto; }
+.reveal .slides section.ode-visual figure img,
+.reveal .slides section.ode-pde figure img { display: block; width: 100%; height: auto; max-height: none; }
+.reveal .slides section.ode-visual figcaption p { font-size: 28px; line-height: 1.3; }
+.reveal .slides section.ode-derivation .katex-display { margin: .4em 0; }
+.reveal .slides section.ode-derivation .equation { margin: .35em 0; }
+.reveal .slides section.ode-derivation p { margin: .35em 0; }
+.reveal .slides section.ode-energy .r-stack { max-width: 460px; }
+.reveal .slides section.ode-energy figure { max-width: 460px; }
+.reveal .slides section.ode-energy figure img { width: 100%; height: auto; max-height: none; }
+/* Executed Matplotlib outputs have a 5.2 by 4.5 inch authored canvas. */
+.reveal .slides section.ode-deck .scientific-figure { max-width: 460px; }
+.reveal .slides section.ode-deck .scientific-figure .figure-canvas { --figure-height: 400px; margin: 0 auto; }
+.reveal .slides section.ode-deck .scientific-figure img { height: auto; max-height: none; }
+.reveal .slides section.ode-deck .scientific-figure figcaption { font-size: 25px; line-height: 1.3; }
+.reveal .slides section.ode-deck .figure-enlarge { font-size: 18px; padding: .25em .5em; }
+body:not(.handout) .reveal .slides section.ode-deck .scientific-figure .source-link { display: none; }
+body.handout .reveal .slides section.ode-deck .scientific-figure .source-link { font-size: 18px; }
+
+/* Keep the concrete modeling example readable beside the modeling choices. */
+.reveal .slides section.ode-modeling .ode-card > p { font-size: 28px; margin: .35em 0; }
+.reveal .slides section.ode-modeling .ode-card li { font-size: 28px; }
+.reveal .slides section.ode-modeling .ode-card .katex-display { margin: .35em 0; }
+
+/* Modeling choices and the worked physical example occupy separate frames. */
+.reveal .slides section.ode-modeling-overview > ul { max-width: 1000px; }
+.reveal .slides section.ode-modeling-overview > ul > li { margin: .7em 0; }
+.reveal .slides section.ode-modeling-example .ode-card { max-width: 980px; margin: 0 auto; }
+
+/* Reserve space below the heat-equation columns for the application callout. */
+.reveal .slides section.ode-pde .scientific-figure { max-width: 420px; }
+.reveal .slides section.ode-pde .scientific-figure .figure-canvas { --figure-height: 365px; }
+
+/* Use a consistent type size for the three cooling-derivation steps. */
+.reveal .slides section.ode-cooling-derivation .myst-reveal-column:first-child { font-size: 28px; }
+.reveal .slides section.ode-cooling-derivation .myst-reveal-column:first-child > ul { margin-top: .25em; margin-bottom: .25em; }
+.reveal .slides section.ode-cooling-derivation .myst-reveal-column:first-child p,
+.reveal .slides section.ode-cooling-derivation .myst-reveal-column:first-child .equation { margin: .2em 0; }
+.reveal .slides section.ode-cooling-derivation .myst-reveal-column:first-child .katex-display { margin: .2em 0; }
+.reveal .ode-hse .ode-prompt p + p { margin-top: .4em !important; }
+.reveal .ode-hse .ode-prompt { font-size: 28px; }
+.reveal .slides section.ode-ivp .myst-reveal-column:first-child { font-size: 28px; }
+.reveal .slides section.ode-ivp .myst-reveal-column:first-child p { margin: .35em 0; }
+.reveal .ode-method-order { color: #2f6f6f; font-size: 28px; margin-bottom: 0; }
+.reveal .ode-method-order p { margin: 0 !important; }
+.reveal .ode-state .ode-prompt { font-size: 28px; line-height: 1.2; margin-top: 12px; padding-top: 10px; padding-bottom: 10px; }
+
+/* The stencil recap and physical model retain full-size text with compact spacing. */
+.reveal .slides section.ode-finite-differences .equation,
+.reveal .slides section.ode-growth-model .equation { margin: .25em 0; }
+.reveal .slides section.ode-finite-differences .katex-display,
+.reveal .slides section.ode-growth-model .katex-display { margin: .35em 0; }
+.reveal .slides section.ode-finite-differences p,
+.reveal .slides section.ode-growth-model .myst-reveal-column p { margin: .3em 0; }
+.reveal .slides section.ode-finite-differences figure { max-width: 500px; }
+
+.reveal .ode-comparison-rate { font-size: 26px; line-height: 1.3; }
+.reveal .slides section.ode-deck .ode-comparison-rate p { margin: .25em 0; }
+
+/* Physical context in the first spring state card, without reducing type. */
+.reveal .slides section.ode-state .ode-card img { display: block; width: 100%; max-height: 92px; object-fit: contain; margin: 0 auto; }
+.reveal .slides section.ode-state .ode-card img { max-height: 70px; }
+.reveal .slides section.ode-state .ode-card > p:has(img) { margin: .1em 0; }
+.reveal .slides section.ode-state .ode-card .equation { margin: .15em 0; }
+.reveal .slides section.ode-state .ode-card > p:last-child { min-height: 0; }
+.reveal .slides section.ode-state > .equation .katex-display { margin: .2em 0; }
+.reveal .slides section.ode-state > p { margin: .1em 0; }
+
+.reveal .ode-state .ode-prompt { margin-top: 6px; padding-top: 6px; padding-bottom: 6px; }

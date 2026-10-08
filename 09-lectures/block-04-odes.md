@@ -3,14 +3,26 @@ title: "Block 4 · ODE Methods & Exoplanet Interiors"
 subtitle: "COMP 521 · Time stepping, stability, and conservation"
 ---
 
-How do we advance a dynamical model through time, and what evidence supports
-the computed trajectory?
+How do we solve equations for change, whether the independent variable is time,
+depth, or radius? What evidence supports the computed solution?
 
 **Project connection:** the ODE library and exoplanet-interior notebook in
 [Block 4 of the course schedule](../01-course-info/schedule.md).
 
-The lecture pages for this block are being prepared. Use the existing readings
-below for the methods and worked examples.
+## Lecture 11 · October 8
+
+[Open the ODE slides](/reveal/lecture-11-odes.html) ·
+[Read the worked handout](/reveal/lecture-11-odes.handout.html).
+
+The 40 main slides introduce ODEs, state variables, and physical modeling;
+derive exact growth and decay solutions; connect finite differences and Taylor
+expansions to Euler, midpoint RK2, and RK4; and compare accuracy, stability,
+energy, and phase. Richardson extrapolation and symplectic leapfrog complete
+the method comparison. A radial pressure-balance example connects the methods
+to planetary interiors. Four optional references follow the exit questions.
+
+Start with Euler and Runge–Kutta below. Use the later readings for extensions.
+Assignment briefs set deliverables and dates.
 
 ## Readings
 

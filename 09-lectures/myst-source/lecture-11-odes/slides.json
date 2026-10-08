@@ -1,0 +1,26 @@
+{
+  "css": [
+    "lecture.css"
+  ],
+  "handoutMode": "worked",
+  "reveal": {
+    "center": true,
+    "transition": "slide",
+    "transitionSpeed": "fast",
+    "width": 1200,
+    "height": 750,
+    "margin": 0.05,
+    "backgroundTransition": "fade"
+  },
+  "decks": [
+    {
+      "name": "lecture-11-odes",
+      "source": "slides.md",
+      "preset": "lecture",
+      "theme": "light"
+    }
+  ],
+  "sources": [
+    "ode-figures.ipynb"
+  ]
+}
