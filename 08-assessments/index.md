@@ -16,6 +16,7 @@ criteria.
 - [Project 2](projects/project-2.md) — numerical integration, convergence, and limb-darkened transits.
 - [Project 3](projects/project-3.md) — root finding, orbital geometry, transit contacts, and stellar temperature zones.
 - [Project 3 Science Background](projects/project-3-science-background.md) — supporting physics and diagrams; no additional submission.
+- [Project 4](projects/project-4.md) — ODE validation, planetary interiors, and mass–radius models with NASA observations.
 - [Growth Reflections](../01-course-info/growth-reflections.md) — individual
   reflection prompts and submission expectations.
 - [Grading](../01-course-info/grading.md) — weights, scale, and submission

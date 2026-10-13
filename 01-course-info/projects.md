@@ -5,8 +5,8 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Projects
 
-Projects are the core of COMP 521: five two-week investigations. Each project
-has two halves:
+Projects are the core of COMP 521: five investigations. Use the listed dates for
+each project. Each project has two halves:
 
 - **Week 1** — method, implementation, and validation against known results
 - **Week 2** — scientific application, diagnosis, or comparison
@@ -35,14 +35,14 @@ characterizing exoplanets in real Kepler data.
 | 1 | Tue **Aug 25** | Tue **Sep 8** | Build and validate a transit model; place 15 real stars on a theoretical HR diagram |
 | [2](../08-assessments/projects/project-2.md) | Tue **Sep 8** | Wed **Sep 23** | Integrate a limb-darkened transit model and derive the Stefan–Boltzmann constant |
 | [3](../08-assessments/projects/project-3.md) | Tue **Sep 22** | Wed **Oct 7** | Solve orbital and transit-contact problems; compare simplified temperature zones for 15 stars |
-| 4 | Tue **Oct 6** | Wed **Oct 21** | Build exoplanet interiors and test mass–radius relations against Seager et al. |
-| 5 | Tue **Oct 20** | Wed **Nov 4** | Download, clean, and fit a transit model to real Kepler photometry |
+| [4](../08-assessments/projects/project-4.md) | Wed **Oct 14** | Wed **Oct 28** | Validate ODE methods on the SHO and a constant-density planet; reproduce Seager mass–radius relations and compare with NASA observations |
+| 5 | Thu **Oct 29** | Wed **Nov 18** | Download, clean, and fit a transit model to real Kepler photometry |
 
 The [Final Project](syllabus.md#sec-final-project) uses the course toolkit on a
 bounded scientific question.
 Two individual [Code Review Presentations](../08-assessments/code-review-presentations.md)
-give you a chance to study open source scientific and DS/ML packages during
-Project 5 and the later machine-learning unit.
+give you a chance to study open source scientific and DS/ML packages alongside
+the numerical-methods and data/ML work.
 
 ## What to Submit
 

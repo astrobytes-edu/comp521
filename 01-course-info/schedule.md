@@ -5,8 +5,8 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Course Schedule
 
-Sixteen weeks: five two-week projects (in rotating pairs), two individual code
-review presentations, then a four-week solo final project.
+Sixteen weeks: five projects (in rotating pairs), two individual code review
+presentations, and a four-week solo final project. Project dates are listed below.
 Class meets **Tue/Thu 5:30–6:45 pm in LSN 134**.
 
 :::{important} How to read this page
@@ -35,8 +35,11 @@ not yet complete lessons; their assigned sections will be identified when ready.
 | Office hours | Thu **4:00–5:00 pm** (and by appointment) |
 | Add/drop deadline | Fri **Sep 4** |
 | Labor Day — campus closed | Mon **Sep 7** |
+| Project 4 | Assigned Wed **Oct 14**; due Wed **Oct 28** |
 | Scientific computing code reviews | Thu **Oct 22**, in class |
+| Project 5 | Assigned Thu **Oct 29**; due Wed **Nov 18** |
 | DS/ML code reviews | Thu **Nov 12**, in class |
+| Final-project proposal pitches | Tue **Nov 24**, in class |
 | No class — Thanksgiving | Thu **Nov 26** |
 | Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
@@ -144,53 +147,68 @@ and bracketing; Wien's law and habitable-zone calculation
 
 ## Block 4 · Project 4 — ODE Methods & Exoplanet Interiors
 
-*Assigned Tue Oct 6 · Due Wed Oct 21*
+*Assigned Wed Oct 14 · Due Wed Oct 28*
 
 ### Week 7 — Oct 6, 8 · ODE solvers
 
-**Reading status:** existing ODE readings are available and remain under
-revision; lecture pages are in preparation. Use the
-[ODE overview](../09-lectures/block-04-odes.md) for current links.
+Use the [ODE overview](../09-lectures/block-04-odes.md) for lecture and reading
+links. The existing ODE readings remain under revision.
 
 **Reference**
 - [Euler methods](../05-numerical-methods/03-odes/01-module3-part1-euler.md)
 - [Runge–Kutta](../05-numerical-methods/03-odes/02-module3-part2-runge-kutta.md)
 
-**Topics** — Euler, RK2, RK4; local and global error; order verification
+**Topics** — Euler, explicit midpoint RK2, RK4; local and global error; order
+verification
 
 **Assigned** — **Growth Memo 2**, Tue **Oct 6**; due Mon **Oct 19**, 11:59 pm PT
 
-### Week 8 — Oct 13, 15 · Shooting and planetary interiors
+### Week 8 — Oct 13, 15 · ODE validation and planetary interiors
 
-**Readings**
+**Reference**
 - [Stability](../05-numerical-methods/03-odes/04-module3-part4-stability.md)
 - [Module synthesis](../05-numerical-methods/03-odes/05-mod3-synthesis.md)
+- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md) *(CSV reading and row selection)*
 
-**Topics** — hydrostatic equilibrium, equations of state, locating a moving
-surface, shooting, and diagnosing observed order loss
+**Topics** — SHO convergence against an exact solution; hydrostatic equilibrium,
+equations of state, and the constant-density analytic planet check
+
+**Thu Oct 15** — Pandas introduction: read a saved NASA exoplanet CSV, select
+columns and rows with a boolean mask, and plot mass/radius estimates with
+uncertainties. Broader data analysis follows in Project 5.
+
+**Assigned** — [**Project 4**](../08-assessments/projects/project-4.md), Wed **Oct 14**; due Wed **Oct 28**, 11:59 pm PT
 
 **Due Mon Oct 19, 11:59 pm PT** — **Growth Memo 2** (mid-semester).
 
-**Due Wed Oct 21, 11:59 pm PT** — **Project 4** (ODE library +
-exoplanet-interior notebook).
+### Week 9 — Oct 20, 22 · Surface finding and mass–radius curves
 
-## Block 5 · Project 5 — Real Data & Model Fitting
-
-*Assigned Tue Oct 20 · Due Wed Nov 4*
-
-### Week 9 — Oct 20, 22 · Real data acquisition and cleaning
-
-**Readings**
-- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md) *(early reference)*
-- [Data acquisition, cleaning, and exploratory analysis](../04-scientific-computing/12-data-acquisition-cleaning.md) *(in preparation; scope note only)*
-
-**Topics** — archives and APIs, Lightkurve, quality flags, gaps, outliers, and
-exploratory analysis of real Kepler light curves
+**Topics** — locating the zero-pressure surface by refining the final RK4 step;
+planetary profiles; a central-pressure sweep and comparison with the published
+mass–radius relation. Project 4 is self-contained.
 
 **In class** — [Scientific computing code reviews](../08-assessments/code-review-presentations.md),
 Thu **Oct 22**
 
-### Week 10 — Oct 27, 29 · Model fitting and uncertainty
+## Block 5 · Project 5 — Real Data & Model Fitting
+
+*Assigned Thu Oct 29 · Due Wed Nov 18*
+
+### Week 10 — Oct 27, 29 · Project 4 completion and real data
+
+**Readings**
+- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md) *(review)*
+- [Data acquisition, cleaning, and exploratory analysis](../04-scientific-computing/12-data-acquisition-cleaning.md) *(in preparation; scope note only)*
+
+**Topics** — Project 4 completion; introduction to archives and APIs, Lightkurve,
+quality flags, gaps, outliers, and exploratory analysis of real Kepler light curves
+
+**Due Wed Oct 28, 11:59 pm PT** — **Project 4** (ODE library +
+exoplanet-interior notebook).
+
+**Assigned** — **Project 5**, Thu **Oct 29**; due Wed **Nov 18**, 11:59 pm PT
+
+### Week 11 — Nov 3, 5 · Data preparation, fitting, and uncertainty
 
 **Readings**
 - [Core linear algebra](../06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md)
@@ -199,33 +217,26 @@ Thu **Oct 22**
 - [Statistical tools](../06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md)
 - [Model fitting and uncertainty](../06-linear-algebra-stats/03-model-fitting/00-overview.md) *(in preparation)*
 
-**Topics** — design matrices, normal equations, conditioning, $\chi^2$, transit
-model fitting, and bootstrap uncertainty
+**Topics** — data preparation, design matrices, normal equations, conditioning,
+$\chi^2$, transit-model fitting, and bootstrap uncertainty; final-project
+pathways and examples
 
-**Due** — **Project 5** (real Kepler photometry + transit-model fit + analysis
-notebook), Wed **Nov 4**
+**Assigned** — **Final-Project Proposal Pitch**, Tue **Nov 3**; due Tue **Nov
+24**, in class
 
 ## Block 6 · Machine Learning & Code Review
 
-### Week 11 — Nov 3, 5 · Supervised learning
+### Week 12 — Nov 10, 12 · Machine-learning introduction and evaluation
 
-**Readings**
+**Reference**
 - [Advanced OOP](../04-scientific-computing/10-advanced-oop.md)
 - [Supervised learning from scratch](../06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md) *(in preparation)*
+- [Clustering, PCA, and model evaluation](../06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md) *(in preparation)*
 
-**Topics** — k-NN, decision trees, train/test splits, cross-validation;
-classifying stellar types; final-project pathways and examples
-
-**Assigned** — **Final-Project Proposal Pitch**, Tue **Nov 3**; due Thu **Nov
-19**, in class
-
-### Week 12 — Nov 10, 12 · Unsupervised learning and evaluation
-
-**Readings** — [Clustering, PCA, and model evaluation](../06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md) *(in preparation)*
-
-**Topics** — k-means, hierarchical clustering, PCA; ROC curves, confusion
-matrices, feature importance; clustering the Gaia sample from Project 1 and
-comparing against scikit-learn
+**Topics** — a focused introduction to classification and clustering; train/test
+splits, cross-validation, and evaluation metrics; Project 5 working time.
+Relevant ML methods can return during final-project check-ins. There is no
+separate Project 6 assignment.
 
 **In class** — [DS/ML code reviews](../08-assessments/code-review-presentations.md),
 Thu **Nov 12**
@@ -240,21 +251,26 @@ Thu **Nov 12**
 - [Measurement](../06-linear-algebra-stats/02-inference/01-mod5-part1-measurement.md)
 - [Inferential thinking](../06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md)
 
-**Topics** — measurement uncertainty, inference; final-project launch
+**Topics** — measurement uncertainty, inference; final-project launch and
+scoping. The final project launches Tue **Nov 17**, while Project 5 is being
+completed.
+
+**Due Wed Nov 18, 11:59 pm PT** — **Project 5** (real Kepler photometry +
+transit-model fit + analysis notebook).
 
 **Assigned** — **Growth Synthesis**, Tue **Nov 17**; due Mon **Dec 14**, 11:59 pm PT
 
-**Due** — **Final-Project Proposal Pitch** (5 minutes + short slide deck), Thu
-**Nov 19**, in class
-
-### Week 14 — Nov 24 · Implementation
+### Week 14 — Nov 24 · Proposal pitches
 
 :::{warning} No class Thursday Nov 26 — Thanksgiving
 This week has one meeting instead of two. Plan your project work accordingly;
 the following week has no cushion built in.
 :::
 
-Working sessions with individual check-ins.
+**Due** — **Final-Project Proposal Pitch** (5 minutes + short slide deck), Tue
+**Nov 24**, in class
+
+In-class proposal pitches and project check-ins.
 
 ### Week 15 — Dec 1, 3 · Implementation
 

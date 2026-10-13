@@ -319,7 +319,7 @@ The final project counts for 30% of your grade: 5% for the proposal pitch and
 
 | Component | Weight | Due |
 |---|---:|---|
-| Proposal pitch | 5% | Thu **Nov 19**, in class |
+| Proposal pitch | 5% | Tue **Nov 24**, in class |
 | Finished project: presentation, report, and code | 25% | Presentation: Thu **Dec 10**<br>Report + repository: Thu **Dec 17**, 11:59 pm PT |
 
 The presentation, report, and repository receive one holistic final-project
