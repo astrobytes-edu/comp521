@@ -1,0 +1,16 @@
+{
+  "query": "select pl_name,pl_masse,pl_masseerr1,pl_masseerr2,pl_masselim,pl_rade,pl_radeerr1,pl_radeerr2,pl_radelim,pl_bmassprov,pl_refname,default_flag,rv_flag,ttv_flag,tran_flag from ps where default_flag=1 and pl_masse between 0.25 and 10 and pl_rade>0 order by pl_masse",
+  "url": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+pl_name%2Cpl_masse%2Cpl_masseerr1%2Cpl_masseerr2%2Cpl_masselim%2Cpl_rade%2Cpl_radeerr1%2Cpl_radeerr2%2Cpl_radelim%2Cpl_bmassprov%2Cpl_refname%2Cdefault_flag%2Crv_flag%2Cttv_flag%2Ctran_flag+from+ps+where+default_flag%3D1+and+pl_masse+between+0.25+and+10+and+pl_rade%3E0+order+by+pl_masse&format=csv",
+  "retrieved_utc": "2026-10-13T02:50:29.324524+00:00",
+  "rows": 437,
+  "sha256": "c8dadd1280950c69e405925223977277e50ea85da9ff8a566eb1caf77879756f",
+  "table": "ps",
+  "status": "released course snapshot",
+  "selection_status": "approved teaching selection; not a population-complete or uniformly precise sample",
+  "documentation": [
+    "https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html",
+    "https://exoplanetarchive.ipac.caltech.edu/docs/TAP/usingTAP.html"
+  ],
+  "selection": "finite mass, radius, and asymmetric uncertainties; mass and radius limit flags 0; Mass provenance; positive upper and negative lower errors; positive lower interval endpoints for log plotting; 0.25 <= mass/Earth_mass <= 10",
+  "selected_rows": 371
+}

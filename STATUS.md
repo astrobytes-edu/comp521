@@ -35,3 +35,16 @@ Evidence Check or its link; the assessment was not restored.
 Do not mark the course or Project 1 release-ready until the real invitation,
 acceptance, clone, local README edit, commit, push, and visible remote commit have
 been observed with a fresh student account.
+
+
+## Pandas lecture release: 2026-10-20
+
+The student release contains 24 MyST slides with 30 minutes of timing targets,
+two prediction questions with worked answers, and five runnable notebook tasks
+for subsequent class exploration. Instructor response notes remain private.
+The notebook passes fresh execution in the course tree and an isolated student
+download folder: 37 code cells, seven figures, and exact agreement with the
+published P4 selection (437 input, 371 selected). All 28 projector states,
+notebook links, and handout reading widths pass. Timing remains a planned
+allocation rather than a measured classroom delivery. Deployment status is
+recorded by the release's GitHub Pages workflow.

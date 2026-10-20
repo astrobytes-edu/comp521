@@ -37,6 +37,9 @@ def check_site(site: Path) -> list[str]:
             errors.append(f"Page outside course navigation: {index.relative_to(site)}")
     expected = {path.name for path in (ROOT / "09-lectures/reveal").glob("*.html")}
     expected.update({"software-engineering.html", "software-engineering.handout.html"})
+    expected.update({"sources/pandas-examples.html", "sources/pandas-examples.ipynb",
+                     "sources/project4-nasa-exoplanets.csv",
+                     "sources/project4-nasa-exoplanets.provenance.json"})
     reveal = site / "reveal"
     for file in reveal.rglob("*"):
         if file.is_file() and file.relative_to(reveal).as_posix() not in expected:
@@ -53,6 +56,22 @@ def check_site(site: Path) -> list[str]:
         for name in ("software-engineering.html", "software-engineering.handout.html"):
             if f'href="/comp521/reveal/{name}"' not in html:
                 errors.append(f"Student page lacks base-path-correct link: {name}")
+    pandas = site / "lecture-12-pandas/index.html"
+    if "lecture-12-pandas" not in slugs or not pandas.is_file():
+        errors.append("Missing Pandas student lecture route")
+    else:
+        for name in ("lecture-12-pandas.html", "lecture-12-pandas.handout.html",
+                     "sources/pandas-examples.ipynb", "sources/project4-nasa-exoplanets.csv",
+                     "sources/project4-nasa-exoplanets.provenance.json"):
+            if f'href="/comp521/reveal/{name}"' not in pandas.read_text():
+                errors.append(f"Pandas page lacks base-path-correct link: {name}")
+    for name in ("lecture-12-pandas.html", "lecture-12-pandas.handout.html",
+                 "sources/pandas-examples.html"):
+        export = reveal / name
+        if export.is_file():
+            text = export.read_text()
+            if '<aside class="notes"' in text or '_instructor/' in text or '/Users/anna/' in text:
+                errors.append(f"Private content in Pandas export: {name}")
     return errors
 
 

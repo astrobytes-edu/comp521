@@ -1,0 +1,24 @@
+/* Use the ODE deck's composition and the shared MyST lecture preset. */
+.reveal .slides section.pandas-deck { padding: 20px 28px; }
+.reveal .slides section.pandas-deck h2 { font-size: 1.34em; line-height: 1.16; margin-bottom: .5em; }
+.reveal .slides section.pandas-deck p { margin: .5em 0; }
+.reveal .slides section.pandas-deck li { margin: .3em 0; line-height: 1.25; }
+.reveal .slides section.pandas-deck li::marker { color: #2f6f6f; }
+.reveal .slides section.pandas-deck .slide-eyebrow { font-size: 18px; }
+.reveal .slides section.pandas-deck .slide-question { font-size: 28px; padding: .45em .6em; margin-top: .65em; background: #f4f8f8; }
+.reveal .slides section.pandas-deck .slide-answer { font-size: 28px; }
+.reveal .slides section.pandas-deck .katex { font-size: 1em; }
+.reveal .slides section.pandas-deck table { font-size: 27px; }
+.reveal .slides section.pandas-deck th,
+.reveal .slides section.pandas-deck td { padding: .3em .4em; }
+.reveal .slides section.pandas-title { padding: 80px 72px; border-left: 8px solid #2f6f6f; }
+.reveal .slides section.pandas-title h2 { font-size: 2.2em; line-height: 1.1; max-width: 960px; }
+.reveal .pandas-subtitle { font-size: 34px; color: #394c5d; }
+.reveal .pandas-byline { font-size: 25px; color: #596272; margin-top: 60px; }
+.reveal .slides section.pandas-wide .scientific-figure { max-width: 780px; margin: .3em auto; }
+.reveal .slides section.pandas-wide .scientific-figure .figure-canvas { --figure-height: 430px; }
+.reveal .slides section.pandas-wide .scientific-figure figcaption { font-size: 25px; line-height: 1.3; }
+body:not(.handout) .reveal .slides section.pandas-deck .source-link { display: none; }
+body.handout .reveal .slides section.pandas-deck { padding: 2rem; pointer-events: auto; }
+
+.reveal .slides section.pandas-deck .component-label { font-size: 18px; }

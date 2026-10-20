@@ -199,6 +199,7 @@ project:
           children:
             - file: 09-lectures/block-04-odes.md
               title: ODE lecture overview
+            - file: 09-lectures/lecture-12-pandas.md
 
     - title: Assessments
       children:

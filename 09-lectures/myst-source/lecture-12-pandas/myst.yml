@@ -1,0 +1,13 @@
+version: 1
+project:
+  title: Lecture 12 · Pandas and Exploratory Data Analysis
+  plugins:
+    - ../../../tools/myst-reveal/plugin.mjs
+  toc:
+    - file: slides.md
+    - file: pandas-examples.ipynb
+  numbering:
+    heading_2: false
+    math: false
+site:
+  template: book-theme

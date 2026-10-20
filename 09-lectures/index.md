@@ -89,8 +89,11 @@ current project; its brief owns the required interface and deliverables.
 ## Block 4 · ODE Methods & Exoplanet Interiors
 
 [Open the ODE lecture overview](block-04-odes.md) for time stepping, stability,
-conservation, and links to the existing ODE readings. Lecture pages for this
-block are being prepared.
+conservation, and links to the existing ODE readings.
+
+[Lecture 12: Pandas and Exploratory Data Analysis](lecture-12-pandas.md)
+provides a 30-minute introduction, worked handout, and a runnable notebook for
+exploring tables, selections, summaries, and the saved NASA exoplanet dataset.
 
 ## Future course blocks
 
