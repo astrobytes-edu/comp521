@@ -24,6 +24,16 @@ to planetary interiors. Four optional references follow the exit questions.
 Start with Euler and Runge–Kutta below. Use the later readings for extensions.
 Assignment briefs set deliverables and dates.
 
+## Lecture 12 · Pandas and exploratory data analysis
+
+[Open the Pandas slides](/reveal/lecture-12-pandas.html) ·
+[Read the worked handout](/reveal/lecture-12-pandas.handout.html) ·
+[Open the lecture page and notebook downloads](lecture-12-pandas.md).
+
+The 30-minute introduction covers labelled tables, missing values, row
+selection, summaries, and plots using the saved NASA exoplanet dataset.
+Five runnable notebook tasks provide hands-on exploration after the lecture.
+
 ## Readings
 
 | Reading | Topic |
