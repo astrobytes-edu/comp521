@@ -9,10 +9,11 @@ depth, or radius? What evidence supports the computed solution?
 **Project connection:** the ODE library and exoplanet-interior notebook in
 [Block 4 of the course schedule](../01-course-info/schedule.md).
 
-## Lecture 11 · October 8
+## Lecture 11 · Ordinary differential equations
 
 [Open the ODE slides](/reveal/lecture-11-odes.html) ·
-[Read the worked handout](/reveal/lecture-11-odes.handout.html).
+[Read the worked handout](/reveal/lecture-11-odes.handout.html) ·
+[Open the lecture page](lecture-11-odes.md).
 
 The 40 main slides introduce ODEs, state variables, and physical modeling;
 derive exact growth and decay solutions; connect finite differences and Taylor

@@ -91,6 +91,10 @@ current project; its brief owns the required interface and deliverables.
 [Open the Block 4 lecture overview](block-04-odes.md) for the ODE and Pandas
 slides, handouts, data downloads, and links to the existing ODE readings.
 
+[Lecture 11: Ordinary Differential Equations](lecture-11-odes.md) provides
+the ODE slides and worked handout, from Euler and Runge–Kutta methods to
+stability, conservation, and planetary pressure balance.
+
 [Lecture 12: Pandas and Exploratory Data Analysis](lecture-12-pandas.md)
 provides a 30-minute introduction and worked handout. Students install Pandas,
 create their own notebook, and explore the saved NASA exoplanet CSV.
