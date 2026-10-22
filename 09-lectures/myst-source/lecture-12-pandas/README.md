@@ -1,31 +1,30 @@
 # Lecture 12: Pandas and exploratory data analysis
 
-Student MyST Reveal source: 24 slides, two prediction pauses, and 30 minutes of
-timing targets. Actual classroom delivery has not been timed. Five runnable
-notebook tasks support about 45 minutes of subsequent exploration. They add no
-assessment or Project 4 deliverable.
+The MyST lecture has 24 slides, two prediction pauses, and 30 minutes of timing
+targets. Actual delivery has not been timed. Students install Pandas in their
+comp521 environment, create their own notebook, and explore the saved NASA CSV.
+No student starter notebook or prepared task sheet is distributed.
 
-`slides.md` owns the public lecture; `pandas-examples.ipynb` owns the executed
-examples and practice starters. Instructor speaker notes and response guidance
-are maintained only in the separate private instructor repository.
+`slides.md` owns the public lecture. `pandas-examples.ipynb` is the internal
+calculation source for executed examples and six figures, not a student
+handout. All 24 slides have private embedded presenter notes in the separate
+instructor repository, including answers and likely student responses.
 
-Follow `tools/myst-reveal/AUTHORING.md` and the Lecture 11 MyST source pattern.
-From the repository root, rebuild and verify the six student artifacts:
+Follow `tools/myst-reveal/AUTHORING.md` and the Lecture 11 export pattern.
+From the course root:
 
 ```sh
 .venv/bin/python -B scripts/build_pandas_slides.py
 ```
 
-The verifier executes the notebook in the course tree and again in an isolated
-folder with only the student CSV/provenance downloads. It checks synthetic
-arithmetic, row pairing, figures, task cells, data hashes, and exact agreement
-with the published P4 selection. `_build/verification.json` stores the result.
+The verifier executes 32 calculation cells, checks arithmetic, paired rows,
+uncertainty arrays, source hashes, and equality to the P4 selection. It also
+checks loading the CSV in a fresh blank notebook outside the repository.
+The builder strips calculation-source links, rejects private notes/paths and
+unresolved references, and publishes only the deck, worked handout, CSV, and
+provenance record. It removes the two retired public notebook artifacts.
+Generated calculation readings remain inside the ignored build workspace.
 
-The builder rejects private notes/paths and unresolved local references before
-copying the deck, worked handout, notebook reading, notebook, CSV, and provenance
-record to `09-lectures/reveal`. Only these selected exports are public. The
-lecture page is the stable student route; no browser Python runtime is added.
-
-Review the deck at projector size, both prediction reveal sequences, the worked
-handout at reading width, and the notebook link before publication. P4 counts
-describe the saved selected archive table, not population occurrence rates.
+The lecture page supplies the Conda setup and data download. Check slide 23,
+both prediction reveals, and the worked handout at reading width. Private
+verification requires nonempty embedded presenter notes on every slide.

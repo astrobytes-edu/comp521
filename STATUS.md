@@ -48,3 +48,14 @@ published P4 selection (437 input, 371 selected). All 28 projector states,
 notebook links, and handout reading widths pass. Timing remains a planned
 allocation rather than a measured classroom delivery. Deployment status is
 recorded by the release's GitHub Pages workflow.
+
+
+## Pandas delivery correction: 2026-10-22
+
+Students install Pandas in comp521, create their own notebook, load the saved
+exoplanet CSV, and choose experiments. The supplied student notebook and
+prepared-task downloads are retired. The lecture remains 24 slides with
+30 minutes of timing targets; all 24 instructor slides have embedded native
+presenter notes. Calculation checks cover 32 cells and six figures, and the
+CSV load is tested in a separate fresh kernel. Public source links and the
+Block 4 overview reflect the create-your-own-notebook workflow.

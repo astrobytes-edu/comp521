@@ -4,13 +4,13 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import re
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / '09-lectures/myst-source/lecture-12-pandas'
 OUTPUT = SOURCE / '_build/reveal'
-FILES = ('lecture-12-pandas.html', 'lecture-12-pandas.handout.html',
-         'sources/pandas-examples.html')
+FILES = ('lecture-12-pandas.html', 'lecture-12-pandas.handout.html')
 
 
 class References(HTMLParser):
@@ -37,6 +37,11 @@ def main():
     parsed = {}
     for name in FILES:
         html = (OUTPUT / name).read_text()
+        # As in Lecture 11, the calculation notebook is a build source, not a
+        # deployed student reading or starter. Remove its generated source links.
+        html = re.sub(r'<a\b[^>]*class="[^"]*\bsource-link\b[^"]*"[^>]*>.*?</a>',
+                      '', html, flags=re.S)
+        (OUTPUT / name).write_text(html)
         refs = References()
         refs.feed(html)
         if refs.notes or '_instructor/' in html or '/Users/anna/' in html:
@@ -59,9 +64,14 @@ def main():
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(OUTPUT / name, target)
     data = ROOT / '08-assessments/projects/data/project4-nasa-exoplanets.csv'
-    for file in (SOURCE / 'pandas-examples.ipynb', data, data.with_suffix('.provenance.json')):
+    (destination / 'sources').mkdir(parents=True, exist_ok=True)
+    for file in (data, data.with_suffix('.provenance.json')):
         shutil.copy2(file, destination / 'sources' / file.name)
-    print(f'PASS student export privacy and {count} local references; copied six release artifacts')
+    for name in ('pandas-examples.html', 'pandas-examples.ipynb'):
+        stale = destination / 'sources' / name
+        if stale.is_file():
+            stale.unlink()
+    print(f'PASS student export privacy and {count} local references; published slides, handout, and data only')
 
 
 if __name__ == '__main__':

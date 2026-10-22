@@ -1,45 +1,68 @@
 ---
 title: "Lecture 12 · Pandas and Exploratory Data Analysis"
-subtitle: "Tables, selections, and plots, followed by hands-on exploration"
+subtitle: "Tables, selections, and plots, followed by your own exploration"
 ---
 
 [Open the slides](/reveal/lecture-12-pandas.html) ·
-[Read the worked handout](/reveal/lecture-12-pandas.handout.html) ·
-[Read the executed examples and practice tasks](/reveal/sources/pandas-examples.html#hands-on).
+[Read the worked handout](/reveal/lecture-12-pandas.handout.html).
 
 The 30-minute introduction covers DataFrames and Series, labels and positions,
 missing values, boolean selection, column arithmetic, summaries, and plots.
-It applies those operations to the saved NASA exoplanet table used in
-[Project 4](../08-assessments/projects/project-4.md). Two short prediction
-questions include answers in the worked handout.
+It applies these operations to the saved NASA exoplanet table used in
+[Project 4](../08-assessments/projects/project-4.md). The handout includes the
+two prediction answers.
 
-## Work with the notebook
+## Install Pandas
 
-Download these three files into the same folder:
+In the course terminal, activate your existing environment and install Pandas:
 
-- [Pandas examples and hands-on notebook](/reveal/sources/pandas-examples.ipynb)
-- [Saved NASA CSV](/reveal/sources/project4-nasa-exoplanets.csv)
-- [CSV provenance record](/reveal/sources/project4-nasa-exoplanets.provenance.json)
+```bash
+conda activate comp521
+conda install -c conda-forge pandas
+```
 
-Start Jupyter in that folder using your course Python environment with NumPy,
-Pandas, and Matplotlib. Open the notebook and run the reference cells in order,
-then work in **Hands-on exploration**. Running inside a course repository
-checkout also works. No live archive request is needed.
+Review Conda's proposed package plan before confirming. Use the existing
+[course environment](../02-getting-started/02-software-setup.md), rather than
+installing into base or mixing package managers. The
+[Pandas installation guide](https://pandas.pydata.org/docs/getting_started/install.html)
+provides the package reference.
 
-## Hands-on exploration
+## Create your own notebook and load the data
 
-Allow about 45 minutes after the introduction. Work with a neighbor if useful.
-Each task starts with runnable code that you can change and inspect.
+Download the [saved NASA CSV](/reveal/sources/project4-nasa-exoplanets.csv)
+and its [provenance record](/reveal/sources/project4-nasa-exoplanets.provenance.json)
+into your working folder. Start Jupyter there:
 
-1. Inspect the snapshot: shape, preview, types, and missing values.
-2. Add a calculated column and select rows and columns from the synthetic table.
-3. Change a NASA practice selection and compare the retained counts.
-4. Compare summaries and inspect the largest radii and their source references.
-5. Change histogram bins, make a paired scatter plot, and explain one result.
+```bash
+jupyter notebook
+```
 
-Keep `raw` and the supplied P4 selection `planets` unchanged; use `practice`
-for experiments. These are ungraded in-class tasks with no new submission.
-The Project 4 brief continues to set its own required work.
+Create a blank Python notebook, choose your `comp521` kernel, and save it in
+that folder. In your own code cell, load the table:
+
+```python
+import pandas as pd
+
+raw = pd.read_csv('project4-nasa-exoplanets.csv', comment='#')
+raw.head()
+```
+
+The saved snapshot has 437 rows and 15 columns. Inspect `raw.shape`,
+`raw.dtypes`, and `raw.isna().sum()` to see what was loaded. Consult the
+[NASA definitions](https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html)
+for units and flags. No live archive query is needed.
+
+## Experiment with the table
+
+Choose a question about the table. Try different columns, row selections,
+summaries, and plots using the lecture examples as references. Keep `raw`
+unchanged and save experiment selections under new variable names. Describe
+one result and one question to a neighbor. Counts describe the selected
+archive rows, not exoplanet occurrence rates.
+
+You create the notebook yourself; there is no starter notebook to download.
+This is in-class exploration with no new submission. Project 4's brief
+continues to define its required work.
 
 Use [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md)
 for further reference. [Return to the Lecture Library](index.md).

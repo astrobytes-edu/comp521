@@ -89,11 +89,11 @@ current project; its brief owns the required interface and deliverables.
 ## Block 4 · ODE Methods & Exoplanet Interiors
 
 [Open the Block 4 lecture overview](block-04-odes.md) for the ODE and Pandas
-slides, handouts, notebook downloads, and links to the existing ODE readings.
+slides, handouts, data downloads, and links to the existing ODE readings.
 
 [Lecture 12: Pandas and Exploratory Data Analysis](lecture-12-pandas.md)
-provides a 30-minute introduction, worked handout, and a runnable notebook for
-exploring tables, selections, summaries, and the saved NASA exoplanet dataset.
+provides a 30-minute introduction and worked handout. Students install Pandas,
+create their own notebook, and explore the saved NASA exoplanet CSV.
 
 ## Future course blocks
 

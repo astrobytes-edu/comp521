@@ -22,6 +22,7 @@ From labelled observations to inspectable evidence
 Anna Rosen · San Diego State University
 :::
 
+
 (pandas-introduction)=
 ## What is Pandas?
 
@@ -55,6 +56,7 @@ import pandas as pd
 ::::::
 ::::::::
 
+
 (pandas-containers)=
 ## Compare the data containers
 
@@ -71,6 +73,7 @@ import pandas as pd
 | Pandas DataFrame | Row/column labels or positions | A table with one dtype per column |
 
 A dictionary can supply a table's columns. A DataFrame adds a shared row index and table operations; each column is a Series.
+
 
 (pandas-create)=
 ## A dictionary of columns becomes a DataFrame
@@ -102,6 +105,7 @@ Each list supplies one column. Entries at the same position form one row.
 
 These equal-length lists describe five synthetic exposures. Signal uses arbitrary units; exposure uses seconds.
 
+
 (pandas-table)=
 ## Inspect the records
 
@@ -117,6 +121,7 @@ These equal-length lists describe five synthetic exposures. Signal uses arbitrar
 Sample D lacks an exposure. Sample E carries a flag. Keep both facts visible.
 
 `toy.shape` is `(5, 4)`. Inspect `toy.index`, `toy.columns`, and `toy.dtypes`. Types do not supply units.
+
 
 (pandas-series)=
 ## One column is a Series
@@ -137,6 +142,7 @@ Sample D lacks an exposure. Sample E carries a flag. Keep both facts visible.
 
 The inner list names the columns to keep.
 
+
 (pandas-address)=
 ## Labels and positions are different
 
@@ -151,6 +157,7 @@ The inner list names the columns to keep.
 
 The first row's label is `r10`, while its position is `0`.
 
+
 (pandas-arithmetic)=
 ## Columns support row-wise arithmetic
 
@@ -164,6 +171,7 @@ The first row's label is `r10`, while its position is `0`.
 ```
 
 Pandas matches row labels before dividing. These columns come from the same table. The result uses arbitrary signal units per second.
+
 
 (pandas-missing)=
 ## Missing is a state, not a measured zero
@@ -181,6 +189,7 @@ Pandas matches row labels before dividing. These columns come from the same tabl
 
 D's rate is missing because its exposure is unknown. Replacing the exposure with zero would invent a value and change the calculation.
 
+
 (pandas-mask)=
 ## A comparison gives one decision per row
 
@@ -197,6 +206,7 @@ D's rate is missing because its exposure is unknown. Replacing the exposure with
 
 Combine conditions with `&` (both), `|` (either), and `~` (reverse). Put comparisons in parentheses.
 
+
 (pandas-loc)=
 ## Read `.loc[rows, columns]`
 
@@ -212,6 +222,7 @@ toy.loc[is_ok, ['sample', 'exposure_s', 'signal']]
 - Before the comma: a row label, list of labels, or mask.
 - After the comma: the columns to retain.
 - Build the mask from the same table's labelled columns.
+
 
 (pandas-check)=
 ## Explain the selection before running it
@@ -241,6 +252,7 @@ Which row labels will each expression retain? Explain the difference.
 The first keeps `r10`–`r13`. The second keeps `r10`–`r12`. Selection does not renumber labels or fill missing values.
 :::
 
+
 (pandas-summary)=
 ## Start EDA with counts and ranges
 
@@ -254,6 +266,7 @@ The first keeps `r10`–`r13`. The second keeps `r10`–`r12`. Selection does no
 ```
 
 `count` reports available values in each column. `50%` is the median. Different columns can summarize different numbers of observations.
+
 
 (pandas-denominator)=
 ## The denominator matters
@@ -279,6 +292,7 @@ $$\bar t=\frac{1+2+2.5+4}{4}=2.375\ {\rm s}.$$
 Dividing by five would effectively count the missing exposure as zero. The available-value mean does not establish that missingness is harmless.
 :::
 
+
 (pandas-distribution)=
 ## Plot a distribution, not just one number
 
@@ -290,6 +304,7 @@ Dividing by five would effectively count the missing exposure as zero. The avail
 :alt: Histogram of five synthetic signals. Four values lie between zero and five, one near eighteen. The mean is six and the median three.
 :caption: A bin is an interval of signal values. Its height counts stored values in that interval.
 ```
+
 
 (pandas-pairs)=
 ## A relationship requires paired records
@@ -307,6 +322,7 @@ Dividing by five would effectively count the missing exposure as zero. The avail
 
 For this plot, retain rows with exposure **and** signal. Do not remove missing values separately from the two columns and then pair positions.
 
+
 (pandas-source)=
 ## The CSV has a source contract
 
@@ -318,12 +334,15 @@ The saved NASA **Planetary Systems (`ps`)** query retains one default published 
 
 ```{slide-code} python
 :title: Read your saved Project 4 file
-raw = pd.read_csv(DATA_FILE, comment='#')
+raw = pd.read_csv(
+    'project4-nasa-exoplanets.csv',
+    comment='#')
 ```
 
 CSV is a text format with a header and comma-separated records. `read_csv` returns a DataFrame. Blank fields usually become missing values; check inferred types.
 
-The notebook locates the saved CSV. Save the CSV, query, and retrieval date.
+Save the CSV beside your own notebook. Keep the query and retrieval date.
+
 
 (pandas-csv)=
 ## Inspect what was read
@@ -341,6 +360,7 @@ The notebook locates the saved CSV. Save the CSV, query, and retrieval date.
 
 This snapshot has 437 rows and 15 columns. A later live query may differ.
 
+
 (pandas-nasa-selection)=
 ## Apply the rule and report the counts
 
@@ -353,9 +373,10 @@ This snapshot has 437 rows and 15 columns. A later live query may differ.
 :view: both
 ```
 
-The notebook supplies the P4 rule: finite central estimates, the mass window, signed uncertainty offsets, and positive lower endpoints.
+The Project 4 brief supplies the comparison rule: finite central estimates, the mass window, signed uncertainty offsets, and positive lower endpoints.
 
 This snapshot retains 371 of 437 rows. Failed conditions can overlap; their excluded counts should not be added independently.
+
 
 (pandas-nasa-hist)=
 ## Explore one variable
@@ -369,6 +390,7 @@ This snapshot retains 371 of 437 rows. Failed conditions can overlap; their excl
 :caption: The shape depends on the selected table, available measurements, and binning.
 ```
 
+
 (pandas-nasa-bars)=
 ## Read the relationship with its uncertainties
 
@@ -380,6 +402,7 @@ This snapshot retains 371 of 437 rows. Failed conditions can overlap; their excl
 :alt: Logarithmic NASA mass–radius plot with asymmetric uncertainty bars, Earth marked, and TRAPPIST-1 e and Kepler-51 b highlighted.
 :caption: The supplied offsets follow their source studies; a common confidence level is not established here.
 ```
+
 
 (pandas-errors)=
 ## Reference recipe: preserve both uncertainties
@@ -415,25 +438,29 @@ For Kepler-51 b, one column is $\begin{pmatrix}0.8\\1.5\end{pmatrix}$ Earth mass
 
 One column per selected planet. Every array comes from the same selected rows in the same order.
 
+
 (pandas-launch)=
-## Your turn: work with the notebook
+## Your turn: create your own notebook
 
 ```{slide-options}
-{"class":"pandas-deck","eyebrow":"Hands-on exploration","timing":135}
+{"class":"pandas-deck","eyebrow":"Install, load, and explore","timing":135}
 ```
 
-1. Open the notebook and run **Task 1: inspect the snapshot**.
-2. Add a calculated column to the toy table.
-3. Change a NASA selection and compare counts and summaries.
-4. Change histogram bins and make a paired scatter plot.
-5. Explain one choice and one result to a neighbor.
+```{slide-code} bash
+:title: In your course terminal
+conda activate comp521
+conda install -c conda-forge pandas
+```
 
-Start from the runnable cells in [Hands-on exploration](#hands-on). Keep `raw` and `planets`; use `practice` for your experiments.
+1. Create a blank Jupyter notebook beside the saved NASA CSV.
+2. Import Pandas and load the CSV with `pd.read_csv`.
+3. Inspect the table, choose columns, and try selections, summaries, and plots.
+4. Discuss one result and one question with a neighbor.
 
-This is in-class practice. There is no new submission.
+[Download the CSV and read the setup instructions](https://astrobytes-edu.github.io/comp521/lecture-12-pandas/). This is class exploration, with no new submission.
 
 (pandas-references)=
-## References and executable examples
+## References for your own notebook
 
 ```{slide-options}
 {"class":"pandas-deck","eyebrow":"Inspect the source","timing":30}
@@ -443,4 +470,5 @@ This is in-class practice. There is no new submission.
 - [CSV reading](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html), [`.loc`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html), and [descriptive summaries](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html)
 - [Matplotlib error bars](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.errorbar.html)
 - [NASA column definitions](https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html)
-- [Project 4](https://astrobytes-edu.github.io/comp521/project-4/) and [the executed examples](#toy-columns)
+- [Install Pandas](https://pandas.pydata.org/docs/getting_started/install.html) and [download the class CSV](https://astrobytes-edu.github.io/comp521/lecture-12-pandas/)
+- [Project 4](https://astrobytes-edu.github.io/comp521/project-4/)

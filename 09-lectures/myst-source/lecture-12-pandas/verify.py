@@ -38,23 +38,42 @@ def main():
             'display_name': 'COMP 521 Pandas', 'language': 'python'}))
         manager = KernelManager(kernel_name='python3',
                                 kernel_spec_manager=KernelSpecManager(kernel_dirs=[str(kernel.parent)]))
-        NotebookClient(notebook, km=manager, timeout=180,
-                       resources={'metadata': {'path': str(HERE)}}).execute()
+        try:
+            NotebookClient(notebook, km=manager, timeout=180,
+                           resources={'metadata': {'path': str(HERE)}}).execute()
+        finally:
+            if manager.has_kernel:
+                manager.shutdown_kernel(now=True)
         images = sum('image/png' in output.get('data', {}) for cell in notebook.cells
                      if cell.cell_type == 'code' for output in cell.outputs)
-        assert images == 7, f'Expected seven executed figures, found {images}'
+        assert images == 6, f'Expected six executed figures, found {images}'
         nbformat.validate(notebook)
         nbformat.write(notebook, BOOK)
 
-        # Verify the three-download student workflow in a fresh kernel outside
-        # the repository, so ancestor lookup cannot conceal a missing file.
+        # Verify loading the CSV in a fresh, student-created notebook outside
+        # the repository, with no starter notebook or ancestor data lookup.
         standalone = Path(scratch) / 'student-downloads'
         standalone.mkdir()
         data = ROOT / '08-assessments/projects/data/project4-nasa-exoplanets.csv'
         for file in (data, data.with_suffix('.provenance.json')):
             shutil.copy2(file, standalone / file.name)
-        NotebookClient(nbformat.read(BOOK, as_version=4), km=manager, timeout=180,
-                       resources={'metadata': {'path': str(standalone)}}).execute()
+        blank = nbformat.v4.new_notebook(cells=[nbformat.v4.new_code_cell(
+            "assert 'planets' not in globals()\n"
+            "import pandas as pd\n"
+            "raw = pd.read_csv('project4-nasa-exoplanets.csv', comment='#')\n"
+            "assert raw.shape == (437, 15)\n"
+            "assert raw['pl_name'].is_unique\n"
+            "print(raw.head().to_string(index=False))")])
+        blank_manager = KernelManager(kernel_name='python3',
+            kernel_spec_manager=KernelSpecManager(kernel_dirs=[str(kernel.parent)]))
+        try:
+            NotebookClient(blank, km=blank_manager, timeout=180,
+                           resources={'metadata': {'path': str(standalone)}}).execute()
+        finally:
+            if blank_manager.has_kernel:
+                blank_manager.shutdown_kernel(now=True)
+
+        assert blank.cells[0].execution_count == 1
 
         # Independently execute the selected cell owners for equality to public P4.
         source_cells = {cell.metadata.get('label'): cell.source for cell in notebook.cells
@@ -73,9 +92,6 @@ def main():
                 if statement.targets[0].id in ('columns', 'finite', 'keep'):
                     exec(compile(ast.Module(body=[statement], type_ignores=[]), 'public-p4', 'exec'), reference)
         namespace['pd'].testing.assert_series_equal(namespace['keep'], reference['keep'])
-        practice_counts = {
-            f'{lo}-{hi}': int(namespace['planets']['pl_masse'].between(lo, hi).sum())
-            for lo, hi in ((1, 5), (2, 8))}
 
         if args.build:
             env = dict(os.environ, PATH=str(ROOT / '.venv/bin') + os.pathsep + os.environ['PATH'],
@@ -89,17 +105,19 @@ def main():
     assert not errors, errors
     images = sum('image/png' in output.get('data', {}) for cell in notebook.cells
                  if cell.cell_type == 'code' for output in cell.outputs)
-    assert images == 7, images
+    assert images == 6, images
     labels = [cell.metadata['label'] for cell in notebook.cells if cell.cell_type == 'code']
     assert len(labels) == len(set(labels))
     result = {'notebook_sha256': hashlib.sha256(BOOK.read_bytes()).hexdigest(),
               'executed_cells': len(labels), 'figures': images,
               'public_p4_mask_matches': True,
               'rows_input': len(namespace['raw']), 'rows_selected': len(namespace['planets']),
-              'standalone_downloads_run': True, 'practice_window_counts': practice_counts,
-              'hands_on_tasks': sum(label.startswith('task-') for label in labels),
+              'fresh_notebook_csv_loads': True,
+              'fresh_notebook_execution_count': blank.cells[0].execution_count,
+              'student_starter_distributed': False,
               'built': args.build}
-    assert result['hands_on_tasks'] == 5
+    assert len(labels) == 32
+    assert not any(label.startswith('task-') for label in labels)
     if args.build:
         manifest = json.loads((BUILD / 'reveal/decks.json').read_text())
         deck = manifest['decks'][0]

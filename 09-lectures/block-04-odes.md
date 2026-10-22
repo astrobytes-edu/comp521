@@ -28,11 +28,12 @@ Assignment briefs set deliverables and dates.
 
 [Open the Pandas slides](/reveal/lecture-12-pandas.html) ·
 [Read the worked handout](/reveal/lecture-12-pandas.handout.html) ·
-[Open the lecture page and notebook downloads](lecture-12-pandas.md).
+[Open the lecture page and CSV download](lecture-12-pandas.md).
 
 The 30-minute introduction covers labelled tables, missing values, row
 selection, summaries, and plots using the saved NASA exoplanet dataset.
-Five runnable notebook tasks provide hands-on exploration after the lecture.
+Students install Pandas, create their own notebook, load the CSV, and
+experiment with the table after the lecture.
 
 ## Readings
 
