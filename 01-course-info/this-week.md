@@ -15,10 +15,97 @@ project briefs and the [Schedule](schedule.md) govern requirements and deadlines
 on a specific problem. **Enrichment** is optional. Follow the [Projects](projects.md)
 page and your project brief for what to implement and submit.
 
-(week-6)=
-::::{admonition} Current · Week 6 · September 29–October 1 · Kepler geometry and Project 3
+(week-10)=
+::::{admonition} Current · Week 10 · October 27–29 · Project 4 completion and real data
 :class: dropdown
 :open: true
+
+### Preparation and project context
+
+Finish [Project 4](../08-assessments/projects/project-4.md), due
+**Wednesday, October 28, 11:59 pm PT**. The project brief defines the required
+work; use the [Schedule](schedule.md#week-10-oct-27-29-project-4-completion-and-real-data)
+for this week's dates.
+
+### Tuesday, October 27 — Foundations for scientific Data Science
+
+How do noisy observations let us infer a physical quantity? Begin with the
+connection between a forward model, measurements, and inference. Review random
+variables, distributions, expectations, variance, and covariance, then connect
+vectors, data matrices, dot products, and projections to model predictions.
+Use a simple scientific measurement example to connect the ideas. Class also
+includes Project 4 questions and completion time.
+
+### Thursday, October 29 — Begin the methods
+
+Move from the scientific question to data inspection and a first model fit:
+provenance, units, missing values, residuals, and uncertainty weights. Introduce
+the real Kepler photometry workflow, including quality flags and gaps, as the
+application for Project 5. The project brief will define the implementation
+scope and required work.
+
+### Focused reference
+
+- [Measurements, probability, and geometry](../06-linear-algebra-stats/00-linear-algebra/00d-measurements-probability-and-geometry.md):
+  the primer for this week's foundations.
+- [Statistical tools](../06-linear-algebra-stats/01-probability/02-mod1-part2-statistical-tools.md):
+  Section 2.6 for variance and standard deviation; Section 2.1 for covariance,
+  correlation, and independence.
+- [Dot products and projections](../06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md#dot-product)
+  and [covariance matrices](../06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md#covariance-matrices):
+  connect the geometry of data to statistical variation.
+- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md):
+  review column inspection, types, boolean masks, and missing values.
+
+These are selected reference sections, not whole-chapter assignments. Current
+project briefs govern requirements and deadlines.
+
+### Lecture and reference links
+
+- [Lecture 13 · Measurements, Probability, and Geometry](../09-lectures/lecture-13-measurements.md):
+  slides and worked handout for today's foundations.
+- [Lecture 11 · ODE Methods](../09-lectures/lecture-11-odes.md):
+  slides and worked handout for Euler, explicit midpoint RK2, RK4, and convergence.
+- [Lecture 12 · Pandas and Exploratory Data Analysis](../09-lectures/lecture-12-pandas.md):
+  slides, worked handout, and the saved NASA CSV. Use your own notebook to
+  inspect and explore the table; there is no separate exploration submission.
+- [Project 4's NASA data selection](../08-assessments/projects/project-4.md#select-usable-rows):
+  the required columns, flags, uncertainty checks, and row counts for Part 3.
+- [Data acquisition and cleaning](../04-scientific-computing/12-data-acquisition-cleaning.md)
+  is an in-development scope note, not a completed technical lesson.
+
+### Project work
+
+Use [Project 4's required tests and submission](../08-assessments/projects/project-4.md#required-tests-and-submission)
+to check your remaining work:
+
+1. Verify the ODE methods against the exact SHO solution and check EOS unit
+   conversions.
+2. Check the constant-density planet, surface bracket, and numerical sensitivity
+   to step size and starting radius.
+3. Complete the three-material mass–radius comparison, including the Seager fit
+   differences, NASA uncertainties, two named exoplanets, and selection counts.
+4. Complete the interpretation answers and README, save the three required
+   figures and NASA CSV, then restart the notebook and run all cells. Run
+   `python -m pytest` from the project directory before submission.
+
+Bring your current code and the first check you cannot yet explain. Keep
+numerical refinement evidence separate from agreement with a published fit
+and from comparison with observed planets.
+
+### Looking ahead
+
+Project 5 continues from the foundations and first fitting methods into data
+preparation, transit-model fitting, uncertainty, and diagnostics. The
+[Schedule](schedule.md#block-5-project-5-real-data-model-fitting) lists
+Project 5 for **Thursday, October 29**, due **Wednesday, November 18,
+11:59 pm PT**. Its public brief is not yet available; use the
+[Projects page](projects.md) and Schedule for the current sequence and dates.
+::::
+
+(week-6)=
+::::{admonition} Week 6 · September 29–October 1 · Kepler geometry and Project 3
+:class: dropdown
 
 ### Preparation and project context
 

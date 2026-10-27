@@ -196,12 +196,25 @@ Thu **Oct 22**
 
 ### Week 10 — Oct 27, 29 · Project 4 completion and real data
 
-**Readings**
-- [Pandas fundamentals](../04-scientific-computing/11-pandas-fundamentals.md) *(review)*
-- [Data acquisition, cleaning, and exploratory analysis](../04-scientific-computing/12-data-acquisition-cleaning.md) *(in preparation; scope note only)*
+**Preparation and focused reference** — use the
+[Week 10 route](this-week.md#week-10) for selected sections on variance,
+covariance, dot products, projections, and Pandas table inspection. These are
+bounded reference sections, not whole-chapter assignments.
 
-**Topics** — Project 4 completion; introduction to archives and APIs, Lightkurve,
-quality flags, gaps, outliers, and exploratory analysis of real Kepler light curves
+**Tuesday, October 27** — why scientific Data Science starts with a model of
+measurements: a primer on probability and linear algebra, connected through a
+scientific example. Review random variables, distributions, expectations,
+variance, covariance, vectors, data matrices, dot products, and projections.
+Include Project 4 questions and completion time.
+
+**Thursday, October 29** — begin the methods: inspect data provenance, units,
+and missing values, then connect a first model fit to residuals and uncertainty
+weights. Introduce the real Kepler photometry workflow, including Lightkurve,
+quality flags, and gaps, for Project 5.
+
+[Data acquisition, cleaning, and exploratory analysis](../04-scientific-computing/12-data-acquisition-cleaning.md)
+remains an in-development scope note. The model-fitting reading is also in
+preparation; completed assigned sections will be identified when ready.
 
 **Due Wed Oct 28, 11:59 pm PT** — **Project 4** (ODE library +
 exoplanet-interior notebook).
