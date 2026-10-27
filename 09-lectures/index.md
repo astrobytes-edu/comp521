@@ -99,6 +99,13 @@ stability, conservation, and planetary pressure balance.
 provides a 30-minute introduction and worked handout. Students install Pandas,
 create their own notebook, and explore the saved NASA exoplanet CSV.
 
+## Block 5 · Real Data & Model Fitting
+
+[Block 5 lecture overview](block-05-data.md) connects the lectures and readings.
+[Lecture 13: Measurements, Probability, and Geometry](lecture-13-measurements.md)
+connects noisy scientific measurements to probability, data matrices, and
+projection. The lecture page links the slides, worked handout, and primer.
+
 ## Future course blocks
 
 :::{warning} Library expansion in progress
@@ -108,8 +115,6 @@ yet a second set of required materials. The course schedule and published
 lecture pages determine what is currently assigned.
 :::
 
-- **Block 5 · Real Data & Model Fitting** — data provenance, uncertainty, and
-  model criticism.
 - **Block 6 · ML & Scientific Classification** — evaluation, generalization,
   and scientific limits.
 - **Block 7 · Final Project Studio** — question framing, evidence design, and

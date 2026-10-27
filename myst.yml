@@ -119,6 +119,7 @@ project:
           children:
             - title: Linear Algebra for Modeling
               children:
+                - file: 06-linear-algebra-stats/00-linear-algebra/00d-measurements-probability-and-geometry.md
                 - file: 06-linear-algebra-stats/00-linear-algebra/00a-linear-algebra-core-module.md
                 - file: 06-linear-algebra-stats/00-linear-algebra/00b-linear-algebra-stats-module.md
                 - file: 06-linear-algebra-stats/00-linear-algebra/00c-linear-algebra-formula-sheet.md
@@ -201,6 +202,12 @@ project:
               title: Block 4 lecture overview
             - file: 09-lectures/lecture-11-odes.md
             - file: 09-lectures/lecture-12-pandas.md
+
+        - title: Block 5 · Real Data & Model Fitting
+          children:
+            - file: 09-lectures/block-05-data.md
+              title: Block 5 lecture overview
+            - file: 09-lectures/lecture-13-measurements.md
 
     - title: Assessments
       children:
