@@ -20,3 +20,4 @@
 .reveal .slides section.foundation-title h2 { font-size: 1.85em; max-width: 930px; }
 .reveal .slides section.foundation-section h2 { font-size: 1.6em; }
 body.handout .reveal .slides section.foundation { padding: 2rem; }
+.reveal .slide-number { top: 8px; bottom: auto; }

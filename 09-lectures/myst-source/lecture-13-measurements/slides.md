@@ -204,13 +204,7 @@ The radius ratio determines the full-transit depth.
 ::::::{slide-column}
 $p=R_p/R_\star$ is the radius ratio; $z=d/R_\star$ is the projected separation in stellar radii.
 
-For a smaller planet in front of a uniform star:
-
-$$f(p,z)=\begin{cases}
-1 & z\geq 1+p,\\
-1-p^2 & z\leq 1-p,\\
-1-\dfrac{\text{overlap area}}{\pi R_\star^2} & \text{partial overlap}.
-\end{cases}$$
+As the projected separation changes, the overlap between the planet and stellar disk changes.
 ::::::
 
 ::::::{slide-column}
@@ -219,6 +213,22 @@ $$f(p,z)=\begin{cases}
 ```
 ::::::
 ::::::::
+
+## Transit model: three geometric cases
+
+```{slide-options}
+{"class":"foundation","eyebrow":"THE UNIFORM-STAR MODEL"}
+```
+
+For a smaller planet in front of a uniform star:
+
+$$f(p,z)=\begin{cases}
+1 & z\geq 1+p,\\
+1-p^2 & z\leq 1-p,\\
+1-\dfrac{\text{overlap area}}{\pi R_\star^2} & \text{partial overlap}.
+\end{cases}$$
+
+The normalized flux is the fraction of the stellar disk that remains visible.
 
 ## Project 1: position becomes a light curve
 
@@ -272,7 +282,10 @@ The transit shape therefore depends on **both** the planet's path and the star's
 ::::::{slide-column}
 In the linear limb-darkening model, $r$ is distance from the disk center in units of $R_\star$:
 
-$$I(r)=I_0\left[1-u\left(1-\sqrt{1-r^2}\right)\right].$$
+$$\begin{aligned}
+\mu(r)&=\sqrt{1-r^2},\\
+I(r)&=I_0\left[1-u(1-\mu)\right].
+\end{aligned}$$
 
 $I_0$ is the central intensity; $u$ sets the strength of limb darkening. For $u>0$, the edge is dimmer.
 ::::::
@@ -407,7 +420,10 @@ Which depth best matches the two in-transit measurements?
 ::::::{slide-column}
 For each observation, subtract the model:
 
-$$r_i(\delta)=y_i-m_i(\delta)=y_i-1+\delta T_i.$$
+$$\begin{aligned}
+r_i(\delta)&=y_i-m_i(\delta)\\
+&=y_i-1+\delta T_i.
+\end{aligned}$$
 
 With equal weights, compare candidate depths:
 
@@ -710,14 +726,14 @@ For random variables, independence means the joint distribution factors into the
 {"class":"foundation","eyebrow":"DEPENDENCE AND LINEAR ASSOCIATION","auto-animate":true,"auto-animate-id":"correlation-pairs"}
 ```
 
+$$\operatorname{Cov}(X,Y)=E[(X-E[X])(Y-E[Y])].$$
+
 ::::::::{slide-columns}
 :ratio: 1.05 1
 :gap: 30
 :align: center
 
 ::::::{slide-column}
-$$\operatorname{Cov}(X,Y)=E[(X-E[X])(Y-E[Y])].$$
-
 Positive covariance: the average product of deviations is positive.
 
 Negative covariance: the average product is negative.
@@ -1135,17 +1151,17 @@ The ordinary mean is $0.990$. Press **down** for the likelihood and weighted fit
 {"class":"foundation","vertical":true,"eyebrow":"A MODEL FOR MEASUREMENT VARIATION","auto-animate":true,"auto-animate-id":"likelihood"}
 ```
 
+With independent Gaussian errors and known $\sigma_i$:
+
+$$L(\mu)=\prod_i\frac{1}{\sqrt{2\pi}\sigma_i}
+\exp\!\left[-\frac{(y_i-\mu)^2}{2\sigma_i^2}\right].$$
+
 ::::::::{slide-columns}
 :ratio: 1 1.15
 :gap: 26
 :align: center
 
 ::::::{slide-column}
-With independent Gaussian errors and known $\sigma_i$:
-
-$$L(\mu)=\prod_i\frac{1}{\sqrt{2\pi}\sigma_i}
-\exp\!\left[-\frac{(y_i-\mu)^2}{2\sigma_i^2}\right].$$
-
 Each measurement contributes one factor.
 ::::::
 
@@ -1163,6 +1179,8 @@ Each measurement contributes one factor.
 {"class":"foundation","vertical":true,"eyebrow":"TAKE THE LOGARITHM","auto-animate":true,"auto-animate-id":"likelihood"}
 ```
 
+$$\log L(\mu)=\text{constant}-\frac12\sum_i\frac{(y_i-\mu)^2}{\sigma_i^2}.$$
+
 ::::::::{slide-columns}
 :ratio: 1.1 1
 :gap: 26
@@ -1176,8 +1194,6 @@ Each measurement contributes one factor.
 ::::::
 
 ::::::{slide-column}
-$$\log L(\mu)=\text{constant}-\frac12\sum_i\frac{(y_i-\mu)^2}{\sigma_i^2}.$$
-
 The constant does not depend on $\mu$ because the uncertainties $\sigma_i$ are fixed.
 
 Maximizing likelihood minimizes the weighted squared residuals.
@@ -1435,7 +1451,10 @@ The principal axes follow the eigenvectors. Their lengths are the square roots o
 ::::::{slide-column}
 Original = projection + difference.
 
-$$(0.9,1.1)=(1.0,1.0)+(-0.1,0.1).$$
+$$\begin{aligned}
+(0.9,1.1)&=(1.0,1.0)\\
+&\quad+(-0.1,0.1).
+\end{aligned}$$
 
 The discarded difference might contain useful color information.
 ::::::
