@@ -208,6 +208,7 @@ project:
             - file: 09-lectures/block-05-data.md
               title: Block 5 lecture overview
             - file: 09-lectures/lecture-13-measurements.md
+            - file: 09-lectures/jaxstro-sciml-guide.md
 
     - title: Assessments
       children:

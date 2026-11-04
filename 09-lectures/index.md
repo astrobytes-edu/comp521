@@ -106,6 +106,10 @@ create their own notebook, and explore the saved NASA exoplanet CSV.
 connects noisy scientific measurements to probability, data matrices, and
 projection. The lecture page links the slides, worked handout, and primer.
 
+[Probability, Optimization, and Scientific Discovery](jaxstro-sciml-guide.md)
+provides the Jaxstro SciML guide's 11 lecture handouts and full draft PDF,
+including exercises and worked solutions.
+
 ## Future course blocks
 
 :::{warning} Library expansion in progress
