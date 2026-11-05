@@ -9,13 +9,9 @@ kernelspec:
 
 <!-- prep-banner:start -->
 :::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+This reading is under revision. Use the [ODE lecture overview](../../09-lectures/block-04-odes.md)
+for the current lecture and reading sequence. The syllabus and assignment briefs
+remain authoritative for dates and requirements.
 :::
 <!-- prep-banner:end -->
 
@@ -322,7 +318,7 @@ excluded because repeated eigenvalues can allow growth.
 
 **Implicit method**: Integration scheme where unknown appears on both sides, requiring an algebraic solution each step. Its stability properties depend on the particular method.
 
-**Initial Value Problem (IVP)**: Finding function x(t) given dx/dt = f(x,t) and x(t₀) = x₀. Fundamental problem of dynamics.
+**Initial Value Problem (IVP)**: Finding function x(t) given dx/dt = f(t,x) and x(t₀) = x₀. Fundamental problem of dynamics.
 
 **Leapfrog/Verlet**: Symplectic integrator that staggers position and momentum updates to preserve symplectic structure in exact arithmetic for the separable Hamiltonian setting described here.
 

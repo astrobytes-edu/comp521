@@ -6,13 +6,9 @@ author: "Anna Rosen"
 
 <!-- prep-banner:start -->
 :::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+This reading is under revision. Use the [ODE lecture overview](../../09-lectures/block-04-odes.md)
+for the current lecture and reading sequence. The syllabus and assignment briefs
+remain authoritative for dates and requirements.
 :::
 <!-- prep-banner:end -->
 
@@ -43,12 +39,16 @@ that stays bounded may accompany an accumulating phase error.
 
 ### Your Mission: Preserve Physics Through Time
 
-You're about to discover that simulating the universe's evolution is a battle against accumulating errors:
+Use the exact oscillator to separate several numerical questions:
 
-- **Why does Earth's orbit spiral outward with Euler's method?** Energy systematically increases
-- **Why do pulsars lose synchronization in simulations?** Phase errors accumulate relentlessly
-- **How can we simulate galaxies for cosmic time?** Symplectic integrators preserve geometry
-- **When do numerical methods explode?** Stability analysis predicts catastrophic failure
+- **Does forward Euler preserve oscillator energy?** Its discrete update gives an exact energy-growth factor.
+- **Does bounded energy imply accurate timing?** Compare phase against the known oscillator frequency.
+- **What does a symplectic method preserve?** Derive leapfrog's geometric property and then test its trajectory accuracy.
+- **Which steps amplify a stable physical mode?** Compare the update with its stability restriction.
+
+The oscillator is a controlled benchmark. Transfer the diagnostics to a
+Kepler orbit or another model, but derive or measure that model's numerical
+behavior rather than copying the oscillator's energy-growth law.
 
 The central lesson is that local accuracy, stability, and geometric
 preservation answer different questions. None automatically dominates the
@@ -152,7 +152,7 @@ Before diving in, let's establish the mathematical language for temporal evoluti
 
 | Symbol | Meaning | Physical Example |
 |--------|---------|-----------------|
-| $\frac{dx}{dt} = f(x,t)$ | General ODE | Equation of motion |
+| $\frac{dx}{dt} = f(t,x)$ | General ODE | Equation of motion |
 | $x(t_0) = x_0$ | Initial condition | Starting position/velocity |
 | $h$ or $\Delta t$ | Timestep | Integration step size |
 | $x_{n+1} = \Phi_h(x_n)$ | Discrete map | Numerical integrator |

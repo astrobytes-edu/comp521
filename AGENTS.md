@@ -28,12 +28,16 @@ configured private remote.
 
 ## Lecture presentation backend
 
-For new or substantially revised lecture slide decks, use the Quarto Reveal
-source, shared theme, and self-contained HTML workflow in
-`09-lectures/README.md`. Keep the MyST lecture page as the stable student route.
-Lecture 10 is the published example. Existing MyST projector lectures remain
-until Anna approves their individual revision. The instructor approval rule
-above applies to source, generated slides, commits, and publication.
+All lecture authoring and revisions must use the MyST slides plug-in in
+`tools/myst-reveal/`. Do not author or render lecture decks with Quarto.
+Follow `tools/myst-reveal/AUTHORING.md` and the
+ODE lecture in `09-lectures/myst-source/lecture-11-odes/` for the source,
+executed notebook figures, staged explanations, and self-contained deck and
+handout workflow. Keep the MyST lecture page as the stable student route.
+Lecture 10's existing Quarto source and export are historical artifacts. Any
+approved revision must use the MyST plug-in. The instructor approval rule
+above applies to source,
+generated slides, commits, and publication.
 
 ## Assessment boundary
 
@@ -179,12 +183,19 @@ Remove all mannered prose. State the rule, the measurement and the mechanism in 
 sentences. No rhetorical emphasis, no throat-clearing, no performed enthusiasm or gravitas,
 no dramatised failure stories; the number, the date and the mechanism carry the point. Use
 lists where they improve scanning. This applies to chat, commit messages, and every file in
-the repo -- including lecture prose, readings, assignment text, and figure captions, which
+the repo, including lecture prose, readings, assignment text, and figure captions, which
 are where this course's writing actually reaches students.
+
+Use em dashes sparingly. Prefer a period, comma, colon, or parentheses when those
+serve the sentence. When an em dash is warranted, always put a space on both
+sides ("word — word"). Do not use unspaced em dashes or double hyphens as prose
+dash substitutes. This applies to chat, commit messages, readings, slides,
+assignments, captions, and other repository prose. Preserve mathematical minus
+signs, code syntax, and en dashes used for ranges or compound terms.
 
 **It does not override the pedagogy.** A worked example, a prediction prompt, a motivating
 question, or an analogy chosen to carry a computational idea is a teaching device, not
-flourish -- keep those. What this rule removes is prose that carries no content, not the
+flourish; keep those. What this rule removes is prose that carries no content, not the
 devices that make an explanation land. When the two seem to conflict in student-facing
 material, the pedagogy wins and the sentence around it still gets written plainly.
 

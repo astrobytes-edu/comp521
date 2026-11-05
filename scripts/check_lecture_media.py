@@ -13,7 +13,10 @@ SOURCE = ROOT / '09-lectures'
 errors = []
 films = set()
 science_page = ROOT / '08-assessments/projects/project-3-science-background.md'
-for page in [*SOURCE.rglob('*.md'), science_page]:
+# Build-cache copies retain source-relative asset paths but are not source pages.
+lecture_pages = [page for page in SOURCE.rglob('*.md')
+                 if '_build' not in page.relative_to(SOURCE).parts]
+for page in [*lecture_pages, science_page]:
     text = page.read_text()
     for relative in re.findall(r'^:(?:video|poster): (.+)$', text, re.M):
         source = (page.parent / relative).resolve()

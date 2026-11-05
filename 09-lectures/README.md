@@ -1,11 +1,17 @@
 # Lecture slide workflow
 
+**All lecture authoring and revisions use MyST → Reveal through
+`tools/myst-reveal/`. Do not use Quarto.** Follow `tools/myst-reveal/AUTHORING.md` and Lecture 11's
+source, notebook figures, and staged explanations. Teach the subject from its
+core concepts; use the course project as an application.
+
 The Software Engineering pilot uses **MyST → Reveal** from the tracked
 `tools/myst-reveal/` package. Keep the canonical source in
 `tools/myst-reveal/migrations/comp536/software-engineering.md`; do not reimport
 the COMP 536 source over it. The package remains here until Anna extracts it.
 
-Lecture 10 retains its existing Quarto export. Existing MyST projector lectures
+Lecture 10 retains its existing Quarto export as a historical artifact. Any
+revision must use the MyST plug-in. Existing MyST projector lectures
 remain available until individually revised.
 
 ## Software Engineering production build
@@ -54,31 +60,18 @@ this static directory into the course site. The stable page is
 `/reveal/lecture-11-odes.handout.html` so the course base path is applied.
 The build omits undeployed notebook companion links.
 
-## Existing Quarto source, output, and site page
+## Historical Lecture 10 artifacts
 
-- Write the deck in `09-lectures/reveal-source/<lecture>.qmd`. Use the shared
-  `assets/theme/slides/theme.scss` relative to that source directory. Keep code
-  cells, speaker notes, alt text, and citations in the source.
-- Set `embed-resources: true` under `format.revealjs`. Run
-  `python3 scripts/build_reveal_slides.py <lecture>.qmd` from the repository
-  root. The command executes Quarto cells, checks for local asset references,
-  and writes `09-lectures/reveal/<lecture>.html`.
-- Commit **both** the `.qmd` source and generated `.html`. The regular MyST build
-  does not run Quarto; `myst.yml` copies `09-lectures/reveal` as a static folder.
-- Keep a short MyST lecture page in the existing lecture route. Link to the deck
-  at `/reveal/<lecture>.html` so MyST applies the site's `/comp521` base path.
-  Use that page for the lecture summary, readings, and project connection. Do
-  not duplicate the deck as MyST projector slides.
-
-Quarto must render from `reveal-source`; sending output to another directory
-can leave Reveal asset links unresolved. The build script renders there first
-and copies the self-contained HTML afterward. It also assigns stable IDs to
-executed cells so repeat builds produce the same file.
+The source in `09-lectures/reveal-source/` records the provenance of Lecture 10's
+published export. Preserve it as historical input. An approved revision must
+move the lecture to the MyST plug-in workflow above. Keep the existing MyST
+lecture page as the student route and link its deck at `/reveal/<lecture>.html`.
 
 ## Check before release
 
-1. Run `python3 scripts/build_reveal_slides.py <lecture>.qmd` and check the
-   executed cells for errors.
+1. Build the MyST deck with the course Python environment, using the owning
+   deck's README and `tools/myst-reveal/AUTHORING.md`. Check executed notebook
+   cells for errors.
 2. Inspect the deck in a browser at a projector-sized viewport. Check text,
    code, figures, math, slide overflow, keyboard navigation, and speaker notes
    where used.

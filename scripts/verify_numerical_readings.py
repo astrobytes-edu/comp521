@@ -131,8 +131,13 @@ def main():
             assert not re.search(r"def (?:rk[24](?:_step)?|oscillator_step)\s*\(", code), path
     stability=spaces['04-module3-part4-stability.md']
     assert not stability['stability_test'](lambda y,lam,h: np.nan,-1.,[.1])[0][1]
-    value=stability['backward_euler_step'](np.array([1.]),0.,.01,lambda y,t:-1000*y,lambda y,t:np.array([[-1000.]]))
+    value=stability['backward_euler_step'](np.array([1.]),0.,.01,lambda t,y:-1000*y,lambda t,y:np.array([[-1000.]]))
     assert np.allclose(value,[1/11],rtol=1e-12,atol=0.)
+    # Nonautonomous forcing distinguishes callable argument order.
+    # y' = t - y, one backward step from (t,y)=(2,3), h=.25.
+    value=stability['backward_euler_step'](np.array([3.]),2.,.25,
+        lambda t,y:t-y,lambda t,y:np.array([[-1.]]))
+    assert np.allclose(value,[(3+.25*2.25)/1.25],rtol=1e-12,atol=0.)
     print('Audit counterexamples, derivative investigation, Euler adaptation, physical decay, and student-code boundary: passed')
     print('Evidence:', OUT)
 

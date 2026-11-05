@@ -1,0 +1,135 @@
+{
+  "status": "pass",
+  "seed": 20261105,
+  "sample_size": 200000,
+  "dtype": "float64",
+  "environment": {
+    "python": "3.12.11",
+    "executable": "course .venv/bin/python",
+    "numpy": "2.5.2",
+    "matplotlib": "3.11.1"
+  },
+  "sources": [
+    "Jaxstro SciML guide Sections 1.2\u20131.7",
+    "Lecture 1 Exercise 5"
+  ],
+  "quartic": {
+    "input_mean": 1.0,
+    "input_sd": 0.05,
+    "exact_mean": 1.0150187499999999,
+    "exact_sd": 0.2026228115242711,
+    "delta1_mean": 1.0,
+    "delta1_sd": 0.2,
+    "delta2_mean": 1.015,
+    "mc_mean": 1.0152087577387943,
+    "mc_sd": 0.20223344698158793,
+    "mc_mean_standard_error": 0.0004522077347749303,
+    "mc_mean_error_in_standard_errors": 0.4201779938350146,
+    "mc_sd_standard_error_approx": 0.00034587366254625724,
+    "mc_sd_error_in_standard_errors": -1.1257420984782431,
+    "density_uses_both_inverse_branches": true
+  },
+  "normal_pdf_cdf": {
+    "integral": 1.0,
+    "quantile_roundtrip_max_abs_error": 8.881784197001252e-16,
+    "probability_between_0.95_and_1.05": 0.6826894921370863
+  },
+  "positive_uniform_change_of_variables": {
+    "input_interval": [
+      0.8,
+      1.2
+    ],
+    "transformed_density_integral": 1.0000000007291665,
+    "matched_input_interval": [
+      0.95,
+      1.05
+    ],
+    "matched_probability": 0.25
+  },
+  "linear_map": {
+    "J": [
+      [
+        1.2,
+        0.5
+      ],
+      [
+        0.2,
+        0.8
+      ]
+    ],
+    "determinant": 0.86,
+    "input_covariance": [
+      [
+        1.0,
+        0.6
+      ],
+      [
+        0.6,
+        1.0
+      ]
+    ],
+    "output_covariance": [
+      [
+        2.4099999999999997,
+        1.276
+      ],
+      [
+        1.276,
+        0.8720000000000001
+      ]
+    ],
+    "sample_covariance": [
+      [
+        2.401635651721683,
+        1.270866448342307
+      ],
+      [
+        1.270866448342307,
+        0.8681187991252923
+      ]
+    ],
+    "covariance_entry_standard_errors": [
+      [
+        0.007621108213800144,
+        0.00431839938436294
+      ],
+      [
+        0.00431839938436294,
+        0.002757513013457978
+      ]
+    ],
+    "entry_error_in_standard_errors": [
+      [
+        -1.0975238828351344,
+        -1.1887625948358707
+      ],
+      [
+        -1.1887625948358707,
+        -1.4075004744368094
+      ]
+    ]
+  },
+  "source_covariance_exercise": {
+    "sigma1": 2,
+    "sigma2": 3,
+    "rho": -0.5,
+    "sum_variance": 7,
+    "difference_variance": 19
+  },
+  "shared_floor": {
+    "sigma_theta": 0.1,
+    "sigma_epsilon": 0.2,
+    "N100_correct_sd": 0.10198039027185571,
+    "N100_naive_sd": 0.0223606797749979,
+    "minimum_N_within_10_percent_of_floor": 20,
+    "interpretation": "Predictive ensemble with unconstrained shared offset; not posterior uncertainty after calibration."
+  },
+  "limits": [
+    "Synthetic teaching calculations, not stellar-model validation.",
+    "Gaussian mass approximation has nonphysical negative support 20 standard deviations below its mean.",
+    "Linear covariance propagation is exact only for the displayed linear map; nonlinear use is a local approximation.",
+    "The phase-boundary example is a synthetic discontinuity, not a physical stellar-mass threshold.",
+    "Covariance contours have Mahalanobis radii 1 and 2; no 68 percent claim is made.",
+    "Five-standard-error Monte Carlo checks are engineering diagnostics for this frozen illustrative seed, not scientific qualification."
+  ]
+}

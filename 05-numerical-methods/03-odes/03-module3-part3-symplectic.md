@@ -6,13 +6,9 @@ author: "Anna Rosen"
 
 <!-- prep-banner:start -->
 :::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+This reading is under revision. Use the [ODE lecture overview](../../09-lectures/block-04-odes.md)
+for the current lecture and reading sequence. The syllabus and assignment briefs
+remain authoritative for dates and requirements.
 :::
 <!-- prep-banner:end -->
 
@@ -107,7 +103,12 @@ Phase space structure of Hamiltonian systems. (Left) Harmonic oscillator: closed
 
 $$\frac{d(dV)}{dt} = 0$$
 
-This is equivalent to saying the flow is incompressible. Standard numerical methods violate this theorem! They artificially compress or expand phase space, leading to systematic errors.
+This is equivalent to saying the Hamiltonian flow is incompressible. Forward
+Euler, explicit midpoint RK2, and classical RK4 do not generally preserve that
+volume. For the oscillator, their one-step maps expand or contract area by the
+factors derived in Part 2. Other methods, including implicit midpoint, can
+preserve symplectic structure; numerical integration itself does not require
+volume loss or gain.
 
 (leapfrog-verlet)=
 ## The Leapfrog/Verlet Method

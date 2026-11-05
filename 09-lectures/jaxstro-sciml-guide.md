@@ -10,6 +10,20 @@ statistical inference, experimental design, and automatic differentiation.
 The full draft includes the complete notes, exercises (Appendix A), and worked
 solutions (Appendix B).
 
+Slide decks group two guide lectures into one presentation. The PDF handouts
+below retain their individual lecture numbers.
+
+## Lectures 1–2 · Random variables, propagation, and shared physics
+
+[Open the slides](/reveal/lecture-14-uncertainty.html) ·
+[Read the worked handout](/reveal/lecture-14-uncertainty.handout.html).
+
+The deck follows uncertainty from input distributions through a deterministic
+physical model. It introduces probability density, expectation, covariance,
+Monte Carlo propagation, local derivative approximations, and the effect of
+shared physics on a cohort mean. The examples use labeled teaching models and
+reproducible Python figures.
+
 ## Lecture handouts
 
 Each handout preserves the section, equation, figure, listing, and exercise
@@ -30,5 +44,4 @@ PDF series.
 | 10 | {download}`Automatic differentiation and when it fails <downloads/jaxstro-sciml-guide/L10_autodiff.pdf>` | 5.1–5.4 |
 | 11 | {download}`Gradients of expectations, ML vocabulary, and research workflows <downloads/jaxstro-sciml-guide/L11_expectations_workflows.pdf>` | 5.5–5.6 and 6.1–6.3 |
 
-[Return to Block 5](block-05-data.md) ·
 [Return to the Lecture Library](index.md).

@@ -1,6 +1,6 @@
 ---
-title: "ODE Methods: The Beautiful Failure"
-subtitle: "COMP 521 adaptation · editorial draft"
+title: "ODE Methods: Accuracy, Stability, and Structure"
+subtitle: "COMP 521 · Euler, Runge–Kutta, and verification"
 author: Anna Rosen
 ---
 
@@ -10,7 +10,7 @@ By the end of this lecture, you will be able to:
 
 ::::::::::::::::::::::::{slide-incremental}
 
-- **Derive** Euler's method from a Taylor series and explain why it fails
+- **Derive** Euler's method from a Taylor series and explain its oscillator energy growth
 - **Translate** mathematical formulas into working Python code (RK2)
 - **Explain** why higher-order methods (RK4) and symplectic methods (Leapfrog) exist
 - **Predict** which integrator to choose for a given problem
@@ -22,43 +22,16 @@ By the end of this lecture, you will be able to:
 Time: 0-1 min. Read objectives aloud. Emphasize the equation-to-code skill.
 ::::::::::::::::::::::::
 
-## The Dynamic Universe
+## COMP 521: ODEs for planetary interiors
 
-::::::::::::::::::::::::{speaker-note}
-Time: 1-5 min. Hook: everything in science changes with time.
-::::::::::::::::::::::::
+Project 4 uses the same computational pattern: choose a state, define its derivatives, supply initial or boundary information, and measure error.
 
-## From Stars to Star Clusters
+- Main method sequence: Euler, midpoint RK2 and RK4.
+- Verify observed order with controlled step refinement.
+- Continue to hydrostatic equilibrium, an equation of state, surface finding and shooting.
+- Diagnose order loss when locating a moving surface.
 
-In the COMP 536 case study, COMP 536 Project 1 modeled **stellar populations** — where stars land on the HR diagram:
-
-[Watch the original lecture video](https://www.youtube.com/watch?v=mY2edzGYWyU)
-
-*External video; internet connection required.*
-
-::::::::::::::::::::::::{fragment}
-But real stars **move.** They orbit, interact, and evolve dynamically. That was the COMP 536 Project 2 application.
-::::::::::::::::::::::::
-
-::::::::::::::::::::::::{speaker-note}
-Time: 1-2 min. "This is what COMP 536 Project 1 was about — the static picture. Now we add time."
-::::::::::::::::::::::::
-
-## The N-body Problem in Action
-
-In COMP 536 Project 2, you'll simulate **gravitational dynamics** — stars moving under each other's gravity:
-
-[Watch the original lecture video](https://www.youtube.com/watch?v=QI3FDzn7p3k)
-
-*External video; internet connection required.*
-
-::::::::::::::::::::::::{fragment}
-To make this work, we need to solve **ordinary differential equations** numerically. That's today's lecture.
-::::::::::::::::::::::::
-
-::::::::::::::::::::::::{speaker-note}
-Time: 2-4 min. "This is Omega Centauri — a real globular cluster with millions of stars. Your COMP 536 Project 2 code will simulate the same physics, just with fewer particles. The methods you learn today are how we bridge the gap from Newton's laws to this."
-::::::::::::::::::::::::
+The N-body material remains an optional comparison of long-time dynamics. It is not the planetary-interior model.
 
 ## The Language of Change
 
@@ -80,7 +53,7 @@ Time: 2-4 min. "This is Omega Centauri — a real globular cluster with millions
 
 ### The Common Pattern
 
-Every one of these has the form:
+The first three examples can be written as first-order ODE systems. Heat flow is a **PDE**; after spatial discretization, its grid values form an ODE system:
 
 $$\frac{d\mathbf{y}}{dt} = \mathbf{f}(t, \mathbf{y})$$
 
@@ -92,7 +65,7 @@ $$\frac{d\mathbf{y}}{dt} = \mathbf{f}(t, \mathbf{y})$$
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{speaker-note}
-Time: 1-3 min. "If it changes with time, it is an ODE."
+Explain the distinction between a time-dependent ODE and a PDE with spatial derivatives.
 ::::::::::::::::::::::::
 
 ## The Fundamental Problem
@@ -144,7 +117,7 @@ Time: 5-6 min. "This is the pattern. Position derivative is velocity. Velocity d
 
 Physics gives us a **2nd-order** equation: $\;\ddot{x} = -\omega^2 x$
 
-Computers need **1st-order** systems: $\;\dot{\mathbf{y}} = \mathbf{f}(\mathbf{y})$
+The general solvers used here accept **1st-order** systems: $\;\dot{\mathbf{y}} = \mathbf{f}(\mathbf{y})$
 
 ::::::::::::::::::::::::{fragment}
 **The recipe** (you will use this for every project):
@@ -155,22 +128,6 @@ Computers need **1st-order** systems: $\;\dot{\mathbf{y}} = \mathbf{f}(\mathbf{y
 4. **Combine into a system:** $\dot{\mathbf{y}} = \mathbf{f}(\mathbf{y})$ where $\mathbf{y} = [x, v]^T$
 ::::::::::::::::::::::::
 
-
-## First-order systems: the N-body case study
-
-```{slide-options}
-{"vertical":true}
-```
-
-::::::::::::::::::::::::{fragment}
-:::::::::::::::::::::::{note}
-**For COMP 536 Project 2:** Newton's law $m\ddot{\vec{r}} = \vec{F}$ converts the same way. Your state vector will be $[\vec{r}_1, \vec{r}_2, \ldots, \vec{v}_1, \vec{v}_2, \ldots]$ with $6N$ components for $N$ particles.
-:::::::::::::::::::::::
-::::::::::::::::::::::::
-
-::::::::::::::::::::::::{speaker-note}
-Time: 6-8 min. "This conversion is a core skill. Every 2nd-order physics equation becomes a 1st-order system by introducing velocity as a new variable. You'll do this for gravity in COMP 536 Project 2."
-::::::::::::::::::::::::
 
 ## The Discretization Idea
 
@@ -222,24 +179,6 @@ How large should $h$ be? Dimensional analysis gives us a rule of thumb:
 ::::::::::::::::::::::::
 
 
-## Timestep examples
-
-```{slide-options}
-{"vertical":true}
-```
-
-::::::::::::::::::::::::{fragment}
-:::::::::::::::::::::::{note}
-**For today's SHO** ($\omega = 1$, period $T = 2\pi$): $h = 0.1$ gives about 63 points per period. Good enough to see the methods' behavior clearly.
-
-**For COMP 536 Project 2** (Earth orbit, period $T = 1$ yr): start with $h = 0.01$ yr.
-:::::::::::::::::::::::
-::::::::::::::::::::::::
-
-::::::::::::::::::::::::{speaker-note}
-Time: 10-11 min. "This is a practical skill. You'll calibrate timesteps for every simulation."
-::::::::::::::::::::::::
-
 ## Our Two Test Problems
 
 ::::::::::::::::::::::::{slide-columns}
@@ -271,7 +210,7 @@ Oscillatory, energy-conserving, **punishing**.
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{note}
-We choose these because they have **exact analytical solutions**. If the method fails here, it will fail on harder problems.
+We choose these because they have **exact analytical solutions**. Compare state accuracy and the model-appropriate diagnostics here before transferring a solver. A pass on one example does not establish correctness on every ODE.
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{speaker-note}
@@ -308,7 +247,9 @@ $$\boxed{y_{n+1} = y_n + h \cdot f(t_n, y_n)}$$
 
 - **Local** truncation error: $O(h^2)$ — the piece we dropped from Taylor
 - We take $N = T/h$ steps, each contributing $O(h^2)$ error
-- **Global** error: $N\,O(h^2)=O(h)$ for fixed $T$, since $N=T/h$ — this is a **first-order method**
+- Errors propagate because an incorrect state changes the next derivative.
+- Under smoothness and Lipschitz assumptions, this propagation gives **global** error $O(h)$ at fixed $T$.
+- $N=T/h$ motivates the scaling, but global error is not generally an unweighted sum of local defects.
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{speaker-note}
@@ -341,7 +282,7 @@ In the asymptotic convergence regime, at the **same final time**, halving $h$ re
 
 To get $10\times$ more accuracy:
 
-- **Euler:** need $10\times$ more steps ($10\times$ slower)
+- **Euler:** need $10\times$ more steps ($10\times$ as many steps; this is a work estimate, not a timing)
 - **RK2:** need $\sim 3\times$ more steps
 - **RK4:** need $\sim 1.8\times$ more steps
 
@@ -397,7 +338,7 @@ Time: 15-16 min. "Simple ODE, exact solution known. Let's see how Euler does."
 
 ```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-3
 :view: output
-:alt: Executed output for Warmup Result: Euler Works... Okay.
+:alt: Euler values at h equals 0.5 lie below the exact exponential decay on zero to five.
 ```
 
 
@@ -483,7 +424,7 @@ If $E$ changes → the method is injecting or removing energy.
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{speaker-note}
-Time: 20-21 min. "Energy is the diagnostic. If it changes, the method is lying. This is the same diagnostic you'll use in COMP 536 Project 2 with gravitational energy."
+Energy is one diagnostic for this conservative oscillator. It does not replace phase or state error, and energy conservation is not the target for a dissipative model.
 ::::::::::::::::::::::::
 
 ## The Beautiful Failure: Trajectory
@@ -493,7 +434,7 @@ Time: 20-21 min. "Energy is the diagnostic. If it changes, the method is lying. 
 
 ```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-6
 :view: output
-:alt: Executed output for The Beautiful Failure: Trajectory.
+:alt: Euler oscillator position develops growing amplitude over approximately ten periods at h equals 0.1.
 ```
 
 
@@ -530,7 +471,7 @@ plt.show()
 
 ```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-7
 :view: output
-:alt: Executed output for Phase Space Reveals the Crime.
+:alt: Forward Euler expands the oscillator phase-plane trajectory outward from the exact unit circle.
 ```
 
 
@@ -567,7 +508,7 @@ plt.show()
 
 ```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-8
 :view: output
-:alt: Executed output for Energy Tells the Story.
+:alt: Euler oscillator energy grows from 0.5 to approximately 261.3 over the returned interval at h equals 0.1.
 ```
 
 
@@ -684,87 +625,57 @@ Local error: $O(h^3)$. Global error: $O(h^2)$. **Second-order method.** Cost: 2 
 Time: 29-32 min. "Three formulas. Each one becomes one line of code. Let's do it."
 ::::::::::::::::::::::::
 
-## Equation to Code: Step by Step
+## Trace the midpoint stages
 
-The equations:
+For $y'=y$, start at $y=1$, $t=0$, with $h=0.1$.
 
-| Math | Code |
-|------|------|
-| $k_1 = f(t_n, y_n)$ | `k1 = f(t, y)` |
-| $k_2 = f(t_n + h/2,\; y_n + (h/2)\,k_1)$ | `k2 = f(t + h/2, y + h/2 * k1)` |
-| $y_{n+1} = y_n + h\,k_2$ | `return y + h * k2` |
+- $k_1=1$.
+- Predicted midpoint state: $1+(0.1/2)(1)=1.05$.
+- $k_2=1.05$.
+- Updated state: $1+0.1(1.05)=1.105$.
 
-::::::::::::::::::::::::{fragment}
+The exact endpoint is $e^{0.1}$. The midpoint state is a temporary prediction,
+not a replacement for the starting state.
 
+## Your task: implement midpoint RK2
 
-```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-9
-:view: code
-:alt: Executed output for Equation to Code: Step by Step.
-```
+Use the stage equations to write your own step routine.
 
+- `f(t, state)` returns a slope with the same shape as the NumPy-array state.
+- Keep the original state unchanged while constructing a stage.
+- Separate the one-step update from the loop over the interval.
+- Check a constant derivative, a time-dependent derivative, and a nonlinear derivative.
 
-::::::::::::::::::::::::
-
-::::::::::::::::::::::::{fragment}
-Every symbol in the math has a **one-to-one** correspondence in the code.
-
-**This is the skill.** RK4 and Leapfrog follow the exact same translation process.
-::::::::::::::::::::::::
-
-::::::::::::::::::::::::{speaker-note}
-Time: 32-35 min. "Walk through each line. Math left, code right. This is the core skill for COMP 536 Project 2."
-::::::::::::::::::::::::
-
-## Full RK2 Integrator
-
-
-```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-10
-:view: code
-:alt: Executed output for Full RK2 Integrator.
-```
-
-
-::::::::::::::::::::::::{fragment}
-Compare with `euler_integrate` — the **only difference** is calling `rk2_step` instead of computing `y + h * f(t, y)` directly.
-
-The integration loop is **method-agnostic.** Swap the step function, get a different method.
-::::::::::::::::::::::::
-
-::::::::::::::::::::::::{speaker-note}
-Time: 35-36 min. "This design pattern is powerful. You'll use the same loop structure for RK4 and Leapfrog."
-::::::::::::::::::::::::
+Complete Euler examples are supplied. General RK2/RK4 implementations remain student work.
 
 ## Why Should RK2 Be Better?
 
-Recall the Taylor series: $\;y(t+h) = y + hy' + \frac{h^2}{2}y'' + \frac{h^3}{6}y''' + \cdots$
+$$y(t+h)=y+hy'+\frac{h^2}{2}y''+O(h^3).$$
 
-::::::::::::::::::::::::{slide-incremental}
-- **Euler** matches the first **1 term** ($h$). Everything from $h^2$ onward is error.
-- **RK2** matches the first **2 terms** ($h$ and $h^2$). Error starts at $h^3$.
-- Each additional matched term pushes the leading error to a **higher power of $h$**.
-- Since $h < 1$ (typically $h \approx 0.01$), higher powers shrink *fast*: $0.01^2 = 10^{-4}$, $0.01^4 = 10^{-8}$.
-::::::::::::::::::::::::
+- Euler matches the $h$ term; its one-step defect starts at $h^2$.
+- Explicit midpoint RK2 also matches $h^2$; its defect starts at $h^3$.
+- The midpoint prediction must account for both time and state dependence.
 
-::::::::::::::::::::::::{fragment}
-:::::::::::::::::::::::{note}
-**The recipe for accuracy:** Sample the slope at more points → match more Taylor terms → push the error to a higher power of $h$. That's the entire Runge-Kutta idea.
-:::::::::::::::::::::::
-::::::::::::::::::::::::
+## Interpreting observed order
 
-::::::::::::::::::::::::{fragment}
-Let's verify this prediction...
-::::::::::::::::::::::::
+```{slide-options}
+{"vertical":true}
+```
 
-::::::::::::::::::::::::{speaker-note}
-Time: 36-37 min. "This is the deep reason. Now let's see if the prediction holds."
-::::::::::::::::::::::::
+At fixed duration in the smooth asymptotic regime, $e(h)\approx Ch^p$.
+Halving the step gives an error ratio near $2^p$.
+
+Compare the dimensionless step $h/\tau$ with the problem timescale $\tau$.
+Error constants, smoothness, rounding, and stability also matter.
+
+More slope evaluations do not by themselves guarantee higher order.
 
 ## RK2 vs Euler: Trajectory
 
 
 ```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-11
 :view: output
-:alt: Executed output for RK2 vs Euler: Trajectory.
+:alt: Midpoint RK2 tracks oscillator position more closely than Euler at the stated step and duration.
 ```
 
 
@@ -782,14 +693,15 @@ Time: 36-38 min. "RK2 tracks the solution far better. Two evaluations per step i
 ```{slide-code} python
 :title: ode-methods-cell-11
 :start: 1
-t_rk2, y_rk2 = rk2_integrate(f_sho, y0_sho, [0, t_end], h)
+# Midpoint SHO reference data use its analytically derived linear map.
+# See the benchmark cell; no general RK routine is supplied.
 
 fig, ax = plt.subplots(figsize=(10, 3))
 ax.plot(t_exact, np.cos(t_exact), 'k-', alpha=0.4, lw=1.5, label='Exact')
 ax.plot(t_euler, y_euler[:, 0], 'r-', lw=0.8, alpha=0.5, label='Euler')
 ax.plot(t_rk2, y_rk2[:, 0], 'b-', lw=1.5, label='RK2')
 ax.set(xlabel='Time', ylabel='$x(t)$',
-       title='RK2 vs Euler: Night and Day')
+       title='Euler and midpoint RK2: oscillator position')
 ax.legend()
 plt.tight_layout()
 plt.show()
@@ -801,7 +713,7 @@ plt.show()
 
 ```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-12
 :view: output
-:alt: Executed output for RK2 vs Euler: Phase Space.
+:alt: Side-by-side oscillator trajectories show strong Euler area expansion and much smaller midpoint RK2 expansion.
 ```
 
 
@@ -842,12 +754,12 @@ plt.show()
 
 ```{slide-code-example} ode-methods-computations.ipynb#ode-methods-cell-13
 :view: output
-:alt: Executed output for RK2 vs Euler: Energy.
+:alt: At h equals 0.1, midpoint RK2 has much smaller final oscillator energy error than Euler; the right panel resolves the midpoint energy growth.
 ```
 
 
 ::::::::::::::::::::::::{fragment}
-RK2 is **vastly** better. But it still drifts. Over millions of timesteps — the kind you'll run for COMP 536 Project 2 — that drift adds up. Is there something better?
+At the stated step and duration, midpoint RK2 has much smaller final oscillator energy error than Euler. This comparison does not establish phase accuracy, general efficiency, or behavior over a different duration.
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{speaker-note}
@@ -899,7 +811,9 @@ plt.show()
 
 print(f"Euler final energy error: {abs(E_euler[-1] - 0.5):.1f}")
 print(f"RK2 final energy error:   {abs(E_rk2[-1] - 0.5):.2e}")
-print(f"RK2 is {abs(E_euler[-1] - 0.5) / abs(E_rk2[-1] - 0.5):.0f}x better")
+print(f"At h={h}, t={t_rk2[-1]:.3f}: midpoint final energy error is "
+      f"{abs(E_euler[-1] - 0.5) / abs(E_rk2[-1] - 0.5):.0f} "
+      "times smaller than Euler\'s")
 ```
 
 [Complete executed source](ode-methods-computations.ipynb#ode-methods-cell-13)
@@ -908,7 +822,7 @@ print(f"RK2 is {abs(E_euler[-1] - 0.5) / abs(E_rk2[-1] - 0.5):.0f}x better")
 *Now you have the skill. Apply it.*
 
 ::::::::::::::::::::::::{speaker-note}
-Time: 42-52 min. Show formulas, don't code — students implement for COMP 536 Project 2.
+Show formulas and stage dependencies. Students implement RK methods for COMP 521 Project 4.
 ::::::::::::::::::::::::
 
 ## RK4: Four Slopes, Fourth-Order
@@ -1117,10 +1031,150 @@ In the original COMP 536 Project 2, students implemented **three** of these (Eul
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{speaker-note}
-Time: 50-52 min. "This table summarizes the whole lecture. You should be able to explain every entry by the time you finish COMP 536 Project 2."
+Use the table to distinguish the properties tested. Current COMP 521 assignment briefs set required methods.
+::::::::::::::::::::::::
+
+## Richardson: estimate or correct
+
+At the same endpoint, assume $Y_h=y+Ch^p+O(h^{p+1})$.
+
+$$Y_{\rm ext}=Y_{h/2}+\frac{Y_{h/2}-Y_h}{2^p-1}.$$
+
+The difference estimates a leading error; applying the correction cancels it.
+For decay from $u=1$ at $h=0.2$, one Euler step gives 0.8, two half-steps give
+0.81, and the extrapolated value is 0.82, versus $e^{-0.2}\approx0.818731$.
+
+The reading's adaptive Euler controller accepts the uncorrected fine state and
+remains first order. Extrapolation does not generally preserve symplecticity.
+
+## Compare energy and phase on one oscillator
+
+Use the same dimensionless oscillator, 100 steps per period, and 20 periods.
+Midpoint RK2 adds energy; RK4 slightly damps it; leapfrog's physical energy
+oscillates at this stable fixed step while phase error accumulates.
+
+See the current MyST Lecture 11, with source in
+`09-lectures/myst-source/lecture-11-odes/` and the stable student page
+`09-lectures/lecture-11-odes.md`, for the executed two-diagnostic comparison.
+This is a same-resolution comparison, not a claim about equal work or every ODE.
+
+## COMP 521: two teaching sessions
+
+**Main lecture:** initial-value problems, state vectors, Euler/RK2/RK4, fixed-time refinement, Richardson cancellation, and a brief leapfrog diagnostic comparison.
+
+**Later application:** the planetary-interior boundary-value problem, surface location, and shooting. Detailed geometric proofs and N-body history remain optional reference material; the current course schedule sets the sequence.
+
+Use the current COMP 521 Project 4 specification for deliverables and dates. Original COMP 536 milestones remain labelled case-study material.
+## Check observed order at a fixed endpoint
+
+Use $(q',p')=(p,-q)$, $(q(0),p(0))=(1,0)$, and the same final time $t=2$.
+
+$$e(h)=\max\bigl(|q_h-\cos 2|,|p_h+\sin 2|\bigr).$$
+
+Use $h=0.1,0.05,0.025,0.0125,0.00625$. Predict the error ratios before plotting.
+Reference linear maps give fitted orders about 1.02, 2.01, and 4.01 for Euler,
+explicit midpoint RK2, and classical RK4 on this specified experiment.
+
+## Compare different checks
+
+A constant right-hand side checks increments. A time-dependent right-hand side
+checks stage times. A nonlinear state-dependent right-hand side checks stage
+states. Fixed-time refinement checks observed global order.
+
+Energy, phase, state accuracy, and computational work answer different questions.
+A smooth trajectory or a successful energy check does not certify all of them.
+
+## The Dynamic Universe
+
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
+
+::::::::::::::::::::::::{speaker-note}
+Time: 1-5 min. Hook: everything in science changes with time.
+::::::::::::::::::::::::
+
+## From Stars to Star Clusters
+
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
+
+In the COMP 536 case study, COMP 536 Project 1 modeled **stellar populations** — where stars land on the HR diagram:
+
+[Watch the original lecture video](https://www.youtube.com/watch?v=mY2edzGYWyU)
+
+*External video; internet connection required.*
+
+::::::::::::::::::::::::{fragment}
+But real stars **move.** They orbit, interact, and evolve dynamically. That was the COMP 536 Project 2 application.
+::::::::::::::::::::::::
+
+::::::::::::::::::::::::{speaker-note}
+Time: 1-2 min. "This is what COMP 536 Project 1 was about — the static picture. Now we add time."
+::::::::::::::::::::::::
+
+## The N-body Problem in Action
+
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
+
+In the historical COMP 536 Project 2, students simulated **gravitational dynamics** — stars moving under each other's gravity:
+
+[Watch the original lecture video](https://www.youtube.com/watch?v=QI3FDzn7p3k)
+
+*External video; internet connection required.*
+
+::::::::::::::::::::::::{fragment}
+To make this work, we need to solve **ordinary differential equations** numerically. That's today's lecture.
+::::::::::::::::::::::::
+
+::::::::::::::::::::::::{speaker-note}
+Time: 2-4 min. "This is Omega Centauri — a real globular cluster with millions of stars. Your COMP 536 Project 2 code will simulate the same physics, just with fewer particles. The methods you learn today are how we bridge the gap from Newton's laws to this."
+::::::::::::::::::::::::
+
+## First-order systems: the N-body case study
+
+```{slide-options}
+{"backup":true,"tags":["historical"],"vertical":true}
+```
+
+
+::::::::::::::::::::::::{fragment}
+:::::::::::::::::::::::{note}
+**For COMP 536 Project 2:** Newton's law $m\ddot{\vec{r}} = \vec{F}$ converts the same way. Your state vector will be $[\vec{r}_1, \vec{r}_2, \ldots, \vec{v}_1, \vec{v}_2, \ldots]$ with $6N$ components for $N$ particles.
+:::::::::::::::::::::::
+::::::::::::::::::::::::
+
+::::::::::::::::::::::::{speaker-note}
+Time: 6-8 min. "This conversion is a core skill. Every 2nd-order physics equation becomes a 1st-order system by introducing velocity as a new variable. You'll do this for gravity in COMP 536 Project 2."
+::::::::::::::::::::::::
+
+## Timestep examples
+
+```{slide-options}
+{"backup":true,"tags":["historical"],"vertical":true}
+```
+
+
+::::::::::::::::::::::::{fragment}
+:::::::::::::::::::::::{note}
+**For today's SHO** ($\omega = 1$, period $T = 2\pi$): $h = 0.1$ gives about 63 points per period. Good enough to see the methods' behavior clearly.
+
+**For COMP 536 Project 2** (Earth orbit, period $T = 1$ yr): start with $h = 0.01$ yr.
+:::::::::::::::::::::::
+::::::::::::::::::::::::
+
+::::::::::::::::::::::::{speaker-note}
+Time: 10-11 min. "This is a practical skill. You'll calibrate timesteps for every simulation."
 ::::::::::::::::::::::::
 
 ## COMP 536 case study: N-body Dynamics
+
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
 
 > **Case-study context:** the following N-body tasks and timeline are retained from COMP 536. They are not new COMP 521 assignments or deadlines.
 
@@ -1130,13 +1184,17 @@ Time: 52-60 min. Project launch.
 
 ## The Challenge
 
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
+
 Build a **gravitational N-body simulator** from scratch.
 
 ::::::::::::::::::::::::{slide-incremental}
 - Build the **complete pipeline** with Euler first (force calc → integration → diagnostics → plots)
 - Add **RK4 and Leapfrog** as drop-in replacements — compare energy behavior
 - Generate **Plummer sphere** initial conditions for realistic star clusters
-- Compare **loops vs. vectorized NumPy** ($10$–$100\times$ speedup)
+- Compare **loops vs. vectorized NumPy** (measure work and timing for the same problem)
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{speaker-note}
@@ -1144,6 +1202,10 @@ Time: 52-54 min. "The key idea: build one working pipeline first, then upgrade p
 ::::::::::::::::::::::::
 
 ## COMP 536 case study: the pipeline-first approach
+
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
 
 | Phase | What You Build | What You Validate |
 |-------|---------------|-------------------|
@@ -1161,6 +1223,10 @@ Original COMP 536 delivery note (not a COMP 521 deadline). Time: 54-56 min. "Pha
 ::::::::::::::::::::::::
 
 ## What You Should Observe
+
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
 
 Use the harmonic oscillator to motivate diagnostics for the gravitational case study:
 
@@ -1182,6 +1248,10 @@ Time: 56-57 min. "This connection is the whole point. The same methods and diagn
 
 ## Original COMP 536 timeline and milestones
 
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
+
 ::::::::::::::::::::::::{slide-incremental}
 - **Check-in 1 (Wed Feb 18):** Phase 1 complete — Euler pipeline working end-to-end, $N=2$ orbit plot, energy diagnostics. *At least 3 meaningful commits.*
 - **Check-in 2 (Wed Feb 25):** Phase 2 complete — all three integrators compared on $N=2$, energy error plot. Phase 3 started (Plummer ICs).
@@ -1192,14 +1262,18 @@ Time: 56-57 min. "This connection is the whole point. The same methods and diagn
 Original COMP 536 delivery note (not a COMP 521 deadline). Time: 57-58 min. "Check-in 1 is the critical one. If you can't get Euler working on a Kepler orbit by next Wednesday, come to office hours immediately."
 ::::::::::::::::::::::::
 
-## Background reading from COMP 536
+## Current COMP 521 readings
 
-These original readings support the retained examples; they are not new COMP 521 assignments:
+```{slide-options}
+{"backup":true,"tags":["historical"]}
+```
+
+Use the current course readings for the methods. Historical COMP 536 milestones do not set COMP 521 requirements:
 
 ::::::::::::::::::::::::{slide-incremental}
-- **Module 3, Part 1:** [Failure of Naive Integration](https://astrobytes-edu.github.io/comp536-sp26/07-numerical-methods/module-3-ODE-methods-and-conservation/01-module3-part1-euler.html) — full Euler derivation, error analysis
-- **Module 3, Part 2:** [Runge-Kutta Methods](https://astrobytes-edu.github.io/comp536-sp26/07-numerical-methods/module-3-ODE-methods-and-conservation/02-module3-part2-runge-kutta.html) — complete RK4 derivation, adaptive stepping
-- **Module 3, Part 3:** [Symplectic Integration](https://astrobytes-edu.github.io/comp536-sp26/07-numerical-methods/module-3-ODE-methods-and-conservation/03-module3-part3-symplectic.html) — Hamiltonian mechanics, Leapfrog, phase space
+- **Module 3, Part 1:** [Failure of Naive Integration](https://astrobytes-edu.github.io/comp521/module3-part1-euler/) — full Euler derivation, error analysis
+- **Module 3, Part 2:** [Runge-Kutta Methods](https://astrobytes-edu.github.io/comp521/module3-part2-runge-kutta/) — complete RK4 derivation, adaptive stepping
+- **Module 3, Part 3:** [Symplectic Integration](https://astrobytes-edu.github.io/comp521/module3-part3-symplectic/) — Hamiltonian mechanics, Leapfrog, phase space
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::{fragment}
@@ -1207,7 +1281,7 @@ These original readings support the retained examples; they are not new COMP 521
 ### The Takeaway
 
 :::::::::::::::::::::::{div}
-**Structure > Accuracy**
+**Choose and verify the method for the equations, observable, and duration.**
 :::::::::::::::::::::::
 
 ::::::::::::::::::::::::
@@ -1215,23 +1289,3 @@ These original readings support the retained examples; they are not new COMP 521
 ::::::::::::::::::::::::{speaker-note}
 Time: 58-60 min. "Today you saw the failure. The readings explain WHY it fails mathematically. By next class, you should be coding Phase 1 — get Euler running on a Sun-Earth orbit."
 ::::::::::::::::::::::::
-
-
-## COMP 521: ODEs for planetary interiors
-
-Project 4 uses the same computational pattern: choose a state, define its derivatives, supply initial or boundary information, and measure error.
-
-- Main method sequence: Euler, midpoint RK2 and RK4.
-- Verify observed order with controlled step refinement.
-- Continue to hydrostatic equilibrium, an equation of state, surface finding and shooting.
-- Diagnose order loss when locating a moving surface.
-
-The N-body material remains an optional comparison of long-time dynamics. It is not the planetary-interior model.
-
-## COMP 521: two teaching sessions
-
-**Session 1:** initial-value problems, state vectors, Euler/RK2/RK4 and independent error checks.
-
-**Session 2:** stability and conservation diagnostics, then the planetary-interior boundary-value problem and surface location.
-
-Use the current COMP 521 Project 4 specification for deliverables and dates. Original COMP 536 milestones remain labelled case-study material.

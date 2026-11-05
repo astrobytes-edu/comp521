@@ -106,6 +106,8 @@ create their own notebook, and explore the saved NASA exoplanet CSV.
 connects noisy scientific measurements to probability, data matrices, and
 projection. The lecture page links the slides, worked handout, and primer.
 
+## Block 6 · Probability, Optimization, and Scientific Discovery
+
 [Probability, Optimization, and Scientific Discovery](jaxstro-sciml-guide.md)
 provides the Jaxstro SciML guide's 11 lecture handouts and full draft PDF,
 including exercises and worked solutions.
@@ -119,7 +121,7 @@ yet a second set of required materials. The course schedule and published
 lecture pages determine what is currently assigned.
 :::
 
-- **Block 6 · ML & Scientific Classification** — evaluation, generalization,
+- **Block 7 · ML & Scientific Classification** — evaluation, generalization,
   and scientific limits.
-- **Block 7 · Final Project Studio** — question framing, evidence design, and
+- **Block 8 · Final Project Studio** — question framing, evidence design, and
   reproducible communication.

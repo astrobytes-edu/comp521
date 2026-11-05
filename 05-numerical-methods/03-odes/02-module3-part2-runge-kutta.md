@@ -9,13 +9,9 @@ kernelspec:
 
 <!-- prep-banner:start -->
 :::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+This reading is under revision. Use the [ODE lecture overview](../../09-lectures/block-04-odes.md)
+for the current lecture and reading sequence. The syllabus and assignment briefs
+remain authoritative for dates and requirements.
 :::
 <!-- prep-banner:end -->
 
@@ -552,6 +548,72 @@ remains your work. A request for evenly spaced output is also different from a
 request for evenly spaced internal steps: established libraries can interpolate
 between accepted steps. [SciPy's solver documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html)
 distinguishes these roles and describes component-dependent absolute tolerances.
+
+(ode-richardson)=
+### Richardson extrapolation: estimate an error or cancel it
+
+Module 2 used [Richardson extrapolation](../02-roots-quadrature/02-mod2-part2-quadrature.md#richardson-extrapolation)
+for quadrature. The same cancellation idea applies to an ODE result when both
+resolutions reach the **same endpoint** and share a smooth asymptotic error
+expansion. Suppose a global endpoint approximation satisfies
+
+$$Y_h(T)=y(T)+Ch^p+O(h^{p+1}).$$
+
+Then the finer result has leading error $Ch^p/2^p$, and
+
+$$\boxed{Y_{\rm ext}=Y_{h/2}+\frac{Y_{h/2}-Y_h}{2^p-1}}$$
+
+cancels that leading term. The signed correction
+$(Y_{h/2}-Y_h)/(2^p-1)$ estimates $y(T)-Y_{h/2}$ in the asymptotic regime.
+It is not a guaranteed error bound. The expansion above supports an improvement
+to $O(h^{p+1})$; extra orders need extra structure, as in symmetric quadrature.
+
+**Worked decay example.** For one Euler step of length $h=0.2$ from $u=1$,
+the coarse value is $0.8$. Two half-steps give $0.9^2=0.81$. With $p=1$,
+extrapolation gives $2(0.81)-0.8=0.82$, compared with
+$e^{-0.2}\approx0.818731$. The errors are approximately $0.018731$, $0.008731$,
+and $0.001269$. Improving this one result is different from certifying a whole
+trajectory or enforcing positivity for every problem.
+
+For a smooth Euler trial starting from the same state, two half-steps halve
+its leading $O(h^2)$ one-step defect. The same factor $2^1-1$ consequently
+appears in the local correction. Expanding the stage equations gives
+
+$$2u_{\rm fine}-u_{\rm coarse}
+=u+h f\left(t+h/2,u+(h/2)f(t,u)\right).$$
+
+This is the explicit midpoint update derived earlier. Repeating this corrected
+update constructs a second-order method; accepting the uncorrected fine value,
+as our adaptive controller does, remains first order. This identity is a
+mathematical explanation, not a supplied general RK implementation.
+
+**Predict before running:** at fixed $T=1$, should the Euler error ratio
+approach 2 or 4? What about the extrapolated endpoint?
+
+```{code-cell} python
+# Analytic Euler decay factors at a fixed endpoint; no generic RK solver.
+for n in (20, 40, 80, 160):
+    coarse = (1-1/n)**n
+    fine = (1-1/(2*n))**(2*n)
+    extrapolated = 2*fine-coarse
+    print(f"n={n}: Euler error={abs(coarse-np.exp(-1)):.6e}, "
+          f"extrapolated error={abs(extrapolated-np.exp(-1)):.6e}")
+```
+
+:::{tip} Explain the distinction
+:class: dropdown
+The leading global error ratios approach 2 for Euler and 4 for the
+extrapolated endpoint. The endpoint combination is not the same operation as
+repeating a corrected macrostep: explain which result is being combined.
+Refinement, smoothness, and a common endpoint are essential in both arguments.
+An unresolved feature, singularity, unstable coarse solution, or cancellation
+near rounding can invalidate the leading-error estimate.
+
+Extrapolating two symplectic trajectories by a linear combination does not
+generally create a symplectic map. Improving one error term does not impose a
+conservation or geometric identity. Compare the correction with the measured
+observable, not just the formal order.
+:::
 
 ### When to Use Adaptive Methods
 

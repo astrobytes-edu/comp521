@@ -1,0 +1,12 @@
+version: 1
+project:
+  title: Random Variables, Propagation, and Shared Physics
+  plugins:
+    - ../../../tools/myst-reveal/plugin.mjs
+  toc:
+    - file: slides.md
+  numbering:
+    heading_2: false
+    math: false
+site:
+  template: book-theme

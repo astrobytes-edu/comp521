@@ -20,13 +20,6 @@ covariance, correlation, the central limit theorem, vectors, and matrices.
 
 The slide deck includes worked details that you can open with the down arrow.
 
-## Probability, optimization, and scientific discovery
-
-[Open the Jaxstro SciML guide](jaxstro-sciml-guide.md) for all 11 lecture
-handouts and the full draft PDF. The notes cover uncertainty propagation,
-optimization, Bayesian inference, experimental design, and automatic
-differentiation. The full draft includes exercises and worked solutions.
-
 ## Reference
 
 [Review Pandas and exploratory data analysis](lecture-12-pandas.md) for table

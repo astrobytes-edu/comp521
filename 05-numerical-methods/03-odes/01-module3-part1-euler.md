@@ -9,13 +9,9 @@ kernelspec:
 
 <!-- prep-banner:start -->
 :::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+This reading is under revision. Use the [ODE lecture overview](../../09-lectures/block-04-odes.md)
+for the current lecture and reading sequence. The syllabus and assignment briefs
+remain authoritative for dates and requirements.
 :::
 <!-- prep-banner:end -->
 
@@ -36,18 +32,18 @@ By the end of this section, you will be able to:
 
 The fundamental ODE initial value problem asks us to find a function $x(t)$ given its rate of change:
 
-$$\frac{dx}{dt} = f(x, t), \quad x(t_0) = x_0$$
+$$\frac{dx}{dt} = f(t, x), \quad x(t_0) = x_0$$
 
 This has the formal integral solution:
 
-$$x(t) = x_0 + \int_{t_0}^t f(x(s), s) ds$$
+$$x(t) = x_0 + \int_{t_0}^t f(s, x(s)) ds$$
 
 :::{div}
 :class: reading-definition
 **Initial Value Problem (IVP)**: Finding a function given its derivative and starting value — the fundamental problem of dynamics.
 :::
 
-But this **Initial Value Problem** contains a circular dependency: to find $x(t)$, we need to integrate $f(x(s), s)$, but $f$ depends on the unknown solution $x(s)$ itself!
+But this **Initial Value Problem** contains a circular dependency: to find $x(t)$, we need to integrate $f(s, x(s))$, but $f$ depends on the unknown solution $x(s)$ itself!
 
 Numerical methods break this circular dependency by making assumptions about how $f$ behaves over small time intervals:
 
@@ -94,9 +90,9 @@ and phase errors under refinement over the actual duration you need.
 
 **Euler's method** is the most straightforward discretization possible. Given the ODE
 
-$$\frac{dx}{dt} = f(x,t),$$ at time $t_n$ with solution $x_n$, and a timestep $h$, we approximate:
+$$\frac{dx}{dt} = f(t,x),$$ at time $t_n$ with solution $x_n$, and a timestep $h$, we approximate:
 
-$$\boxed{x_{n+1} = x_n + h f(x_n, t_n)}$$
+$$\boxed{x_{n+1} = x_n + h f(t_n, x_n)}$$
 
 This assumes the derivative $f$ remains constant over the entire interval $[t_n, t_{n+1}]$ — essentially extending the tangent line at $t_n$ forward by distance $h$.
 
@@ -121,9 +117,9 @@ Euler's method extends the tangent line at each point. This dimensionless exampl
 
 To understand Euler's error precisely, we need the Taylor series. The true solution at $t_{n+1} = t_n + h$ is:
 $$x(t_n + h) = x(t_n) + h x'(t_n) + \frac{h^2}{2}x''(t_n) + \frac{h^3}{6}x'''(t_n) + O(h^4)$$
-Since $x'(t_n) = f(x(t_n), t_n)$ by definition of our ODE, Euler's method gives:
+Since $x'(t_n) = f(t_n, x(t_n))$ by definition of our ODE, Euler's method gives:
 
-$$\boxed{x_{n+1} = x_n + h f(x_n, t_n)}$$
+$$\boxed{x_{n+1} = x_n + h f(t_n, x_n)}$$
 
 The **local truncation error** — the error in one step — is:
 

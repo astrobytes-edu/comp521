@@ -1,7 +1,7 @@
 # COMP 521 — status
 
-next: Complete the separate Project 1 fresh-account release gate.
-blocker: Project 1 fresh-account verification remains open. SWE title slide and lecture Blocks 3–4 are publicly verified as of 2026-09-30.
+next: Complete the separate Project 1 fresh-account release gate and the ODE reading textbook comparison.
+blocker: ODE reading textbook comparison remains pending. Project 1 fresh-account verification remains open.
 due: Not scheduled
 
 ## Current focus
@@ -11,6 +11,21 @@ owns student-facing materials; `_instructor/` remains a separate private
 workspace. The Brain reads this status file for portfolio planning, but course
 sessions report discrete outcomes through `brain "comp521: ..."` rather than
 editing Brain pages directly.
+
+## Block 6 release preparation: 2026-11-05
+
+The guide now has its own Block 6, with separate PDF handouts and a full draft.
+The guide page links a 30-slide MyST Reveal deck and worked handout covering
+guide Lectures 1–2. Future guide decks will group two lectures per presentation.
+The reference PDF and detailed presenter notes remain in the private instructor
+repository.
+
+Local review covered 82 projector states and three native speaker-note cases.
+The focused visible-layout checks passed; the shared checker retains five
+reports caused by clipped, nonvisual KaTeX MathML. The numerical figures and
+executed notebook were checked against the stated analytic teaching examples.
+The ODE reading verifier passed all 48 executable cells. Publication and live
+verification of this release remain pending.
 
 ## Verified Project 3 publication — 2026-10-01
 
@@ -35,6 +50,41 @@ Evidence Check or its link; the assessment was not restored.
 Do not mark the course or Project 1 release-ready until the real invitation,
 acceptance, clone, local README edit, commit, push, and visible remote commit have
 been observed with a fresh student account.
+
+
+## Verified ODE lecture publication: 2026-10-08
+
+Release `b4c64a4` publishes the independently reviewed MyST ODE slides and
+worked handout: 40 main slides and four optional references. The rejected
+Quarto draft was removed from the course workspace. Spring illustrations and
+first-use parameter definitions are included; instructor notes are excluded.
+Pages [run 37831821024](https://github.com/astrobytes-edu/comp521/actions/runs/37831821024)
+succeeded. The live slides and handout returned HTTP 200 and matched the
+reviewed release hashes; the lecture page links both. This release does not
+include the separate locally edited readings or claim a textbook comparison.
+
+Slide 27 phase-diagram and conserved-energy clarification published as
+`6578132`; Pages run `37833234986` passed and live exports match release hashes.
+
+Euler/RK2/RK4 phase comparisons and the symplectic leapfrog introduction
+published as `868ecea`; Pages run `37842712196` passed and live exports
+match the checked release. The deck remains 40 main plus four optional slides.
+
+## ODE comparison figure visibility — 2026-10-08
+
+Release `c104593` publishes logarithmic energy and phase error magnitudes, retains the signed RK4 energy detail, and adds an equally scaled RK4 phase-plane endpoint zoom. The original numerical experiments and frozen reference checks are unchanged. Pages run `37845381426` succeeded; public slides and handout returned HTTP 200 and exactly matched local exports. Eighteen affected-view observations (including the live slide) had no clipping, missing images, or math errors. The narrow student handout also passed.
+
+## ODE final plot visibility release: 2026-10-08
+
+Release `48e2927` publishes faint gray Euler comparison curves, prominent teal
+RK2 and purple RK4 curves, tighter equal phase-plane limits, distinct endpoint
+markers, and endpoint zooms. The preceding decay and error-axis improvements
+are included. Numerical experiments remain unchanged; all 33 executable code
+cells and frozen numerical reference checks passed. Six affected projector
+views at 1280 by 720 and the student handout had no clipping, missing images,
+or math errors. The deck remains 40 main slides plus four optional references.
+Pages run `37849272594` succeeded; live slides and handout returned HTTP 200
+and matched the checked exports exactly.
 
 
 ## Pandas lecture release: 2026-10-20

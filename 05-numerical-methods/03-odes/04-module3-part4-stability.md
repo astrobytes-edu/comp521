@@ -6,13 +6,9 @@ author: "Anna Rosen"
 
 <!-- prep-banner:start -->
 :::{warning} This reading is still being revised
-Readings are reviewed and finalized **at least one week before they are
-assigned**, so you will always have a settled version before you need it. Until
-then, expect rough edges — wording, examples, and cross-references may change.
-
-Where a reading disagrees with the syllabus, the syllabus is right. If something
-here does not work, tell me: that is genuinely useful and I would rather hear it
-from you than not.
+This reading is under revision. Use the [ODE lecture overview](../../09-lectures/block-04-odes.md)
+for the current lecture and reading sequence. The syllabus and assignment briefs
+remain authoritative for dates and requirements.
 :::
 <!-- prep-banner:end -->
 
@@ -189,9 +185,10 @@ Widely separated decay rates are one common source of **stiffness**. The timeste
 
 ### Backward Euler
 
-Instead of $y_{n+1} = y_n + hf(y_n, t_n)$, we use:
+Using the same independent-variable-first convention as the RK reading,
+instead of $y_{n+1} = y_n + hf(t_n, y_n)$, we use:
 
-$$\boxed{y_{n+1} = y_n + hf(y_{n+1}, t_{n+1})}$$
+$$\boxed{y_{n+1} = y_n + hf(t_{n+1}, y_{n+1})}$$
 
 This is implicit because $y_{n+1}$ appears on both sides!
 
@@ -213,7 +210,7 @@ does not resolve the actual fast transient accurately.
 
 ### Solving the Implicit Equation
 
-The challenge: we must solve $y_{n+1} = y_n + hf(y_{n+1}, t_{n+1})$ for $y_{n+1}$.
+The challenge: we must solve $y_{n+1} = y_n + hf(t_{n+1}, y_{n+1})$ for $y_{n+1}$.
 
 For nonlinear $f$, this requires iteration. Newton's method is typical:
 
@@ -224,20 +221,21 @@ def backward_euler_step(y, t, h, f, df_dy, tol=1e-10):
     """
     Single backward Euler step
     Requires a one-dimensional state array and its square Jacobian df/dy.
+    Both callables use the independent-variable-first interface: f(t, y).
     tol bounds the algebraic residual norm, not the time-integration error.
     """
     y = np.asarray(y, dtype=float)
     y_new = y.copy()  # Initial guess
     
     for _ in range(10):  # Newton iterations
-        # Residual: R(y_new) = y_new - y - h*f(y_new, t+h)
-        residual = y_new - y - h*f(y_new, t + h)
+        # Residual: R(y_new) = y_new - y - h*f(t+h, y_new)
+        residual = y_new - y - h*f(t + h, y_new)
         
         if np.linalg.norm(residual) < tol:
             return y_new
         
         # Jacobian of residual
-        J = np.eye(len(y)) - h*df_dy(y_new, t + h)
+        J = np.eye(len(y)) - h*df_dy(t + h, y_new)
         
         # Newton update
         delta = np.linalg.solve(J, -residual)
@@ -250,7 +248,7 @@ def backward_euler_step(y, t, h, f, df_dy, tol=1e-10):
 
 A second-order implicit method:
 
-$$y_{n+1} = y_n + hf\left(\frac{y_n + y_{n+1}}{2}, t_n + \frac{h}{2}\right)$$
+$$y_{n+1} = y_n + hf\left(t_n + \frac{h}{2}, \frac{y_n + y_{n+1}}{2}\right)$$
 
 Implicit midpoint is A-stable and symplectic for canonical Hamiltonian systems when the implicit solve is exact. It is not L-stable: its amplification tends to -1 for very stiff decay, so it can retain alternating unresolved transients. A-stability does not guarantee good damping or accuracy, and a loose nonlinear solve can spoil the structure.
 

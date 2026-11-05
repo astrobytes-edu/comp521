@@ -1,0 +1,22 @@
+{
+  "css": ["lecture.css"],
+  "handoutMode": "worked",
+  "reveal": {
+    "center": true,
+    "transition": "slide",
+    "transitionSpeed": "default",
+    "autoAnimateDuration": 0.7,
+    "width": 1200,
+    "height": 750,
+    "margin": 0.05,
+    "backgroundTransition": "fade"
+  },
+  "decks": [
+    {
+      "name": "lecture-14-uncertainty",
+      "source": "slides.md",
+      "preset": "lecture",
+      "theme": "light"
+    }
+  ]
+}

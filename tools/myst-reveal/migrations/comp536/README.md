@@ -1,3 +1,40 @@
+## Historical ODE review record · October 5, 2026
+
+This record describes the October 5 review and its superseded Quarto draft.
+The current COMP 521 lecture uses MyST → Reveal, with source in
+`09-lectures/myst-source/lecture-11-odes/` and the stable student page
+`09-lectures/lecture-11-odes.md`. Follow `AGENTS.md` and
+`tools/myst-reveal/AUTHORING.md` for authoring. The migration here remains
+review source and historical context, outside the production ODE export.
+
+The RK2 step and marcher have been removed from the migration notebook.
+Oscillator comparison data now come from its analytically derived linear map;
+they are reference diagnostics, not general RK implementations. Student prompts
+replace the completed code. Current course readings and the independent-variable-first
+callable convention govern the revision. Original source-preservation counts
+below describe the initial import and are not a check for this intentional revision.
+
+At the time of this review, the revised lecture and readings were local
+artifacts awaiting separate authorization for commit, push, and publication.
+The production allowlist excludes this MyST ODE migration. The stable Block 4
+page now links the current MyST lecture.
+
+Recorded verification for the October 5 revision: all 48 executable numerical-reading cells passed,
+including the new Richardson example. The backward Euler check includes a
+nonautonomous problem that distinguishes derivative argument order. All 12
+remaining ODE notebook code cells executed. The corrected migration passed the
+presentation checker across 73 slides with zero errors or warnings.
+
+The superseded Quarto draft contained 53 slides, including optional sections after the
+exit questions. Its two reference calculations executed, and all slides passed a
+1440-by-900 offline Chrome check with zero network requests, runtime errors,
+clipped containers, missing image descriptions, or unconverted math. Native
+MathML removed the dynamic math CDN dependency. Sampled visual review covered
+RK4 stages, Richardson, and both diagnostic plots. The strict course build and
+public/site boundary checks passed; the stable route then linked the matching export.
+The textbook comparison remained pending. These are the recorded October 5
+outcomes, not fresh verification of the current lecture.
+
 # COMP 536 lecture migrations for COMP 521
 
 Local review drafts, 2026-09-28. Anna approved migration of all three decks, a Software Engineering editing pass without reducing context, and ODE O1–O7 / Statistical Thinking S1–S6. Nothing has been committed, pushed, assigned, or published by this migration.
