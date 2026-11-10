@@ -27,6 +27,13 @@ The publication boundary check verifies that both source exports and built-site
 exports omit speaker notes, private paths, and private presenter code.
 Deployment status is recorded by this release's GitHub Pages workflow.
 
+The guide page also features the control/inference/transport/thermodynamics
+review and five free books or tutorials. MyST is pinned to 1.12.0 with HTML
+renderer 1.7.5; the tested book theme remains pinned separately at 1.4.1.
+The presentation regression suite passed 26 tests with two optional online
+tests skipped. Resource-card layout and keyboard links were checked at desktop
+and phone widths.
+
 ## Block 6 release preparation: 2026-11-05
 
 The guide now has its own Block 6, with separate PDF handouts and a full draft.

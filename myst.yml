@@ -241,8 +241,7 @@ project:
         - file: 02-getting-started/06-markdown-analysis-notebooks.md
 
 site:
-  # Pin the theme supported by the locked MyST engine; latest can require a
-  # newer document schema and stop a clean Pages build.
+  # Pin the tested theme separately from the MyST engine for reproducible builds.
   template: https://github.com/jupyter-book/myst-theme/releases/download/myst-to-react%401.4.1/book-theme.zip
   options:
     logo: assets/comp521-logo.png

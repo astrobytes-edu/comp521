@@ -10,6 +10,8 @@ import { loadDocuments, selectDocument, sourceName } from './project.mjs';
 
 const packageRoot = fileURLToPath(new URL('../', import.meta.url));
 const read = (relative) => fs.readFileSync(path.join(packageRoot, relative), 'utf8');
+const version = (relative) => JSON.parse(read(relative)).version;
+const generator = `MyST Reveal prototype ${version('package.json')}; MyST ${version('node_modules/mystmd/package.json')}; Reveal ${version('node_modules/reveal.js/package.json')}`;
 const script = (source) => `<script>${source.replace(/<\/script/gi, '<\\/script')}</script>`;
 
 const readingScripts = () => script(read('node_modules/reveal.js/plugin/highlight/highlight.js')) + script('RevealHighlight().hljs.highlightAll();');
@@ -56,7 +58,7 @@ export function exportDeck(projectDir, outputFile, overrides = {}) {
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escapeHtml(document.frontmatter.title)}</title>
-<meta name="generator" content="MyST Reveal prototype 0.1.0; MyST 1.10.1; Reveal 5.1.0">
+<meta name="generator" content="${escapeHtml(generator)}">
 <style>${css.replace(/<\/style/gi, '<\\/style')}</style></head><body class="preset-${preset} theme-${config.theme || 'light'}">
 ${notices}
 <div class="deck-label">${escapeHtml(document.frontmatter.subtitle || document.frontmatter.title)}</div>
