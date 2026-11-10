@@ -7,6 +7,7 @@ import subprocess
 import sys
 import argparse
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,8 +20,30 @@ FORBIDDEN_PREFIXES = (
     "roster/",
 )
 
-def check_site(site: Path) -> list[str]:
+OPTIMIZATION_EXPORTS = (
+    "lecture-15-optimization.html",
+    "lecture-15-optimization.handout.html",
+)
+
+
+def check_optimization_exports(reveal: Path) -> list[str]:
     errors = []
+    for name in OPTIMIZATION_EXPORTS:
+        export = reveal / name
+        if not export.is_file():
+            errors.append(f"Missing optimization lecture export: {export}")
+            continue
+        text = export.read_text()
+        notes = re.search(r"<aside\b[^>]*\bclass=[\"'][^\"']*\bnotes\b", text, re.I)
+        private_markers = ("_instructor/", "/Users/anna/", "SpeakerNotesMath",
+                           "comp521NotesMathCss", "presenter-notes.js", "speaker-notes.md")
+        if notes or any(marker in text for marker in private_markers):
+            errors.append(f"Private content in optimization export: {export}")
+    return errors
+
+
+def check_site(site: Path) -> list[str]:
+    errors = check_optimization_exports(site / "reveal")
     for prefix in (*FORBIDDEN_PREFIXES, "tools/", "docs/"):
         if (site / prefix).exists():
             errors.append(f"Non-course workspace in publication artifact: {prefix}")
@@ -74,6 +97,13 @@ def check_site(site: Path) -> list[str]:
                 errors.append(f"Student notebook link remains in Pandas export: {name}")
     if pandas.is_file() and 'sources/pandas-examples' in pandas.read_text():
         errors.append("Student notebook link remains on the Pandas lecture page")
+    guide = site / "jaxstro-sciml-guide/index.html"
+    if "jaxstro-sciml-guide" not in slugs or not guide.is_file():
+        errors.append("Missing Jaxstro SciML guide lecture route")
+    else:
+        for name in OPTIMIZATION_EXPORTS:
+            if f'href="/comp521/reveal/{name}"' not in guide.read_text():
+                errors.append(f"Guide page lacks base-path-correct link: {name}")
     for name in ("sources/pandas-examples.html", "sources/pandas-examples.ipynb"):
         if (reveal / name).exists():
             errors.append(f"Retired student notebook still published: {name}")
@@ -95,6 +125,11 @@ def main() -> int:
     if exposed:
         print("Instructor-only paths are tracked by the public course repository:")
         print("\n".join(f"  - {path}" for path in exposed))
+        return 1
+
+    export_errors = check_optimization_exports(ROOT / "09-lectures/reveal")
+    if export_errors:
+        print("\n".join(export_errors))
         return 1
 
     print("Public repository boundary check passed.")

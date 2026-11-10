@@ -1,0 +1,63 @@
+/* Private draft typography: hierarchy is intentional, not an overflow fitter. */
+.reveal .slides section.optimization { font-size: 30px; padding: 28px 48px; }
+.reveal .slides section.optimization h2 { color: #20365b; font-size: 44px; font-weight: 650; line-height: 1.12; margin: 0 0 28px; max-width: 1070px; }
+.reveal .slides section.optimization h3 { color: #087e81; font-size: 26px; font-weight: 600; line-height: 1.22; margin: 0 0 18px; }
+.reveal .slides section.optimization p { line-height: 1.32; margin: .45em 0; }
+.reveal .slides section.optimization li { line-height: 1.32; margin: .45em 0; }
+.reveal .slides section.optimization li::marker { color: #087e81; }
+.reveal .slides section.optimization strong { font-weight: 650; }
+.reveal .slides section.optimization .slide-eyebrow { color: #527078; font-size: 14px; font-weight: 600; letter-spacing: .04em; margin-bottom: 16px; }
+.reveal .slides section.optimization .equation { font-size: 34px; margin: .4em 0; }
+.reveal .slides section.optimization .katex { font-size: 1em; }
+.reveal .slides section.optimization .katex-display { margin: .22em 0; }
+.reveal .slides section.optimization .hero-math .equation { font-size: 44px; margin: .55em 0; }
+.reveal .slides section.optimization .lead { font-size: 36px; line-height: 1.24; max-width: 1000px; }
+.reveal .slides section.optimization .takeaway { font-size: 30px; line-height: 1.3; color: #20365b; margin-top: 20px; }
+.reveal .slides section.optimization .support { font-size: 22px; line-height: 1.35; color: #52616f; margin-top: 22px; }
+.reveal .slides section.optimization .support p { line-height: 1.35; }
+.reveal .slides section.optimization .definition { font-size: 24px; line-height: 1.35; color: #29485a; margin-top: 22px; padding: 14px 18px; border-left: 3px solid #087e81; background: #f2f8f8; }
+.reveal .slides section.optimization .definition p { line-height: 1.35; margin: 0; }
+.reveal .slides section.optimization .definition .equation { font-size: 28px; }
+.reveal .slides section.optimization .scientific-figure { margin: 0; }
+.reveal .slides section.optimization .scientific-figure .figure-canvas { --figure-height: 420px; margin-left: auto; margin-right: auto; }
+.reveal .slides section.optimization.visual .scientific-figure .figure-canvas { --figure-height: 430px; }
+.reveal .slides section.optimization .scientific-figure > figcaption { font-size: 22px; line-height: 1.3; }
+.reveal .slides section.optimization .figure-enlarge { font-size: 18px; margin-top: 6px; }
+.reveal .slides section.optimization .process-card { padding: 24px 20px; border-top: 3px solid #087e81; background: #f5f9fa; min-height: 220px; }
+.reveal .slides section.optimization .process-card p { font-size: 26px; }
+.reveal .slides section.optimization .code-card { margin: 28px 0; }
+.reveal .slides section.optimization pre code { font-size: 24px; line-height: 1.45; }
+.reveal .slides section.optimization .slide-question,
+.reveal .slides section.optimization .slide-answer { margin: 16px 0; padding: 12px 16px; }
+.reveal .slides section.optimization .slide-question { background: #fff; border: 1px solid #dce5e9; }
+.reveal .slides section.optimization .slide-answer { background: #f0f8f7; border-left: 3px solid #087e81; }
+.reveal .slides section.optimization .slide-question p,
+.reveal .slides section.optimization .slide-answer p { font-size: 28px; line-height: 1.3; margin: .25em 0; }
+.reveal .slides section.optimization .component-label { font-size: 18px; font-weight: 600; margin-bottom: 10px; letter-spacing: .02em; }
+.reveal .slides section.optimization .slide-worked { margin: 18px 0; padding: 12px 16px; }
+.reveal .slides section.optimization .slide-step { padding: 10px 14px; margin: 12px 0; }
+.reveal .slides section.optimization .slide-step p { font-size: 30px; }
+.deck-label { display: none; }
+.reveal .slides section.optimization-title { border-left: 6px solid #087e81; padding: 32px 48px; }
+.reveal .slides section.optimization-title h2 { font-size: 58px; max-width: 1050px; margin-bottom: 14px; }
+.reveal .slides section.optimization-title .lead { font-size: 30px; margin: 8px 0 26px; color: #52616f; }
+.reveal .slides section.optimization-title .scientific-figure .figure-canvas { --figure-height: 340px; }
+.reveal .slides section.optimization-title .cover-meta { margin-top: 26px; color: #52616f; font-size: 22px; }
+.reveal .slides section.optimization-title .cover-meta p { margin: 0; }
+.reveal .slides section.optimization-title .figure-enlarge { display: none; }
+.print-pdf .reveal .slides section.optimization-title { padding: 28px 48px !important; }
+.reveal .slides #slide-opt-counts .scientific-figure .figure-canvas { --figure-height: 320px; }
+.reveal .slides #slide-opt-stationary .scientific-figure .figure-canvas { --figure-height: 370px; }
+.reveal .slides #slide-opt-identifiability .scientific-figure .figure-canvas { --figure-height: 370px; }
+.reveal .slide-number { top: 8px; bottom: auto; font-size: 14px; }
+.figure-dialog .figure-canvas { --figure-height: 72vh; margin-left: auto; margin-right: auto; }
+body.handout .reveal .slides section.optimization { padding: 2rem; font-size: 20px; }
+body.handout .reveal .slides section.optimization h2 { font-size: 30px; }
+body.handout .reveal .slides section.optimization h3 { font-size: 24px; }
+body.handout .reveal .slides section.optimization .equation { font-size: 25px; }
+body.handout .reveal .slides section.optimization .hero-math .equation { font-size: 30px; }
+body.handout .reveal .slides section.optimization .lead { font-size: 25px; }
+body.handout .reveal .slides section.optimization .takeaway { font-size: 22px; }
+body.handout .reveal .slides section.optimization .support { font-size: 20px; }
+body.handout .reveal .slides section.optimization .definition { font-size: 20px; }
+body.handout .reveal .slides section.optimization-title .cover-meta { position: static; margin-top: 24px; font-size: 20px; }

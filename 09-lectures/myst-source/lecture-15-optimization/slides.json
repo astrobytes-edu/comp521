@@ -1,0 +1,28 @@
+{
+  "css": [
+    "lecture.css"
+  ],
+  "handoutMode": "worked",
+  "reveal": {
+    "center": false,
+    "transition": "slide",
+    "transitionSpeed": "default",
+    "autoAnimateDuration": 0.7,
+    "width": 1200,
+    "height": 750,
+    "margin": 0.05,
+    "backgroundTransition": "fade"
+  },
+  "decks": [
+    {
+      "name": "lecture-15-optimization",
+      "source": "slides.md",
+      "preset": "lecture",
+      "theme": "light"
+    }
+  ],
+  "review": {
+    "baseFontSize": 30,
+    "minEssentialFontSize": 22
+  }
+}

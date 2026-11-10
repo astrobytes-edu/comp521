@@ -1,0 +1,442 @@
+{
+  "status": "pass",
+  "dtype": "float64",
+  "seed": 20261110,
+  "environment": {
+    "python": "3.12.11",
+    "numpy": "2.5.2",
+    "matplotlib": "3.11.1",
+    "executable": "course .venv/bin/python"
+  },
+  "model": {
+    "interpretation": "Synthetic scaled excess-flux relaxation, not a full stellar model.",
+    "t_definition": "time/t0",
+    "y_definition": "excess flux/F0",
+    "A_true": 1.8,
+    "tau_true": 2.4,
+    "sigma": 0.08,
+    "times": [
+      0.0,
+      0.4,
+      0.8,
+      1.2000000000000002,
+      1.6,
+      2.0,
+      2.4000000000000004,
+      2.8000000000000003,
+      3.2,
+      3.6,
+      4.0,
+      4.4,
+      4.800000000000001,
+      5.2,
+      5.6000000000000005,
+      6.0
+    ],
+    "data": [
+      1.79889264852749,
+      1.5457582737494566,
+      1.3075077300111047,
+      1.0817882390799503,
+      1.0002268701128731,
+      0.5806923426748392,
+      0.6588630314963282,
+      0.5582795845998428,
+      0.4462927350908752,
+      0.4287488770788154,
+      0.41479546075778917,
+      0.24101464662581012,
+      0.19947960264030296,
+      0.228484173241259,
+      0.2889234244050927,
+      0.26965624740114197
+    ],
+    "initial_parameters": [
+      0.7,
+      0.7
+    ],
+    "initial_loss": 572.3310835381362
+  },
+  "lm": {
+    "fit_log_parameters": [
+      0.5840351911796376,
+      0.8834101055182476
+    ],
+    "fit_parameters": [
+      1.793259997674987,
+      2.4191351627167728
+    ],
+    "loss": 6.7887066590534815,
+    "chi_squared": 13.577413318106963,
+    "nominal_degrees_of_freedom": 14,
+    "attempts": 11,
+    "accepted": 8,
+    "rejected": 3,
+    "reason": "small gradient",
+    "final_gradient_inf_norm": 5.479275003122495e-07,
+    "initial_nu": 1.0,
+    "max_attempts": 80,
+    "gradient_tolerance": 1e-06,
+    "step_method": "augmented numpy.linalg.lstsq with positive identity damping",
+    "history": [
+      {
+        "attempt": 1,
+        "nu": 1.0,
+        "theta_before": [
+          -0.35667494393873245,
+          -0.35667494393873245
+        ],
+        "step": [
+          1.375413871515819,
+          3.657563148289491
+        ],
+        "trial_theta": [
+          1.0187389275770866,
+          3.3008882043507586
+        ],
+        "trial_loss": 4170.2053325988,
+        "loss_before": 572.3310835381362,
+        "accepted": false,
+        "loss_after": 572.3310835381362
+      },
+      {
+        "attempt": 2,
+        "nu": 5.0,
+        "theta_before": [
+          -0.35667494393873245,
+          -0.35667494393873245
+        ],
+        "step": [
+          1.4393185769530483,
+          3.2251736902636035
+        ],
+        "trial_theta": [
+          1.0826436330143159,
+          2.868498746324871
+        ],
+        "trial_loss": 4194.942950922899,
+        "loss_before": 572.3310835381362,
+        "accepted": false,
+        "loss_after": 572.3310835381362
+      },
+      {
+        "attempt": 3,
+        "nu": 25.0,
+        "theta_before": [
+          -0.35667494393873245,
+          -0.35667494393873245
+        ],
+        "step": [
+          1.4762483930794577,
+          2.099348197379819
+        ],
+        "trial_theta": [
+          1.1195734491407252,
+          1.7426732534410867
+        ],
+        "trial_loss": 1899.6446337852565,
+        "loss_before": 572.3310835381362,
+        "accepted": false,
+        "loss_after": 572.3310835381362
+      },
+      {
+        "attempt": 4,
+        "nu": 125.0,
+        "theta_before": [
+          -0.35667494393873245,
+          -0.35667494393873245
+        ],
+        "step": [
+          1.011272619306132,
+          0.8613600631040973
+        ],
+        "trial_theta": [
+          0.6545976753673997,
+          0.5046851191653648
+        ],
+        "trial_loss": 37.4274466938306,
+        "loss_before": 572.3310835381362,
+        "accepted": true,
+        "loss_after": 37.4274466938306
+      },
+      {
+        "attempt": 5,
+        "nu": 41.666666666666664,
+        "theta_before": [
+          0.6545976753673997,
+          0.5046851191653648
+        ],
+        "step": [
+          -0.060045021586264916,
+          0.3340216778664928
+        ],
+        "trial_theta": [
+          0.5945526537811348,
+          0.8387067970318576
+        ],
+        "trial_loss": 7.20056389116823,
+        "loss_before": 37.4274466938306,
+        "accepted": true,
+        "loss_after": 7.20056389116823
+      },
+      {
+        "attempt": 6,
+        "nu": 13.888888888888888,
+        "theta_before": [
+          0.5945526537811348,
+          0.8387067970318576
+        ],
+        "step": [
+          -0.009075565835071799,
+          0.040967535763524
+        ],
+        "trial_theta": [
+          0.5854770879460629,
+          0.8796743327953815
+        ],
+        "trial_loss": 6.791214822822042,
+        "loss_before": 7.20056389116823,
+        "accepted": true,
+        "loss_after": 6.791214822822042
+      },
+      {
+        "attempt": 7,
+        "nu": 4.629629629629629,
+        "theta_before": [
+          0.5854770879460629,
+          0.8796743327953815
+        ],
+        "step": [
+          -0.0013441536944975103,
+          0.003501875370164599
+        ],
+        "trial_theta": [
+          0.5841329342515654,
+          0.8831762081655461
+        ],
+        "trial_loss": 6.7887164625767,
+        "loss_before": 6.791214822822042,
+        "accepted": true,
+        "loss_after": 6.7887164625767
+      },
+      {
+        "attempt": 8,
+        "nu": 1.5432098765432096,
+        "theta_before": [
+          0.5841329342515654,
+          0.8831762081655461
+        ],
+        "step": [
+          -9.255811390975524e-05,
+          0.0002213885563476816
+        ],
+        "trial_theta": [
+          0.5840403761376557,
+          0.8833975967218938
+        ],
+        "trial_loss": 6.788706687089981,
+        "loss_before": 6.7887164625767,
+        "accepted": true,
+        "loss_after": 6.788706687089981
+      },
+      {
+        "attempt": 9,
+        "nu": 0.5144032921810698,
+        "theta_before": [
+          0.5840403761376557,
+          0.8833975967218938
+        ],
+        "step": [
+          -4.926446881553051e-06,
+          1.1879398254354654e-05
+        ],
+        "trial_theta": [
+          0.5840354496907741,
+          0.8834094761201481
+        ],
+        "trial_loss": 6.7887066591247756,
+        "loss_before": 6.788706687089981,
+        "accepted": true,
+        "loss_after": 6.7887066591247756
+      },
+      {
+        "attempt": 10,
+        "nu": 0.1714677640603566,
+        "theta_before": [
+          0.5840354496907741,
+          0.8834094761201481
+        ],
+        "step": [
+          -2.4637624574381134e-07,
+          5.997481433356608e-07
+        ],
+        "trial_theta": [
+          0.5840352033145284,
+          0.8834100758682915
+        ],
+        "trial_loss": 6.78870665905365,
+        "loss_before": 6.7887066591247756,
+        "accepted": true,
+        "loss_after": 6.78870665905365
+      },
+      {
+        "attempt": 11,
+        "nu": 0.0571559213534522,
+        "theta_before": [
+          0.5840352033145284,
+          0.8834100758682915
+        ],
+        "step": [
+          -1.2134890805594898e-08,
+          2.9649956162202075e-08
+        ],
+        "trial_theta": [
+          0.5840351911796376,
+          0.8834101055182476
+        ],
+        "trial_loss": 6.7887066590534815,
+        "loss_before": 6.78870665905365,
+        "accepted": true,
+        "loss_after": 6.7887066590534815
+      }
+    ],
+    "scipy_reference_parameters": [
+      1.7932599967479792,
+      2.4191351657758986
+    ],
+    "max_log_parameter_difference_from_scipy": 1.2645534619437626e-09,
+    "loss_difference_from_scipy": 2.6645352591003757e-15,
+    "gauss_newton": [
+      [
+        1775.4841714958595,
+        725.2564003315266
+      ],
+      [
+        725.2564003315266,
+        672.8875357922167
+      ]
+    ],
+    "full_hessian": [
+      [
+        1775.484171496553,
+        725.2563997835991
+      ],
+      [
+        725.2563997835991,
+        654.4648194125216
+      ]
+    ],
+    "relative_hessian_frobenius_difference": 0.008559302230318441
+  },
+  "complex_step_checks": {
+    "test_log_parameters": [
+      0.1823215567939546,
+      0.47000362924573563
+    ],
+    "step": 1e-30,
+    "jacobian_max_absolute_error": 1.7763568394002505e-15,
+    "gradient_max_absolute_error": 5.684341886080802e-14,
+    "hessian_max_absolute_error": 1.1368683772161603e-13
+  },
+  "scalar_gd": {
+    "0.03": {
+      "error_multiplier": 0.52,
+      "theta_after_12": 0.9992182459870275
+    },
+    "0.09": {
+      "error_multiplier": -0.43999999999999995,
+      "theta_after_12": 0.9998946918184465
+    },
+    "0.125": {
+      "error_multiplier": -1.0,
+      "theta_after_12": -1.0
+    },
+    "0.14": {
+      "error_multiplier": -1.2400000000000002,
+      "theta_after_12": -25.429577317563645
+    },
+    "0.0625": {
+      "error_multiplier": 0.0,
+      "theta_after_12": 1.0
+    }
+  },
+  "quadratic_bowl": {
+    "H": [
+      [
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        50.0
+      ]
+    ],
+    "condition_number": 50,
+    "optimal_gd_step": 0.0392156862745098,
+    "error_contraction_factor": 0.9607843137254902,
+    "iterations_for_million_fold_error_reduction": 346,
+    "scaled_condition_number": 1.0,
+    "newton_endpoint": [
+      0.0,
+      0.0
+    ],
+    "heavy_ball_eta": 0.06140418888174769,
+    "heavy_ball_beta": 0.5658068164845661,
+    "heavy_ball_relative_error_after_120": 2.1824761743337693e-13
+  },
+  "newton_uphill": {
+    "start": 0.25,
+    "gradient": -0.9375,
+    "hessian": -3.25,
+    "trial": -0.038461538461538436,
+    "loss_before": -0.12109375,
+    "loss_after": -0.0029563915829277647,
+    "gradient_dot_step": 0.2704326923076923
+  },
+  "whitening": {
+    "covariance": [
+      [
+        1.0,
+        0.7
+      ],
+      [
+        0.7,
+        2.0
+      ]
+    ],
+    "whitened_loss": 2.9139072847682126
+  },
+  "poisson": {
+    "counts": [
+      1.0,
+      2.0,
+      2.0,
+      4.0,
+      6.0
+    ],
+    "poisson_mle": 3.0,
+    "neyman_mle": 2.0689655172413794,
+    "limit": "All counts positive. This fixed example illustrates changed weighting, not an ensemble bias study; Neyman expression is undefined for zero counts."
+  },
+  "identifiability": {
+    "t_zero_rank": 1,
+    "full_time_rank": 2,
+    "full_time_singular_values": [
+      46.20810504563874,
+      17.696969666564158
+    ]
+  },
+  "regularization": {
+    "data_only_minimizer": 2.0,
+    "prior_precision": 1.0,
+    "penalty_definition": "0.5*z**2",
+    "regularized_minimizer": 1.0
+  },
+  "limits": [
+    "Engineering checks of fixed teaching examples, not scientific or optimizer benchmarking.",
+    "Gaussian synthetic noise and scaled coordinates are specified assumptions.",
+    "A successful local fit does not establish global optimality, physical validity, or identifiability.",
+    "Heavy-ball parameters are tuned for this SPD quadratic; they are not universal acceleration settings.",
+    "Contours in the whitening figure are Mahalanobis radii, not one-dimensional 68 percent intervals."
+  ]
+}

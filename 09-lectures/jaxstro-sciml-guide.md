@@ -24,6 +24,19 @@ Monte Carlo propagation, local derivative approximations, and the effect of
 shared physics on a cohort mean. The examples use labeled teaching models and
 reproducible Python figures.
 
+## Lectures 3–4 · Optimization for Scientific Models
+
+[Open the slides](/reveal/lecture-15-optimization.html) ·
+[Read the worked handout](/reveal/lecture-15-optimization.handout.html).
+
+How do we choose model parameters when measurements are imperfect? This deck
+builds a loss from a measurement model, works through gradient descent on a
+one-parameter example, and uses curvature to develop Newton, Gauss–Newton, and
+Levenberg–Marquardt updates. It defines the matrix vocabulary as it appears,
+tests proposed steps against the actual loss, and distinguishes a fitted answer
+from information the observations can supply. The figures use reproducible
+synthetic teaching examples.
+
 ## Lecture handouts
 
 Each handout preserves the section, equation, figure, listing, and exercise

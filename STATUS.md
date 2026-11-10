@@ -12,6 +12,21 @@ workspace. The Brain reads this status file for portfolio planning, but course
 sessions report discrete outcomes through `brain "comp521: ..."` rather than
 editing Brain pages directly.
 
+## Block 6 optimization release: 2026-11-10
+
+The student release adds a 52-slide MyST Reveal deck and worked handout for
+guide Lectures 3–4, linked from the existing guide lecture page. The reproducible
+public build executes 22 calculation cells and emits exports identical to the
+reviewed student copies. Detailed instructor notes and reference materials stay
+in the separate private workspace.
+
+Local review covered all 52 PDF pages, 122 projector states, and both handouts.
+The focused visible-layout checks passed. The unmodified shared checker retains
+three horizontal-width reports on two slides; visual review found no clipping.
+The publication boundary check verifies that both source exports and built-site
+exports omit speaker notes, private paths, and private presenter code.
+Deployment status is recorded by this release's GitHub Pages workflow.
+
 ## Block 6 release preparation: 2026-11-05
 
 The guide now has its own Block 6, with separate PDF handouts and a full draft.
