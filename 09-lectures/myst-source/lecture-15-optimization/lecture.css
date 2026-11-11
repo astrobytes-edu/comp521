@@ -49,6 +49,8 @@
 .reveal .slides #slide-opt-counts .scientific-figure .figure-canvas { --figure-height: 320px; }
 .reveal .slides #slide-opt-stationary .scientific-figure .figure-canvas { --figure-height: 370px; }
 .reveal .slides #slide-opt-identifiability .scientific-figure .figure-canvas { --figure-height: 370px; }
+.reveal .slides #slide-opt-whitening .scientific-figure .figure-canvas { --figure-height: 350px; }
+.reveal .slides #slide-opt-whitening .scientific-figure { display: flow-root; }
 .reveal .slide-number { top: 8px; bottom: auto; font-size: 14px; }
 .figure-dialog .figure-canvas { --figure-height: 72vh; margin-left: auto; margin-right: auto; }
 body.handout .reveal .slides section.optimization { padding: 2rem; font-size: 20px; }

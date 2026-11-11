@@ -204,7 +204,7 @@ def whitening():
         ax.plot(raw[0], raw[1], color=NAVY)
         bx.plot(white[0], white[1], color=TEAL)
     ax.set_title("Correlated residuals")
-    bx.set_title(r"Solve $Cq=r$")
+    bx.set_title("Whitened residuals")
     for axis in [ax, bx]:
         axis.set_xlim(-3,3); axis.set_ylim(-3,3); axis.set_aspect("equal")
         axis.set_xticks([-2,0,2]); axis.set_yticks([-2,0,2])

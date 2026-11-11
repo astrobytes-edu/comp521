@@ -254,12 +254,17 @@ Maximizing likelihood and minimizing negative log-likelihood choose the same can
 {"class": "optimization visual"}
 ```
 
+:::{slide-element}
+:class: definition
+**Whitening** changes residual coordinates so the assumed measurement errors have variance $1$ in each coordinate and zero correlation between coordinates.
+:::
+
 ```{slide-figure} assets/whitening.png
 :alt: Correlated Gaussian residual contours become circular after whitening with a Cholesky factor.
 ```
 :::{slide-element}
-:class: takeaway
-A covariance matrix $\Sigma$ describes error variation: variances on the diagonal, shared variation off the diagonal.
+:class: support
+Here $\mathbf r$ denotes raw residuals (predictions minus observations), and $\mathbf q$ denotes whitened residuals. The covariance matrix $\Sigma$ stores variances on the diagonal and shared error variation off the diagonal.
 :::
 
 (opt-positive-definite)=
@@ -327,21 +332,37 @@ $$C=\begin{pmatrix}c_{11}&0\\c_{21}&c_{22}\end{pmatrix},
 {"class": "optimization"}
 ```
 
-Solve for the **whitened residuals**:
+:::{slide-element}
+:class: definition
+**Given:** known measurement-error covariance $\Sigma$ and its lower-triangular Cholesky factor $C$, with $\Sigma=CC^{\mathsf T}$.
+:::
 
 :::{slide-element}
 :class: hero-math
 $$C\mathbf q=\mathbf r.$$
 :::
 
-Whitened errors have variance $1$ in each coordinate and zero correlation between coordinates.
+::::::::{slide-columns}
+:ratio: 1 1
+:gap: 48
+::::::{slide-column}
+### $\mathbf r$ · Raw residual vector
+Model predictions minus observations.
+::::::
+::::::{slide-column}
+### $\mathbf q$ · Whitened residual vector
+The unknown vector we solve for.
+::::::
+::::::::
 
-$$\mathcal L=\tfrac12\lVert\mathbf q\rVert_2^2,
-\qquad \lVert\mathbf q\rVert_2^2=\sum_iq_i^2.$$
+The fit loss is ordinary squares in these coordinates:
+
+$$\mathcal L=\tfrac12\lVert\mathbf q\rVert_2^2
+=\tfrac12\sum_iq_i^2.$$
 
 :::{slide-element}
 :class: support
-For fixed $\Sigma$, reuse $C$ but recompute $\mathbf q$ for each new residual vector. Solve the system rather than constructing an inverse.
+For fixed $\Sigma$, reuse $C$. Recompute $\mathbf r$ from each new model prediction, then solve for $\mathbf q$ again instead of constructing an inverse.
 :::
 
 (opt-counts)=
