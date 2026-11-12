@@ -12,6 +12,18 @@ workspace. The Brain reads this status file for portfolio planning, but course
 sessions report discrete outcomes through `brain "comp521: ..."` rather than
 editing Brain pages directly.
 
+## Final project publication: 2026-11-12
+
+The Final Project assessment page is approved for publication.
+It describes one group presentation, roughly 15 minutes per student plus
+5 minutes for the shared question and example. Interest-based science
+applications, library use, and AI learning support are included. Shared slides
+and runnable code replace the written report. Preparation and ongoing project
+development through class work and check-ins receive 5%; the finished project
+receives 25%. The December 10 presentation and December 17 submission remain.
+Private instructor preparation stays outside the public site. Deployment and
+live verification are tracked through the course's Pages workflow.
+
 ## Block 6 optimization release: 2026-11-10
 
 The student release adds a 52-slide MyST Reveal deck and worked handout for

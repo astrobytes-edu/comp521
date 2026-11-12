@@ -39,8 +39,8 @@ author: "Dr. Anna Rosen"
   categories; other assignments receive one holistic letter. See
   [Grading](grading.md) for the shared scale and calculation.
 - **You will work in rotating pairs** on Projects 1–5 while writing and
-  submitting your own code. The two code review presentations and final
-  project are individual work.
+  submitting your own code. The two code review presentations are individual;
+  the [final project](../08-assessments/final-project.md) is collaborative.
 - **Getting help:** office hours are **Thursdays 4–5 pm, Physics 239**. Use
   Canvas Inbox for course-related messages; reserve email for genuine emergencies
   or confidential matters.
@@ -146,7 +146,7 @@ By the end of this course, students will be able to:
    methods, evidence, limitations, and meaningful collaboration or AI use.
 
 **Where these outcomes are assessed:** Projects 1–5, the two Code Review
-Presentations, the Final Project (including the proposal pitch), and the
+Presentations, the Final Project (including in-class development), and the
 Growth Reflections.
 
 (sec-grading)=
@@ -156,7 +156,7 @@ Growth Reflections.
 |---|-:|
 | Projects 1–5 (8% each) | 40% |
 | Code Review Presentations (2; 5% each) | 10% |
-| Final Project (proposal pitch 5%; finished project 25%) | 30% |
+| Final Project (preparation and development 5%; finished project 25%) | 30% |
 | Growth Reflections (3 total) | 10% |
 | Scholarly Engagement | 10% |
 
@@ -187,7 +187,7 @@ for the individual presentation and submission requirements.
 |---|---|---|
 | Final presentation | Thu **Dec 10** | in class |
 | **Growth Synthesis** | Mon **Dec 14** | 11:59 pm PT |
-| **Final report + repository** | Thu **Dec 17** | 11:59 pm PT; our final exam date |
+| **Final slides + runnable code** | Thu **Dec 17** | 11:59 pm PT; our final exam date |
 
 **University dates that affect you:**
 
@@ -198,7 +198,7 @@ for the individual presentation and submission requirements.
 | Mon **Sep 7** | **Labor Day**; campus closed |
 | Thu **Nov 26** | **No class**; Thanksgiving |
 | Thu **Dec 10** | Last class meeting; final presentations |
-| Thu **Dec 17** | Final exam date; final report due, 11:59 pm PT |
+| Thu **Dec 17** | Final exam date; shared slides + code due, 11:59 pm PT |
 
 Week-by-week topics and readings are on the [Course Schedule](schedule.md).
 Topics are listed by week rather than by day, so that class time can follow
@@ -278,7 +278,7 @@ including reading, project work, and preparation for class.
 
 COMP 521 includes a required repository check at the start of Project 1,
 five two-week projects, two individual code review presentations, and a
-four-week solo final project. See
+collaborative final project. See
 [Projects](projects.md) for the checkpoint, project sequence, submissions, and
 collaboration expectations.
 
@@ -314,47 +314,30 @@ substantive check-ins, and other visible engagement with the course.
 (sec-final-project)=
 ### Final Project (30% total)
 
-The final project counts for 30% of your grade: 5% for the proposal pitch and
-25% for the finished project.
+The final project counts for 30% of your grade: 5% for preparation and ongoing
+project development and 25% for the finished project.
 
-| Component | Weight | Due |
+| Component | Weight | When |
 |---|---:|---|
-| Proposal pitch | 5% | Tue **Nov 24**, in class |
-| Finished project: presentation, report, and code | 25% | Presentation: Thu **Dec 10**<br>Report + repository: Thu **Dec 17**, 11:59 pm PT |
+| Preparation and project development | 5% | Throughout in-class project work and check-ins |
+| Finished project: presentation, slides, and code | 25% | Presentation: Thu **Dec 10**<br>Slides + code: Thu **Dec 17**, 11:59 pm PT |
 
-The presentation, report, and repository receive one holistic final-project
-grade.
+The [Final Project brief](../08-assessments/final-project.md) defines the group
+presentation connecting topics from Blumenthal et al.'s review. Each student
+chooses a main topic and an interest-based science application. The group
+develops a shared question and runnable Python example.
 
-For the proposal pitch, give a five-minute presentation using a short slide
-deck. State your scientific question, data or source, computational approach,
-validation plan, bounded minimum result, and immediate next step. Commit the
-slides to your repository before class. The pitch is graded for clarity,
-feasibility, and a credible plan to test the result.
+Plan for roughly **15 minutes per student plus 5 minutes together** for the
+shared question and example, followed by discussion. We will work on the
+project periodically in class. The 5% preparation and development component
+reflects your readiness to discuss ideas, developing understanding, and progress
+during these conversations and check-ins. Scholarly Engagement covers your
+broader participation across the course.
 
-The final project is a four-week, solo computational investigation. Choose a
-bounded scientific question and use the course toolkit to produce and defend a
-result. You may extend a course project, analyze a curated scientific data set,
-or propose a small project from your own field. Custom projects require approval
-at the proposal pitch.
-
-Your project must:
-
-- state a focused scientific question;
-- make its data, model, methods, and assumptions explicit;
-- include reproducible code and evidence that the result is trustworthy; and
-- communicate the result, its limitations, and what you would investigate next.
-
-The final-project brief will define the available project pathways and submission
-format. **This project is solo.** See
-[Project Pairs & Collaboration](projects.md#sec-pairs).
-
-The final presentation is eight minutes, followed by two minutes for questions.
-Explain what you built, the evidence that it works, and its limits. The report is
-5–7 pages and covers the background, methods, results, and conclusions.
-
-The final project is graded on the same description as the other projects (see
-[Grading](grading.md)), applied to a larger piece of work. You should expect to
-defend your design and verification choices.
+Submit one shared slide deck and runnable code, with references, reproduction
+instructions, and a short contribution statement. These replace the written
+report. Each student's holistic grade reflects the shared work, individual
+understanding and contribution, and explanation of connections during discussion.
 
 (sec-reflections)=
 ### Growth Reflections (10% total)

@@ -264,6 +264,9 @@ demonstration code.
 
 ### Phase 3 — Supervised Tool Use (Final Project · Weeks 13–16)
 
+The [Final Project brief](../08-assessments/final-project.md) describes the
+group presentation, library use, and project-specific AI guidance.
+
 **What this phase is about:** using tools the way a competent researcher does—under your own supervision, with verification you can defend.
 
 This phase applies **only to the final project**. By this point you have

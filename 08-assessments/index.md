@@ -21,8 +21,9 @@ criteria.
   reflection prompts and submission expectations.
 - [Grading](../01-course-info/grading.md) — weights, scale, and submission
   guidance.
-- [Final Project and Proposal Pitch](../01-course-info/syllabus.md#sec-final-project)
-  — current requirements in the syllabus.
+- [Final Project](final-project.md) — a group presentation connecting physics,
+  inference, transport, and learning, with shared code and individual science
+  applications.
 
 Lecture activities are not automatically assessments. Follow the linked
 assessment brief for required work and submission instructions.

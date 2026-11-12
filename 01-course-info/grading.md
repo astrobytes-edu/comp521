@@ -9,8 +9,8 @@ subtitle: "COMP 521 | Fall 2026"
 
 **Each graded assignment receives one final letter grade.** Projects 1–5 use
 four broad letter-graded dimensions; the weighted average becomes the project
-letter. Code Review Presentations, Growth Reflections, the proposal pitch, and
-the final project are holistically assessed as described below.
+letter. Code Review Presentations, Growth Reflections, and the final project's
+components are holistically assessed as described below.
 
 :::{note} Why it works this way
 The project rubric is deliberately broad. It makes the basis of the grade
@@ -63,7 +63,7 @@ up a whole step: consistent A− work earns an A−.
 |:--|--:|
 | Projects 1–5 (8% each) | 40% |
 | Code Review Presentations (5% each) | 10% |
-| Final project (proposal pitch 5%; finished project 25%) | 30% |
+| Final project (preparation and development 5%; finished project 25%) | 30% |
 | Growth Reflections (3) | 10% |
 | Scholarly engagement | 10% |
 
@@ -128,15 +128,19 @@ rounds, format, and grading anchors.
 
 ### Final project
 
-The final project is still judged holistically: does the code do the right
-thing, do you know that it does, and could someone else follow it? Its brief
-will define its evidence and communication expectations.
+The [final project](../08-assessments/final-project.md) is judged holistically.
+Each student's grade reflects the shared presentation and computation, their
+individual understanding and contribution, and their explanation of connections
+during discussion.
 
-### Final-project proposal pitch
+### Final-project preparation and development
 
-The five-minute in-class proposal pitch is judged as a whole: is the question
-clear, the scope feasible, and the plan capable of producing evidence? Slides
-are a communication aid, not a separate written assignment.
+The 5% preparation and development component recognizes project-specific
+understanding and progress through our in-class work, discussions, and check-ins.
+Come prepared to discuss what you are exploring and answer questions about
+your developing work. This is an ongoing holistic assessment. The separate
+10% Scholarly Engagement component covers broader participation across the
+semester.
 
 ### Growth Reflections
 

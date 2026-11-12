@@ -6,7 +6,8 @@ subtitle: "COMP 521 | Fall 2026"
 # Course Schedule
 
 Sixteen weeks: five projects (in rotating pairs), two individual code review
-presentations, and a four-week solo final project. Project dates are listed below.
+presentations, and a collaborative [final project](../08-assessments/final-project.md).
+Project dates are listed below.
 Class meets **Tue/Thu 5:30–6:45 pm in LSN 134**.
 
 :::{important} How to read this page
@@ -39,12 +40,12 @@ not yet complete lessons; their assigned sections will be identified when ready.
 | Scientific computing code reviews | Thu **Oct 22**, in class |
 | Project 5 | Assigned Thu **Oct 29**; due Wed **Nov 18** |
 | DS/ML code reviews | Thu **Nov 12**, in class |
-| Final-project proposal pitches | Tue **Nov 24**, in class |
+| Final-project work and check-ins | Tue **Nov 24**, in class |
 | No class — Thanksgiving | Thu **Nov 26** |
 | Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
 | Growth Synthesis due | Mon **Dec 14** (start of finals week) |
-| Final report due | Thu **Dec 17**, 11:59 pm PT |
+| Final slides + code due | Thu **Dec 17**, 11:59 pm PT |
 :::
 
 ## Block 1 · Project 1 — Scientific Programming & the Transit Model
@@ -234,8 +235,8 @@ exoplanet-interior notebook).
 $\chi^2$, transit-model fitting, and bootstrap uncertainty; final-project
 pathways and examples
 
-**Assigned** — **Final-Project Proposal Pitch**, Tue **Nov 3**; due Tue **Nov
-24**, in class
+**Final-project preparation** — begin exploring topics and connections. We will
+return to the project during in-class work and check-ins.
 
 ## Block 6 · Machine Learning & Code Review
 
@@ -256,7 +257,10 @@ Thu **Nov 12**
 
 ## Block 7 · Final Project
 
-*Assigned Tue Nov 17 · Solo · Presentations Thu Dec 10 · Report due Thu Dec 17*
+*Assigned Tue Nov 17 · Group · Presentation Thu Dec 10 · Slides + code due Thu Dec 17*
+
+See the [Final Project brief](../08-assessments/final-project.md) for the group
+format, individual topics, and shared computation.
 
 ### Week 13 — Nov 17, 19 · Inference and project scoping
 
@@ -273,17 +277,16 @@ transit-model fit + analysis notebook).
 
 **Assigned** — **Growth Synthesis**, Tue **Nov 17**; due Mon **Dec 14**, 11:59 pm PT
 
-### Week 14 — Nov 24 · Proposal pitches
+### Week 14 — Nov 24 · Project work and discussion
 
 :::{warning} No class Thursday Nov 26 — Thanksgiving
 This week has one meeting instead of two. Plan your project work accordingly;
 the following week has no cushion built in.
 :::
 
-**Due** — **Final-Project Proposal Pitch** (5 minutes + short slide deck), Tue
-**Nov 24**, in class
-
-In-class proposal pitches and project check-ins.
+In-class project work, discussion, and check-ins. Preparation and ongoing
+project development contribute 5% of the course grade; there is no separate
+proposal-pitch submission.
 
 ### Week 15 — Dec 1, 3 · Implementation
 
@@ -295,12 +298,13 @@ code.
 **Tue Dec 8** — dress rehearsal. Run your talk past me and your classmates; this
 is the last chance to catch a figure nobody can read from the back of the room.
 
-**Thu Dec 10** — **final presentations**, 10 minutes each (about 8 to present,
-2 for questions). Last class meeting.
+**Thu Dec 10** — **final group presentation**, roughly 15 minutes per student
+plus 5 minutes together for the shared question and Python example, followed
+by discussion. Last class meeting.
 
 **Then:**
 
 | Deliverable | Due |
 |---|---|
 | Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
-| Final report + repository | Thu **Dec 17**, 11:59 pm PT |
+| Final shared slides + runnable code | Thu **Dec 17**, 11:59 pm PT |

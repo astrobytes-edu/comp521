@@ -217,6 +217,7 @@ project:
       children:
         - file: 08-assessments/index.md
         - file: 08-assessments/code-review-presentations.md
+        - file: 08-assessments/final-project.md
         - title: Projects
           children:
             - title: Project Overview

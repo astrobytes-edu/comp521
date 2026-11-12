@@ -38,8 +38,9 @@ characterizing exoplanets in real Kepler data.
 | [4](../08-assessments/projects/project-4.md) | Wed **Oct 14** | Wed **Oct 28** | Validate ODE methods on the SHO and a constant-density planet; reproduce Seager mass–radius relations and compare with NASA observations |
 | 5 | Thu **Oct 29** | Wed **Nov 18** | Download, clean, and fit a transit model to real Kepler photometry |
 
-The [Final Project](syllabus.md#sec-final-project) uses the course toolkit on a
-bounded scientific question.
+The [Final Project](../08-assessments/final-project.md) is a group presentation
+connecting topics from physics, inference, transport, and learning through
+shared computation and individual science applications.
 Two individual [Code Review Presentations](../08-assessments/code-review-presentations.md)
 give you a chance to study open source scientific and DS/ML packages alongside
 the numerical-methods and data/ML work.
@@ -90,7 +91,7 @@ running.
 
 ## How each project is graded
 
-Every project receives **one final letter grade**. I assign a letter in each of
+Projects 1–5 receive **one final letter grade each**. I assign a letter in each of
 four broad dimensions, convert those letters using the course grade scale, and
 take the weighted average. The final project letter uses the same cutoff table
 as the rest of the course.
@@ -114,13 +115,15 @@ highest-leverage next improvement.
 (sec-pairs)=
 ## Project Pairs & Collaboration
 
-Projects 1–5 are done in rotating pairs. The code review presentations and
-final project are individual work, although you may still discuss ideas and
-debugging with classmates.
+Projects 1–5 are done in rotating pairs. The code review presentations are
+individual work. The [final project](../08-assessments/final-project.md) is
+collaborative, with one shared deck and code submission and an individual
+contribution from each student.
 
 :::{important} You are responsible for your own work
-Working in a pair does **not** mean submitting shared work. Each student writes
-and submits their own code and written answers and must be able to explain both.
+For Projects 1–5, working in a pair does **not** mean submitting shared work.
+Each student writes and submits their own code and written answers and must
+be able to explain both.
 The [AI policy](ai-policy.md) applies to everything you submit.
 
 - **Encouraged:** designing algorithms together, whiteboarding equations,

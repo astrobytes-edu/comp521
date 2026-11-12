@@ -48,7 +48,7 @@ the [syllabus](01-course-info/syllabus.md#sec-ai-policy) for details.
 ## How this course is structured
 
 The semester has five two-week projects, two individual code review
-presentations, and a four-week solo final project.
+presentations, and a collaborative [final project](08-assessments/final-project.md).
 Every class meeting combines instruction and hands-on work, so bring your
 laptop.
 
