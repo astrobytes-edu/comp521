@@ -156,7 +156,7 @@ Growth Reflections.
 |---|-:|
 | Projects 1–5 (8% each) | 40% |
 | Code Review Presentations (2; 5% each) | 10% |
-| Final Project (preparation and development 5%; finished project 25%) | 30% |
+| Final Project (preparation and development 5%; presentation 25%) | 30% |
 | Growth Reflections (3 total) | 10% |
 | Scholarly Engagement | 10% |
 
@@ -187,7 +187,6 @@ for the individual presentation and submission requirements.
 |---|---|---|
 | Final presentation | Thu **Dec 10** | in class |
 | **Growth Synthesis** | Mon **Dec 14** | 11:59 pm PT |
-| **Final slides + runnable code** | Thu **Dec 17** | 11:59 pm PT; our final exam date |
 
 **University dates that affect you:**
 
@@ -198,7 +197,7 @@ for the individual presentation and submission requirements.
 | Mon **Sep 7** | **Labor Day**; campus closed |
 | Thu **Nov 26** | **No class**; Thanksgiving |
 | Thu **Dec 10** | Last class meeting; final presentations |
-| Thu **Dec 17** | Final exam date; shared slides + code due, 11:59 pm PT |
+| Thu **Dec 17** | University final exam date |
 
 Week-by-week topics and readings are on the [Course Schedule](schedule.md).
 Topics are listed by week rather than by day, so that class time can follow
@@ -249,7 +248,7 @@ final letter.
   scheduled date, contact me promptly through Canvas Inbox to arrange an
   equivalent individual presentation and a deadline for its materials. The
   project extension does not apply to presentations.
-- **For projects, your submission is the latest commit pushed to GitHub by the
+- **For Projects 1–5, your submission is the latest commit pushed to GitHub by the
   deadline.** Work that remains only on your computer has not been submitted.
   Push early and often. Code review materials are submitted through Canvas by
   the start of class on the presentation date.
@@ -315,12 +314,12 @@ substantive check-ins, and other visible engagement with the course.
 ### Final Project (30% total)
 
 The final project counts for 30% of your grade: 5% for preparation and ongoing
-project development and 25% for the finished project.
+project development and 25% for the final presentation and discussion.
 
 | Component | Weight | When |
 |---|---:|---|
 | Preparation and project development | 5% | Throughout in-class project work and check-ins |
-| Finished project: presentation, slides, and code | 25% | Presentation: Thu **Dec 10**<br>Slides + code: Thu **Dec 17**, 11:59 pm PT |
+| Joint presentation and discussion | 25% | Thu **Dec 10**, in class |
 
 The [Final Project brief](../08-assessments/final-project.md) defines the group
 presentation connecting topics from Blumenthal et al.'s review. Each student
@@ -334,10 +333,9 @@ reflects your readiness to discuss ideas, developing understanding, and progress
 during these conversations and check-ins. Scholarly Engagement covers your
 broader participation across the course.
 
-Submit one shared slide deck and runnable code, with references, reproduction
-instructions, and a short contribution statement. These replace the written
-report. Each student's holistic grade reflects the shared work, individual
-understanding and contribution, and explanation of connections during discussion.
+The three students present together. The presentation and discussion are the
+finished-project assessment; each student's grade reflects their contribution
+and understanding demonstrated in that setting.
 
 (sec-reflections)=
 ### Growth Reflections (10% total)

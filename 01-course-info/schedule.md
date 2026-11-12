@@ -45,7 +45,6 @@ not yet complete lessons; their assigned sections will be identified when ready.
 | Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
 | Growth Synthesis due | Mon **Dec 14** (start of finals week) |
-| Final slides + code due | Thu **Dec 17**, 11:59 pm PT |
 :::
 
 ## Block 1 · Project 1 — Scientific Programming & the Transit Model
@@ -257,7 +256,7 @@ Thu **Nov 12**
 
 ## Block 7 · Final Project
 
-*Assigned Tue Nov 17 · Group · Presentation Thu Dec 10 · Slides + code due Thu Dec 17*
+*Assigned Tue Nov 17 · Group · Presentation Thu Dec 10*
 
 See the [Final Project brief](../08-assessments/final-project.md) for the group
 format, individual topics, and shared computation.
@@ -307,4 +306,3 @@ by discussion. Last class meeting.
 | Deliverable | Due |
 |---|---|
 | Growth Synthesis | Mon **Dec 14**, 11:59 pm PT |
-| Final shared slides + runnable code | Thu **Dec 17**, 11:59 pm PT |

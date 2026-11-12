@@ -3,8 +3,9 @@ title: "Final Project"
 subtitle: "Connecting control, inference, transport, and thermodynamics"
 ---
 
-Together, teach the class major ideas from control, inference, transport,
-thermodynamics, and learning. Use Blumenthal et al., *Bridging Control,
+The three of you will prepare and deliver one joint presentation exploring
+connections among control, inference, transport, thermodynamics, and learning.
+Use Blumenthal et al., *Bridging Control,
 Inference, Transport, and Thermodynamics*, as your starting point:
 [read online](https://arxiv.org/html/2609.15897v1) or
 [download the PDF](https://arxiv.org/pdf/2609.15897).
@@ -36,14 +37,10 @@ present.** AI-generated images are welcome with judgment and acknowledgment.
 Check claims and results, credit sources and meaningful AI use, and speak from
 your own understanding.
 
-## Project work and submission
+## Project work and assessment
 
 We will work on the project periodically in class. **Preparation and ongoing
 project development count for 5% of the course grade**, assessed through our
 work, discussions, and check-ins. Come prepared to discuss what you are
-exploring and respond to questions about your developing work. The finished
-project is **25%**, for **30% total**.
-
-Submit **one shared slide deck and runnable code by December 17, 11:59 pm PT**,
-with references and brief notes on running the code and individual contributions.
-These replace the written report.
+exploring and respond to questions about your developing work. The **joint
+presentation and discussion count for 25%**, for **30% total**.

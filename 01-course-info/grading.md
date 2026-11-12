@@ -63,7 +63,7 @@ up a whole step: consistent A− work earns an A−.
 |:--|--:|
 | Projects 1–5 (8% each) | 40% |
 | Code Review Presentations (5% each) | 10% |
-| Final project (preparation and development 5%; finished project 25%) | 30% |
+| Final project (preparation and development 5%; presentation 25%) | 30% |
 | Growth Reflections (3) | 10% |
 | Scholarly engagement | 10% |
 
@@ -128,10 +128,9 @@ rounds, format, and grading anchors.
 
 ### Final project
 
-The [final project](../08-assessments/final-project.md) is judged holistically.
-Each student's grade reflects the shared presentation and computation, their
-individual understanding and contribution, and their explanation of connections
-during discussion.
+The [joint final presentation and discussion](../08-assessments/final-project.md)
+count for 25% of the course grade and are assessed holistically. Each student's
+grade reflects their contribution and understanding demonstrated in that setting.
 
 ### Final-project preparation and development
 
@@ -188,12 +187,12 @@ substantive check-ins, and other visible engagement with the course.
 Project 1 is submitted by linking the GitHub repository in its Canvas
 assignment. Later project briefs will name their submission route, including any
 Classroom50 use. Code Review Presentations and Growth Reflections are submitted
-through their corresponding Canvas assignments. The final-project brief will
-specify its submission route.
+through their corresponding Canvas assignments. The final project is assessed
+through the in-class presentation and discussion.
 Projects are typically due **Wednesdays at 11:59 pm PT**. The
 [Schedule](schedule.md) lists each specific deadline.
 
-**For projects, your submission is the latest commit pushed to GitHub by the
+**For Projects 1–5, your submission is the latest commit pushed to GitHub by the
 deadline.** Work that remains only on your computer has not been submitted.
 Push early and often: a pushed work-in-progress always beats a perfect
 uncommitted local copy.

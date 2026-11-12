@@ -31,7 +31,7 @@ and final course letter from the actual COMP 521 component weights:
 | Projects (average of five) | 40% | `A`, `B+`, `A−`, `B`, `A` |
 | Code Review Presentations (average of two) | 10% | `A`, `B+` |
 | Final-project preparation and development | 5% | `B+` |
-| Finished final project | 25% | `A−` |
+| Final-project presentation | 25% | `A−` |
 | Growth Reflections (average of three) | 10% | `A`, `A−`, `B+` |
 | Scholarly Engagement | 10% | `A` |
 
@@ -79,7 +79,7 @@ $$
 
 where $\overline{P}$ is the mean grade-point value for five projects,
 $\overline{C}$ is the mean for two Code Review Presentations, $Q$ is the
-final-project preparation and development grade point, $F$ is the finished-final-project grade point,
+final-project preparation and development grade point, $F$ is the final-presentation grade point,
 $\overline{R}$ is the mean for three Growth Reflections, and $E$ is the
 Scholarly Engagement grade point. Write pseudocode that checks inputs,
 calculates $G$, and assigns a final-course letter. Be explicit about the order
@@ -102,7 +102,7 @@ course letter.
 | Projects |  | 0.40 |  |
 | Code Review Presentations |  | 0.10 |  |
 | Final-project preparation and development |  | 0.05 |  |
-| Finished final project |  | 0.25 |  |
+| Final-project presentation |  | 0.25 |  |
 | Growth Reflections |  | 0.10 |  |
 | Scholarly Engagement |  | 0.10 |  |
 | **Total** |  |  |  |

@@ -47,7 +47,7 @@ the numerical-methods and data/ML work.
 
 ## What to Submit
 
-Each project submission includes:
+Submissions for Projects 1–5 include:
 
 - a code repository with a runnable workflow, README, and reproduction instructions;
 - verification evidence: tests, sanity checks, or convergence diagnostics; and
@@ -117,8 +117,8 @@ highest-leverage next improvement.
 
 Projects 1–5 are done in rotating pairs. The code review presentations are
 individual work. The [final project](../08-assessments/final-project.md) is
-collaborative, with one shared deck and code submission and an individual
-contribution from each student.
+one joint presentation by all three students, with an individual contribution
+from each student.
 
 :::{important} You are responsible for your own work
 For Projects 1–5, working in a pair does **not** mean submitting shared work.
