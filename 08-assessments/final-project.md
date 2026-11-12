@@ -17,6 +17,9 @@ mathematics, pursue connections you find interesting, and bring your own
 scientific perspective. The topics, depth, examples, and organization are yours
 to decide.
 
+Explore how these connections appear in machine learning, data science, or
+scientific computing through a scientific problem or method that interests you.
+
 ## Presentation
 
 Present on **Thursday, December 10**. Allow roughly **15 minutes per student
