@@ -11,7 +11,7 @@ subtitle: "COMP 521 | Fall 2026"
 | [2 · JAX or PyTorch](code-review-2.md) | Tue **Dec 1**, in class | 5% |
 
 Each student presents individually for **12 minutes**, followed by **3 minutes
-for questions**. The two presentations count for **10% total**. Projects 1–5
+for questions**. The two presentations count for **10% total**. Projects 1–4
 count for 40% of the course grade.
 
 **Presentation 2 has its own [JAX/PyTorch exploration brief](code-review-2.md),

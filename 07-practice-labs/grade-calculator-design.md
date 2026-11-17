@@ -10,7 +10,7 @@ planning and testing, then write and run your own implementation. It uses the
 published COMP 521 grading policy, but **only with the fictional record below**.
 Do not enter your own grades, a classmate's grades, or Canvas data.
 
-The fictional record and weights below reflect the current five-project,
+The fictional record and weights below reflect the current four-project,
 two-presentation course plan. If you completed this activity earlier in the
 semester, you do not need to redo it.
 
@@ -28,7 +28,7 @@ and final course letter from the actual COMP 521 component weights:
 
 | Category | Weight | Fictional letter grades |
 |---|---:|---|
-| Projects (average of five) | 40% | `A`, `B+`, `A−`, `B`, `A` |
+| Projects (average of four) | 40% | `A`, `B+`, `A−`, `B` |
 | Code Review Presentations (average of two) | 10% | `A`, `B+` |
 | Final-project preparation and development | 5% | `B+` |
 | Final-project presentation | 25% | `A−` |
@@ -66,7 +66,7 @@ Write a compact answer to each question.
    and Growth Reflections.
 2. What outputs does it return?
 3. What does it do with an unknown letter such as `"E"`?
-4. What does it do with four projects, one presentation, or two Growth Reflections?
+4. What does it do with three projects, one presentation, or two Growth Reflections?
 5. When, if ever, does it round the numerical average?
 
 ## Part 2 — Write the calculation in pseudocode
@@ -77,7 +77,7 @@ $$
 G = 0.40\overline{P} + 0.10\overline{C} + 0.05Q + 0.25F + 0.10\overline{R} + 0.10E,
 $$
 
-where $\overline{P}$ is the mean grade-point value for five projects,
+where $\overline{P}$ is the mean grade-point value for four projects,
 $\overline{C}$ is the mean for two Code Review Presentations, $Q$ is the
 final-project preparation and development grade point, $F$ is the final-presentation grade point,
 $\overline{R}$ is the mean for three Growth Reflections, and $E$ is the
@@ -107,7 +107,7 @@ course letter.
 | Scholarly Engagement |  | 0.10 |  |
 | **Total** |  |  |  |
 
-Your unrounded result should be approximately `3.662`, which is an `A−`.
+Your result should be approximately `3.622`, which is an `A−`.
 
 ## Part 4 — Design tests before implementation
 
@@ -115,11 +115,11 @@ Complete at least these six cases. Add a seventh case of your own.
 
 | Test case | Inputs or condition | Expected result | Why this test matters |
 |---|---|---|---|
-| ordinary complete fictional record |  | `3.661666...`, `A−` | ordinary |
+| ordinary complete fictional record |  | `3.621666...`, `A−` | ordinary |
 | `final_course_letter(3.80)` |  | `A` | final-course boundary |
 | `final_course_letter(3.79)` |  | `A−` | final-course boundary |
 | unknown letter, such as `"E"` |  | reject | invalid input |
-| four projects, one presentation, or two reflections |  | reject | incomplete component |
+| three projects, one presentation, or two reflections |  | reject | incomplete component |
 | `final_course_letter(4.30)` |  | `A`, never `A+` | final-course policy |
 | your case |  |  |  |
 
@@ -148,7 +148,7 @@ Represent the supplied fictional record with named fields:
 
 ```python
 fictional_record = {
-    "projects": ["A", "B+", "A-", "B", "A"],
+    "projects": ["A", "B+", "A-", "B"],
     "code_reviews": ["A", "B+"],
     "final_project_preparation": "B+",
     "final_project": "A-",
@@ -159,7 +159,7 @@ fictional_record = {
 
 Use ordinary or keyword calls deliberately. `expected_count` and
 `component_name` are keyword-only because a call such as
-`mean_component_grade(projects, expected_count=5, component_name="projects")`
+`mean_component_grade(projects, expected_count=4, component_name="projects")`
 is easier to inspect than two unexplained positional values.
 
 Keep these jobs separate: mapping letters, averaging a component, calculating

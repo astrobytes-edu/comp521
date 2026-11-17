@@ -218,7 +218,7 @@ every self-check in this project.
 $z = d/R_\star$ are lengths over lengths, and flux is a ratio. That is not
 convenience, it is the physics — it is *why* a transit measures $R_p/R_\star$
 and never $R_p$. To get kilometres you need $R_\star$ from somewhere else
-entirely, a limitation you run into for real in Project 5.
+entirely, a limitation when interpreting observed transits.
 
 **Do not use `astropy.units`.** Carrying units by hand is the exercise. The habit
 that saves you: put units in the parameter name. `radius_cm` and `radius_rsun`
@@ -515,8 +515,7 @@ Aufdenberg et al. (2005); Vega — Aufdenberg et al. (2006); Fomalhaut — Mamaj
 If you look these up elsewhere you will find different numbers, sometimes very
 different — Betelgeuse's radius varies by more than 20% across the literature,
 because a supergiant does not have a sharp edge. That is not sloppiness. It is
-what measuring a real star is like, and it is worth knowing before Project 5,
-where you measure one yourself.
+what measuring a real star is like.
 :::
 
 :::{tip} Self-check

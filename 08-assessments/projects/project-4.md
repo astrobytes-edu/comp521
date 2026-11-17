@@ -45,7 +45,7 @@ project-4/
 Keep reusable functions in modules and calculations, figures, and interpretation
 in the notebook. Use NumPy, Matplotlib, pytest, and Pandas; run `python -m pytest`
 from the project directory. Pandas is limited to reading and selecting NASA rows
-in Part 3. Project 5 develops the broader data-analysis workflow.
+in Part 3.
 
 ## Part 1 — Validate the ODE methods
 

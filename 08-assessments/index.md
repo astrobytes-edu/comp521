@@ -9,7 +9,7 @@ This section collects the pages that govern graded or submission-bearing work.
 Each linked page remains the authoritative source for its own requirements and
 criteria.
 
-- [Project overview](../01-course-info/projects.md) — the five-project sequence and grading criteria.
+- [Project overview](../01-course-info/projects.md) — the four-project sequence and grading criteria.
 - [Code Review Presentations](code-review-presentations.md) — two individual
   presentations, each worth 5% of the course grade.
 - [Presentation 2: JAX or PyTorch](code-review-2.md) — open-ended exploration of

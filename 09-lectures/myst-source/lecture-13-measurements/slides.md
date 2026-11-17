@@ -350,7 +350,7 @@ Different combinations can produce similar curves. Uncertainty determines how pr
 ::::::
 ::::::::
 
-## From a forward model to Project 5
+## From a forward model to observed photometry
 
 ```{slide-options}
 {"class":"foundation","eyebrow":"PREDICTION MEETS KEPLER DATA"}
@@ -364,7 +364,7 @@ With observations, compare the prediction at each observation time to the measur
 
 $$r_i=y_i-f_{\rm model}(t_i;\boldsymbol\theta).$$
 
-The residuals tell us where the model and the light curve disagree. Project 5 brings this modeling idea to Kepler photometry.
+The residuals tell us where the model and the light curve disagree. The same modeling workflow applies to Kepler photometry.
 
 ## A simple model for depth
 

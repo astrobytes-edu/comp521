@@ -33,7 +33,7 @@ Starting Project 4? Read sections marked 🔴
 :::
 
 :::{grid-item-card} 🚶 **Standard Path**
-Preparing for Projects 4-5? Read 🔴 and 🟡
+Preparing for statistical modeling? Read 🔴 and 🟡
 
 - Everything in Fast Track, plus:
 - [Multivariate Gaussian](#multivariate-gaussian)
@@ -61,12 +61,12 @@ Want mastery? Read all sections including 🟢
 - [Section 1.4: Multivariate Gaussian](#multivariate-gaussian) - Sampling
 - [Section 3: Numerical Reality](#part-3-numerical-reality) - Stability
 
-**For Project 5 (Gaussian Processes)**:
+**For Gaussian processes**:
 - [Section 5: Positive Definite Matrices](#part-1-positive-definite) - Kernel matrices
 - [Section 5.5: Cholesky Decomposition](#cholesky-decomposition) - GP implementation
 - [Section 6.2: Schur Complement](#block-matrices) - Efficient updates
 
-**For Final Project (Neural Networks)**:
+**For Neural networks**:
 - [Section 6: Advanced Topics](#part-2-advanced) - Matrix norms, Jacobians
 - [Section 8: Bridge to ML](#part-4-bridge) - Connecting everything
 - [Section 8.5: Matrix Calculus](#matrix-calculus-nn) - Backpropagation
@@ -80,7 +80,7 @@ Want mastery? Read all sections including 🟢
 :class: dropdown
 
 - [ ] **Before Project 4**: Read sections marked 🔴 (3-4 hours)
-- [ ] **During Projects 4-5**: Deep dive into 🟡 sections
+- [ ] **For more depth**: Read the 🟡 sections
 - [ ] **For Final Project**: Review Section 8 connections
 - [ ] **Reference**: Return when debugging numerical issues
 
@@ -128,7 +128,7 @@ If unfamiliar, review Module 0a first. This module builds on numerical foundatio
 This module bridges deterministic linear algebra with statistical methods and machine learning. You'll master the mathematical foundations for uncertainty quantification, probabilistic inference, and learning algorithms—essential for Projects 4-6. Building on Module 0a's numerical foundations, we explore advanced numerical methods specific to statistical computations.
 :::
 
-Building on Module 0a's foundations, this module explores how linear algebra enables statistical computation and machine learning. We cover **positive definite matrices** that ensure physical validity (Project 4), **covariance structures** that encode correlations (Project 5), and **advanced numerical methods** that keep statistical computations stable despite finite precision (all projects). The module culminates by showing how these concepts unite classical physics with modern machine learning (Final Project).
+Building on Module 0a's foundations, this module explores how linear algebra enables statistical computation and machine learning. We cover **positive definite matrices** that ensure physical validity (Project 4), **covariance structures** that encode correlations, and **advanced numerical methods** that keep statistical computations stable despite finite precision (all projects). The module culminates by showing how these concepts unite classical physics with modern machine learning (Final Project).
 
 :::{admonition} 🎯 Why This Module Matters
 :class: important
@@ -136,8 +136,8 @@ Building on Module 0a's foundations, this module explores how linear algebra ena
 For Projects 4-6, you'll need:
 
 - **Project 4 (MCMC)**: Covariance matrices for proposals, multivariate Gaussians for sampling
-- **Project 5 (Gaussian Processes)**: Positive definite kernels, Cholesky decomposition, numerical stability
-- **Final Project (Neural Networks)**: Matrix norms for convergence, Jacobians for backpropagation, matrix calculus
+- **Gaussian processes**: Positive definite kernels, Cholesky decomposition, numerical stability
+- **Neural networks**: Matrix norms for convergence, Jacobians for backpropagation, matrix calculus
 
 These aren't just mathematical abstractions—they're the tools that let you quantify uncertainty in cosmological parameters, interpolate sparse astronomical data, and train neural networks to discover patterns in observations.
 :::
@@ -145,13 +145,13 @@ These aren't just mathematical abstractions—they're the tools that let you qua
 (part-1-positive-definite)=
 ## Part 1: Positive Definite Matrices and Statistical Foundations
 
-**Priority: 🟡 Important** - Essential for Projects 4-5
+**Priority: 🟡 Important** - Essential for statistical modeling
 
 :::{admonition} 📅 When You'll Use This
 :class: dropdown, hint
 
 - **First appears in**: Project 4 (MCMC covariance matrices)
-- **Critical for**: Project 5 (Gaussian Process kernels)
+- **Critical for**: Gaussian process kernels
 - **Why it matters**: Ensures physical validity of statistical methods
 
 Can skip initially, but must understand before Project 4.
@@ -243,10 +243,10 @@ Adding small positive values (often to diagonals) to improve numerical stability
 - Physical constraints (noise levels) for GPs
 - Condition number monitoring for numerical stability
 
-In Project 5, your GP's noise term σ²ₙ acts as natural regularization — set it based on actual measurement uncertainty, not arbitrary numerical convenience.
+In Gaussian process regression, the noise term σ²ₙ acts as natural regularization — set it based on actual measurement uncertainty, not arbitrary numerical convenience.
 :::
 
-:::{warning} ⚠️ Common Bug in Project 5
+:::{warning} ⚠️ Common Gaussian process bug
 
 When implementing Gaussian Processes, your kernel matrix might lose positive definiteness due to numerical errors. 
 
@@ -284,13 +284,13 @@ F = GMm/(r^2 + epsilon^2)  # epsilon prevents division by zero
 loss = data_term + lambda * np.sum(weights**2)  # L2 regularization
 ```
 
-**Project 5 (GPs)**: Jitter term ensures positive definiteness.
+**Gaussian processes**: Jitter term ensures positive definiteness.
 
 ```python
 K = K + sigma_n^2 * I  # Noise term regularizes covariance
 ```
 
-**Final Project (Neural Networks)**: Weight decay prevents overfitting.
+**Neural networks**: Weight decay prevents overfitting.
 
 ```python
 loss = cross_entropy + weight_decay * sum_of_squared_weights
@@ -315,7 +315,7 @@ This is why positive definite matrices guarantee unique solutions in optimizatio
 (covariance-matrices)=
 ### 1.3 Covariance Matrices: The Bridge to Statistics
 
-**Priority: 🟡 Important** - Foundation for Projects 4-5
+**Priority: 🟡 Important** - Foundation for statistical modeling
 
 ```{margin}
 **covariance**
@@ -428,13 +428,13 @@ The covariance matrix defines an **uncertainty ellipsoid** in parameter space:
 
 In Project 4 (MCMC), you'll sample from multivariate Gaussians with covariance $\Sigma$. Your samples will form an elliptical cloud with shape determined by $\Sigma$!
 
-In Project 5 (GPs), the kernel matrix IS a covariance matrix – it encodes how correlated function values are at different points.
+In Gaussian processes, the kernel matrix IS a covariance matrix – it encodes how correlated function values are at different points.
 :::
 
 (multivariate-gaussian)=
 ### 1.4 The Multivariate Gaussian Distribution
 
-**Priority: 🟡 Important** - Core of Projects 4-5
+**Priority: 🟡 Important** - Core of statistical modeling
 
 ```{margin}
 **multivariate Gaussian**
@@ -488,13 +488,13 @@ Similarly, $\Sigma$ stretches space according to variances and correlations. To 
 **In your projects**:
 
 - **Project 4**: MCMC proposals use multivariate Gaussians—the covariance determines step sizes and directions
-- **Project 5**: GP predictions are multivariate Gaussians—the kernel determines the covariance structure
+- **Gaussian processes**: GP predictions are multivariate Gaussians—the kernel determines the covariance structure
 :::
 
 (cholesky-decomposition)=
 ### 1.5 Cholesky Decomposition: The Matrix Square Root 
 
-**Priority: 🟡 Important** - Essential for Project 5
+**Priority: 🟡 Important** - Essential for Gaussian process regression
 
 ```{margin}
 **Cholesky decomposition**
@@ -517,7 +517,7 @@ where $L$ is lower triangular with positive diagonal entries.
 
 This uniqueness is crucial for numerical methods: no matter which algorithm you use (whether the classical Cholesky-Banachiewicz or the Cholesky-Crout variant), you'll always get the same $L$ matrix (up to numerical precision). This deterministic property makes Cholesky decomposition ideal for reproducible scientific computing.
 
-**Why uniqueness matters**: When you use Cholesky in your MCMC proposals (Project 4) or GP implementations (Project 5), you're guaranteed consistent results across different machines and libraries. This isn't true for eigendecomposition, where eigenvectors can differ by sign or be arbitrarily chosen when eigenvalues are repeated.
+**Why uniqueness matters**: When you use Cholesky in your MCMC proposals (Project 4) or GP implementations, you're guaranteed consistent results across different machines and libraries. This isn't true for eigendecomposition, where eigenvectors can differ by sign or be arbitrarily chosen when eigenvalues are repeated.
 
 **Intuitive Understanding**: Think of Cholesky as finding the "square root" of a matrix
 
@@ -559,7 +559,7 @@ x = np.linalg.solve(L.T, y)
 # Why faster? Triangular systems solve in O(n²) not O(n³)!
 ```
 
-**2. Generating Correlated Random Variables** (Projects 4-5):
+**2. Generating Correlated Random Variables** (statistical modeling):
 
 ```python
 # Generate samples from N(mu, Sigma)
@@ -586,7 +586,7 @@ x = mu + L @ z                  # Has mean mu, covariance Sigma
 This is why Cholesky is essential for:
 
 - **MCMC** (Project 4): Generate proposal steps with correct correlations
-- **GP sampling** (Project 5): Generate functions from the GP prior
+- **GP sampling**: Generate functions from the GP prior
 - **Data augmentation**: Create synthetic data with realistic correlations
 
 The triangular structure of $L$ means the transformation happens sequentially—each dimension adds its contribution based on previous dimensions.
@@ -816,7 +816,7 @@ Schur complement of $D$: $S = 3 - (1)(1/4)(2) = 3 - 0.5 = 2.5$
 
 This 2.5 is the "effective resistance" in the first variable after the second adjusts optimally.
 
-**Why It Matters for Project 5 (GPs)**:
+**Why it matters for Gaussian processes**:
 When you add a new observation to a Gaussian Process:
 - Old observations = block $A$
 - Covariance with new point = blocks $B, C$  
@@ -1180,7 +1180,7 @@ L = np.linalg.cholesky(Sigma_bad)
 # Sample in transformed space where κ = 1, then transform back
 ```
 
-**GP Implications (Project 5)**:
+**GP implications**:
 ```python
 # Kernel matrices become ill-conditioned when:
 # 1. Data points are very close (duplicate measurements)
@@ -1442,7 +1442,7 @@ The horizontal velocity value (a 64-bit float) was converted to a 16-bit signed 
 In your projects:
 - Project 2: Check for position overflows in long integrations
 - Project 4: Monitor log-probability underflows in MCMC
-- Project 5: Watch for precision loss in badly-scaled kernels
+- Gaussian processes: Watch for precision loss in badly-scaled kernels
 
 *Source: Lions, J. L. (1996). ["Ariane 5 Flight 501 Failure: Report by the Inquiry Board."](http://sunnyday.mit.edu/nasa-class/Ariane5-report.html) European Space Agency.*
 :::
@@ -1466,7 +1466,7 @@ Linear algebra provides the mathematical continuity across your entire journey. 
 
 **The Evolution of Mathematical Objects**:
 
-| Mathematical Object | Classical Physics (Projects 1-3) | Statistical Methods (Projects 4-5) | Machine Learning (Final Project) |
+| Mathematical Object | Classical Physics (Projects 1-3) | Statistical Modeling | Machine Learning |
 |-------------------|----------------------------------|-------------------------------------|----------------------------------|
 | **Vectors** | Positions, velocities, forces | Parameter samples, data points | Feature vectors, gradients |
 | **Matrices** | Transformations, rotations | Covariance, kernels | Weight matrices, Jacobians |
@@ -1532,8 +1532,8 @@ The techniques in this module power every major simulation and discovery in mode
 
 **Your Learning Journey**:
 1. **Classical** (Projects 1-3): Deterministic systems, exact solutions
-2. **Statistical** (Projects 4-5): Uncertainty quantification, probabilistic inference
-3. **Learning** (Final Project): Pattern discovery, function approximation
+2. **Statistical modeling**: Uncertainty quantification, probabilistic inference
+3. **Learning**: Pattern discovery, function approximation
 
 **The Mathematical Thread**:
 - Same linear algebra throughout

@@ -156,14 +156,14 @@ Answer these quickly with **Yes = 1** and **No = 0**.
 - [Moments](03-mod1-part3-moments.md#moments) - Posterior statistics
 - [Bayesian Thinking](02-mod1-part2-statistical-tools.md#bayesian-inference) - The theoretical foundation
 
-**For Project 5 (Gaussian Processes)**:
+**For Gaussian processes**:
 
 - [Correlation and Covariance](02-mod1-part2-statistical-tools.md#correlation) - Kernel functions are covariance
 - [Maximum Entropy](01-mod1-part1-foundations.md#maximum-entropy) - GP as max entropy given covariance
 - [Marginalization](02-mod1-part2-statistical-tools.md#marginalization) - Making predictions from joint distributions
 - [Moments](03-mod1-part3-moments.md#moments) - Understanding GP mean and variance functions
 
-**For Final Project (Neural Networks)**:
+**For Neural networks**:
 
 - [Temperature Parameter](01-mod1-part1-foundations.md#temperature-lie) - Softmax temperature
 - [Maximum Entropy](01-mod1-part1-foundations.md#maximum-entropy) - Cross-entropy loss

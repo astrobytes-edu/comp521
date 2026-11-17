@@ -38,7 +38,7 @@ author: "Dr. Anna Rosen"
 - **Grading is by letter, not points.** Projects use four broad weighted letter
   categories; other assignments receive one holistic letter. See
   [Grading](grading.md) for the shared scale and calculation.
-- **You will work in rotating pairs** on Projects 1–5 while writing and
+- **You will work in rotating pairs** on Projects 1–4 while writing and
   submitting your own code. The two code review presentations are individual;
   the [final project](../08-assessments/final-project.md) is collaborative.
 - **Getting help:** office hours are **Thursdays 4–5 pm, Physics 239**. Use
@@ -145,7 +145,7 @@ By the end of this course, students will be able to:
    tests, documentation, figures, notebooks, and presentations; clearly stating
    methods, evidence, limitations, and meaningful collaboration or AI use.
 
-**Where these outcomes are assessed:** Projects 1–5, the two Code Review
+**Where these outcomes are assessed:** Projects 1–4, the two Code Review
 Presentations, the Final Project (including in-class development), and the
 Growth Reflections.
 
@@ -154,7 +154,7 @@ Growth Reflections.
 
 | Component | Weight |
 |---|-:|
-| Projects 1–5 (8% each) | 40% |
+| Projects 1–4 (10% each) | 40% |
 | Code Review Presentations (2; 5% each) | 10% |
 | Final Project (preparation and development 5%; presentation 25%) | 30% |
 | Growth Reflections (3 total) | 10% |
@@ -239,7 +239,7 @@ final letter.
 (sec-late)=
 ### Late Work & Extensions
 
-- **One free extension per semester, for Projects 1–5 only.** Request it at least
+- **One free extension per semester, for Projects 1–4 only.** Request it at least
   **24 hours** before the deadline and you get a **2-day grace period** with no
   penalty and no reason required.
 - **No late submissions beyond that.** If you miss a deadline without an
@@ -248,7 +248,7 @@ final letter.
   scheduled date, contact me promptly through Canvas Inbox to arrange an
   equivalent individual presentation and a deadline for its materials. The
   project extension does not apply to presentations.
-- **For Projects 1–5, your submission is the latest commit pushed to GitHub by the
+- **For Projects 1–4, your submission is the latest commit pushed to GitHub by the
   deadline.** Work that remains only on your computer has not been submitted.
   Push early and often. Code review materials are submitted through Canvas by
   the start of class on the presentation date.
@@ -276,7 +276,7 @@ including reading, project work, and preparation for class.
 ### Projects
 
 COMP 521 includes a required repository check at the start of Project 1,
-five two-week projects, two individual code review presentations, and a
+four short projects, two individual code review presentations, and a
 collaborative final project. See
 [Projects](projects.md) for the checkpoint, project sequence, submissions, and
 collaboration expectations.

@@ -7,7 +7,7 @@ subtitle: "COMP 521 | Fall 2026"
 
 ## How grading works in this course
 
-**Each graded assignment receives one final letter grade.** Projects 1–5 use
+**Each graded assignment receives one final letter grade.** Projects 1–4 use
 four broad letter-graded dimensions; the weighted average becomes the project
 letter. Code Review Presentations, Growth Reflections, and the final project's
 components are holistically assessed as described below.
@@ -61,7 +61,7 @@ up a whole step: consistent A− work earns an A−.
 
 | Component | Weight |
 |:--|--:|
-| Projects 1–5 (8% each) | 40% |
+| Projects 1–4 (10% each) | 40% |
 | Code Review Presentations (5% each) | 10% |
 | Final project (preparation and development 5%; presentation 25%) | 30% |
 | Growth Reflections (3) | 10% |
@@ -72,7 +72,7 @@ up a whole step: consistent A− work earns an A−.
 The descriptions below are anchors. Plus and minus grades indicate work between
 adjacent descriptions; A+ is reserved for the judgment described above.
 
-### Projects 1–5
+### Projects 1–4
 
 (project-grade-calculation)=
 #### Project grade calculation
@@ -119,12 +119,12 @@ not a separate points category.
 
 ### Code Review Presentations
 
-Each of the two individual presentations receives one holistic letter grade
-and counts for 5% of the course grade. I look for a useful map of the package,
-a specific code trace, a check that could have disagreed with the student's
-expectation, and a conclusion that stays within the evidence. See the
-[assessment brief](../08-assessments/code-review-presentations.md) for the
-rounds, format, and grading anchors.
+Each individual presentation receives one holistic letter grade and counts
+for 5% of the course grade. [Presentation 1](../08-assessments/code-review-presentations.md)
+reviews package architecture, a specific code path, and a focused check.
+[Presentation 2](../08-assessments/code-review-2.md) emphasizes understanding and
+teaching JAX or PyTorch through an exploration that interests the student.
+Use the separate briefs for their scope and expectations.
 
 ### Final project
 
@@ -192,7 +192,7 @@ through the in-class presentation and discussion.
 Projects are typically due **Wednesdays at 11:59 pm PT**. The
 [Schedule](schedule.md) lists each specific deadline.
 
-**For Projects 1–5, your submission is the latest commit pushed to GitHub by the
+**For Projects 1–4, your submission is the latest commit pushed to GitHub by the
 deadline.** Work that remains only on your computer has not been submitted.
 Push early and often: a pushed work-in-progress always beats a perfect
 uncommitted local copy.

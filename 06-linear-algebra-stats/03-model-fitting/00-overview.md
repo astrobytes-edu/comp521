@@ -4,8 +4,7 @@ subtitle: "Data, Inference, and Scientific ML | COMP 521"
 ---
 
 :::{warning} Module in preparation
-This module will be finalized before Project 5 begins. The page establishes the
-course route; worked examples and project-specific guidance are still being
+This page establishes the course route. Worked examples are still being
 developed.
 :::
 

@@ -40,9 +40,8 @@ includes Project 4 questions and completion time.
 
 Move from the scientific question to data inspection and a first model fit:
 provenance, units, missing values, residuals, and uncertainty weights. Introduce
-the real Kepler photometry workflow, including quality flags and gaps, as the
-application for Project 5. The project brief will define the implementation
-scope and required work.
+the real Kepler photometry workflow, including quality flags and gaps, as an
+example of working with observational data.
 
 ### Focused reference
 
@@ -95,12 +94,10 @@ and from comparison with observed planets.
 
 ### Looking ahead
 
-Project 5 continues from the foundations and first fitting methods into data
-preparation, transit-model fitting, uncertainty, and diagnostics. The
-[Schedule](schedule.md#block-5-project-5-real-data-model-fitting) lists
-Project 5 for **Thursday, October 29**, due **Wednesday, November 18,
-11:59 pm PT**. Its public brief is not yet available; use the
-[Projects page](projects.md) and Schedule for the current sequence and dates.
+The [model-fitting block](schedule.md#block-5-real-data-model-fitting) develops
+data preparation, transit-model fitting, uncertainty, and diagnostics. See the
+[Final Project brief](../08-assessments/final-project.md) for the group
+presentation and shared computational example.
 ::::
 
 (week-6)=

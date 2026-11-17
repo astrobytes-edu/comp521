@@ -1211,8 +1211,8 @@ where $A^T A$ creates covariance matrices encoding correlations.
 :class: dropdown
 
 - **First appears in**: Project 2 (orbital stability)
-- **Critical for**: Projects 4-5 (convergence, optimization)
-- **Returns in**: Final Project (neural network training dynamics)
+- **Critical for**: statistical modeling (convergence, optimization)
+- **Returns in**: neural network training dynamics
 
 Skip on first reading if time-constrained, return when starting Project 2.
 :::
@@ -1361,13 +1361,13 @@ Eigenvalues appear in most projects in this course:
 | Project 2 | Linearized dynamics near equilibrium | Orbital stability (stable if all $\lambda < 0$) |
 | Project 3 | Scattering matrix | Preferred scattering directions |
 | Project 4 | MCMC transition matrix | Convergence rate: $\sim 1/\|1-\lambda_2\|$ where $\lambda_2$ is the second-largest eigenvalue by absolute value (with $\|\lambda_2\| < 1$) |
-| Project 5 | GP kernel matrix | Effective degrees of freedom |
-| Final Project | Neural network Hessian | Optimization landscape curvature |
+| Gaussian processes | GP kernel matrix | Effective degrees of freedom |
+| Neural networks | Neural network Hessian | Optimization landscape curvature |
 
 :::{admonition} 💡 Deep Connection: Why Symmetric Matrices Are Special
 :class: note
 
-**Priority: 🟡 Important for Projects 4-5**
+**Priority: 🟡 Important for statistical modeling**
 
 **The Spectral Theorem** guarantees that symmetric matrices have:
 1. All real eigenvalues

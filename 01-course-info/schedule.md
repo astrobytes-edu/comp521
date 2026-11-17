@@ -5,7 +5,7 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Course Schedule
 
-Sixteen weeks: five projects (in rotating pairs), two individual code review
+Sixteen weeks: four short projects (in rotating pairs), two individual code review
 presentations, and a collaborative [final project](../08-assessments/final-project.md).
 Project dates are listed below.
 Class meets **Tue/Thu 5:30–6:45 pm in LSN 134**.
@@ -38,7 +38,6 @@ not yet complete lessons; their assigned sections will be identified when ready.
 | Labor Day — campus closed | Mon **Sep 7** |
 | Project 4 | Assigned Wed **Oct 14**; due Wed **Oct 28** |
 | Scientific computing code reviews | Thu **Oct 22**, in class |
-| Project 5 | Assigned Thu **Oct 29**; due Wed **Nov 18** |
 | Final-project work and check-ins | Tue **Nov 24**, in class |
 | No class — Thanksgiving | Thu **Nov 26** |
 | Presentation 2 · JAX / PyTorch | Tue **Dec 1**, in class |
@@ -175,7 +174,7 @@ equations of state, and the constant-density analytic planet check
 
 **Thu Oct 15** — Pandas introduction: read a saved NASA exoplanet CSV, select
 columns and rows with a boolean mask, and plot mass/radius estimates with
-uncertainties. Broader data analysis follows in Project 5.
+uncertainties. Broader data analysis follows in the model-fitting block.
 
 **Assigned** — [**Project 4**](../08-assessments/projects/project-4.md), Wed **Oct 14**; due Wed **Oct 28**, 11:59 pm PT
 
@@ -190,9 +189,7 @@ mass–radius relation. Project 4 is self-contained.
 **In class** — [Scientific computing code reviews](../08-assessments/code-review-presentations.md),
 Thu **Oct 22**
 
-## Block 5 · Project 5 — Real Data & Model Fitting
-
-*Assigned Thu Oct 29 · Due Wed Nov 18*
+## Block 5 · Real Data & Model Fitting
 
 ### Week 10 — Oct 27, 29 · Project 4 completion and real data
 
@@ -210,7 +207,7 @@ Include Project 4 questions and completion time.
 **Thursday, October 29** — begin the methods: inspect data provenance, units,
 and missing values, then connect a first model fit to residuals and uncertainty
 weights. Introduce the real Kepler photometry workflow, including Lightkurve,
-quality flags, and gaps, for Project 5.
+quality flags, and gaps.
 
 [Data acquisition, cleaning, and exploratory analysis](../04-scientific-computing/12-data-acquisition-cleaning.md)
 remains an in-development scope note. The model-fitting reading is also in
@@ -218,8 +215,6 @@ preparation; completed assigned sections will be identified when ready.
 
 **Due Wed Oct 28, 11:59 pm PT** — **Project 4** (ODE library +
 exoplanet-interior notebook).
-
-**Assigned** — **Project 5**, Thu **Oct 29**; due Wed **Nov 18**, 11:59 pm PT
 
 ### Week 11 — Nov 3, 5 · Data preparation, fitting, and uncertainty
 
@@ -252,9 +247,8 @@ return to the project during in-class work and check-ins.
   Choose JAX or PyTorch, or a related library, for your open-ended exploration.
 
 **Topics** — a focused introduction to classification and clustering; train/test
-splits, cross-validation, and evaluation metrics; Project 5 working time.
-Relevant ML methods can return during final-project check-ins. There is no
-separate Project 6 assignment.
+splits, cross-validation, and evaluation metrics. Relevant ML methods can
+return during final-project check-ins.
 
 **Presentation 2** is on **Tuesday, December 1**. Use this time to become
 familiar with your chosen framework and explore examples that interest you.
@@ -273,11 +267,7 @@ format, individual topics, and shared computation.
 - [Inferential thinking](../06-linear-algebra-stats/02-inference/02-mod5-part2-inference.md)
 
 **Topics** — measurement uncertainty, inference; final-project launch and
-scoping. The final project launches Tue **Nov 17**, while Project 5 is being
-completed.
-
-**Due Wed Nov 18, 11:59 pm PT** — **Project 5** (real Kepler photometry +
-transit-model fit + analysis notebook).
+scoping. The final project launches Tue **Nov 17**.
 
 **Assigned** — **Growth Synthesis**, Tue **Nov 17**; due Mon **Dec 14**, 11:59 pm PT
 

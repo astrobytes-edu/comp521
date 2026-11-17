@@ -182,7 +182,7 @@ for rho in [0, 0.5, 0.9]:
 - Need to account for correlation in error estimates
 - Effective sample size: $N_{\text{eff}} \approx N/(2\tau_{\mathrm{int}})$ where $\tau_{\mathrm{int}}$ is integrated autocorrelation time (convention-dependent; equivalent forms like $N/(1 + 2\tau_{\mathrm{int}})$ are also used)
 
-**Project 5 (Gaussian Processes)**: Entire method based on correlation!
+**Gaussian processes**: Entire method based on correlation!
 
 - Covariance kernel defines correlation between points
 - Predictions use correlations to interpolate
@@ -937,7 +937,7 @@ This isn't an analogy — it's an identity. Higher temperature literally means l
 - **Project 2**: Velocity dispersion in star clusters is literally the standard deviation of stellar velocities
 - **Project 3**: Photon count uncertainty follows Poisson statistics where variance equals the mean
 - **Project 4**: MCMC convergence diagnosed by monitoring variance between chains
-- **Project 5**: Gaussian Process variance gives uncertainty bands on predictions
+- **Gaussian processes**: Gaussian Process variance gives uncertainty bands on predictions
 
 The takeaway: Variance isn't just a statistical concept — it's often the physical quantity we're measuring (temperature, pressure, velocity dispersion).
 
@@ -1205,7 +1205,7 @@ Both paradigms encode modeling assumptions, but they differ in where probability
 - MCMC samples from posterior distributions
 - Prior $\times$ Likelihood = Posterior (unnormalized)
 
-**Project 5 (Gaussian Processes)**:
+**Gaussian processes**:
 
 - Prior: GP defines prior over functions
 - Likelihood: Data constraints at observed points

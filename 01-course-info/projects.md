@@ -5,7 +5,7 @@ subtitle: "COMP 521 | Fall 2026"
 
 # Projects
 
-Projects are the core of COMP 521: five investigations. Use the listed dates for
+Projects are the core of COMP 521: four short investigations. Use the listed dates for
 each project. Each project has two halves:
 
 - **Week 1** — method, implementation, and validation against known results
@@ -27,8 +27,8 @@ you can use Python and Jupyter.
 
 ## Project Sequence
 
-The five projects build a continuous scientific investigation: detecting and
-characterizing exoplanets in real Kepler data.
+The four projects build computational methods for modeling exoplanet transits,
+stellar environments, and planetary interiors.
 
 | Project | Assigned | Due | Contribution to the investigation |
 |---|---|---|---|
@@ -36,18 +36,18 @@ characterizing exoplanets in real Kepler data.
 | [2](../08-assessments/projects/project-2.md) | Tue **Sep 8** | Wed **Sep 23** | Integrate a limb-darkened transit model and derive the Stefan–Boltzmann constant |
 | [3](../08-assessments/projects/project-3.md) | Tue **Sep 22** | Wed **Oct 7** | Solve orbital and transit-contact problems; compare simplified temperature zones for 15 stars |
 | [4](../08-assessments/projects/project-4.md) | Wed **Oct 14** | Wed **Oct 28** | Validate ODE methods on the SHO and a constant-density planet; reproduce Seager mass–radius relations and compare with NASA observations |
-| 5 | Thu **Oct 29** | Wed **Nov 18** | Download, clean, and fit a transit model to real Kepler photometry |
 
 The [Final Project](../08-assessments/final-project.md) is a group presentation
 connecting topics from physics, inference, transport, and learning through
 shared computation and individual science applications.
-Two individual [Code Review Presentations](../08-assessments/code-review-presentations.md)
-give you a chance to study open source scientific and DS/ML packages alongside
-the numerical-methods and data/ML work.
+Two individual presentations complement the project work:
+[Presentation 1](../08-assessments/code-review-presentations.md) reviews open
+source scientific code, and [Presentation 2](../08-assessments/code-review-2.md)
+explores JAX or PyTorch and their related libraries.
 
 ## What to Submit
 
-Submissions for Projects 1–5 include:
+Submissions for Projects 1–4 include:
 
 - a code repository with a runnable workflow, README, and reproduction instructions;
 - verification evidence: tests, sanity checks, or convergence diagnostics; and
@@ -91,7 +91,7 @@ running.
 
 ## How each project is graded
 
-Projects 1–5 receive **one final letter grade each**. I assign a letter in each of
+Projects 1–4 receive **one final letter grade each**. I assign a letter in each of
 four broad dimensions, convert those letters using the course grade scale, and
 take the weighted average. The final project letter uses the same cutoff table
 as the rest of the course.
@@ -115,13 +115,13 @@ highest-leverage next improvement.
 (sec-pairs)=
 ## Project Pairs & Collaboration
 
-Projects 1–5 are done in rotating pairs. The code review presentations are
+Projects 1–4 are done in rotating pairs. The code review presentations are
 individual work. The [final project](../08-assessments/final-project.md) is
 one joint presentation by all three students, with an individual contribution
 from each student.
 
 :::{important} You are responsible for your own work
-For Projects 1–5, working in a pair does **not** mean submitting shared work.
+For Projects 1–4, working in a pair does **not** mean submitting shared work.
 Each student writes and submits their own code and written answers and must
 be able to explain both.
 The [AI policy](ai-policy.md) applies to everything you submit.

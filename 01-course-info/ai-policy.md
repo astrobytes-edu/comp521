@@ -65,9 +65,13 @@ Before turning to AI, you are expected to do **all** of the following:
 
 In this course, “struggle first” usually means **~20–30 minutes** of genuine effort *before* asking an AI tool for help with coding work. The goal is productive struggle, not watching the clock.
 
-For the [Code Review Presentations](../08-assessments/code-review-presentations.md),
-you may use AI to discover candidate packages without waiting through a coding
+For [Presentation 1](../08-assessments/code-review-presentations.md), you may
+use AI to discover candidate packages without waiting through a coding
 struggle-first period. Coding help still follows the guidance below.
+For [Presentation 2](../08-assessments/code-review-2.md#code-review-2-ai),
+brainstorming, tutoring, understanding documentation and examples, debugging
+your exploration, and rehearsal are learning uses and do not require a
+struggle-first waiting period.
 
 Use judgment based on what kind of stuck you are:
 
@@ -151,7 +155,7 @@ These uses undermine learning and/or fairness:
 
 ### Examples: good vs. bad AI requests
 
-**Debugging (all phases, after struggle):**
+**Debugging (course projects, after struggle):**
 
 - ✅ Good: “I’m getting an `IndexError` in this loop. I checked shapes and bounds, and the error happens when `i == n`. What are the most likely causes, and what minimal checks should I run next?”
 - ❌ Not good: “Fix this” + paste your entire project.
@@ -182,7 +186,7 @@ convenience:
 | Phase | Work | Weeks | Dates (Fall 2026) |
 |:--|:--|:--|:--|
 | **Phase 1** — Skill Formation | Projects 1–3 | 1–6 | Aug 25 – Oct 7 |
-| **Phase 2** — Assisted Fluency | Projects 4–5 and Code Review Presentations | 7–12 | Oct 6 – Nov 16 |
+| **Phase 2** — Assisted Fluency | Project 4 and Code Review Presentations | 7–15 | Oct 6 – Dec 1 |
 | **Phase 3** — Supervised Tool Use | Final Project | 13–16 | Nov 17 – Dec 10 |
 
 Project 3 retains Phase 1 rules through its October 7 deadline, even though
@@ -236,7 +240,7 @@ This is the phase where automation is most harmful to learning.
 - writing docstrings/comments,
 - automating git workflows.
 
-### Phase 2 — Assisted Fluency (Projects 4–5 and Code Review Presentations · Weeks 7–12)
+### Phase 2 — Assisted Fluency (Project 4 and Code Review Presentations · Weeks 7–15)
 
 **What this phase is about:** becoming more efficient *after* you’ve built foundations.
 
@@ -256,11 +260,17 @@ By this point, you should have written many docstrings, made plots from scratch,
 - transforming code in ways that make it unclear what you wrote.
 
 AI can help with presentation and efficiency—but **structure and logic must remain yours**.
-For the Code Review Presentations, the
+For Presentation 1, the
 [assessment brief](../08-assessments/code-review-presentations.md#ai-use-for-this-assessment)
 sets a narrower rule: AI may help you find and understand packages or flag gaps,
 but it may not write or rewrite your outline, slides, notebook, review, or
 demonstration code.
+
+For [Presentation 2](../08-assessments/code-review-2.md#code-review-2-ai), AI is
+an optional brainstorming partner and tutor. It may help you understand
+documentation and library examples, debug your exploration, and rehearse.
+Using and adapting credited library examples is allowed. Your final
+presentation and understanding remain yours; follow that brief's guidance.
 
 ### Phase 3 — Supervised Tool Use (Final Project · Weeks 13–16)
 
@@ -269,9 +279,8 @@ group presentation, library use, and project-specific AI guidance.
 
 **What this phase is about:** using tools the way a competent researcher does—under your own supervision, with verification you can defend.
 
-This phase applies **only to the final project**. By this point you have
-completed five implementation projects and two code reviews. The final project
-can extend code *you already wrote*.
+This phase applies **only to the final project**. The final project can extend
+coursework and code *you already wrote*.
 
 AI may be used for productivity, including:
 
@@ -294,7 +303,12 @@ If you cannot explain it, you should not submit it.
 
 ## Documentation Requirements (Strict)
 
-If AI meaningfully contributes to your work, you must include an **AI Use Log** (brief, but specific) with your submission.
+For [Presentation 2](../08-assessments/code-review-2.md#code-review-2-ai), a brief
+acknowledgment in your slides or notebook is sufficient: name the tool, how
+it helped, and how you checked what you used.
+
+For other assignments, if AI meaningfully contributes to your work, you must
+include an **AI Use Log** (brief, but specific) with your submission.
 
 Your log must include:
 
@@ -344,6 +358,10 @@ If you’re uncertain about what’s allowed, or you’re stuck in a way that is
 ---
 
 ## Should I Use AI for This? Quick Decision Flow
+
+For [Presentation 2](../08-assessments/code-review-2.md#code-review-2-ai), follow
+its learning-partner guidance. The coding/debugging waiting period below
+applies to other assessments.
 
 ```{mermaid}
 flowchart TD
