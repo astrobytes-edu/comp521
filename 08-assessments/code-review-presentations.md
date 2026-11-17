@@ -7,20 +7,28 @@ subtitle: "COMP 521 | Fall 2026"
 
 | Round | Date | Course weight |
 |:--|:--|--:|
-| Scientific computing | Thu **Oct 22**, in class | 5% |
-| Data science / machine learning | Thu **Nov 12**, in class | 5% |
+| 1 · Scientific computing | Thu **Oct 22**, in class | 5% |
+| [2 · JAX or PyTorch](code-review-2.md) | Tue **Dec 1**, in class | 5% |
 
 Each student presents individually for **12 minutes**, followed by **3 minutes
 for questions**. The two presentations count for **10% total**. Projects 1–5
 count for 40% of the course grade.
 
-## The question
+**Presentation 2 has its own [JAX/PyTorch exploration brief](code-review-2.md),
+with the assigned chapters, recordings, and AI learning guidance.**
+
+(code-review-1)=
+## Presentation 1 · Scientific computing
+
+The instructions below apply to Presentation 1. Presentation 2 follows the
+separate brief linked above.
+
+### The question
 
 **How do you decide whether to trust code you did not write?**
 
-Choose two different open source packages or repositories that interest you:
-one related to computational science/scientific computing and one related to
-data science or machine learning. Give the class a brief map of each package's
+Choose an open source computational science/scientific computing package or
+repository that interests you. Give the class a brief map of the package's
 architecture: what it is for, its main components, how inputs move through
 them, and where your example fits. Then zoom into one useful example, trace a
 relevant code path, and check a claim about its behavior. You do not need to
@@ -34,12 +42,11 @@ particular package** and what made you want to understand it.
 | Round | Choose code related to | Questions worth asking |
 |:--|:--|:--|
 | **1 · Scientific computing** | A numerical method, simulation, analysis pipeline, or other computational science task | What model or method is implemented? What do its inputs and units mean? What approximation, numerical error, or regime limit matters? |
-| **2 · Data science / ML** | Data processing, statistical modeling, classification, clustering, or another DS/ML task | Where do the data come from? How are they prepared and separated for evaluation? What baseline and metric support the reported result? Could leakage or an unsuitable metric mislead us? |
 
 These questions are starting points. Choose the ones that matter for your code
 path; you do not need to cover every item in the table.
 
-## Choose a manageable piece of code
+### Choose a manageable piece of code
 
 Select a publicly available repository with an open source license. Record its
 authors or project organization, repository link, license, and the commit or
@@ -52,7 +59,7 @@ is too large to run, narrow the part you review.
 You may compare several candidates before choosing. The final choice is yours;
 package popularity and finding the most complex code are not goals.
 
-## Teach one example, then review it
+### Teach one example, then review it
 
 Use your 12 minutes to guide us through a small case. The times are guides,
 not grading rules:
@@ -73,10 +80,8 @@ not grading rules:
 
 In the **scientific computing round**, run your check when practical. If setup
 prevents that, examine a specific upstream test closely: show its input,
-expected result, and assertion, and state clearly that you did not run it. In
-the **DS/ML round**, run a small data-to-output example yourself. If setup or
-data access prevents this, contact me before the presentation to agree on an
-equivalent check. You may show prepared results; you do not need to run code
+expected result, and assertion, and state clearly that you did not run it.
+You may show prepared results; you do not need to run code
 live in class. A documentation example alone is not a check.
 
 A passing test supports the behavior it actually checks. It does not establish
@@ -95,7 +100,7 @@ After your talk, allow three minutes for questions. Explain your reasoning
 without reading an AI-generated answer. Classmates will take part in the
 prediction and discussion, but they do not grade your work.
 
-## What to submit
+### What to submit
 
 Submit your slide deck or annotated notebook through the corresponding Canvas
 assignment **by 5:30 pm PT on your presentation date**. Include a final sources
@@ -111,7 +116,7 @@ repository or separate report is required. If you cannot present on your
 assigned date, contact me promptly through Canvas Inbox to arrange an
 equivalent individual presentation.
 
-## How your presentations are graded
+### How your presentations are graded
 
 I assign one holistic letter grade to each presentation. Each letter counts
 for 5% of the course grade. I look for these forms of evidence:
@@ -133,7 +138,7 @@ descriptions, not a points checklist. I grade your reasoning and teaching, not
 the package's popularity, polished slides, or whether you found a bug. See
 [Grading](../01-course-info/grading.md) for the shared letter scale.
 
-## AI use for this assessment
+### AI use for this assessment
 
 AI is optional. You may use it to discover candidate packages, locate
 documentation or tests, clarify concepts, troubleshoot a small example,

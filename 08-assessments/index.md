@@ -11,7 +11,10 @@ criteria.
 
 - [Project overview](../01-course-info/projects.md) — the five-project sequence and grading criteria.
 - [Code Review Presentations](code-review-presentations.md) — two individual
-  open source package reviews, each worth 5% of the course grade.
+  presentations, each worth 5% of the course grade.
+- [Presentation 2: JAX or PyTorch](code-review-2.md) — open-ended exploration of
+  differentiable AI/ML tools. Slides or an annotated notebook are due
+  Tuesday, December 1 at 5:30 pm PT.
 - [Project 1](projects/project-1.md) — transit models and stellar properties.
 - [Project 2](projects/project-2.md) — numerical integration, convergence, and limb-darkened transits.
 - [Project 3](projects/project-3.md) — root finding, orbital geometry, transit contacts, and stellar temperature zones.

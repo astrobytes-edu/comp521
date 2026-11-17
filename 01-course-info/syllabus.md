@@ -176,7 +176,7 @@ for deliverables and submission expectations.
 | Code review presentation | Date |
 |---|---|
 | Scientific computing | Thu **Oct 22**, in class |
-| Data science / machine learning | Thu **Nov 12**, in class |
+| JAX / PyTorch exploration | Tue **Dec 1**, in class |
 
 See [Code Review Presentations](../08-assessments/code-review-presentations.md)
 for the individual presentation and submission requirements.
@@ -283,13 +283,13 @@ collaboration expectations.
 
 ### Code Review Presentations (10% total)
 
-Choose one open source computational science/scientific computing package and,
-later in the semester, a different data science or machine-learning package.
-Present a brief map of each package's architecture, then examine one code path,
-teach a small example, and explain what a focused check supports. Each
-individual presentation counts for 5%. See the
-[assessment brief](../08-assessments/code-review-presentations.md) for the dates,
-submission route, grading, and assignment-specific AI rules.
+[Presentation 1](../08-assessments/code-review-presentations.md) reviews an open
+source scientific-computing package through its architecture, a code path, and
+a focused check. [Presentation 2](../08-assessments/code-review-2.md) is an
+open-ended exploration of JAX or PyTorch and their related libraries, informed
+by *Deep Learning for Astrophysics*, Chapters 2 and 3, and the recorded lectures.
+Each individual presentation counts for 5%. Use the linked briefs for the
+dates, format, submission route, and assignment-specific AI guidance.
 
 (sec-engagement)=
 ### Scholarly Engagement (10%)
@@ -372,8 +372,10 @@ must be able to explain both. Core solution code remains yours in every phase.
 Disclose meaningful use. Read the full
 [AI Use & Growth Mindset Policy](ai-policy.md) before Project 1; its staged
 permissions and documentation requirements are enforced. The
-[Code Review Presentations](../08-assessments/code-review-presentations.md#ai-use-for-this-assessment)
-have additional rules for package discovery and student-authored explanations.
+[Presentation 1](../08-assessments/code-review-presentations.md#ai-use-for-this-assessment)
+and [Presentation 2](../08-assessments/code-review-2.md#code-review-2-ai)
+have assessment-specific guidance for learning with AI and preparing your own
+explanations.
 
 ### How I use generative AI
 

@@ -39,9 +39,9 @@ not yet complete lessons; their assigned sections will be identified when ready.
 | Project 4 | Assigned Wed **Oct 14**; due Wed **Oct 28** |
 | Scientific computing code reviews | Thu **Oct 22**, in class |
 | Project 5 | Assigned Thu **Oct 29**; due Wed **Nov 18** |
-| DS/ML code reviews | Thu **Nov 12**, in class |
 | Final-project work and check-ins | Tue **Nov 24**, in class |
 | No class — Thanksgiving | Thu **Nov 26** |
+| Presentation 2 · JAX / PyTorch | Tue **Dec 1**, in class |
 | Final presentations | Thu **Dec 10** |
 | Last class | Thu **Dec 10** |
 | Growth Synthesis due | Mon **Dec 14** (start of finals week) |
@@ -246,13 +246,18 @@ return to the project during in-class work and check-ins.
 - [Supervised learning from scratch](../06-linear-algebra-stats/04-scientific-ml/01-supervised-learning.md) *(in preparation)*
 - [Clustering, PCA, and model evaluation](../06-linear-algebra-stats/04-scientific-ml/02-unsupervised-learning.md) *(in preparation)*
 
+**Preparation**
+- Begin the Chapter 2 and 3 readings and recorded lectures from *Deep Learning
+  for Astrophysics* for [Presentation 2](../08-assessments/code-review-2.md).
+  Choose JAX or PyTorch, or a related library, for your open-ended exploration.
+
 **Topics** — a focused introduction to classification and clustering; train/test
 splits, cross-validation, and evaluation metrics; Project 5 working time.
 Relevant ML methods can return during final-project check-ins. There is no
 separate Project 6 assignment.
 
-**In class** — [DS/ML code reviews](../08-assessments/code-review-presentations.md),
-Thu **Nov 12**
+**Presentation 2** is on **Tuesday, December 1**. Use this time to become
+familiar with your chosen framework and explore examples that interest you.
 
 ## Block 7 · Final Project
 
@@ -283,14 +288,19 @@ This week has one meeting instead of two. Plan your project work accordingly;
 the following week has no cushion built in.
 :::
 
-In-class project work, discussion, and check-ins. Preparation and ongoing
-project development contribute 5% of the course grade; there is no separate
+In-class final-project discussion and check-ins. Preparation and
+ongoing project development contribute 5% of the course grade; there is no separate
 proposal-pitch submission.
 
-### Week 15 — Dec 1, 3 · Implementation
+### Week 15 — Dec 1, 3 · JAX / PyTorch tutorials and implementation
 
-Working sessions with individual check-ins. Bring results to show, not just
-code.
+**In class** — [Presentation 2: JAX or PyTorch](../08-assessments/code-review-2.md),
+**Tuesday, December 1**. Submit the slide deck or annotated notebook through
+Canvas by **5:30 pm PT**. Each individual presentation is 12 minutes plus
+3 minutes for questions.
+
+**Thu Dec 3** — working session with individual check-ins. Bring results to
+show, not just code.
 
 ### Week 16 — Dec 8, 10 · Dress rehearsal and presentations
 
