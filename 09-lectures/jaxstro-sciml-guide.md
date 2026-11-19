@@ -49,6 +49,8 @@ reproducible Python figures.
 [Open the slides](/reveal/lecture-15-optimization.html) ·
 [Read the worked handout](/reveal/lecture-15-optimization.handout.html).
 
+In the slides, press **S** or choose **Tools → Notes** to open the speaker notes.
+
 How do we choose model parameters when measurements are imperfect? This deck
 builds a loss from a measurement model, works through gradient descent on a
 one-parameter example, and uses curvature to develop Newton, Gauss–Newton, and

@@ -20,24 +20,28 @@ FORBIDDEN_PREFIXES = (
     "roster/",
 )
 
-OPTIMIZATION_EXPORTS = (
-    "lecture-15-optimization.html",
-    "lecture-15-optimization.handout.html",
-)
+# These notes are approved for the optimization deck alone.
+OPTIMIZATION_EXPORTS = {
+    "lecture-15-optimization.html": 52,
+    "lecture-15-optimization.handout.html": 0,
+}
 
 
 def check_optimization_exports(reveal: Path) -> list[str]:
     errors = []
-    for name in OPTIMIZATION_EXPORTS:
+    for name, expected_notes in OPTIMIZATION_EXPORTS.items():
         export = reveal / name
         if not export.is_file():
             errors.append(f"Missing optimization lecture export: {export}")
             continue
         text = export.read_text()
-        notes = re.search(r"<aside\b[^>]*\bclass=[\"'][^\"']*\bnotes\b", text, re.I)
+        notes = re.findall(r"<aside\b[^>]*\bclass=[\"'][^\"']*\bnotes\b", text, re.I)
+        if len(notes) != expected_notes:
+            errors.append(f"Expected {expected_notes} notes in {export}, found {len(notes)}")
         private_markers = ("_instructor/", "/Users/anna/", "SpeakerNotesMath",
-                           "comp521NotesMathCss", "presenter-notes.js", "speaker-notes.md")
-        if notes or any(marker in text for marker in private_markers):
+                           "comp521NotesMathCss", "comp521-notes-math-css",
+                           "presenter-notes.js", "speaker-notes.md")
+        if any(marker in text for marker in private_markers):
             errors.append(f"Private content in optimization export: {export}")
     return errors
 

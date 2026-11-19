@@ -300,7 +300,7 @@ def conditioning_paths():
     relative=np.linalg.norm(path,axis=1)/np.linalg.norm(path[0])
     bx.semilogy(np.arange(len(path)),relative,color=NAVY)
     bx.axhline(1e-6,color=GOLD,ls=":",lw=2)
-    bx.set_title(r"Best fixed step: $\eta=2/51$")
+    bx.set_title("Best worst-case contraction\n" r"$\eta=2/51$", fontsize=20)
     style(bx,"Iteration k","Relative parameter error")
     return fig
 
@@ -440,19 +440,31 @@ def lm_damping():
     ax.contourf(a,b,np.maximum(zz,6.8),levels=np.geomspace(6.8,8000,15),cmap="Blues",norm=LogNorm())
     ax.contour(a,b,zz,levels=[8,20,100,500,2000],colors=TEAL,linewidths=.8,alpha=.5)
     nus=[1.,100.,1000.];colors=[GOLD,TEAL,NAVY]
+    label_positions = [((-8, -2), "right"), ((7, -8), "left"), ((5, -20), "left")]
+    label_box = {"facecolor": "white", "edgecolor": "none", "alpha": .9, "pad": 2}
     trial_losses=[]
-    for nu,color in zip(nus,colors):
+    for nu, color, (offset, alignment) in zip(nus, colors, label_positions):
         step=lm_proposal(START,nu);trial=START+step;value=float(loss(trial));trial_losses.append(value)
         ax.annotate("",xy=trial,xytext=START,arrowprops={"arrowstyle":"->","color":color,"lw":3})
         ax.scatter(*trial,color=color,s=60,zorder=5)
+        ax.annotate(rf"$\nu={nu:g}$", xy=trial, xytext=offset, textcoords="offset points",
+                    ha=alignment, fontsize=16, color=NAVY,
+                    bbox=label_box, zorder=7)
+    fit = fit_lm()["theta"]
     ax.scatter(*START,color=NAVY,s=80,zorder=6)
-    ax.scatter(*fit_lm()["theta"],color="white",edgecolor=NAVY,s=75,zorder=6)
+    ax.scatter(*fit,marker="*",color="white",edgecolor=NAVY,s=125,zorder=6)
+    ax.annotate("Start", xy=START, xytext=(-7, 8), textcoords="offset points",
+                ha="right", fontsize=16, color=NAVY, bbox=label_box, zorder=7)
+    ax.annotate("Fit", xy=fit, xytext=(-6, 8), textcoords="offset points",
+                ha="right", fontsize=16, color=NAVY, bbox=label_box, zorder=7)
     ax.set_xlim(a[0],a[-1]);ax.set_ylim(b[0],b[-1])
     ax.set_title("Trials from one start")
     style(ax,r"Log amplitude $a$",r"Log time scale $b$")
-    labels=["nu=1\nreject","nu=100\naccept","nu=1000\naccept"]
+    initial_loss = float(loss(START))
+    labels = [rf"$\nu={nu:g}$" + ("\naccept" if value < initial_loss else "\nreject")
+              for nu, value in zip(nus, trial_losses)]
     bx.bar(np.arange(3),trial_losses,color=colors,width=.65)
-    bx.axhline(float(loss(START)),color=GRAY,lw=2,ls="--",label="Initial loss")
+    bx.axhline(initial_loss,color=GRAY,lw=2,ls="--",label="Initial loss")
     bx.set_yscale("log");bx.set_xticks(np.arange(3),labels=labels,fontsize=17)
     bx.set_title("Evaluate actual trial loss")
     bx.legend(frameon=False,fontsize=17)
@@ -471,7 +483,10 @@ def lm_trace():
     ax.legend(frameon=False,fontsize=15)
     style(ax,"Attempt index","Loss")
     bx.semilogy(k,[h['nu'] for h in hist],"o-",color=TEAL,ms=5)
-    bx.set_title("Adapt damping")
+    bx.set_title("Damping used for each trial", fontsize=20)
+    for axis in (ax, bx):
+        axis.set_xticks(np.r_[0,k])
+        axis.tick_params(axis="x", labelsize=16)
     style(bx,"Attempt index",r"Damping $\nu$")
     return fig
 
@@ -486,9 +501,11 @@ def fit_result():
     ax.legend(frameon=False,fontsize=17)
     style(ax,"Scaled time t","Scaled excess flux")
     q=residual(theta)
-    bx.axhspan(-1,1,color=PALE);bx.axhline(0,color=GRAY,lw=1.3)
+    bx.axhspan(-1,1,color=PALE,label=r"$\pm1$ measurement $\sigma$")
+    bx.axhline(0,color=GRAY,lw=1.3)
     bx.vlines(TIMES,0,q,color=TEAL,lw=2);bx.scatter(TIMES,q,color=TEAL,s=50)
     bx.set_title(r"$q_i=(f_i-d_i)/0.08$")
+    bx.legend(frameon=False,fontsize=17,loc="upper right")
     style(bx,"Scaled time t","Standardized residual")
     return fig
 

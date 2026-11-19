@@ -1,4 +1,4 @@
-"""Build the public Lectures 3–4 slides and worked handout, without notes.
+"""Build the public Lectures 3–4 slides and the notes-free worked handout.
 
 Run from the course root with .venv/bin/python -B and this file's path.
 This local build does not commit, push, publish, or run GitHub CI.
@@ -25,7 +25,8 @@ from jupyter_client.kernelspec import KernelSpecManager
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "09-lectures/myst-source/lecture-15-optimization"
 NAME = "lecture-15-optimization"
-EXPORTS = (f"{NAME}.html", f"{NAME}.handout.html")
+SLIDE_COUNT = 52
+EXPORTS = {f"{NAME}.html": SLIDE_COUNT, f"{NAME}.handout.html": 0}
 FORBIDDEN = (
     "_instructor/", "/Users/anna/", "speaker-notes.md", "presenter-notes.js",
     "comp521NotesMathCss", "SpeakerNotesMath", "comp521-notes-math-css",
@@ -113,8 +114,9 @@ def main():
     (SOURCE / "_build").mkdir(exist_ok=True)
     slides = (SOURCE / "slides.md").read_text()
     ids = re.findall(r"(?m)^\((opt-[a-z0-9-]+)\)=\n## ", slides)
-    assert len(ids) == len(set(ids)) == 52, "Expected 52 unique slide identifiers"
-    assert "{speaker-note}" not in slides, "The public source must not contain notes"
+    assert len(ids) == len(set(ids)) == SLIDE_COUNT, "Expected 52 unique slide identifiers"
+    for page in re.split(r"(?m)^\(opt-[a-z0-9-]+\)=\n## ", slides)[1:]:
+        assert page.count(":::{speaker-note}") == 1, "Each slide needs one public note block"
     assert not any(marker in slides for marker in FORBIDDEN), "Private material in public source"
     figures = re.findall(r"(?m)^```\{slide-figure\} ([^\n]+)", slides)
     assert figures, "The lecture needs its calculated figures"
@@ -126,13 +128,13 @@ def main():
     output = SOURCE / "_build/reveal"
     build(output)
     manifest = json.loads((output / "decks.json").read_text())
-    assert len(manifest["decks"]) == 1 and manifest["decks"][0]["slides"] == 52
+    assert len(manifest["decks"]) == 1 and manifest["decks"][0]["slides"] == SLIDE_COUNT
     exports = {}
-    for name in EXPORTS:
+    for name, expected_notes in EXPORTS.items():
         html = (output / name).read_text()
         parsed = ExportCheck()
         parsed.feed(html)
-        assert parsed.notes == 0, f"Presenter notes in {name}"
+        assert parsed.notes == expected_notes, f"Expected {expected_notes} notes in {name}, found {parsed.notes}"
         assert parsed.math > 0 and parsed.math_errors == 0, (name, parsed.math)
         assert parsed.images >= len(figures), (name, parsed.images)
         assert not any(marker in html for marker in FORBIDDEN), f"Private material in {name}"
@@ -148,12 +150,13 @@ def main():
         shutil.copy2(output / name, destination / name)
         assert digest(destination / name) == exports[name]["sha256"]
     result = {
-        "kind": "optimization-student-lecture-build", "slides": 52,
-        "executed_code_cells": executed_cells, "presenter_notes": 0,
+        "kind": "optimization-student-lecture-build", "slides": SLIDE_COUNT,
+        "executed_code_cells": executed_cells,
         "math_errors": 0, "student_exports": exports,
         "source_hashes": {name: digest(SOURCE / name) for name in
                           ("slides.md", "slides.json", "myst.yml", "lecture.css",
-                           "figures.py", "calculations.ipynb", "numerical-checks.json")},
+                           "slide-notes.js", "slide-notes.css", "figures.py",
+                           "calculations.ipynb", "numerical-checks.json")},
         "publication": "local exports only; no commit, push, or GitHub CI",
     }
     (SOURCE / "_build/verification.json").write_text(json.dumps(result, indent=2) + "\n")

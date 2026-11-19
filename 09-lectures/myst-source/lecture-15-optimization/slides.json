@@ -1,6 +1,10 @@
 {
   "css": [
-    "lecture.css"
+    "lecture.css",
+    "slide-notes.css"
+  ],
+  "plugins": [
+    { "script": "slide-notes.js", "global": "OptimizationSlideNotes" }
   ],
   "handoutMode": "worked",
   "reveal": {

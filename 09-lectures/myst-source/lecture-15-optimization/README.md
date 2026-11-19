@@ -1,9 +1,9 @@
 # Optimization for Scientific Models
 
 Fifty-two MyST Reveal slides and a worked handout for guide Lectures 3–4,
-Sections 2.1–2.7. The student source contains no instructor speaker notes.
-Detailed presenter notes and reference materials remain in the private
-instructor workspace.
+Sections 2.1–2.7. Each slide includes an approved speaker note. In the slides,
+press **S** or choose **Tools → Notes** to open the current slide's notes in
+the same tab. Press **Esc** or select **Close** to return to the slides.
 
 ## Teaching sequence
 
@@ -36,8 +36,9 @@ PATH="$PWD/.venv/bin:$PATH" .venv/bin/python -B scripts/build_optimization_slide
 The build freshly executes all 22 notebook code cells in the course Python
 environment, exports the MyST slides and worked handout, checks the student
 publication boundary, and writes only those two HTML files to
-`09-lectures/reveal/`. It does not require private notes. Neither export
-contains speaker-note blocks or the private presenter extension.
+`09-lectures/reveal/`. The slides contain the 52 approved speaker notes.
+The worked handout omits notes. Both exports exclude the private presenter
+extension and use public source files.
 
 `figures.py` owns the calculations and plot construction.
 `numerical-checks.json` records analytic checks, the float64 setup, the
@@ -67,5 +68,5 @@ node tools/myst-reveal/src/check.mjs 09-lectures/myst-source/lecture-15-optimiza
 
 The build command is local. Commit, push, publication, and any private-repository
 CI require their own authorization. After an authorized deployment, verify the
-lecture-page links, both live exports, their release hashes, and the absence of
-instructor notes in the served HTML.
+lecture-page links, both live exports, their release hashes, and the notes
+counts. Open the slides in Chrome and press **S** to verify the notes view.
