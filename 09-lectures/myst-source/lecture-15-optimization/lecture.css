@@ -37,6 +37,7 @@ html:not(.print-pdf) .reveal .slides section.predict-figure:has(.slide-answer.fr
   display: none;
 }
 .reveal .slides #slide-opt-newton-failure .slide-answer .figure-canvas { --figure-height: 395px; }
+.print-pdf .reveal .slides #slide-opt-newton-failure .slide-answer .figure-canvas { --figure-height: 310px; }
 .reveal .slides section.optimization .slide-question p,
 .reveal .slides section.optimization .slide-answer p { font-size: 28px; line-height: 1.3; margin: .25em 0; }
 .reveal .slides section.optimization .component-label { font-size: 18px; font-weight: 600; margin-bottom: 10px; letter-spacing: .02em; }

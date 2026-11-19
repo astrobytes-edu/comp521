@@ -16,6 +16,7 @@ window.OptimizationSlideNotes = {
     const revealNotes = deck.getPlugin('notes');
     const openNative = revealNotes.open;
     let keyboard;
+    let opener;
     const open = () => {
       if (dialog.open) return;
       const slide = deck.getCurrentSlide();
@@ -26,11 +27,16 @@ window.OptimizationSlideNotes = {
       dialog.querySelector('.optimization-notes-content').replaceChildren(
         ...Array.from(notes.childNodes, node => node.cloneNode(true)),
       );
+      opener = document.activeElement;
       keyboard = deck.getConfig().keyboard;
       deck.configure({ keyboard: false });
       dialog.showModal();
     };
-    dialog.addEventListener('close', () => deck.configure({ keyboard }));
+    dialog.addEventListener('close', () => {
+      deck.configure({ keyboard });
+      // The presentation toolbar collapses its popover after a menu action.
+      opener?.closest('.tools-popover')?.closest('.deck-tools')?.querySelector('.tools-toggle')?.focus();
+    });
     revealNotes.open = open;
     deck.addKeyBinding({ keyCode: 83, key: 'S', description: 'Open speaker notes' }, open);
     this.cleanup = () => {

@@ -381,6 +381,7 @@ html:not(.print-pdf) .reveal .slides section.predict-figure:has(.slide-answer.fr
   display: none;
 }
 .reveal .slides #slide-opt-newton-failure .slide-answer .figure-canvas { --figure-height: 395px; }
+.print-pdf .reveal .slides #slide-opt-newton-failure .slide-answer .figure-canvas { --figure-height: 310px; }
 .reveal .slides section.optimization .slide-question p,
 .reveal .slides section.optimization .slide-answer p { font-size: 28px; line-height: 1.3; margin: .25em 0; }
 .reveal .slides section.optimization .component-label { font-size: 18px; font-weight: 600; margin-bottom: 10px; letter-spacing: .02em; }
@@ -1894,6 +1895,7 @@ const Rs={id:"highlight",HIGHLIGHT_STEP_DELIMITER:"|",HIGHLIGHT_LINE_DELIMITER:"
     const revealNotes = deck.getPlugin('notes');
     const openNative = revealNotes.open;
     let keyboard;
+    let opener;
     const open = () => {
       if (dialog.open) return;
       const slide = deck.getCurrentSlide();
@@ -1904,11 +1906,16 @@ const Rs={id:"highlight",HIGHLIGHT_STEP_DELIMITER:"|",HIGHLIGHT_LINE_DELIMITER:"
       dialog.querySelector('.optimization-notes-content').replaceChildren(
         ...Array.from(notes.childNodes, node => node.cloneNode(true)),
       );
+      opener = document.activeElement;
       keyboard = deck.getConfig().keyboard;
       deck.configure({ keyboard: false });
       dialog.showModal();
     };
-    dialog.addEventListener('close', () => deck.configure({ keyboard }));
+    dialog.addEventListener('close', () => {
+      deck.configure({ keyboard });
+      // The presentation toolbar collapses its popover after a menu action.
+      opener?.closest('.tools-popover')?.closest('.deck-tools')?.querySelector('.tools-toggle')?.focus();
+    });
     revealNotes.open = open;
     deck.addKeyBinding({ keyCode: 83, key: 'S', description: 'Open speaker notes' }, open);
     this.cleanup = () => {
