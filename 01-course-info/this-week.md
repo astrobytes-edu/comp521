@@ -7,18 +7,101 @@ site:
 
 # This Week
 
-The current week appears first and starts open. Expand earlier weeks to recover
-lecture, reading, and project links. Earlier entries are review routes; current
-project briefs and the [Schedule](schedule.md) govern requirements and deadlines.
+(week-13)=
+## Thursday, November 19 · Week 13
+
+### Tonight’s agenda
+
+1. **Finish the optimization slides.** We’ll start by continuing
+   [Optimization for Scientific Models](/reveal/lecture-15-optimization.html).
+   The [worked handout](/reveal/lecture-15-optimization.handout.html) follows the
+   same material.
+2. **Discuss and work on the [Final Project](../08-assessments/final-project.md).**
+   Leave with one scientific question your group can state in a sentence and
+   one Python example that could help answer it. Decide what the example would
+   compute and how you would interpret the output.
+3. **Plan [Presentation 2](../08-assessments/code-review-2.md).** Choose one
+   focus in the JAX or PyTorch ecosystem. If you’re interested in Keras, explore
+   it in the context of your chosen ecosystem. Try a small runnable example,
+   such as fitting a line to five synthetic points. Explain what the tool
+   computes, what you supply, and why the tool is useful. For example, show
+   how it computes the gradient of a loss you define.
+4. **Practice using AI as a learning partner.** Work through the 10-minute
+   paired exercise below. Use the sample reply if you prefer to work offline.
+
+[Week 13 schedule and readings](schedule.md#week-13-nov-17-19-inference-and-project-scoping)
+
+### Paired AI practice · Why won’t the loss settle?
+
+A toy run minimizes $L(x)=x^2/2$ with the update $x_{k+1}=x_k-\eta g_k$,
+where $g_k$ is the gradient the program uses. The run is supposed to use
+$\eta=1/2$. The reported values of $x$ are $1,-2,1,-2,\ldots$ and the
+losses are $0.5,2,0.5,2,\ldots$.
+
+1. **2 minutes · Predict.** Before opening a chat or reading the sample
+   reply, write a likely cause, an alternative cause, and one test that could
+   tell them apart. Predict what you would see under each explanation.
+2. **2 minutes · Ask for a critique.** Share your hypotheses and test using
+   the toy numbers. Try “Would our test distinguish these causes? Give us one
+   hint and leave the diagnosis to us.” You can critique the sample reply
+   below with your partner instead. This is in-class practice.
+3. **4 minutes · Check.** Run or reason through your test. Compare the result
+   with your predictions and write down what changed in your thinking.
+4. **2 minutes · Explain.** Close the chat or fold away the sample reply.
+   Take turns explaining the evidence, what it supports, and what you would
+   check next.
+
+:::{admonition} Sample AI reply · No account needed
+:class: dropdown
+
+“Would a smaller step change the behavior under both explanations? Try
+checking the gradient the program actually used against a slope you can
+compute independently at the same starting point.”
+
+Which part of this hint helps you tell the causes apart? What would you need
+to check as well?
+:::
+
+:::{admonition} Diagnostic log · Open after you’ve picked a test
+:class: dropdown
+
+| Starting $x$ | Gradient used, $g_k$ | Next $x$ |
+|---:|---:|---:|
+| 1 | 1 | −2 |
+| −2 | −2 | 1 |
+
+What step size would produce each logged update? Compare with the first
+update you would expect at the intended step size.
+:::
+
+### LLM primer · Quick start
+
+1. **Try first.** Write a prediction, a sketch, or the smallest case you can run.
+2. **Pick one job to delegate.** Ask for a hint, a counterexample, or a critique
+   of your test. Keep the solution and reasoning in your hands.
+3. **Check the reply.** Test it against code, data, or documentation. A fluent
+   explanation can still be wrong.
+4. **Close the chat.** Explain what you did, why it works, and what evidence
+   you have.
+
+[LLM Primer · Copyable prompts and examples](../02-getting-started/llm-primer.md) ·
+[Course AI policy](ai-policy.md)
+
+## Earlier weeks
+
+Expand an earlier week to recover its lecture, reading, and project links.
+Current project briefs and the [Schedule](schedule.md) govern requirements
+and deadlines.
 
 **Preparation** identifies a bounded reading focus. **Reference** supports work
 on a specific problem. **Enrichment** is optional. Follow the [Projects](projects.md)
 page and your project brief for what to implement and submit.
 
 (week-10)=
-::::{admonition} Current · Week 10 · October 27–29 · Project 4 completion and real data
+### Week 10 · October 27–29
+
+::::{admonition} Project 4 completion and real data
 :class: dropdown
-:open: true
 
 ### Preparation and project context
 

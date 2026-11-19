@@ -29,6 +29,10 @@ constrained optimization.
 **Free HTML and PDF.** [Read the review online](https://arxiv.org/html/2609.15897v1) · [Download the review PDF](https://arxiv.org/pdf/2609.15897).
 :::
 
+Use the [LLM Primer](../02-getting-started/llm-primer.md#final-project-example)
+to read a difficult equation from first principles and check a connection
+between sections of the review.
+
 ## Lectures 1–2 · Random variables, propagation, and shared physics
 
 [Open the slides](/reveal/lecture-14-uncertainty.html) ·

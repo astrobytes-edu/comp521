@@ -112,6 +112,9 @@ projection. The lecture page links the slides, worked handout, and primer.
 provides the Jaxstro SciML guide's 11 lecture handouts and full draft PDF,
 including exercises and worked solutions.
 
+The [LLM Primer](../02-getting-started/llm-primer.md) offers study strategies
+for the Block 6 review and the Final Project.
+
 ## Future course blocks
 
 :::{warning} Library expansion in progress

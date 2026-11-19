@@ -40,6 +40,10 @@ present.** AI-generated images are welcome with judgment and acknowledgment.
 Check claims and results, credit sources and meaningful AI use, and speak from
 your own understanding.
 
+Use the [LLM Primer](../02-getting-started/llm-primer.md#final-project-example)
+to work through the review’s math, test connections across your topics,
+and rehearse your group explanation.
+
 ## Project work and assessment
 
 We will work on the project periodically in class. **Preparation and ongoing
